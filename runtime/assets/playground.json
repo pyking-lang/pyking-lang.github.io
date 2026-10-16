@@ -1,0 +1,80 @@
+{
+  "version": "0.1.3-dev",
+  "targets": [
+    {
+      "name": "pyking",
+      "label": "Pyking (the front end's own output)"
+    },
+    {
+      "name": "python14",
+      "label": "Python 3.14"
+    },
+    {
+      "name": "node24",
+      "label": "JavaScript - node 24"
+    },
+    {
+      "name": "web24",
+      "label": "JavaScript - web (ES2024)"
+    },
+    {
+      "name": "c89",
+      "label": "C89"
+    },
+    {
+      "name": "c99",
+      "label": "C99"
+    },
+    {
+      "name": "c23",
+      "label": "C23"
+    },
+    {
+      "name": "java8",
+      "label": "Java 8"
+    },
+    {
+      "name": "java17",
+      "label": "Java 17"
+    },
+    {
+      "name": "java21",
+      "label": "Java 21"
+    },
+    {
+      "name": "ocaml5.5",
+      "label": "OCaml 5.5"
+    }
+  ],
+  "modes": {
+    "pyking": "text",
+    "python14": "python",
+    "node24": "javascript",
+    "web24": "html",
+    "c89": "c_cpp",
+    "c99": "c_cpp",
+    "c23": "c_cpp",
+    "java8": "java",
+    "java17": "java",
+    "java21": "java",
+    "ocaml5.5": "ocaml"
+  },
+  "run": {
+    "node24": "module",
+    "web24": "module"
+  },
+  "examples": [
+    {
+      "file": "hello.pyk",
+      "description": "Prints Hello, world!"
+    },
+    {
+      "file": "use_args.pyk",
+      "description": "Use program args and print using loop"
+    },
+    {
+      "file": "tinyweb1.pyk",
+      "description": "Draws simple graphics and plays sound when pressing buttons."
+    }
+  ]
+}

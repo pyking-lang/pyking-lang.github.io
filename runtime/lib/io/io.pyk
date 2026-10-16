@@ -1,0 +1,38 @@
+## Standard input and standard output.
+##
+## `print` writes to the same standard output as `write` and
+## `write_line`, so all three interleave in the order they ran. Every
+## read first writes out whatever has been written so far, so a prompt
+## is on screen before the program waits for an answer.
+#
+# The Pyking half of `io`. What the host provides is declared in
+# io_external.pyk beside this file and is in scope here unqualified --
+# the two files are one module -- so `prompt_line` below is the host's.
+#
+# `read_line` is written here rather than declared so that its prompt
+# can have a default: a program asks for a line with `io.read_line()`
+# and for an answer to a question with `io.read_line("Name? ")`.
+
+
+## Writes `prompt`, with no newline, then reads one line of standard input.
+## The line ending is not part of the answer.
+##
+## # Parameters
+## - `prompt`: what to show before waiting for the line; nothing by
+##   default.
+##
+## # Returns
+## The line, or `""` at the end of the input. Use `is_eof` to tell an
+## empty line from the end.
+##
+## # Examples
+## ```pyking stdin = "Ada\n"
+## import io
+## name = io.read_line("Your name: ")
+## print("Hello,", name)
+## ```
+## ```stdout
+## Your name: Hello, Ada
+## ```
+public def read_line(prompt: String = "") -> String:
+    return prompt_line(prompt)

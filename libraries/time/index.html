@@ -1,0 +1,205 @@
+<!DOCTYPE html><html lang="en" dir="ltr" data-theme="dark" data-has-sidebar class="astro-g5ptsecz"><head><meta charset="utf-8"/><meta name="viewport" content="width=device-width, initial-scale=1"/><title>time | Pyking</title><link rel="canonical" href="https://pyking-lang.github.io/libraries/time/"/><link rel="sitemap" href="/sitemap-index.xml"/><script type="module" src="/site/cells.js"></script><link rel="shortcut icon" href="/site/favicon.svg" type="image/svg+xml"/><meta name="generator" content="Astro v7.3.5"/><meta name="generator" content="Starlight v0.42.5"/><meta property="og:title" content="time"/><meta property="og:type" content="article"/><meta property="og:url" content="https://pyking-lang.github.io/libraries/time/"/><meta property="og:locale" content="en"/><meta property="og:description" content="Dates and times: reading the clock, and rendering an instant."/><meta property="og:site_name" content="Pyking"/><meta name="twitter:card" content="summary_large_image"/><meta name="description" content="Dates and times: reading the clock, and rendering an instant."/><script>
+	window.StarlightThemeProvider = (() => {
+		const storedTheme =
+			typeof localStorage !== 'undefined' && localStorage.getItem('starlight-theme');
+		const theme =
+			storedTheme ||
+			(window.matchMedia('(prefers-color-scheme: light)').matches ? 'light' : 'dark');
+		document.documentElement.dataset.theme = theme === 'light' ? 'light' : 'dark';
+		return {
+			updatePickers(theme = storedTheme || 'auto') {
+				document.querySelectorAll('starlight-theme-select').forEach((picker) => {
+					const select = picker.querySelector('select');
+					if (select) select.value = theme;
+					/** @type {HTMLTemplateElement | null} */
+					const tmpl = document.querySelector(`#theme-icons`);
+					const newIcon = tmpl && tmpl.content.querySelector('.' + theme);
+					if (newIcon) {
+						const oldIcon = picker.querySelector('svg.label-icon');
+						if (oldIcon) {
+							oldIcon.replaceChildren(...newIcon.cloneNode(true).childNodes);
+						}
+					}
+				});
+			},
+		};
+	})();
+</script><template id="theme-icons"><svg aria-hidden="true" class="light astro-hkc32dio" width="16" height="16" viewBox="0 0 24 24" fill="currentColor" style="--sl-icon-size: 1em;"><path d="M5 12a1 1 0 0 0-1-1H3a1 1 0 0 0 0 2h1a1 1 0 0 0 1-1Zm.64 5-.71.71a1 1 0 0 0 0 1.41 1 1 0 0 0 1.41 0l.71-.71A1 1 0 0 0 5.64 17ZM12 5a1 1 0 0 0 1-1V3a1 1 0 0 0-2 0v1a1 1 0 0 0 1 1Zm5.66 2.34a1 1 0 0 0 .7-.29l.71-.71a1 1 0 1 0-1.41-1.41l-.66.71a1 1 0 0 0 0 1.41 1 1 0 0 0 .66.29Zm-12-.29a1 1 0 0 0 1.41 0 1 1 0 0 0 0-1.41l-.71-.71a1.004 1.004 0 1 0-1.43 1.41l.73.71ZM21 11h-1a1 1 0 0 0 0 2h1a1 1 0 0 0 0-2Zm-2.64 6A1 1 0 0 0 17 18.36l.71.71a1 1 0 0 0 1.41 0 1 1 0 0 0 0-1.41l-.76-.66ZM12 6.5a5.5 5.5 0 1 0 5.5 5.5A5.51 5.51 0 0 0 12 6.5Zm0 9a3.5 3.5 0 1 1 0-7 3.5 3.5 0 0 1 0 7Zm0 3.5a1 1 0 0 0-1 1v1a1 1 0 0 0 2 0v-1a1 1 0 0 0-1-1Z"/></svg><svg aria-hidden="true" class="dark astro-hkc32dio" width="16" height="16" viewBox="0 0 24 24" fill="currentColor" style="--sl-icon-size: 1em;"><path d="M21.64 13a1 1 0 0 0-1.05-.14 8.049 8.049 0 0 1-3.37.73 8.15 8.15 0 0 1-8.14-8.1 8.59 8.59 0 0 1 .25-2A1 1 0 0 0 8 2.36a10.14 10.14 0 1 0 14 11.69 1 1 0 0 0-.36-1.05Zm-9.5 6.69A8.14 8.14 0 0 1 7.08 5.22v.27a10.15 10.15 0 0 0 10.14 10.14 9.784 9.784 0 0 0 2.1-.22 8.11 8.11 0 0 1-7.18 4.32v-.04Z"/></svg><svg aria-hidden="true" class="auto astro-hkc32dio" width="16" height="16" viewBox="0 0 24 24" fill="currentColor" style="--sl-icon-size: 1em;"><path d="M21 14h-1V7a3 3 0 0 0-3-3H7a3 3 0 0 0-3 3v7H3a1 1 0 0 0-1 1v2a3 3 0 0 0 3 3h14a3 3 0 0 0 3-3v-2a1 1 0 0 0-1-1ZM6 7a1 1 0 0 1 1-1h10a1 1 0 0 1 1 1v7H6V7Zm14 10a1 1 0 0 1-1 1H5a1 1 0 0 1-1-1v-1h16v1Z"/></svg></template><link rel="stylesheet" href="/_astro/print.ehPL0gv-.css" media="print"><link rel="stylesheet" href="/_astro/middleware.CRZ1BEoT.css"><script type="module" src="/_astro/page.Dwipeu-R.js"></script></head><body class="astro-g5ptsecz"><a class="sl-skip-link astro-qb7clj6f" href="#_top">Skip to content</a><div class="page sl-flex astro-yntsjkba"><header class="header astro-yntsjkba"><div class="pyking-header"><div class="pyking-header-left"><a href="/" class="site-title sl-flex astro-6rvad3va"><img class="astro-6rvad3va" alt="Pyking" src="/_astro/logo.C9hvHOpV.svg" width="64" height="64"><span class="astro-6rvad3va" translate="no">Pyking</span></a><nav class="pyking-nav" aria-label="Sections"><a href="/install/">Install</a><a href="/getstarted/overview/">Getting started</a><a href="/documentation/language/">Documentation</a><a href="/libraries/" aria-current="page">Libraries</a><a href="/playground/">Playground</a></nav></div><div class="pyking-header-right print:hidden"><site-search class=" astro-b5kgnn7o" data-translations="{&quot;placeholder&quot;:&quot;Search&quot;}"><button data-open-modal disabled aria-label="Search" aria-keyshortcuts="Control+K" class="astro-b5kgnn7o"><svg aria-hidden="true" class="astro-b5kgnn7o astro-hkc32dio" width="16" height="16" viewBox="0 0 24 24" fill="currentColor" style="--sl-icon-size: 1em;"><path d="M21.71 20.29 18 16.61A9 9 0 1 0 16.61 18l3.68 3.68a.999.999 0 0 0 1.42 0 1 1 0 0 0 0-1.39ZM11 18a7 7 0 1 1 0-14 7 7 0 0 1 0 14Z"/></svg><span class="sl-hidden md:sl-block astro-b5kgnn7o" aria-hidden="true">Search</span><kbd class="sl-hidden md:sl-flex astro-b5kgnn7o" style="display: none;"><kbd class="astro-b5kgnn7o">Ctrl</kbd><kbd class="astro-b5kgnn7o">K</kbd></kbd></button><dialog style="padding:0" aria-label="Search" class="astro-b5kgnn7o"><div class="dialog-frame sl-flex astro-b5kgnn7o"><button data-close-modal class="sl-flex md:sl-hidden astro-b5kgnn7o">Cancel</button><div class="search-container astro-b5kgnn7o"><div id="starlight__search" class="astro-b5kgnn7o"></div></div></div></dialog></site-search><script>
+	(() => {
+		const openBtn = document.querySelector('button[data-open-modal]');
+		const shortcut = openBtn?.querySelector('kbd');
+		if (!openBtn || !(shortcut instanceof HTMLElement)) return;
+		const platformKey = shortcut.querySelector('kbd');
+		if (platformKey && /(Mac|iPhone|iPod|iPad)/i.test(navigator.platform)) {
+			platformKey.textContent = '⌘';
+			openBtn.setAttribute('aria-keyshortcuts', 'Meta+K');
+		}
+		shortcut.style.display = '';
+	})();
+</script><script type="module" src="/_astro/Search.astro_astro_type_script_index_0_lang.Bumivpjo.js"></script><div class="sl-hidden md:sl-flex"><starlight-theme-select><label style="--sl-select-width: 6.25em" class="astro-2z5xp7gb"><span class="sr-only astro-2z5xp7gb">Select theme</span><svg aria-hidden="true" class="icon label-icon astro-2z5xp7gb astro-hkc32dio" width="16" height="16" viewBox="0 0 24 24" fill="currentColor" style="--sl-icon-size: 1em;"><path d="M21 14h-1V7a3 3 0 0 0-3-3H7a3 3 0 0 0-3 3v7H3a1 1 0 0 0-1 1v2a3 3 0 0 0 3 3h14a3 3 0 0 0 3-3v-2a1 1 0 0 0-1-1ZM6 7a1 1 0 0 1 1-1h10a1 1 0 0 1 1 1v7H6V7Zm14 10a1 1 0 0 1-1 1H5a1 1 0 0 1-1-1v-1h16v1Z"/></svg><select autocomplete="off" class="astro-2z5xp7gb"><option value="dark" class="astro-2z5xp7gb">Dark</option><option value="light" class="astro-2z5xp7gb">Light</option><option value="auto" selected class="astro-2z5xp7gb">Auto</option></select><svg aria-hidden="true" class="icon caret astro-2z5xp7gb astro-hkc32dio" width="16" height="16" viewBox="0 0 24 24" fill="currentColor" style="--sl-icon-size: 1em;"><path d="M17 9.17a1 1 0 0 0-1.41 0L12 12.71 8.46 9.17a1 1 0 1 0-1.41 1.42l4.24 4.24a1.002 1.002 0 0 0 1.42 0L17 10.59a1.002 1.002 0 0 0 0-1.42Z"/></svg></label></starlight-theme-select><script>
+	StarlightThemeProvider.updatePickers();
+</script><script type="module">var e=`starlight-theme`,t=e=>e===`auto`||e===`dark`||e===`light`?e:`auto`,n=()=>t(typeof localStorage<`u`&&localStorage.getItem(e));function r(t){typeof localStorage<`u`&&localStorage.setItem(e,t===`light`||t===`dark`?t:``)}var i=()=>matchMedia(`(prefers-color-scheme: light)`).matches?`light`:`dark`;function a(e){StarlightThemeProvider.updatePickers(e),document.documentElement.dataset.theme=e===`auto`?i():e,r(e)}matchMedia(`(prefers-color-scheme: light)`).addEventListener(`change`,()=>{n()===`auto`&&a(`auto`)});var o=class extends HTMLElement{constructor(){super(),a(n()),this.querySelector(`select`)?.addEventListener(`change`,e=>{e.currentTarget instanceof HTMLSelectElement&&a(t(e.currentTarget.value))})}};customElements.define(`starlight-theme-select`,o);</script></div></div></div></header><nav class="sidebar print:hidden astro-yntsjkba" aria-label="Main"><button popovertarget="starlight__sidebar" class="sl-menu-button sl-flex md:sl-hidden print:hidden astro-r2osgdlg"><svg aria-hidden="true" class="open-menu astro-r2osgdlg astro-hkc32dio" width="16" height="16" viewBox="0 0 24 24" fill="currentColor" style="--sl-icon-size: 1em;"><path d="M3 8h18a1 1 0 1 0 0-2H3a1 1 0 0 0 0 2Zm18 8H3a1 1 0 0 0 0 2h18a1 1 0 0 0 0-2Zm0-5H3a1 1 0 0 0 0 2h18a1 1 0 0 0 0-2Z"/></svg><svg aria-hidden="true" class="close-menu astro-r2osgdlg astro-hkc32dio" width="16" height="16" viewBox="0 0 24 24" fill="currentColor" style="--sl-icon-size: 1em;"><path d="m13.41 12 6.3-6.29a1.004 1.004 0 1 0-1.42-1.42L12 10.59l-6.29-6.3a1.004 1.004 0 0 0-1.42 1.42l6.3 6.29-6.3 6.29a1 1 0 0 0 0 1.42.998.998 0 0 0 1.42 0l6.29-6.3 6.29 6.3a.999.999 0 0 0 1.42 0 1 1 0 0 0 0-1.42L13.41 12Z"/></svg><span class="sr-only astro-r2osgdlg">Menu</span></button><script type="module">var e=class extends HTMLElement{constructor(){super();let e=matchMedia(`(min-width: 50em)`),t=()=>{this.popover=e.matches?null:`auto`};t(),e.addEventListener(`change`,()=>t()),this.addEventListener(`toggle`,({newState:e})=>this.trapFocus(e===`open`))}trapFocus(e){document.querySelectorAll(`.main-frame, .sl-skip-link`).forEach(t=>{t.toggleAttribute(`inert`,e)})}};customElements.define(`sl-sidebar-pane`,e);</script><script type="module">var e=class extends HTMLElement{constructor(){super();let e=this.querySelector(`select`);e&&(e.addEventListener(`change`,e=>{e.currentTarget instanceof HTMLSelectElement&&(window.location.pathname=e.currentTarget.value)}),window.addEventListener(`pageshow`,t=>{if(!t.persisted)return;let n=e.querySelector(`option[selected]`)?.index;n!==e.selectedIndex&&(e.selectedIndex=n??0)}))}};customElements.define(`starlight-lang-select`,e);</script><sl-sidebar-pane popover id="starlight__sidebar" class="sidebar-pane astro-yntsjkba"><div class="sidebar-content sl-flex astro-yntsjkba"><nav class="pyking-sidebar" aria-label="Libraries"><p class="pyking-sidebar-title">Libraries</p><ul><li><a href="/libraries/">Overview</a></li><li><a href="/libraries/fs/">fs</a></li><li><a href="/libraries/io/">io</a></li><li><a href="/libraries/sys/">sys</a></li><li><a href="/libraries/time/" aria-current="page">time</a><ul class="pyking-sidebar-headings"><li><a href="#compact">COMPACT</a></li><li><a href="#date">DATE</a></li><li><a href="#datetime">DATETIME</a></li><li><a href="#iso8601">ISO8601</a></li><li><a href="#time">TIME</a></li><li><a href="#format">format</a></li><li><a href="#instant">instant</a></li><li><a href="#now">now</a></li><li><a href="#of_instant">of_instant</a></li></ul></li><li><a href="/libraries/tinyweb/">tinyweb</a></li></ul></nav><div class="md:sl-hidden"><div class="mobile-preferences sl-flex astro-p4azlveh"><div class="social-icons astro-p4azlveh"></div><starlight-theme-select><label style="--sl-select-width: 6.25em" class="astro-2z5xp7gb"><span class="sr-only astro-2z5xp7gb">Select theme</span><svg aria-hidden="true" class="icon label-icon astro-2z5xp7gb astro-hkc32dio" width="16" height="16" viewBox="0 0 24 24" fill="currentColor" style="--sl-icon-size: 1em;"><path d="M21 14h-1V7a3 3 0 0 0-3-3H7a3 3 0 0 0-3 3v7H3a1 1 0 0 0-1 1v2a3 3 0 0 0 3 3h14a3 3 0 0 0 3-3v-2a1 1 0 0 0-1-1ZM6 7a1 1 0 0 1 1-1h10a1 1 0 0 1 1 1v7H6V7Zm14 10a1 1 0 0 1-1 1H5a1 1 0 0 1-1-1v-1h16v1Z"/></svg><select autocomplete="off" class="astro-2z5xp7gb"><option value="dark" class="astro-2z5xp7gb">Dark</option><option value="light" class="astro-2z5xp7gb">Light</option><option value="auto" selected class="astro-2z5xp7gb">Auto</option></select><svg aria-hidden="true" class="icon caret astro-2z5xp7gb astro-hkc32dio" width="16" height="16" viewBox="0 0 24 24" fill="currentColor" style="--sl-icon-size: 1em;"><path d="M17 9.17a1 1 0 0 0-1.41 0L12 12.71 8.46 9.17a1 1 0 1 0-1.41 1.42l4.24 4.24a1.002 1.002 0 0 0 1.42 0L17 10.59a1.002 1.002 0 0 0 0-1.42Z"/></svg></label></starlight-theme-select><script>
+	StarlightThemeProvider.updatePickers();
+</script></div></div></div></sl-sidebar-pane></nav><div class="main-frame astro-yntsjkba"><script type="module">var e=document.getElementById(`starlight__sidebar`),t=e?.querySelector(`sl-sidebar-state-persist`),n=`sl-sidebar-state`,r=()=>{let r=[],i=t?.dataset.hash||``;try{let e=sessionStorage.getItem(n),t=JSON.parse(e||`{}`);Array.isArray(t.open)&&t.hash===i&&(r=t.open)}catch{}return{hash:i,open:r,scroll:e?.scrollTop||0}},i=e=>{try{sessionStorage.setItem(n,JSON.stringify(e))}catch{}},a=()=>i(r()),o=(e,t)=>{let n=r();n.open[t]=e,i(n)};t?.addEventListener(`click`,e=>{if(!(e.target instanceof Element))return;let t=e.target.closest(`summary`)?.closest(`details`);if(!t)return;let n=t.querySelector(`sl-sidebar-restore`),r=parseInt(n?.dataset.index||``);isNaN(r)||o(!t.open,r)}),addEventListener(`visibilitychange`,()=>{document.visibilityState===`hidden`&&a()});</script><div class="lg:sl-flex astro-lrzkfocr"><div class="main-pane astro-lrzkfocr"><main data-pagefind-body class="astro-g5ptsecz" lang="en" dir="ltr"><div class="content-panel astro-a7po4psb"><div class="sl-container astro-a7po4psb"><h1 id="_top" class="astro-bebwqqxs">time</h1></div></div><div class="content-panel astro-a7po4psb"><div class="sl-container astro-a7po4psb"><div class="sl-markdown-content"><p>Dates and times: reading the clock, and rendering an instant.</p>
+<p>An instant is a whole number of seconds since 1970-01-01 00:00:00,
+and every date and time is in UTC on every host.</p>
+<div class="expressive-code"><link rel="stylesheet" href="/_astro/ec.w36nc.css"><script type="module" src="/_astro/ec.0vx5m.js"></script><figure class="frame not-content"><figcaption class="header"></figcaption><pre data-language="pyking"><code><div class="ec-line"><div class="code"><span style="--0:#C792EA;--1:#8844AE">import</span><span style="--0:#D6DEEB;--1:#403F53"> time</span></div></div></code></pre><div class="copy"><div aria-live="polite"></div><button title="Copy to clipboard" data-copied="Copied!" data-code="import time"><div></div></button></div></figure></div>
+<div class="pyk-api">
+<h2 id="compact">COMPACT</h2>
+<pre class="pyk-sig"><code><span class="n">COMPACT</span>: <span class="t">String</span> = "yyyyMMddHHmmss"</code></pre>
+<p>The format string for a date and a time with nothing between the
+fields, as in <code>20261004123000</code>, which sorts in time order as text.</p>
+<p class="pyk-api-label">Example</p>
+<div class="pkn-notebook pkn-embedded not-content"><div class="pkn-fragment" data-markdown="&#x60;&#x60;&#x60;pyking
+import time
+print(time.format((2026, 10, 4, 12, 30, 0), time.COMPACT))
+&#x60;&#x60;&#x60;
+
+&#x60;&#x60;&#x60;stdout visible = true
+20261004123000
+&#x60;&#x60;&#x60;"></div></div>
+</div>
+<div class="pyk-api">
+<h2 id="date">DATE</h2>
+<pre class="pyk-sig"><code><span class="n">DATE</span>: <span class="t">String</span> = "yyyy-MM-dd"</code></pre>
+<p>The format string for a date alone, as in <code>2026-10-04</code>.</p>
+<p class="pyk-api-label">Example</p>
+<div class="pkn-notebook pkn-embedded not-content"><div class="pkn-fragment" data-markdown="&#x60;&#x60;&#x60;pyking
+import time
+print(time.format((2026, 10, 4, 12, 30, 0), time.DATE))
+&#x60;&#x60;&#x60;
+
+&#x60;&#x60;&#x60;stdout visible = true
+2026-10-04
+&#x60;&#x60;&#x60;"></div></div>
+</div>
+<div class="pyk-api">
+<h2 id="datetime">DATETIME</h2>
+<pre class="pyk-sig"><code><span class="n">DATETIME</span>: <span class="t">String</span> = "yyyy-MM-dd HH:mm:ss"</code></pre>
+<p>The format string for a date and a time separated by a space, as in
+<code>2026-10-04 12:30:00</code>.</p>
+<p class="pyk-api-label">Example</p>
+<div class="pkn-notebook pkn-embedded not-content"><div class="pkn-fragment" data-markdown="&#x60;&#x60;&#x60;pyking
+import time
+print(time.format((2026, 10, 4, 12, 30, 0), time.DATETIME))
+&#x60;&#x60;&#x60;
+
+&#x60;&#x60;&#x60;stdout visible = true
+2026-10-04 12:30:00
+&#x60;&#x60;&#x60;"></div></div>
+</div>
+<div class="pyk-api">
+<h2 id="iso8601">ISO8601</h2>
+<pre class="pyk-sig"><code><span class="n">ISO8601</span>: <span class="t">String</span> = "yyyy-MM-ddTHH:mm:ssZ"</code></pre>
+<p>The format string for ISO 8601, as in <code>2026-10-04T12:30:00Z</code>.</p>
+<p class="pyk-api-label">Example</p>
+<div class="pkn-notebook pkn-embedded not-content"><div class="pkn-fragment" data-markdown="&#x60;&#x60;&#x60;pyking
+import time
+print(time.format((2026, 10, 4, 12, 30, 0), time.ISO8601))
+&#x60;&#x60;&#x60;
+
+&#x60;&#x60;&#x60;stdout visible = true
+2026-10-04T12:30:00Z
+&#x60;&#x60;&#x60;"></div></div>
+</div>
+<div class="pyk-api">
+<h2 id="time">TIME</h2>
+<pre class="pyk-sig"><code><span class="n">TIME</span>: <span class="t">String</span> = "HH:mm:ss"</code></pre>
+<p>The format string for a time of day alone, as in <code>12:30:00</code>.</p>
+<p class="pyk-api-label">Example</p>
+<div class="pkn-notebook pkn-embedded not-content"><div class="pkn-fragment" data-markdown="&#x60;&#x60;&#x60;pyking
+import time
+print(time.format((2026, 10, 4, 12, 30, 0), time.TIME))
+&#x60;&#x60;&#x60;
+
+&#x60;&#x60;&#x60;stdout visible = true
+12:30:00
+&#x60;&#x60;&#x60;"></div></div>
+</div>
+<div class="pyk-api">
+<h2 id="format">format</h2>
+<pre class="pyk-sig"><code><span class="k">def</span> <span class="n">format</span>(<span class="p">t</span>: (<span class="t">Int</span>, <span class="t">Int</span>, <span class="t">Int</span>, <span class="t">Int</span>, <span class="t">Int</span>, <span class="t">Int</span>), <span class="p">fmt</span>: <span class="t">String</span>) -> <span class="t">String</span></code></pre>
+<p>Writes a date and time as text, following the pattern <code>fmt</code>. In <code>fmt</code>,
+<code>yyyy</code> is the year, <code>MM</code> the month, <code>dd</code> the day, <code>HH</code> the hour, <code>mm</code>
+the minute and <code>ss</code> the second, each padded with zeros. The characters
+<code>- : / . ,</code>, a space, <code>T</code> and <code>Z</code> are copied as they are. Any other
+character ends the text there.</p>
+<p class="pyk-api-label">Parameters</p>
+<ul>
+<li><code>t</code>: <code>(year, month, day, hour, minute, second)</code>, as <code>now</code> and <code>of_instant</code> answer.</li>
+<li><code>fmt</code>: the pattern; <code>ISO8601</code>, <code>DATE</code>, <code>TIME</code>, <code>DATETIME</code> and <code>COMPACT</code> are ready-made ones.</li>
+</ul>
+<p class="pyk-api-label">Returns</p>
+<p>The formatted text.</p>
+<p class="pyk-api-label">Example</p>
+<div class="pkn-notebook pkn-embedded not-content"><div class="pkn-fragment" data-markdown="&#x60;&#x60;&#x60;pyking
+import time
+t = (2026, 1, 9, 8, 5, 3)
+print(time.format(t, &#x22;dd/MM/yyyy&#x22;))
+print(time.format(t, &#x22;HH.mm&#x22;))
+&#x60;&#x60;&#x60;
+
+&#x60;&#x60;&#x60;stdout visible = true
+09/01/2026
+08.05
+&#x60;&#x60;&#x60;"></div></div>
+</div>
+<div class="pyk-api">
+<h2 id="instant">instant</h2>
+<pre class="pyk-sig"><code><span class="k">def</span> <span class="n">instant</span>() -> <span class="t">Int</span></code></pre>
+<p>Reads the clock.</p>
+<p class="pyk-api-label">Returns</p>
+<p>The current time as whole seconds since 1970-01-01 00:00:00 UTC.</p>
+<p class="pyk-api-label">Example</p>
+<div class="pkn-notebook pkn-embedded not-content"><div class="pkn-fragment" data-markdown="&#x60;&#x60;&#x60;pyking
+import time
+t = time.instant()
+print(t > 1700000000)
+&#x60;&#x60;&#x60;
+
+&#x60;&#x60;&#x60;stdout visible = true
+true
+&#x60;&#x60;&#x60;"></div></div>
+</div>
+<div class="pyk-api">
+<h2 id="now">now</h2>
+<pre class="pyk-sig"><code><span class="k">def</span> <span class="n">now</span>() -> (<span class="t">Int</span>, <span class="t">Int</span>, <span class="t">Int</span>, <span class="t">Int</span>, <span class="t">Int</span>, <span class="t">Int</span>)</code></pre>
+<p>Reads the clock once and splits it into a date and a time of day, in
+UTC.</p>
+<p class="pyk-api-label">Returns</p>
+<p><code>(year, month, day, hour, minute, second)</code>, with the month 1 to 12 and
+the day 1 to 31.</p>
+<p class="pyk-api-label">Example</p>
+<div class="pkn-notebook pkn-embedded not-content"><div class="pkn-fragment" data-markdown="&#x60;&#x60;&#x60;pyking
+import time
+(year, month, day, _, _, _) = time.now()
+print(year >= 2026, month >= 1, day >= 1)
+&#x60;&#x60;&#x60;
+
+&#x60;&#x60;&#x60;stdout visible = true
+true true true
+&#x60;&#x60;&#x60;"></div></div>
+</div>
+<div class="pyk-api">
+<h2 id="of_instant">of_instant</h2>
+<pre class="pyk-sig"><code><span class="k">def</span> <span class="n">of_instant</span>(<span class="p">t</span>: <span class="t">Int</span>) -> (<span class="t">Int</span>, <span class="t">Int</span>, <span class="t">Int</span>, <span class="t">Int</span>, <span class="t">Int</span>, <span class="t">Int</span>)</code></pre>
+<p>Splits an instant into a date and a time of day, in UTC.</p>
+<p class="pyk-api-label">Parameters</p>
+<ul>
+<li><code>t</code>: seconds since 1970-01-01 00:00:00 UTC, as <code>instant</code> answers.</li>
+</ul>
+<p class="pyk-api-label">Returns</p>
+<p><code>(year, month, day, hour, minute, second)</code>, with the month 1 to 12 and
+the day 1 to 31.</p>
+<p class="pyk-api-label">Example</p>
+<div class="pkn-notebook pkn-embedded not-content"><div class="pkn-fragment" data-markdown="&#x60;&#x60;&#x60;pyking
+import time
+print(time.of_instant(0))
+print(time.of_instant(86400 + 3661))
+&#x60;&#x60;&#x60;
+
+&#x60;&#x60;&#x60;stdout visible = true
+(1970, 1, 1, 0, 0, 0)
+(1970, 1, 2, 1, 1, 1)
+&#x60;&#x60;&#x60;"></div></div>
+</div></div><footer class="sl-flex astro-ddtxxk7k"><div class="meta sl-flex astro-ddtxxk7k"></div><div class="pagination-links print:hidden astro-b5raizh3" dir="ltr"></div></footer></div></div></main></div></div></div></div></body></html>

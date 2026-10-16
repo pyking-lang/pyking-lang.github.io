@@ -1,0 +1,5 @@
+{
+  "version": "0.57.0",
+  "from": "https://registry.npmjs.org/monaco-editor/-/monaco-editor-0.57.0.tgz",
+  "kept": "package/min/vs/"
+}

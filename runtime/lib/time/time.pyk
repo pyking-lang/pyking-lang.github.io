@@ -1,0 +1,211 @@
+## Dates and times: reading the clock, and rendering an instant.
+##
+## An instant is a whole number of seconds since 1970-01-01 00:00:00,
+## and every date and time is in UTC on every host.
+#
+# The Pyking half of `time`. What the host provides is declared in
+# time_external.pyk beside this file and is in scope here unqualified --
+# the two files are one module -- so `year_of` below is the host's, and
+# it is private to this library.
+#
+# The rendering is written here rather than per target, so every host
+# that compiles this library prints a date the same way. That is the
+# whole reason the module has two halves: the external one reaches the
+# host's clock and calendar, and everything a reader sees is decided
+# here.
+#
+# All of it is UTC (see time_external.pyk).
+#
+# `format` recognises the six field tokens below and a fixed set of
+# separators. It cannot pass an arbitrary character through, because
+# Pyking has no way to read one character out of a string -- a text
+# pattern matches a known prefix, not an unknown one -- so a character
+# `format` does not know ends the output there. See docs/libraries.md.
+
+
+## The format string for ISO 8601, as in `2026-10-04T12:30:00Z`.
+##
+## # Examples
+## ```pyking
+## import time
+## print(time.format((2026, 10, 4, 12, 30, 0), time.ISO8601))
+## ```
+## ```stdout
+## 2026-10-04T12:30:00Z
+## ```
+public ISO8601: String = "yyyy-MM-ddTHH:mm:ssZ"
+
+## The format string for a date alone, as in `2026-10-04`.
+##
+## # Examples
+## ```pyking
+## import time
+## print(time.format((2026, 10, 4, 12, 30, 0), time.DATE))
+## ```
+## ```stdout
+## 2026-10-04
+## ```
+public DATE: String = "yyyy-MM-dd"
+
+## The format string for a time of day alone, as in `12:30:00`.
+##
+## # Examples
+## ```pyking
+## import time
+## print(time.format((2026, 10, 4, 12, 30, 0), time.TIME))
+## ```
+## ```stdout
+## 12:30:00
+## ```
+public TIME: String = "HH:mm:ss"
+
+## The format string for a date and a time separated by a space, as in
+## `2026-10-04 12:30:00`.
+##
+## # Examples
+## ```pyking
+## import time
+## print(time.format((2026, 10, 4, 12, 30, 0), time.DATETIME))
+## ```
+## ```stdout
+## 2026-10-04 12:30:00
+## ```
+public DATETIME: String = "yyyy-MM-dd HH:mm:ss"
+
+## The format string for a date and a time with nothing between the
+## fields, as in `20261004123000`, which sorts in time order as text.
+##
+## # Examples
+## ```pyking
+## import time
+## print(time.format((2026, 10, 4, 12, 30, 0), time.COMPACT))
+## ```
+## ```stdout
+## 20261004123000
+## ```
+public COMPACT: String = "yyyyMMddHHmmss"
+
+
+# One digit as text. `string` would do it, but the JavaScript backends have
+# no `string` yet, and a library that cannot be compiled everywhere its
+# types allow is worth less than ten lines of match.
+def digit(n:Int) -> String:
+    match n:
+        case 0:
+            return "0"
+        case 1:
+            return "1"
+        case 2:
+            return "2"
+        case 3:
+            return "3"
+        case 4:
+            return "4"
+        case 5:
+            return "5"
+        case 6:
+            return "6"
+        case 7:
+            return "7"
+        case 8:
+            return "8"
+        case 9:
+            return "9"
+        case _:
+            return "?"
+
+
+# Two digits, zero-padded: 0..99.
+def pad2(n:Int) -> String:
+    return digit(n / 10) ++ digit(n - n / 10 * 10)
+
+
+# Four digits, zero-padded: 0..9999.
+def pad4(n:Int) -> String:
+    return pad2(n / 100) ++ pad2(n - n / 100 * 100)
+
+
+## Splits an instant into a date and a time of day, in UTC.
+##
+## # Parameters
+## - `t`: seconds since 1970-01-01 00:00:00 UTC, as `instant` answers.
+##
+## # Returns
+## `(year, month, day, hour, minute, second)`, with the month 1 to 12 and
+## the day 1 to 31.
+##
+## # Examples
+## ```pyking
+## import time
+## print(time.of_instant(0))
+## print(time.of_instant(86400 + 3661))
+## ```
+## ```stdout
+## (1970, 1, 1, 0, 0, 0)
+## (1970, 1, 2, 1, 1, 1)
+## ```
+public def of_instant(t:Int) -> (Int, Int, Int, Int, Int, Int):
+    return (year_of(t), month_of(t), day_of(t), hour_of(t), minute_of(t), second_of(t))
+
+
+## Writes a date and time as text, following the pattern `fmt`. In `fmt`,
+## `yyyy` is the year, `MM` the month, `dd` the day, `HH` the hour, `mm`
+## the minute and `ss` the second, each padded with zeros. The characters
+## `- : / . ,`, a space, `T` and `Z` are copied as they are. Any other
+## character ends the text there.
+##
+## # Parameters
+## - `t`: `(year, month, day, hour, minute, second)`, as `now` and
+##   `of_instant` answer.
+## - `fmt`: the pattern; `ISO8601`, `DATE`, `TIME`, `DATETIME` and
+##   `COMPACT` are ready-made ones.
+##
+## # Returns
+## The formatted text.
+##
+## # Examples
+## ```pyking
+## import time
+## t = (2026, 1, 9, 8, 5, 3)
+## print(time.format(t, "dd/MM/yyyy"))
+## print(time.format(t, "HH.mm"))
+## ```
+## ```stdout
+## 09/01/2026
+## 08.05
+## ```
+public def format(t:(Int, Int, Int, Int, Int, Int), fmt:String) -> String:
+    (year, month, day, hour, minute, second) = t
+    (_, rendered) = loop rest, out = fmt, "":
+        match rest:
+            case "yyyy" ++ tail:
+                (tail, out ++ pad4(year))
+            case "MM" ++ tail:
+                (tail, out ++ pad2(month))
+            case "dd" ++ tail:
+                (tail, out ++ pad2(day))
+            case "HH" ++ tail:
+                (tail, out ++ pad2(hour))
+            case "mm" ++ tail:
+                (tail, out ++ pad2(minute))
+            case "ss" ++ tail:
+                (tail, out ++ pad2(second))
+            case "-" ++ tail:
+                (tail, out ++ "-")
+            case ":" ++ tail:
+                (tail, out ++ ":")
+            case "/" ++ tail:
+                (tail, out ++ "/")
+            case "." ++ tail:
+                (tail, out ++ ".")
+            case "," ++ tail:
+                (tail, out ++ ",")
+            case " " ++ tail:
+                (tail, out ++ " ")
+            case "T" ++ tail:
+                (tail, out ++ "T")
+            case "Z" ++ tail:
+                (tail, out ++ "Z")
+            case _:
+                break
+    return rendered

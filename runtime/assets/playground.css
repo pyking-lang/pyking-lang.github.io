@@ -1,0 +1,490 @@
+/* Pyking playground. Served by tools/playground/playground.py.
+   Everything is scoped under .pyk-playground so the component can be
+   dropped into a page that has styles of its own. */
+
+/* Colours are tokens, set for the dark theme here and overridden for the
+   light one below; `data-theme` on the root says which is showing
+   (playground.js, `applyTheme`). */
+.pyk-playground {
+  --pyk-bg: #1d1f21;
+  --pyk-panel: #25282c;
+  --pyk-edge: #383c42;
+  --pyk-text: #e6e6e6;
+  --pyk-dim: #9aa0a6;
+  --pyk-accent: #7aa2f7;
+  --pyk-good: #9ece6a;
+  --pyk-bad: #f7768e;
+  --pyk-warn: #e0af68;
+  --pyk-control: #2f333a;
+  --pyk-sunken: #17191c;
+  --pyk-strip: #202327;
+  --pyk-primary-bg: #33406b;
+  --pyk-primary-edge: #4a5c95;
+  --pyk-primary-text: #cdd7f5;
+  --pyk-run-edge: #3f5136;
+  --pyk-run-hover: #31402b;
+  --pyk-stop-bg: #6f2434;
+  --pyk-stop-edge: #9a3346;
+  --pyk-stop-text: #ffd6dd;
+  --pyk-backdrop: rgba(0, 0, 0, .55);
+  --pyk-shadow: rgba(0, 0, 0, .55);
+  --pyk-frame-bar: #2b2e33;
+  --pyk-repl-prompt: #7aa2f7;
+  --pyk-repl-entry: #c0caf5;
+  --pyk-repl-value: #9ece6a;
+  --pyk-repl-type: #bb9af7;
+  --pyk-gutter: 6px;
+
+  display: flex;
+  flex-direction: column;
+  position: relative;      /* the settings dialog anchors to this box */
+  overflow: hidden;        /* nothing inside -- a help cell's editor -- may
+                              reach past it and scroll the page */
+  height: 100%;
+  min-height: 0;
+  box-sizing: border-box;
+  background: var(--pyk-bg);
+  color: var(--pyk-text);
+  font: 14px/1.5 system-ui, -apple-system, "Segoe UI", sans-serif;
+}
+.pyk-playground[data-theme="light"] {
+  --pyk-bg: #f3f4f6;
+  --pyk-panel: #ffffff;
+  --pyk-edge: #d4d8de;
+  --pyk-text: #1f2328;
+  --pyk-dim: #656d76;
+  --pyk-accent: #2f5fc4;
+  --pyk-good: #1a7f37;
+  --pyk-bad: #cf222e;
+  --pyk-warn: #9a6700;
+  --pyk-control: #f0f2f5;
+  --pyk-sunken: #fbfbfc;
+  --pyk-strip: #eceef2;
+  --pyk-primary-bg: #2f5fc4;
+  --pyk-primary-edge: #264fa8;
+  --pyk-primary-text: #ffffff;
+  --pyk-run-edge: #8cc69a;
+  --pyk-run-hover: #e3f3e7;
+  --pyk-stop-bg: #ffebe9;
+  --pyk-stop-edge: #f19a9f;
+  --pyk-stop-text: #a40e26;
+  --pyk-backdrop: rgba(30, 35, 40, .35);
+  --pyk-shadow: rgba(30, 35, 40, .25);
+  --pyk-frame-bar: #e7e9ed;
+  --pyk-repl-prompt: #2f5fc4;
+  --pyk-repl-entry: #1f2328;
+  --pyk-repl-value: #116329;
+  --pyk-repl-type: #8250df;
+}
+.pyk-playground *, .pyk-playground *::before, .pyk-playground *::after {
+  box-sizing: inherit;
+}
+
+/* --- header --- */
+.pyk-header {
+  display: flex; align-items: center; gap: .75rem;
+  padding: .55rem .9rem;
+  border-bottom: 1px solid var(--pyk-edge);
+  background: var(--pyk-panel);
+  flex: none;
+}
+.pyk-title { font-weight: 600; letter-spacing: .01em; }
+.pyk-title small { color: var(--pyk-dim); font-weight: 400; margin-left: .5rem; }
+.pyk-status {
+  margin-left: auto; display: flex; align-items: center; gap: .45rem;
+  color: var(--pyk-dim); font-size: .85rem;
+}
+.pyk-dot {
+  width: .6rem; height: .6rem; border-radius: 50%;
+  background: var(--pyk-dim); flex: none;
+}
+.pyk-dot.busy { background: var(--pyk-warn); animation: pyk-pulse 1s infinite; }
+.pyk-dot.ready { background: var(--pyk-good); }
+.pyk-dot.error { background: var(--pyk-bad); }
+@keyframes pyk-pulse { 50% { opacity: .3; } }
+
+/* --- two columns, split by a draggable gutter ---
+   The split is a custom property rather than a fixed fraction so the drag
+   handler only has to set one value, and so `Reset pane sizes` is a single
+   removeProperty. */
+.pyk-columns {
+  flex: 1 1 auto; min-height: 0;
+  display: grid;
+  grid-template-columns: var(--pyk-col-split, 50%) var(--pyk-gutter) 1fr;
+  background: var(--pyk-bg);
+}
+.pyk-pane {
+  display: flex; flex-direction: column; min-width: 0; min-height: 0;
+  background: var(--pyk-bg);
+}
+.pyk-toolbar {
+  display: flex; align-items: center; gap: .5rem; flex-wrap: wrap;
+  padding: .5rem .7rem;
+  background: var(--pyk-panel);
+  border-bottom: 1px solid var(--pyk-edge);
+  flex: none;
+}
+.pyk-toolbar .pyk-label {
+  font-size: .78rem; text-transform: uppercase; letter-spacing: .08em;
+  color: var(--pyk-dim); margin-right: .15rem;
+}
+.pyk-spacer { flex: 1 1 auto; }
+
+/* --- controls --- (the help's buttons are the notebook's own, and a
+   tinyweb page's are tinyweb's) */
+.pyk-playground button:where(:not(.pyk-help button, .pyk-page button)), .pyk-playground select {
+  font: inherit; font-size: .86rem;
+  color: var(--pyk-text); background: var(--pyk-control);
+  border: 1px solid var(--pyk-edge); border-radius: 5px;
+  padding: .3rem .6rem; cursor: pointer;
+  /* One height for every control in a toolbar. Without it buttons and
+     selects differ by a couple of pixels and the row looks unsettled. */
+  height: 30px;
+}
+.pyk-playground select { padding-right: 1.4rem; }
+.pyk-playground button:hover:not(:disabled):where(:not(.pyk-help button, .pyk-page button)),
+.pyk-playground select:hover { border-color: var(--pyk-accent); }
+.pyk-playground button:disabled:where(:not(.pyk-help button, .pyk-page button)) { opacity: .4; cursor: not-allowed; }
+.pyk-playground .pyk-primary {
+  background: var(--pyk-primary-bg); border-color: var(--pyk-primary-edge);
+  color: var(--pyk-primary-text); font-weight: 600;
+}
+.pyk-playground .pyk-primary:hover:not(:disabled) { filter: brightness(1.12); }
+/* Run and Stop occupy the same slot: Stop replaces Run while a program is
+   executing, and Run comes back when it ends. They are therefore sized as
+   one control -- same min-width, padding and font -- so the swap cannot
+   shift the toolbar by a pixel, whichever of the two labels is showing.
+   A little larger than the other buttons, being the ones you aim for. */
+.pyk-playground .pyk-run, .pyk-playground .pyk-stop {
+  display: inline-flex; align-items: center; justify-content: center;
+  min-width: 5.25rem;
+  gap: .3rem;
+  font-weight: 600;
+}
+.pyk-playground .pyk-run { color: var(--pyk-good); border-color: var(--pyk-run-edge); }
+.pyk-playground .pyk-file { height: auto; }   /* the small tab row opts out */
+.pyk-playground .pyk-run:hover:not(:disabled) { background: var(--pyk-run-hover); }
+.pyk-playground .pyk-stop {
+  background: var(--pyk-stop-bg); border-color: var(--pyk-stop-edge);
+  color: var(--pyk-stop-text);
+}
+.pyk-playground .pyk-stop:hover:not(:disabled) { filter: brightness(1.12); }
+
+/* --- editors --- */
+.pyk-editor { flex: 1 1 auto; min-height: 0; width: 100%; overflow: hidden; }
+.pyk-files {
+  display: flex; gap: .3rem; padding: .3rem .7rem; flex: none;
+  background: var(--pyk-strip); border-bottom: 1px solid var(--pyk-edge);
+  overflow-x: auto;
+}
+.pyk-files:empty { display: none; }
+/* What a program using tinyweb shows. Light in either theme, so a canvas
+   drawn in the default black reads the way it would on a page of its own;
+   tinyweb's theme sets the colours once a program draws. */
+.pyk-page {
+  flex: 1 1 auto; min-height: 0; overflow: auto;
+  padding: .8rem; background: #f6f6f4; color: #1d1f21;
+}
+.pyk-playground .pyk-file {
+  font-size: .78rem; padding: .18rem .5rem; border-radius: 4px;
+  background: transparent; border: 1px solid transparent;
+  color: var(--pyk-dim); white-space: nowrap;
+}
+.pyk-playground .pyk-file.active { background: var(--pyk-control); color: var(--pyk-text); border-color: var(--pyk-edge); }
+
+/* --- output --- */
+.pyk-output-wrap {
+  flex: none; height: var(--pyk-out-split, 34%); min-height: 0;
+  display: flex; flex-direction: column;
+}
+.pyk-output-head {
+  display: flex; align-items: center; gap: .5rem;
+  padding: .35rem .7rem; background: var(--pyk-panel);
+  border-bottom: 1px solid var(--pyk-edge); flex: none;
+}
+.pyk-output {
+  flex: 1 1 auto; margin: 0; padding: .5rem .7rem; overflow: auto;
+  font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+  font-size: .82rem; line-height: 1.45; white-space: pre-wrap;
+  background: var(--pyk-sunken);
+}
+.pyk-output.pyk-no-scroll { overflow: hidden; }
+.pyk-output .note { color: var(--pyk-dim); }
+.pyk-output .err  { color: var(--pyk-bad); }
+.pyk-output .good { color: var(--pyk-good); }
+/* What `debug` wrote, kept apart from what the program printed, and a
+   line the program read, echoed as a terminal would show it. */
+.pyk-output .debug { color: var(--pyk-dim); font-style: italic; }
+.pyk-output .input { color: var(--pyk-accent); }
+.pyk-input-text, .pyk-input-line {
+  width: 100%;
+  box-sizing: border-box;
+  font: inherit;
+  font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+  color: inherit;
+  background: transparent;
+  border: 1px solid var(--pyk-edge);
+  border-radius: 4px;
+  padding: .4rem .5rem;
+}
+.pyk-input-text { resize: vertical; }
+.pyk-input-buttons { gap: .5rem; }
+.pyk-hidden { display: none !important; }
+
+/* --- the right-hand tabs ---
+   Four panels share the right column and one of them shows at a time:
+   the run's output, the compiled code, the run's page, and the REPL. */
+.pyk-tabs {
+  display: flex; align-items: flex-end; gap: .15rem; flex: none;
+  padding: .4rem .6rem 0; overflow-x: auto; overflow-y: hidden;
+  background: var(--pyk-panel); border-bottom: 1px solid var(--pyk-edge);
+}
+.pyk-playground .pyk-tab {
+  height: auto; padding: .38rem .8rem .42rem;
+  border: 1px solid transparent; border-bottom: none;
+  border-radius: 6px 6px 0 0; margin-bottom: -1px;
+  background: transparent; color: var(--pyk-dim); white-space: nowrap;
+  font-size: .84rem;
+}
+.pyk-playground .pyk-tab:hover:not(:disabled) {
+  color: var(--pyk-text); border-color: transparent;
+}
+.pyk-playground .pyk-tab.active {
+  background: var(--pyk-bg); color: var(--pyk-text);
+  border-color: var(--pyk-edge); font-weight: 600;
+  box-shadow: inset 0 2px 0 var(--pyk-accent);
+}
+/* The target list's labels are long; it gives way before the buttons do. */
+.pyk-playground select[data-r="target"] { flex: 0 1 auto; min-width: 7rem; max-width: 17rem; }
+.pyk-panel {
+  flex: 1 1 auto; min-height: 0;
+  display: flex; flex-direction: column;
+}
+/* The run's output moves between the Run output panel, which it fills,
+   and the Web output panel, where it sits below the page: both show the
+   one log. */
+.pyk-panel-run .pyk-output-wrap { flex: 1 1 auto; height: auto; }
+
+/* --- the page a program draws, in a browser-window frame --- */
+.pyk-stage {
+  flex: 1 1 auto; min-height: 0; display: flex;
+  padding: .9rem; background: var(--pyk-bg);
+}
+.pyk-frame {
+  flex: 1 1 auto; min-width: 0; min-height: 0;
+  display: flex; flex-direction: column; overflow: hidden;
+  border: 1px solid var(--pyk-edge); border-radius: 9px;
+  box-shadow: 0 8px 26px var(--pyk-shadow);
+}
+.pyk-frame-bar {
+  display: flex; align-items: center; gap: .55rem; flex: none;
+  padding: .35rem .55rem .35rem .75rem;
+  background: var(--pyk-frame-bar); border-bottom: 1px solid var(--pyk-edge);
+}
+.pyk-frame-dots { display: flex; gap: .38rem; flex: none; }
+.pyk-frame-dots span { width: .7rem; height: .7rem; border-radius: 50%; }
+.pyk-frame-dots span:nth-child(1) { background: #ff5f57; }
+.pyk-frame-dots span:nth-child(2) { background: #febc2e; }
+.pyk-frame-dots span:nth-child(3) { background: #28c840; }
+.pyk-frame-title {
+  flex: 1 1 auto; min-width: 0; text-align: center;
+  overflow: hidden; text-overflow: ellipsis; white-space: nowrap;
+  font-size: .8rem; color: var(--pyk-dim);
+  font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+}
+/* The window has the keyboard while the page in it has the focus; the
+   page takes it when clicked anywhere in the window. */
+.pyk-page:focus { outline: none; }
+.pyk-frame { transition: border-color .12s, box-shadow .12s; }
+.pyk-frame:has(> .pyk-page:focus-within) {
+  border-color: var(--pyk-accent);
+  box-shadow: 0 0 0 2px color-mix(in srgb, var(--pyk-accent) 45%, transparent),
+              0 8px 26px var(--pyk-shadow);
+}
+.pyk-frame:has(> .pyk-page:focus-within) .pyk-frame-title { color: var(--pyk-text); }
+/* An unfocused window's buttons are grey, as on a Mac. */
+.pyk-frame:not(:has(> .pyk-page:focus-within)) .pyk-frame-dots span {
+  background: var(--pyk-edge);
+}
+.pyk-playground .pyk-frame-bar button { height: 26px; padding: .15rem .55rem; font-size: .8rem; }
+.pyk-page-empty {
+  color: #6b7076; font-style: italic; margin: 1rem 0; text-align: center;
+}
+
+/* --- the help (tools/help/assets/help.js) --- */
+.pyk-help-host { flex: 1 1 auto; min-height: 0; }
+
+/* --- the REPL --- */
+.pyk-repl {
+  flex: 1 1 auto; min-height: 0; overflow: auto;
+  padding: .55rem .75rem; background: var(--pyk-sunken);
+  font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+  font-size: .82rem; line-height: 1.45;
+  cursor: text;
+}
+.pyk-repl-log { white-space: pre-wrap; word-break: break-word; }
+.pyk-repl-log .entry { color: var(--pyk-repl-entry); }
+.pyk-repl-log .prompt, .pyk-repl-line .prompt {
+  color: var(--pyk-repl-prompt); user-select: none; font-weight: 600;
+}
+.pyk-repl-log .shown { color: var(--pyk-repl-value); }
+.pyk-repl-log .err { color: var(--pyk-bad); }
+.pyk-repl-log .note { color: var(--pyk-dim); }
+.pyk-repl-log .debug { color: var(--pyk-dim); font-style: italic; }
+.pyk-repl-line { display: flex; align-items: flex-start; }
+.pyk-repl-line .prompt { flex: none; white-space: pre; }
+.pyk-playground .pyk-repl-input {
+  flex: 1 1 auto; min-width: 0; resize: none; overflow: hidden;
+  margin: 0; padding: 0; border: none; outline: none;
+  background: transparent; color: var(--pyk-repl-entry);
+  font: inherit; line-height: inherit; white-space: pre;
+  caret-color: var(--pyk-accent);
+}
+.pyk-repl-input:disabled { opacity: .5; }
+.pyk-env-wrap {
+  flex: none; height: var(--pyk-out-split, 34%); min-height: 0;
+  display: flex; flex-direction: column;
+}
+.pyk-env {
+  flex: 1 1 auto; min-height: 0; overflow: auto; background: var(--pyk-sunken);
+}
+.pyk-env table {
+  width: 100%; border-collapse: collapse;
+  font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+  font-size: .8rem;
+}
+.pyk-env th {
+  position: sticky; top: 0; text-align: left; font-weight: 600;
+  font-family: system-ui, -apple-system, "Segoe UI", sans-serif;
+  font-size: .74rem; text-transform: uppercase; letter-spacing: .06em;
+  color: var(--pyk-dim); background: var(--pyk-panel);
+  padding: .35rem .7rem; border-bottom: 1px solid var(--pyk-edge);
+}
+.pyk-env td {
+  padding: .28rem .7rem; vertical-align: top;
+  border-bottom: 1px solid var(--pyk-edge);
+  white-space: pre-wrap; word-break: break-word;
+}
+.pyk-env td.name { color: var(--pyk-text); font-weight: 600; white-space: nowrap; }
+.pyk-env td.value { color: var(--pyk-repl-value); }
+.pyk-env td.type { color: var(--pyk-repl-type); }
+.pyk-env .tag {
+  margin-left: .4rem; padding: 0 .3rem; border-radius: 3px;
+  font-size: .68rem; font-weight: 400; color: var(--pyk-dim);
+  border: 1px solid var(--pyk-edge);
+}
+.pyk-env .empty {
+  color: var(--pyk-dim); font-style: italic; text-align: center; padding: 1rem;
+}
+
+/* The header's light/dark switch: the sun shows in the dark theme (the
+   theme it switches to), the moon in the light one. */
+.pyk-playground .pyk-theme {
+  display: inline-flex; align-items: center; justify-content: center;
+  width: 30px; padding: 0; background: transparent; border-color: transparent;
+}
+.pyk-playground .pyk-theme:hover { background: var(--pyk-control); border-color: var(--pyk-edge); }
+.pyk-theme svg { display: block; }
+.pyk-playground[data-theme="light"] .pyk-theme .sun,
+.pyk-playground:not([data-theme="light"]) .pyk-theme .moon { display: none; }
+
+/* --- drag handles between the three panes --- */
+.pyk-gutter {
+  position: relative; background: var(--pyk-edge); flex: none;
+  touch-action: none;          /* the pointer belongs to us, not to scrolling */
+}
+.pyk-gutter::after {
+  /* A 1px line is right to look at and far too thin to grab, so the hit
+     area is widened invisibly on both sides. */
+  content: ""; position: absolute; inset: -3px; z-index: 1;
+}
+/* Widened across the bar only: a hit area reaching past the bar's ends
+   would overflow the playground and give the page scrollbars. */
+.pyk-gutter-v::after { inset: 0 -3px; }
+.pyk-gutter-h::after { inset: -3px 0; }
+.pyk-gutter-v { cursor: col-resize; }
+.pyk-gutter-h { cursor: row-resize; height: var(--pyk-gutter); }
+.pyk-gutter:hover, .pyk-gutter.dragging { background: var(--pyk-accent); }
+
+/* While a drag is in flight the cursor must not flicker as it passes over
+   text, and it must not be stolen by the preview iframe -- a pointer that
+   enters a cross-origin frame stops reporting to us and the pane sticks. */
+.pyk-playground.pyk-dragging { user-select: none; }
+.pyk-playground.pyk-dragging iframe { pointer-events: none; }
+.pyk-playground.pyk-dragging.dragging-v { cursor: col-resize; }
+.pyk-playground.pyk-dragging.dragging-h { cursor: row-resize; }
+
+/* --- settings dialog ---
+   Positioned inside the component, not over the whole viewport, so an
+   embedding page keeps its own chrome usable and nothing escapes the box
+   the host gave us. */
+.pyk-playground .pyk-icon {
+  padding: .25rem .45rem; line-height: 1; font-size: 1rem;
+  background: transparent; border-color: transparent;
+}
+.pyk-playground .pyk-icon:hover { background: var(--pyk-control); }
+.pyk-playground .pyk-settings {
+  display: inline-flex; align-items: center; gap: .4rem;
+  padding: .3rem .55rem;
+  background: transparent; border-color: transparent;
+}
+.pyk-playground .pyk-settings:hover { background: var(--pyk-control); border-color: var(--pyk-edge); }
+/* An inline SVG rather than a glyph: it inherits the text colour, stays
+   crisp at any size, and does not depend on the platform having a font
+   with the character in it. */
+.pyk-settings svg { display: block; flex: none; }
+.pyk-modal-backdrop {
+  position: absolute; inset: 0; z-index: 20;
+  background: var(--pyk-backdrop);
+  display: flex; align-items: center; justify-content: center;
+}
+.pyk-modal {
+  background: var(--pyk-panel); color: var(--pyk-text);
+  border: 1px solid var(--pyk-edge); border-radius: 8px;
+  min-width: 19rem; max-width: 24rem; margin: 1rem;
+  box-shadow: 0 14px 44px var(--pyk-shadow);
+}
+.pyk-modal-head {
+  display: flex; align-items: center; gap: .5rem;
+  padding: .6rem .8rem; border-bottom: 1px solid var(--pyk-edge);
+}
+.pyk-modal-body { padding: .85rem; display: grid; gap: 1rem; }
+.pyk-field { display: grid; gap: .4rem; }
+.pyk-field > label { font-size: .82rem; color: var(--pyk-dim); }
+/* Beats `.pyk-field > label` above, which is for the group heading. */
+.pyk-field > label.pyk-check {
+  display: flex; align-items: center; gap: .5rem;
+  font-size: .86rem; color: var(--pyk-text); cursor: pointer;
+}
+.pyk-check input { accent-color: var(--pyk-accent); margin: 0; flex: none; }
+.pyk-field-row { display: flex; align-items: center; gap: .6rem; }
+.pyk-field-row input[type="range"] { flex: 1 1 auto; accent-color: var(--pyk-accent); }
+.pyk-value {
+  font-family: ui-monospace, monospace; font-size: .82rem;
+  min-width: 3.2rem; text-align: right; color: var(--pyk-text);
+}
+.pyk-hint { font-size: .78rem; color: var(--pyk-dim); margin: 0; }
+
+@media (max-width: 900px) {
+  /* Stacked: the column gutter has nothing left to split, so it goes away
+     rather than sitting in the layout as a dead handle. */
+  .pyk-columns {
+    grid-template-columns: 1fr;
+    grid-template-rows: 1fr var(--pyk-gutter) 1fr;
+  }
+  .pyk-gutter-v { cursor: row-resize; }
+}
+
+/* Monaco draws its right-click menu in a shadow root under <body>,
+   outside the editor that carries the theme's colours, so the menu's
+   are given to that root's host, which the shadow root inherits from:
+   white text on a dark menu, in either theme. */
+.shadow-root-host {
+  --vscode-menu-foreground: #ffffff;
+  --vscode-menu-background: #2d2f31;
+  --vscode-menu-selectionForeground: #ffffff;
+  --vscode-menu-selectionBackground: #4271ae;
+  --vscode-menu-separatorBackground: #5a5b5c;
+  --vscode-menu-border: #5a5b5c;
+  --vscode-widget-shadow: rgba(0, 0, 0, 0.36);
+}

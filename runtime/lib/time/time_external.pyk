@@ -1,0 +1,66 @@
+# The host's clock and calendar.
+#
+# This is the external half of the module `time`; `time.pyk` beside it
+# is the other half, written in Pyking against what is declared here.
+# The two files are one module (docs/modules.md, "A module in two
+# halves").
+#
+# `instant` and `now` are what a program calls. The six decomposers
+# below are **private**: they are how `of_instant` is written in
+# Pyking, and a program reaching one directly would be reaching into
+# this library's own workings. A private declaration is in scope in
+# time.pyk and nowhere else.
+#
+# `now` is one reading of the clock, decomposed by the host in one go,
+# so the six fields cannot straddle a second and report a date that
+# never happened.
+#
+# Decomposition is **UTC** on every host. A local one would depend on
+# the host's own zone database, which the targets disagree about, and a
+# library that formatted differently per target would be no use.
+
+## Reads the clock.
+##
+## # Returns
+## The current time as whole seconds since 1970-01-01 00:00:00 UTC.
+##
+## # Examples
+## ```pyking
+## import time
+## t = time.instant()
+## print(t > 1700000000)
+## ```
+## ```stdout
+## true
+## ```
+public def instant() -> Int
+
+## Reads the clock once and splits it into a date and a time of day, in
+## UTC.
+##
+## # Returns
+## `(year, month, day, hour, minute, second)`, with the month 1 to 12 and
+## the day 1 to 31.
+##
+## # Examples
+## ```pyking
+## import time
+## (year, month, day, _, _, _) = time.now()
+## print(year >= 2026, month >= 1, day >= 1)
+## ```
+## ```stdout
+## true true true
+## ```
+public def now() -> (Int, Int, Int, Int, Int, Int)
+
+def year_of(seconds: Int) -> Int
+
+def month_of(seconds: Int) -> Int
+
+def day_of(seconds: Int) -> Int
+
+def hour_of(seconds: Int) -> Int
+
+def minute_of(seconds: Int) -> Int
+
+def second_of(seconds: Int) -> Int

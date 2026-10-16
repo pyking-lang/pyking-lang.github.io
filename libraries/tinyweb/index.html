@@ -1,0 +1,650 @@
+<!DOCTYPE html><html lang="en" dir="ltr" data-theme="dark" data-has-sidebar class="astro-g5ptsecz"><head><meta charset="utf-8"/><meta name="viewport" content="width=device-width, initial-scale=1"/><title>tinyweb | Pyking</title><link rel="canonical" href="https://pyking-lang.github.io/libraries/tinyweb/"/><link rel="sitemap" href="/sitemap-index.xml"/><script type="module" src="/site/cells.js"></script><link rel="shortcut icon" href="/site/favicon.svg" type="image/svg+xml"/><meta name="generator" content="Astro v7.3.5"/><meta name="generator" content="Starlight v0.42.5"/><meta property="og:title" content="tinyweb"/><meta property="og:type" content="article"/><meta property="og:url" content="https://pyking-lang.github.io/libraries/tinyweb/"/><meta property="og:locale" content="en"/><meta property="og:description" content="Graphics, widgets and sound on a web page, kept in time with each other."/><meta property="og:site_name" content="Pyking"/><meta name="twitter:card" content="summary_large_image"/><meta name="description" content="Graphics, widgets and sound on a web page, kept in time with each other."/><script>
+	window.StarlightThemeProvider = (() => {
+		const storedTheme =
+			typeof localStorage !== 'undefined' && localStorage.getItem('starlight-theme');
+		const theme =
+			storedTheme ||
+			(window.matchMedia('(prefers-color-scheme: light)').matches ? 'light' : 'dark');
+		document.documentElement.dataset.theme = theme === 'light' ? 'light' : 'dark';
+		return {
+			updatePickers(theme = storedTheme || 'auto') {
+				document.querySelectorAll('starlight-theme-select').forEach((picker) => {
+					const select = picker.querySelector('select');
+					if (select) select.value = theme;
+					/** @type {HTMLTemplateElement | null} */
+					const tmpl = document.querySelector(`#theme-icons`);
+					const newIcon = tmpl && tmpl.content.querySelector('.' + theme);
+					if (newIcon) {
+						const oldIcon = picker.querySelector('svg.label-icon');
+						if (oldIcon) {
+							oldIcon.replaceChildren(...newIcon.cloneNode(true).childNodes);
+						}
+					}
+				});
+			},
+		};
+	})();
+</script><template id="theme-icons"><svg aria-hidden="true" class="light astro-hkc32dio" width="16" height="16" viewBox="0 0 24 24" fill="currentColor" style="--sl-icon-size: 1em;"><path d="M5 12a1 1 0 0 0-1-1H3a1 1 0 0 0 0 2h1a1 1 0 0 0 1-1Zm.64 5-.71.71a1 1 0 0 0 0 1.41 1 1 0 0 0 1.41 0l.71-.71A1 1 0 0 0 5.64 17ZM12 5a1 1 0 0 0 1-1V3a1 1 0 0 0-2 0v1a1 1 0 0 0 1 1Zm5.66 2.34a1 1 0 0 0 .7-.29l.71-.71a1 1 0 1 0-1.41-1.41l-.66.71a1 1 0 0 0 0 1.41 1 1 0 0 0 .66.29Zm-12-.29a1 1 0 0 0 1.41 0 1 1 0 0 0 0-1.41l-.71-.71a1.004 1.004 0 1 0-1.43 1.41l.73.71ZM21 11h-1a1 1 0 0 0 0 2h1a1 1 0 0 0 0-2Zm-2.64 6A1 1 0 0 0 17 18.36l.71.71a1 1 0 0 0 1.41 0 1 1 0 0 0 0-1.41l-.76-.66ZM12 6.5a5.5 5.5 0 1 0 5.5 5.5A5.51 5.51 0 0 0 12 6.5Zm0 9a3.5 3.5 0 1 1 0-7 3.5 3.5 0 0 1 0 7Zm0 3.5a1 1 0 0 0-1 1v1a1 1 0 0 0 2 0v-1a1 1 0 0 0-1-1Z"/></svg><svg aria-hidden="true" class="dark astro-hkc32dio" width="16" height="16" viewBox="0 0 24 24" fill="currentColor" style="--sl-icon-size: 1em;"><path d="M21.64 13a1 1 0 0 0-1.05-.14 8.049 8.049 0 0 1-3.37.73 8.15 8.15 0 0 1-8.14-8.1 8.59 8.59 0 0 1 .25-2A1 1 0 0 0 8 2.36a10.14 10.14 0 1 0 14 11.69 1 1 0 0 0-.36-1.05Zm-9.5 6.69A8.14 8.14 0 0 1 7.08 5.22v.27a10.15 10.15 0 0 0 10.14 10.14 9.784 9.784 0 0 0 2.1-.22 8.11 8.11 0 0 1-7.18 4.32v-.04Z"/></svg><svg aria-hidden="true" class="auto astro-hkc32dio" width="16" height="16" viewBox="0 0 24 24" fill="currentColor" style="--sl-icon-size: 1em;"><path d="M21 14h-1V7a3 3 0 0 0-3-3H7a3 3 0 0 0-3 3v7H3a1 1 0 0 0-1 1v2a3 3 0 0 0 3 3h14a3 3 0 0 0 3-3v-2a1 1 0 0 0-1-1ZM6 7a1 1 0 0 1 1-1h10a1 1 0 0 1 1 1v7H6V7Zm14 10a1 1 0 0 1-1 1H5a1 1 0 0 1-1-1v-1h16v1Z"/></svg></template><link rel="stylesheet" href="/_astro/print.ehPL0gv-.css" media="print"><link rel="stylesheet" href="/_astro/middleware.CRZ1BEoT.css"><script type="module" src="/_astro/page.Dwipeu-R.js"></script></head><body class="astro-g5ptsecz"><a class="sl-skip-link astro-qb7clj6f" href="#_top">Skip to content</a><div class="page sl-flex astro-yntsjkba"><header class="header astro-yntsjkba"><div class="pyking-header"><div class="pyking-header-left"><a href="/" class="site-title sl-flex astro-6rvad3va"><img class="astro-6rvad3va" alt="Pyking" src="/_astro/logo.C9hvHOpV.svg" width="64" height="64"><span class="astro-6rvad3va" translate="no">Pyking</span></a><nav class="pyking-nav" aria-label="Sections"><a href="/install/">Install</a><a href="/getstarted/overview/">Getting started</a><a href="/documentation/language/">Documentation</a><a href="/libraries/" aria-current="page">Libraries</a><a href="/playground/">Playground</a></nav></div><div class="pyking-header-right print:hidden"><site-search class=" astro-b5kgnn7o" data-translations="{&quot;placeholder&quot;:&quot;Search&quot;}"><button data-open-modal disabled aria-label="Search" aria-keyshortcuts="Control+K" class="astro-b5kgnn7o"><svg aria-hidden="true" class="astro-b5kgnn7o astro-hkc32dio" width="16" height="16" viewBox="0 0 24 24" fill="currentColor" style="--sl-icon-size: 1em;"><path d="M21.71 20.29 18 16.61A9 9 0 1 0 16.61 18l3.68 3.68a.999.999 0 0 0 1.42 0 1 1 0 0 0 0-1.39ZM11 18a7 7 0 1 1 0-14 7 7 0 0 1 0 14Z"/></svg><span class="sl-hidden md:sl-block astro-b5kgnn7o" aria-hidden="true">Search</span><kbd class="sl-hidden md:sl-flex astro-b5kgnn7o" style="display: none;"><kbd class="astro-b5kgnn7o">Ctrl</kbd><kbd class="astro-b5kgnn7o">K</kbd></kbd></button><dialog style="padding:0" aria-label="Search" class="astro-b5kgnn7o"><div class="dialog-frame sl-flex astro-b5kgnn7o"><button data-close-modal class="sl-flex md:sl-hidden astro-b5kgnn7o">Cancel</button><div class="search-container astro-b5kgnn7o"><div id="starlight__search" class="astro-b5kgnn7o"></div></div></div></dialog></site-search><script>
+	(() => {
+		const openBtn = document.querySelector('button[data-open-modal]');
+		const shortcut = openBtn?.querySelector('kbd');
+		if (!openBtn || !(shortcut instanceof HTMLElement)) return;
+		const platformKey = shortcut.querySelector('kbd');
+		if (platformKey && /(Mac|iPhone|iPod|iPad)/i.test(navigator.platform)) {
+			platformKey.textContent = '⌘';
+			openBtn.setAttribute('aria-keyshortcuts', 'Meta+K');
+		}
+		shortcut.style.display = '';
+	})();
+</script><script type="module" src="/_astro/Search.astro_astro_type_script_index_0_lang.Bumivpjo.js"></script><div class="sl-hidden md:sl-flex"><starlight-theme-select><label style="--sl-select-width: 6.25em" class="astro-2z5xp7gb"><span class="sr-only astro-2z5xp7gb">Select theme</span><svg aria-hidden="true" class="icon label-icon astro-2z5xp7gb astro-hkc32dio" width="16" height="16" viewBox="0 0 24 24" fill="currentColor" style="--sl-icon-size: 1em;"><path d="M21 14h-1V7a3 3 0 0 0-3-3H7a3 3 0 0 0-3 3v7H3a1 1 0 0 0-1 1v2a3 3 0 0 0 3 3h14a3 3 0 0 0 3-3v-2a1 1 0 0 0-1-1ZM6 7a1 1 0 0 1 1-1h10a1 1 0 0 1 1 1v7H6V7Zm14 10a1 1 0 0 1-1 1H5a1 1 0 0 1-1-1v-1h16v1Z"/></svg><select autocomplete="off" class="astro-2z5xp7gb"><option value="dark" class="astro-2z5xp7gb">Dark</option><option value="light" class="astro-2z5xp7gb">Light</option><option value="auto" selected class="astro-2z5xp7gb">Auto</option></select><svg aria-hidden="true" class="icon caret astro-2z5xp7gb astro-hkc32dio" width="16" height="16" viewBox="0 0 24 24" fill="currentColor" style="--sl-icon-size: 1em;"><path d="M17 9.17a1 1 0 0 0-1.41 0L12 12.71 8.46 9.17a1 1 0 1 0-1.41 1.42l4.24 4.24a1.002 1.002 0 0 0 1.42 0L17 10.59a1.002 1.002 0 0 0 0-1.42Z"/></svg></label></starlight-theme-select><script>
+	StarlightThemeProvider.updatePickers();
+</script><script type="module">var e=`starlight-theme`,t=e=>e===`auto`||e===`dark`||e===`light`?e:`auto`,n=()=>t(typeof localStorage<`u`&&localStorage.getItem(e));function r(t){typeof localStorage<`u`&&localStorage.setItem(e,t===`light`||t===`dark`?t:``)}var i=()=>matchMedia(`(prefers-color-scheme: light)`).matches?`light`:`dark`;function a(e){StarlightThemeProvider.updatePickers(e),document.documentElement.dataset.theme=e===`auto`?i():e,r(e)}matchMedia(`(prefers-color-scheme: light)`).addEventListener(`change`,()=>{n()===`auto`&&a(`auto`)});var o=class extends HTMLElement{constructor(){super(),a(n()),this.querySelector(`select`)?.addEventListener(`change`,e=>{e.currentTarget instanceof HTMLSelectElement&&a(t(e.currentTarget.value))})}};customElements.define(`starlight-theme-select`,o);</script></div></div></div></header><nav class="sidebar print:hidden astro-yntsjkba" aria-label="Main"><button popovertarget="starlight__sidebar" class="sl-menu-button sl-flex md:sl-hidden print:hidden astro-r2osgdlg"><svg aria-hidden="true" class="open-menu astro-r2osgdlg astro-hkc32dio" width="16" height="16" viewBox="0 0 24 24" fill="currentColor" style="--sl-icon-size: 1em;"><path d="M3 8h18a1 1 0 1 0 0-2H3a1 1 0 0 0 0 2Zm18 8H3a1 1 0 0 0 0 2h18a1 1 0 0 0 0-2Zm0-5H3a1 1 0 0 0 0 2h18a1 1 0 0 0 0-2Z"/></svg><svg aria-hidden="true" class="close-menu astro-r2osgdlg astro-hkc32dio" width="16" height="16" viewBox="0 0 24 24" fill="currentColor" style="--sl-icon-size: 1em;"><path d="m13.41 12 6.3-6.29a1.004 1.004 0 1 0-1.42-1.42L12 10.59l-6.29-6.3a1.004 1.004 0 0 0-1.42 1.42l6.3 6.29-6.3 6.29a1 1 0 0 0 0 1.42.998.998 0 0 0 1.42 0l6.29-6.3 6.29 6.3a.999.999 0 0 0 1.42 0 1 1 0 0 0 0-1.42L13.41 12Z"/></svg><span class="sr-only astro-r2osgdlg">Menu</span></button><script type="module">var e=class extends HTMLElement{constructor(){super();let e=matchMedia(`(min-width: 50em)`),t=()=>{this.popover=e.matches?null:`auto`};t(),e.addEventListener(`change`,()=>t()),this.addEventListener(`toggle`,({newState:e})=>this.trapFocus(e===`open`))}trapFocus(e){document.querySelectorAll(`.main-frame, .sl-skip-link`).forEach(t=>{t.toggleAttribute(`inert`,e)})}};customElements.define(`sl-sidebar-pane`,e);</script><script type="module">var e=class extends HTMLElement{constructor(){super();let e=this.querySelector(`select`);e&&(e.addEventListener(`change`,e=>{e.currentTarget instanceof HTMLSelectElement&&(window.location.pathname=e.currentTarget.value)}),window.addEventListener(`pageshow`,t=>{if(!t.persisted)return;let n=e.querySelector(`option[selected]`)?.index;n!==e.selectedIndex&&(e.selectedIndex=n??0)}))}};customElements.define(`starlight-lang-select`,e);</script><sl-sidebar-pane popover id="starlight__sidebar" class="sidebar-pane astro-yntsjkba"><div class="sidebar-content sl-flex astro-yntsjkba"><nav class="pyking-sidebar" aria-label="Libraries"><p class="pyking-sidebar-title">Libraries</p><ul><li><a href="/libraries/">Overview</a></li><li><a href="/libraries/fs/">fs</a></li><li><a href="/libraries/io/">io</a></li><li><a href="/libraries/sys/">sys</a></li><li><a href="/libraries/time/">time</a></li><li><a href="/libraries/tinyweb/" aria-current="page">tinyweb</a><ul class="pyking-sidebar-headings"><li><a href="#button">button</a></li><li><a href="#button_style">button_style</a></li><li><a href="#canvas">canvas</a></li><li><a href="#canvas_style">canvas_style</a></li><li><a href="#circle">circle</a></li><li><a href="#clear">clear</a></li><li><a href="#label">label</a></li><li><a href="#label_style">label_style</a></li><li><a href="#line">line</a></li><li><a href="#load_sample">load_sample</a></li><li><a href="#on_frame">on_frame</a></li><li><a href="#on_key">on_key</a></li><li><a href="#on_mouse">on_mouse</a></li><li><a href="#page_style">page_style</a></li><li><a href="#play">play</a></li><li><a href="#play_file">play_file</a></li><li><a href="#rect">rect</a></li><li><a href="#set_colors">set_colors</a></li><li><a href="#set_label">set_label</a></li><li><a href="#set_style">set_style</a></li><li><a href="#slider">slider</a></li><li><a href="#slider_style">slider_style</a></li><li><a href="#text">text</a></li><li><a href="#theme">theme</a></li><li><a href="#time">time</a></li><li><a href="#web_init">web_init</a></li></ul></li></ul></nav><div class="md:sl-hidden"><div class="mobile-preferences sl-flex astro-p4azlveh"><div class="social-icons astro-p4azlveh"></div><starlight-theme-select><label style="--sl-select-width: 6.25em" class="astro-2z5xp7gb"><span class="sr-only astro-2z5xp7gb">Select theme</span><svg aria-hidden="true" class="icon label-icon astro-2z5xp7gb astro-hkc32dio" width="16" height="16" viewBox="0 0 24 24" fill="currentColor" style="--sl-icon-size: 1em;"><path d="M21 14h-1V7a3 3 0 0 0-3-3H7a3 3 0 0 0-3 3v7H3a1 1 0 0 0-1 1v2a3 3 0 0 0 3 3h14a3 3 0 0 0 3-3v-2a1 1 0 0 0-1-1ZM6 7a1 1 0 0 1 1-1h10a1 1 0 0 1 1 1v7H6V7Zm14 10a1 1 0 0 1-1 1H5a1 1 0 0 1-1-1v-1h16v1Z"/></svg><select autocomplete="off" class="astro-2z5xp7gb"><option value="dark" class="astro-2z5xp7gb">Dark</option><option value="light" class="astro-2z5xp7gb">Light</option><option value="auto" selected class="astro-2z5xp7gb">Auto</option></select><svg aria-hidden="true" class="icon caret astro-2z5xp7gb astro-hkc32dio" width="16" height="16" viewBox="0 0 24 24" fill="currentColor" style="--sl-icon-size: 1em;"><path d="M17 9.17a1 1 0 0 0-1.41 0L12 12.71 8.46 9.17a1 1 0 1 0-1.41 1.42l4.24 4.24a1.002 1.002 0 0 0 1.42 0L17 10.59a1.002 1.002 0 0 0 0-1.42Z"/></svg></label></starlight-theme-select><script>
+	StarlightThemeProvider.updatePickers();
+</script></div></div></div></sl-sidebar-pane></nav><div class="main-frame astro-yntsjkba"><script type="module">var e=document.getElementById(`starlight__sidebar`),t=e?.querySelector(`sl-sidebar-state-persist`),n=`sl-sidebar-state`,r=()=>{let r=[],i=t?.dataset.hash||``;try{let e=sessionStorage.getItem(n),t=JSON.parse(e||`{}`);Array.isArray(t.open)&&t.hash===i&&(r=t.open)}catch{}return{hash:i,open:r,scroll:e?.scrollTop||0}},i=e=>{try{sessionStorage.setItem(n,JSON.stringify(e))}catch{}},a=()=>i(r()),o=(e,t)=>{let n=r();n.open[t]=e,i(n)};t?.addEventListener(`click`,e=>{if(!(e.target instanceof Element))return;let t=e.target.closest(`summary`)?.closest(`details`);if(!t)return;let n=t.querySelector(`sl-sidebar-restore`),r=parseInt(n?.dataset.index||``);isNaN(r)||o(!t.open,r)}),addEventListener(`visibilitychange`,()=>{document.visibilityState===`hidden`&&a()});</script><div class="lg:sl-flex astro-lrzkfocr"><div class="main-pane astro-lrzkfocr"><main data-pagefind-body class="astro-g5ptsecz" lang="en" dir="ltr"><div class="content-panel astro-a7po4psb"><div class="sl-container astro-a7po4psb"><h1 id="_top" class="astro-bebwqqxs">tinyweb</h1></div></div><div class="content-panel astro-a7po4psb"><div class="sl-container astro-a7po4psb"><div class="sl-markdown-content"><p>Graphics, widgets and sound on a web page, kept in time with each
+other.</p>
+<p>A program builds its page by calling the functions below: each
+canvas, button, label and slider goes below the ones before it. A
+canvas is drawn on with <code>clear</code>, <code>circle</code>, <code>rect</code>, <code>line</code> and <code>text</code>,
+in pixels from its top left corner, and a color is a CSS color such
+as “#ff0000” or “red”.</p>
+<p>A page has a look of its own, the same wherever it is shown: <code>theme</code>
+picks one of tinyweb’s, the <code>_style</code> functions change every element
+of one kind, and <code>set_style</code> and <code>set_colors</code> change one element.</p>
+<p>A program that handed the page a function — <code>on_click</code>, <code>on_frame</code>
+and the rest — keeps running after its last line: the page calls the
+function each time the event happens. Sound and pictures are kept in
+step by one clock, <code>time</code>: a frame is drawn for a time, and <code>play</code>
+can start a sound at one.</p>
+<p>tinyweb needs a page to show. A program starts with
+<code>web_init(port)</code>, which serves one and prints its address wherever
+the program runs — <code>pyk program.pyk</code>, the REPL, or any compiled
+target — and does nothing in a browser, where the page is there
+already: on a web page, and beside the program in the notebook and
+the playground.</p>
+<div class="expressive-code"><link rel="stylesheet" href="/_astro/ec.w36nc.css"><script type="module" src="/_astro/ec.0vx5m.js"></script><figure class="frame not-content"><figcaption class="header"></figcaption><pre data-language="pyking"><code><div class="ec-line"><div class="code"><span style="--0:#C792EA;--1:#8844AE">import</span><span style="--0:#D6DEEB;--1:#403F53"> tinyweb</span></div></div></code></pre><div class="copy"><div aria-live="polite"></div><button title="Copy to clipboard" data-copied="Copied!" data-code="import tinyweb"><div></div></button></div></figure></div>
+<div class="pyk-api">
+<h2 id="button">button</h2>
+<pre class="pyk-sig"><code><span class="k">def</span> <span class="n">button</span>(<span class="p">title</span>: <span class="t">String</span>, <span class="p">on_click</span>: () -> () = nothing) -> <span class="t">Int</span></code></pre>
+<p>Adds a button below everything already on the page.</p>
+<p class="pyk-api-label">Parameters</p>
+<ul>
+<li><code>title</code>: the text on the button.</li>
+<li><code>on_click</code>: the function to call each time it is pressed; by default nothing happens.</li>
+</ul>
+<p class="pyk-api-label">Returns</p>
+<p>The button’s number.</p>
+<p class="pyk-api-label">Example</p>
+<div class="pkn-notebook pkn-embedded not-content"><div class="pkn-cell"><pre class="pkn-cell-fallback"><code>import tinyweb as tw
+tw.web_init(0)
+var count = 0
+def pressed():
+    count := count + 1
+    print("pressed", count, "times")
+tw.button("Count", on_click = pressed)</code></pre></div></div>
+</div>
+<div class="pyk-api">
+<h2 id="button_style">button_style</h2>
+<pre class="pyk-sig"><code><span class="k">def</span> <span class="n">button_style</span>(
+    <span class="p">background</span>: <span class="t">String</span> = "",
+    <span class="p">color</span>: <span class="t">String</span> = "",
+    <span class="p">border</span>: <span class="t">String</span> = "",
+    <span class="p">radius</span>: <span class="t">Int</span> = -1,
+    <span class="p">font</span>: <span class="t">String</span> = "",
+    <span class="p">size</span>: <span class="t">Int</span> = -1,
+    <span class="p">padding</span>: <span class="t">Int</span> = -1,
+) -> ()</code></pre>
+<p>Changes every button on the page, those made already and those made
+later. Only what is named changes; the rest stays as the theme has it.</p>
+<p class="pyk-api-label">Parameters</p>
+<ul>
+<li><code>background</code>: a CSS color for the button.</li>
+<li><code>color</code>: a CSS color for its text.</li>
+<li><code>border</code>: a CSS border, such as <code>"2px solid navy"</code> or <code>"none"</code>.</li>
+<li><code>radius</code>: how round its corners are, in pixels.</li>
+<li><code>font</code>: a font, such as <code>"serif"</code> or <code>"monospace"</code>.</li>
+<li><code>size</code>: the size of its text, in pixels.</li>
+<li><code>padding</code>: the space between its text and its edge, in pixels.</li>
+</ul>
+<p class="pyk-api-label">Example</p>
+<div class="pkn-notebook pkn-embedded not-content"><div class="pkn-cell"><pre class="pkn-cell-fallback"><code>import tinyweb as tw
+tw.web_init(0)
+tw.button_style(background = "#2f6fdd", color = "white", border = "none", radius = 14, padding = 10)
+tw.button("Start")
+tw.button("Stop")</code></pre></div></div>
+</div>
+<div class="pyk-api">
+<h2 id="canvas">canvas</h2>
+<pre class="pyk-sig"><code><span class="k">def</span> <span class="n">canvas</span>(<span class="p">width</span>: <span class="t">Int</span>, <span class="p">height</span>: <span class="t">Int</span>) -> <span class="t">Int</span></code></pre>
+<p>Adds a canvas to draw on, below everything already on the page. It
+starts white.</p>
+<p class="pyk-api-label">Parameters</p>
+<ul>
+<li><code>width</code>: its width in pixels.</li>
+<li><code>height</code>: its height in pixels.</li>
+</ul>
+<p class="pyk-api-label">Returns</p>
+<p>The canvas’s number, which the drawing functions take as <code>c</code>.</p>
+<p class="pyk-api-label">Example</p>
+<div class="pkn-notebook pkn-embedded not-content"><div class="pkn-cell"><pre class="pkn-cell-fallback"><code>import tinyweb as tw
+tw.web_init(0)
+c = tw.canvas(200, 60)
+tw.rect(c, 10, 10, 180, 40, "teal")</code></pre></div></div>
+</div>
+<div class="pyk-api">
+<h2 id="canvas_style">canvas_style</h2>
+<pre class="pyk-sig"><code><span class="k">def</span> <span class="n">canvas_style</span>(<span class="p">border</span>: <span class="t">String</span> = "", <span class="p">radius</span>: <span class="t">Int</span> = -1) -> ()</code></pre>
+<p>Changes the frame of every canvas on the page, those made already and
+those made later. What is drawn on a canvas is not changed.</p>
+<p class="pyk-api-label">Parameters</p>
+<ul>
+<li><code>border</code>: a CSS border, such as <code>"3px solid black"</code> or <code>"none"</code>.</li>
+<li><code>radius</code>: how round its corners are, in pixels.</li>
+</ul>
+<p class="pyk-api-label">Example</p>
+<div class="pkn-notebook pkn-embedded not-content"><div class="pkn-cell"><pre class="pkn-cell-fallback"><code>import tinyweb as tw
+tw.web_init(0)
+tw.canvas_style(border = "3px solid teal", radius = 12)
+c = tw.canvas(200, 80)
+tw.rect(c, 20, 20, 160, 40, "teal")</code></pre></div></div>
+</div>
+<div class="pyk-api">
+<h2 id="circle">circle</h2>
+<pre class="pyk-sig"><code><span class="k">def</span> <span class="n">circle</span>(
+    <span class="p">c</span>: <span class="t">Int</span>,
+    <span class="p">x</span>: <span class="t">Int</span>,
+    <span class="p">y</span>: <span class="t">Int</span>,
+    <span class="p">radius</span>: <span class="t">Int</span>,
+    <span class="p">color</span>: <span class="t">String</span> = "#000000",
+) -> ()</code></pre>
+<p>Draws a filled circle on the canvas <code>c</code>.</p>
+<p class="pyk-api-label">Parameters</p>
+<ul>
+<li><code>c</code>: the canvas, as <code>canvas</code> answered.</li>
+<li><code>x</code>, <code>y</code>: the centre, in pixels from the canvas’s top left corner.</li>
+<li><code>radius</code>: the radius in pixels.</li>
+<li><code>color</code>: a CSS color; black by default.</li>
+</ul>
+<p class="pyk-api-label">Example</p>
+<div class="pkn-notebook pkn-embedded not-content"><div class="pkn-cell"><pre class="pkn-cell-fallback"><code>import tinyweb as tw
+tw.web_init(0)
+c = tw.canvas(200, 100)
+tw.circle(c, 100, 50, 40, "gold")
+tw.circle(c, 100, 50, 20)</code></pre></div></div>
+</div>
+<div class="pyk-api">
+<h2 id="clear">clear</h2>
+<pre class="pyk-sig"><code><span class="k">def</span> <span class="n">clear</span>(<span class="p">c</span>: <span class="t">Int</span>, <span class="p">color</span>: <span class="t">String</span> = "#ffffff") -> ()</code></pre>
+<p>Fills the whole canvas <code>c</code> with one color, wiping out what was drawn.</p>
+<p class="pyk-api-label">Parameters</p>
+<ul>
+<li><code>c</code>: the canvas, as <code>canvas</code> answered.</li>
+<li><code>color</code>: a CSS color, such as <code>"#ff0000"</code> or <code>"red"</code>; white by default.</li>
+</ul>
+<p class="pyk-api-label">Example</p>
+<div class="pkn-notebook pkn-embedded not-content"><div class="pkn-cell"><pre class="pkn-cell-fallback"><code>import tinyweb as tw
+tw.web_init(0)
+c = tw.canvas(200, 60)
+tw.clear(c, "navy")</code></pre></div></div>
+</div>
+<div class="pyk-api">
+<h2 id="label">label</h2>
+<pre class="pyk-sig"><code><span class="k">def</span> <span class="n">label</span>(<span class="p">text</span>: <span class="t">String</span>) -> <span class="t">Int</span></code></pre>
+<p>Adds a line of text below everything already on the page.</p>
+<p class="pyk-api-label">Parameters</p>
+<ul>
+<li><code>text</code>: what the label says.</li>
+</ul>
+<p class="pyk-api-label">Returns</p>
+<p>The label’s number, which <code>set_label</code> takes to change the text.</p>
+<p class="pyk-api-label">Example</p>
+<div class="pkn-notebook pkn-embedded not-content"><div class="pkn-cell"><pre class="pkn-cell-fallback"><code>import tinyweb as tw
+tw.web_init(0)
+tw.label("Hello from tinyweb")</code></pre></div></div>
+</div>
+<div class="pyk-api">
+<h2 id="label_style">label_style</h2>
+<pre class="pyk-sig"><code><span class="k">def</span> <span class="n">label_style</span>(
+    <span class="p">background</span>: <span class="t">String</span> = "",
+    <span class="p">color</span>: <span class="t">String</span> = "",
+    <span class="p">border</span>: <span class="t">String</span> = "",
+    <span class="p">radius</span>: <span class="t">Int</span> = -1,
+    <span class="p">font</span>: <span class="t">String</span> = "",
+    <span class="p">size</span>: <span class="t">Int</span> = -1,
+    <span class="p">padding</span>: <span class="t">Int</span> = -1,
+) -> ()</code></pre>
+<p>Changes every label on the page, those made already and those made
+later. Only what is named changes; the rest stays as the theme has it.</p>
+<p class="pyk-api-label">Parameters</p>
+<ul>
+<li><code>background</code>: a CSS color behind the text.</li>
+<li><code>color</code>: a CSS color for the text.</li>
+<li><code>border</code>: a CSS border, such as <code>"1px solid gray"</code>.</li>
+<li><code>radius</code>: how round its corners are, in pixels.</li>
+<li><code>font</code>: a font, such as <code>"serif"</code> or <code>"monospace"</code>.</li>
+<li><code>size</code>: the size of the text, in pixels.</li>
+<li><code>padding</code>: the space between the text and its edge, in pixels.</li>
+</ul>
+<p class="pyk-api-label">Example</p>
+<div class="pkn-notebook pkn-embedded not-content"><div class="pkn-cell"><pre class="pkn-cell-fallback"><code>import tinyweb as tw
+tw.web_init(0)
+tw.label_style(background = "lightyellow", border = "1px solid gold", radius = 6, size = 18, padding = 8)
+tw.label("Note: labels can look like this.")
+tw.label("And so does every other one.")</code></pre></div></div>
+</div>
+<div class="pyk-api">
+<h2 id="line">line</h2>
+<pre class="pyk-sig"><code><span class="k">def</span> <span class="n">line</span>(
+    <span class="p">c</span>: <span class="t">Int</span>,
+    <span class="p">x1</span>: <span class="t">Int</span>,
+    <span class="p">y1</span>: <span class="t">Int</span>,
+    <span class="p">x2</span>: <span class="t">Int</span>,
+    <span class="p">y2</span>: <span class="t">Int</span>,
+    <span class="p">color</span>: <span class="t">String</span> = "#000000",
+    <span class="p">width</span>: <span class="t">Int</span> = 1,
+) -> ()</code></pre>
+<p>Draws a straight line on the canvas <code>c</code>.</p>
+<p class="pyk-api-label">Parameters</p>
+<ul>
+<li><code>c</code>: the canvas, as <code>canvas</code> answered.</li>
+<li><code>x1</code>, <code>y1</code>: where the line starts, in pixels.</li>
+<li><code>x2</code>, <code>y2</code>: where it ends, in pixels.</li>
+<li><code>color</code>: a CSS color; black by default.</li>
+<li><code>width</code>: how thick it is, in pixels; 1 by default.</li>
+</ul>
+<p class="pyk-api-label">Example</p>
+<div class="pkn-notebook pkn-embedded not-content"><div class="pkn-cell"><pre class="pkn-cell-fallback"><code>import tinyweb as tw
+tw.web_init(0)
+c = tw.canvas(200, 100)
+tw.line(c, 0, 0, 200, 100)
+tw.line(c, 0, 100, 200, 0, "red", 4)</code></pre></div></div>
+</div>
+<div class="pyk-api">
+<h2 id="load_sample">load_sample</h2>
+<pre class="pyk-sig"><code><span class="k">def</span> <span class="n">load_sample</span>(<span class="p">name</span>: <span class="t">String</span>) -> <span class="t">Int</span></code></pre>
+<p>Starts loading a sound file, so that <code>play</code> can play it without a
+delay. The file is looked for beside the page first, then among the
+samples tinyweb ships: <code>kick1.wav</code>, <code>snare1.wav</code>, <code>hihat1.wav</code> and
+<code>piano_c1.wav</code>.</p>
+<p class="pyk-api-label">Parameters</p>
+<ul>
+<li><code>name</code>: the file’s name, such as <code>"kick1.wav"</code>.</li>
+</ul>
+<p class="pyk-api-label">Returns</p>
+<p>The sample’s number, which <code>play</code> takes.</p>
+<p class="pyk-api-label">Example</p>
+<div class="pkn-notebook pkn-embedded not-content"><div class="pkn-cell"><pre class="pkn-cell-fallback"><code>import tinyweb as tw
+tw.web_init(0)
+kick = tw.load_sample("kick1.wav")
+def hit():
+    tw.play(kick)
+tw.button("Kick", on_click = hit)</code></pre></div></div>
+</div>
+<div class="pyk-api">
+<h2 id="on_frame">on_frame</h2>
+<pre class="pyk-sig"><code><span class="k">def</span> <span class="n">on_frame</span>(<span class="p">draw</span>: (<span class="t">Float</span>) -> ()) -> ()</code></pre>
+<p>Calls <code>draw</code> before each frame the page shows, about 60 times a second,
+with the time the frame is for. This is how a program animates.</p>
+<p class="pyk-api-label">Parameters</p>
+<ul>
+<li><code>draw</code>: the function to call; it is given the frame’s time in seconds, as <code>time</code> reads it.</li>
+</ul>
+<p class="pyk-api-label">Example</p>
+<div class="pkn-notebook pkn-embedded not-content"><div class="pkn-cell"><pre class="pkn-cell-fallback"><code>import tinyweb as tw
+tw.web_init(0)
+c = tw.canvas(200, 60)
+def draw(t: Float):
+    tw.clear(c)
+    x = int(t * 50.0) - int(t * 50.0) / 200 * 200
+    tw.circle(c, x, 30, 10, "orange")
+tw.on_frame(draw)</code></pre></div></div>
+</div>
+<div class="pyk-api">
+<h2 id="on_key">on_key</h2>
+<pre class="pyk-sig"><code><span class="k">def</span> <span class="n">on_key</span>(<span class="p">pressed</span>: (<span class="t">String</span>) -> ()) -> ()</code></pre>
+<p>Calls <code>pressed</code> each time a key is pressed while the page has the
+focus.</p>
+<p class="pyk-api-label">Parameters</p>
+<ul>
+<li><code>pressed</code>: the function to call; it is given the key: a letter or digit as itself, and otherwise the browser’s name for it, such as <code>"ArrowLeft"</code>, <code>"Enter"</code> or <code>" "</code>.</li>
+</ul>
+<p class="pyk-api-label">Example</p>
+<div class="pkn-notebook pkn-embedded not-content"><div class="pkn-cell"><pre class="pkn-cell-fallback"><code>import tinyweb as tw
+tw.web_init(0)
+shown = tw.label("press a key")
+def pressed(key: String):
+    tw.set_label(shown, "you pressed " ++ key)
+tw.on_key(pressed)</code></pre></div></div>
+</div>
+<div class="pyk-api">
+<h2 id="on_mouse">on_mouse</h2>
+<pre class="pyk-sig"><code><span class="k">def</span> <span class="n">on_mouse</span>(<span class="p">c</span>: <span class="t">Int</span>, <span class="p">click</span>: (<span class="t">Int</span>, <span class="t">Int</span>) -> ()) -> ()</code></pre>
+<p>Calls <code>click</code> each time the canvas <code>c</code> is clicked, with where the click
+was.</p>
+<p class="pyk-api-label">Parameters</p>
+<ul>
+<li><code>c</code>: the canvas, as <code>canvas</code> answered.</li>
+<li><code>click</code>: the function to call; it is given <code>x</code> and <code>y</code> in pixels from the canvas’s top left corner.</li>
+</ul>
+<p class="pyk-api-label">Example</p>
+<div class="pkn-notebook pkn-embedded not-content"><div class="pkn-cell"><pre class="pkn-cell-fallback"><code>import tinyweb as tw
+tw.web_init(0)
+c = tw.canvas(200, 100)
+def click(x: Int, y: Int):
+    tw.circle(c, x, y, 5, "red")
+tw.on_mouse(c, click)</code></pre></div></div>
+</div>
+<div class="pyk-api">
+<h2 id="page_style">page_style</h2>
+<pre class="pyk-sig"><code><span class="k">def</span> <span class="n">page_style</span>(
+    <span class="p">background</span>: <span class="t">String</span> = "",
+    <span class="p">color</span>: <span class="t">String</span> = "",
+    <span class="p">font</span>: <span class="t">String</span> = "",
+    <span class="p">size</span>: <span class="t">Int</span> = -1,
+    <span class="p">padding</span>: <span class="t">Int</span> = -1,
+    <span class="p">gap</span>: <span class="t">Int</span> = -1,
+) -> ()</code></pre>
+<p>Changes the page itself: its background, and the text and spacing
+everything on it shares. Only what is named changes; the rest stays
+as the theme has it.</p>
+<p class="pyk-api-label">Parameters</p>
+<ul>
+<li><code>background</code>: a CSS color for the page.</li>
+<li><code>color</code>: a CSS color for its text.</li>
+<li><code>font</code>: a font, such as <code>"serif"</code>, <code>"monospace"</code> or <code>"Georgia"</code>.</li>
+<li><code>size</code>: the size of its text, in pixels.</li>
+<li><code>padding</code>: the space around everything on it, in pixels.</li>
+<li><code>gap</code>: the space between one element and the next, in pixels.</li>
+</ul>
+<p class="pyk-api-label">Example</p>
+<div class="pkn-notebook pkn-embedded not-content"><div class="pkn-cell"><pre class="pkn-cell-fallback"><code>import tinyweb as tw
+tw.web_init(0)
+tw.page_style(background = "#fdf6e3", color = "#586e75", font = "serif", size = 18, gap = 16)
+tw.label("Solarized, with room to breathe")
+tw.button("OK")</code></pre></div></div>
+</div>
+<div class="pyk-api">
+<h2 id="play">play</h2>
+<pre class="pyk-sig"><code><span class="k">def</span> <span class="n">play</span>(
+    <span class="p">sample</span>: <span class="t">Int</span>,
+    <span class="p">at</span>: <span class="t">Float</span> = 0.0,
+    <span class="p">volume</span>: <span class="t">Float</span> = 1.0,
+    <span class="p">rate</span>: <span class="t">Float</span> = 1.0,
+) -> ()</code></pre>
+<p>Plays a sample that <code>load_sample</code> loaded.</p>
+<p class="pyk-api-label">Parameters</p>
+<ul>
+<li><code>sample</code>: the sample’s number, as <code>load_sample</code> answered.</li>
+<li><code>at</code>: when to start, in seconds on the page’s clock (see <code>time</code>), which counts from when the page started rather than from now: two seconds from now is <code>at = tw.time() + 2.0</code>, while <code>at = 2.0</code> is already past once the page has been open two seconds. A time already past, such as the default 0.0, means now.</li>
+<li><code>volume</code>: how loud, as a multiple of the sample’s own volume; 1.0 by default.</li>
+<li><code>rate</code>: how fast, as a multiple of normal speed; 2.0 plays it twice as fast and an octave higher. 1.0 by default.</li>
+</ul>
+<p class="pyk-api-label">Example</p>
+<div class="pkn-notebook pkn-embedded not-content"><div class="pkn-cell"><pre class="pkn-cell-fallback"><code>import tinyweb as tw
+tw.web_init(0)
+piano = tw.load_sample("piano_c1.wav")
+def chord():
+    start = tw.time()
+    tw.play(piano, at = start)
+    tw.play(piano, at = start + 0.25, rate = 1.25)
+    tw.play(piano, at = start + 0.5, volume = 0.7, rate = 1.5)
+tw.button("Play", on_click = chord)</code></pre></div></div>
+</div>
+<div class="pyk-api">
+<h2 id="play_file">play_file</h2>
+<pre class="pyk-sig"><code><span class="k">def</span> <span class="n">play_file</span>(<span class="p">name</span>: <span class="t">String</span>) -> ()</code></pre>
+<p>Plays a sound file now, loading it first if nothing has loaded it yet.
+For a sound played often, <code>load_sample</code> once and then <code>play</code> is
+quicker.</p>
+<p class="pyk-api-label">Parameters</p>
+<ul>
+<li><code>name</code>: the file’s name, such as <code>"snare1.wav"</code>; see <code>load_sample</code> for where it is looked for.</li>
+</ul>
+<p class="pyk-api-label">Example</p>
+<div class="pkn-notebook pkn-embedded not-content"><div class="pkn-cell"><pre class="pkn-cell-fallback"><code>import tinyweb as tw
+tw.web_init(0)
+def hit():
+    tw.play_file("snare1.wav")
+tw.button("Snare", on_click = hit)</code></pre></div></div>
+</div>
+<div class="pyk-api">
+<h2 id="rect">rect</h2>
+<pre class="pyk-sig"><code><span class="k">def</span> <span class="n">rect</span>(
+    <span class="p">c</span>: <span class="t">Int</span>,
+    <span class="p">x</span>: <span class="t">Int</span>,
+    <span class="p">y</span>: <span class="t">Int</span>,
+    <span class="p">width</span>: <span class="t">Int</span>,
+    <span class="p">height</span>: <span class="t">Int</span>,
+    <span class="p">color</span>: <span class="t">String</span> = "#000000",
+) -> ()</code></pre>
+<p>Draws a filled rectangle on the canvas <code>c</code>.</p>
+<p class="pyk-api-label">Parameters</p>
+<ul>
+<li><code>c</code>: the canvas, as <code>canvas</code> answered.</li>
+<li><code>x</code>, <code>y</code>: the top left corner, in pixels from the canvas’s top left corner.</li>
+<li><code>width</code>, <code>height</code>: the size in pixels.</li>
+<li><code>color</code>: a CSS color; black by default.</li>
+</ul>
+<p class="pyk-api-label">Example</p>
+<div class="pkn-notebook pkn-embedded not-content"><div class="pkn-cell"><pre class="pkn-cell-fallback"><code>import tinyweb as tw
+tw.web_init(0)
+c = tw.canvas(200, 100)
+tw.rect(c, 20, 20, 160, 60, "#4caf50")</code></pre></div></div>
+</div>
+<div class="pyk-api">
+<h2 id="set_colors">set_colors</h2>
+<pre class="pyk-sig"><code><span class="k">def</span> <span class="n">set_colors</span>(
+    <span class="p">id</span>: <span class="t">Int</span>,
+    <span class="p">color</span>: <span class="t">String</span> = "",
+    <span class="p">background</span>: <span class="t">String</span> = "",
+) -> ()</code></pre>
+<p>Changes the colors of one button, label or slider. It wins over the
+theme and over the <code>_style</code> functions.</p>
+<p class="pyk-api-label">Parameters</p>
+<ul>
+<li><code>id</code>: the element, as <code>button</code>, <code>label</code> or <code>slider</code> answered.</li>
+<li><code>color</code>: a CSS color for its text, or for a slider’s track and handle.</li>
+<li><code>background</code>: a CSS color behind it.</li>
+</ul>
+<p class="pyk-api-label">Example</p>
+<div class="pkn-notebook pkn-embedded not-content"><div class="pkn-cell"><pre class="pkn-cell-fallback"><code>import tinyweb as tw
+tw.web_init(0)
+ok = tw.button("OK")
+cancel = tw.button("Cancel")
+tw.set_colors(ok, color = "white", background = "seagreen")
+tw.set_colors(cancel, color = "white", background = "firebrick")</code></pre></div></div>
+</div>
+<div class="pyk-api">
+<h2 id="set_label">set_label</h2>
+<pre class="pyk-sig"><code><span class="k">def</span> <span class="n">set_label</span>(<span class="p">id</span>: <span class="t">Int</span>, <span class="p">text</span>: <span class="t">String</span>) -> ()</code></pre>
+<p>Replaces the text of a label.</p>
+<p class="pyk-api-label">Parameters</p>
+<ul>
+<li><code>id</code>: the label’s number, as <code>label</code> answered.</li>
+<li><code>text</code>: the new text.</li>
+</ul>
+<p class="pyk-api-label">Example</p>
+<div class="pkn-notebook pkn-embedded not-content"><div class="pkn-cell"><pre class="pkn-cell-fallback"><code>import tinyweb as tw
+tw.web_init(0)
+status = tw.label("waiting")
+def pressed():
+    tw.set_label(status, "pressed")
+tw.button("Press me", on_click = pressed)</code></pre></div></div>
+</div>
+<div class="pyk-api">
+<h2 id="set_style">set_style</h2>
+<pre class="pyk-sig"><code><span class="k">def</span> <span class="n">set_style</span>(
+    <span class="p">id</span>: <span class="t">Int</span>,
+    <span class="p">background</span>: <span class="t">String</span> = "",
+    <span class="p">color</span>: <span class="t">String</span> = "",
+    <span class="p">border</span>: <span class="t">String</span> = "",
+    <span class="p">radius</span>: <span class="t">Int</span> = -1,
+    <span class="p">font</span>: <span class="t">String</span> = "",
+    <span class="p">size</span>: <span class="t">Int</span> = -1,
+    <span class="p">padding</span>: <span class="t">Int</span> = -1,
+    <span class="p">accent</span>: <span class="t">String</span> = "",
+    <span class="p">width</span>: <span class="t">Int</span> = -1,
+) -> ()</code></pre>
+<p>Changes how one element is drawn: a button, a label, a slider or a
+canvas. It wins over the theme and over the <code>_style</code> functions. Only
+what is named changes.</p>
+<p class="pyk-api-label">Parameters</p>
+<ul>
+<li><code>id</code>: the element, as the function that made it answered.</li>
+<li><code>background</code>: a CSS color behind it.</li>
+<li><code>color</code>: a CSS color for its text.</li>
+<li><code>border</code>: a CSS border, such as <code>"2px dashed orange"</code>.</li>
+<li><code>radius</code>: how round its corners are, in pixels.</li>
+<li><code>font</code>: a font, such as <code>"serif"</code> or <code>"monospace"</code>.</li>
+<li><code>size</code>: the size of its text, in pixels.</li>
+<li><code>padding</code>: the space between its text and its edge, in pixels.</li>
+<li><code>accent</code>: a CSS color for a slider’s track and handle.</li>
+<li><code>width</code>: its width, in pixels.</li>
+</ul>
+<p class="pyk-api-label">Example</p>
+<div class="pkn-notebook pkn-embedded not-content"><div class="pkn-cell"><pre class="pkn-cell-fallback"><code>import tinyweb as tw
+tw.web_init(0)
+tw.button("Normal")
+big = tw.button("Important")
+tw.set_style(big, border = "2px dashed orange", radius = 0, size = 22, padding = 12)
+title = tw.label("A title")
+tw.set_style(title, font = "serif", size = 28)</code></pre></div></div>
+</div>
+<div class="pyk-api">
+<h2 id="slider">slider</h2>
+<pre class="pyk-sig"><code><span class="k">def</span> <span class="n">slider</span>(
+    <span class="p">low</span>: <span class="t">Int</span>,
+    <span class="p">high</span>: <span class="t">Int</span>,
+    <span class="p">value</span>: <span class="t">Int</span>,
+    <span class="p">on_change</span>: (<span class="t">Int</span>) -> () = ignore,
+) -> <span class="t">Int</span></code></pre>
+<p>Adds a slider below everything already on the page.</p>
+<p class="pyk-api-label">Parameters</p>
+<ul>
+<li><code>low</code>, <code>high</code>: the smallest and largest values it can be set to.</li>
+<li><code>value</code>: where it starts.</li>
+<li><code>on_change</code>: the function to call with each new value it is moved to; by default nothing happens.</li>
+</ul>
+<p class="pyk-api-label">Returns</p>
+<p>The slider’s number.</p>
+<p class="pyk-api-label">Example</p>
+<div class="pkn-notebook pkn-embedded not-content"><div class="pkn-cell"><pre class="pkn-cell-fallback"><code>import tinyweb as tw
+tw.web_init(0)
+shown = tw.label("50")
+def moved(value: Int):
+    tw.set_label(shown, string(value))
+tw.slider(0, 100, 50, on_change = moved)</code></pre></div></div>
+</div>
+<div class="pyk-api">
+<h2 id="slider_style">slider_style</h2>
+<pre class="pyk-sig"><code><span class="k">def</span> <span class="n">slider_style</span>(
+    <span class="p">accent</span>: <span class="t">String</span> = "",
+    <span class="p">width</span>: <span class="t">Int</span> = -1,
+    <span class="p">color</span>: <span class="t">String</span> = "",
+    <span class="p">font</span>: <span class="t">String</span> = "",
+    <span class="p">size</span>: <span class="t">Int</span> = -1,
+) -> ()</code></pre>
+<p>Changes every slider on the page, those made already and those made
+later. Only what is named changes; the rest stays as the theme has it.</p>
+<p class="pyk-api-label">Parameters</p>
+<ul>
+<li><code>accent</code>: a CSS color for the slider’s track and handle.</li>
+<li><code>width</code>: how long the slider is, in pixels.</li>
+<li><code>color</code>: a CSS color for the value shown beside it.</li>
+<li><code>font</code>: a font for that value.</li>
+<li><code>size</code>: the size of that value’s text, in pixels.</li>
+</ul>
+<p class="pyk-api-label">Example</p>
+<div class="pkn-notebook pkn-embedded not-content"><div class="pkn-cell"><pre class="pkn-cell-fallback"><code>import tinyweb as tw
+tw.web_init(0)
+tw.slider_style(accent = "crimson", width = 300, size = 20)
+tw.slider(0, 100, 70)</code></pre></div></div>
+</div>
+<div class="pyk-api">
+<h2 id="text">text</h2>
+<pre class="pyk-sig"><code><span class="k">def</span> <span class="n">text</span>(
+    <span class="p">c</span>: <span class="t">Int</span>,
+    <span class="p">x</span>: <span class="t">Int</span>,
+    <span class="p">y</span>: <span class="t">Int</span>,
+    <span class="p">words</span>: <span class="t">String</span>,
+    <span class="p">color</span>: <span class="t">String</span> = "#000000",
+    <span class="p">size</span>: <span class="t">Int</span> = 16,
+) -> ()</code></pre>
+<p>Writes text on the canvas <code>c</code>.</p>
+<p class="pyk-api-label">Parameters</p>
+<ul>
+<li><code>c</code>: the canvas, as <code>canvas</code> answered.</li>
+<li><code>x</code>, <code>y</code>: the top left corner of the text, in pixels.</li>
+<li><code>words</code>: the text to write.</li>
+<li><code>color</code>: a CSS color; black by default.</li>
+<li><code>size</code>: the height of the letters in pixels; 16 by default.</li>
+</ul>
+<p class="pyk-api-label">Example</p>
+<div class="pkn-notebook pkn-embedded not-content"><div class="pkn-cell"><pre class="pkn-cell-fallback"><code>import tinyweb as tw
+tw.web_init(0)
+c = tw.canvas(200, 60)
+tw.text(c, 10, 10, "Score: 42", "purple", 24)</code></pre></div></div>
+</div>
+<div class="pyk-api">
+<h2 id="theme">theme</h2>
+<pre class="pyk-sig"><code><span class="k">def</span> <span class="n">theme</span>(<span class="p">name</span>: <span class="t">String</span>) -> ()</code></pre>
+<p>Gives the whole page one of tinyweb’s looks: its colors, fonts, and
+how buttons, sliders and canvases are drawn. A page starts in
+<code>"light"</code>, which looks the same wherever it is shown. Call it before
+any of the <code>_style</code> functions, since it forgets what they changed.</p>
+<p>The themes are <code>"light"</code>, <code>"dark"</code>, <code>"plain"</code> (the browser’s own
+buttons and sliders, on white), <code>"paper"</code> (ink on warm paper, with a
+serif font) and <code>"retro"</code> (green on black, in a typewriter font). A
+name that is none of these changes nothing, and says so with <code>debug</code>.</p>
+<p class="pyk-api-label">Parameters</p>
+<ul>
+<li><code>name</code>: the theme.</li>
+</ul>
+<p class="pyk-api-label">Example</p>
+<div class="pkn-notebook pkn-embedded not-content"><div class="pkn-cell"><pre class="pkn-cell-fallback"><code>import tinyweb as tw
+tw.web_init(0)
+tw.theme("dark")
+tw.label("A dark page")
+tw.button("Press me")
+tw.slider(0, 10, 3)
+c = tw.canvas(160, 40)
+tw.circle(c, 20, 20, 12, "orange")</code></pre></div></div>
+</div>
+<div class="pyk-api">
+<h2 id="time">time</h2>
+<pre class="pyk-sig"><code><span class="k">def</span> <span class="n">time</span>() -> <span class="t">Float</span></code></pre>
+<p>Reads the page’s clock. Once sound has started this is the audio clock,
+so a time read here can be given to <code>play</code> to start a sound exactly
+then.</p>
+<p class="pyk-api-label">Returns</p>
+<p>The time in seconds.</p>
+<p class="pyk-api-label">Example</p>
+<div class="pkn-notebook pkn-embedded not-content"><div class="pkn-fragment" data-markdown="&#x60;&#x60;&#x60;pyking
+import tinyweb as tw
+tw.web_init(0)
+print(tw.time() >= 0.0)
+&#x60;&#x60;&#x60;
+
+&#x60;&#x60;&#x60;stdout visible = true
+true
+&#x60;&#x60;&#x60;"></div></div>
+</div>
+<div class="pyk-api">
+<h2 id="web_init">web_init</h2>
+<pre class="pyk-sig"><code><span class="k">def</span> <span class="n">web_init</span>(<span class="p">port</span>: <span class="t">Int</span>) -> ()</code></pre>
+<p>Starts the program’s page. Run as <code>pyk program.pyk</code> or compiled, it
+serves the page on <code>port</code> and prints the address to open; in a browser,
+the notebook or the playground the page is already there and it does
+nothing. Call it before any other tinyweb function.</p>
+<p class="pyk-api-label">Parameters</p>
+<ul>
+<li><code>port</code>: the port to serve on; 0 picks any free one.</li>
+</ul>
+<p class="pyk-api-label">Example</p>
+<div class="pkn-notebook pkn-embedded not-content"><div class="pkn-cell"><pre class="pkn-cell-fallback"><code>import tinyweb as tw
+tw.web_init(0)
+tw.label("The page is ready.")</code></pre></div></div>
+</div>
+<h2 id="without-pyking">Without Pyking</h2>
+<p>Each of tinyweb’s implementations is also a library of its own, usable
+from a program written in that language with no Pyking at all: <a href="../../documentation/tinyweb/python/">Python</a>, <a href="../../documentation/tinyweb/javascript/">JavaScript</a>, <a href="../../documentation/tinyweb/ocaml/">OCaml</a>, <a href="../../documentation/tinyweb/c/">C</a>, <a href="../../documentation/tinyweb/java/">Java</a>.
+<a href="../../documentation/tinyweb/">tinyweb without Pyking</a> has the overview.</p></div><footer class="sl-flex astro-ddtxxk7k"><div class="meta sl-flex astro-ddtxxk7k"></div><div class="pagination-links print:hidden astro-b5raizh3" dir="ltr"></div></footer></div></div></main></div></div></div></div></body></html>

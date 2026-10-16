@@ -1,0 +1,79 @@
+## The process this program is running as: its arguments, its name, and
+## its environment.
+#
+# The Pyking half of `sys`. What the host provides is declared in
+# sys_external.pyk beside this file and is in scope here unqualified --
+# the two files are one module -- so `env()` below is the host's.
+#
+# `env_get` and `env_has` are written here rather than declared so that
+# every host answers them the same way, rather than each reimplementing
+# the same scan slightly differently.
+
+
+# The pairs walked one at a time. A `loop ... for` would read better but
+# the OCaml backend has no translation for one, and `len` is refused by
+# the JavaScript backends -- so the walk is a recursion over the list,
+# which every target `sys` reaches does compile.
+def lookup(pairs:[(String, String)], name:String) -> String:
+    match pairs:
+        case []:
+            return ""
+        case [first] ++ rest:
+            (key, value) = first
+            if key == name:
+                return value
+            else:
+                return lookup(rest, name)
+
+
+def holds(pairs:[(String, String)], name:String) -> Bool:
+    match pairs:
+        case []:
+            return false
+        case [first] ++ rest:
+            (key, _) = first
+            if key == name:
+                return true
+            else:
+                return holds(rest, name)
+
+
+## The value of the environment variable `name`.
+##
+## # Parameters
+## - `name`: the variable, such as `"HOME"`.
+##
+## # Returns
+## Its value, or `""` when it is not set. A variable set to `""` answers
+## the same, and `env_has` tells the two apart.
+##
+## # Examples
+## ```pyking
+## import sys
+## print(sys.env_get("PYKING_EXAMPLE_UNSET") == "")
+## ```
+## ```stdout
+## true
+## ```
+public def env_get(name:String) -> String:
+    return lookup(env(), name)
+
+
+## Tells whether the environment variable `name` is set, even to `""`.
+##
+## # Parameters
+## - `name`: the variable, such as `"HOME"`.
+##
+## # Returns
+## `true` when it is set, `false` otherwise.
+##
+## # Examples
+## ```pyking
+## import sys
+## print(sys.env_has("PYKING_EXAMPLE_UNSET"))
+## ```
+## ```stdout
+## false
+## ```
+public def env_has(name:String) -> Bool:
+    return holds(env(), name)

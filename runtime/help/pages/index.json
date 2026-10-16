@@ -1,0 +1,463 @@
+{
+  "sections": [
+    {
+      "id": "install",
+      "label": "Install",
+      "pages": [
+        {
+          "slug": "install",
+          "file": "install.md",
+          "title": "Install",
+          "label": "Install",
+          "headings": [
+            {
+              "text": "macOS",
+              "anchor": "macos"
+            },
+            {
+              "text": "Linux and WSL",
+              "anchor": "linux-and-wsl"
+            },
+            {
+              "text": "Nix",
+              "anchor": "nix"
+            },
+            {
+              "text": "Docker",
+              "anchor": "docker"
+            },
+            {
+              "text": "Check the installation",
+              "anchor": "check-the-installation"
+            },
+            {
+              "text": "What else you may need",
+              "anchor": "what-else-you-may-need"
+            }
+          ]
+        }
+      ],
+      "help": []
+    },
+    {
+      "id": "getstarted",
+      "label": "Getting started",
+      "pages": [
+        {
+          "slug": "getstarted/overview",
+          "file": "getstarted/overview.md",
+          "title": "Language overview",
+          "label": "Language overview",
+          "headings": [
+            {
+              "text": "Bindings and variables",
+              "anchor": "bindings-and-variables"
+            },
+            {
+              "text": "Functions and types",
+              "anchor": "functions-and-types"
+            },
+            {
+              "text": "Control flow",
+              "anchor": "control-flow"
+            },
+            {
+              "text": "Lists, tuples and pattern matching",
+              "anchor": "lists-tuples-and-pattern-matching"
+            },
+            {
+              "text": "Recursion",
+              "anchor": "recursion"
+            },
+            {
+              "text": "Modules and the standard library",
+              "anchor": "modules-and-the-standard-library"
+            },
+            {
+              "text": "Next steps",
+              "anchor": "next-steps"
+            }
+          ]
+        },
+        {
+          "slug": "getstarted/tinyweb-styles",
+          "file": "getstarted/tinyweb-styles.md",
+          "title": "Styling a tinyweb page",
+          "label": "Styling tinyweb",
+          "headings": [
+            {
+              "text": "Themes",
+              "anchor": "themes"
+            },
+            {
+              "text": "One kind of element",
+              "anchor": "one-kind-of-element"
+            },
+            {
+              "text": "One element",
+              "anchor": "one-element"
+            }
+          ]
+        }
+      ],
+      "help": [
+        "getstarted/overview",
+        "getstarted/tinyweb-styles"
+      ]
+    },
+    {
+      "id": "documentation",
+      "label": "Documentation",
+      "pages": [
+        {
+          "slug": "documentation/language",
+          "file": "documentation/language.md",
+          "title": "Language reference",
+          "label": "Language reference",
+          "headings": [
+            {
+              "text": "New in Pyking (not in Python)",
+              "anchor": "new-in-pyking-not-in-python"
+            },
+            {
+              "text": "Feature summary",
+              "anchor": "feature-summary"
+            },
+            {
+              "text": "Grammar",
+              "anchor": "grammar"
+            },
+            {
+              "text": "Feature details",
+              "anchor": "feature-details"
+            },
+            {
+              "text": "Type checking",
+              "anchor": "type-checking"
+            },
+            {
+              "text": "Modules",
+              "anchor": "modules"
+            }
+          ]
+        },
+        {
+          "slug": "documentation/editors",
+          "file": "documentation/editors.md",
+          "title": "Editors",
+          "label": "Editors",
+          "headings": [
+            {
+              "text": "Options and settings",
+              "anchor": "options-and-settings"
+            },
+            {
+              "text": "VS Code",
+              "anchor": "vs-code"
+            },
+            {
+              "text": "Cursor",
+              "anchor": "cursor"
+            },
+            {
+              "text": "Neovim",
+              "anchor": "neovim"
+            },
+            {
+              "text": "Vim",
+              "anchor": "vim"
+            },
+            {
+              "text": "Emacs",
+              "anchor": "emacs"
+            },
+            {
+              "text": "Sublime Text",
+              "anchor": "sublime-text"
+            },
+            {
+              "text": "Zed",
+              "anchor": "zed"
+            },
+            {
+              "text": "PyCharm and IntelliJ IDEA",
+              "anchor": "pycharm-and-intellij-idea"
+            },
+            {
+              "text": "Helix",
+              "anchor": "helix"
+            },
+            {
+              "text": "When it does not work",
+              "anchor": "when-it-does-not-work"
+            }
+          ]
+        }
+      ],
+      "help": [
+        "documentation/language"
+      ]
+    },
+    {
+      "id": "libraries",
+      "label": "Libraries",
+      "pages": [
+        {
+          "slug": "libraries",
+          "file": "libraries/index.md",
+          "title": "Libraries",
+          "label": "Overview",
+          "headings": []
+        },
+        {
+          "slug": "libraries/fs",
+          "file": "libraries/fs.md",
+          "title": "fs",
+          "label": "fs",
+          "headings": [
+            {
+              "text": "exists",
+              "anchor": "exists"
+            },
+            {
+              "text": "read_text",
+              "anchor": "read_text"
+            },
+            {
+              "text": "write_text",
+              "anchor": "write_text"
+            }
+          ]
+        },
+        {
+          "slug": "libraries/io",
+          "file": "libraries/io.md",
+          "title": "io",
+          "label": "io",
+          "headings": [
+            {
+              "text": "is_eof",
+              "anchor": "is_eof"
+            },
+            {
+              "text": "read",
+              "anchor": "read"
+            },
+            {
+              "text": "read_line",
+              "anchor": "read_line"
+            },
+            {
+              "text": "write",
+              "anchor": "write"
+            },
+            {
+              "text": "write_line",
+              "anchor": "write_line"
+            }
+          ]
+        },
+        {
+          "slug": "libraries/sys",
+          "file": "libraries/sys.md",
+          "title": "sys",
+          "label": "sys",
+          "headings": [
+            {
+              "text": "args",
+              "anchor": "args"
+            },
+            {
+              "text": "env",
+              "anchor": "env"
+            },
+            {
+              "text": "env_get",
+              "anchor": "env_get"
+            },
+            {
+              "text": "env_has",
+              "anchor": "env_has"
+            },
+            {
+              "text": "exit",
+              "anchor": "exit"
+            },
+            {
+              "text": "prog_name",
+              "anchor": "prog_name"
+            },
+            {
+              "text": "prog_path",
+              "anchor": "prog_path"
+            }
+          ]
+        },
+        {
+          "slug": "libraries/time",
+          "file": "libraries/time.md",
+          "title": "time",
+          "label": "time",
+          "headings": [
+            {
+              "text": "COMPACT",
+              "anchor": "compact"
+            },
+            {
+              "text": "DATE",
+              "anchor": "date"
+            },
+            {
+              "text": "DATETIME",
+              "anchor": "datetime"
+            },
+            {
+              "text": "ISO8601",
+              "anchor": "iso8601"
+            },
+            {
+              "text": "TIME",
+              "anchor": "time"
+            },
+            {
+              "text": "format",
+              "anchor": "format"
+            },
+            {
+              "text": "instant",
+              "anchor": "instant"
+            },
+            {
+              "text": "now",
+              "anchor": "now"
+            },
+            {
+              "text": "of_instant",
+              "anchor": "of_instant"
+            }
+          ]
+        },
+        {
+          "slug": "libraries/tinyweb",
+          "file": "libraries/tinyweb.md",
+          "title": "tinyweb",
+          "label": "tinyweb",
+          "headings": [
+            {
+              "text": "button",
+              "anchor": "button"
+            },
+            {
+              "text": "button_style",
+              "anchor": "button_style"
+            },
+            {
+              "text": "canvas",
+              "anchor": "canvas"
+            },
+            {
+              "text": "canvas_style",
+              "anchor": "canvas_style"
+            },
+            {
+              "text": "circle",
+              "anchor": "circle"
+            },
+            {
+              "text": "clear",
+              "anchor": "clear"
+            },
+            {
+              "text": "label",
+              "anchor": "label"
+            },
+            {
+              "text": "label_style",
+              "anchor": "label_style"
+            },
+            {
+              "text": "line",
+              "anchor": "line"
+            },
+            {
+              "text": "load_sample",
+              "anchor": "load_sample"
+            },
+            {
+              "text": "on_frame",
+              "anchor": "on_frame"
+            },
+            {
+              "text": "on_key",
+              "anchor": "on_key"
+            },
+            {
+              "text": "on_mouse",
+              "anchor": "on_mouse"
+            },
+            {
+              "text": "page_style",
+              "anchor": "page_style"
+            },
+            {
+              "text": "play",
+              "anchor": "play"
+            },
+            {
+              "text": "play_file",
+              "anchor": "play_file"
+            },
+            {
+              "text": "rect",
+              "anchor": "rect"
+            },
+            {
+              "text": "set_colors",
+              "anchor": "set_colors"
+            },
+            {
+              "text": "set_label",
+              "anchor": "set_label"
+            },
+            {
+              "text": "set_style",
+              "anchor": "set_style"
+            },
+            {
+              "text": "slider",
+              "anchor": "slider"
+            },
+            {
+              "text": "slider_style",
+              "anchor": "slider_style"
+            },
+            {
+              "text": "text",
+              "anchor": "text"
+            },
+            {
+              "text": "theme",
+              "anchor": "theme"
+            },
+            {
+              "text": "time",
+              "anchor": "time"
+            },
+            {
+              "text": "web_init",
+              "anchor": "web_init"
+            }
+          ]
+        }
+      ],
+      "help": [
+        "libraries",
+        "libraries/fs",
+        "libraries/io",
+        "libraries/sys",
+        "libraries/time",
+        "libraries/tinyweb"
+      ]
+    }
+  ]
+}

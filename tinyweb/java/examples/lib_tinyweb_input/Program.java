@@ -1,17 +1,15 @@
 // Generated from lib_tinyweb_input.pyk by the Pyking compiler. Do not edit.
-// Target: java21. Compile with:  javac --release 21 Program.java
+// Target: java21. Compile with:  javac --release 21 Program.java PykRuntime.java
 //         then run with:            java Program
 
 public final class Program {
 
-    // What the top level binds, where every method can read it; the
-    // top level in `main` below is what fills each of them in.
-    private static int c;
-    private static int status;
+    private static String c;
+    private static String status;
 
     private static void clicked(final int x, final int y) {
         TinywebExternal.set_label(status, "clicked at " + String.valueOf(x) + ", " + String.valueOf(y));
-        Tinyweb.circle(c, x, y, 5, "blue");
+        Tinyweb.circle(c, x, y, 5, "blue", Tinyweb.circle__default__outline(), Tinyweb.circle__default__outline_width(), Tinyweb.circle__default__alpha());
     }
 
     private static void pressed(final String key) {
@@ -26,19 +24,18 @@ public final class Program {
     }
 
     public static void main(String[] args) {
-        // Every module of the program, in the order they must run.
         Tinyweb.init();
-
-        TinywebExternal.web_init(0);
+        Tinyweb.web_init(0);
         c = TinywebExternal.canvas(300, 200);
-        Tinyweb.rect(c, 0, 0, 300, 200, "#eeeeee");
-        Tinyweb.line(c, 0, 0, 300, 200, Tinyweb.line__default__color(), Tinyweb.line__default__width());
-        Tinyweb.line(c, 0, 200, 300, 0, "red", 3);
-        Tinyweb.text(c, 10, 10, "click \"me\"", Tinyweb.text__default__color(), 20);
+        Tinyweb.rect(c, 0, 0, 300, 200, "#eeeeee", Tinyweb.rect__default__outline(), Tinyweb.rect__default__outline_width(), Tinyweb.rect__default__alpha(), Tinyweb.rect__default__radius());
+        Tinyweb.line(c, 0, 0, 300, 200, Tinyweb.line__default__color(), Tinyweb.line__default__width(), Tinyweb.line__default__alpha());
+        Tinyweb.line(c, 0, 200, 300, 0, "red", 3, Tinyweb.line__default__alpha());
+        Tinyweb.text(c, 10, 10, "click \"me\"", Tinyweb.text__default__color(), 20, Tinyweb.text__default__font(), Tinyweb.text__default__align(), Tinyweb.text__default__bold(), Tinyweb.text__default__alpha(), Tinyweb.text__default__baseline(), Tinyweb.text__default__outline(), Tinyweb.text__default__outline_width());
         status = TinywebExternal.label("nothing yet");
-        TinywebExternal.on_mouse(c, (p$1, p$2) -> clicked(p$1, p$2));
-        TinywebExternal.on_key((p$1) -> pressed(p$1));
-        Tinyweb.slider(0, 10, 5, (p$1) -> moved(p$1));
+        TinywebExternal.on_mouse(c, (c$1, c$2) -> clicked(c$1, c$2));
+        TinywebExternal.on_key(c$1 -> pressed(c$1));
+        Tinyweb.slider(0, 10, 5, p$1 -> { moved(p$1); return null; });
         Tinyweb.slider(1, 3, 2, Tinyweb.slider__default__on_change());
+        TinywebExternal.splash();
     }
 }

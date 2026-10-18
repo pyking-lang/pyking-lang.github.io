@@ -6,19 +6,33 @@
 #include <string.h>
 #include <float.h>
 
+// Every multiply and add rounded on its own, as on every other target.
+#if defined(__clang__)
+#pragma STDC FP_CONTRACT OFF
+#elif defined(__GNUC__)
+#pragma GCC optimize ("fp-contract=off")
+#endif
+
 #include "tinyweb.h"
 
-// A Pyking function is a pointer to a C function.
+#ifndef PYK_TYPE_PYK_C_FF_U_
+#define PYK_TYPE_PYK_C_FF_U_
+typedef struct pyk_c_Ff_u_ {
+    void (*fn)(void *, double);
+    void *env;
+    void (*plain)(double);
+} pyk_c_Ff_u_;
+#endif
+
+// What the external modules this one imports implement.
+const char *tinyweb_canvas(int, int);
+const char *tinyweb_load_sample(const char *);
+void tinyweb_splash(void);
+double tinyweb_time(void);
 #ifndef PYK_FN_F_V
 #define PYK_FN_F_V
 typedef void (*pyk_fn_f_v)(double);
 #endif
-
-// What the external modules this one imports implement.
-void tinyweb_web_init(int);
-int tinyweb_canvas(int, int);
-int tinyweb_load_sample(const char *);
-double tinyweb_time(void);
 void tinyweb_on_frame(pyk_fn_f_v);
 
 static int pyk_truncate(double x)
@@ -29,18 +43,6 @@ static int pyk_truncate(double x)
     return (int)x;
 }
 
-// Concatenation allocates and never frees: Pyking has no ownership to compile into a free.
-static const char *pyk_concat(const char *a, const char *b)
-{
-    size_t la = strlen(a);
-    size_t lb = strlen(b);
-    char *result = malloc(la + lb + 1);
-    memcpy(result, a, la);
-    memcpy(result + la, b, lb + 1);
-    return result;
-}
-
-// A Float is written by this rather than by a printf conversion: no host spells a double the way Pyking does. It allocates and never frees, as concatenation does.
 static const char *pyk_float_str(double x)
 {
     char buf[64];
@@ -95,23 +97,58 @@ static const char *pyk_float_str(double x)
     return out;
 }
 
-// What the top level binds, where every function can read it; the top level below is what fills each of them in.
-static int c;
-static int kick;
+static const char *pyk_concat(const char *a, const char *b)
+{
+    size_t la = strlen(a);
+    size_t lb = strlen(b);
+    char *result = malloc(la + lb + 1);
+    memcpy(result, a, la);
+    memcpy(result + la, b, lb + 1);
+    return result;
+}
+
+static pyk_c_Ff_u_ pyk_mk_Ff_u_(void (*fn)(void *, double), void *env, void (*plain)(double))
+{
+    pyk_c_Ff_u_ v;
+    v.fn = fn;
+    v.env = env;
+    v.plain = plain;
+    return v;
+}
+
+static pyk_fn_f_v pyk_plain_Ff_u_(pyk_c_Ff_u_ c)
+{
+    if (c.plain == NULL) {
+        fprintf(stderr, "a function that captures values cannot be handed to a module implemented in C\n");
+        exit(1);
+    }
+    return c.plain;
+}
+
+static const char *c;
+static const char *kick;
 static double beat;
 static double next_beat;
 
 // Declared ahead of their definitions: a Pyking function may be called before it is written.
 static void draw(double t);
 
+static void pyk_w_draw(void *env, double p1)
+{
+    (void)env;
+    draw(p1);
+}
+
 static void draw(double t)
 {
-    double tmp1;
+    const char *pyk_t1;
+    int pyk_t2;
+    double pyk_t3;
     tinyweb_clear(c, "#111111");
-    tinyweb_circle(c, pyk_truncate(t * 100.0), 50, 10, "#ffcc00");
+    (pyk_t1 = tinyweb_circle__default__outline(), pyk_t2 = tinyweb_circle__default__outline_width(), (tinyweb_circle(c, pyk_truncate(t * 100.0), 50, 10, "#ffcc00", pyk_t1, pyk_t2, tinyweb_circle__default__alpha()), 0));
     if (t >= next_beat) {
         printf("%s\n", pyk_concat(pyk_concat(pyk_concat("beat scheduled at ", pyk_float_str(next_beat + beat)), ", drawn at "), pyk_float_str(t)));
-        (tmp1 = tinyweb_play__default__volume(), tinyweb_play(kick, next_beat + beat, tmp1, tinyweb_play__default__rate()));
+        (pyk_t3 = tinyweb_play__default__volume(), (tinyweb_play(kick, next_beat + beat, pyk_t3, tinyweb_play__default__rate()), 0));
         next_beat = next_beat + beat;
     }
 }
@@ -126,6 +163,7 @@ int main(void)
     next_beat = 0.0;
     tinyweb_on_frame(draw);
     printf("%s\n", pyk_float_str(tinyweb_time()));
+    tinyweb_splash();
 
     return 0;
 }

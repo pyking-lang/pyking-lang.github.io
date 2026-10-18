@@ -258,6 +258,266 @@
           ]
         },
         {
+          "slug": "libraries/math",
+          "file": "libraries/math.md",
+          "title": "math",
+          "label": "math",
+          "headings": [
+            {
+              "text": "e",
+              "anchor": "e"
+            },
+            {
+              "text": "inf",
+              "anchor": "inf"
+            },
+            {
+              "text": "nan",
+              "anchor": "nan"
+            },
+            {
+              "text": "pi",
+              "anchor": "pi"
+            },
+            {
+              "text": "tau",
+              "anchor": "tau"
+            },
+            {
+              "text": "acos",
+              "anchor": "acos"
+            },
+            {
+              "text": "acos_rad",
+              "anchor": "acos_rad"
+            },
+            {
+              "text": "asin",
+              "anchor": "asin"
+            },
+            {
+              "text": "asin_rad",
+              "anchor": "asin_rad"
+            },
+            {
+              "text": "atan",
+              "anchor": "atan"
+            },
+            {
+              "text": "atan2",
+              "anchor": "atan2"
+            },
+            {
+              "text": "atan2_rad",
+              "anchor": "atan2_rad"
+            },
+            {
+              "text": "atan_rad",
+              "anchor": "atan_rad"
+            },
+            {
+              "text": "cbrt",
+              "anchor": "cbrt"
+            },
+            {
+              "text": "ceil",
+              "anchor": "ceil"
+            },
+            {
+              "text": "cos",
+              "anchor": "cos"
+            },
+            {
+              "text": "cos_rad",
+              "anchor": "cos_rad"
+            },
+            {
+              "text": "cosh",
+              "anchor": "cosh"
+            },
+            {
+              "text": "degrees",
+              "anchor": "degrees"
+            },
+            {
+              "text": "distance",
+              "anchor": "distance"
+            },
+            {
+              "text": "exp",
+              "anchor": "exp"
+            },
+            {
+              "text": "float::abs",
+              "anchor": "floatabs"
+            },
+            {
+              "text": "float::clamp",
+              "anchor": "floatclamp"
+            },
+            {
+              "text": "float::max",
+              "anchor": "floatmax"
+            },
+            {
+              "text": "float::min",
+              "anchor": "floatmin"
+            },
+            {
+              "text": "float::mod",
+              "anchor": "floatmod"
+            },
+            {
+              "text": "float::sign",
+              "anchor": "floatsign"
+            },
+            {
+              "text": "floor",
+              "anchor": "floor"
+            },
+            {
+              "text": "gcd",
+              "anchor": "gcd"
+            },
+            {
+              "text": "hypot",
+              "anchor": "hypot"
+            },
+            {
+              "text": "int::abs",
+              "anchor": "intabs"
+            },
+            {
+              "text": "int::clamp",
+              "anchor": "intclamp"
+            },
+            {
+              "text": "int::max",
+              "anchor": "intmax"
+            },
+            {
+              "text": "int::min",
+              "anchor": "intmin"
+            },
+            {
+              "text": "int::mod",
+              "anchor": "intmod"
+            },
+            {
+              "text": "int::sign",
+              "anchor": "intsign"
+            },
+            {
+              "text": "is_finite",
+              "anchor": "is_finite"
+            },
+            {
+              "text": "is_nan",
+              "anchor": "is_nan"
+            },
+            {
+              "text": "lcm",
+              "anchor": "lcm"
+            },
+            {
+              "text": "lerp",
+              "anchor": "lerp"
+            },
+            {
+              "text": "log",
+              "anchor": "log"
+            },
+            {
+              "text": "log10",
+              "anchor": "log10"
+            },
+            {
+              "text": "log2",
+              "anchor": "log2"
+            },
+            {
+              "text": "map_range",
+              "anchor": "map_range"
+            },
+            {
+              "text": "pow",
+              "anchor": "pow"
+            },
+            {
+              "text": "radians",
+              "anchor": "radians"
+            },
+            {
+              "text": "round",
+              "anchor": "round"
+            },
+            {
+              "text": "sin",
+              "anchor": "sin"
+            },
+            {
+              "text": "sin_rad",
+              "anchor": "sin_rad"
+            },
+            {
+              "text": "sinh",
+              "anchor": "sinh"
+            },
+            {
+              "text": "sqrt",
+              "anchor": "sqrt"
+            },
+            {
+              "text": "tan",
+              "anchor": "tan"
+            },
+            {
+              "text": "tan_rad",
+              "anchor": "tan_rad"
+            },
+            {
+              "text": "tanh",
+              "anchor": "tanh"
+            },
+            {
+              "text": "trunc",
+              "anchor": "trunc"
+            }
+          ]
+        },
+        {
+          "slug": "libraries/random",
+          "file": "libraries/random.md",
+          "title": "random",
+          "label": "random",
+          "headings": [
+            {
+              "text": "choice",
+              "anchor": "choice"
+            },
+            {
+              "text": "randint",
+              "anchor": "randint"
+            },
+            {
+              "text": "random",
+              "anchor": "random"
+            },
+            {
+              "text": "seed",
+              "anchor": "seed"
+            },
+            {
+              "text": "shuffle",
+              "anchor": "shuffle"
+            },
+            {
+              "text": "uniform",
+              "anchor": "uniform"
+            }
+          ]
+        },
+        {
           "slug": "libraries/sys",
           "file": "libraries/sys.md",
           "title": "sys",
@@ -300,24 +560,24 @@
           "label": "time",
           "headings": [
             {
-              "text": "COMPACT",
-              "anchor": "compact"
+              "text": "compact_format",
+              "anchor": "compact_format"
             },
             {
-              "text": "DATE",
-              "anchor": "date"
+              "text": "date_format",
+              "anchor": "date_format"
             },
             {
-              "text": "DATETIME",
-              "anchor": "datetime"
+              "text": "datetime_format",
+              "anchor": "datetime_format"
             },
             {
-              "text": "ISO8601",
-              "anchor": "iso8601"
+              "text": "iso8601_format",
+              "anchor": "iso8601_format"
             },
             {
-              "text": "TIME",
-              "anchor": "time"
+              "text": "time_format",
+              "anchor": "time_format"
             },
             {
               "text": "format",
@@ -326,6 +586,10 @@
             {
               "text": "instant",
               "anchor": "instant"
+            },
+            {
+              "text": "local_now",
+              "anchor": "local_now"
             },
             {
               "text": "now",
@@ -344,6 +608,26 @@
           "label": "tinyweb",
           "headings": [
             {
+              "text": "arc",
+              "anchor": "arc"
+            },
+            {
+              "text": "bezier",
+              "anchor": "bezier"
+            },
+            {
+              "text": "bitmap",
+              "anchor": "bitmap"
+            },
+            {
+              "text": "blend",
+              "anchor": "blend"
+            },
+            {
+              "text": "blue",
+              "anchor": "blue"
+            },
+            {
               "text": "button",
               "anchor": "button"
             },
@@ -360,12 +644,76 @@
               "anchor": "canvas_style"
             },
             {
+              "text": "checkbox",
+              "anchor": "checkbox"
+            },
+            {
+              "text": "choice",
+              "anchor": "choice"
+            },
+            {
               "text": "circle",
               "anchor": "circle"
             },
             {
               "text": "clear",
               "anchor": "clear"
+            },
+            {
+              "text": "clip_circle",
+              "anchor": "clip_circle"
+            },
+            {
+              "text": "clip_polygon",
+              "anchor": "clip_polygon"
+            },
+            {
+              "text": "clip_rect",
+              "anchor": "clip_rect"
+            },
+            {
+              "text": "column",
+              "anchor": "column"
+            },
+            {
+              "text": "curve",
+              "anchor": "curve"
+            },
+            {
+              "text": "ellipse",
+              "anchor": "ellipse"
+            },
+            {
+              "text": "erase",
+              "anchor": "erase"
+            },
+            {
+              "text": "fill_bitmap",
+              "anchor": "fill_bitmap"
+            },
+            {
+              "text": "get_pixel",
+              "anchor": "get_pixel"
+            },
+            {
+              "text": "green",
+              "anchor": "green"
+            },
+            {
+              "text": "ignore2",
+              "anchor": "ignore2"
+            },
+            {
+              "text": "image",
+              "anchor": "image"
+            },
+            {
+              "text": "inside",
+              "anchor": "inside"
+            },
+            {
+              "text": "key_down",
+              "anchor": "key_down"
             },
             {
               "text": "label",
@@ -380,8 +728,44 @@
               "anchor": "line"
             },
             {
+              "text": "line_style",
+              "anchor": "line_style"
+            },
+            {
+              "text": "lines",
+              "anchor": "lines"
+            },
+            {
+              "text": "load_image",
+              "anchor": "load_image"
+            },
+            {
               "text": "load_sample",
               "anchor": "load_sample"
+            },
+            {
+              "text": "measure_text",
+              "anchor": "measure_text"
+            },
+            {
+              "text": "mouse_down",
+              "anchor": "mouse_down"
+            },
+            {
+              "text": "mouse_x",
+              "anchor": "mouse_x"
+            },
+            {
+              "text": "mouse_y",
+              "anchor": "mouse_y"
+            },
+            {
+              "text": "number_input",
+              "anchor": "number_input"
+            },
+            {
+              "text": "on_drag",
+              "anchor": "on_drag"
             },
             {
               "text": "on_frame",
@@ -392,12 +776,40 @@
               "anchor": "on_key"
             },
             {
+              "text": "on_key_up",
+              "anchor": "on_key_up"
+            },
+            {
               "text": "on_mouse",
               "anchor": "on_mouse"
             },
             {
+              "text": "on_move",
+              "anchor": "on_move"
+            },
+            {
+              "text": "on_press",
+              "anchor": "on_press"
+            },
+            {
+              "text": "on_release",
+              "anchor": "on_release"
+            },
+            {
+              "text": "outside",
+              "anchor": "outside"
+            },
+            {
               "text": "page_style",
               "anchor": "page_style"
+            },
+            {
+              "text": "path",
+              "anchor": "path"
+            },
+            {
+              "text": "pixel_color",
+              "anchor": "pixel_color"
             },
             {
               "text": "play",
@@ -408,8 +820,48 @@
               "anchor": "play_file"
             },
             {
+              "text": "polygon",
+              "anchor": "polygon"
+            },
+            {
+              "text": "pop",
+              "anchor": "pop"
+            },
+            {
+              "text": "push",
+              "anchor": "push"
+            },
+            {
+              "text": "radio",
+              "anchor": "radio"
+            },
+            {
               "text": "rect",
               "anchor": "rect"
+            },
+            {
+              "text": "red",
+              "anchor": "red"
+            },
+            {
+              "text": "reset",
+              "anchor": "reset"
+            },
+            {
+              "text": "rotate",
+              "anchor": "rotate"
+            },
+            {
+              "text": "row",
+              "anchor": "row"
+            },
+            {
+              "text": "scale",
+              "anchor": "scale"
+            },
+            {
+              "text": "set_checked",
+              "anchor": "set_checked"
             },
             {
               "text": "set_colors",
@@ -420,8 +872,28 @@
               "anchor": "set_label"
             },
             {
+              "text": "set_pixel",
+              "anchor": "set_pixel"
+            },
+            {
+              "text": "set_splash",
+              "anchor": "set_splash"
+            },
+            {
               "text": "set_style",
               "anchor": "set_style"
+            },
+            {
+              "text": "set_value",
+              "anchor": "set_value"
+            },
+            {
+              "text": "shadow",
+              "anchor": "shadow"
+            },
+            {
+              "text": "show_bitmap",
+              "anchor": "show_bitmap"
             },
             {
               "text": "slider",
@@ -432,8 +904,16 @@
               "anchor": "slider_style"
             },
             {
+              "text": "splash",
+              "anchor": "splash"
+            },
+            {
               "text": "text",
               "anchor": "text"
+            },
+            {
+              "text": "text_input",
+              "anchor": "text_input"
             },
             {
               "text": "theme",
@@ -444,8 +924,108 @@
               "anchor": "time"
             },
             {
+              "text": "translate",
+              "anchor": "translate"
+            },
+            {
               "text": "web_init",
               "anchor": "web_init"
+            },
+            {
+              "text": "The submodule tinyweb.colors",
+              "anchor": "the-submodule-tinywebcolors"
+            },
+            {
+              "text": "colors.conic_gradient",
+              "anchor": "colorsconic_gradient"
+            },
+            {
+              "text": "colors.hsl",
+              "anchor": "colorshsl"
+            },
+            {
+              "text": "colors.linear_gradient",
+              "anchor": "colorslinear_gradient"
+            },
+            {
+              "text": "colors.palette",
+              "anchor": "colorspalette"
+            },
+            {
+              "text": "colors.radial_gradient",
+              "anchor": "colorsradial_gradient"
+            },
+            {
+              "text": "colors.rgb",
+              "anchor": "colorsrgb"
+            },
+            {
+              "text": "colors.rgba",
+              "anchor": "colorsrgba"
+            },
+            {
+              "text": "colors.stop",
+              "anchor": "colorsstop"
+            },
+            {
+              "text": "The submodule tinyweb.smooth",
+              "anchor": "the-submodule-tinywebsmooth"
+            },
+            {
+              "text": "smooth.arc",
+              "anchor": "smootharc"
+            },
+            {
+              "text": "smooth.bezier",
+              "anchor": "smoothbezier"
+            },
+            {
+              "text": "smooth.circle",
+              "anchor": "smoothcircle"
+            },
+            {
+              "text": "smooth.circles",
+              "anchor": "smoothcircles"
+            },
+            {
+              "text": "smooth.clip_circle",
+              "anchor": "smoothclip_circle"
+            },
+            {
+              "text": "smooth.clip_polygon",
+              "anchor": "smoothclip_polygon"
+            },
+            {
+              "text": "smooth.curve",
+              "anchor": "smoothcurve"
+            },
+            {
+              "text": "smooth.ellipse",
+              "anchor": "smoothellipse"
+            },
+            {
+              "text": "smooth.line",
+              "anchor": "smoothline"
+            },
+            {
+              "text": "smooth.lines",
+              "anchor": "smoothlines"
+            },
+            {
+              "text": "smooth.path",
+              "anchor": "smoothpath"
+            },
+            {
+              "text": "smooth.polygon",
+              "anchor": "smoothpolygon"
+            },
+            {
+              "text": "smooth.rect",
+              "anchor": "smoothrect"
+            },
+            {
+              "text": "smooth.text",
+              "anchor": "smoothtext"
             }
           ]
         }
@@ -454,6 +1034,8 @@
         "libraries",
         "libraries/fs",
         "libraries/io",
+        "libraries/math",
+        "libraries/random",
         "libraries/sys",
         "libraries/time",
         "libraries/tinyweb"

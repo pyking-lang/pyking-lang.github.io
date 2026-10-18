@@ -49,7 +49,7 @@ let pyk_truncate x =
     let t = Float.trunc x in
     if t < -2147483648.0 || t > 2147483647.0 then 0 else int_of_float t
 
-let () = Tinyweb_external.web_init 0
+let () = Tinyweb.web_init 0
 
 let c = Tinyweb_external.canvas 200 100
 
@@ -61,13 +61,16 @@ let next_beat = ref 0.0
 
 let draw t =
   Tinyweb.clear c "#111111";
-  Tinyweb.circle c (pyk_truncate (t *. 100.0)) 50 10 "#ffcc00";
+  let tmp1 = Tinyweb.circle__default__outline () in
+  let tmp2 = Tinyweb.circle__default__outline_width () in
+  Tinyweb.circle c (pyk_truncate (t *. 100.0)) 50 10 "#ffcc00" tmp1 tmp2 (Tinyweb.circle__default__alpha ());
   if t >= !next_beat then
     (print_endline ("beat scheduled at " ^ pyk_float_str (!next_beat +. beat) ^ ", drawn at " ^ pyk_float_str t);
-    let tmp1 = Tinyweb.play__default__volume () in
-    Tinyweb.play kick (!next_beat +. beat) tmp1 (Tinyweb.play__default__rate ());
+    let tmp3 = Tinyweb.play__default__volume () in
+    Tinyweb.play kick (!next_beat +. beat) tmp3 (Tinyweb.play__default__rate ());
     next_beat := !next_beat +. beat)
 
 let () =
   Tinyweb_external.on_frame draw;
-  print_endline (pyk_float_str (Tinyweb_external.time ()))
+  print_endline (pyk_float_str (Tinyweb_external.time ()));
+  Tinyweb_external.splash ()

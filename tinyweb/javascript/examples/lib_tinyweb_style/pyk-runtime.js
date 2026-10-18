@@ -15,6 +15,15 @@ function pykFormat(value, inner) {
     const parts = value.map((element) => pykFormat(element, true));
     return parts.length === 1 ? '(' + parts[0] + ',)' : '(' + parts.join(', ') + ')';
   }
+  // A datatype's value: its constructor and its fields by position,
+  // each Float one written as a Float where the compiler said so.
+  if (value !== null && typeof value === 'object' && value.pykTag !== undefined) {
+    if (value.pykValues.length === 0) return value.pykTag;
+    const shapes = value.pykShape === null ? null : pykShapeParts(value.pykShape.slice(1, -1));
+    const parts = value.pykValues.map((element, i) =>
+      shapes === null ? pykFormat(element, true) : pykShaped(element, shapes[i], true));
+    return value.pykTag + '(' + parts.join(', ') + ')';
+  }
   return String(value);
 }
 
@@ -34,15 +43,21 @@ function pykFloatStr(x) {
   const sign = x < 0 || Object.is(x, -0) ? '-' : '';
   const a = Math.abs(x);
   if (a === 0) return sign + '0.0';
-  let s = '';
-  for (let p = 0; p <= 16; p++) {
-    s = a.toExponential(p);
-    if (Number(s) === a) break;
+  if (a >= 1e-4 && a < 1e16) {
+    const fixed = String(a);
+    return sign + (fixed.indexOf('.') < 0 ? fixed + '.0' : fixed);
   }
+  const s = String(a);
   const at = s.indexOf('e');
-  let digits = s.slice(0, at).replace('.', '').replace(/0+$/, '');
+  const mant = at < 0 ? s : s.slice(0, at);
+  const exp = at < 0 ? 0 : Number(s.slice(at + 1));
+  const dot = mant.indexOf('.');
+  const whole = dot < 0 ? mant : mant.slice(0, dot);
+  const frac = dot < 0 ? '' : mant.slice(dot + 1);
+  let digits = (whole + frac).replace(/^0+/, '');
+  const decpt = whole === '0' ? exp - (frac.length - digits.length) : whole.length + exp;
+  digits = digits.replace(/0+$/, '');
   if (digits === '') digits = '0';
-  const decpt = Number(s.slice(at + 1)) + 1;
   const n = digits.length;
   if (decpt <= -4 || decpt > 16) {
     const mantissa = n === 1 ? digits : digits[0] + '.' + digits.slice(1);

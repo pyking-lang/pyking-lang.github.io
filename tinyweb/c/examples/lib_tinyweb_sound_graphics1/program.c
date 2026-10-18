@@ -4,14 +4,29 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
-#include <float.h>
+
+// Every multiply and add rounded on its own, as on every other target.
+#if defined(__clang__)
+#pragma STDC FP_CONTRACT OFF
+#elif defined(__GNUC__)
+#pragma GCC optimize ("fp-contract=off")
+#endif
 
 #include "tinyweb.h"
 
+#ifndef PYK_TYPE_PYK_C_F_U_
+#define PYK_TYPE_PYK_C_F_U_
+typedef struct pyk_c_F_u_ {
+    void (*fn)(void *);
+    void *env;
+    void (*plain)(void);
+} pyk_c_F_u_;
+#endif
+
 // What the external modules this one imports implement.
-void tinyweb_web_init(int);
-int tinyweb_canvas(int, int);
-int tinyweb_load_sample(const char *);
+const char *tinyweb_canvas(int, int);
+const char *tinyweb_load_sample(const char *);
+void tinyweb_splash(void);
 
 static const char *pyk_int_str(int n)
 {
@@ -20,7 +35,6 @@ static const char *pyk_int_str(int n)
     return out;
 }
 
-// Concatenation allocates and never frees: Pyking has no ownership to compile into a free.
 static const char *pyk_concat(const char *a, const char *b)
 {
     size_t la = strlen(a);
@@ -31,100 +45,71 @@ static const char *pyk_concat(const char *a, const char *b)
     return result;
 }
 
-// A Float is written by this rather than by a printf conversion: no host spells a double the way Pyking does. It allocates and never frees, as concatenation does.
-static const char *pyk_float_str(double x)
+static pyk_c_F_u_ pyk_mk_F_u_(void (*fn)(void *), void *env, void (*plain)(void))
 {
-    char buf[64];
-    char digits[32];
-    char *out = malloc(64);
-    double a;
-    int negative, p, at, i, n, decpt, k;
-    const char *e;
-    if (x != x) { strcpy(out, "nan"); return out; }
-    if (x > DBL_MAX) { strcpy(out, "inf"); return out; }
-    if (x < -DBL_MAX) { strcpy(out, "-inf"); return out; }
-    negative = x < 0.0 || (x == 0.0 && 1.0 / x < 0.0);
-    a = negative ? -x : x;
-    if (a == 0.0) { strcpy(out, negative ? "-0.0" : "0.0"); return out; }
-    for (p = 0; p < 16; p++) {
-        sprintf(buf, "%.*e", p, a);
-        if (strtod(buf, NULL) == a) break;
-    }
-    if (p == 16) sprintf(buf, "%.*e", 16, a);
-    e = strchr(buf, 'e');
-    at = (int)(e - buf);
-    n = 0;
-    for (i = 0; i < at; i++) if (buf[i] != '.') digits[n++] = buf[i];
-    while (n > 1 && digits[n - 1] == '0') n--;
-    digits[n] = '\0';
-    decpt = atoi(e + 1) + 1;
-    k = 0;
-    if (negative) out[k++] = '-';
-    if (decpt <= -4 || decpt > 16) {
-        out[k++] = digits[0];
-        if (n > 1) { out[k++] = '.'; strcpy(out + k, digits + 1); k += n - 1; }
-        sprintf(out + k, "e%d", decpt - 1);
-        return out;
-    }
-    if (decpt <= 0) {
-        out[k++] = '0';
-        out[k++] = '.';
-        for (i = 0; i < -decpt; i++) out[k++] = '0';
-        strcpy(out + k, digits);
-        return out;
-    }
-    if (decpt >= n) {
-        strcpy(out + k, digits);
-        k += n;
-        for (i = 0; i < decpt - n; i++) out[k++] = '0';
-        strcpy(out + k, ".0");
-        return out;
-    }
-    for (i = 0; i < decpt; i++) out[k++] = digits[i];
-    out[k++] = '.';
-    strcpy(out + k, digits + decpt);
-    return out;
+    pyk_c_F_u_ v;
+    v.fn = fn;
+    v.env = env;
+    v.plain = plain;
+    return v;
 }
 
-// What the top level binds, where every function can read it; the top level below is what fills each of them in.
-static int kick;
-static int snare;
-static int canvas;
+static const char *kick;
+static const char *snare;
+static const char *canvas;
 static int presses;
 
 // Declared ahead of their definitions: a Pyking function may be called before it is written.
 static void play_kick(void);
 static void play_sound(void);
 
+static void pyk_w_play_kick(void *env)
+{
+    (void)env;
+    play_kick();
+}
+
+static void pyk_w_play_sound(void *env)
+{
+    (void)env;
+    play_sound();
+}
+
 static void play_kick(void)
 {
-    double tmp1;
-    double tmp2;
-    (tmp1 = tinyweb_play__default__at(), tmp2 = tinyweb_play__default__volume(), tinyweb_play(kick, tmp1, tmp2, tinyweb_play__default__rate()));
+    double pyk_t6;
+    double pyk_t7;
+    (pyk_t6 = tinyweb_play__default__at(), pyk_t7 = tinyweb_play__default__volume(), (tinyweb_play(kick, pyk_t6, pyk_t7, tinyweb_play__default__rate()), 0));
 }
 
 static void play_sound(void)
 {
-    double tmp3;
+    double pyk_t8;
     presses = presses + 1;
     printf("%s\n", pyk_concat("snare, press ", pyk_int_str(presses)));
-    (tmp3 = tinyweb_play__default__at(), tinyweb_play(snare, tmp3, 0.5, tinyweb_play__default__rate()));
+    (pyk_t8 = tinyweb_play__default__at(), (tinyweb_play(snare, pyk_t8, 0.5, tinyweb_play__default__rate()), 0));
 }
 
 int main(void)
 {
+    const char *pyk_t1;
+    int pyk_t2;
+    const char *pyk_t3;
+    const char *pyk_t4;
+    int pyk_t5;
     tinyweb_init();
     tinyweb_web_init(0);
     kick = tinyweb_load_sample("kick1.wav");
     snare = tinyweb_load_sample("snare1.wav");
     canvas = tinyweb_canvas(400, 200);
-    tinyweb_circle(canvas, 100, 50, 30, "#ff0000");
-    tinyweb_circle(canvas, 100, 50, 20, tinyweb_circle__default__color());
+    (pyk_t1 = tinyweb_circle__default__outline(), pyk_t2 = tinyweb_circle__default__outline_width(), (tinyweb_circle(canvas, 100, 50, 30, "#ff0000", pyk_t1, pyk_t2, tinyweb_circle__default__alpha()), 0));
+    (pyk_t3 = tinyweb_circle__default__color(), pyk_t4 = tinyweb_circle__default__outline(), pyk_t5 = tinyweb_circle__default__outline_width(), (tinyweb_circle(canvas, 100, 50, 20, pyk_t3, pyk_t4, pyk_t5, tinyweb_circle__default__alpha()), 0));
     presses = 0;
-    tinyweb_button("Play kick", play_kick);
-    tinyweb_button("Play snare", play_sound);
+    tinyweb_button("Play kick", pyk_mk_F_u_(pyk_w_play_kick, NULL, play_kick));
+    tinyweb_button("Play snare", pyk_mk_F_u_(pyk_w_play_sound, NULL, play_sound));
     tinyweb_button("Does nothing", tinyweb_button__default__on_click());
     printf("%s\n", "built the page");
+    tinyweb_splash();
 
     return 0;
 }

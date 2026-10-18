@@ -1,0 +1,1190 @@
+<!DOCTYPE html><html lang="en" dir="ltr" data-theme="dark" data-has-sidebar class="astro-g5ptsecz"><head><meta charset="utf-8"/><meta name="viewport" content="width=device-width, initial-scale=1"/><title>math | Pyking</title><link rel="canonical" href="https://pyking.org/libraries/math/"/><link rel="sitemap" href="/sitemap-index.xml"/><script type="module" src="/site/cells.js"></script><script>try { if (localStorage.getItem('starlight-theme') === null) localStorage.setItem('starlight-theme', 'dark'); } catch (e) {}</script><link rel="shortcut icon" href="/site/favicon.svg" type="image/svg+xml"/><meta name="generator" content="Astro v7.3.5"/><meta name="generator" content="Starlight v0.42.5"/><meta property="og:title" content="math"/><meta property="og:type" content="article"/><meta property="og:url" content="https://pyking.org/libraries/math/"/><meta property="og:locale" content="en"/><meta property="og:description" content="Numbers: trigonometry in degrees and in radians, powers and logarithms, rounding to an Int, and helpers for drawing and games."/><meta property="og:site_name" content="Pyking"/><meta name="twitter:card" content="summary_large_image"/><meta name="description" content="Numbers: trigonometry in degrees and in radians, powers and logarithms, rounding to an Int, and helpers for drawing and games."/><script>
+	window.StarlightThemeProvider = (() => {
+		const storedTheme =
+			typeof localStorage !== 'undefined' && localStorage.getItem('starlight-theme');
+		const theme =
+			storedTheme ||
+			(window.matchMedia('(prefers-color-scheme: light)').matches ? 'light' : 'dark');
+		document.documentElement.dataset.theme = theme === 'light' ? 'light' : 'dark';
+		return {
+			updatePickers(theme = storedTheme || 'auto') {
+				document.querySelectorAll('starlight-theme-select').forEach((picker) => {
+					const select = picker.querySelector('select');
+					if (select) select.value = theme;
+					/** @type {HTMLTemplateElement | null} */
+					const tmpl = document.querySelector(`#theme-icons`);
+					const newIcon = tmpl && tmpl.content.querySelector('.' + theme);
+					if (newIcon) {
+						const oldIcon = picker.querySelector('svg.label-icon');
+						if (oldIcon) {
+							oldIcon.replaceChildren(...newIcon.cloneNode(true).childNodes);
+						}
+					}
+				});
+			},
+		};
+	})();
+</script><template id="theme-icons"><svg aria-hidden="true" class="light astro-hkc32dio" width="16" height="16" viewBox="0 0 24 24" fill="currentColor" style="--sl-icon-size: 1em;"><path d="M5 12a1 1 0 0 0-1-1H3a1 1 0 0 0 0 2h1a1 1 0 0 0 1-1Zm.64 5-.71.71a1 1 0 0 0 0 1.41 1 1 0 0 0 1.41 0l.71-.71A1 1 0 0 0 5.64 17ZM12 5a1 1 0 0 0 1-1V3a1 1 0 0 0-2 0v1a1 1 0 0 0 1 1Zm5.66 2.34a1 1 0 0 0 .7-.29l.71-.71a1 1 0 1 0-1.41-1.41l-.66.71a1 1 0 0 0 0 1.41 1 1 0 0 0 .66.29Zm-12-.29a1 1 0 0 0 1.41 0 1 1 0 0 0 0-1.41l-.71-.71a1.004 1.004 0 1 0-1.43 1.41l.73.71ZM21 11h-1a1 1 0 0 0 0 2h1a1 1 0 0 0 0-2Zm-2.64 6A1 1 0 0 0 17 18.36l.71.71a1 1 0 0 0 1.41 0 1 1 0 0 0 0-1.41l-.76-.66ZM12 6.5a5.5 5.5 0 1 0 5.5 5.5A5.51 5.51 0 0 0 12 6.5Zm0 9a3.5 3.5 0 1 1 0-7 3.5 3.5 0 0 1 0 7Zm0 3.5a1 1 0 0 0-1 1v1a1 1 0 0 0 2 0v-1a1 1 0 0 0-1-1Z"/></svg><svg aria-hidden="true" class="dark astro-hkc32dio" width="16" height="16" viewBox="0 0 24 24" fill="currentColor" style="--sl-icon-size: 1em;"><path d="M21.64 13a1 1 0 0 0-1.05-.14 8.049 8.049 0 0 1-3.37.73 8.15 8.15 0 0 1-8.14-8.1 8.59 8.59 0 0 1 .25-2A1 1 0 0 0 8 2.36a10.14 10.14 0 1 0 14 11.69 1 1 0 0 0-.36-1.05Zm-9.5 6.69A8.14 8.14 0 0 1 7.08 5.22v.27a10.15 10.15 0 0 0 10.14 10.14 9.784 9.784 0 0 0 2.1-.22 8.11 8.11 0 0 1-7.18 4.32v-.04Z"/></svg><svg aria-hidden="true" class="auto astro-hkc32dio" width="16" height="16" viewBox="0 0 24 24" fill="currentColor" style="--sl-icon-size: 1em;"><path d="M21 14h-1V7a3 3 0 0 0-3-3H7a3 3 0 0 0-3 3v7H3a1 1 0 0 0-1 1v2a3 3 0 0 0 3 3h14a3 3 0 0 0 3-3v-2a1 1 0 0 0-1-1ZM6 7a1 1 0 0 1 1-1h10a1 1 0 0 1 1 1v7H6V7Zm14 10a1 1 0 0 1-1 1H5a1 1 0 0 1-1-1v-1h16v1Z"/></svg></template><link rel="stylesheet" href="/_astro/print.ehPL0gv-.css" media="print"><link rel="stylesheet" href="/_astro/middleware.CytdhB19.css"><script type="module" src="/_astro/page.Dwipeu-R.js"></script></head><body class="astro-g5ptsecz"><a class="sl-skip-link astro-qb7clj6f" href="#_top">Skip to content</a><div class="page sl-flex astro-yntsjkba"><header class="header astro-yntsjkba"><div class="pyking-header"><div class="pyking-header-left"><a href="/" class="site-title sl-flex astro-6rvad3va"><img class="astro-6rvad3va" alt="Pyking" src="/_astro/logo.C9hvHOpV.svg" width="64" height="64"><span class="astro-6rvad3va" translate="no">Pyking</span></a><nav class="pyking-nav" aria-label="Sections"><a href="/install/">Install</a><a href="/getstarted/overview/">Getting started</a><a href="/documentation/language/">Documentation</a><a href="/libraries/" aria-current="page">Libraries</a><a href="/playground/">Playground</a></nav></div><div class="pyking-header-right print:hidden"><site-search class=" astro-b5kgnn7o" data-translations="{&quot;placeholder&quot;:&quot;Search&quot;}"><button data-open-modal disabled aria-label="Search" aria-keyshortcuts="Control+K" class="astro-b5kgnn7o"><svg aria-hidden="true" class="astro-b5kgnn7o astro-hkc32dio" width="16" height="16" viewBox="0 0 24 24" fill="currentColor" style="--sl-icon-size: 1em;"><path d="M21.71 20.29 18 16.61A9 9 0 1 0 16.61 18l3.68 3.68a.999.999 0 0 0 1.42 0 1 1 0 0 0 0-1.39ZM11 18a7 7 0 1 1 0-14 7 7 0 0 1 0 14Z"/></svg><span class="sl-hidden md:sl-block astro-b5kgnn7o" aria-hidden="true">Search</span><kbd class="sl-hidden md:sl-flex astro-b5kgnn7o" style="display: none;"><kbd class="astro-b5kgnn7o">Ctrl</kbd><kbd class="astro-b5kgnn7o">K</kbd></kbd></button><dialog style="padding:0" aria-label="Search" class="astro-b5kgnn7o"><div class="dialog-frame sl-flex astro-b5kgnn7o"><button data-close-modal class="sl-flex md:sl-hidden astro-b5kgnn7o">Cancel</button><div class="search-container astro-b5kgnn7o"><div id="starlight__search" class="astro-b5kgnn7o"></div></div></div></dialog></site-search><script>
+	(() => {
+		const openBtn = document.querySelector('button[data-open-modal]');
+		const shortcut = openBtn?.querySelector('kbd');
+		if (!openBtn || !(shortcut instanceof HTMLElement)) return;
+		const platformKey = shortcut.querySelector('kbd');
+		if (platformKey && /(Mac|iPhone|iPod|iPad)/i.test(navigator.platform)) {
+			platformKey.textContent = '⌘';
+			openBtn.setAttribute('aria-keyshortcuts', 'Meta+K');
+		}
+		shortcut.style.display = '';
+	})();
+</script><script type="module" src="/_astro/Search.astro_astro_type_script_index_0_lang.Bumivpjo.js"></script><div class="sl-hidden md:sl-flex"><starlight-theme-select><label style="--sl-select-width: 6.25em" class="astro-2z5xp7gb"><span class="sr-only astro-2z5xp7gb">Select theme</span><svg aria-hidden="true" class="icon label-icon astro-2z5xp7gb astro-hkc32dio" width="16" height="16" viewBox="0 0 24 24" fill="currentColor" style="--sl-icon-size: 1em;"><path d="M21 14h-1V7a3 3 0 0 0-3-3H7a3 3 0 0 0-3 3v7H3a1 1 0 0 0-1 1v2a3 3 0 0 0 3 3h14a3 3 0 0 0 3-3v-2a1 1 0 0 0-1-1ZM6 7a1 1 0 0 1 1-1h10a1 1 0 0 1 1 1v7H6V7Zm14 10a1 1 0 0 1-1 1H5a1 1 0 0 1-1-1v-1h16v1Z"/></svg><select autocomplete="off" class="astro-2z5xp7gb"><option value="dark" class="astro-2z5xp7gb">Dark</option><option value="light" class="astro-2z5xp7gb">Light</option><option value="auto" selected class="astro-2z5xp7gb">Auto</option></select><svg aria-hidden="true" class="icon caret astro-2z5xp7gb astro-hkc32dio" width="16" height="16" viewBox="0 0 24 24" fill="currentColor" style="--sl-icon-size: 1em;"><path d="M17 9.17a1 1 0 0 0-1.41 0L12 12.71 8.46 9.17a1 1 0 1 0-1.41 1.42l4.24 4.24a1.002 1.002 0 0 0 1.42 0L17 10.59a1.002 1.002 0 0 0 0-1.42Z"/></svg></label></starlight-theme-select><script>
+	StarlightThemeProvider.updatePickers();
+</script><script type="module">var e=`starlight-theme`,t=e=>e===`auto`||e===`dark`||e===`light`?e:`auto`,n=()=>t(typeof localStorage<`u`&&localStorage.getItem(e));function r(t){typeof localStorage<`u`&&localStorage.setItem(e,t===`light`||t===`dark`?t:``)}var i=()=>matchMedia(`(prefers-color-scheme: light)`).matches?`light`:`dark`;function a(e){StarlightThemeProvider.updatePickers(e),document.documentElement.dataset.theme=e===`auto`?i():e,r(e)}matchMedia(`(prefers-color-scheme: light)`).addEventListener(`change`,()=>{n()===`auto`&&a(`auto`)});var o=class extends HTMLElement{constructor(){super(),a(n()),this.querySelector(`select`)?.addEventListener(`change`,e=>{e.currentTarget instanceof HTMLSelectElement&&a(t(e.currentTarget.value))})}};customElements.define(`starlight-theme-select`,o);</script></div><a class="pyking-github" href="https://github.com/pyking-lang" title="Pyking on GitHub"><span class="sr-only">GitHub</span><svg aria-hidden="true" viewBox="0 0 24 24" width="22" height="22" fill="currentColor"><path d="M12 .3a12 12 0 0 0-3.8 23.4c.6.1.8-.3.8-.6v-2c-3.3.7-4-1.6-4-1.6-.6-1.4-1.4-1.8-1.4-1.8-1-.7.1-.7.1-.7 1.2.1 1.8 1.2 1.8 1.2 1 1.8 2.8 1.3 3.5 1 0-.8.4-1.3.7-1.6-2.7-.3-5.5-1.3-5.5-6 0-1.2.5-2.3 1.3-3.1-.2-.4-.6-1.6 0-3.2 0 0 1-.3 3.4 1.2a11.5 11.5 0 0 1 6 0c2.3-1.5 3.3-1.2 3.3-1.2.6 1.6.2 2.8.1 3.2.8.8 1.3 1.9 1.3 3.1 0 4.6-2.8 5.6-5.5 5.9.5.4.9 1.1.9 2.2v3.3c0 .3.1.7.8.6A12 12 0 0 0 12 .3"></path></svg></a></div></div></header><nav class="sidebar print:hidden astro-yntsjkba" aria-label="Main"><button popovertarget="starlight__sidebar" class="sl-menu-button sl-flex md:sl-hidden print:hidden astro-r2osgdlg"><svg aria-hidden="true" class="open-menu astro-r2osgdlg astro-hkc32dio" width="16" height="16" viewBox="0 0 24 24" fill="currentColor" style="--sl-icon-size: 1em;"><path d="M3 8h18a1 1 0 1 0 0-2H3a1 1 0 0 0 0 2Zm18 8H3a1 1 0 0 0 0 2h18a1 1 0 0 0 0-2Zm0-5H3a1 1 0 0 0 0 2h18a1 1 0 0 0 0-2Z"/></svg><svg aria-hidden="true" class="close-menu astro-r2osgdlg astro-hkc32dio" width="16" height="16" viewBox="0 0 24 24" fill="currentColor" style="--sl-icon-size: 1em;"><path d="m13.41 12 6.3-6.29a1.004 1.004 0 1 0-1.42-1.42L12 10.59l-6.29-6.3a1.004 1.004 0 0 0-1.42 1.42l6.3 6.29-6.3 6.29a1 1 0 0 0 0 1.42.998.998 0 0 0 1.42 0l6.29-6.3 6.29 6.3a.999.999 0 0 0 1.42 0 1 1 0 0 0 0-1.42L13.41 12Z"/></svg><span class="sr-only astro-r2osgdlg">Menu</span></button><script type="module">var e=class extends HTMLElement{constructor(){super();let e=matchMedia(`(min-width: 50em)`),t=()=>{this.popover=e.matches?null:`auto`};t(),e.addEventListener(`change`,()=>t()),this.addEventListener(`toggle`,({newState:e})=>this.trapFocus(e===`open`))}trapFocus(e){document.querySelectorAll(`.main-frame, .sl-skip-link`).forEach(t=>{t.toggleAttribute(`inert`,e)})}};customElements.define(`sl-sidebar-pane`,e);</script><script type="module">var e=class extends HTMLElement{constructor(){super();let e=this.querySelector(`select`);e&&(e.addEventListener(`change`,e=>{e.currentTarget instanceof HTMLSelectElement&&(window.location.pathname=e.currentTarget.value)}),window.addEventListener(`pageshow`,t=>{if(!t.persisted)return;let n=e.querySelector(`option[selected]`)?.index;n!==e.selectedIndex&&(e.selectedIndex=n??0)}))}};customElements.define(`starlight-lang-select`,e);</script><sl-sidebar-pane popover id="starlight__sidebar" class="sidebar-pane astro-yntsjkba"><div class="sidebar-content sl-flex astro-yntsjkba"><nav class="pyking-sidebar" aria-label="Libraries"><p class="pyking-sidebar-title">Libraries</p><ul><li><a href="/libraries/">Overview</a></li><li><a href="/libraries/fs/">fs</a></li><li><a href="/libraries/io/">io</a></li><li><a href="/libraries/math/" aria-current="page">math</a><ul class="pyking-sidebar-headings"><li><a href="#e">e</a></li><li><a href="#inf">inf</a></li><li><a href="#nan">nan</a></li><li><a href="#pi">pi</a></li><li><a href="#tau">tau</a></li><li><a href="#acos">acos</a></li><li><a href="#acos_rad">acos_rad</a></li><li><a href="#asin">asin</a></li><li><a href="#asin_rad">asin_rad</a></li><li><a href="#atan">atan</a></li><li><a href="#atan2">atan2</a></li><li><a href="#atan2_rad">atan2_rad</a></li><li><a href="#atan_rad">atan_rad</a></li><li><a href="#cbrt">cbrt</a></li><li><a href="#ceil">ceil</a></li><li><a href="#cos">cos</a></li><li><a href="#cos_rad">cos_rad</a></li><li><a href="#cosh">cosh</a></li><li><a href="#degrees">degrees</a></li><li><a href="#distance">distance</a></li><li><a href="#exp">exp</a></li><li><a href="#floatabs">float::abs</a></li><li><a href="#floatclamp">float::clamp</a></li><li><a href="#floatmax">float::max</a></li><li><a href="#floatmin">float::min</a></li><li><a href="#floatmod">float::mod</a></li><li><a href="#floatsign">float::sign</a></li><li><a href="#floor">floor</a></li><li><a href="#gcd">gcd</a></li><li><a href="#hypot">hypot</a></li><li><a href="#intabs">int::abs</a></li><li><a href="#intclamp">int::clamp</a></li><li><a href="#intmax">int::max</a></li><li><a href="#intmin">int::min</a></li><li><a href="#intmod">int::mod</a></li><li><a href="#intsign">int::sign</a></li><li><a href="#is_finite">is_finite</a></li><li><a href="#is_nan">is_nan</a></li><li><a href="#lcm">lcm</a></li><li><a href="#lerp">lerp</a></li><li><a href="#log">log</a></li><li><a href="#log10">log10</a></li><li><a href="#log2">log2</a></li><li><a href="#map_range">map_range</a></li><li><a href="#pow">pow</a></li><li><a href="#radians">radians</a></li><li><a href="#round">round</a></li><li><a href="#sin">sin</a></li><li><a href="#sin_rad">sin_rad</a></li><li><a href="#sinh">sinh</a></li><li><a href="#sqrt">sqrt</a></li><li><a href="#tan">tan</a></li><li><a href="#tan_rad">tan_rad</a></li><li><a href="#tanh">tanh</a></li><li><a href="#trunc">trunc</a></li></ul></li><li><a href="/libraries/random/">random</a></li><li><a href="/libraries/sys/">sys</a></li><li><a href="/libraries/time/">time</a></li><li><a href="/libraries/tinyweb/">tinyweb</a></li></ul></nav><div class="md:sl-hidden"><div class="mobile-preferences sl-flex astro-p4azlveh"><div class="social-icons astro-p4azlveh"></div><starlight-theme-select><label style="--sl-select-width: 6.25em" class="astro-2z5xp7gb"><span class="sr-only astro-2z5xp7gb">Select theme</span><svg aria-hidden="true" class="icon label-icon astro-2z5xp7gb astro-hkc32dio" width="16" height="16" viewBox="0 0 24 24" fill="currentColor" style="--sl-icon-size: 1em;"><path d="M21 14h-1V7a3 3 0 0 0-3-3H7a3 3 0 0 0-3 3v7H3a1 1 0 0 0-1 1v2a3 3 0 0 0 3 3h14a3 3 0 0 0 3-3v-2a1 1 0 0 0-1-1ZM6 7a1 1 0 0 1 1-1h10a1 1 0 0 1 1 1v7H6V7Zm14 10a1 1 0 0 1-1 1H5a1 1 0 0 1-1-1v-1h16v1Z"/></svg><select autocomplete="off" class="astro-2z5xp7gb"><option value="dark" class="astro-2z5xp7gb">Dark</option><option value="light" class="astro-2z5xp7gb">Light</option><option value="auto" selected class="astro-2z5xp7gb">Auto</option></select><svg aria-hidden="true" class="icon caret astro-2z5xp7gb astro-hkc32dio" width="16" height="16" viewBox="0 0 24 24" fill="currentColor" style="--sl-icon-size: 1em;"><path d="M17 9.17a1 1 0 0 0-1.41 0L12 12.71 8.46 9.17a1 1 0 1 0-1.41 1.42l4.24 4.24a1.002 1.002 0 0 0 1.42 0L17 10.59a1.002 1.002 0 0 0 0-1.42Z"/></svg></label></starlight-theme-select><script>
+	StarlightThemeProvider.updatePickers();
+</script></div></div></div></sl-sidebar-pane></nav><div class="main-frame astro-yntsjkba"><script type="module">var e=document.getElementById(`starlight__sidebar`),t=e?.querySelector(`sl-sidebar-state-persist`),n=`sl-sidebar-state`,r=()=>{let r=[],i=t?.dataset.hash||``;try{let e=sessionStorage.getItem(n),t=JSON.parse(e||`{}`);Array.isArray(t.open)&&t.hash===i&&(r=t.open)}catch{}return{hash:i,open:r,scroll:e?.scrollTop||0}},i=e=>{try{sessionStorage.setItem(n,JSON.stringify(e))}catch{}},a=()=>i(r()),o=(e,t)=>{let n=r();n.open[t]=e,i(n)};t?.addEventListener(`click`,e=>{if(!(e.target instanceof Element))return;let t=e.target.closest(`summary`)?.closest(`details`);if(!t)return;let n=t.querySelector(`sl-sidebar-restore`),r=parseInt(n?.dataset.index||``);isNaN(r)||o(!t.open,r)}),addEventListener(`visibilitychange`,()=>{document.visibilityState===`hidden`&&a()});</script><div class="lg:sl-flex astro-lrzkfocr"><div class="main-pane astro-lrzkfocr"><main data-pagefind-body class="astro-g5ptsecz" lang="en" dir="ltr"><div class="content-panel astro-a7po4psb"><div class="sl-container astro-a7po4psb"><h1 id="_top" class="astro-bebwqqxs">math</h1></div></div><div class="content-panel astro-a7po4psb"><div class="sl-container astro-a7po4psb"><div class="sl-markdown-content"><p>Numbers: trigonometry in degrees and in radians, powers and
+logarithms, rounding to an Int, and helpers for drawing and games.</p>
+<p>Angles are in <strong>degrees</strong>: <code>sin(90.0)</code> is <code>1.0</code>. Each trigonometric
+function has a twin ending in <code>_rad</code> that works in radians, and
+<code>radians</code> and <code>degrees</code> convert between the two. <code>abs</code>, <code>min</code>, <code>max</code>,
+<code>clamp</code>, <code>sign</code> and <code>mod</code> take two Ints or two Floats and answer the
+same type; everything else takes and answers Floats, so an Int is
+passed as <code>float(n)</code>.</p>
+<div class="expressive-code"><link rel="stylesheet" href="/_astro/ec.w36nc.css"><script type="module" src="/_astro/ec.0vx5m.js"></script><figure class="frame not-content"><figcaption class="header"></figcaption><pre data-language="pyking"><code><div class="ec-line"><div class="code"><span style="--0:#C792EA;--1:#8844AE">import</span><span style="--0:#D6DEEB;--1:#403F53"> math</span></div></div></code></pre><div class="copy"><div aria-live="polite"></div><button title="Copy to clipboard" data-copied="Copied!" data-code="import math"><div></div></button></div></figure></div>
+<div class="pyk-api">
+<h2 id="e">e</h2>
+<pre class="pyk-sig"><code><span class="n">e</span>: <span class="t">Float</span> = 2.718281828459045</code></pre>
+<p>Euler’s number, the base of the natural logarithm.</p>
+<p class="pyk-api-label">Example</p>
+<div class="pkn-notebook pkn-embedded not-content"><div class="pkn-fragment" data-markdown="&#x60;&#x60;&#x60;pyking
+import math
+print(math.e)
+&#x60;&#x60;&#x60;
+
+&#x60;&#x60;&#x60;stdout visible = true
+2.718281828459045
+&#x60;&#x60;&#x60;"></div></div>
+</div>
+<div class="pyk-api">
+<h2 id="inf">inf</h2>
+<pre class="pyk-sig"><code><span class="n">inf</span>: <span class="t">Float</span> = 1.0e999</code></pre>
+<p>Positive infinity, larger than every other Float. <code>-math.inf</code> is
+negative infinity.</p>
+<p class="pyk-api-label">Example</p>
+<div class="pkn-notebook pkn-embedded not-content"><div class="pkn-fragment" data-markdown="&#x60;&#x60;&#x60;pyking
+import math
+print(math.inf, -math.inf, 1.0e300 < math.inf)
+&#x60;&#x60;&#x60;
+
+&#x60;&#x60;&#x60;stdout visible = true
+inf -inf true
+&#x60;&#x60;&#x60;"></div></div>
+</div>
+<div class="pyk-api">
+<h2 id="nan">nan</h2>
+<pre class="pyk-sig"><code><span class="n">nan</span>: <span class="t">Float</span> = 0.0 / 0.0</code></pre>
+<p>Not a number: what an operation with no answer gives, such as
+<code>0.0 / 0.0</code>. A NaN is equal to nothing, itself included, so test for
+one with <code>is_nan</code>.</p>
+<p class="pyk-api-label">Example</p>
+<div class="pkn-notebook pkn-embedded not-content"><div class="pkn-fragment" data-markdown="&#x60;&#x60;&#x60;pyking
+import math
+print(math.nan, math.nan == math.nan, math.is_nan(math.nan))
+&#x60;&#x60;&#x60;
+
+&#x60;&#x60;&#x60;stdout visible = true
+nan false true
+&#x60;&#x60;&#x60;"></div></div>
+</div>
+<div class="pyk-api">
+<h2 id="pi">pi</h2>
+<pre class="pyk-sig"><code><span class="n">pi</span>: <span class="t">Float</span> = 3.141592653589793</code></pre>
+<p>The ratio of a circle’s circumference to its diameter, π.</p>
+<p class="pyk-api-label">Example</p>
+<div class="pkn-notebook pkn-embedded not-content"><div class="pkn-fragment" data-markdown="&#x60;&#x60;&#x60;pyking
+import math
+print(math.pi)
+&#x60;&#x60;&#x60;
+
+&#x60;&#x60;&#x60;stdout visible = true
+3.141592653589793
+&#x60;&#x60;&#x60;"></div></div>
+</div>
+<div class="pyk-api">
+<h2 id="tau">tau</h2>
+<pre class="pyk-sig"><code><span class="n">tau</span>: <span class="t">Float</span> = 6.283185307179586</code></pre>
+<p>A whole turn in radians, 2π.</p>
+<p class="pyk-api-label">Example</p>
+<div class="pkn-notebook pkn-embedded not-content"><div class="pkn-fragment" data-markdown="&#x60;&#x60;&#x60;pyking
+import math
+print(math.tau)
+&#x60;&#x60;&#x60;
+
+&#x60;&#x60;&#x60;stdout visible = true
+6.283185307179586
+&#x60;&#x60;&#x60;"></div></div>
+</div>
+<div class="pyk-api">
+<h2 id="acos">acos</h2>
+<pre class="pyk-sig"><code><span class="k">def</span> <span class="n">acos</span>(<span class="p">x</span>: <span class="t">Float</span>) -> <span class="t">Float</span></code></pre>
+<p>The angle in degrees whose cosine is <code>x</code>.</p>
+<p class="pyk-api-label">Parameters</p>
+<ul>
+<li><code>x</code>: the cosine, from -1 to 1.</li>
+</ul>
+<p class="pyk-api-label">Returns</p>
+<p>The angle, from 0 to 180 degrees; NaN when <code>x</code> is outside -1 to 1.</p>
+<p class="pyk-api-label">Example</p>
+<div class="pkn-notebook pkn-embedded not-content"><div class="pkn-fragment" data-markdown="&#x60;&#x60;&#x60;pyking
+import math
+print(math.acos(0.5), math.acos(0.0), math.acos(-1.0))
+&#x60;&#x60;&#x60;
+
+&#x60;&#x60;&#x60;stdout visible = true
+60.0 90.0 180.0
+&#x60;&#x60;&#x60;"></div></div>
+</div>
+<div class="pyk-api">
+<h2 id="acos_rad">acos_rad</h2>
+<pre class="pyk-sig"><code><span class="k">def</span> <span class="n">acos_rad</span>(<span class="p">x</span>: <span class="t">Float</span>) -> <span class="t">Float</span></code></pre>
+<p>The angle in radians whose cosine is <code>x</code>.</p>
+<p class="pyk-api-label">Parameters</p>
+<ul>
+<li><code>x</code>: the cosine, from -1 to 1.</li>
+</ul>
+<p class="pyk-api-label">Returns</p>
+<p>The angle, from 0 to π; NaN when <code>x</code> is outside -1 to 1.</p>
+<p class="pyk-api-label">Example</p>
+<div class="pkn-notebook pkn-embedded not-content"><div class="pkn-fragment" data-markdown="&#x60;&#x60;&#x60;pyking
+import math
+print(math.acos_rad(-1.0) == math.pi)
+&#x60;&#x60;&#x60;
+
+&#x60;&#x60;&#x60;stdout visible = true
+true
+&#x60;&#x60;&#x60;"></div></div>
+</div>
+<div class="pyk-api">
+<h2 id="asin">asin</h2>
+<pre class="pyk-sig"><code><span class="k">def</span> <span class="n">asin</span>(<span class="p">x</span>: <span class="t">Float</span>) -> <span class="t">Float</span></code></pre>
+<p>The angle in degrees whose sine is <code>x</code>.</p>
+<p class="pyk-api-label">Parameters</p>
+<ul>
+<li><code>x</code>: the sine, from -1 to 1.</li>
+</ul>
+<p class="pyk-api-label">Returns</p>
+<p>The angle, from -90 to 90 degrees; NaN when <code>x</code> is outside -1 to 1.</p>
+<p class="pyk-api-label">Example</p>
+<div class="pkn-notebook pkn-embedded not-content"><div class="pkn-fragment" data-markdown="&#x60;&#x60;&#x60;pyking
+import math
+print(math.asin(0.5), math.asin(1.0), math.asin(-1.0))
+&#x60;&#x60;&#x60;
+
+&#x60;&#x60;&#x60;stdout visible = true
+30.0 90.0 -90.0
+&#x60;&#x60;&#x60;"></div></div>
+</div>
+<div class="pyk-api">
+<h2 id="asin_rad">asin_rad</h2>
+<pre class="pyk-sig"><code><span class="k">def</span> <span class="n">asin_rad</span>(<span class="p">x</span>: <span class="t">Float</span>) -> <span class="t">Float</span></code></pre>
+<p>The angle in radians whose sine is <code>x</code>.</p>
+<p class="pyk-api-label">Parameters</p>
+<ul>
+<li><code>x</code>: the sine, from -1 to 1.</li>
+</ul>
+<p class="pyk-api-label">Returns</p>
+<p>The angle, from -π/2 to π/2; NaN when <code>x</code> is outside -1 to 1.</p>
+<p class="pyk-api-label">Example</p>
+<div class="pkn-notebook pkn-embedded not-content"><div class="pkn-fragment" data-markdown="&#x60;&#x60;&#x60;pyking
+import math
+print(math.asin_rad(1.0) == math.pi / 2.0)
+&#x60;&#x60;&#x60;
+
+&#x60;&#x60;&#x60;stdout visible = true
+true
+&#x60;&#x60;&#x60;"></div></div>
+</div>
+<div class="pyk-api">
+<h2 id="atan">atan</h2>
+<pre class="pyk-sig"><code><span class="k">def</span> <span class="n">atan</span>(<span class="p">x</span>: <span class="t">Float</span>) -> <span class="t">Float</span></code></pre>
+<p>The angle in degrees whose tangent is <code>x</code>.</p>
+<p class="pyk-api-label">Parameters</p>
+<ul>
+<li><code>x</code>: the tangent.</li>
+</ul>
+<p class="pyk-api-label">Returns</p>
+<p>The angle, between -90 and 90 degrees.</p>
+<p class="pyk-api-label">Example</p>
+<div class="pkn-notebook pkn-embedded not-content"><div class="pkn-fragment" data-markdown="&#x60;&#x60;&#x60;pyking
+import math
+print(math.atan(1.0), math.atan(-1.0), math.atan(math.inf))
+&#x60;&#x60;&#x60;
+
+&#x60;&#x60;&#x60;stdout visible = true
+45.0 -45.0 90.0
+&#x60;&#x60;&#x60;"></div></div>
+</div>
+<div class="pyk-api">
+<h2 id="atan2">atan2</h2>
+<pre class="pyk-sig"><code><span class="k">def</span> <span class="n">atan2</span>(<span class="p">y</span>: <span class="t">Float</span>, <span class="p">x</span>: <span class="t">Float</span>) -> <span class="t">Float</span></code></pre>
+<p>The direction in degrees from the origin to the point (<code>x</code>, <code>y</code>): the
+angle a line from (0, 0) to that point makes with the x axis. Unlike
+<code>atan(y / x)</code>, it tells all four quarters of the plane apart. Note the
+order: <code>y</code> comes first.</p>
+<p class="pyk-api-label">Parameters</p>
+<ul>
+<li><code>y</code>: the point’s y coordinate.</li>
+<li><code>x</code>: the point’s x coordinate.</li>
+</ul>
+<p class="pyk-api-label">Returns</p>
+<p>The angle, from -180 to 180 degrees.</p>
+<p class="pyk-api-label">Example</p>
+<div class="pkn-notebook pkn-embedded not-content"><div class="pkn-fragment" data-markdown="&#x60;&#x60;&#x60;pyking
+import math
+print(math.atan2(1.0, 1.0), math.atan2(1.0, -1.0), math.atan2(-1.0, 0.0))
+&#x60;&#x60;&#x60;
+
+&#x60;&#x60;&#x60;stdout visible = true
+45.0 135.0 -90.0
+&#x60;&#x60;&#x60;"></div></div>
+</div>
+<div class="pyk-api">
+<h2 id="atan2_rad">atan2_rad</h2>
+<pre class="pyk-sig"><code><span class="k">def</span> <span class="n">atan2_rad</span>(<span class="p">y</span>: <span class="t">Float</span>, <span class="p">x</span>: <span class="t">Float</span>) -> <span class="t">Float</span></code></pre>
+<p>The direction in radians from the origin to the point (<code>x</code>, <code>y</code>), as
+<code>atan2</code> answers it in degrees. <code>y</code> comes first.</p>
+<p class="pyk-api-label">Parameters</p>
+<ul>
+<li><code>y</code>: the point’s y coordinate.</li>
+<li><code>x</code>: the point’s x coordinate.</li>
+</ul>
+<p class="pyk-api-label">Returns</p>
+<p>The angle, from -π to π.</p>
+<p class="pyk-api-label">Example</p>
+<div class="pkn-notebook pkn-embedded not-content"><div class="pkn-fragment" data-markdown="&#x60;&#x60;&#x60;pyking
+import math
+print(math.atan2_rad(0.0, -1.0) == math.pi)
+&#x60;&#x60;&#x60;
+
+&#x60;&#x60;&#x60;stdout visible = true
+true
+&#x60;&#x60;&#x60;"></div></div>
+</div>
+<div class="pyk-api">
+<h2 id="atan_rad">atan_rad</h2>
+<pre class="pyk-sig"><code><span class="k">def</span> <span class="n">atan_rad</span>(<span class="p">x</span>: <span class="t">Float</span>) -> <span class="t">Float</span></code></pre>
+<p>The angle in radians whose tangent is <code>x</code>.</p>
+<p class="pyk-api-label">Parameters</p>
+<ul>
+<li><code>x</code>: the tangent.</li>
+</ul>
+<p class="pyk-api-label">Returns</p>
+<p>The angle, between -π/2 and π/2.</p>
+<p class="pyk-api-label">Example</p>
+<div class="pkn-notebook pkn-embedded not-content"><div class="pkn-fragment" data-markdown="&#x60;&#x60;&#x60;pyking
+import math
+print(math.atan_rad(0.0))
+&#x60;&#x60;&#x60;
+
+&#x60;&#x60;&#x60;stdout visible = true
+0.0
+&#x60;&#x60;&#x60;"></div></div>
+</div>
+<div class="pyk-api">
+<h2 id="cbrt">cbrt</h2>
+<pre class="pyk-sig"><code><span class="k">def</span> <span class="n">cbrt</span>(<span class="p">x</span>: <span class="t">Float</span>) -> <span class="t">Float</span></code></pre>
+<p>The cube root of <code>x</code>.</p>
+<p class="pyk-api-label">Parameters</p>
+<ul>
+<li><code>x</code>: the number, which may be negative.</li>
+</ul>
+<p class="pyk-api-label">Returns</p>
+<p>The root, negative for a negative <code>x</code>, and exact for a perfect cube.</p>
+<p class="pyk-api-label">Example</p>
+<div class="pkn-notebook pkn-embedded not-content"><div class="pkn-fragment" data-markdown="&#x60;&#x60;&#x60;pyking
+import math
+print(math.cbrt(27.0), math.cbrt(-8.0))
+&#x60;&#x60;&#x60;
+
+&#x60;&#x60;&#x60;stdout visible = true
+3.0 -2.0
+&#x60;&#x60;&#x60;"></div></div>
+</div>
+<div class="pyk-api">
+<h2 id="ceil">ceil</h2>
+<pre class="pyk-sig"><code><span class="k">def</span> <span class="n">ceil</span>(<span class="p">x</span>: <span class="t">Float</span>) -> <span class="t">Int</span></code></pre>
+<p>The smallest whole number not less than <code>x</code>, rounding up.</p>
+<p class="pyk-api-label">Parameters</p>
+<ul>
+<li><code>x</code>: the number.</li>
+</ul>
+<p class="pyk-api-label">Returns</p>
+<p>The Int; 0 for a NaN, an infinity, or a number outside the Int range,
+as <code>int</code> answers.</p>
+<p class="pyk-api-label">Example</p>
+<div class="pkn-notebook pkn-embedded not-content"><div class="pkn-fragment" data-markdown="&#x60;&#x60;&#x60;pyking
+import math
+print(math.ceil(2.2), math.ceil(-2.7))
+&#x60;&#x60;&#x60;
+
+&#x60;&#x60;&#x60;stdout visible = true
+3 -2
+&#x60;&#x60;&#x60;"></div></div>
+</div>
+<div class="pyk-api">
+<h2 id="cos">cos</h2>
+<pre class="pyk-sig"><code><span class="k">def</span> <span class="n">cos</span>(<span class="p">angle</span>: <span class="t">Float</span>) -> <span class="t">Float</span></code></pre>
+<p>The cosine of an angle in degrees.</p>
+<p class="pyk-api-label">Parameters</p>
+<ul>
+<li><code>angle</code>: the angle in degrees.</li>
+</ul>
+<p class="pyk-api-label">Returns</p>
+<p>The cosine, from -1 to 1. It is exact at every multiple of 30 degrees:
+<code>cos(60.0)</code> is <code>0.5</code> and <code>cos(90.0)</code> is <code>0.0</code>.</p>
+<p class="pyk-api-label">Example</p>
+<div class="pkn-notebook pkn-embedded not-content"><div class="pkn-fragment" data-markdown="&#x60;&#x60;&#x60;pyking
+import math
+print(math.cos(0.0), math.cos(60.0), math.cos(90.0), math.cos(180.0))
+&#x60;&#x60;&#x60;
+
+&#x60;&#x60;&#x60;stdout visible = true
+1.0 0.5 0.0 -1.0
+&#x60;&#x60;&#x60;"></div></div>
+</div>
+<div class="pyk-api">
+<h2 id="cos_rad">cos_rad</h2>
+<pre class="pyk-sig"><code><span class="k">def</span> <span class="n">cos_rad</span>(<span class="p">angle</span>: <span class="t">Float</span>) -> <span class="t">Float</span></code></pre>
+<p>The cosine of an angle in radians.</p>
+<p class="pyk-api-label">Parameters</p>
+<ul>
+<li><code>angle</code>: the angle in radians.</li>
+</ul>
+<p class="pyk-api-label">Returns</p>
+<p>The cosine, from -1 to 1.</p>
+<p class="pyk-api-label">Example</p>
+<div class="pkn-notebook pkn-embedded not-content"><div class="pkn-fragment" data-markdown="&#x60;&#x60;&#x60;pyking
+import math
+print(math.cos_rad(0.0), math.cos_rad(math.pi))
+&#x60;&#x60;&#x60;
+
+&#x60;&#x60;&#x60;stdout visible = true
+1.0 -1.0
+&#x60;&#x60;&#x60;"></div></div>
+</div>
+<div class="pyk-api">
+<h2 id="cosh">cosh</h2>
+<pre class="pyk-sig"><code><span class="k">def</span> <span class="n">cosh</span>(<span class="p">x</span>: <span class="t">Float</span>) -> <span class="t">Float</span></code></pre>
+<p>The hyperbolic cosine of <code>x</code>.</p>
+<p class="pyk-api-label">Parameters</p>
+<ul>
+<li><code>x</code>: the number.</li>
+</ul>
+<p class="pyk-api-label">Returns</p>
+<p><code>(e^x + e^-x) / 2</code>, at least 1.</p>
+<p class="pyk-api-label">Example</p>
+<div class="pkn-notebook pkn-embedded not-content"><div class="pkn-fragment" data-markdown="&#x60;&#x60;&#x60;pyking
+import math
+print(math.cosh(0.0))
+&#x60;&#x60;&#x60;
+
+&#x60;&#x60;&#x60;stdout visible = true
+1.0
+&#x60;&#x60;&#x60;"></div></div>
+</div>
+<div class="pyk-api">
+<h2 id="degrees">degrees</h2>
+<pre class="pyk-sig"><code><span class="k">def</span> <span class="n">degrees</span>(<span class="p">angle</span>: <span class="t">Float</span>) -> <span class="t">Float</span></code></pre>
+<p>An angle in radians, in degrees.</p>
+<p class="pyk-api-label">Parameters</p>
+<ul>
+<li><code>angle</code>: the angle in radians.</li>
+</ul>
+<p class="pyk-api-label">Returns</p>
+<p>The same angle in degrees: <code>angle * 180 / pi</code>.</p>
+<p class="pyk-api-label">Example</p>
+<div class="pkn-notebook pkn-embedded not-content"><div class="pkn-fragment" data-markdown="&#x60;&#x60;&#x60;pyking
+import math
+print(math.degrees(math.pi))
+&#x60;&#x60;&#x60;
+
+&#x60;&#x60;&#x60;stdout visible = true
+180.0
+&#x60;&#x60;&#x60;"></div></div>
+</div>
+<div class="pyk-api">
+<h2 id="distance">distance</h2>
+<pre class="pyk-sig"><code><span class="k">def</span> <span class="n">distance</span>(<span class="p">x1</span>: <span class="t">Float</span>, <span class="p">y1</span>: <span class="t">Float</span>, <span class="p">x2</span>: <span class="t">Float</span>, <span class="p">y2</span>: <span class="t">Float</span>) -> <span class="t">Float</span></code></pre>
+<p>The distance between the points (<code>x1</code>, <code>y1</code>) and (<code>x2</code>, <code>y2</code>).</p>
+<p class="pyk-api-label">Parameters</p>
+<ul>
+<li><code>x1</code>: the first point’s x coordinate.</li>
+<li><code>y1</code>: the first point’s y coordinate.</li>
+<li><code>x2</code>: the second point’s x coordinate.</li>
+<li><code>y2</code>: the second point’s y coordinate.</li>
+</ul>
+<p class="pyk-api-label">Returns</p>
+<p>The distance, at least 0.</p>
+<p class="pyk-api-label">Example</p>
+<div class="pkn-notebook pkn-embedded not-content"><div class="pkn-fragment" data-markdown="&#x60;&#x60;&#x60;pyking
+import math
+print(math.distance(1.0, 1.0, 4.0, 5.0))
+&#x60;&#x60;&#x60;
+
+&#x60;&#x60;&#x60;stdout visible = true
+5.0
+&#x60;&#x60;&#x60;"></div></div>
+</div>
+<div class="pyk-api">
+<h2 id="exp">exp</h2>
+<pre class="pyk-sig"><code><span class="k">def</span> <span class="n">exp</span>(<span class="p">x</span>: <span class="t">Float</span>) -> <span class="t">Float</span></code></pre>
+<p>e raised to the power <code>x</code>.</p>
+<p class="pyk-api-label">Parameters</p>
+<ul>
+<li><code>x</code>: the exponent.</li>
+</ul>
+<p class="pyk-api-label">Returns</p>
+<p>e^x, always positive.</p>
+<p class="pyk-api-label">Example</p>
+<div class="pkn-notebook pkn-embedded not-content"><div class="pkn-fragment" data-markdown="&#x60;&#x60;&#x60;pyking
+import math
+print(math.exp(0.0), math.exp(1.0) == math.e)
+&#x60;&#x60;&#x60;
+
+&#x60;&#x60;&#x60;stdout visible = true
+1.0 true
+&#x60;&#x60;&#x60;"></div></div>
+</div>
+<div class="pyk-api">
+<h2 id="floatabs">float::abs</h2>
+<pre class="pyk-sig"><code><span class="k">def</span> <span class="n">float::abs</span>(<span class="p">x</span>: <span class="t">Float</span>) -> <span class="t">Float</span></code></pre>
+<p>The size of a Float, without its sign.</p>
+<p class="pyk-api-label">Parameters</p>
+<ul>
+<li><code>x</code>: the number.</li>
+</ul>
+<p class="pyk-api-label">Returns</p>
+<p><code>x</code> when it is at least 0, and <code>-x</code> otherwise; NaN for a NaN.</p>
+<p class="pyk-api-label">Example</p>
+<div class="pkn-notebook pkn-embedded not-content"><div class="pkn-fragment" data-markdown="&#x60;&#x60;&#x60;pyking
+import math
+print(math.abs(-2.5), math.abs(-math.inf))
+&#x60;&#x60;&#x60;
+
+&#x60;&#x60;&#x60;stdout visible = true
+2.5 inf
+&#x60;&#x60;&#x60;"></div></div>
+</div>
+<div class="pyk-api">
+<h2 id="floatclamp">float::clamp</h2>
+<pre class="pyk-sig"><code><span class="k">def</span> <span class="n">float::clamp</span>(<span class="p">x</span>: <span class="t">Float</span>, <span class="p">low</span>: <span class="t">Float</span>, <span class="p">high</span>: <span class="t">Float</span>) -> <span class="t">Float</span></code></pre>
+<p>A Float kept within a range: <code>x</code> itself when it is between <code>low</code> and
+<code>high</code>, and the nearer end when it is outside.</p>
+<p class="pyk-api-label">Parameters</p>
+<ul>
+<li><code>x</code>: the number.</li>
+<li><code>low</code>: the smallest answer.</li>
+<li><code>high</code>: the largest answer, at least <code>low</code>.</li>
+</ul>
+<p class="pyk-api-label">Returns</p>
+<p><code>x</code> limited to <code>low</code> to <code>high</code>; NaN when <code>x</code> is NaN.</p>
+<p class="pyk-api-label">Example</p>
+<div class="pkn-notebook pkn-embedded not-content"><div class="pkn-fragment" data-markdown="&#x60;&#x60;&#x60;pyking
+import math
+print(math.clamp(1.5, 0.0, 1.0), math.clamp(0.25, 0.0, 1.0))
+&#x60;&#x60;&#x60;
+
+&#x60;&#x60;&#x60;stdout visible = true
+1.0 0.25
+&#x60;&#x60;&#x60;"></div></div>
+</div>
+<div class="pyk-api">
+<h2 id="floatmax">float::max</h2>
+<pre class="pyk-sig"><code><span class="k">def</span> <span class="n">float::max</span>(<span class="p">x</span>: <span class="t">Float</span>, <span class="p">y</span>: <span class="t">Float</span>) -> <span class="t">Float</span></code></pre>
+<p>The larger of two Floats.</p>
+<p class="pyk-api-label">Parameters</p>
+<ul>
+<li><code>x</code>: one number.</li>
+<li><code>y</code>: the other.</li>
+</ul>
+<p class="pyk-api-label">Returns</p>
+<p>Whichever is larger; NaN when either is NaN.</p>
+<p class="pyk-api-label">Example</p>
+<div class="pkn-notebook pkn-embedded not-content"><div class="pkn-fragment" data-markdown="&#x60;&#x60;&#x60;pyking
+import math
+print(math.max(1.5, 0.5))
+&#x60;&#x60;&#x60;
+
+&#x60;&#x60;&#x60;stdout visible = true
+1.5
+&#x60;&#x60;&#x60;"></div></div>
+</div>
+<div class="pyk-api">
+<h2 id="floatmin">float::min</h2>
+<pre class="pyk-sig"><code><span class="k">def</span> <span class="n">float::min</span>(<span class="p">x</span>: <span class="t">Float</span>, <span class="p">y</span>: <span class="t">Float</span>) -> <span class="t">Float</span></code></pre>
+<p>The smaller of two Floats.</p>
+<p class="pyk-api-label">Parameters</p>
+<ul>
+<li><code>x</code>: one number.</li>
+<li><code>y</code>: the other.</li>
+</ul>
+<p class="pyk-api-label">Returns</p>
+<p>Whichever is smaller; NaN when either is NaN.</p>
+<p class="pyk-api-label">Example</p>
+<div class="pkn-notebook pkn-embedded not-content"><div class="pkn-fragment" data-markdown="&#x60;&#x60;&#x60;pyking
+import math
+print(math.min(1.5, 0.5))
+&#x60;&#x60;&#x60;
+
+&#x60;&#x60;&#x60;stdout visible = true
+0.5
+&#x60;&#x60;&#x60;"></div></div>
+</div>
+<div class="pyk-api">
+<h2 id="floatmod">float::mod</h2>
+<pre class="pyk-sig"><code><span class="k">def</span> <span class="n">float::mod</span>(<span class="p">x</span>: <span class="t">Float</span>, <span class="p">y</span>: <span class="t">Float</span>) -> <span class="t">Float</span></code></pre>
+<p>The remainder of dividing <code>x</code> by <code>y</code>, rounding the quotient down, so
+that the answer has the sign of <code>y</code>: <code>mod(-90.0, 360.0)</code> is 270.0.</p>
+<p class="pyk-api-label">Parameters</p>
+<ul>
+<li><code>x</code>: the number divided.</li>
+<li><code>y</code>: the number divided by.</li>
+</ul>
+<p class="pyk-api-label">Returns</p>
+<p>A number from 0 up to, but not including, <code>y</code> — or down to it, when
+<code>y</code> is negative; NaN when <code>y</code> is 0 or <code>x</code> is infinite.</p>
+<p class="pyk-api-label">Example</p>
+<div class="pkn-notebook pkn-embedded not-content"><div class="pkn-fragment" data-markdown="&#x60;&#x60;&#x60;pyking
+import math
+print(math.mod(-90.0, 360.0), math.mod(7.5, 2.0))
+&#x60;&#x60;&#x60;
+
+&#x60;&#x60;&#x60;stdout visible = true
+270.0 1.5
+&#x60;&#x60;&#x60;"></div></div>
+</div>
+<div class="pyk-api">
+<h2 id="floatsign">float::sign</h2>
+<pre class="pyk-sig"><code><span class="k">def</span> <span class="n">float::sign</span>(<span class="p">x</span>: <span class="t">Float</span>) -> <span class="t">Float</span></code></pre>
+<p>The sign of a Float.</p>
+<p class="pyk-api-label">Parameters</p>
+<ul>
+<li><code>x</code>: the number.</li>
+</ul>
+<p class="pyk-api-label">Returns</p>
+<p>-1.0 for a negative <code>x</code>, 0.0 for zero, 1.0 for a positive <code>x</code>, and
+NaN for a NaN.</p>
+<p class="pyk-api-label">Example</p>
+<div class="pkn-notebook pkn-embedded not-content"><div class="pkn-fragment" data-markdown="&#x60;&#x60;&#x60;pyking
+import math
+print(math.sign(-2.5), math.sign(0.0), math.sign(math.inf))
+&#x60;&#x60;&#x60;
+
+&#x60;&#x60;&#x60;stdout visible = true
+-1.0 0.0 1.0
+&#x60;&#x60;&#x60;"></div></div>
+</div>
+<div class="pyk-api">
+<h2 id="floor">floor</h2>
+<pre class="pyk-sig"><code><span class="k">def</span> <span class="n">floor</span>(<span class="p">x</span>: <span class="t">Float</span>) -> <span class="t">Int</span></code></pre>
+<p>The largest whole number not greater than <code>x</code>, rounding down.</p>
+<p class="pyk-api-label">Parameters</p>
+<ul>
+<li><code>x</code>: the number.</li>
+</ul>
+<p class="pyk-api-label">Returns</p>
+<p>The Int; 0 for a NaN, an infinity, or a number outside the Int range,
+as <code>int</code> answers.</p>
+<p class="pyk-api-label">Example</p>
+<div class="pkn-notebook pkn-embedded not-content"><div class="pkn-fragment" data-markdown="&#x60;&#x60;&#x60;pyking
+import math
+print(math.floor(2.7), math.floor(-2.2))
+&#x60;&#x60;&#x60;
+
+&#x60;&#x60;&#x60;stdout visible = true
+2 -3
+&#x60;&#x60;&#x60;"></div></div>
+</div>
+<div class="pyk-api">
+<h2 id="gcd">gcd</h2>
+<pre class="pyk-sig"><code><span class="k">def</span> <span class="n">gcd</span>(<span class="p">x</span>: <span class="t">Int</span>, <span class="p">y</span>: <span class="t">Int</span>) -> <span class="t">Int</span></code></pre>
+<p>The greatest common divisor of two Ints: the largest number both are
+multiples of.</p>
+<p class="pyk-api-label">Parameters</p>
+<ul>
+<li><code>x</code>: one number.</li>
+<li><code>y</code>: the other.</li>
+</ul>
+<p class="pyk-api-label">Returns</p>
+<p>The divisor, at least 0; <code>gcd(0, 0)</code> is 0.</p>
+<p class="pyk-api-label">Example</p>
+<div class="pkn-notebook pkn-embedded not-content"><div class="pkn-fragment" data-markdown="&#x60;&#x60;&#x60;pyking
+import math
+print(math.gcd(12, 18), math.gcd(-4, 6), math.gcd(7, 0))
+&#x60;&#x60;&#x60;
+
+&#x60;&#x60;&#x60;stdout visible = true
+6 2 7
+&#x60;&#x60;&#x60;"></div></div>
+</div>
+<div class="pyk-api">
+<h2 id="hypot">hypot</h2>
+<pre class="pyk-sig"><code><span class="k">def</span> <span class="n">hypot</span>(<span class="p">x</span>: <span class="t">Float</span>, <span class="p">y</span>: <span class="t">Float</span>) -> <span class="t">Float</span></code></pre>
+<p>The length of the hypotenuse of a right triangle with sides <code>x</code> and
+<code>y</code>: the distance from (0, 0) to (<code>x</code>, <code>y</code>).</p>
+<p class="pyk-api-label">Parameters</p>
+<ul>
+<li><code>x</code>: one side.</li>
+<li><code>y</code>: the other side.</li>
+</ul>
+<p class="pyk-api-label">Returns</p>
+<p><code>sqrt(x * x + y * y)</code>, without overflowing where <code>x * x</code> would.</p>
+<p class="pyk-api-label">Example</p>
+<div class="pkn-notebook pkn-embedded not-content"><div class="pkn-fragment" data-markdown="&#x60;&#x60;&#x60;pyking
+import math
+print(math.hypot(3.0, 4.0))
+&#x60;&#x60;&#x60;
+
+&#x60;&#x60;&#x60;stdout visible = true
+5.0
+&#x60;&#x60;&#x60;"></div></div>
+</div>
+<div class="pyk-api">
+<h2 id="intabs">int::abs</h2>
+<pre class="pyk-sig"><code><span class="k">def</span> <span class="n">int::abs</span>(<span class="p">x</span>: <span class="t">Int</span>) -> <span class="t">Int</span></code></pre>
+<p>The size of an Int, without its sign.</p>
+<p class="pyk-api-label">Parameters</p>
+<ul>
+<li><code>x</code>: the number.</li>
+</ul>
+<p class="pyk-api-label">Returns</p>
+<p><code>x</code> when it is at least 0, and <code>-x</code> otherwise.</p>
+<p class="pyk-api-label">Example</p>
+<div class="pkn-notebook pkn-embedded not-content"><div class="pkn-fragment" data-markdown="&#x60;&#x60;&#x60;pyking
+import math
+print(math.abs(-3), math.abs(3))
+&#x60;&#x60;&#x60;
+
+&#x60;&#x60;&#x60;stdout visible = true
+3 3
+&#x60;&#x60;&#x60;"></div></div>
+</div>
+<div class="pyk-api">
+<h2 id="intclamp">int::clamp</h2>
+<pre class="pyk-sig"><code><span class="k">def</span> <span class="n">int::clamp</span>(<span class="p">x</span>: <span class="t">Int</span>, <span class="p">low</span>: <span class="t">Int</span>, <span class="p">high</span>: <span class="t">Int</span>) -> <span class="t">Int</span></code></pre>
+<p>An Int kept within a range: <code>x</code> itself when it is between <code>low</code> and
+<code>high</code>, and the nearer end when it is outside.</p>
+<p class="pyk-api-label">Parameters</p>
+<ul>
+<li><code>x</code>: the number.</li>
+<li><code>low</code>: the smallest answer.</li>
+<li><code>high</code>: the largest answer, at least <code>low</code>.</li>
+</ul>
+<p class="pyk-api-label">Returns</p>
+<p><code>x</code> limited to <code>low</code> to <code>high</code>.</p>
+<p class="pyk-api-label">Example</p>
+<div class="pkn-notebook pkn-embedded not-content"><div class="pkn-fragment" data-markdown="&#x60;&#x60;&#x60;pyking
+import math
+print(math.clamp(5, 0, 10), math.clamp(-5, 0, 10), math.clamp(15, 0, 10))
+&#x60;&#x60;&#x60;
+
+&#x60;&#x60;&#x60;stdout visible = true
+5 0 10
+&#x60;&#x60;&#x60;"></div></div>
+</div>
+<div class="pyk-api">
+<h2 id="intmax">int::max</h2>
+<pre class="pyk-sig"><code><span class="k">def</span> <span class="n">int::max</span>(<span class="p">x</span>: <span class="t">Int</span>, <span class="p">y</span>: <span class="t">Int</span>) -> <span class="t">Int</span></code></pre>
+<p>The larger of two Ints.</p>
+<p class="pyk-api-label">Parameters</p>
+<ul>
+<li><code>x</code>: one number.</li>
+<li><code>y</code>: the other.</li>
+</ul>
+<p class="pyk-api-label">Returns</p>
+<p>Whichever is larger.</p>
+<p class="pyk-api-label">Example</p>
+<div class="pkn-notebook pkn-embedded not-content"><div class="pkn-fragment" data-markdown="&#x60;&#x60;&#x60;pyking
+import math
+print(math.max(3, 7), math.max(-3, -7))
+&#x60;&#x60;&#x60;
+
+&#x60;&#x60;&#x60;stdout visible = true
+7 -3
+&#x60;&#x60;&#x60;"></div></div>
+</div>
+<div class="pyk-api">
+<h2 id="intmin">int::min</h2>
+<pre class="pyk-sig"><code><span class="k">def</span> <span class="n">int::min</span>(<span class="p">x</span>: <span class="t">Int</span>, <span class="p">y</span>: <span class="t">Int</span>) -> <span class="t">Int</span></code></pre>
+<p>The smaller of two Ints.</p>
+<p class="pyk-api-label">Parameters</p>
+<ul>
+<li><code>x</code>: one number.</li>
+<li><code>y</code>: the other.</li>
+</ul>
+<p class="pyk-api-label">Returns</p>
+<p>Whichever is smaller.</p>
+<p class="pyk-api-label">Example</p>
+<div class="pkn-notebook pkn-embedded not-content"><div class="pkn-fragment" data-markdown="&#x60;&#x60;&#x60;pyking
+import math
+print(math.min(3, 7), math.min(-3, -7))
+&#x60;&#x60;&#x60;
+
+&#x60;&#x60;&#x60;stdout visible = true
+3 -7
+&#x60;&#x60;&#x60;"></div></div>
+</div>
+<div class="pyk-api">
+<h2 id="intmod">int::mod</h2>
+<pre class="pyk-sig"><code><span class="k">def</span> <span class="n">int::mod</span>(<span class="p">x</span>: <span class="t">Int</span>, <span class="p">y</span>: <span class="t">Int</span>) -> <span class="t">Int</span></code></pre>
+<p>The remainder of dividing <code>x</code> by <code>y</code>, rounding the quotient down, so
+that the answer has the sign of <code>y</code>: <code>mod(-1, 360)</code> is 359. That is
+the remainder to use for wrapping around, such as an angle or a
+position on a board.</p>
+<p class="pyk-api-label">Parameters</p>
+<ul>
+<li><code>x</code>: the number divided.</li>
+<li><code>y</code>: the number divided by, not 0.</li>
+</ul>
+<p class="pyk-api-label">Returns</p>
+<p>A number from 0 up to, but not including, <code>y</code> — or down to it, when
+<code>y</code> is negative.</p>
+<p class="pyk-api-label">Example</p>
+<div class="pkn-notebook pkn-embedded not-content"><div class="pkn-fragment" data-markdown="&#x60;&#x60;&#x60;pyking
+import math
+print(math.mod(7, 3), math.mod(-7, 3), math.mod(7, -3))
+&#x60;&#x60;&#x60;
+
+&#x60;&#x60;&#x60;stdout visible = true
+1 2 -2
+&#x60;&#x60;&#x60;"></div></div>
+</div>
+<div class="pyk-api">
+<h2 id="intsign">int::sign</h2>
+<pre class="pyk-sig"><code><span class="k">def</span> <span class="n">int::sign</span>(<span class="p">x</span>: <span class="t">Int</span>) -> <span class="t">Int</span></code></pre>
+<p>The sign of an Int.</p>
+<p class="pyk-api-label">Parameters</p>
+<ul>
+<li><code>x</code>: the number.</li>
+</ul>
+<p class="pyk-api-label">Returns</p>
+<p>-1 for a negative <code>x</code>, 0 for 0, and 1 for a positive <code>x</code>.</p>
+<p class="pyk-api-label">Example</p>
+<div class="pkn-notebook pkn-embedded not-content"><div class="pkn-fragment" data-markdown="&#x60;&#x60;&#x60;pyking
+import math
+print(math.sign(-5), math.sign(0), math.sign(5))
+&#x60;&#x60;&#x60;
+
+&#x60;&#x60;&#x60;stdout visible = true
+-1 0 1
+&#x60;&#x60;&#x60;"></div></div>
+</div>
+<div class="pyk-api">
+<h2 id="is_finite">is_finite</h2>
+<pre class="pyk-sig"><code><span class="k">def</span> <span class="n">is_finite</span>(<span class="p">x</span>: <span class="t">Float</span>) -> <span class="t">Bool</span></code></pre>
+<p>Tells whether <code>x</code> is an ordinary number: neither infinite nor NaN.</p>
+<p class="pyk-api-label">Parameters</p>
+<ul>
+<li><code>x</code>: the number.</li>
+</ul>
+<p class="pyk-api-label">Returns</p>
+<p><code>true</code> unless <code>x</code> is an infinity or a NaN.</p>
+<p class="pyk-api-label">Example</p>
+<div class="pkn-notebook pkn-embedded not-content"><div class="pkn-fragment" data-markdown="&#x60;&#x60;&#x60;pyking
+import math
+print(math.is_finite(1.5), math.is_finite(math.inf), math.is_finite(math.nan))
+&#x60;&#x60;&#x60;
+
+&#x60;&#x60;&#x60;stdout visible = true
+true false false
+&#x60;&#x60;&#x60;"></div></div>
+</div>
+<div class="pyk-api">
+<h2 id="is_nan">is_nan</h2>
+<pre class="pyk-sig"><code><span class="k">def</span> <span class="n">is_nan</span>(<span class="p">x</span>: <span class="t">Float</span>) -> <span class="t">Bool</span></code></pre>
+<p>Tells whether <code>x</code> is NaN.</p>
+<p class="pyk-api-label">Parameters</p>
+<ul>
+<li><code>x</code>: the number.</li>
+</ul>
+<p class="pyk-api-label">Returns</p>
+<p><code>true</code> for a NaN, <code>false</code> for every other Float.</p>
+<p class="pyk-api-label">Example</p>
+<div class="pkn-notebook pkn-embedded not-content"><div class="pkn-fragment" data-markdown="&#x60;&#x60;&#x60;pyking
+import math
+print(math.is_nan(0.0 / 0.0), math.is_nan(1.0))
+&#x60;&#x60;&#x60;
+
+&#x60;&#x60;&#x60;stdout visible = true
+true false
+&#x60;&#x60;&#x60;"></div></div>
+</div>
+<div class="pyk-api">
+<h2 id="lcm">lcm</h2>
+<pre class="pyk-sig"><code><span class="k">def</span> <span class="n">lcm</span>(<span class="p">x</span>: <span class="t">Int</span>, <span class="p">y</span>: <span class="t">Int</span>) -> <span class="t">Int</span></code></pre>
+<p>The least common multiple of two Ints: the smallest number that is a
+multiple of both.</p>
+<p class="pyk-api-label">Parameters</p>
+<ul>
+<li><code>x</code>: one number.</li>
+<li><code>y</code>: the other.</li>
+</ul>
+<p class="pyk-api-label">Returns</p>
+<p>The multiple, at least 0; 0 when either is 0.</p>
+<p class="pyk-api-label">Example</p>
+<div class="pkn-notebook pkn-embedded not-content"><div class="pkn-fragment" data-markdown="&#x60;&#x60;&#x60;pyking
+import math
+print(math.lcm(4, 6), math.lcm(-3, 5), math.lcm(0, 5))
+&#x60;&#x60;&#x60;
+
+&#x60;&#x60;&#x60;stdout visible = true
+12 15 0
+&#x60;&#x60;&#x60;"></div></div>
+</div>
+<div class="pyk-api">
+<h2 id="lerp">lerp</h2>
+<pre class="pyk-sig"><code><span class="k">def</span> <span class="n">lerp</span>(<span class="p">a</span>: <span class="t">Float</span>, <span class="p">b</span>: <span class="t">Float</span>, <span class="p">t</span>: <span class="t">Float</span>) -> <span class="t">Float</span></code></pre>
+<p>The number a fraction <code>t</code> of the way from <code>a</code> to <code>b</code>: <code>a</code> when <code>t</code> is
+0, <code>b</code> when it is 1, and halfway between them when it is 0.5. A <code>t</code>
+outside 0 to 1 goes past the ends.</p>
+<p class="pyk-api-label">Parameters</p>
+<ul>
+<li><code>a</code>: where it starts.</li>
+<li><code>b</code>: where it ends.</li>
+<li><code>t</code>: how far along, usually from 0 to 1.</li>
+</ul>
+<p class="pyk-api-label">Returns</p>
+<p><code>a + (b - a) * t</code>.</p>
+<p class="pyk-api-label">Example</p>
+<div class="pkn-notebook pkn-embedded not-content"><div class="pkn-fragment" data-markdown="&#x60;&#x60;&#x60;pyking
+import math
+print(math.lerp(10.0, 20.0, 0.25), math.lerp(10.0, 20.0, 1.0))
+&#x60;&#x60;&#x60;
+
+&#x60;&#x60;&#x60;stdout visible = true
+12.5 20.0
+&#x60;&#x60;&#x60;"></div></div>
+</div>
+<div class="pyk-api">
+<h2 id="log">log</h2>
+<pre class="pyk-sig"><code><span class="k">def</span> <span class="n">log</span>(<span class="p">x</span>: <span class="t">Float</span>) -> <span class="t">Float</span></code></pre>
+<p>The natural logarithm of <code>x</code>, the power e has to be raised to to give
+<code>x</code>.</p>
+<p class="pyk-api-label">Parameters</p>
+<ul>
+<li><code>x</code>: the number, greater than 0.</li>
+</ul>
+<p class="pyk-api-label">Returns</p>
+<p>The logarithm; <code>-inf</code> for 0, and NaN for a negative <code>x</code>.</p>
+<p class="pyk-api-label">Example</p>
+<div class="pkn-notebook pkn-embedded not-content"><div class="pkn-fragment" data-markdown="&#x60;&#x60;&#x60;pyking
+import math
+print(math.log(1.0), math.log(math.e), math.log(0.0))
+&#x60;&#x60;&#x60;
+
+&#x60;&#x60;&#x60;stdout visible = true
+0.0 1.0 -inf
+&#x60;&#x60;&#x60;"></div></div>
+</div>
+<div class="pyk-api">
+<h2 id="log10">log10</h2>
+<pre class="pyk-sig"><code><span class="k">def</span> <span class="n">log10</span>(<span class="p">x</span>: <span class="t">Float</span>) -> <span class="t">Float</span></code></pre>
+<p>The base-10 logarithm of <code>x</code>.</p>
+<p class="pyk-api-label">Parameters</p>
+<ul>
+<li><code>x</code>: the number, greater than 0.</li>
+</ul>
+<p class="pyk-api-label">Returns</p>
+<p>The logarithm; <code>-inf</code> for 0, and NaN for a negative <code>x</code>.</p>
+<p class="pyk-api-label">Example</p>
+<div class="pkn-notebook pkn-embedded not-content"><div class="pkn-fragment" data-markdown="&#x60;&#x60;&#x60;pyking
+import math
+print(math.log10(1000.0), math.log10(0.01))
+&#x60;&#x60;&#x60;
+
+&#x60;&#x60;&#x60;stdout visible = true
+3.0 -2.0
+&#x60;&#x60;&#x60;"></div></div>
+</div>
+<div class="pyk-api">
+<h2 id="log2">log2</h2>
+<pre class="pyk-sig"><code><span class="k">def</span> <span class="n">log2</span>(<span class="p">x</span>: <span class="t">Float</span>) -> <span class="t">Float</span></code></pre>
+<p>The base-2 logarithm of <code>x</code>.</p>
+<p class="pyk-api-label">Parameters</p>
+<ul>
+<li><code>x</code>: the number, greater than 0.</li>
+</ul>
+<p class="pyk-api-label">Returns</p>
+<p>The logarithm, exact for a power of two; <code>-inf</code> for 0, and NaN for a
+negative <code>x</code>.</p>
+<p class="pyk-api-label">Example</p>
+<div class="pkn-notebook pkn-embedded not-content"><div class="pkn-fragment" data-markdown="&#x60;&#x60;&#x60;pyking
+import math
+print(math.log2(8.0), math.log2(0.5))
+&#x60;&#x60;&#x60;
+
+&#x60;&#x60;&#x60;stdout visible = true
+3.0 -1.0
+&#x60;&#x60;&#x60;"></div></div>
+</div>
+<div class="pyk-api">
+<h2 id="map_range">map_range</h2>
+<pre class="pyk-sig"><code><span class="k">def</span> <span class="n">map_range</span>(
+    <span class="p">x</span>: <span class="t">Float</span>,
+    <span class="p">from_low</span>: <span class="t">Float</span>,
+    <span class="p">from_high</span>: <span class="t">Float</span>,
+    <span class="p">to_low</span>: <span class="t">Float</span>,
+    <span class="p">to_high</span>: <span class="t">Float</span>,
+) -> <span class="t">Float</span></code></pre>
+<p>A number moved from one range to another, keeping its place: <code>x</code> is
+as far from <code>from_low</code> towards <code>from_high</code> as the answer is from
+<code>to_low</code> towards <code>to_high</code>. A mouse position becomes a volume, a
+time becomes a color.</p>
+<p class="pyk-api-label">Parameters</p>
+<ul>
+<li><code>x</code>: the number.</li>
+<li><code>from_low</code>: the start of the range <code>x</code> is in.</li>
+<li><code>from_high</code>: the end of that range, not equal to <code>from_low</code>.</li>
+<li><code>to_low</code>: the start of the range to move it to.</li>
+<li><code>to_high</code>: the end of that range.</li>
+</ul>
+<p class="pyk-api-label">Returns</p>
+<p>The number in the new range. A number outside the first range lands
+outside the second; <code>clamp</code> keeps it in.</p>
+<p class="pyk-api-label">Example</p>
+<div class="pkn-notebook pkn-embedded not-content"><div class="pkn-fragment" data-markdown="&#x60;&#x60;&#x60;pyking
+import math
+print(math.map_range(5.0, 0.0, 10.0, 100.0, 200.0))
+print(math.map_range(0.25, 0.0, 1.0, 255.0, 0.0))
+&#x60;&#x60;&#x60;
+
+&#x60;&#x60;&#x60;stdout visible = true
+150.0
+191.25
+&#x60;&#x60;&#x60;"></div></div>
+</div>
+<div class="pyk-api">
+<h2 id="pow">pow</h2>
+<pre class="pyk-sig"><code><span class="k">def</span> <span class="n">pow</span>(<span class="p">x</span>: <span class="t">Float</span>, <span class="p">y</span>: <span class="t">Float</span>) -> <span class="t">Float</span></code></pre>
+<p><code>x</code> raised to the power <code>y</code>.</p>
+<p class="pyk-api-label">Parameters</p>
+<ul>
+<li><code>x</code>: the base.</li>
+<li><code>y</code>: the exponent.</li>
+</ul>
+<p class="pyk-api-label">Returns</p>
+<p>x^y. It is NaN for a negative <code>x</code> with an exponent that is not a whole
+number, and <code>pow(x, 0.0)</code> is 1.0 for every <code>x</code>.</p>
+<p class="pyk-api-label">Example</p>
+<div class="pkn-notebook pkn-embedded not-content"><div class="pkn-fragment" data-markdown="&#x60;&#x60;&#x60;pyking
+import math
+print(math.pow(2.0, 10.0), math.pow(9.0, 0.5), math.pow(2.0, -1.0))
+&#x60;&#x60;&#x60;
+
+&#x60;&#x60;&#x60;stdout visible = true
+1024.0 3.0 0.5
+&#x60;&#x60;&#x60;"></div></div>
+</div>
+<div class="pyk-api">
+<h2 id="radians">radians</h2>
+<pre class="pyk-sig"><code><span class="k">def</span> <span class="n">radians</span>(<span class="p">angle</span>: <span class="t">Float</span>) -> <span class="t">Float</span></code></pre>
+<p>An angle in degrees, in radians.</p>
+<p class="pyk-api-label">Parameters</p>
+<ul>
+<li><code>angle</code>: the angle in degrees.</li>
+</ul>
+<p class="pyk-api-label">Returns</p>
+<p>The same angle in radians: <code>angle * pi / 180</code>.</p>
+<p class="pyk-api-label">Example</p>
+<div class="pkn-notebook pkn-embedded not-content"><div class="pkn-fragment" data-markdown="&#x60;&#x60;&#x60;pyking
+import math
+print(math.radians(180.0))
+&#x60;&#x60;&#x60;
+
+&#x60;&#x60;&#x60;stdout visible = true
+3.141592653589793
+&#x60;&#x60;&#x60;"></div></div>
+</div>
+<div class="pyk-api">
+<h2 id="round">round</h2>
+<pre class="pyk-sig"><code><span class="k">def</span> <span class="n">round</span>(<span class="p">x</span>: <span class="t">Float</span>) -> <span class="t">Int</span></code></pre>
+<p><code>x</code> rounded to the nearest whole number, a tie going away from zero:
+2.5 rounds to 3, and -2.5 to -3.</p>
+<p class="pyk-api-label">Parameters</p>
+<ul>
+<li><code>x</code>: the number.</li>
+</ul>
+<p class="pyk-api-label">Returns</p>
+<p>The Int; 0 for a NaN, an infinity, or a number outside the Int range,
+as <code>int</code> answers.</p>
+<p class="pyk-api-label">Example</p>
+<div class="pkn-notebook pkn-embedded not-content"><div class="pkn-fragment" data-markdown="&#x60;&#x60;&#x60;pyking
+import math
+print(math.round(2.4), math.round(2.5), math.round(-2.5), math.round(-2.6))
+&#x60;&#x60;&#x60;
+
+&#x60;&#x60;&#x60;stdout visible = true
+2 3 -3 -3
+&#x60;&#x60;&#x60;"></div></div>
+</div>
+<div class="pyk-api">
+<h2 id="sin">sin</h2>
+<pre class="pyk-sig"><code><span class="k">def</span> <span class="n">sin</span>(<span class="p">angle</span>: <span class="t">Float</span>) -> <span class="t">Float</span></code></pre>
+<p>The sine of an angle in degrees.</p>
+<p class="pyk-api-label">Parameters</p>
+<ul>
+<li><code>angle</code>: the angle in degrees.</li>
+</ul>
+<p class="pyk-api-label">Returns</p>
+<p>The sine, from -1 to 1. It is exact at every multiple of 30 degrees:
+<code>sin(30.0)</code> is <code>0.5</code> and <code>sin(180.0)</code> is <code>0.0</code>.</p>
+<p class="pyk-api-label">Example</p>
+<div class="pkn-notebook pkn-embedded not-content"><div class="pkn-fragment" data-markdown="&#x60;&#x60;&#x60;pyking
+import math
+print(math.sin(30.0), math.sin(90.0), math.sin(-90.0))
+&#x60;&#x60;&#x60;
+
+&#x60;&#x60;&#x60;stdout visible = true
+0.5 1.0 -1.0
+&#x60;&#x60;&#x60;"></div></div>
+</div>
+<div class="pyk-api">
+<h2 id="sin_rad">sin_rad</h2>
+<pre class="pyk-sig"><code><span class="k">def</span> <span class="n">sin_rad</span>(<span class="p">angle</span>: <span class="t">Float</span>) -> <span class="t">Float</span></code></pre>
+<p>The sine of an angle in radians.</p>
+<p class="pyk-api-label">Parameters</p>
+<ul>
+<li><code>angle</code>: the angle in radians.</li>
+</ul>
+<p class="pyk-api-label">Returns</p>
+<p>The sine, from -1 to 1.</p>
+<p class="pyk-api-label">Example</p>
+<div class="pkn-notebook pkn-embedded not-content"><div class="pkn-fragment" data-markdown="&#x60;&#x60;&#x60;pyking
+import math
+print(math.sin_rad(0.0), math.sin_rad(math.pi / 2.0))
+&#x60;&#x60;&#x60;
+
+&#x60;&#x60;&#x60;stdout visible = true
+0.0 1.0
+&#x60;&#x60;&#x60;"></div></div>
+</div>
+<div class="pyk-api">
+<h2 id="sinh">sinh</h2>
+<pre class="pyk-sig"><code><span class="k">def</span> <span class="n">sinh</span>(<span class="p">x</span>: <span class="t">Float</span>) -> <span class="t">Float</span></code></pre>
+<p>The hyperbolic sine of <code>x</code>.</p>
+<p class="pyk-api-label">Parameters</p>
+<ul>
+<li><code>x</code>: the number.</li>
+</ul>
+<p class="pyk-api-label">Returns</p>
+<p><code>(e^x - e^-x) / 2</code>.</p>
+<p class="pyk-api-label">Example</p>
+<div class="pkn-notebook pkn-embedded not-content"><div class="pkn-fragment" data-markdown="&#x60;&#x60;&#x60;pyking
+import math
+print(math.sinh(0.0))
+&#x60;&#x60;&#x60;
+
+&#x60;&#x60;&#x60;stdout visible = true
+0.0
+&#x60;&#x60;&#x60;"></div></div>
+</div>
+<div class="pyk-api">
+<h2 id="sqrt">sqrt</h2>
+<pre class="pyk-sig"><code><span class="k">def</span> <span class="n">sqrt</span>(<span class="p">x</span>: <span class="t">Float</span>) -> <span class="t">Float</span></code></pre>
+<p>The square root of <code>x</code>.</p>
+<p class="pyk-api-label">Parameters</p>
+<ul>
+<li><code>x</code>: the number, at least 0.</li>
+</ul>
+<p class="pyk-api-label">Returns</p>
+<p>The root that is at least 0; NaN for a negative <code>x</code>.</p>
+<p class="pyk-api-label">Example</p>
+<div class="pkn-notebook pkn-embedded not-content"><div class="pkn-fragment" data-markdown="&#x60;&#x60;&#x60;pyking
+import math
+print(math.sqrt(16.0), math.sqrt(2.0))
+&#x60;&#x60;&#x60;
+
+&#x60;&#x60;&#x60;stdout visible = true
+4.0 1.4142135623730951
+&#x60;&#x60;&#x60;"></div></div>
+</div>
+<div class="pyk-api">
+<h2 id="tan">tan</h2>
+<pre class="pyk-sig"><code><span class="k">def</span> <span class="n">tan</span>(<span class="p">angle</span>: <span class="t">Float</span>) -> <span class="t">Float</span></code></pre>
+<p>The tangent of an angle in degrees.</p>
+<p class="pyk-api-label">Parameters</p>
+<ul>
+<li><code>angle</code>: the angle in degrees.</li>
+</ul>
+<p class="pyk-api-label">Returns</p>
+<p>The tangent. It is exact at every multiple of 45 degrees, and <code>inf</code>
+at 90 degrees, 270 degrees and so on, where the tangent grows without
+bound.</p>
+<p class="pyk-api-label">Example</p>
+<div class="pkn-notebook pkn-embedded not-content"><div class="pkn-fragment" data-markdown="&#x60;&#x60;&#x60;pyking
+import math
+print(math.tan(45.0), math.tan(135.0), math.tan(90.0))
+&#x60;&#x60;&#x60;
+
+&#x60;&#x60;&#x60;stdout visible = true
+1.0 -1.0 inf
+&#x60;&#x60;&#x60;"></div></div>
+</div>
+<div class="pyk-api">
+<h2 id="tan_rad">tan_rad</h2>
+<pre class="pyk-sig"><code><span class="k">def</span> <span class="n">tan_rad</span>(<span class="p">angle</span>: <span class="t">Float</span>) -> <span class="t">Float</span></code></pre>
+<p>The tangent of an angle in radians.</p>
+<p class="pyk-api-label">Parameters</p>
+<ul>
+<li><code>angle</code>: the angle in radians.</li>
+</ul>
+<p class="pyk-api-label">Returns</p>
+<p>The tangent.</p>
+<p class="pyk-api-label">Example</p>
+<div class="pkn-notebook pkn-embedded not-content"><div class="pkn-fragment" data-markdown="&#x60;&#x60;&#x60;pyking
+import math
+print(math.tan_rad(0.0))
+&#x60;&#x60;&#x60;
+
+&#x60;&#x60;&#x60;stdout visible = true
+0.0
+&#x60;&#x60;&#x60;"></div></div>
+</div>
+<div class="pyk-api">
+<h2 id="tanh">tanh</h2>
+<pre class="pyk-sig"><code><span class="k">def</span> <span class="n">tanh</span>(<span class="p">x</span>: <span class="t">Float</span>) -> <span class="t">Float</span></code></pre>
+<p>The hyperbolic tangent of <code>x</code>.</p>
+<p class="pyk-api-label">Parameters</p>
+<ul>
+<li><code>x</code>: the number.</li>
+</ul>
+<p class="pyk-api-label">Returns</p>
+<p><code>sinh(x) / cosh(x)</code>, between -1 and 1.</p>
+<p class="pyk-api-label">Example</p>
+<div class="pkn-notebook pkn-embedded not-content"><div class="pkn-fragment" data-markdown="&#x60;&#x60;&#x60;pyking
+import math
+print(math.tanh(0.0), math.tanh(math.inf))
+&#x60;&#x60;&#x60;
+
+&#x60;&#x60;&#x60;stdout visible = true
+0.0 1.0
+&#x60;&#x60;&#x60;"></div></div>
+</div>
+<div class="pyk-api">
+<h2 id="trunc">trunc</h2>
+<pre class="pyk-sig"><code><span class="k">def</span> <span class="n">trunc</span>(<span class="p">x</span>: <span class="t">Float</span>) -> <span class="t">Int</span></code></pre>
+<p><code>x</code> without its fraction, rounding toward zero, as <code>int(x)</code> does.</p>
+<p class="pyk-api-label">Parameters</p>
+<ul>
+<li><code>x</code>: the number.</li>
+</ul>
+<p class="pyk-api-label">Returns</p>
+<p>The Int; 0 for a NaN, an infinity, or a number outside the Int range.</p>
+<p class="pyk-api-label">Example</p>
+<div class="pkn-notebook pkn-embedded not-content"><div class="pkn-fragment" data-markdown="&#x60;&#x60;&#x60;pyking
+import math
+print(math.trunc(2.7), math.trunc(-2.7))
+&#x60;&#x60;&#x60;
+
+&#x60;&#x60;&#x60;stdout visible = true
+2 -2
+&#x60;&#x60;&#x60;"></div></div>
+</div></div><footer class="sl-flex astro-ddtxxk7k"><div class="meta sl-flex astro-ddtxxk7k"></div><div class="pagination-links print:hidden astro-b5raizh3" dir="ltr"></div></footer></div></div></main></div></div></div></div></body></html>

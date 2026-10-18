@@ -20,12 +20,12 @@ function pykConcat(a, b) {
 
 import * as tw from './tinyweb.js';
 import * as tw_external from './tinyweb_external.js';
-tw_external.web_init(0);
+tw.web_init(0);
 const kick = tw_external.load_sample('kick1.wav');
 const snare = tw_external.load_sample('snare1.wav');
 const canvas = tw_external.canvas(400, 200);
-tw.circle(canvas, 100, 50, 30, '#ff0000');
-tw.circle(canvas, 100, 50, 20, tw.circle__default__color());
+tw.circle(canvas, 100, 50, 30, '#ff0000', tw.circle__default__outline(), tw.circle__default__outline_width(), tw.circle__default__alpha());
+tw.circle(canvas, 100, 50, 20, tw.circle__default__color(), tw.circle__default__outline(), tw.circle__default__outline_width(), tw.circle__default__alpha());
 let presses = 0;
 
 function play_kick() {
@@ -42,3 +42,4 @@ tw.button('Play kick', play_kick);
 tw.button('Play snare', play_sound);
 tw.button('Does nothing', tw.button__default__on_click());
 print('built the page');
+tw_external.splash();

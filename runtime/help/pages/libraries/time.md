@@ -14,9 +14,9 @@ import time
 
 <div class="pyk-api">
 
-## COMPACT
+## compact_format
 
-<pre class="pyk-sig"><code><span class="n">COMPACT</span>: <span class="t">String</span> = &quot;yyyyMMddHHmmss&quot;</code></pre>
+<pre class="pyk-sig"><code><span class="n">compact_format</span>: <span class="t">String</span> = &quot;yyyyMMddHHmmss&quot;</code></pre>
 
 The format string for a date and a time with nothing between the
 fields, as in `20261004123000`, which sorts in time order as text.
@@ -25,7 +25,7 @@ fields, as in `20261004123000`, which sorts in time order as text.
 
 ```pyking
 import time
-print(time.format((2026, 10, 4, 12, 30, 0), time.COMPACT))
+print(time.format((2026, 10, 4, 12, 30, 0), time.compact_format))
 ```
 
 ```stdout visible = true
@@ -36,9 +36,9 @@ print(time.format((2026, 10, 4, 12, 30, 0), time.COMPACT))
 
 <div class="pyk-api">
 
-## DATE
+## date_format
 
-<pre class="pyk-sig"><code><span class="n">DATE</span>: <span class="t">String</span> = &quot;yyyy-MM-dd&quot;</code></pre>
+<pre class="pyk-sig"><code><span class="n">date_format</span>: <span class="t">String</span> = &quot;yyyy-MM-dd&quot;</code></pre>
 
 The format string for a date alone, as in `2026-10-04`.
 
@@ -46,7 +46,7 @@ The format string for a date alone, as in `2026-10-04`.
 
 ```pyking
 import time
-print(time.format((2026, 10, 4, 12, 30, 0), time.DATE))
+print(time.format((2026, 10, 4, 12, 30, 0), time.date_format))
 ```
 
 ```stdout visible = true
@@ -57,9 +57,9 @@ print(time.format((2026, 10, 4, 12, 30, 0), time.DATE))
 
 <div class="pyk-api">
 
-## DATETIME
+## datetime_format
 
-<pre class="pyk-sig"><code><span class="n">DATETIME</span>: <span class="t">String</span> = &quot;yyyy-MM-dd HH:mm:ss&quot;</code></pre>
+<pre class="pyk-sig"><code><span class="n">datetime_format</span>: <span class="t">String</span> = &quot;yyyy-MM-dd HH:mm:ss&quot;</code></pre>
 
 The format string for a date and a time separated by a space, as in
 `2026-10-04 12:30:00`.
@@ -68,7 +68,7 @@ The format string for a date and a time separated by a space, as in
 
 ```pyking
 import time
-print(time.format((2026, 10, 4, 12, 30, 0), time.DATETIME))
+print(time.format((2026, 10, 4, 12, 30, 0), time.datetime_format))
 ```
 
 ```stdout visible = true
@@ -79,9 +79,9 @@ print(time.format((2026, 10, 4, 12, 30, 0), time.DATETIME))
 
 <div class="pyk-api">
 
-## ISO8601
+## iso8601_format
 
-<pre class="pyk-sig"><code><span class="n">ISO8601</span>: <span class="t">String</span> = &quot;yyyy-MM-ddTHH:mm:ssZ&quot;</code></pre>
+<pre class="pyk-sig"><code><span class="n">iso8601_format</span>: <span class="t">String</span> = &quot;yyyy-MM-ddTHH:mm:ssZ&quot;</code></pre>
 
 The format string for ISO 8601, as in `2026-10-04T12:30:00Z`.
 
@@ -89,7 +89,7 @@ The format string for ISO 8601, as in `2026-10-04T12:30:00Z`.
 
 ```pyking
 import time
-print(time.format((2026, 10, 4, 12, 30, 0), time.ISO8601))
+print(time.format((2026, 10, 4, 12, 30, 0), time.iso8601_format))
 ```
 
 ```stdout visible = true
@@ -100,9 +100,9 @@ print(time.format((2026, 10, 4, 12, 30, 0), time.ISO8601))
 
 <div class="pyk-api">
 
-## TIME
+## time_format
 
-<pre class="pyk-sig"><code><span class="n">TIME</span>: <span class="t">String</span> = &quot;HH:mm:ss&quot;</code></pre>
+<pre class="pyk-sig"><code><span class="n">time_format</span>: <span class="t">String</span> = &quot;HH:mm:ss&quot;</code></pre>
 
 The format string for a time of day alone, as in `12:30:00`.
 
@@ -110,7 +110,7 @@ The format string for a time of day alone, as in `12:30:00`.
 
 ```pyking
 import time
-print(time.format((2026, 10, 4, 12, 30, 0), time.TIME))
+print(time.format((2026, 10, 4, 12, 30, 0), time.time_format))
 ```
 
 ```stdout visible = true
@@ -134,7 +134,7 @@ character ends the text there.
 <p class="pyk-api-label">Parameters</p>
 
 - `t`: `(year, month, day, hour, minute, second)`, as `now` and `of_instant` answer.
-- `fmt`: the pattern; `ISO8601`, `DATE`, `TIME`, `DATETIME` and `COMPACT` are ready-made ones.
+- `fmt`: the pattern; `iso8601_format`, `date_format`, `time_format`, `datetime_format` and `compact_format` are ready-made ones.
 
 <p class="pyk-api-label">Returns</p>
 
@@ -178,6 +178,35 @@ print(t > 1700000000)
 
 ```stdout visible = true
 true
+```
+
+</div>
+
+<div class="pyk-api">
+
+## local_now
+
+<pre class="pyk-sig"><code><span class="k">def</span> <span class="n">local_now</span>() -&gt; (<span class="t">Int</span>, <span class="t">Int</span>, <span class="t">Int</span>, <span class="t">Int</span>, <span class="t">Int</span>, <span class="t">Int</span>)</code></pre>
+
+Reads the clock once and splits it into a date and a time of day, as
+a clock on the wall shows it where the program runs: in the time zone
+of the computer, or on a web page the reader's.
+
+<p class="pyk-api-label">Returns</p>
+
+`(year, month, day, hour, minute, second)`, with the month 1 to 12 and
+the day 1 to 31.
+
+<p class="pyk-api-label">Example</p>
+
+```pyking
+import time
+(_, _, _, hour, minute, second) = time.local_now()
+print(hour < 24, minute < 60, second < 61)
+```
+
+```stdout visible = true
+true true true
 ```
 
 </div>

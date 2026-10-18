@@ -54,7 +54,7 @@ def __pyk_trunc(x):
 
 import tinyweb as tw
 import tinyweb_external as tw_external
-tw_external.web_init(0)
+tw.web_init(0)
 c = tw_external.canvas(200, 100)
 kick = tw_external.load_sample('kick1.wav')
 beat = 0.5
@@ -63,7 +63,7 @@ next_beat = 0.0
 def draw(t):
     global next_beat
     tw.clear(c, '#111111')
-    tw.circle(c, __pyk_trunc(t * 100.0), 50, 10, '#ffcc00')
+    tw.circle(c, __pyk_trunc(t * 100.0), 50, 10, '#ffcc00', tw.circle__default__outline(), tw.circle__default__outline_width(), tw.circle__default__alpha())
     if t >= next_beat:
         print('beat scheduled at ' + str(__pyk_float(next_beat + beat)) + ', drawn at ' + str(__pyk_float(t)))
         tw.play(kick, next_beat + beat, tw.play__default__volume(), tw.play__default__rate())
@@ -72,3 +72,4 @@ def draw(t):
 
 tw_external.on_frame(draw)
 print(__pyk_float(tw_external.time()))
+tw_external.splash()

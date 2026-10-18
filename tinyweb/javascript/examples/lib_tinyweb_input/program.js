@@ -20,17 +20,17 @@ function pykConcat(a, b) {
 
 import * as tw from './tinyweb.js';
 import * as tw_external from './tinyweb_external.js';
-tw_external.web_init(0);
+tw.web_init(0);
 const c = tw_external.canvas(300, 200);
-tw.rect(c, 0, 0, 300, 200, '#eeeeee');
-tw.line(c, 0, 0, 300, 200, tw.line__default__color(), tw.line__default__width());
-tw.line(c, 0, 200, 300, 0, 'red', 3);
-tw.text(c, 10, 10, 'click "me"', tw.text__default__color(), 20);
+tw.rect(c, 0, 0, 300, 200, '#eeeeee', tw.rect__default__outline(), tw.rect__default__outline_width(), tw.rect__default__alpha(), tw.rect__default__radius());
+tw.line(c, 0, 0, 300, 200, tw.line__default__color(), tw.line__default__width(), tw.line__default__alpha());
+tw.line(c, 0, 200, 300, 0, 'red', 3, tw.line__default__alpha());
+tw.text(c, 10, 10, 'click "me"', tw.text__default__color(), 20, tw.text__default__font(), tw.text__default__align(), tw.text__default__bold(), tw.text__default__alpha(), tw.text__default__baseline(), tw.text__default__outline(), tw.text__default__outline_width());
 const status = tw_external.label('nothing yet');
 
 function clicked(x, y) {
   tw_external.set_label(status, pykConcat(pykConcat(pykConcat('clicked at ', pykFormat(x)), ', '), pykFormat(y)));
-  return tw.circle(c, x, y, 5, 'blue');
+  return tw.circle(c, x, y, 5, 'blue', tw.circle__default__outline(), tw.circle__default__outline_width(), tw.circle__default__alpha());
 }
 
 function pressed(key) {
@@ -48,3 +48,4 @@ tw_external.on_mouse(c, clicked);
 tw_external.on_key(pressed);
 tw.slider(0, 10, 5, moved);
 tw.slider(1, 3, 2, tw.slider__default__on_change());
+tw_external.splash();

@@ -71,6 +71,11 @@ restriction of it, but these are genuinely new.
   imports are a compile-time error rather than a run-time surprise, so
   the modules of a program run in one order, each after everything it
   imports. See "Modules".
+- **Submodules by dotted names**: `def mymod.foo(...)` defines `foo` in
+  the submodule `mymod` of its file, reached as `hello.mymod.foo`, or
+  with `from hello import mymod` or `from hello.mymod import foo`; there
+  are no package folders or `__init__` files. `import hello.mymod` binds
+  `mymod` rather than `hello`. See "Submodules".
 - **Lowercase `true`/`false` boolean literals**: Python spells its two
   boolean values `True`/`False`; Pyking spells them lowercase, `true` and
   `false`, matching most other languages' convention rather than
@@ -88,6 +93,11 @@ restriction of it, but these are genuinely new.
   matches Python's exactly. This is a genuinely new *keyword*, so
   `then` is reserved everywhere and can no longer be used as an
   identifier.
+- **`let` expressions**: `let x = 78 in x + 1` binds a name — or takes a
+  tuple apart — for one expression, its body, and is worth the body.
+  Python has no counterpart (its nearest is the `:=` operator, which
+  binds in the enclosing scope instead). `let` is a new keyword, so it
+  is reserved everywhere. See "Let expressions".
 - **`else if` instead of `elif`**: Pyking has no `elif` keyword — an
   `if` statement chains with the two ordinary keywords `else if`, e.g.
   `else if n == 0:` on its own line. It means exactly what Python's
@@ -118,6 +128,22 @@ restriction of it, but these are genuinely new.
   may appear anywhere in the pattern — start, middle, or end — not just
   once in a fixed position, e.g. `case [first, ..rest]:` or
   `case [a, b, ..middle, z]:`.
+- **Datatypes**: `datatype Tree(a):` declares an algebraic data type,
+  its constructors on indented lines or after its `:`, several to a
+  line separated by commas, each with its fields -- positional, named,
+  defaulted -- and a value is built by calling a constructor with the
+  rules a call to a `def` follows (`Leaf(7, age = 100)`). Python's
+  nearest is a class per constructor; a datatype is one type, its
+  constructors are its only values, and `match` takes them apart. See
+  "Datatypes".
+- **Uppercase is for types and constructors**: every name a program
+  binds starts with a lowercase letter or `_`, so a constant is
+  `pi = 3.14` rather than Python's `PI = 3.14`, and an uppercase name is
+  always a type or a constructor.
+- **Every `match` matches every value**: a `match` that some value
+  reaches no case of is refused at compile time, naming a value it
+  misses, and so is a case no value can reach. Python's `match` quietly
+  does nothing for a subject no case takes. See "Exhaustiveness".
 - **Arbitrary, refutable patterns in list comprehensions**:
   `[expr for pattern in seq]` accepts any Pyking pattern, not just a
   plain name or Python's simple destructuring targets. When the pattern
@@ -173,6 +199,9 @@ Expressions:
   expression that is a function, whose body is one expression. A lambda
   is monomorphic; `def` is how a polymorphic function is written (see
   "Lambdas")
+- **Let expressions** (`let x = 78 in x + 1`, `let (a, b) = pair in a + b`)
+  — Pyking extension; one binding, seen by the body alone (see "Let
+  expressions")
 - **Static overloading** (`def int::leq(...)`, `def float::leq(...)`) —
   Pyking extension; a qualifier makes two definitions of one base name
   distinct, and a call written without it is resolved by its arguments
@@ -214,9 +243,19 @@ Statements:
 - `if`/`else` statements, chained with `else if` — spelled as two
   keywords; Pyking has no `elif`
 - `match`/`case` pattern matching, including tuple patterns
-  (`case (a, b):`) and list patterns (`case [a, ..rest]:`, or the same
-  written `[a] ++ rest`; `"get " ++ rest` splits a string) that
-  destructure a tuple or list value
+  (`case (a, b):`), list patterns (`case [a, ..rest]:`, or the same
+  written `[a] ++ rest`; `"get " ++ rest` splits a string) and
+  constructor patterns (`case Leaf(v, age = n):`) that destructure a
+  tuple, a list or a datatype's value
+- **Datatypes** (`datatype Shape: Circle(radius: Float) / Square(Float)`),
+  with type parameters (`datatype Tree(a):`), fields that are
+  positional, named or defaulted, and constructors applied with a
+  call's rules; a named field is read with `.` (`p.x`) — Pyking
+  extension (see "Datatypes")
+- Patterns of every kind may be combined with `|` (`case 1 | 2:`), bind
+  the whole value as well with `as` (`case Node(l, r) as whole:`), and
+  carry a guard (`case n if n > 0:`); every `match` matches every
+  value, and every case is reachable (see "Exhaustiveness")
 - Expression statements
 - Output with `print`, and diagnostic output with `debug` — Pyking
   extension; `debug` writes the way `print` does, where diagnostics go,
@@ -226,14 +265,15 @@ Statements:
   `if c: print(1)`, `case 0: "zero"`) — one expression, meaning exactly
   what the indented form means
 - Imports (`import m`, `import m as n`, `from m import a, b as c`) and
-  exports (`public` in front of a `def`, a `def` signature line, or an
-  `=` binding) — Pyking extension; both belong to a module's top level,
+  exports (`public` in front of a `def`, a `def` signature line, a
+  `datatype`, or an `=` binding) — Pyking extension; both belong to a module's top level,
   and there is no `import *` (see "Modules")
 
 Structure:
 
 - Left-to-right evaluation: an operator's operands and a call's
-  arguments run in the order they are written, and all of a call's
+  arguments run in the order they are written -- named arguments
+  included, whatever order the parameters are in -- and all of a call's
   arguments before the call (see "Evaluation order")
 - Indentation-based blocks, with a line continued while a bracket is
   open (see "Lines and continuation")
@@ -267,13 +307,35 @@ program     = { top_statement } ;
 top_statement = import_stmt
             | from_stmt
             | public_stmt
+            | datatype_stmt
             | statement ;
 
 import_stmt = "import" , module_item , { "," , module_item } ;
-module_item = ident , [ "as" , ident ] ;
-from_stmt   = "from" , ident , "import" , field_item , { "," , field_item } ;
+module_item = module_path , [ "as" , ident ] ;
+from_stmt   = "from" , module_path , "import" , field_item , { "," , field_item } ;
+(* A module, or a submodule of one: `hello`, `hello.mymod`. *)
+module_path = ident , { "." , ident } ;
 field_item  = ident , [ "as" , ident ] ;
-public_stmt = "public" , ( function_def | function_sig | assignment ) ;
+public_stmt = "public" , ( function_def | function_sig | datatype_stmt
+                          | assignment ) ;
+
+(* A datatype belongs to a module's top level. Its name and every
+   constructor's start with an uppercase letter; its parameters are type
+   variables. Its constructors follow the ':' on its own line, or on
+   indented lines under it, or both; a line holds one or more,
+   separated by commas. *)
+datatype_stmt = "datatype" , [ sub_path , "." ] , upper_ident , [ "(" , type_var , { "," , type_var } , ")" ] ,
+                ":" , ( constructor_line , [ INDENT , { constructor_line } , DEDENT ]
+                      | INDENT , constructor_line , { constructor_line } , DEDENT ) ;
+constructor_line = constructor , { "," , constructor } ;
+constructor = upper_ident , [ "(" , [ field , { "," , field } ] , ")" ] ;
+(* A field is a type alone (positional only), or named; a named field's
+   type may be left to a literal default. Unnamed fields come first, and
+   every field after one with a default has one too. *)
+field       = type
+            | ident , ":" , type , [ "=" , expr ]
+            | ident , "=" , literal ;
+upper_ident = ? an ident beginning with an uppercase letter ? ;
 
 (* A block is indented under its header, or is the single expression
    written on the header's own line -- which the EBNF cannot say, since
@@ -306,7 +368,9 @@ function_sig = "def" , def_name , ":" , type
              | "def" , def_name , "(" , [ named_type , { "," , named_type } ] ,
                ")" , "->" , type ;
 named_type   = ident , ":" , type ;
-def_name     = ident | qualified_name ;
+(* A dotted name defines in a submodule: `mymod.foo`, `mymod.deep.foo`. *)
+def_name     = [ sub_path , "." ] , ( ident | qualified_name ) ;
+sub_path     = ident , { "." , ident } ;
 (* No whitespace is permitted on either side of the "::", and neither
    half may be a keyword. *)
 qualified_name = ident , "::" , ident ;
@@ -320,6 +384,7 @@ implicit_param = "implicit" , ident , ":" , type ;
 type         = type_atom , [ "->" , type ] ;
 type_atom    = "Int" | "Float" | "String" | "Bool"
              | type_var
+             | [ sub_path , "." ] , upper_ident , [ "(" , type , { "," , type } , ")" ]
              | "all" , type_var , { type_var } , "." , type
              | "[" , type , "]"
              | type_paren ;
@@ -357,18 +422,27 @@ if_stmt     = "if" , expr , ":" , block ,
    block of statements, and a `case` clause is not an expression, so
    there is nothing its header's line could carry. *)
 match_stmt  = "match" , expr , ":" , INDENT , case_clause , { case_clause } , DEDENT ;
-case_clause = "case" , pattern , ":" , block ;
-pattern     = pattern_join , { "," , pattern_join } ;
+case_clause = "case" , pattern , [ "if" , expr ] , ":" , block ;
+pattern     = pattern_as , { "," , pattern_as } ;
+pattern_as  = pattern_or , [ "as" , ident ] ;
+pattern_or  = pattern_join , { "|" , pattern_join } ;
 pattern_join = pattern_atom , { "++" , pattern_atom } ;
 pattern_atom = int | "-" , int | string | bool | "_" | ident
+             | constructor_pattern
              | "(" , ")"
-             | "(" , pattern_atom , "," , ")"
-             | "(" , pattern_atom , ( "," , pattern_atom )+ , [ "," ] , ")"
+             | "(" , pattern_as , ")"
+             | "(" , pattern_as , "," , ")"
+             | "(" , pattern_as , ( "," , pattern_as )+ , [ "," ] , ")"
              | list_pattern ;
+(* Positional sub-patterns first, then named ones in any order; a field
+   not mentioned matches anything. *)
+constructor_pattern = [ sub_path , "." ] , upper_ident ,
+                      [ "(" , [ field_pattern , { "," , field_pattern } ] , ")" ] ;
+field_pattern = pattern_as | ident , "=" , pattern_as ;
 
 list_pattern = "[" , [ list_pattern_items ] , "]" ;
 list_pattern_items = list_pattern_item , { "," , list_pattern_item } ;
-list_pattern_item  = pattern_join | rest_marker ;
+list_pattern_item  = pattern_as | rest_marker ;
 rest_marker        = ".." , [ ident ] ;
 
 var_decl    = "var" , ident , "=" , bound_expr ;
@@ -387,6 +461,7 @@ value_if    = "if" , expr , ":" , block ,
 
 target      = target_atom , { "," , target_atom } ;
 target_atom = ident
+            | sub_path , "." , ident
             | "(" , ")"
             | "(" , target_atom , "," , ")"
             | "(" , target_atom , ( "," , target_atom )+ , [ "," ] , ")" ;
@@ -395,7 +470,7 @@ expr_stmt   = tuple_or_expr ;
 
 tuple_or_expr = expr , { "," , expr } ;
 
-expr        = lambda | if_expr | comparison ;
+expr        = lambda | if_expr | let_expr | comparison ;
 
 (* A lambda takes everything to its right that one expression can hold,
    so `=>` associates to the right and binds looser than every
@@ -406,6 +481,10 @@ lambda_params = ident
 
 if_expr     = "if" , expr , "then" , expr , "else" , expr ;
 
+(* Like a lambda, the body takes everything to its right that one
+   expression can hold. *)
+let_expr    = "let" , target , [ ":" , type ] , "=" , expr , "in" , expr ;
+
 comparison  = additive , [ comp_op , additive ] ;
 comp_op     = "<" | "<=" | ">" | ">=" | "==" ;
 
@@ -414,11 +493,15 @@ multiplicative = unary , { ( "*" | "/" ) , unary } ;
 unary       = "-" , unary | atom ;
 
 atom        = ( float | int | string | bool | ident | list_lit | list_comp
-              | tuple_lit
+              | tuple_lit | construct
               | "(" , expr , ")" ) ,
-              { call_tail } ;
-(* Every named argument comes after every positional one, and they are
-   written in the order the callee's parameters are declared. *)
+              { call_tail | field_tail } ;
+(* A constructor applied to its fields, with a call's arguments; one with
+   no fields is written bare. *)
+construct   = [ sub_path , "." ] , upper_ident , [ call_tail ] ;
+field_tail  = "." , ident ;
+(* Every named argument comes after every positional one; the named
+   ones may be written in any order. *)
 call_tail   = "(" , [ call_args ] , ")" ;
 call_args   = expr , { "," , expr } , { "," , named_arg }
             | named_arg , { "," , named_arg } ;
@@ -655,7 +738,7 @@ Notes that don't fall out of the grammar alone:
   can't be named `match` or `case`. The same is true of `Int`, `String`,
   and `Bool` (the atomic type names): they're reserved everywhere, not
   just in type position, so no identifier may be named after one of them
-  either; of `then`, which has no Python counterpart at all; and of
+  either; of `then` and `let`, which have no Python counterpart at all; and of
   `true`/`false`, which do have a Python counterpart (`True`/`False`) but
   not this spelling of one — a Pyking program cannot use `true`, `false`,
   `True`, or `False` as an identifier (the first two because they're
@@ -729,9 +812,42 @@ Notes that don't fall out of the grammar alone:
   always matches, discarding the value; a plain `ident` also always
   matches, but binds the value to that name; a parenthesized group
   destructures a tuple value element-by-element; a `list_pattern`
-  destructures a list value. All of these nest arbitrarily (e.g.
-  `case (a, [b, ..c]):`). There's still no support for guards (`if`) or
-  or-patterns (`|`).
+  destructures a list value; a `constructor_pattern` destructures a
+  datatype's value. All of these nest arbitrarily (e.g.
+  `case (a, [b, ..c]):`). An identifier starting with an uppercase
+  letter is a constructor wherever a pattern holds it, so `case Red:`
+  matches the constructor `Red` rather than binding a name.
+- `|` binds looser than `++` and tighter than `as`, which binds looser
+  than everything but the comma: `case 1 | 2, x as y:` is
+  `case (1 | 2), (x as y):`. Every alternative of a `|` binds the same
+  names, refused at parse time otherwise:
+
+  ```
+  'prog.pyk' 3:22-3:28 Parsing error: every alternative of '|' binds
+    the same names, and 'x' is bound in one of them but not in this one
+  ```
+- A guard is any expression, read after the pattern and up to the
+  `:`. It is asked only once its pattern has matched, and it sees the
+  names the pattern binds.
+- A `datatype` is written at a module's top level only; inside a block
+  it is a parse error. Two constructors on one line are separated by a
+  comma, and a line of them after the header's starts a line of its
+  own. A field written
+  `name = default` with no type takes its default's type, so the
+  default must be a literal there; any other default needs the type
+  written, `name: Int = start()`.
+- An uppercase identifier in an expression is a constructor. Every
+  name a program binds -- with `=`, `var` or `def`, as a parameter, a
+  loop variable, in a pattern, or as an import's alias -- starts with a
+  lowercase letter or `_`; one starting with an uppercase letter is
+  refused at parse time, since an uppercase name is a type or a
+  constructor. A constant is written `pi = 3.14`, not `PI = 3.14`. A
+  `from` line renaming a datatype or a constructor gives it a name
+  starting with an uppercase letter, as the name it renames does.
+- `x.name` reads a field where `x` is a value, and reaches a module's
+  public name where `x` is an imported module; the two are told apart by
+  what `x` is bound to. The `.` and the field name are on the line the
+  value ends on.
 - No pattern (tuple, list, or nested combination of either) may bind the
   same name more than once — e.g. `case [a, ..b, a]:` is rejected at
   parse time with "duplicate binding 'a' in pattern". This mirrors
@@ -751,9 +867,9 @@ Notes that don't fall out of the grammar alone:
   targets — this is Pyking's one deliberate departure from Python's own
   comprehension grammar. An element the pattern doesn't match (a literal
   that doesn't equal it, or a list pattern whose shape doesn't fit) is
-  silently filtered out of the result, the same way a non-exhaustive
-  `match` simply does nothing for an unmatched value — it never raises
-  an error. `list_comp` always starts with a `comp_for`; `comp_for`/
+  silently filtered out of the result — it never raises an error. (A
+  `match`, unlike a comprehension, has to match every value; see
+  "Exhaustiveness".) `list_comp` always starts with a `comp_for`; `comp_for`/
   `comp_if` may then repeat in any order, matching Python's own
   multi-clause comprehensions (nested `for`s, interspersed `if`s).
 - A `qualified_name` may be a **definition's** name and nothing else --
@@ -765,6 +881,12 @@ Notes that don't fall out of the grammar alone:
   definition of 'zero' a call means`). A module-qualified name is
   `m.int::leq`: the module is written with a `.` and the definition's
   own qualifier with a `::`, and the two never mix.
+- A **dotted** `def_name`, datatype name or `=` target -- `mymod.foo` --
+  defines a name in a submodule (see "Submodules"), and is written only
+  at a module's top level: inside a block it is refused. A
+  `qualified_name` goes last, `mymod.int::abs`. Every `.` in a dotted
+  name, in a `module_path` and in a `sub_path` is on the row the name
+  before it ended on.
 - `implicit` in front of a statement marks a `def` or an `=` binding of
   one name, and nothing else. It is a statement's prefix rather than a
   top-level one, so a definition inside a function may be implicit
@@ -993,7 +1115,9 @@ matching"](#matchcase-pattern-matching) below.
 
 An identifier is a name starting with a letter or underscore, followed by
 any number of letters, digits, or underscores. Using a name in an
-expression looks it up as a variable reference.
+expression looks it up as a variable reference. A name a program binds
+starts with a lowercase letter or an underscore: one starting with an
+uppercase letter is a type or a constructor (see "Datatypes").
 
 ```python
 x = 10
@@ -1207,7 +1331,7 @@ arbitrarily.
 
 A *refutable* pattern — a literal, or a list pattern — may reject a value,
 and an element it doesn't match is filtered out of the result rather than
-raising an error, the same semantics as an unmatched `match`/`case`:
+raising an error:
 
 ```python
 readings = [0, 5, 0, 8, 3]
@@ -1309,12 +1433,16 @@ total := total + 1
 print(total)
 ```
 
-**A mutable variable is `Int`, `Float` or `Bool`.** Those are the types
-mutation reaches so far; a `var` of any other type is refused:
+**A mutable variable may hold a value of any type**: a number, a
+String, a tuple, a list, a datatype's value or a function. What changes
+is which value the name holds; a list held by a `var` is still never
+changed in place, so updating one builds the new list and stores it:
 
-```
-'prog.pyk' 3:0-3:22 Type error: a mutable variable must be Int, Float or
-  Bool, but 'greeting' is String
+```pyking
+var balls = [(10, 20), (30, 40)]
+balls := [(x + 1, y) for (x, y) in balls]
+balls := balls ++ [(0, 0)]
+print(balls)
 ```
 
 Its type is its initializer's, decided once, and every `:=` must give
@@ -1790,10 +1918,9 @@ Three rules:
 
 - **Every positional argument comes first.** A positional argument after
   a named one has no position left to mean.
-- **Names are written in the order the parameters are declared.**
-  `box(depth = 6, width = 4)` is refused. Nothing is therefore ever
-  reordered, and the arguments of a call still run left to right
-  whatever they are named (see "Evaluation order").
+- **Names may be written in any order.** `box(depth = 6, width = 4)`
+  is `box(4, 2, 6)`. The arguments still run in the order they are
+  written (see "Evaluation order"): the depth's before the width's.
 - **A parameter is filled once.** Naming one that a positional argument
   already filled is refused, as is naming the same one twice.
 
@@ -1815,7 +1942,28 @@ part of a function's type.
 
 An omitted argument is worth its default **in its own position**, so a
 default with an effect has that effect between the supplied arguments
-around it rather than before or after all of them.
+around it rather than before or after all of them -- where the names
+are written in the parameters' order. Where they are not, every
+argument written runs first, in the order written, and then the
+defaults of the parameters left out, in the parameters' order:
+
+```pyking
+def note(label: String, n: Int) -> Int:
+    print(label)
+    n
+
+def box(width: Int, height: Int = note("height", 1), depth: Int = 2) -> Int:
+    width * 100 + height * 10 + depth
+
+print(box(depth = note("depth", 6), width = note("width", 4)))
+```
+
+```
+depth
+width
+height
+416
+```
 
 ### Type annotations
 
@@ -2276,6 +2424,31 @@ definition. A lambda parameter may not have a default value, since a
 default belongs to the scope a definition is written in. And a lambda
 parameter is a binding like any other, so it may not shadow a `var`.
 
+### Let expressions — Pyking extension
+
+`let target = value in body` is an expression: `value` is evaluated
+once, bound to `target`, and the whole is worth `body`. The target is
+what an `=` binding takes — a name, or a tuple taken apart — with an
+optional annotation, checked as a binding's is. What it binds is seen by
+the body and nowhere else, not even by `value`.
+
+```pyking
+foo = let x = 78 in x + 1
+print(foo)                                  # 79
+
+# One binding per `let`; a later one sees the earlier.
+print(let a = 2 in let b = a * 3 in a + b)  # 8
+
+pair = (1, (2, 3))
+print(let (x, (y, z)) = pair in x + y * z)  # 7
+print(let t: (Int, String) = (4, "four") in t)
+```
+
+Like a lambda, the body takes everything to its right that one
+expression can hold, so parentheses end it: `1 + (let x = 10 in x) * 2`
+is 21. A name a `let` binds starts with a lowercase letter, may not
+shadow a `var`, and may not be bound twice in one target.
+
 ### Static overloading — Pyking extension
 
 Two definitions may share a base name if a **qualifier** tells them
@@ -2502,8 +2675,10 @@ matches, discards the value), a plain identifier (always matches, binds
 the value to that name), or a tuple pattern that destructures a tuple
 value element by element (with or without parentheses, nesting
 arbitrarily, and sub-patterns can themselves be literals, `_`,
-identifiers, or further tuple patterns) — see the grammar notes above for
-what isn't supported yet (guards, or-patterns).
+identifiers, or further tuple patterns) — see the grammar notes above,
+and the sections below for constructor patterns, or-patterns, `as` and
+guards. A `match` matches every value of its subject's type, which is
+why `describe` ends in a case that binds a name (see "Exhaustiveness").
 
 ```python
 def describe(n):
@@ -2572,14 +2747,6 @@ def describe(xs):
             return "exactly three"
         case [first, ..rest]:
             return "prefix + rest, first=" ++ string(first)
-        case [..init, last]:
-            return "rest + suffix, last=" ++ string(last)
-        case [p, q, ..mid, r]:
-            return "matched middle"
-        case [u, v, ..]:
-            return "two elements, rest ignored"
-        case [_, ..w]:
-            return "first ignored, rest=" ++ string(w)
 
 
 print(describe([]))
@@ -2587,12 +2754,12 @@ print(describe([1]))
 print(describe([1, 2, 3]))
 ```
 
-Since a pattern used in one function can only ever reach whichever
-`case` is textually first among the ones its shape satisfies, the
-`[p, q, ..mid, r]` / `[u, v, ..]` / `[_, ..w]` cases above are shadowed by
-the earlier, more general `[first, ..rest]` case for any list of two or
-more elements — see `tests/list_pattern_match.pyk` for each of the seven
-forms demonstrated in its own function, so every one is actually reached.
+A case that no value can reach -- every value it matches is taken by a
+case above it -- is refused, so after `[first, ..rest]`, which takes
+every list of one element or more, nothing more may be written. The
+other forms, `[..init, last]`, `[p, q, ..mid, r]`, `[u, v, ..]` and
+`[_, ..w]`, are each shown in a function of their own in
+`tests/list_pattern_match.pyk`.
 
 **Splitting with `++`.** A pattern may be written as pieces joined with
 `++`, the concatenation operator read backwards: a pattern says how the
@@ -2644,6 +2811,190 @@ def describe(n):
 for i in [0, 1, 5]:
     print(describe(i))
 ```
+
+### Or-patterns, `as` and guards
+
+`p1 | p2` matches what either alternative matches. The alternatives
+bind the same names, at the same types, so the arm after it sees one set
+of bindings whichever matched:
+
+```pyking
+def on_axis(p: (Int, Int)) -> String:
+    match p:
+        case (0, 0): "origin"
+        case (x, 0) | (0, x): "on an axis at " ++ string(x)
+        case _: "elsewhere"
+
+
+print(on_axis((3, 0)), on_axis((0, -4)), on_axis((1, 1)))
+```
+
+`pattern as name` binds the whole value the pattern matched, beside
+what the pattern takes apart:
+
+```pyking
+match (1, (2, 3)):
+    case (x, (y, z) as inner):
+        print(x, y, z, inner)
+```
+
+A **guard**, `case pattern if condition:`, is asked once the pattern has
+matched, with what the pattern bound in scope. A guard that is false
+goes on to the next case, as a pattern that does not match does. The
+guard is a `Bool`:
+
+```pyking
+def sign(n: Int) -> String:
+    match n:
+        case 0: "zero"
+        case m if m > 0: "positive"
+        case _: "negative"
+
+
+print(sign(5), sign(0), sign(-5))
+```
+
+Guards are asked in order, and only as far as the first that holds, so
+one that calls a function calls it only when every case above it was
+passed over.
+
+### Datatypes — Pyking extension
+
+`datatype` declares a type of its own: a name, the type variables it is
+written over, and its **constructors**, one per indented line. A value
+of the datatype is built by a constructor, and is one of them and
+nothing else:
+
+```pyking
+datatype Shape:
+    Circle(radius: Float)
+    Rect(width: Float, height: Float)
+    Dot
+
+
+def area(s: Shape) -> Float:
+    match s:
+        case Circle(r): 3.0 * r * r
+        case Rect(w, h): w * h
+        case Dot: 0.0
+
+
+print(area(Circle(1.0)), area(Rect(2.0, 3.0)), area(Dot))
+print(Rect(2.0, 3.0), Dot)
+```
+
+The name of a datatype and of each constructor starts with an
+uppercase letter, which is what tells a constructor from a name in a
+pattern: `case Dot:` matches the constructor, and `case dot:` binds
+whatever arrives. A constructor with no fields is written bare, `Dot`,
+in a pattern and as a value. A datatype is declared at the top level of
+a module, and every datatype of the module is in scope throughout it,
+so datatypes may name each other in any order, and one may name
+itself.
+
+Constructors may share a line, separated by commas, and the first line
+of them may follow the datatype's `:` directly; each further line of
+them is indented under it:
+
+```pyking
+datatype Color: Red, Green, Blue
+    Gray(level: Int), Black
+
+datatype Bit: Zero, One
+
+print(Gray(3), One)
+```
+
+A value prints as the constructor applied to its fields, every field by
+position, a string among them quoted: `Rect(2.0, 3.0)`.
+
+**A field** is a type alone, which makes it positional, or a name and a
+type, which may also be given by name. A named field may carry a
+default, and one whose default is a literal may leave its type to it:
+
+```pyking
+datatype Account:
+    Account(String, balance: Int = 0, currency = "SEK")
+
+
+print(Account("ada"))
+print(Account("grace", 10))
+print(Account("don", currency = "EUR"))
+```
+
+A constructor is called with exactly the rules a `def` is (see "Default
+parameters" and "Named arguments"): positional arguments first, named
+ones in any order, every field without a default
+given something, and a default evaluated at each construction that
+leaves it out, in the scope the datatype is declared in. The unnamed
+fields come first, and every field after one with a default has one
+too.
+
+**A datatype may have parameters**, written as type variables after its
+name, and applied to types where it is named -- `Tree(Int)`,
+`Option(String)`. A polymorphic function over one is written and
+inferred like any other:
+
+```pyking
+datatype Option(a):
+    Nothing
+    Just(a)
+
+
+def default(o: Option(a), d: a) -> a:
+    match o:
+        case Just(x): x
+        case Nothing: d
+
+
+print(default(Just(3), 0), default(Nothing, "none"))
+```
+
+A field's type may name only the datatype's own parameters.
+
+**A constructor pattern** takes a value apart by the same rules a call
+puts one together: positional patterns first, then `field = pattern`,
+here in any order, and a field the pattern does not mention matches
+anything:
+
+```pyking
+datatype Person:
+    Person(name: String, age: Int, admin: Bool = false)
+
+
+def role(p: Person) -> String:
+    match p:
+        case Person(admin = true): "admin"
+        case Person(n, age = a) if a < 18: n ++ " is young"
+        case Person(name = n): n
+
+
+print(role(Person("ada", 36)), role(Person("tim", 12)), role(Person("root", 1, true)))
+```
+
+**A named field is read with `.`**, `p.name`, where every constructor of
+the datatype has a field of that name at one type -- so a datatype of one
+constructor is a record:
+
+```pyking
+datatype Point:
+    Point(x: Int, y: Int)
+
+
+p = Point(3, 4)
+print(p.x * p.x + p.y * p.y)
+```
+
+A constructor is not a value of its own: one with fields is always
+applied to them, and `Point` alone is refused.
+
+**Across modules**, `public datatype` exports the datatype and every
+constructor. A constructor is reached through the module as any public
+name is -- `shapes.Circle(1.0)`, `case shapes.Circle(r):` -- and a
+datatype named on a `from` line brings its constructors with it:
+`from shapes import Shape` makes `Circle` a constructor here. A public
+definition whose type names a datatype that is not public is refused,
+since a module holding such a value could not say its type.
 
 ### `if`/`match` statements as bound values
 
@@ -3084,8 +3435,9 @@ kinds, reported under three labels:
 
 - the shape rules the grammar cannot state: a value-form `if` must have
   its `else` and every branch must end in an expression (see the section
-  on `if`/`match` statements as bound values), and a `case` pattern may
-  not bind the same name twice. These are reported as `Parsing error`.
+  on `if`/`match` statements as bound values), a `case` pattern may
+  not bind the same name twice, and no name a program binds starts with
+  an uppercase letter. These are reported as `Parsing error`.
 - names and types, both settled by the checker: every name must be bound
   where it is used, and every value must have the type its use requires.
   An unbound name is a `Name error`; everything else below is a
@@ -3112,8 +3464,11 @@ The checker works in the types "Type annotations" lists, and no others:
 `Int`, `Float`, `String`, `Bool`, list types `[T]`, tuple types
 `(T1, T2, ...)`
 — with `(T,)` the one-element one and `()`, the zero-element tuple, the
-unit type — function types `(T1, T2, ...) -> T`, and type *variables*
-(see "Type variables" below).
+unit type — function types `(T1, T2, ...) -> T`, datatypes (`Shape`,
+`Tree(Int)`; see "Datatypes"), and type *variables* (see "Type
+variables" below). Two datatypes are one type when they are the same
+declaration applied to the same types: two datatypes of one name in two
+modules are two types.
 
 There is no "one of these" type. A value is an `Int` or it is a
 `String`; nothing says it may be either, and there is no narrowing that
@@ -3259,6 +3614,12 @@ ok:(Int, Int) -> Int = foo      # fine
 A binding with no annotation claims nothing and takes whatever its value
 has; `-t pyking` then prints the type that was worked out, which is what
 makes that output worth reading.
+
+A `let` expression binds by the same rules: its value is checked where
+the `let` is written, its annotation against that value, and its body
+with the target bound. The `let` has its body's type. A name it binds
+has one type, as a name an `=` binding binds does: binding a lambda
+with `let` does not make it polymorphic.
 
 **Blocks and `if`.** A block's type is its last statement's, and unit if
 it is empty. The two branches of an `if` must have the *same* type —
@@ -3699,39 +4060,78 @@ def reverse(xs:[Int]) -> [Int]:
             return reverse(rest) ++ [x]
 ```
 
-**A `match` whose value is taken must match every value.** A `match`
-that fits no arm does nothing, so one being *bound* has to be unable to
-fit nothing — otherwise the name would simply not be there. One
-irrefutable arm (`case _`, or one that binds a name) settles it; so do
-both of a `Bool`'s values; and so does a set of list patterns covering
-every length, which is how the recursion above is written. The statement
-form is unaffected.
+A constructor pattern is checked the same way: it demands that the
+subject be its datatype, at parameters it leaves to be settled, and each
+field's pattern is checked against that field's type. A guard is
+checked in the environment its pattern binds, and must be a `Bool`.
 
-```pyking norun
-label = match n:
-    case 0: "zero"
-    case _: "other"        # required: without it, `label` may not exist
+### Exhaustiveness
+
+**Every `match` matches every value of its subject's type**, whether
+its value is taken or it is a statement. A `match` some value would
+reach no case of is refused, and the refusal names such a value, as the
+pattern that would match it:
+
+```pyking error
+datatype Shape:
+    Circle(Float)
+    Square(Float)
+    Triangle(Float, Float, Float)
+
+
+def area(s: Shape) -> Float:
+    match s:
+        case Circle(r): 3.0 * r * r
+        case Square(a): a * a
 ```
 
-**Those rules are read through a tuple as well.** A tuple's shape is
-fixed by its type, so a position matching anything in every arm can rule
-no value out, and the arms cover as soon as *one* position does:
-
-```pyking
-def signed(v:(Int, Bool)) -> Int:
-    match v:
-        case (a, true): a
-        case (a, false): 0 - a       # covered: the second position is
-                                     # every Bool, the first anything
+```
+'prog.pyk' 9:4-11:29 Type error: this 'match' does not match every
+  value: no case matches Triangle(_, _, _). Add a case for it, or a
+  'case _'
 ```
 
-Only one position may be doing the work. Arms that cover between them
-across two positions at once — `(true, true)`, `(true, false)`,
-`(false, _)` — are not accepted, and want an arm that matches
-everything; so does a refutable pattern nested inside a *list element*
-rather than a tuple's. The rule is deliberately one a reader can apply
-by eye, and it errs towards asking for an arm rather than towards
-accepting a `match` with a hole in it.
+A `match` with nothing to do for most values says so with `case _: ()`.
+
+What counts as covered is decided by the patterns and the type, exactly,
+whatever they nest: a datatype's every constructor, both of a `Bool`'s
+values, every length of a list (`[]` and `[x, ..rest]` between them take
+them all), and a tuple position by position, so `(true, true)`,
+`(true, false)` and `(false, _)` cover a `(Bool, Bool)`. An `Int` or a
+`String` has too many values to name, so only a case that takes any of
+them -- `_`, a name, or a `++` split with a name for all of the string
+-- covers one.
+
+**A case with a guard does not count towards covering**, since its
+guard may be false:
+
+```pyking error
+def sign(n: Int) -> String:
+    match n:
+        case m if m > 0: "positive"
+        case m if m <= 0: "not positive"
+```
+
+**Every case is reachable.** A case whose every value is taken by the
+unguarded cases above it is refused rather than left as code that never
+runs:
+
+```pyking error
+datatype Color:
+    Red
+    Blue
+
+
+def name(c: Color) -> String:
+    match c:
+        case Red: "red"
+        case _: "another"
+        case Blue: "blue"
+```
+
+The two rules are one question asked twice -- is there a value this
+pattern matches and no case above it does? -- which is how the refusal
+can name the value it found.
 
 A comprehension's `for` walks a list and its pattern binds over the
 elements; an element the pattern does not match is left out rather than
@@ -3934,8 +4334,8 @@ is:
 'prog.pyk' 14:16-14:23 Name error: unbound name 'missing'
 ```
 
-**Mutability is not a type.** A `var` is Int, Float or Bool, which the checker
-does say; *which* names may be written to is a separate question, and
+**Mutability is not a type.** A `var` may hold any type, and the checker
+says only that each `:=` gives the type its declaration fixed; *which* names may be written to is a separate question, and
 one a type cannot answer — the same `Int` is a `var` in one scope and an
 `=` binding in another. So a pass of its own applies the two rules under
 "Mutable variables": `:=` may only name a `var`, and nothing may shadow
@@ -4133,6 +4533,66 @@ is built from, so it cannot be written inside a `def`, a loop or a
 branch. Like a `def`, an import is visible throughout the module rather
 than from its line down, so where it is written among the other
 top-level statements does not matter.
+
+### Submodules
+
+A definition whose name has a dot in it is in a **submodule** of its
+module: `mymod.foo` is `foo` in the submodule `mymod`, and
+`mymod.another.foo` is `foo` in `another` inside `mymod`. A submodule is
+nothing but those names -- there is no file or declaration for it -- so
+a library groups what it offers by subject inside one file:
+
+```pyking norun
+# hello.pyk
+public def mymod.foo(x: Int) -> Int: x + 1
+public def mymod.another.foo(x: Int) -> Int: x + 100
+public mymod.limit: Int = 10
+
+public datatype shapes.Shape:
+    Circle(r: Float)
+    Square(s: Float)
+
+def mymod.helper(x: Int) -> Int: mymod.foo(x) * 2
+```
+
+A `def`, a signature line, an `=` binding and a datatype may have a
+dotted name, at a module's top level only. A dotted datatype's
+constructors are in its submodule too: `shapes.Circle(1.0)`, and `case
+shapes.Circle(r):`. Each name is `public` or not on its own, as any
+other is.
+
+**Inside its own file**, a name in a submodule is always written with
+its whole path -- `mymod.foo(1)`, even inside `mymod.helper` -- so a name
+means the same thing wherever it is read. A submodule's name is then
+taken in the whole file: nothing else there, at the top level or in any
+block, may be called `mymod`, so `mymod.foo` is never a field of a
+value. A dotted name and the plain one with `__` in place of each dot
+(`mymod.foo` and `mymod__foo`) are one name, and a module may not define
+both.
+
+**From another module** there are four ways to reach one:
+
+```pyking norun
+import hello
+print(hello.mymod.foo(7))          # through the module
+
+from hello import mymod            # the submodule, by its own name
+print(mymod.foo(8))
+print(mymod.another.foo(8))
+
+import hello.mymod as m            # the same, renamed; without `as`
+print(m.foo(9))                    # it is known as `mymod`
+
+from hello.mymod import foo        # one name out of it
+print(foo(10))
+```
+
+`import hello.mymod` binds `mymod`, the last part, rather than `hello`.
+A name a submodule did not make public is refused from outside, however
+it is reached, and so are a submodule the module does not have and a
+name the submodule does not have. A name that stands for a submodule
+here -- `mymod` above, or `m` -- is taken in the whole file, as one of
+the file's own is.
 
 ### A public implicit arrives unqualified
 

@@ -48,12 +48,12 @@ def __pyk_float(x):
 
 import tinyweb as tw
 import tinyweb_external as tw_external
-tw_external.web_init(0)
+tw.web_init(0)
 kick = tw_external.load_sample('kick1.wav')
 snare = tw_external.load_sample('snare1.wav')
 canvas = tw_external.canvas(400, 200)
-tw.circle(canvas, 100, 50, 30, '#ff0000')
-tw.circle(canvas, 100, 50, 20, tw.circle__default__color())
+tw.circle(canvas, 100, 50, 30, '#ff0000', tw.circle__default__outline(), tw.circle__default__outline_width(), tw.circle__default__alpha())
+tw.circle(canvas, 100, 50, 20, tw.circle__default__color(), tw.circle__default__outline(), tw.circle__default__outline_width(), tw.circle__default__alpha())
 presses = 0
 
 def play_kick():
@@ -69,3 +69,4 @@ tw.button('Play kick', play_kick)
 tw.button('Play snare', play_sound)
 tw.button('Does nothing', tw.button__default__on_click())
 print('built the page')
+tw_external.splash()

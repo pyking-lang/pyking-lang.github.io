@@ -30,6 +30,10 @@
 // `sys.exit` in one as `exit` (docs/libraries.md, "A library that needs
 // a page").
 //
+// `run` may carry `tinywebLog`, and {type: "tinywebLog", on} -- no `id`,
+// no reply -- turns it on or off while a run goes on: tinyweb's log, each
+// line as `debug`, which is what `pyk --tinyweb-log` prints on stderr.
+//
 // The language server (src/lsp.ml) lives here too: `lsp` hands it one
 // JSON-RPC message and answers the messages it sends back, and `lsp-idle`
 // answers what it sends once the client has stopped typing -- the
@@ -118,8 +122,13 @@ self.onmessage = (event) => {
       return answer(() => boot(message));
     case "compile":
       // A JSON string, which crosses postMessage as-is.
-      return answer(() => JSON.parse(
-        self.pykCompile(message.source, message.target, message.name)));
+      // The program is supplied as a run supplies it, so a program that
+      // imports compiles against the modules it names.
+      return answer(() => {
+        supply(message);
+        return JSON.parse(
+          self.pykCompile(message.source, message.target, message.name));
+      });
     case "words":
       // What a page reads out of the compiler rather than keeping a copy
       // of: the words its editor highlights, the targets it offers, and
@@ -142,6 +151,9 @@ self.onmessage = (event) => {
       return answer(() => run(message));
     case "repl":
       return answer(() => repl(message));
+    case "tinywebLog":
+      tinywebLog(message.on);
+      return undefined;
     case "event":
       try {
         live[message.module]?.pykDeliver?.(message.data);
@@ -191,7 +203,15 @@ function analyze(message) {
 /** Runs a program with the interpreter. Answers {ok:true, exit?} or a
  *  refusal. Synchronous where the program needs no JavaScript module
  *  imported, so a caller that cannot wait -- the test suite -- need not. */
+/** Shows the tinyweb log, or stops showing it: each line as a `debug`
+ *  line, which is how the page shows what `pyk --tinyweb-log` prints on
+ *  stderr (lib/tinyweb/tinyweb_external_interpreter.js). Bool -> () */
+function tinywebLog(on) {
+  self.pykTinywebLog = on ? (line) => debugOut(line + "\n") : null;
+}
+
 function run(message) {
+  tinywebLog(Boolean(message.tinywebLog));
   const analysis = analyze(message);
   if (!analysis.ok) return analysis;
   const mine = own(message);
@@ -216,7 +236,7 @@ function run(message) {
 // one as an entry first imports it, kept for the rest of the session.
 let replModules = null;
 
-/** One request of the REPL: "start", "line" or "submit" (see above).
+/** One request of the REPL: "start", "line", "complete" or "submit" (see above).
  *  An entry importing tinyweb is refused here: its page is the Run's. */
 function repl({ action, text = "" }) {
   if (typeof self.pykReplStart !== "function") {
@@ -227,6 +247,7 @@ function repl({ action, text = "" }) {
     return JSON.parse(self.pykReplStart());
   }
   if (action === "line") return JSON.parse(self.pykReplLine(text));
+  if (action === "complete") return JSON.parse(self.pykReplComplete(text));
   if (replModules === null) replModules = own({ stdin: "", args: [] });
   const needed = JSON.parse(self.pykReplImports(text))
     .filter((name) => !(name in replModules));

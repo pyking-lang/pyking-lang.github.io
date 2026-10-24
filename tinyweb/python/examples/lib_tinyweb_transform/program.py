@@ -1,5 +1,13 @@
 # --- prelude begins ---
 
+def __pyk_import(name):
+    from importlib.util import module_from_spec, spec_from_file_location
+    from os.path import abspath, dirname, join
+    spec = spec_from_file_location(name, join(dirname(abspath(__file__)), name + '.py'))
+    module = module_from_spec(spec)
+    spec.loader.exec_module(module)
+    return module
+
 def __pyk_fdiv(a, b):
     if b == 0.0:
         # Python raises where IEEE answers. Pyking follows IEEE.
@@ -46,28 +54,31 @@ def __pyk_float(x):
 
 # --- prelude ends; the compiled program follows ---
 
+math = __pyk_import('math')
+import math_external
 import tinyweb as tw
 import tinyweb_external as tw_external
+from tinyweb import Color__Color, color__black, color__white, color__gray, color__red, color__green, color__blue, color__yellow, color__orange, color__purple, color__pink, color__navy, color__teal, color__brown, color__cyan, color__magenta, color__none, color__theme, color__rgb, color__rgba, color__hsl, color__hex, color__to_hex, color__with_alpha, color__mix, color__same, color__palette, Color__Paint, Color__Plain, Color__Linear, Color__Radial, Color__Conic, color__stop
 tw.web_init(0)
 c = tw_external.canvas(200, 200)
 
 def draw(t):
-    tw.clear(c, 'black')
+    tw.clear(c, color__black)
     tw.push(c)
     tw.translate(c, 100.0, 100.0)
-    tw.rotate(c, t * 90.0)
-    tw.rect(c, -20, -20, 40, 40, 'crimson', tw.rect__default__outline(), tw.rect__default__outline_width(), tw.rect__default__alpha(), tw.rect__default__radius())
+    tw.rotate(c, __pyk_fdiv(t * math.pi, 2.0))
+    tw.rect(c, -20, -20, 40, 40, color__hex(14423100), tw.rect__default__stroke(), 1, 1.0, tw.rect__default__paint(), tw.rect__default__style(), 0)
     tw.push(c)
     tw.scale(c, 0.5, 2.0)
-    tw.circle(c, 60, 0, 10, 'white', tw.circle__default__outline(), tw.circle__default__outline_width(), tw.circle__default__alpha())
+    tw.circle(c, 60, 0, 10, color__white, tw.circle__default__stroke(), 1, 1.0, tw.circle__default__paint(), tw.circle__default__style())
     tw.pop(c)
     tw.pop(c)
-    tw.shadow(c, 'white', 12, tw.shadow__default__dx(), tw.shadow__default__dy())
-    tw.circle(c, 30, 30, 10, 'gold', tw.circle__default__outline(), tw.circle__default__outline_width(), tw.circle__default__alpha())
-    tw.shadow(c, '', tw.shadow__default__blur(), tw.shadow__default__dx(), tw.shadow__default__dy())
+    tw.shadow(c, color__white, 12, 0, 0)
+    tw.circle(c, 30, 30, 10, color__hex(16766720), tw.circle__default__stroke(), 1, 1.0, tw.circle__default__paint(), tw.circle__default__style())
+    tw.shadow(c, color__none, 10, 0, 0)
     tw.blend(c, 'add')
-    tw.circle(c, 160, 160, 20, '#800000', tw.circle__default__outline(), tw.circle__default__outline_width(), tw.circle__default__alpha())
-    tw.circle(c, 175, 160, 20, '#000080', tw.circle__default__outline(), tw.circle__default__outline_width(), tw.circle__default__alpha())
+    tw.circle(c, 160, 160, 20, color__hex(8388608), tw.circle__default__stroke(), 1, 1.0, tw.circle__default__paint(), tw.circle__default__style())
+    tw.circle(c, 175, 160, 20, color__hex(128), tw.circle__default__stroke(), 1, 1.0, tw.circle__default__paint(), tw.circle__default__style())
     tw.blend(c, 'normal')
     tw.blend(c, 'multiply')
     return tw.reset(c)

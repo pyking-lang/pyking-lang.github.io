@@ -54,30 +54,35 @@ def __pyk_trunc(x):
 
 import tinyweb as tw
 import tinyweb_external as tw_external
+from tinyweb import bitmap__bitmap, bitmap__set_pixel, bitmap__get_pixel, bitmap__fill_bitmap, bitmap__show_bitmap, bitmap__bitmap__default__background
+from tinyweb import Color__Color, color__black, color__white, color__gray, color__red, color__green, color__blue, color__yellow, color__orange, color__purple, color__pink, color__navy, color__teal, color__brown, color__cyan, color__magenta, color__none, color__theme, color__rgb, color__rgba, color__hsl, color__hex, color__to_hex, color__with_alpha, color__mix, color__same, color__palette, Color__Paint, Color__Plain, Color__Linear, Color__Radial, Color__Conic, color__stop
 tw.web_init(0)
 c = tw_external.canvas(160, 100)
-b = tw_external.bitmap(16, 10)
-print('a new bitmap is black:', tw_external.get_pixel(b, 3, 3))
+
+def show(p):
+    return str(p.r) + ' ' + str(p.g) + ' ' + str(p.b)
+
+b = bitmap__bitmap(16, 10, bitmap__bitmap__default__background())
+print('a new bitmap is white:', show(bitmap__get_pixel(b, 3, 3)))
+print('or its background:', show(bitmap__get_pixel(bitmap__bitmap(2, 2, color__green), 1, 1)))
 for y in range(10):
     for x in range(16):
-        tw_external.set_pixel(b, x, y, tw.pixel_color(x * 16, y * 25, 128))
-tw.show_bitmap(c, b, tw.show_bitmap__default__x(), tw.show_bitmap__default__y(), 10.0)
-orange = tw.pixel_color(255, 136, 0)
-print('orange is', orange, tw.red(orange), tw.green(orange), tw.blue(orange))
-print('clamped:', tw.pixel_color(300, -5, 70))
-tw_external.set_pixel(b, 4, 2, orange)
-tw_external.set_pixel(b, 7, 5, orange)
-tw_external.set_pixel(b, 40, 2, orange)
-print('pixel (4, 2):', tw_external.get_pixel(b, 4, 2), 'outside:', tw_external.get_pixel(b, -1, 0))
-tw.show_bitmap(c, b, 0, 0, 10.0)
-tw.show_bitmap(c, b, 5, 5, tw.show_bitmap__default__scale())
-small = tw_external.bitmap(4, 4)
-tw_external.fill_bitmap(small, tw.pixel_color(0, 0, 255))
-print('filled:', tw.blue(tw_external.get_pixel(small, 3, 3)))
-tw.show_bitmap(c, small, 120, 60, 0.5)
+        bitmap__set_pixel(b, x, y, color__rgb(x * 16, y * 25, 128))
+bitmap__show_bitmap(c, b, 0, 0, 10.0)
+orange = color__rgb(255, 136, 0)
+bitmap__set_pixel(b, 4, 2, orange)
+bitmap__set_pixel(b, 7, 5, orange)
+bitmap__set_pixel(b, 40, 2, orange)
+print('pixel (4, 2):', show(bitmap__get_pixel(b, 4, 2)), 'outside:', show(bitmap__get_pixel(b, -1, 0)), __pyk_float(bitmap__get_pixel(b, -1, 0).a))
+bitmap__show_bitmap(c, b, 0, 0, 10.0)
+bitmap__show_bitmap(c, b, 5, 5, 1.0)
+small = bitmap__bitmap(4, 4, bitmap__bitmap__default__background())
+bitmap__fill_bitmap(small, color__blue)
+print('filled:', bitmap__get_pixel(small, 3, 3).b)
 
 def frame(t):
-    tw_external.set_pixel(small, 1, 1, tw.pixel_color(__pyk_trunc(t * 100.0), 0, 0))
-    return tw.show_bitmap(c, small, 120, 60, 2.0)
+    bitmap__set_pixel(small, 1, 1, color__rgb(__pyk_trunc(t * 100.0), 0, 0))
+    return bitmap__show_bitmap(c, small, 120, 60, 2.0)
 
+bitmap__show_bitmap(c, small, 120, 60, 0.5)
 tw_external.on_frame(frame)

@@ -10,23 +10,25 @@ public final class Program {
     private static int presses;
 
     private static void play_kick() {
-        Tinyweb.play(kick, Tinyweb.play__default__at(), Tinyweb.play__default__volume(), Tinyweb.play__default__rate());
+        Tinyweb.play(kick, 0.0, 1.0, 1.0, 0.0, Tinyweb.play__default__voice());
     }
 
     private static void play_sound() {
         presses = presses + 1;
         System.out.println("snare, press " + String.valueOf(presses));
-        Tinyweb.play(snare, Tinyweb.play__default__at(), 0.5, Tinyweb.play__default__rate());
+        Tinyweb.play(snare, 0.0, 0.5, 1.0, 0.0, Tinyweb.play__default__voice());
     }
 
     public static void main(String[] args) {
+        Math.init();
+        Text.init();
         Tinyweb.init();
         Tinyweb.web_init(0);
         kick = TinywebExternal.load_sample("kick1.wav");
         snare = TinywebExternal.load_sample("snare1.wav");
         canvas = TinywebExternal.canvas(400, 200);
-        Tinyweb.circle(canvas, 100, 50, 30, "#ff0000", Tinyweb.circle__default__outline(), Tinyweb.circle__default__outline_width(), Tinyweb.circle__default__alpha());
-        Tinyweb.circle(canvas, 100, 50, 20, Tinyweb.circle__default__color(), Tinyweb.circle__default__outline(), Tinyweb.circle__default__outline_width(), Tinyweb.circle__default__alpha());
+        Tinyweb.circle(canvas, 100, 50, 30, Tinyweb.color__red, Tinyweb.circle__default__stroke(), 1, 1.0, Tinyweb.circle__default__paint(), Tinyweb.circle__default__style());
+        Tinyweb.circle(canvas, 100, 50, 20, Tinyweb.circle__default__fill(), Tinyweb.circle__default__stroke(), 1, 1.0, Tinyweb.circle__default__paint(), Tinyweb.circle__default__style());
         presses = 0;
         Tinyweb.button("Play kick", () -> { play_kick(); return null; });
         Tinyweb.button("Play snare", () -> { play_sound(); return null; });

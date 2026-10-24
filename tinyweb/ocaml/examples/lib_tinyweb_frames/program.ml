@@ -1,5 +1,5 @@
 (* Generated from lib_tinyweb_frames.pyk by the Pyking compiler. Do not edit. *)
-(* Target: ocaml5.5. Compile with:  ocamlopt <this file>
+(* Target: ocaml4.14. Compile with:  ocamlopt <this file>
    or run it directly with:      ocaml <this file> *)
 
 let pyk_float_str x =
@@ -60,14 +60,14 @@ let beat = 0.5
 let next_beat = ref 0.0
 
 let draw t =
-  Tinyweb.clear c "#111111";
-  let tmp1 = Tinyweb.circle__default__outline () in
-  let tmp2 = Tinyweb.circle__default__outline_width () in
-  Tinyweb.circle c (pyk_truncate (t *. 100.0)) 50 10 "#ffcc00" tmp1 tmp2 (Tinyweb.circle__default__alpha ());
+  Tinyweb.clear c (Tinyweb.color__hex 1118481);
+  let tmp1 = Tinyweb.color__hex 16763904 in
+  let tmp2 = Tinyweb.circle__default__stroke () in
+  let tmp3 = Tinyweb.circle__default__paint () in
+  Tinyweb.circle c (pyk_truncate (t *. 100.0)) 50 10 tmp1 tmp2 1 1.0 tmp3 (Tinyweb.circle__default__style ());
   if t >= !next_beat then
     (print_endline ("beat scheduled at " ^ pyk_float_str (!next_beat +. beat) ^ ", drawn at " ^ pyk_float_str t);
-    let tmp3 = Tinyweb.play__default__volume () in
-    Tinyweb.play kick (!next_beat +. beat) tmp3 (Tinyweb.play__default__rate ());
+    Tinyweb.play kick (!next_beat +. beat) 1.0 1.0 0.0 (Tinyweb.play__default__voice ());
     next_beat := !next_beat +. beat)
 
 let () =

@@ -1,16 +1,17 @@
 // Generated from lib_tinyweb_layout.pyk by the Pyking compiler. Do not edit.
-// Target: node24. Run with:  node <this file>
+// Target: node22. Run with:  node <this file>
 
 import { print } from './pyk-runtime.js';
 
 import * as tw from './tinyweb.js';
 import * as tw_external from './tinyweb_external.js';
-tw.web_init(tw.web_init__default__port());
-tw.page_style(tw.page_style__default__background(), tw.page_style__default__color(), tw.page_style__default__font(), tw.page_style__default__size(), tw.page_style__default__padding(), tw.page_style__default__gap(), 'center');
+import { layout__row, layout__column, layout__inside, layout__outside, layout__text_area, layout__text_area__default__on_change } from './tinyweb.js';
+tw.web_init(0);
+tw.page_style(tw.page_style__default__background(), tw.page_style__default__foreground(), '', -1, -1, -1, 'center');
 const title = tw_external.label('Layout');
-tw.set_style(title, tw.set_style__default__background(), tw.set_style__default__color(), tw.set_style__default__border(), tw.set_style__default__radius(), tw.set_style__default__font(), 28, tw.set_style__default__padding(), tw.set_style__default__accent(), tw.set_style__default__width(), 700, tw.set_style__default__height());
-const buttons = tw_external.row();
-tw_external.inside(buttons);
+tw.set_style(title, tw.set_style__default__background(), tw.set_style__default__foreground(), tw.set_style__default__border(), -1, -1, '', 28, -1, tw.set_style__default__accent(), -1, 700, -1);
+const buttons = layout__row();
+layout__inside(buttons);
 
 function clicked() {
   print('clicked');
@@ -18,26 +19,34 @@ function clicked() {
 
 tw.button('one', clicked);
 tw.button('two', tw.button__default__on_click());
-tw_external.outside();
+layout__outside();
 tw_external.canvas(100, 40);
-const controls = tw_external.row();
-tw_external.inside(controls);
+const controls = layout__row();
+layout__inside(controls);
 tw_external.label('speed');
 tw.slider(0, 10, 5, tw.slider__default__on_change());
-tw_external.inside(buttons);
+layout__inside(buttons);
 tw.button('three', tw.button__default__on_click());
-tw_external.outside();
-const figures = tw_external.row();
-tw_external.inside(figures);
-const left = tw_external.column();
-tw_external.inside(left);
+layout__outside();
+const figures = layout__row();
+layout__inside(figures);
+const left = layout__column();
+layout__inside(left);
 const small = tw_external.canvas(50, 20);
-tw.set_style(small, tw.set_style__default__background(), tw.set_style__default__color(), tw.set_style__default__border(), tw.set_style__default__radius(), tw.set_style__default__font(), tw.set_style__default__size(), tw.set_style__default__padding(), tw.set_style__default__accent(), 100, tw.set_style__default__weight(), 40);
+tw.set_style(small, tw.set_style__default__background(), tw.set_style__default__foreground(), tw.set_style__default__border(), -1, -1, '', -1, -1, tw.set_style__default__accent(), 100, -1, 40);
 tw_external.label('stretched');
-tw_external.inside(figures);
-const right = tw_external.column();
-tw_external.inside(right);
+layout__inside(figures);
+const right = layout__column();
+layout__inside(right);
 tw_external.canvas(100, 40);
 tw_external.label('as it is');
-tw_external.outside();
+layout__outside();
+
+function edited(words) {
+  print('notes:', words);
+}
+
+const notes = layout__text_area('first line\nsecond "line"', 3, 30, edited);
+layout__text_area('', 4, 40, layout__text_area__default__on_change());
 tw_external.label('the end');
+print(notes, tw.value_of(notes));

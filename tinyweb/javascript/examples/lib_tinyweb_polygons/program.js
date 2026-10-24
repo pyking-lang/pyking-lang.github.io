@@ -1,5 +1,5 @@
 // Generated from lib_tinyweb_polygons.pyk by the Pyking compiler. Do not edit.
-// Target: node24. Run with:  node <this file>
+// Target: node22. Run with:  node <this file>
 
 import { print } from './pyk-runtime.js';
 
@@ -18,12 +18,15 @@ function pykLen(value) {
 
 import * as tw from './tinyweb.js';
 import * as tw_external from './tinyweb_external.js';
-import { colors__palette as palette } from './tinyweb.js';
+import { Color__Color, color__black, color__white, color__gray, color__red, color__green, color__blue, color__yellow, color__orange, color__purple, color__pink, color__navy, color__teal, color__brown, color__cyan, color__magenta, color__none, color__theme, color__rgb, color__rgba, color__hsl, color__hex, color__to_hex, color__with_alpha, color__mix, color__same, color__palette, Color__Paint, Color__Plain, Color__Linear, Color__Radial, Color__Conic, color__stop } from './tinyweb.js';
+import { color__palette as palette } from './tinyweb.js';
+import { Point } from './tinyweb.js';
 tw.web_init(0);
 const c = tw_external.canvas(200, 200);
 const ocean = palette('ocean');
 print(pykLen(ocean));
-tw.polygon(c, pykList([[100, 10], [130, 90], [70, 90]]), 'orange', 'black', tw.polygon__default__outline_width(), tw.polygon__default__alpha());
-tw.path(c, pykList([[10, 190], [60, 120], [110, 170], [190, 110]]), 'teal', 3, tw.path__default__alpha());
-tw.polygon(c, pykList([]), 'red', tw.polygon__default__outline(), tw.polygon__default__outline_width(), tw.polygon__default__alpha());
-print(palette('nothing'));
+tw.polygon(c, pykList([Point(100, 10), Point(130, 90), Point(70, 90)]), color__orange, color__black, 1, 1.0, tw.polygon__default__paint(), tw.polygon__default__style());
+tw.path(c, pykList([Point(10, 190), Point(60, 120), Point(110, 170), Point(190, 110)]), color__teal, 3, 1.0, tw.path__default__style());
+tw.polygon(c, pykList([]), color__red, tw.polygon__default__stroke(), 1, 1.0, tw.polygon__default__paint(), tw.polygon__default__style());
+tw.lines(c, pykList([[Point(0, 0), Point(20, 20)], [Point(20, 0), Point(0, 20)]]), color__navy, 1, 1.0, tw.lines__default__style());
+print(pykLen(palette('nothing')));

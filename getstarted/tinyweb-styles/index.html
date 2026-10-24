@@ -48,121 +48,130 @@ ways, from the broadest to the narrowest:</p>
 <li><code>theme</code> picks one of tinyweb’s ready-made looks for the whole page.</li>
 <li><code>page_style</code>, <code>button_style</code>, <code>label_style</code>, <code>slider_style</code> and
 <code>canvas_style</code> change one kind of element, all of them at once.</li>
-<li><code>set_style</code> and <code>set_colors</code> change one element.</li>
+<li><code>set_style</code> changes one element.</li>
 </ul>
-<p>The narrower one wins: a button given its own colors with <code>set_colors</code>
+<p>The narrower one wins: a button given its own colors with <code>set_style</code>
 keeps them whatever <code>button_style</code> says. Every example below is a whole
 program. Press <strong>▶</strong> to run it, and change it to try your own.</p>
 <h2 id="themes">Themes</h2>
 <p>A page starts in <code>"light"</code>. This program shows everything a page can
 hold, in that theme:</p>
 <div class="pkn-notebook pkn-embedded not-content"><div class="pkn-cell"><pre class="pkn-cell-fallback"><code>import tinyweb as tw
+import tinyweb.color as color
 tw.web_init(0)
 tw.label("The light theme")
 c = tw.canvas(220, 60)
-tw.circle(c, 30, 30, 20, "orange")
-tw.rect(c, 70, 15, 130, 30, "#4caf50")
+tw.circle(c, 30, 30, 20, color.orange)
+tw.rect(c, 70, 15, 130, 30, color.hex(0x4caf50))
 tw.button("Press me")
 tw.slider(0, 100, 40)</code></pre></div></div>
 <p>The same program in each of the other four themes. Call <code>theme</code> first,
 before anything else changes the look, since a theme replaces what the
 <code>_style</code> functions changed.</p>
 <div class="pkn-notebook pkn-embedded not-content"><div class="pkn-cell"><pre class="pkn-cell-fallback"><code>import tinyweb as tw
+import tinyweb.color as color
 tw.web_init(0)
 tw.theme("dark")
 tw.label("The dark theme")
 c = tw.canvas(220, 60)
-tw.circle(c, 30, 30, 20, "orange")
-tw.rect(c, 70, 15, 130, 30, "#4caf50")
+tw.circle(c, 30, 30, 20, color.orange)
+tw.rect(c, 70, 15, 130, 30, color.hex(0x4caf50))
 tw.button("Press me")
 tw.slider(0, 100, 40)</code></pre></div></div>
 <p><code>"plain"</code> uses the browser’s own buttons and sliders, on white:</p>
 <div class="pkn-notebook pkn-embedded not-content"><div class="pkn-cell"><pre class="pkn-cell-fallback"><code>import tinyweb as tw
+import tinyweb.color as color
 tw.web_init(0)
 tw.theme("plain")
 tw.label("The plain theme")
 c = tw.canvas(220, 60)
-tw.circle(c, 30, 30, 20, "orange")
-tw.rect(c, 70, 15, 130, 30, "#4caf50")
+tw.circle(c, 30, 30, 20, color.orange)
+tw.rect(c, 70, 15, 130, 30, color.hex(0x4caf50))
 tw.button("Press me")
 tw.slider(0, 100, 40)</code></pre></div></div>
 <p><code>"paper"</code> is ink on warm paper, with a serif font:</p>
 <div class="pkn-notebook pkn-embedded not-content"><div class="pkn-cell"><pre class="pkn-cell-fallback"><code>import tinyweb as tw
+import tinyweb.color as color
 tw.web_init(0)
 tw.theme("paper")
 tw.label("The paper theme")
 c = tw.canvas(220, 60)
-tw.circle(c, 30, 30, 20, "orange")
-tw.rect(c, 70, 15, 130, 30, "#4caf50")
+tw.circle(c, 30, 30, 20, color.orange)
+tw.rect(c, 70, 15, 130, 30, color.hex(0x4caf50))
 tw.button("Press me")
 tw.slider(0, 100, 40)</code></pre></div></div>
 <p><code>"retro"</code> is green on black, in a typewriter font:</p>
 <div class="pkn-notebook pkn-embedded not-content"><div class="pkn-cell"><pre class="pkn-cell-fallback"><code>import tinyweb as tw
+import tinyweb.color as color
 tw.web_init(0)
 tw.theme("retro")
 tw.label("The retro theme")
 c = tw.canvas(220, 60)
-tw.circle(c, 30, 30, 20, "orange")
-tw.rect(c, 70, 15, 130, 30, "#4caf50")
+tw.circle(c, 30, 30, 20, color.orange)
+tw.rect(c, 70, 15, 130, 30, color.hex(0x4caf50))
 tw.button("Press me")
 tw.slider(0, 100, 40)</code></pre></div></div>
 <h2 id="one-kind-of-element">One kind of element</h2>
 <p>Each <code>_style</code> function changes every element of one kind: those already
 on the page and those made after it. Only what is named changes, and
 everything else stays as the theme has it.</p>
-<p>A color is any CSS color, such as <code>"red"</code>, <code>"#336699"</code> or
-<code>"rgb(40, 120, 200)"</code>. A border is a CSS border, such as <code>"2px solid navy"</code>, <code>"1px dashed gray"</code> or <code>"none"</code>. Sizes, corners, padding and gaps
-are whole numbers of pixels. A font is a font name, such as <code>"Georgia"</code>,
+<p>A color is a <code>color.Color</code>, such as <code>color.red</code>, <code>color.hex(0x336699)</code>
+or <code>color.rgb(40, 120, 200)</code>. A border is its color and its width in
+pixels, <code>border</code> and <code>border_width</code>; <code>color.none</code> is no border. Sizes,
+corners, padding and gaps are whole numbers of pixels. A font is a font name, such as <code>"Georgia"</code>,
 or one of <code>"serif"</code>, <code>"sans-serif"</code> and <code>"monospace"</code>.</p>
 <p>Named arguments are written in the order the function lists its
 parameters, and any of them can be left out. The order for each function
 is on its own entry in <a href="/libraries/tinyweb/">the tinyweb reference</a>.</p>
 <div class="pkn-notebook pkn-embedded not-content"><div class="pkn-cell"><pre class="pkn-cell-fallback"><code>import tinyweb as tw
+import tinyweb.color as color
 tw.web_init(0)
-tw.page_style(background = "#fdf6e3", color = "#586e75", font = "Georgia", size = 17, padding = 16, gap = 14)
-tw.button_style(background = "#268bd2", color = "white", border = "none", radius = 16, padding = 9)
-tw.label_style(background = "#eee8d5", radius = 6, padding = 8)
-tw.slider_style(accent = "#cb4b16", width = 260)
-tw.canvas_style(border = "2px solid #93a1a1", radius = 8)
+tw.page_style(background = color.hex(0xfdf6e3), foreground = color.hex(0x586e75), font = "Georgia", size = 17, padding = 16, gap = 14)
+tw.button_style(background = color.hex(0x268bd2), foreground = color.white, border = color.none, radius = 16, padding = 9)
+tw.label_style(background = color.hex(0xeee8d5), radius = 6, padding = 8)
+tw.slider_style(accent = color.hex(0xcb4b16), width = 260)
+tw.canvas_style(border = color.hex(0x93a1a1), border_width = 2, radius = 8)
 tw.label("Every label looks like this one.")
 tw.label("And this one.")
 c = tw.canvas(220, 60)
-tw.circle(c, 30, 30, 20, "#b58900")
+tw.circle(c, 30, 30, 20, color.hex(0xb58900))
 tw.button("Start")
 tw.button("Stop")
 tw.slider(0, 100, 60)</code></pre></div></div>
 <h2 id="one-element">One element</h2>
-<p><code>set_colors</code> and <code>set_style</code> change one button, label, slider or canvas,
+<p><code>set_style</code> changes one button, label, slider or canvas,
 named by the string the function that made it answered. They win over
 the theme and over the <code>_style</code> functions.</p>
 <div class="pkn-notebook pkn-embedded not-content"><div class="pkn-cell"><pre class="pkn-cell-fallback"><code>import tinyweb as tw
+import tinyweb.color as color
 tw.web_init(0)
 tw.button_style(radius = 8, padding = 8)
 yes = tw.button("Yes")
 no = tw.button("No")
 maybe = tw.button("Maybe")
-tw.set_colors(yes, color = "white", background = "seagreen")
-tw.set_colors(no, color = "white", background = "firebrick")
-tw.set_style(maybe, border = "2px dashed orange", font = "monospace")
+tw.set_style(yes, background = color.hex(0x2e8b57), foreground = color.white)
+tw.set_style(no, background = color.hex(0xb22222), foreground = color.white)
+tw.set_style(maybe, border = color.orange, border_width = 2, font = "monospace")
 title = tw.label("A big title")
-tw.set_style(title, color = "purple", font = "Georgia", size = 30)</code></pre></div></div>
+tw.set_style(title, foreground = color.purple, font = "Georgia", size = 30)</code></pre></div></div>
 <p>A style can change while the page is showing, as anything else on it
 can. Press the buttons:</p>
 <div class="pkn-notebook pkn-embedded not-content"><div class="pkn-cell"><pre class="pkn-cell-fallback"><code>import tinyweb as tw
+import tinyweb.color as color
 tw.web_init(0)
 status = tw.label("Choose a theme")
 
 def to_light():
     tw.theme("light")
-    tw.set_label(status, "light")
+    tw.set_text(status, "light")
 
 def to_dark():
     tw.theme("dark")
-    tw.set_label(status, "dark")
+    tw.set_text(status, "dark")
 
 def to_retro():
     tw.theme("retro")
-    tw.set_label(status, "retro")
+    tw.set_text(status, "retro")
 
 tw.button("Light", on_click = to_light)
 tw.button("Dark", on_click = to_dark)

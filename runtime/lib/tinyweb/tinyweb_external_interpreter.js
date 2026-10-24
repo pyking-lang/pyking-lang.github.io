@@ -1,7 +1,7 @@
 // The JavaScript implementation of the names declared in
-// tinyweb_external.pyk that talks to its page in commands, for iweb24,
+// tinyweb_external.pyk that talks to its page in commands, for iweb,
 // the playground and the notebook: wherever the interpreter runs the
-// program. tinyweb_external_browser.js is the one web24 uses, which
+// program. tinyweb_external_browser.js is the one web uses, which
 // draws directly; the two do the same thing, which
 // tests/test_tinyweb.py checks.
 //
@@ -11,7 +11,7 @@
 // program handed over. How a command reaches the page depends on where
 // the program runs, and is chosen once, below (`transport`):
 //
-//   - on a page (an iweb24 page): the renderer, tinyweb_page.js, is
+//   - on a page (an iweb page): the renderer, tinyweb_page.js, is
 //     mounted on the page and called directly;
 //   - in a worker (the playground, a notebook): each command is posted
 //     to the page as {type: "page", module: "tinyweb", data: [command]}
@@ -47,6 +47,10 @@ let keysOn = false;
 const pointers = new Map();
 const measures = new Map();
 const bitmaps = new Map();
+// The functions `watch` handed over, by element and kind, and what the
+// page last reported, by name: an array of numbers or a text.
+const watchers = new Map();
+const reports = new Map();
 
 function now() {
   return typeof performance !== "undefined" ? performance.now() : Date.now();
@@ -59,6 +63,8 @@ let clock = { t: 0, at: now(), running: false };
 // A new element's identifier: `name`, or `name` with the first number
 // from 1 that makes it one nothing on the page has.
 function fresh(name) {
+  // An empty name would be the page's own identifier.
+  if (name === "") name = "element";
   let found = name;
   for (let n = 1; names.has(found); n++) found = name + n;
   names.add(found);
@@ -95,6 +101,10 @@ function eventLine(event) {
     case "press": case "release": case "move":
       return `${event.ev} ${q(event.c)} ${event.x} ${event.y}`;
     case "measured": return `measured ${q(event.id)} ${event.width}`;
+    case "cb": return `cb ${q(event.id)} ${q(event.kind)}`;
+    case "report":
+      return Object.entries(event.reports || {}).map(([name, value]) => typeof value === "string"
+        ? `report_text ${q(name)} ${q(value)}` : `report ${q(name)} ${[].concat(value).join(" ")}`).join("\n> ");
     default: return String(event.ev);
   }
 }
@@ -171,13 +181,14 @@ function digest(bytes) {
   return h.toString(16).padStart(8, "0");
 }
 
-export function bitmap(width, height) {
+export function make_bitmap(width, height, background) {
   const id = fresh("bitmap");
   const w = Math.max(1, width);
   const h = Math.max(1, height);
   const data = new Uint8ClampedArray(w * h * 4);
   for (let i = 3; i < data.length; i += 4) data[i] = 255;
   bitmaps.set(id, { width: w, height: h, data, x1: 0, y1: 0, x2: w, y2: h });
+  fill_bitmap(id, background);
   return id;
 }
 
@@ -341,8 +352,47 @@ export function load_sample(name) {
   return id;
 }
 
-export function play_sample(sample, at, volume, rate) {
-  send({ op: "play", sample, at, volume, rate });
+export function fresh_id(name) {
+  return fresh(name);
+}
+
+export function command(kind, id, text, numbers, mode) {
+  send({ op: "cmd", kind, id, text, numbers, mode });
+}
+
+export function watch(id, kind, f) {
+  const key = id + "\u0000" + kind;
+  if (!watchers.has(key)) watchers.set(key, []);
+  watchers.get(key).push(f);
+}
+
+export function report_number(name, k) {
+  const value = reports.get(name);
+  if (!Array.isArray(value) || k < 0 || k >= value.length) return 0.0;
+  const n = Number(value[k]);
+  return Number.isFinite(n) ? n : 0.0;
+}
+
+export function report_text(name) {
+  const value = reports.get(name);
+  return typeof value === "string" ? value : "";
+}
+
+export function report_count(name) {
+  const value = reports.get(name);
+  return Array.isArray(value) ? value.length : 0;
+}
+
+export function watch_text(id, kind, name, f) {
+  watch(id, kind, () => f(report_text(name)));
+}
+
+export function watch_step(id, kind, f) {
+  watch(id, kind, () => f(Math.trunc(report_number(kind, 0)) | 0, report_number(kind, 1)));
+}
+
+export function watch_pair(id, kind, f) {
+  watch(id, kind, () => f(report_number(kind, 0), report_number(kind, 1)));
 }
 
 export function splash() {
@@ -391,46 +441,73 @@ export function key_down(key) {
   return down.has(key);
 }
 
+// The events an events file lists, one per line, delivered in order as
+// the page would send them: what a notebook's ```events block gives a
+// run whose top level has ended. An unknown line is logged and skipped.
+// String -> Promise
+export async function pykReplay(text) {
+  for (const line of text.split("\n")) {
+    if (line.trim() === "") continue;
+    const event = parseEvent(line);
+    if (event === null) trace("! unknown event: " + line);
+    else await pykDeliver(event);
+  }
+}
+
 // One event from the page: the functions the program handed over for
-// it are called, in the order they were handed over.
+// it are called, in the order they were handed over. A function that
+// answers a promise -- one the debugger is running, a slice at a time
+// -- is waited for before the next is called, and so is what follows
+// them, so the event answers a promise too.
 export function pykDeliver(event) {
   trace("> " + eventLine(event));
   if (typeof event.t === "number") {
     clock = { t: event.t, at: now(), running: Boolean(event.running) };
   }
+  if (event.reports && typeof event.reports === "object") {
+    for (const [name, value] of Object.entries(event.reports)) {
+      reports.set(name, typeof value === "string" ? value : Array.isArray(value) ? value.map(Number) : [Number(value)]);
+    }
+  }
+  const calls = [];
+  let after = null;
+  const each = (fs, ...args) => { for (const f of fs) calls.push(() => f(...args)); };
   switch (event.ev) {
+    case "cb":
+      each((watchers.get(event.id + "\u0000" + event.kind) || []).slice());
+      break;
     case "click":
-      if (buttons.has(event.id)) buttons.get(event.id)();
+      if (buttons.has(event.id)) each([buttons.get(event.id)]);
       break;
     case "slide":
-      if (sliders.has(event.id)) sliders.get(event.id)(event.value);
+      if (sliders.has(event.id)) each([sliders.get(event.id)], event.value);
       break;
     case "check":
-      if (checks.has(event.id)) checks.get(event.id)(event.checked === true);
+      if (checks.has(event.id)) each([checks.get(event.id)], event.checked === true);
       break;
     case "pick":
-      if (radios.has(event.id)) radios.get(event.id)();
+      if (radios.has(event.id)) each([radios.get(event.id)]);
       break;
     case "choose":
-      if (choices.has(event.id)) choices.get(event.id)(event.value);
+      if (choices.has(event.id)) each([choices.get(event.id)], event.value);
       break;
     case "enter":
-      if (texts.has(event.id)) texts.get(event.id)(String(event.text));
+      if (texts.has(event.id)) each([texts.get(event.id)], String(event.text));
       break;
     case "frame":
-      for (const draw of frames) draw(event.t);
-      send({ op: "frame_done" });
+      each(frames.slice(), event.t);
+      after = () => send({ op: "frame_done" });
       break;
     case "mouse":
-      for (const click of mice.get(event.c) || []) click(event.x, event.y);
+      each((mice.get(event.c) || []).slice(), event.x, event.y);
       break;
     case "key":
       down.add(event.key);
-      for (const pressed of keys) pressed(event.key);
+      each(keys.slice(), event.key);
       break;
     case "key_up":
       down.delete(event.key);
-      for (const released of keyUps.slice()) released(event.key);
+      each(keyUps.slice(), event.key);
       break;
     case "press":
     case "release":
@@ -442,17 +519,31 @@ export function pykDeliver(event) {
       if (event.ev === "press") seen.down = true;
       if (event.ev === "release") seen.down = false;
       const kinds = event.ev === "move" && seen.down ? ["move", "drag"] : [event.ev];
-      for (const kind of kinds) for (const f of seen[kind].slice()) f(seen.x, seen.y);
+      for (const kind of kinds) each(seen[kind].slice(), seen.x, seen.y);
       break;
     }
     case "measured": {
       const answer = measures.get(event.id);
       if (answer === undefined) break;
       measures.delete(event.id);
-      answer(Number(event.width));
+      each([answer], Number(event.width));
       break;
     }
   }
+  return callInTurn(calls, after);
+}
+
+// Calls each function in turn, then `after`; where one answers a
+// promise, the rest wait for it, and so does the answer.
+function callInTurn(calls, after) {
+  for (let k = 0; k < calls.length; k += 1) {
+    const answer = calls[k]();
+    if (answer && typeof answer.then === "function") {
+      return answer.then(() => callInTurn(calls.slice(k + 1), after));
+    }
+  }
+  if (after) after();
+  return undefined;
 }
 
 // --- how commands reach the page ---
@@ -584,7 +675,9 @@ function logLine(command) {
     case "set_checked": return `set_checked ${q(c.id)} ${c.checked}`;
     case "set_value": return `set_value ${q(c.id)} ${c.value}`;
     case "load": return `load ${named(c.id, c.name)}`;
-    case "play": return `play ${q(c.sample)} ${s(c.at)} ${s(c.volume)} ${s(c.rate)}`;
+    case "cmd":
+      return `${c.kind} ${q(c.id)}${c.text === "" ? "" : " " + q(c.text)}` +
+        `${c.numbers === "" ? "" : " " + c.numbers}`;
     case "on_mouse": return `on_mouse ${q(c.c)}`;
     case "style": return `style ${q(c.id)} ${c.kind} ${c.prop} ${q(c.value)}`;
     case "splash_text": return `splash_text ${q(c.text)}`;
@@ -593,10 +686,36 @@ function logLine(command) {
 }
 
 // One line of an events file as the event the page would send.
+// A `cb`, `report` or `report_text` line of an events file: quoted
+// strings, then numbers for a report.
+function genericEvent(kind, line) {
+  const quoted = /^\s*("(?:[^"\\]|\\.)*")/;
+  let rest = line.trim().slice(kind.length);
+  const strings = [];
+  for (let m = quoted.exec(rest); m !== null; m = quoted.exec(rest)) {
+    try {
+      strings.push(JSON.parse(m[1]));
+    } catch {
+      return null;
+    }
+    rest = rest.slice(m[0].length);
+  }
+  const words = rest.trim() === "" ? [] : rest.trim().split(/\s+/);
+  if (kind === "cb") return strings.length === 2 && words.length === 0 ? { ev: "cb", id: strings[0], kind: strings[1] } : null;
+  if (kind === "report_text") {
+    return strings.length === 2 && words.length === 0
+      ? { ev: "report", reports: { [strings[0]]: strings[1] } } : null;
+  }
+  const n = words.map(Number);
+  if (strings.length !== 1 || n.some(Number.isNaN)) return null;
+  return { ev: "report", reports: { [strings[0]]: n } };
+}
+
 function parseEvent(line) {
   if (line.startsWith("key ")) return { ev: "key", key: line.slice(4) };
   if (line.startsWith("key_up ")) return { ev: "key_up", key: line.slice(7) };
   const kind = line.trim().split(/\s+/)[0];
+  if (kind === "cb" || kind === "report" || kind === "report_text") return genericEvent(kind, line);
   const after = line.trim().slice(kind.length).trim();
   if (kind === "frame") {
     const t = Number(after);

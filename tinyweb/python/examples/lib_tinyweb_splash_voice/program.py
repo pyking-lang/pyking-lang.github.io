@@ -1,0 +1,60 @@
+# --- prelude begins ---
+
+def __pyk_fdiv(a, b):
+    if b == 0.0:
+        # Python raises where IEEE answers. Pyking follows IEEE.
+        if a != a or a == 0.0:
+            return float('nan')
+        below = (a < 0.0) != (repr(b)[0] == '-')
+        return float('-inf') if below else float('inf')
+    return a / b
+
+
+def __pyk_float(x):
+    if x != x:
+        return 'nan'
+    if x == float('inf'):
+        return 'inf'
+    if x == float('-inf'):
+        return '-inf'
+    if x == 0.0:
+        # The two zeros compare equal; repr tells them apart.
+        return '-0.0' if repr(x)[0] == '-' else '0.0'
+    sign = '-' if x < 0.0 else ''
+    a = abs(x)
+    p = 0
+    while p < 16:
+        s = '%.*e' % (p, a)
+        if float(s) == a:
+            break
+        p = p + 1
+    else:
+        s = '%.*e' % (16, a)
+    at = s.index('e')
+    digits = s[:at].replace('.', '')
+    decpt = int(s[at + 1:]) + 1
+    digits = digits.rstrip('0') or '0'
+    n = len(digits)
+    if decpt <= -4 or decpt > 16:
+        mantissa = digits if n == 1 else digits[0] + '.' + digits[1:]
+        return sign + mantissa + 'e' + str(decpt - 1)
+    if decpt <= 0:
+        return sign + '0.' + '0' * (-decpt) + digits
+    if decpt >= n:
+        return sign + digits + '0' * (decpt - n) + '.0'
+    return sign + digits[:decpt] + '.' + digits[decpt:]
+
+# --- prelude ends; the compiled program follows ---
+
+import tinyweb as tw
+import tinyweb_external as tw_external
+from tinyweb import Sound__Voice, sound__start, sound__stop, sound__fade, sound__stop_all, sound__master_volume, sound__tone, sound__note, sound__rate_of, sound__tempo, sound__swing, sound__on_beat, sound__beat, sound__latency, sound__pause, sound__resume, sound__channel_style, sound__listen, sound__level, sound__band, sound__bands, sound__wave, sound__render_wav, sound__start__default__voice, sound__render_wav__default__on_rendered
+tw.web_init(0)
+sound__tone(sound__note('A4'), 0.0, 0.25, 'sine', 0.5, 0.0, 0)
+
+def hum():
+    print((lambda sample__arg: (lambda voice__arg: sound__start(sample__arg, 0.0, 0.3, 1.0, 0.0, True, voice__arg))(sound__start__default__voice()))(tw_external.load_sample('piano_c1.wav')))
+    return ()
+
+tw.button('Hum', hum)
+tw_external.splash()

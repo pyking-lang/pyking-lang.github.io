@@ -3,9 +3,92 @@
 
 public final class Tinyweb {
 
-    public static void clear(final String c, final String color) {
-        TinywebExternal.fill_canvas(c, color);
+    public record Color__Color(int r, int g, int b, double a) implements PykRuntime.Data {
+        public String pykTag() { return "Color__Color"; }
+        public Object[] pykFields() { return new Object[] { r, g, b, a }; }
     }
+
+    public sealed interface Color__Paint extends PykRuntime.Data permits Color__Plain, Color__Linear, Color__Radial, Color__Conic {
+    }
+
+    public static Color__Paint Color__Plain(final Color__Color f$0) {
+        return new Color__Plain(f$0);
+    }
+
+    public record Color__Plain(Color__Color f$0) implements Color__Paint {
+        public String pykTag() { return "Color__Plain"; }
+        public Object[] pykFields() { return new Object[] { f$0 }; }
+    }
+
+    public static Color__Paint Color__Linear(final double x1, final double y1, final double x2, final double y2, final Color__Color start, final Color__Color end, final String stops) {
+        return new Color__Linear(x1, y1, x2, y2, start, end, stops);
+    }
+
+    public record Color__Linear(double x1, double y1, double x2, double y2, Color__Color start, Color__Color end, String stops) implements Color__Paint {
+        public String pykTag() { return "Color__Linear"; }
+        public Object[] pykFields() { return new Object[] { x1, y1, x2, y2, start, end, stops }; }
+    }
+
+    public static Color__Paint Color__Radial(final double x1, final double y1, final double r1, final double x2, final double y2, final double r2, final Color__Color start, final Color__Color end, final String stops) {
+        return new Color__Radial(x1, y1, r1, x2, y2, r2, start, end, stops);
+    }
+
+    public record Color__Radial(double x1, double y1, double r1, double x2, double y2, double r2, Color__Color start, Color__Color end, String stops) implements Color__Paint {
+        public String pykTag() { return "Color__Radial"; }
+        public Object[] pykFields() { return new Object[] { x1, y1, r1, x2, y2, r2, start, end, stops }; }
+    }
+
+    public static Color__Paint Color__Conic(final double x, final double y, final double angle, final Color__Color start, final Color__Color end, final String stops) {
+        return new Color__Conic(x, y, angle, start, end, stops);
+    }
+
+    public record Color__Conic(double x, double y, double angle, Color__Color start, Color__Color end, String stops) implements Color__Paint {
+        public String pykTag() { return "Color__Conic"; }
+        public Object[] pykFields() { return new Object[] { x, y, angle, start, end, stops }; }
+    }
+
+    public record Point(int x, int y) implements PykRuntime.Data {
+        public String pykTag() { return "Point"; }
+        public Object[] pykFields() { return new Object[] { x, y }; }
+    }
+
+    public record Style(Color__Color fill, Color__Color stroke, int width, double alpha, Color__Paint paint) implements PykRuntime.Data {
+        public String pykTag() { return "Style"; }
+        public Object[] pykFields() { return new Object[] { fill, stroke, width, alpha, paint }; }
+    }
+
+    public record Pointer(int x, int y, boolean down) implements PykRuntime.Data {
+        public String pykTag() { return "Pointer"; }
+        public Object[] pykFields() { return new Object[] { x, y, down }; }
+    }
+
+    public record Sound__Voice(double volume, double rate, double pan, int channel, boolean looping, boolean reverse) implements PykRuntime.Data {
+        public String pykTag() { return "Sound__Voice"; }
+        public Object[] pykFields() { return new Object[] { volume, rate, pan, channel, looping, reverse }; }
+    }
+
+    public record Smooth__Point(double x, double y) implements PykRuntime.Data {
+        public String pykTag() { return "Smooth__Point"; }
+        public Object[] pykFields() { return new Object[] { x, y }; }
+    }
+
+    public static Color__Color color__black;
+    public static Color__Color color__white;
+    public static Color__Color color__gray;
+    public static Color__Color color__red;
+    public static Color__Color color__green;
+    public static Color__Color color__blue;
+    public static Color__Color color__yellow;
+    public static Color__Color color__orange;
+    public static Color__Color color__purple;
+    public static Color__Color color__pink;
+    public static Color__Color color__navy;
+    public static Color__Color color__teal;
+    public static Color__Color color__brown;
+    public static Color__Color color__cyan;
+    public static Color__Color color__magenta;
+    public static Color__Color color__none;
+    public static Color__Color color__theme;
 
     private static String numbers2(final int a, final int b) {
         return String.valueOf(a) + " " + String.valueOf(b);
@@ -31,88 +114,318 @@ public final class Tinyweb {
         return floats2(a, b) + " " + floats2(c, d);
     }
 
+    private static int color__part(final int n) {
+        return n < 0 ? 0 : n > 255 ? 255 : n;
+    }
+
+    private static double color__unit(final double x) {
+        return x < 0.0 ? 0.0 : x > 1.0 ? 1.0 : x;
+    }
+
+    private static String color__hex2(final int n) {
+        final var clamped = color__part(n);
+        return color__hex_digit(clamped / 16) + color__hex_digit(clamped - clamped / 16 * 16);
+    }
+
+    private static String color__hex_digit(final int d) {
+        final Integer s$1 = d;
+        switch (s$1) {
+            case Integer t$2 when PykRuntime.truth((int) t$2 == 0) -> {
+                return "0";
+            }
+            case Integer t$3 when PykRuntime.truth((int) t$3 == 1) -> {
+                return "1";
+            }
+            case Integer t$4 when PykRuntime.truth((int) t$4 == 2) -> {
+                return "2";
+            }
+            case Integer t$5 when PykRuntime.truth((int) t$5 == 3) -> {
+                return "3";
+            }
+            case Integer t$6 when PykRuntime.truth((int) t$6 == 4) -> {
+                return "4";
+            }
+            case Integer t$7 when PykRuntime.truth((int) t$7 == 5) -> {
+                return "5";
+            }
+            case Integer t$8 when PykRuntime.truth((int) t$8 == 6) -> {
+                return "6";
+            }
+            case Integer t$9 when PykRuntime.truth((int) t$9 == 7) -> {
+                return "7";
+            }
+            case Integer t$10 when PykRuntime.truth((int) t$10 == 8) -> {
+                return "8";
+            }
+            case Integer t$11 when PykRuntime.truth((int) t$11 == 9) -> {
+                return "9";
+            }
+            case Integer t$12 when PykRuntime.truth((int) t$12 == 10) -> {
+                return "a";
+            }
+            case Integer t$13 when PykRuntime.truth((int) t$13 == 11) -> {
+                return "b";
+            }
+            case Integer t$14 when PykRuntime.truth((int) t$14 == 12) -> {
+                return "c";
+            }
+            case Integer t$15 when PykRuntime.truth((int) t$15 == 13) -> {
+                return "d";
+            }
+            case Integer t$16 when PykRuntime.truth((int) t$16 == 14) -> {
+                return "e";
+            }
+            case Integer t$17 -> {
+                return "f";
+            }
+        }
+    }
+
+    private static String color__css(final Color__Color c) {
+        if (c.a() >= 1.0) {
+            return "#" + color__hex2(c.r()) + color__hex2(c.g()) + color__hex2(c.b());
+        } else {
+            return "rgba(" + String.valueOf(color__part(c.r())) + ", " + String.valueOf(color__part(c.g())) + ", " + String.valueOf(color__part(c.b())) + ", " + PykRuntime.floatStr(color__unit(c.a())) + ")";
+        }
+    }
+
+    private static String color__drawn(final Color__Color c) {
+        return c.a() <= 0.0 ? "" : color__css(c);
+    }
+
+    private static String color__paint_text(final Color__Paint p) {
+        final Color__Paint s$18 = p;
+        switch (s$18) {
+            case Color__Plain(var t$19) -> {
+                final var c = t$19;
+                return color__drawn(c);
+            }
+            case Color__Linear(var t$20, var t$21, var t$22, var t$23, var t$24, var t$25, var t$26) -> {
+                final double x1 = t$20;
+                final double y1 = t$21;
+                final double x2 = t$22;
+                final double y2 = t$23;
+                final var start = t$24;
+                final var end = t$25;
+                final var stops = t$26;
+                return "linear-gradient(" + floats4(x1, y1, x2, y2) + "); 0.0 " + color__css(start) + "; 1.0 " + color__css(end) + stops;
+            }
+            case Color__Radial(var t$27, var t$28, var t$29, var t$30, var t$31, var t$32, var t$33, var t$34, var t$35) -> {
+                final double x12 = t$27;
+                final double y12 = t$28;
+                final double r1 = t$29;
+                final double x22 = t$30;
+                final double y22 = t$31;
+                final double r2 = t$32;
+                final var start2 = t$33;
+                final var end2 = t$34;
+                final var stops2 = t$35;
+                return "radial-gradient(" + floats3(x12, y12, r1) + " " + floats3(x22, y22, r2) + "); 0.0 " + color__css(start2) + "; 1.0 " + color__css(end2) + stops2;
+            }
+            case Color__Conic(var t$36, var t$37, var t$38, var t$39, var t$40, var t$41) -> {
+                final double x = t$36;
+                final double y = t$37;
+                final double angle = t$38;
+                final var start3 = t$39;
+                final var end3 = t$40;
+                final var stops3 = t$41;
+                return "conic-gradient(" + floats3(x, y, angle) + "); 0.0 " + color__css(start3) + "; 1.0 " + color__css(end3) + stops3;
+            }
+            default -> {
+                throw new IllegalStateException();
+            }
+        }
+    }
+
+    private static boolean color__painted(final Color__Paint p) {
+        final Color__Paint s$42 = p;
+        switch (s$42) {
+            case Color__Plain(var t$43) -> {
+                final var c = t$43;
+                return c.a() > 0.0;
+            }
+            case Color__Paint t$44 -> {
+                return true;
+            }
+        }
+    }
+
+    public static Color__Color color__hex(final int n) {
+        return new Color__Color(color__part(n / 65536), color__part(n / 256 - n / 65536 * 256), color__part(n - n / 256 * 256), 1.0);
+    }
+
+    public static boolean color__same(final Color__Color a, final Color__Color b) {
+        return (int) a.r() == (int) b.r() ? (int) a.g() == (int) b.g() ? (int) a.b() == (int) b.b() ? (double) a.a() == (double) b.a() : false : false : false;
+    }
+
+    public static Color__Paint color__stop(final Color__Paint paint, final double at, final Color__Color c) {
+        final var more = "; " + PykRuntime.floatStr(at) + " " + color__css(c);
+        final Color__Paint s$45 = paint;
+        switch (s$45) {
+            case Color__Plain(var t$46) -> {
+                return paint;
+            }
+            case Color__Linear(var t$47, var t$48, var t$49, var t$50, var t$51, var t$52, var t$53) -> {
+                final double x1 = t$47;
+                final double y1 = t$48;
+                final double x2 = t$49;
+                final double y2 = t$50;
+                final var start = t$51;
+                final var end = t$52;
+                final var stops = t$53;
+                return Color__Linear(x1, y1, x2, y2, start, end, stops + more);
+            }
+            case Color__Radial(var t$54, var t$55, var t$56, var t$57, var t$58, var t$59, var t$60, var t$61, var t$62) -> {
+                final double x12 = t$54;
+                final double y12 = t$55;
+                final double r1 = t$56;
+                final double x22 = t$57;
+                final double y22 = t$58;
+                final double r2 = t$59;
+                final var start2 = t$60;
+                final var end2 = t$61;
+                final var stops2 = t$62;
+                return Color__Radial(x12, y12, r1, x22, y22, r2, start2, end2, stops2 + more);
+            }
+            case Color__Conic(var t$63, var t$64, var t$65, var t$66, var t$67, var t$68) -> {
+                final double x = t$63;
+                final double y = t$64;
+                final double angle = t$65;
+                final var start3 = t$66;
+                final var end3 = t$67;
+                final var stops3 = t$68;
+                return Color__Conic(x, y, angle, start3, end3, stops3 + more);
+            }
+            default -> {
+                throw new IllegalStateException();
+            }
+        }
+    }
+
     public static void web_init(final int port) {
         TinywebExternal.web_start(port);
     }
 
-    public static String circle__default__outline() {
-        return "";
+    public static Color__Color field__default__Style__fill() {
+        return color__black;
     }
 
-    public static int circle__default__outline_width() {
-        return 1;
+    public static Color__Color field__default__Style__stroke() {
+        return color__none;
     }
 
-    public static double circle__default__alpha() {
-        return 1.0;
+    public static Color__Paint field__default__Style__paint() {
+        return Color__Plain(color__none);
     }
 
-    public static void circle(final String c, final int x, final int y, final int radius, final String color, final String outline, final int outline_width, final double alpha) {
-        TinywebExternal.draw_shape(c, "circle", numbers3(x, y, radius), color, outline, (double) outline_width, alpha);
+    private static String fill_of(final Color__Color fill, final Color__Paint paint, final Style style) {
+        if (color__painted(paint)) {
+            return color__paint_text(paint);
+        } else if (not_default_fill(fill)) {
+            return color__drawn(fill);
+        } else if (color__painted(style.paint())) {
+            return color__paint_text(style.paint());
+        } else {
+            return color__drawn(style.fill());
+        }
     }
 
-    public static String rect__default__outline() {
-        return "";
+    private static boolean not_default_fill(final Color__Color fill) {
+        return color__same(fill, color__black) ? false : true;
     }
 
-    public static int rect__default__outline_width() {
-        return 1;
+    private static String stroke_of(final Color__Color stroke, final Style style) {
+        return color__drawn(color__same(stroke, color__none) ? style.stroke() : stroke);
     }
 
-    public static double rect__default__alpha() {
-        return 1.0;
+    private static String line_of(final Color__Color stroke, final Style style) {
+        if (not_default_fill(stroke)) {
+            return color__drawn(stroke);
+        } else if (color__same(style.stroke(), color__none)) {
+            return color__drawn(style.fill());
+        } else {
+            return color__drawn(style.stroke());
+        }
     }
 
-    public static int rect__default__radius() {
-        return 0;
+    private static double width_of(final int width, final Style style) {
+        return (double) (int) (width == 1 ? style.width() : width);
     }
 
-    public static void rect(final String c, final int x, final int y, final int width, final int height, final String color, final String outline, final int outline_width, final double alpha, final int radius) {
-        TinywebExternal.draw_shape(c, "rect", numbers4(x, y, width, height) + " " + String.valueOf(radius), color, outline, (double) outline_width, alpha);
+    private static double alpha_of(final double alpha, final Style style) {
+        return alpha == 1.0 ? style.alpha() : alpha;
     }
 
-    public static double line__default__alpha() {
-        return 1.0;
+    private static void shape(final String c, final String kind, final String numbers, final Color__Color fill, final Color__Color stroke, final int width, final double alpha, final Color__Paint paint, final Style style) {
+        TinywebExternal.draw_shape(c, kind, numbers, fill_of(fill, paint, style), stroke_of(stroke, style), width_of(width, style), alpha_of(alpha, style));
     }
 
-    public static void line(final String c, final int x1, final int y1, final int x2, final int y2, final String color, final int width, final double alpha) {
-        TinywebExternal.draw_shape(c, "line", numbers4(x1, y1, x2, y2), "", color, (double) width, alpha);
+    private static void stroked(final String c, final String kind, final String numbers, final Color__Color stroke, final int width, final double alpha, final Style style) {
+        TinywebExternal.draw_shape(c, kind, numbers, "", line_of(stroke, style), width_of(width, style), alpha_of(alpha, style));
     }
 
-    public static double bezier__default__alpha() {
-        return 1.0;
+    public static Color__Color circle__default__fill() {
+        return color__black;
     }
 
-    public static void bezier(final String c, final int x1, final int y1, final int ax, final int ay, final int bx, final int by, final int x2, final int y2, final String color, final int width, final double alpha) {
-        TinywebExternal.draw_shape(c, "bezier", numbers4(x1, y1, ax, ay) + " " + numbers4(bx, by, x2, y2), "", color, (double) width, alpha);
+    public static Color__Color circle__default__stroke() {
+        return color__none;
     }
 
-    public static void erase(final String c, final int x, final int y, final int width, final int height) {
-        TinywebExternal.draw_shape(c, "erase", numbers4(x, y, width, height), "", "", 0.0, 1.0);
+    public static Color__Paint circle__default__paint() {
+        return Color__Plain(color__none);
     }
 
-    public static String line_style__default__cap() {
-        return "round";
+    public static Style circle__default__style() {
+        return new Style(field__default__Style__fill(), field__default__Style__stroke(), 1, 1.0, field__default__Style__paint());
     }
 
-    public static String line_style__default__join() {
-        return "round";
+    public static void circle(final String c, final int x, final int y, final int radius, final Color__Color fill, final Color__Color stroke, final int width, final double alpha, final Color__Paint paint, final Style style) {
+        shape(c, "circle", numbers3(x, y, radius), fill, stroke, width, alpha, paint, style);
     }
 
-    public static double line_style__default__gap() {
-        return 0.0;
+    public static Color__Color rect__default__fill() {
+        return color__black;
     }
 
-    public static double line_style__default__offset() {
-        return 0.0;
+    public static Color__Color rect__default__stroke() {
+        return color__none;
     }
 
-    public static double line_style__default__dash2() {
-        return 0.0;
+    public static Color__Paint rect__default__paint() {
+        return Color__Plain(color__none);
     }
 
-    public static double line_style__default__gap2() {
-        return 0.0;
+    public static Style rect__default__style() {
+        return new Style(field__default__Style__fill(), field__default__Style__stroke(), 1, 1.0, field__default__Style__paint());
+    }
+
+    public static void rect(final String c, final int x, final int y, final int w, final int h, final Color__Color fill, final Color__Color stroke, final int width, final double alpha, final Color__Paint paint, final Style style, final int radius) {
+        shape(c, "rect", numbers4(x, y, w, h) + " " + String.valueOf(radius), fill, stroke, width, alpha, paint, style);
+    }
+
+    public static Color__Color line__default__stroke() {
+        return color__black;
+    }
+
+    public static Style line__default__style() {
+        return new Style(field__default__Style__fill(), field__default__Style__stroke(), 1, 1.0, field__default__Style__paint());
+    }
+
+    public static void line(final String c, final int x1, final int y1, final int x2, final int y2, final Color__Color stroke, final int width, final double alpha, final Style style) {
+        stroked(c, "line", numbers4(x1, y1, x2, y2), stroke, width, alpha, style);
+    }
+
+    public static Style bezier__default__style() {
+        return new Style(field__default__Style__fill(), field__default__Style__stroke(), 1, 1.0, field__default__Style__paint());
+    }
+
+    public static void bezier(final String c, final int x1, final int y1, final int ax, final int ay, final int bx, final int by, final int x2, final int y2, final Color__Color stroke, final int width, final double alpha, final Style style) {
+        stroked(c, "bezier", numbers4(x1, y1, ax, ay) + " " + numbers4(bx, by, x2, y2), stroke, width, alpha, style);
+    }
+
+    public static void erase(final String c, final int x, final int y, final int w, final int h) {
+        TinywebExternal.draw_shape(c, "erase", numbers4(x, y, w, h), "", "", 0.0, 1.0);
     }
 
     public static void line_style(final String c, final String cap, final String join, final double dash, final double gap, final double offset, final double dash2, final double gap2) {
@@ -121,44 +434,28 @@ public final class Tinyweb {
         TinywebExternal.set_state(c, "line_style", cap + " " + join, PykRuntime.floatStr(offset) + first + second);
     }
 
-    public static void clip_rect(final String c, final int x, final int y, final int width, final int height) {
-        TinywebExternal.set_state(c, "clip", "rect", numbers4(x, y, width, height) + " 0");
+    public static void clip_rect(final String c, final int x, final int y, final int w, final int h) {
+        TinywebExternal.set_state(c, "clip", "rect", numbers4(x, y, w, h) + " 0");
     }
 
     public static void clip_circle(final String c, final int x, final int y, final int radius) {
         TinywebExternal.set_state(c, "clip", "circle", numbers3(x, y, radius));
     }
 
-    public static String text__default__font() {
-        return "";
+    public static Color__Color text__default__stroke() {
+        return color__none;
     }
 
-    public static String text__default__align() {
-        return "left";
+    public static Color__Paint text__default__paint() {
+        return Color__Plain(color__none);
     }
 
-    public static boolean text__default__bold() {
-        return false;
+    public static Style text__default__style() {
+        return new Style(field__default__Style__fill(), field__default__Style__stroke(), 1, 1.0, field__default__Style__paint());
     }
 
-    public static double text__default__alpha() {
-        return 1.0;
-    }
-
-    public static String text__default__outline() {
-        return "";
-    }
-
-    public static int text__default__outline_width() {
-        return 1;
-    }
-
-    public static void text(final String c, final int x, final int y, final String words, final String color, final int size, final String font, final String align, final boolean bold, final double alpha, final String baseline, final String outline, final int outline_width) {
-        TinywebExternal.draw_text(c, (double) x, (double) y, words, color, size, font, align, baseline, bold, outline, (double) outline_width, alpha);
-    }
-
-    public static String measure_text__default__font() {
-        return "";
+    public static void text(final String c, final int x, final int y, final String words, final Color__Color fill, final int size, final String font, final String align, final boolean bold, final double alpha, final String baseline, final Color__Color stroke, final int width, final Color__Paint paint, final Style style) {
+        TinywebExternal.draw_text(c, (double) x, (double) y, words, fill_of(fill, paint, style), size, font, align, baseline, bold, stroke_of(stroke, style), width_of(width, style), alpha_of(alpha, style));
     }
 
     public static void measure_text(final String words, final java.util.function.Function<Double, Void> answer, final int size, final String font, final boolean bold) {
@@ -173,108 +470,116 @@ public final class Tinyweb {
         TinywebExternal.set_state(c, "pop", "", "");
     }
 
-    public static String colors__linear_gradient(final double x1, final double y1, final double x2, final double y2, final String start, final String end) {
-        return "linear-gradient(" + floats4(x1, y1, x2, y2) + "); 0.0 " + start + "; 1.0 " + end;
+    private static double smooth__width_of(final double width, final Style style) {
+        return width == 1.0 ? (double) (int) style.width() : width;
     }
 
-    public static String colors__radial_gradient(final double x1, final double y1, final double r1, final double x2, final double y2, final double r2, final String start, final String end) {
-        return "radial-gradient(" + floats3(x1, y1, r1) + " " + floats3(x2, y2, r2) + "); 0.0 " + start + "; 1.0 " + end;
+    private static void smooth__shape(final String c, final String kind, final String numbers, final Color__Color fill, final Color__Color stroke, final double width, final double alpha, final Color__Paint paint, final Style style) {
+        TinywebExternal.draw_shape(c, kind, numbers, fill_of(fill, paint, style), stroke_of(stroke, style), smooth__width_of(width, style), alpha_of(alpha, style));
     }
 
-    public static String colors__conic_gradient(final double x, final double y, final double angle, final String start, final String end) {
-        return "conic-gradient(" + floats3(x, y, angle) + "); 0.0 " + start + "; 1.0 " + end;
+    private static void smooth__stroked(final String c, final String kind, final String numbers, final Color__Color stroke, final double width, final double alpha, final Style style) {
+        TinywebExternal.draw_shape(c, kind, numbers, "", line_of(stroke, style), smooth__width_of(width, style), alpha_of(alpha, style));
     }
 
-    public static String colors__stop(final String gradient, final double at, final String color) {
-        return gradient + "; " + PykRuntime.floatStr(at) + " " + color;
+    public static Color__Color smooth__circle__default__fill() {
+        return color__black;
     }
 
-    public static double smooth__circle__default__alpha() {
-        return 1.0;
+    public static Color__Color smooth__circle__default__stroke() {
+        return color__none;
     }
 
-    public static void smooth__circle(final String c, final double x, final double y, final double radius, final String color, final String outline, final double outline_width, final double alpha) {
-        TinywebExternal.draw_shape(c, "circle", floats3(x, y, radius), color, outline, outline_width, alpha);
+    public static Color__Paint smooth__circle__default__paint() {
+        return Color__Plain(color__none);
     }
 
-    public static double smooth__rect__default__outline_width() {
-        return 1.0;
+    public static Style smooth__circle__default__style() {
+        return new Style(field__default__Style__fill(), field__default__Style__stroke(), 1, 1.0, field__default__Style__paint());
     }
 
-    public static double smooth__rect__default__alpha() {
-        return 1.0;
+    public static void smooth__circle(final String c, final double x, final double y, final double radius, final Color__Color fill, final Color__Color stroke, final double width, final double alpha, final Color__Paint paint, final Style style) {
+        smooth__shape(c, "circle", floats3(x, y, radius), fill, stroke, width, alpha, paint, style);
     }
 
-    public static void smooth__rect(final String c, final double x, final double y, final double width, final double height, final String color, final String outline, final double outline_width, final double alpha, final double radius) {
-        TinywebExternal.draw_shape(c, "rect", floats4(x, y, width, height) + " " + PykRuntime.floatStr(radius), color, outline, outline_width, alpha);
+    public static Color__Paint smooth__rect__default__paint() {
+        return Color__Plain(color__none);
     }
 
-    public static String smooth__ellipse__default__outline() {
-        return "";
+    public static Style smooth__rect__default__style() {
+        return new Style(field__default__Style__fill(), field__default__Style__stroke(), 1, 1.0, field__default__Style__paint());
     }
 
-    public static double smooth__ellipse__default__outline_width() {
-        return 1.0;
+    public static void smooth__rect(final String c, final double x, final double y, final double w, final double h, final Color__Color fill, final Color__Color stroke, final double width, final double alpha, final Color__Paint paint, final Style style, final double radius) {
+        smooth__shape(c, "rect", floats4(x, y, w, h) + " " + PykRuntime.floatStr(radius), fill, stroke, width, alpha, paint, style);
     }
 
-    public static double smooth__ellipse__default__alpha() {
-        return 1.0;
+    public static Color__Color smooth__ellipse__default__stroke() {
+        return color__none;
     }
 
-    public static void smooth__ellipse(final String c, final double x, final double y, final double rx, final double ry, final String color, final String outline, final double outline_width, final double alpha) {
-        TinywebExternal.draw_shape(c, "ellipse", floats4(x, y, rx, ry), color, outline, outline_width, alpha);
+    public static Color__Paint smooth__ellipse__default__paint() {
+        return Color__Plain(color__none);
     }
 
-    public static double smooth__arc__default__alpha() {
-        return 1.0;
+    public static Style smooth__ellipse__default__style() {
+        return new Style(field__default__Style__fill(), field__default__Style__stroke(), 1, 1.0, field__default__Style__paint());
     }
 
-    public static void smooth__arc(final String c, final double x, final double y, final double radius, final double start, final double end, final String color, final String outline, final double outline_width, final double alpha) {
-        TinywebExternal.draw_shape(c, "arc", floats3(x, y, radius) + " " + floats2(start, end), color, outline, outline_width, alpha);
+    public static void smooth__ellipse(final String c, final double x, final double y, final double rx, final double ry, final Color__Color fill, final Color__Color stroke, final double width, final double alpha, final Color__Paint paint, final Style style) {
+        smooth__shape(c, "ellipse", floats4(x, y, rx, ry), fill, stroke, width, alpha, paint, style);
     }
 
-    public static double smooth__line__default__alpha() {
-        return 1.0;
+    public static Color__Paint smooth__arc__default__paint() {
+        return Color__Plain(color__none);
     }
 
-    public static void smooth__line(final String c, final double x1, final double y1, final double x2, final double y2, final String color, final double width, final double alpha) {
-        TinywebExternal.draw_shape(c, "line", floats4(x1, y1, x2, y2), "", color, width, alpha);
+    public static Style smooth__arc__default__style() {
+        return new Style(field__default__Style__fill(), field__default__Style__stroke(), 1, 1.0, field__default__Style__paint());
     }
 
-    public static double smooth__curve__default__alpha() {
-        return 1.0;
+    public static void smooth__arc(final String c, final double x, final double y, final double radius, final double start, final double end, final Color__Color fill, final Color__Color stroke, final double width, final double alpha, final Color__Paint paint, final Style style) {
+        smooth__shape(c, "arc", floats3(x, y, radius) + " " + floats2(start, end), fill, stroke, width, alpha, paint, style);
     }
 
-    public static void smooth__curve(final String c, final double x1, final double y1, final double cx, final double cy, final double x2, final double y2, final String color, final double width, final double alpha) {
-        TinywebExternal.draw_shape(c, "curve", floats2(x1, y1) + " " + floats4(cx, cy, x2, y2), "", color, width, alpha);
+    public static Style smooth__line__default__style() {
+        return new Style(field__default__Style__fill(), field__default__Style__stroke(), 1, 1.0, field__default__Style__paint());
     }
 
-    public static void smooth__bezier(final String c, final double x1, final double y1, final double ax, final double ay, final double bx, final double by, final double x2, final double y2, final String color, final double width, final double alpha) {
-        TinywebExternal.draw_shape(c, "bezier", floats4(x1, y1, ax, ay) + " " + floats4(bx, by, x2, y2), "", color, width, alpha);
+    public static void smooth__line(final String c, final double x1, final double y1, final double x2, final double y2, final Color__Color stroke, final double width, final double alpha, final Style style) {
+        smooth__stroked(c, "line", floats4(x1, y1, x2, y2), stroke, width, alpha, style);
     }
 
-    public static String smooth__text__default__font() {
-        return "";
+    public static Style smooth__curve__default__style() {
+        return new Style(field__default__Style__fill(), field__default__Style__stroke(), 1, 1.0, field__default__Style__paint());
     }
 
-    public static boolean smooth__text__default__bold() {
-        return false;
+    public static void smooth__curve(final String c, final double x1, final double y1, final double cx, final double cy, final double x2, final double y2, final Color__Color stroke, final double width, final double alpha, final Style style) {
+        smooth__stroked(c, "curve", floats2(x1, y1) + " " + floats4(cx, cy, x2, y2), stroke, width, alpha, style);
     }
 
-    public static double smooth__text__default__alpha() {
-        return 1.0;
+    public static Style smooth__bezier__default__style() {
+        return new Style(field__default__Style__fill(), field__default__Style__stroke(), 1, 1.0, field__default__Style__paint());
     }
 
-    public static String smooth__text__default__outline() {
-        return "";
+    public static void smooth__bezier(final String c, final double x1, final double y1, final double ax, final double ay, final double bx, final double by, final double x2, final double y2, final Color__Color stroke, final double width, final double alpha, final Style style) {
+        smooth__stroked(c, "bezier", floats4(x1, y1, ax, ay) + " " + floats4(bx, by, x2, y2), stroke, width, alpha, style);
     }
 
-    public static double smooth__text__default__outline_width() {
-        return 1.0;
+    public static Color__Color smooth__text__default__stroke() {
+        return color__none;
     }
 
-    public static void smooth__text(final String c, final double x, final double y, final String words, final String color, final int size, final String font, final String align, final boolean bold, final double alpha, final String baseline, final String outline, final double outline_width) {
-        TinywebExternal.draw_text(c, x, y, words, color, size, font, align, baseline, bold, outline, outline_width, alpha);
+    public static Color__Paint smooth__text__default__paint() {
+        return Color__Plain(color__none);
+    }
+
+    public static Style smooth__text__default__style() {
+        return new Style(field__default__Style__fill(), field__default__Style__stroke(), 1, 1.0, field__default__Style__paint());
+    }
+
+    public static void smooth__text(final String c, final double x, final double y, final String words, final Color__Color fill, final int size, final String font, final String align, final boolean bold, final double alpha, final String baseline, final Color__Color stroke, final double width, final Color__Paint paint, final Style style) {
+        TinywebExternal.draw_text(c, x, y, words, fill_of(fill, paint, style), size, font, align, baseline, bold, stroke_of(stroke, style), smooth__width_of(width, style), alpha_of(alpha, style));
     }
 
     public static void smooth__clip_circle(final String c, final double x, final double y, final double radius) {
@@ -282,5 +587,22 @@ public final class Tinyweb {
     }
 
     public static void init() {
+        color__black = new Color__Color(0, 0, 0, 1.0);
+        color__white = new Color__Color(255, 255, 255, 1.0);
+        color__gray = new Color__Color(128, 128, 128, 1.0);
+        color__red = new Color__Color(255, 0, 0, 1.0);
+        color__green = new Color__Color(0, 128, 0, 1.0);
+        color__blue = new Color__Color(0, 0, 255, 1.0);
+        color__yellow = new Color__Color(255, 255, 0, 1.0);
+        color__orange = new Color__Color(255, 165, 0, 1.0);
+        color__purple = new Color__Color(128, 0, 128, 1.0);
+        color__pink = new Color__Color(255, 192, 203, 1.0);
+        color__navy = new Color__Color(0, 0, 128, 1.0);
+        color__teal = new Color__Color(0, 128, 128, 1.0);
+        color__brown = new Color__Color(139, 69, 19, 1.0);
+        color__cyan = new Color__Color(0, 255, 255, 1.0);
+        color__magenta = new Color__Color(255, 0, 255, 1.0);
+        color__none = new Color__Color(0, 0, 0, 0.0);
+        color__theme = new Color__Color(-1, -1, -1, -1.0);
     }
 }

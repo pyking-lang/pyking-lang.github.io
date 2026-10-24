@@ -34,7 +34,8 @@
               "text": "What else you may need",
               "anchor": "what-else-you-may-need"
             }
-          ]
+          ],
+          "parent": ""
         }
       ],
       "help": []
@@ -77,7 +78,8 @@
               "text": "Next steps",
               "anchor": "next-steps"
             }
-          ]
+          ],
+          "parent": ""
         },
         {
           "slug": "getstarted/tinyweb-styles",
@@ -97,7 +99,8 @@
               "text": "One element",
               "anchor": "one-element"
             }
-          ]
+          ],
+          "parent": ""
         }
       ],
       "help": [
@@ -139,7 +142,8 @@
               "text": "Modules",
               "anchor": "modules"
             }
-          ]
+          ],
+          "parent": ""
         },
         {
           "slug": "documentation/editors",
@@ -150,6 +154,10 @@
             {
               "text": "Options and settings",
               "anchor": "options-and-settings"
+            },
+            {
+              "text": "The debugger",
+              "anchor": "the-debugger"
             },
             {
               "text": "VS Code",
@@ -191,7 +199,8 @@
               "text": "When it does not work",
               "anchor": "when-it-does-not-work"
             }
-          ]
+          ],
+          "parent": ""
         }
       ],
       "help": [
@@ -207,7 +216,8 @@
           "file": "libraries/index.md",
           "title": "Libraries",
           "label": "Overview",
-          "headings": []
+          "headings": [],
+          "parent": ""
         },
         {
           "slug": "libraries/fs",
@@ -227,7 +237,8 @@
               "text": "write_text",
               "anchor": "write_text"
             }
-          ]
+          ],
+          "parent": ""
         },
         {
           "slug": "libraries/io",
@@ -255,7 +266,8 @@
               "text": "write_line",
               "anchor": "write_line"
             }
-          ]
+          ],
+          "parent": ""
         },
         {
           "slug": "libraries/math",
@@ -288,16 +300,8 @@
               "anchor": "acos"
             },
             {
-              "text": "acos_rad",
-              "anchor": "acos_rad"
-            },
-            {
               "text": "asin",
               "anchor": "asin"
-            },
-            {
-              "text": "asin_rad",
-              "anchor": "asin_rad"
             },
             {
               "text": "atan",
@@ -306,14 +310,6 @@
             {
               "text": "atan2",
               "anchor": "atan2"
-            },
-            {
-              "text": "atan2_rad",
-              "anchor": "atan2_rad"
-            },
-            {
-              "text": "atan_rad",
-              "anchor": "atan_rad"
             },
             {
               "text": "cbrt",
@@ -328,16 +324,8 @@
               "anchor": "cos"
             },
             {
-              "text": "cos_rad",
-              "anchor": "cos_rad"
-            },
-            {
               "text": "cosh",
               "anchor": "cosh"
-            },
-            {
-              "text": "degrees",
-              "anchor": "degrees"
             },
             {
               "text": "distance",
@@ -444,20 +432,12 @@
               "anchor": "pow"
             },
             {
-              "text": "radians",
-              "anchor": "radians"
-            },
-            {
               "text": "round",
               "anchor": "round"
             },
             {
               "text": "sin",
               "anchor": "sin"
-            },
-            {
-              "text": "sin_rad",
-              "anchor": "sin_rad"
             },
             {
               "text": "sinh",
@@ -472,18 +452,23 @@
               "anchor": "tan"
             },
             {
-              "text": "tan_rad",
-              "anchor": "tan_rad"
-            },
-            {
               "text": "tanh",
               "anchor": "tanh"
+            },
+            {
+              "text": "to_degrees",
+              "anchor": "to_degrees"
+            },
+            {
+              "text": "to_radians",
+              "anchor": "to_radians"
             },
             {
               "text": "trunc",
               "anchor": "trunc"
             }
-          ]
+          ],
+          "parent": ""
         },
         {
           "slug": "libraries/random",
@@ -515,7 +500,8 @@
               "text": "uniform",
               "anchor": "uniform"
             }
-          ]
+          ],
+          "parent": ""
         },
         {
           "slug": "libraries/sys",
@@ -551,7 +537,89 @@
               "text": "prog_path",
               "anchor": "prog_path"
             }
-          ]
+          ],
+          "parent": ""
+        },
+        {
+          "slug": "libraries/text",
+          "file": "libraries/text.md",
+          "title": "text",
+          "label": "text",
+          "headings": [
+            {
+              "text": "char_at",
+              "anchor": "char_at"
+            },
+            {
+              "text": "code",
+              "anchor": "code"
+            },
+            {
+              "text": "contains",
+              "anchor": "contains"
+            },
+            {
+              "text": "ends_with",
+              "anchor": "ends_with"
+            },
+            {
+              "text": "find",
+              "anchor": "find"
+            },
+            {
+              "text": "from_code",
+              "anchor": "from_code"
+            },
+            {
+              "text": "join",
+              "anchor": "join"
+            },
+            {
+              "text": "length",
+              "anchor": "length"
+            },
+            {
+              "text": "lines",
+              "anchor": "lines"
+            },
+            {
+              "text": "lower",
+              "anchor": "lower"
+            },
+            {
+              "text": "repeat",
+              "anchor": "repeat"
+            },
+            {
+              "text": "replace",
+              "anchor": "replace"
+            },
+            {
+              "text": "slice",
+              "anchor": "slice"
+            },
+            {
+              "text": "split",
+              "anchor": "split"
+            },
+            {
+              "text": "starts_with",
+              "anchor": "starts_with"
+            },
+            {
+              "text": "trim",
+              "anchor": "trim"
+            },
+            {
+              "text": "upper",
+              "anchor": "upper"
+            },
+            {
+              "text": "words",
+              "anchor": "words"
+            }
+          ],
+          "parent": ""
         },
         {
           "slug": "libraries/time",
@@ -599,435 +667,204 @@
               "text": "of_instant",
               "anchor": "of_instant"
             }
-          ]
+          ],
+          "parent": ""
         },
         {
           "slug": "libraries/tinyweb",
           "file": "libraries/tinyweb.md",
           "title": "tinyweb",
           "label": "tinyweb",
+          "headings": [],
+          "parent": ""
+        },
+        {
+          "slug": "libraries/tinyweb-core",
+          "file": "libraries/tinyweb-core.md",
+          "title": "tinyweb",
+          "label": "page, canvas, widgets",
           "headings": [
             {
-              "text": "arc",
-              "anchor": "arc"
+              "text": "Page",
+              "anchor": "page"
             },
             {
-              "text": "bezier",
-              "anchor": "bezier"
+              "text": "Points and styles",
+              "anchor": "points-and-styles"
             },
             {
-              "text": "bitmap",
-              "anchor": "bitmap"
-            },
-            {
-              "text": "blend",
-              "anchor": "blend"
-            },
-            {
-              "text": "blue",
-              "anchor": "blue"
-            },
-            {
-              "text": "button",
-              "anchor": "button"
-            },
-            {
-              "text": "button_style",
-              "anchor": "button_style"
-            },
-            {
-              "text": "canvas",
+              "text": "Canvas",
               "anchor": "canvas"
             },
             {
-              "text": "canvas_style",
-              "anchor": "canvas_style"
+              "text": "Shapes",
+              "anchor": "shapes"
             },
             {
-              "text": "checkbox",
-              "anchor": "checkbox"
+              "text": "Lines and clipping",
+              "anchor": "lines-and-clipping"
             },
             {
-              "text": "choice",
-              "anchor": "choice"
-            },
-            {
-              "text": "circle",
-              "anchor": "circle"
-            },
-            {
-              "text": "clear",
-              "anchor": "clear"
-            },
-            {
-              "text": "clip_circle",
-              "anchor": "clip_circle"
-            },
-            {
-              "text": "clip_polygon",
-              "anchor": "clip_polygon"
-            },
-            {
-              "text": "clip_rect",
-              "anchor": "clip_rect"
-            },
-            {
-              "text": "column",
-              "anchor": "column"
-            },
-            {
-              "text": "curve",
-              "anchor": "curve"
-            },
-            {
-              "text": "ellipse",
-              "anchor": "ellipse"
-            },
-            {
-              "text": "erase",
-              "anchor": "erase"
-            },
-            {
-              "text": "fill_bitmap",
-              "anchor": "fill_bitmap"
-            },
-            {
-              "text": "get_pixel",
-              "anchor": "get_pixel"
-            },
-            {
-              "text": "green",
-              "anchor": "green"
-            },
-            {
-              "text": "ignore2",
-              "anchor": "ignore2"
-            },
-            {
-              "text": "image",
-              "anchor": "image"
-            },
-            {
-              "text": "inside",
-              "anchor": "inside"
-            },
-            {
-              "text": "key_down",
-              "anchor": "key_down"
-            },
-            {
-              "text": "label",
-              "anchor": "label"
-            },
-            {
-              "text": "label_style",
-              "anchor": "label_style"
-            },
-            {
-              "text": "line",
-              "anchor": "line"
-            },
-            {
-              "text": "line_style",
-              "anchor": "line_style"
-            },
-            {
-              "text": "lines",
-              "anchor": "lines"
-            },
-            {
-              "text": "load_image",
-              "anchor": "load_image"
-            },
-            {
-              "text": "load_sample",
-              "anchor": "load_sample"
-            },
-            {
-              "text": "measure_text",
-              "anchor": "measure_text"
-            },
-            {
-              "text": "mouse_down",
-              "anchor": "mouse_down"
-            },
-            {
-              "text": "mouse_x",
-              "anchor": "mouse_x"
-            },
-            {
-              "text": "mouse_y",
-              "anchor": "mouse_y"
-            },
-            {
-              "text": "number_input",
-              "anchor": "number_input"
-            },
-            {
-              "text": "on_drag",
-              "anchor": "on_drag"
-            },
-            {
-              "text": "on_frame",
-              "anchor": "on_frame"
-            },
-            {
-              "text": "on_key",
-              "anchor": "on_key"
-            },
-            {
-              "text": "on_key_up",
-              "anchor": "on_key_up"
-            },
-            {
-              "text": "on_mouse",
-              "anchor": "on_mouse"
-            },
-            {
-              "text": "on_move",
-              "anchor": "on_move"
-            },
-            {
-              "text": "on_press",
-              "anchor": "on_press"
-            },
-            {
-              "text": "on_release",
-              "anchor": "on_release"
-            },
-            {
-              "text": "outside",
-              "anchor": "outside"
-            },
-            {
-              "text": "page_style",
-              "anchor": "page_style"
-            },
-            {
-              "text": "path",
-              "anchor": "path"
-            },
-            {
-              "text": "pixel_color",
-              "anchor": "pixel_color"
-            },
-            {
-              "text": "play",
-              "anchor": "play"
-            },
-            {
-              "text": "play_file",
-              "anchor": "play_file"
-            },
-            {
-              "text": "polygon",
-              "anchor": "polygon"
-            },
-            {
-              "text": "pop",
-              "anchor": "pop"
-            },
-            {
-              "text": "push",
-              "anchor": "push"
-            },
-            {
-              "text": "radio",
-              "anchor": "radio"
-            },
-            {
-              "text": "rect",
-              "anchor": "rect"
-            },
-            {
-              "text": "red",
-              "anchor": "red"
-            },
-            {
-              "text": "reset",
-              "anchor": "reset"
-            },
-            {
-              "text": "rotate",
-              "anchor": "rotate"
-            },
-            {
-              "text": "row",
-              "anchor": "row"
-            },
-            {
-              "text": "scale",
-              "anchor": "scale"
-            },
-            {
-              "text": "set_checked",
-              "anchor": "set_checked"
-            },
-            {
-              "text": "set_colors",
-              "anchor": "set_colors"
-            },
-            {
-              "text": "set_label",
-              "anchor": "set_label"
-            },
-            {
-              "text": "set_pixel",
-              "anchor": "set_pixel"
-            },
-            {
-              "text": "set_splash",
-              "anchor": "set_splash"
-            },
-            {
-              "text": "set_style",
-              "anchor": "set_style"
-            },
-            {
-              "text": "set_value",
-              "anchor": "set_value"
-            },
-            {
-              "text": "shadow",
-              "anchor": "shadow"
-            },
-            {
-              "text": "show_bitmap",
-              "anchor": "show_bitmap"
-            },
-            {
-              "text": "slider",
-              "anchor": "slider"
-            },
-            {
-              "text": "slider_style",
-              "anchor": "slider_style"
-            },
-            {
-              "text": "splash",
-              "anchor": "splash"
-            },
-            {
-              "text": "text",
+              "text": "Text",
               "anchor": "text"
             },
             {
-              "text": "text_input",
-              "anchor": "text_input"
+              "text": "Transformations",
+              "anchor": "transformations"
             },
             {
-              "text": "theme",
-              "anchor": "theme"
+              "text": "Images",
+              "anchor": "images"
             },
             {
-              "text": "time",
+              "text": "Widgets",
+              "anchor": "widgets"
+            },
+            {
+              "text": "Changing the page",
+              "anchor": "changing-the-page"
+            },
+            {
+              "text": "Styles",
+              "anchor": "styles"
+            },
+            {
+              "text": "Mouse and keyboard",
+              "anchor": "mouse-and-keyboard"
+            },
+            {
+              "text": "Time",
               "anchor": "time"
             },
             {
-              "text": "translate",
-              "anchor": "translate"
+              "text": "Sound",
+              "anchor": "sound"
             },
             {
-              "text": "web_init",
-              "anchor": "web_init"
-            },
-            {
-              "text": "The submodule tinyweb.colors",
-              "anchor": "the-submodule-tinywebcolors"
-            },
-            {
-              "text": "colors.conic_gradient",
-              "anchor": "colorsconic_gradient"
-            },
-            {
-              "text": "colors.hsl",
-              "anchor": "colorshsl"
-            },
-            {
-              "text": "colors.linear_gradient",
-              "anchor": "colorslinear_gradient"
-            },
-            {
-              "text": "colors.palette",
-              "anchor": "colorspalette"
-            },
-            {
-              "text": "colors.radial_gradient",
-              "anchor": "colorsradial_gradient"
-            },
-            {
-              "text": "colors.rgb",
-              "anchor": "colorsrgb"
-            },
-            {
-              "text": "colors.rgba",
-              "anchor": "colorsrgba"
-            },
-            {
-              "text": "colors.stop",
-              "anchor": "colorsstop"
-            },
-            {
-              "text": "The submodule tinyweb.smooth",
-              "anchor": "the-submodule-tinywebsmooth"
-            },
-            {
-              "text": "smooth.arc",
-              "anchor": "smootharc"
-            },
-            {
-              "text": "smooth.bezier",
-              "anchor": "smoothbezier"
-            },
-            {
-              "text": "smooth.circle",
-              "anchor": "smoothcircle"
-            },
-            {
-              "text": "smooth.circles",
-              "anchor": "smoothcircles"
-            },
-            {
-              "text": "smooth.clip_circle",
-              "anchor": "smoothclip_circle"
-            },
-            {
-              "text": "smooth.clip_polygon",
-              "anchor": "smoothclip_polygon"
-            },
-            {
-              "text": "smooth.curve",
-              "anchor": "smoothcurve"
-            },
-            {
-              "text": "smooth.ellipse",
-              "anchor": "smoothellipse"
-            },
-            {
-              "text": "smooth.line",
-              "anchor": "smoothline"
-            },
-            {
-              "text": "smooth.lines",
-              "anchor": "smoothlines"
-            },
-            {
-              "text": "smooth.path",
-              "anchor": "smoothpath"
-            },
-            {
-              "text": "smooth.polygon",
-              "anchor": "smoothpolygon"
-            },
-            {
-              "text": "smooth.rect",
-              "anchor": "smoothrect"
-            },
-            {
-              "text": "smooth.text",
-              "anchor": "smoothtext"
+              "text": "Splash screen",
+              "anchor": "splash-screen"
             }
-          ]
+          ],
+          "parent": "libraries/tinyweb"
+        },
+        {
+          "slug": "libraries/tinyweb-color",
+          "file": "libraries/tinyweb-color.md",
+          "title": "tinyweb.color",
+          "label": "color",
+          "headings": [
+            {
+              "text": "Colours",
+              "anchor": "colours"
+            },
+            {
+              "text": "Paints and gradients",
+              "anchor": "paints-and-gradients"
+            }
+          ],
+          "parent": "libraries/tinyweb"
+        },
+        {
+          "slug": "libraries/tinyweb-sound",
+          "file": "libraries/tinyweb-sound.md",
+          "title": "tinyweb.sound",
+          "label": "sound",
+          "headings": [
+            {
+              "text": "Voices",
+              "anchor": "voices"
+            },
+            {
+              "text": "Tones and notes",
+              "anchor": "tones-and-notes"
+            },
+            {
+              "text": "The beat",
+              "anchor": "the-beat"
+            },
+            {
+              "text": "Channels and effects",
+              "anchor": "channels-and-effects"
+            },
+            {
+              "text": "Listening",
+              "anchor": "listening"
+            },
+            {
+              "text": "Rendering",
+              "anchor": "rendering"
+            }
+          ],
+          "parent": "libraries/tinyweb"
+        },
+        {
+          "slug": "libraries/tinyweb-bitmap",
+          "file": "libraries/tinyweb-bitmap.md",
+          "title": "tinyweb.bitmap",
+          "label": "bitmap",
+          "headings": [
+            {
+              "text": "Bitmaps",
+              "anchor": "bitmaps"
+            }
+          ],
+          "parent": "libraries/tinyweb"
+        },
+        {
+          "slug": "libraries/tinyweb-layout",
+          "file": "libraries/tinyweb-layout.md",
+          "title": "tinyweb.layout",
+          "label": "layout",
+          "headings": [
+            {
+              "text": "Rows and columns",
+              "anchor": "rows-and-columns"
+            },
+            {
+              "text": "Text areas",
+              "anchor": "text-areas"
+            }
+          ],
+          "parent": "libraries/tinyweb"
+        },
+        {
+          "slug": "libraries/tinyweb-net",
+          "file": "libraries/tinyweb-net.md",
+          "title": "tinyweb.net",
+          "label": "net",
+          "headings": [
+            {
+              "text": "Files",
+              "anchor": "files"
+            }
+          ],
+          "parent": "libraries/tinyweb"
+        },
+        {
+          "slug": "libraries/tinyweb-game",
+          "file": "libraries/tinyweb-game.md",
+          "title": "tinyweb.game",
+          "label": "game",
+          "headings": [
+            {
+              "text": "The cursor",
+              "anchor": "the-cursor"
+            }
+          ],
+          "parent": "libraries/tinyweb"
+        },
+        {
+          "slug": "libraries/tinyweb-smooth",
+          "file": "libraries/tinyweb-smooth.md",
+          "title": "tinyweb.smooth",
+          "label": "smooth",
+          "headings": [
+            {
+              "text": "Shapes",
+              "anchor": "shapes"
+            }
+          ],
+          "parent": "libraries/tinyweb"
         }
       ],
       "help": [
@@ -1037,8 +874,17 @@
         "libraries/math",
         "libraries/random",
         "libraries/sys",
+        "libraries/text",
         "libraries/time",
-        "libraries/tinyweb"
+        "libraries/tinyweb",
+        "libraries/tinyweb-core",
+        "libraries/tinyweb-color",
+        "libraries/tinyweb-sound",
+        "libraries/tinyweb-bitmap",
+        "libraries/tinyweb-layout",
+        "libraries/tinyweb-net",
+        "libraries/tinyweb-game",
+        "libraries/tinyweb-smooth"
       ]
     }
   ]

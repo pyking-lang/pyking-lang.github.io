@@ -1,0 +1,530 @@
+<!DOCTYPE html><html lang="en" dir="ltr" data-theme="dark" data-has-sidebar class="astro-g5ptsecz"><head><meta charset="utf-8"/><meta name="viewport" content="width=device-width, initial-scale=1"/><title>tinyweb.smooth | Pyking</title><link rel="canonical" href="https://pyking.org/libraries/tinyweb-smooth/"/><link rel="sitemap" href="/sitemap-index.xml"/><script type="module" src="/site/cells.js"></script><script>try { if (localStorage.getItem('starlight-theme') === null) localStorage.setItem('starlight-theme', 'dark'); } catch (e) {}</script><link rel="shortcut icon" href="/site/favicon.svg" type="image/svg+xml"/><meta name="generator" content="Astro v7.3.5"/><meta name="generator" content="Starlight v0.42.5"/><meta property="og:title" content="tinyweb.smooth"/><meta property="og:type" content="article"/><meta property="og:url" content="https://pyking.org/libraries/tinyweb-smooth/"/><meta property="og:locale" content="en"/><meta property="og:description" content="The shapes, with positions, sizes and widths that may fall between pixels: something moving slowly, a thin line at an angle or a picture built from thousands of short strokes looks smoother."/><meta property="og:site_name" content="Pyking"/><meta name="twitter:card" content="summary_large_image"/><meta name="description" content="The shapes, with positions, sizes and widths that may fall between pixels: something moving slowly, a thin line at an angle or a picture built from thousands of short strokes looks smoother."/><script>
+	window.StarlightThemeProvider = (() => {
+		const storedTheme =
+			typeof localStorage !== 'undefined' && localStorage.getItem('starlight-theme');
+		const theme =
+			storedTheme ||
+			(window.matchMedia('(prefers-color-scheme: light)').matches ? 'light' : 'dark');
+		document.documentElement.dataset.theme = theme === 'light' ? 'light' : 'dark';
+		return {
+			updatePickers(theme = storedTheme || 'auto') {
+				document.querySelectorAll('starlight-theme-select').forEach((picker) => {
+					const select = picker.querySelector('select');
+					if (select) select.value = theme;
+					/** @type {HTMLTemplateElement | null} */
+					const tmpl = document.querySelector(`#theme-icons`);
+					const newIcon = tmpl && tmpl.content.querySelector('.' + theme);
+					if (newIcon) {
+						const oldIcon = picker.querySelector('svg.label-icon');
+						if (oldIcon) {
+							oldIcon.replaceChildren(...newIcon.cloneNode(true).childNodes);
+						}
+					}
+				});
+			},
+		};
+	})();
+</script><template id="theme-icons"><svg aria-hidden="true" class="light astro-hkc32dio" width="16" height="16" viewBox="0 0 24 24" fill="currentColor" style="--sl-icon-size: 1em;"><path d="M5 12a1 1 0 0 0-1-1H3a1 1 0 0 0 0 2h1a1 1 0 0 0 1-1Zm.64 5-.71.71a1 1 0 0 0 0 1.41 1 1 0 0 0 1.41 0l.71-.71A1 1 0 0 0 5.64 17ZM12 5a1 1 0 0 0 1-1V3a1 1 0 0 0-2 0v1a1 1 0 0 0 1 1Zm5.66 2.34a1 1 0 0 0 .7-.29l.71-.71a1 1 0 1 0-1.41-1.41l-.66.71a1 1 0 0 0 0 1.41 1 1 0 0 0 .66.29Zm-12-.29a1 1 0 0 0 1.41 0 1 1 0 0 0 0-1.41l-.71-.71a1.004 1.004 0 1 0-1.43 1.41l.73.71ZM21 11h-1a1 1 0 0 0 0 2h1a1 1 0 0 0 0-2Zm-2.64 6A1 1 0 0 0 17 18.36l.71.71a1 1 0 0 0 1.41 0 1 1 0 0 0 0-1.41l-.76-.66ZM12 6.5a5.5 5.5 0 1 0 5.5 5.5A5.51 5.51 0 0 0 12 6.5Zm0 9a3.5 3.5 0 1 1 0-7 3.5 3.5 0 0 1 0 7Zm0 3.5a1 1 0 0 0-1 1v1a1 1 0 0 0 2 0v-1a1 1 0 0 0-1-1Z"/></svg><svg aria-hidden="true" class="dark astro-hkc32dio" width="16" height="16" viewBox="0 0 24 24" fill="currentColor" style="--sl-icon-size: 1em;"><path d="M21.64 13a1 1 0 0 0-1.05-.14 8.049 8.049 0 0 1-3.37.73 8.15 8.15 0 0 1-8.14-8.1 8.59 8.59 0 0 1 .25-2A1 1 0 0 0 8 2.36a10.14 10.14 0 1 0 14 11.69 1 1 0 0 0-.36-1.05Zm-9.5 6.69A8.14 8.14 0 0 1 7.08 5.22v.27a10.15 10.15 0 0 0 10.14 10.14 9.784 9.784 0 0 0 2.1-.22 8.11 8.11 0 0 1-7.18 4.32v-.04Z"/></svg><svg aria-hidden="true" class="auto astro-hkc32dio" width="16" height="16" viewBox="0 0 24 24" fill="currentColor" style="--sl-icon-size: 1em;"><path d="M21 14h-1V7a3 3 0 0 0-3-3H7a3 3 0 0 0-3 3v7H3a1 1 0 0 0-1 1v2a3 3 0 0 0 3 3h14a3 3 0 0 0 3-3v-2a1 1 0 0 0-1-1ZM6 7a1 1 0 0 1 1-1h10a1 1 0 0 1 1 1v7H6V7Zm14 10a1 1 0 0 1-1 1H5a1 1 0 0 1-1-1v-1h16v1Z"/></svg></template><link rel="stylesheet" href="/_astro/print.ehPL0gv-.css" media="print"><link rel="stylesheet" href="/_astro/middleware.CytdhB19.css"><script type="module" src="/_astro/page.Dwipeu-R.js"></script></head><body class="astro-g5ptsecz"><a class="sl-skip-link astro-qb7clj6f" href="#_top">Skip to content</a><div class="page sl-flex astro-yntsjkba"><header class="header astro-yntsjkba"><div class="pyking-header"><div class="pyking-header-left"><a href="/" class="site-title sl-flex astro-6rvad3va"><img class="astro-6rvad3va" alt="Pyking" src="/_astro/logo.C9hvHOpV.svg" width="64" height="64"><span class="astro-6rvad3va" translate="no">Pyking</span></a><nav class="pyking-nav" aria-label="Sections"><a href="/install/">Install</a><a href="/getstarted/overview/">Getting started</a><a href="/documentation/language/">Documentation</a><a href="/libraries/" aria-current="page">Libraries</a><a href="/playground/">Playground</a></nav></div><div class="pyking-header-right print:hidden"><site-search class=" astro-b5kgnn7o" data-translations="{&quot;placeholder&quot;:&quot;Search&quot;}"><button data-open-modal disabled aria-label="Search" aria-keyshortcuts="Control+K" class="astro-b5kgnn7o"><svg aria-hidden="true" class="astro-b5kgnn7o astro-hkc32dio" width="16" height="16" viewBox="0 0 24 24" fill="currentColor" style="--sl-icon-size: 1em;"><path d="M21.71 20.29 18 16.61A9 9 0 1 0 16.61 18l3.68 3.68a.999.999 0 0 0 1.42 0 1 1 0 0 0 0-1.39ZM11 18a7 7 0 1 1 0-14 7 7 0 0 1 0 14Z"/></svg><span class="sl-hidden md:sl-block astro-b5kgnn7o" aria-hidden="true">Search</span><kbd class="sl-hidden md:sl-flex astro-b5kgnn7o" style="display: none;"><kbd class="astro-b5kgnn7o">Ctrl</kbd><kbd class="astro-b5kgnn7o">K</kbd></kbd></button><dialog style="padding:0" aria-label="Search" class="astro-b5kgnn7o"><div class="dialog-frame sl-flex astro-b5kgnn7o"><button data-close-modal class="sl-flex md:sl-hidden astro-b5kgnn7o">Cancel</button><div class="search-container astro-b5kgnn7o"><div id="starlight__search" class="astro-b5kgnn7o"></div></div></div></dialog></site-search><script>
+	(() => {
+		const openBtn = document.querySelector('button[data-open-modal]');
+		const shortcut = openBtn?.querySelector('kbd');
+		if (!openBtn || !(shortcut instanceof HTMLElement)) return;
+		const platformKey = shortcut.querySelector('kbd');
+		if (platformKey && /(Mac|iPhone|iPod|iPad)/i.test(navigator.platform)) {
+			platformKey.textContent = '⌘';
+			openBtn.setAttribute('aria-keyshortcuts', 'Meta+K');
+		}
+		shortcut.style.display = '';
+	})();
+</script><script type="module" src="/_astro/Search.astro_astro_type_script_index_0_lang.Bumivpjo.js"></script><div class="sl-hidden md:sl-flex"><starlight-theme-select><label style="--sl-select-width: 6.25em" class="astro-2z5xp7gb"><span class="sr-only astro-2z5xp7gb">Select theme</span><svg aria-hidden="true" class="icon label-icon astro-2z5xp7gb astro-hkc32dio" width="16" height="16" viewBox="0 0 24 24" fill="currentColor" style="--sl-icon-size: 1em;"><path d="M21 14h-1V7a3 3 0 0 0-3-3H7a3 3 0 0 0-3 3v7H3a1 1 0 0 0-1 1v2a3 3 0 0 0 3 3h14a3 3 0 0 0 3-3v-2a1 1 0 0 0-1-1ZM6 7a1 1 0 0 1 1-1h10a1 1 0 0 1 1 1v7H6V7Zm14 10a1 1 0 0 1-1 1H5a1 1 0 0 1-1-1v-1h16v1Z"/></svg><select autocomplete="off" class="astro-2z5xp7gb"><option value="dark" class="astro-2z5xp7gb">Dark</option><option value="light" class="astro-2z5xp7gb">Light</option><option value="auto" selected class="astro-2z5xp7gb">Auto</option></select><svg aria-hidden="true" class="icon caret astro-2z5xp7gb astro-hkc32dio" width="16" height="16" viewBox="0 0 24 24" fill="currentColor" style="--sl-icon-size: 1em;"><path d="M17 9.17a1 1 0 0 0-1.41 0L12 12.71 8.46 9.17a1 1 0 1 0-1.41 1.42l4.24 4.24a1.002 1.002 0 0 0 1.42 0L17 10.59a1.002 1.002 0 0 0 0-1.42Z"/></svg></label></starlight-theme-select><script>
+	StarlightThemeProvider.updatePickers();
+</script><script type="module">var e=`starlight-theme`,t=e=>e===`auto`||e===`dark`||e===`light`?e:`auto`,n=()=>t(typeof localStorage<`u`&&localStorage.getItem(e));function r(t){typeof localStorage<`u`&&localStorage.setItem(e,t===`light`||t===`dark`?t:``)}var i=()=>matchMedia(`(prefers-color-scheme: light)`).matches?`light`:`dark`;function a(e){StarlightThemeProvider.updatePickers(e),document.documentElement.dataset.theme=e===`auto`?i():e,r(e)}matchMedia(`(prefers-color-scheme: light)`).addEventListener(`change`,()=>{n()===`auto`&&a(`auto`)});var o=class extends HTMLElement{constructor(){super(),a(n()),this.querySelector(`select`)?.addEventListener(`change`,e=>{e.currentTarget instanceof HTMLSelectElement&&a(t(e.currentTarget.value))})}};customElements.define(`starlight-theme-select`,o);</script></div><a class="pyking-github" href="https://github.com/pyking-lang" title="Pyking on GitHub"><span class="sr-only">GitHub</span><svg aria-hidden="true" viewBox="0 0 24 24" width="22" height="22" fill="currentColor"><path d="M12 .3a12 12 0 0 0-3.8 23.4c.6.1.8-.3.8-.6v-2c-3.3.7-4-1.6-4-1.6-.6-1.4-1.4-1.8-1.4-1.8-1-.7.1-.7.1-.7 1.2.1 1.8 1.2 1.8 1.2 1 1.8 2.8 1.3 3.5 1 0-.8.4-1.3.7-1.6-2.7-.3-5.5-1.3-5.5-6 0-1.2.5-2.3 1.3-3.1-.2-.4-.6-1.6 0-3.2 0 0 1-.3 3.4 1.2a11.5 11.5 0 0 1 6 0c2.3-1.5 3.3-1.2 3.3-1.2.6 1.6.2 2.8.1 3.2.8.8 1.3 1.9 1.3 3.1 0 4.6-2.8 5.6-5.5 5.9.5.4.9 1.1.9 2.2v3.3c0 .3.1.7.8.6A12 12 0 0 0 12 .3"></path></svg></a></div></div></header><nav class="sidebar print:hidden astro-yntsjkba" aria-label="Main"><button popovertarget="starlight__sidebar" class="sl-menu-button sl-flex md:sl-hidden print:hidden astro-r2osgdlg"><svg aria-hidden="true" class="open-menu astro-r2osgdlg astro-hkc32dio" width="16" height="16" viewBox="0 0 24 24" fill="currentColor" style="--sl-icon-size: 1em;"><path d="M3 8h18a1 1 0 1 0 0-2H3a1 1 0 0 0 0 2Zm18 8H3a1 1 0 0 0 0 2h18a1 1 0 0 0 0-2Zm0-5H3a1 1 0 0 0 0 2h18a1 1 0 0 0 0-2Z"/></svg><svg aria-hidden="true" class="close-menu astro-r2osgdlg astro-hkc32dio" width="16" height="16" viewBox="0 0 24 24" fill="currentColor" style="--sl-icon-size: 1em;"><path d="m13.41 12 6.3-6.29a1.004 1.004 0 1 0-1.42-1.42L12 10.59l-6.29-6.3a1.004 1.004 0 0 0-1.42 1.42l6.3 6.29-6.3 6.29a1 1 0 0 0 0 1.42.998.998 0 0 0 1.42 0l6.29-6.3 6.29 6.3a.999.999 0 0 0 1.42 0 1 1 0 0 0 0-1.42L13.41 12Z"/></svg><span class="sr-only astro-r2osgdlg">Menu</span></button><script type="module">var e=class extends HTMLElement{constructor(){super();let e=matchMedia(`(min-width: 50em)`),t=()=>{this.popover=e.matches?null:`auto`};t(),e.addEventListener(`change`,()=>t()),this.addEventListener(`toggle`,({newState:e})=>this.trapFocus(e===`open`))}trapFocus(e){document.querySelectorAll(`.main-frame, .sl-skip-link`).forEach(t=>{t.toggleAttribute(`inert`,e)})}};customElements.define(`sl-sidebar-pane`,e);</script><script type="module">var e=class extends HTMLElement{constructor(){super();let e=this.querySelector(`select`);e&&(e.addEventListener(`change`,e=>{e.currentTarget instanceof HTMLSelectElement&&(window.location.pathname=e.currentTarget.value)}),window.addEventListener(`pageshow`,t=>{if(!t.persisted)return;let n=e.querySelector(`option[selected]`)?.index;n!==e.selectedIndex&&(e.selectedIndex=n??0)}))}};customElements.define(`starlight-lang-select`,e);</script><sl-sidebar-pane popover id="starlight__sidebar" class="sidebar-pane astro-yntsjkba"><div class="sidebar-content sl-flex astro-yntsjkba"><nav class="pyking-sidebar" aria-label="Libraries"><p class="pyking-sidebar-title">Libraries</p><ul><li><a href="/libraries/">Overview</a></li><li><a href="/libraries/fs/">fs</a></li><li><a href="/libraries/io/">io</a></li><li><a href="/libraries/math/">math</a></li><li><a href="/libraries/random/">random</a></li><li><a href="/libraries/sys/">sys</a></li><li><a href="/libraries/text/">text</a></li><li><a href="/libraries/time/">time</a></li><li><a href="/libraries/tinyweb/">tinyweb</a><ul class="pyking-sidebar-headings"><li><a href="/libraries/tinyweb-core/">page, canvas, widgets</a></li><li><a href="/libraries/tinyweb-color/">color</a></li><li><a href="/libraries/tinyweb-sound/">sound</a></li><li><a href="/libraries/tinyweb-bitmap/">bitmap</a></li><li><a href="/libraries/tinyweb-layout/">layout</a></li><li><a href="/libraries/tinyweb-net/">net</a></li><li><a href="/libraries/tinyweb-game/">game</a></li><li><a href="/libraries/tinyweb-smooth/" aria-current="page">smooth</a><ul class="pyking-sidebar-headings"><li><a href="#shapes">Shapes</a></li></ul></li></ul></li></ul></nav><div class="md:sl-hidden"><div class="mobile-preferences sl-flex astro-p4azlveh"><div class="social-icons astro-p4azlveh"></div><starlight-theme-select><label style="--sl-select-width: 6.25em" class="astro-2z5xp7gb"><span class="sr-only astro-2z5xp7gb">Select theme</span><svg aria-hidden="true" class="icon label-icon astro-2z5xp7gb astro-hkc32dio" width="16" height="16" viewBox="0 0 24 24" fill="currentColor" style="--sl-icon-size: 1em;"><path d="M21 14h-1V7a3 3 0 0 0-3-3H7a3 3 0 0 0-3 3v7H3a1 1 0 0 0-1 1v2a3 3 0 0 0 3 3h14a3 3 0 0 0 3-3v-2a1 1 0 0 0-1-1ZM6 7a1 1 0 0 1 1-1h10a1 1 0 0 1 1 1v7H6V7Zm14 10a1 1 0 0 1-1 1H5a1 1 0 0 1-1-1v-1h16v1Z"/></svg><select autocomplete="off" class="astro-2z5xp7gb"><option value="dark" class="astro-2z5xp7gb">Dark</option><option value="light" class="astro-2z5xp7gb">Light</option><option value="auto" selected class="astro-2z5xp7gb">Auto</option></select><svg aria-hidden="true" class="icon caret astro-2z5xp7gb astro-hkc32dio" width="16" height="16" viewBox="0 0 24 24" fill="currentColor" style="--sl-icon-size: 1em;"><path d="M17 9.17a1 1 0 0 0-1.41 0L12 12.71 8.46 9.17a1 1 0 1 0-1.41 1.42l4.24 4.24a1.002 1.002 0 0 0 1.42 0L17 10.59a1.002 1.002 0 0 0 0-1.42Z"/></svg></label></starlight-theme-select><script>
+	StarlightThemeProvider.updatePickers();
+</script></div></div></div></sl-sidebar-pane></nav><div class="main-frame astro-yntsjkba"><script type="module">var e=document.getElementById(`starlight__sidebar`),t=e?.querySelector(`sl-sidebar-state-persist`),n=`sl-sidebar-state`,r=()=>{let r=[],i=t?.dataset.hash||``;try{let e=sessionStorage.getItem(n),t=JSON.parse(e||`{}`);Array.isArray(t.open)&&t.hash===i&&(r=t.open)}catch{}return{hash:i,open:r,scroll:e?.scrollTop||0}},i=e=>{try{sessionStorage.setItem(n,JSON.stringify(e))}catch{}},a=()=>i(r()),o=(e,t)=>{let n=r();n.open[t]=e,i(n)};t?.addEventListener(`click`,e=>{if(!(e.target instanceof Element))return;let t=e.target.closest(`summary`)?.closest(`details`);if(!t)return;let n=t.querySelector(`sl-sidebar-restore`),r=parseInt(n?.dataset.index||``);isNaN(r)||o(!t.open,r)}),addEventListener(`visibilitychange`,()=>{document.visibilityState===`hidden`&&a()});</script><div class="lg:sl-flex astro-lrzkfocr"><div class="main-pane astro-lrzkfocr"><main data-pagefind-body class="astro-g5ptsecz" lang="en" dir="ltr"><div class="content-panel astro-a7po4psb"><div class="sl-container astro-a7po4psb"><h1 id="_top" class="astro-bebwqqxs">tinyweb.smooth</h1></div></div><div class="content-panel astro-a7po4psb"><div class="sl-container astro-a7po4psb"><div class="sl-markdown-content"><p>The shapes, with positions, sizes and widths that may fall between
+pixels: something moving slowly, a thin line at an angle or a picture
+built from thousands of short strokes looks smoother. Each draws
+exactly what <code>tinyweb</code>’s function of the same name does.</p>
+<div class="pkn-notebook pkn-embedded not-content"><div class="pkn-cell"><pre class="pkn-cell-fallback"><code>import tinyweb as tw
+import tinyweb.smooth as smooth
+tw.web_init(0)
+c = tw.canvas(200, 100)
+smooth.circle(c, 100.5, 50.25, 20.75)</code></pre></div></div>
+<div class="expressive-code"><link rel="stylesheet" href="/_astro/ec.w36nc.css"><script type="module" src="/_astro/ec.0vx5m.js"></script><figure class="frame not-content"><figcaption class="header"></figcaption><pre data-language="pyking"><code><div class="ec-line"><div class="code"><span style="--0:#C792EA;--1:#8844AE">import</span><span style="--0:#D6DEEB;--1:#403F53"> tinyweb.smooth </span><span style="--0:#C792EA;--1:#8844AE">as</span><span style="--0:#D6DEEB;--1:#403F53"> smooth</span></div></div></code></pre><div class="copy"><div aria-live="polite"></div><button title="Copy to clipboard" data-copied="Copied!" data-code="import tinyweb.smooth as smooth"><div></div></button></div></figure></div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+<table><thead><tr><th>Topic</th><th></th></tr></thead><tbody><tr><td><a href="#shapes">Shapes</a></td><td><a href="#smoothpoint"><code>Point</code></a>, <a href="#smoothcircle"><code>circle</code></a>, <a href="#smoothcircles"><code>circles</code></a>, <a href="#smoothrect"><code>rect</code></a>, <a href="#smoothellipse"><code>ellipse</code></a>, <a href="#smootharc"><code>arc</code></a>, <a href="#smoothpolygon"><code>polygon</code></a>, <a href="#smoothline"><code>line</code></a>, <a href="#smoothlines"><code>lines</code></a>, <a href="#smoothpath"><code>path</code></a>, <a href="#smoothcurve"><code>curve</code></a>, <a href="#smoothbezier"><code>bezier</code></a>, <a href="#smoothtext"><code>text</code></a>, <a href="#smoothclip_circle"><code>clip_circle</code></a>, <a href="#smoothclip_polygon"><code>clip_polygon</code></a></td></tr></tbody></table>
+<h2 id="shapes">Shapes</h2>
+<div class="pyk-api">
+<h3 id="smoothpoint">smooth.Point</h3>
+<pre class="pyk-sig"><code><span class="k">struct</span> <span class="n">smooth.Point</span>(x: <span class="t">Float</span>, y: <span class="t">Float</span>)</code></pre>
+<p>A point on a canvas whose position may fall between pixels.</p>
+<p class="pyk-api-label">Parameters</p>
+<ul>
+<li><code>x</code>: how far right.</li>
+<li><code>y</code>: how far down.</li>
+</ul>
+<p class="pyk-api-label">Example</p>
+<div class="pkn-notebook pkn-embedded not-content"><div class="pkn-fragment" data-markdown="&#x60;&#x60;&#x60;pyking
+import tinyweb.smooth as smooth
+p = smooth.Point(1.5, 2.25)
+print(p.x, p.y)
+&#x60;&#x60;&#x60;
+
+&#x60;&#x60;&#x60;stdout visible = true
+1.5 2.25
+&#x60;&#x60;&#x60;"></div></div>
+</div>
+<div class="pyk-api">
+<h3 id="smoothcircle">smooth.circle</h3>
+<pre class="pyk-sig"><code><span class="k">def</span> <span class="n">smooth.circle</span>(
+    <span class="p">c</span>: <span class="t">String</span>,
+    <span class="p">x</span>: <span class="t">Float</span>,
+    <span class="p">y</span>: <span class="t">Float</span>,
+    <span class="p">radius</span>: <span class="t">Float</span>,
+    <span class="p">fill</span>: color.Color = color.black,
+    <span class="p">stroke</span>: color.Color = color.none,
+    <span class="p">width</span>: <span class="t">Float</span> = 1.0,
+    <span class="p">alpha</span>: <span class="t">Float</span> = 1.0,
+    <span class="p">paint</span>: color.Paint = color.Plain(color.none),
+    <span class="p">style</span>: Style = Style(),
+) -> ()</code></pre>
+<p><code>tw.circle</code>, with a position and radius that need not be whole.</p>
+<p class="pyk-api-label">Parameters</p>
+<ul>
+<li><code>c</code>: the canvas.</li>
+<li><code>x</code>, <code>y</code>: its centre.</li>
+<li><code>radius</code>: its radius.</li>
+<li><code>fill</code>: the colour inside; black by default.</li>
+<li><code>stroke</code>: the outline’s colour; none by default.</li>
+<li><code>width</code>: the outline’s width.</li>
+<li><code>alpha</code>: how opaque, from 0.0 to 1.0.</li>
+<li><code>paint</code>: a gradient to fill with instead of <code>fill</code>.</li>
+<li><code>style</code>: a <code>tw.Style</code> for what is not given here.</li>
+</ul>
+<p class="pyk-api-label">Example</p>
+<div class="pkn-notebook pkn-embedded not-content"><div class="pkn-cell"><pre class="pkn-cell-fallback"><code>import tinyweb as tw
+import tinyweb.smooth as smooth
+tw.web_init(0)
+c = tw.canvas(200, 100)
+smooth.circle(c, 100.5, 50.5, 10.25)</code></pre></div></div>
+</div>
+<div class="pyk-api">
+<h3 id="smoothcircles">smooth.circles</h3>
+<pre class="pyk-sig"><code><span class="k">def</span> <span class="n">smooth.circles</span>(
+    <span class="p">c</span>: <span class="t">String</span>,
+    <span class="p">circles</span>: [(<span class="t">Float</span>, <span class="t">Float</span>, <span class="t">Float</span>)],
+    <span class="p">fill</span>: color.Color = color.black,
+    <span class="p">stroke</span>: color.Color = color.none,
+    <span class="p">width</span>: <span class="t">Float</span> = 1.0,
+    <span class="p">alpha</span>: <span class="t">Float</span> = 1.0,
+    <span class="p">style</span>: Style = Style(),
+) -> ()</code></pre>
+<p>Many circles of one look in one go, each <code>(x, y, radius)</code>: quicker
+than calling <code>circle</code> for each.</p>
+<p class="pyk-api-label">Parameters</p>
+<ul>
+<li><code>c</code>: the canvas.</li>
+<li><code>circles</code>: each circle’s centre and radius.</li>
+<li><code>fill</code>: the colour inside; black by default.</li>
+<li><code>stroke</code>: the outline’s colour; none by default.</li>
+<li><code>width</code>: the outline’s width.</li>
+<li><code>alpha</code>: how opaque, from 0.0 to 1.0.</li>
+<li><code>style</code>: a <code>tw.Style</code> for what is not given here.</li>
+</ul>
+<p class="pyk-api-label">Example</p>
+<div class="pkn-notebook pkn-embedded not-content"><div class="pkn-cell"><pre class="pkn-cell-fallback"><code>import tinyweb as tw
+import tinyweb.smooth as smooth
+tw.web_init(0)
+c = tw.canvas(200, 100)
+smooth.circles(c, [(float(x), 50.0, 4.5) for x in range(10, 200, 20)])</code></pre></div></div>
+</div>
+<div class="pyk-api">
+<h3 id="smoothrect">smooth.rect</h3>
+<pre class="pyk-sig"><code><span class="k">def</span> <span class="n">smooth.rect</span>(
+    <span class="p">c</span>: <span class="t">String</span>,
+    <span class="p">x</span>: <span class="t">Float</span>,
+    <span class="p">y</span>: <span class="t">Float</span>,
+    <span class="p">w</span>: <span class="t">Float</span>,
+    <span class="p">h</span>: <span class="t">Float</span>,
+    <span class="p">fill</span>: color.Color = color.black,
+    <span class="p">stroke</span>: color.Color = color.none,
+    <span class="p">width</span>: <span class="t">Float</span> = 1.0,
+    <span class="p">alpha</span>: <span class="t">Float</span> = 1.0,
+    <span class="p">paint</span>: color.Paint = color.Plain(color.none),
+    <span class="p">style</span>: Style = Style(),
+    <span class="p">radius</span>: <span class="t">Float</span> = 0.0,
+) -> ()</code></pre>
+<p><code>tw.rect</code>, with a position and size that need not be whole.</p>
+<p class="pyk-api-label">Parameters</p>
+<ul>
+<li><code>c</code>: the canvas.</li>
+<li><code>x</code>, <code>y</code>: its top left corner.</li>
+<li><code>w</code>, <code>h</code>: its width and height.</li>
+<li><code>fill</code>: the colour inside; black by default.</li>
+<li><code>stroke</code>: the outline’s colour; none by default.</li>
+<li><code>width</code>: the outline’s width.</li>
+<li><code>alpha</code>: how opaque, from 0.0 to 1.0.</li>
+<li><code>paint</code>: a gradient to fill with instead of <code>fill</code>.</li>
+<li><code>style</code>: a <code>tw.Style</code> for what is not given here.</li>
+<li><code>radius</code>: how round its corners are.</li>
+</ul>
+<p class="pyk-api-label">Example</p>
+<div class="pkn-notebook pkn-embedded not-content"><div class="pkn-cell"><pre class="pkn-cell-fallback"><code>import tinyweb as tw
+import tinyweb.smooth as smooth
+tw.web_init(0)
+c = tw.canvas(200, 100)
+smooth.rect(c, 10.5, 10.5, 50.25, 30.75, radius = 4.5)</code></pre></div></div>
+</div>
+<div class="pyk-api">
+<h3 id="smoothellipse">smooth.ellipse</h3>
+<pre class="pyk-sig"><code><span class="k">def</span> <span class="n">smooth.ellipse</span>(
+    <span class="p">c</span>: <span class="t">String</span>,
+    <span class="p">x</span>: <span class="t">Float</span>,
+    <span class="p">y</span>: <span class="t">Float</span>,
+    <span class="p">rx</span>: <span class="t">Float</span>,
+    <span class="p">ry</span>: <span class="t">Float</span>,
+    <span class="p">fill</span>: color.Color = color.black,
+    <span class="p">stroke</span>: color.Color = color.none,
+    <span class="p">width</span>: <span class="t">Float</span> = 1.0,
+    <span class="p">alpha</span>: <span class="t">Float</span> = 1.0,
+    <span class="p">paint</span>: color.Paint = color.Plain(color.none),
+    <span class="p">style</span>: Style = Style(),
+) -> ()</code></pre>
+<p><code>tw.ellipse</code>, with a position and size that need not be whole.</p>
+<p class="pyk-api-label">Parameters</p>
+<ul>
+<li><code>c</code>: the canvas.</li>
+<li><code>x</code>, <code>y</code>: its centre.</li>
+<li><code>rx</code>, <code>ry</code>: its radius across and up and down.</li>
+<li><code>fill</code>: the colour inside; black by default.</li>
+<li><code>stroke</code>: the outline’s colour; none by default.</li>
+<li><code>width</code>: the outline’s width.</li>
+<li><code>alpha</code>: how opaque, from 0.0 to 1.0.</li>
+<li><code>paint</code>: a gradient to fill with instead of <code>fill</code>.</li>
+<li><code>style</code>: a <code>tw.Style</code> for what is not given here.</li>
+</ul>
+<p class="pyk-api-label">Example</p>
+<div class="pkn-notebook pkn-embedded not-content"><div class="pkn-cell"><pre class="pkn-cell-fallback"><code>import tinyweb as tw
+import tinyweb.smooth as smooth
+tw.web_init(0)
+c = tw.canvas(200, 100)
+smooth.ellipse(c, 100.0, 50.0, 60.5, 20.5)</code></pre></div></div>
+</div>
+<div class="pyk-api">
+<h3 id="smootharc">smooth.arc</h3>
+<pre class="pyk-sig"><code><span class="k">def</span> <span class="n">smooth.arc</span>(
+    <span class="p">c</span>: <span class="t">String</span>,
+    <span class="p">x</span>: <span class="t">Float</span>,
+    <span class="p">y</span>: <span class="t">Float</span>,
+    <span class="p">radius</span>: <span class="t">Float</span>,
+    <span class="p">start</span>: <span class="t">Float</span>,
+    <span class="p">end</span>: <span class="t">Float</span>,
+    <span class="p">fill</span>: color.Color = color.black,
+    <span class="p">stroke</span>: color.Color = color.none,
+    <span class="p">width</span>: <span class="t">Float</span> = 1.0,
+    <span class="p">alpha</span>: <span class="t">Float</span> = 1.0,
+    <span class="p">paint</span>: color.Paint = color.Plain(color.none),
+    <span class="p">style</span>: Style = Style(),
+) -> ()</code></pre>
+<p><code>tw.arc</code>, with a position and radius that need not be whole.</p>
+<p class="pyk-api-label">Parameters</p>
+<ul>
+<li><code>c</code>: the canvas.</li>
+<li><code>x</code>, <code>y</code>: the circle’s centre.</li>
+<li><code>radius</code>: its radius.</li>
+<li><code>start</code>, <code>end</code>: where the slice starts and ends, in radians.</li>
+<li><code>fill</code>: the colour inside; black by default.</li>
+<li><code>stroke</code>: the outline’s colour; none by default.</li>
+<li><code>width</code>: the outline’s width.</li>
+<li><code>alpha</code>: how opaque, from 0.0 to 1.0.</li>
+<li><code>paint</code>: a gradient to fill with instead of <code>fill</code>.</li>
+<li><code>style</code>: a <code>tw.Style</code> for what is not given here.</li>
+</ul>
+<p class="pyk-api-label">Example</p>
+<div class="pkn-notebook pkn-embedded not-content"><div class="pkn-cell"><pre class="pkn-cell-fallback"><code>import tinyweb as tw
+import tinyweb.smooth as smooth
+import tinyweb.color as color
+tw.web_init(0)
+c = tw.canvas(200, 100)
+smooth.arc(c, 100.0, 50.0, 40.5, 0.0, 3.0, color.none, stroke = color.red, width = 2.5)</code></pre></div></div>
+</div>
+<div class="pyk-api">
+<h3 id="smoothpolygon">smooth.polygon</h3>
+<pre class="pyk-sig"><code><span class="k">def</span> <span class="n">smooth.polygon</span>(
+    <span class="p">c</span>: <span class="t">String</span>,
+    <span class="p">points</span>: [smooth.Point],
+    <span class="p">fill</span>: color.Color = color.black,
+    <span class="p">stroke</span>: color.Color = color.none,
+    <span class="p">width</span>: <span class="t">Float</span> = 1.0,
+    <span class="p">alpha</span>: <span class="t">Float</span> = 1.0,
+    <span class="p">style</span>: Style = Style(),
+) -> ()</code></pre>
+<p><code>tw.polygon</code>, through points that need not be whole.</p>
+<p class="pyk-api-label">Parameters</p>
+<ul>
+<li><code>c</code>: the canvas.</li>
+<li><code>points</code>: the corners.</li>
+<li><code>fill</code>: the colour inside; black by default.</li>
+<li><code>stroke</code>: the outline’s colour; none by default.</li>
+<li><code>width</code>: the outline’s width.</li>
+<li><code>alpha</code>: how opaque, from 0.0 to 1.0.</li>
+<li><code>style</code>: a <code>tw.Style</code> for what is not given here.</li>
+</ul>
+<p class="pyk-api-label">Example</p>
+<div class="pkn-notebook pkn-embedded not-content"><div class="pkn-cell"><pre class="pkn-cell-fallback"><code>import tinyweb as tw
+import tinyweb.smooth as smooth
+tw.web_init(0)
+c = tw.canvas(200, 100)
+smooth.polygon(c, [smooth.Point(100.0, 10.5), smooth.Point(160.5, 90.0), smooth.Point(39.5, 90.0)])</code></pre></div></div>
+</div>
+<div class="pyk-api">
+<h3 id="smoothline">smooth.line</h3>
+<pre class="pyk-sig"><code><span class="k">def</span> <span class="n">smooth.line</span>(
+    <span class="p">c</span>: <span class="t">String</span>,
+    <span class="p">x1</span>: <span class="t">Float</span>,
+    <span class="p">y1</span>: <span class="t">Float</span>,
+    <span class="p">x2</span>: <span class="t">Float</span>,
+    <span class="p">y2</span>: <span class="t">Float</span>,
+    <span class="p">stroke</span>: color.Color = color.black,
+    <span class="p">width</span>: <span class="t">Float</span> = 1.0,
+    <span class="p">alpha</span>: <span class="t">Float</span> = 1.0,
+    <span class="p">style</span>: Style = Style(),
+) -> ()</code></pre>
+<p><code>tw.line</code>, between points that need not be whole.</p>
+<p class="pyk-api-label">Parameters</p>
+<ul>
+<li><code>c</code>: the canvas.</li>
+<li><code>x1</code>, <code>y1</code>: where it starts.</li>
+<li><code>x2</code>, <code>y2</code>: where it ends.</li>
+<li><code>stroke</code>: its colour; black by default.</li>
+<li><code>width</code>: how thick it is.</li>
+<li><code>alpha</code>: how opaque, from 0.0 to 1.0.</li>
+<li><code>style</code>: a <code>tw.Style</code> for what is not given here.</li>
+</ul>
+<p class="pyk-api-label">Example</p>
+<div class="pkn-notebook pkn-embedded not-content"><div class="pkn-cell"><pre class="pkn-cell-fallback"><code>import tinyweb as tw
+import tinyweb.smooth as smooth
+tw.web_init(0)
+c = tw.canvas(200, 100)
+smooth.line(c, 0.5, 0.5, 199.5, 99.5, width = 0.5)</code></pre></div></div>
+</div>
+<div class="pyk-api">
+<h3 id="smoothlines">smooth.lines</h3>
+<pre class="pyk-sig"><code><span class="k">def</span> <span class="n">smooth.lines</span>(
+    <span class="p">c</span>: <span class="t">String</span>,
+    <span class="p">segments</span>: [(smooth.Point, smooth.Point)],
+    <span class="p">stroke</span>: color.Color = color.black,
+    <span class="p">width</span>: <span class="t">Float</span> = 1.0,
+    <span class="p">alpha</span>: <span class="t">Float</span> = 1.0,
+    <span class="p">style</span>: Style = Style(),
+) -> ()</code></pre>
+<p><code>tw.lines</code>, between points that need not be whole.</p>
+<p class="pyk-api-label">Parameters</p>
+<ul>
+<li><code>c</code>: the canvas.</li>
+<li><code>segments</code>: each line, from its first point to its second.</li>
+<li><code>stroke</code>: their colour; black by default.</li>
+<li><code>width</code>: how thick they are.</li>
+<li><code>alpha</code>: how opaque, from 0.0 to 1.0.</li>
+<li><code>style</code>: a <code>tw.Style</code> for what is not given here.</li>
+</ul>
+<p class="pyk-api-label">Example</p>
+<div class="pkn-notebook pkn-embedded not-content"><div class="pkn-cell"><pre class="pkn-cell-fallback"><code>import tinyweb as tw
+import tinyweb.smooth as smooth
+tw.web_init(0)
+c = tw.canvas(200, 100)
+smooth.lines(c, [(smooth.Point(float(x), 0.0), smooth.Point(float(x) + 5.5, 100.0)) for x in range(0, 200, 20)])</code></pre></div></div>
+</div>
+<div class="pyk-api">
+<h3 id="smoothpath">smooth.path</h3>
+<pre class="pyk-sig"><code><span class="k">def</span> <span class="n">smooth.path</span>(
+    <span class="p">c</span>: <span class="t">String</span>,
+    <span class="p">points</span>: [smooth.Point],
+    <span class="p">stroke</span>: color.Color = color.black,
+    <span class="p">width</span>: <span class="t">Float</span> = 1.0,
+    <span class="p">alpha</span>: <span class="t">Float</span> = 1.0,
+    <span class="p">style</span>: Style = Style(),
+) -> ()</code></pre>
+<p><code>tw.path</code>, through points that need not be whole.</p>
+<p class="pyk-api-label">Parameters</p>
+<ul>
+<li><code>c</code>: the canvas.</li>
+<li><code>points</code>: the points it goes through.</li>
+<li><code>stroke</code>: its colour; black by default.</li>
+<li><code>width</code>: how thick it is.</li>
+<li><code>alpha</code>: how opaque, from 0.0 to 1.0.</li>
+<li><code>style</code>: a <code>tw.Style</code> for what is not given here.</li>
+</ul>
+<p class="pyk-api-label">Example</p>
+<div class="pkn-notebook pkn-embedded not-content"><div class="pkn-cell"><pre class="pkn-cell-fallback"><code>import tinyweb as tw
+import tinyweb.smooth as smooth
+tw.web_init(0)
+c = tw.canvas(200, 100)
+smooth.path(c, [smooth.Point(float(x), 50.0 + float(x - x / 40 * 40) / 2.0) for x in range(0, 200, 5)])</code></pre></div></div>
+</div>
+<div class="pyk-api">
+<h3 id="smoothcurve">smooth.curve</h3>
+<pre class="pyk-sig"><code><span class="k">def</span> <span class="n">smooth.curve</span>(
+    <span class="p">c</span>: <span class="t">String</span>,
+    <span class="p">x1</span>: <span class="t">Float</span>,
+    <span class="p">y1</span>: <span class="t">Float</span>,
+    <span class="p">cx</span>: <span class="t">Float</span>,
+    <span class="p">cy</span>: <span class="t">Float</span>,
+    <span class="p">x2</span>: <span class="t">Float</span>,
+    <span class="p">y2</span>: <span class="t">Float</span>,
+    <span class="p">stroke</span>: color.Color = color.black,
+    <span class="p">width</span>: <span class="t">Float</span> = 1.0,
+    <span class="p">alpha</span>: <span class="t">Float</span> = 1.0,
+    <span class="p">style</span>: Style = Style(),
+) -> ()</code></pre>
+<p><code>tw.curve</code>, through points that need not be whole.</p>
+<p class="pyk-api-label">Parameters</p>
+<ul>
+<li><code>c</code>: the canvas.</li>
+<li><code>x1</code>, <code>y1</code>: where it starts.</li>
+<li><code>cx</code>, <code>cy</code>: the point it is pulled towards.</li>
+<li><code>x2</code>, <code>y2</code>: where it ends.</li>
+<li><code>stroke</code>: its colour; black by default.</li>
+<li><code>width</code>: how thick it is.</li>
+<li><code>alpha</code>: how opaque, from 0.0 to 1.0.</li>
+<li><code>style</code>: a <code>tw.Style</code> for what is not given here.</li>
+</ul>
+<p class="pyk-api-label">Example</p>
+<div class="pkn-notebook pkn-embedded not-content"><div class="pkn-cell"><pre class="pkn-cell-fallback"><code>import tinyweb as tw
+import tinyweb.smooth as smooth
+tw.web_init(0)
+c = tw.canvas(200, 100)
+smooth.curve(c, 10.5, 90.0, 100.0, 0.5, 189.5, 90.0)</code></pre></div></div>
+</div>
+<div class="pyk-api">
+<h3 id="smoothbezier">smooth.bezier</h3>
+<pre class="pyk-sig"><code><span class="k">def</span> <span class="n">smooth.bezier</span>(
+    <span class="p">c</span>: <span class="t">String</span>,
+    <span class="p">x1</span>: <span class="t">Float</span>,
+    <span class="p">y1</span>: <span class="t">Float</span>,
+    <span class="p">ax</span>: <span class="t">Float</span>,
+    <span class="p">ay</span>: <span class="t">Float</span>,
+    <span class="p">bx</span>: <span class="t">Float</span>,
+    <span class="p">by</span>: <span class="t">Float</span>,
+    <span class="p">x2</span>: <span class="t">Float</span>,
+    <span class="p">y2</span>: <span class="t">Float</span>,
+    <span class="p">stroke</span>: color.Color = color.black,
+    <span class="p">width</span>: <span class="t">Float</span> = 1.0,
+    <span class="p">alpha</span>: <span class="t">Float</span> = 1.0,
+    <span class="p">style</span>: Style = Style(),
+) -> ()</code></pre>
+<p><code>tw.bezier</code>, through points that need not be whole.</p>
+<p class="pyk-api-label">Parameters</p>
+<ul>
+<li><code>c</code>: the canvas.</li>
+<li><code>x1</code>, <code>y1</code>: where it starts.</li>
+<li><code>ax</code>, <code>ay</code>: the first point it is pulled towards.</li>
+<li><code>bx</code>, <code>by</code>: the second.</li>
+<li><code>x2</code>, <code>y2</code>: where it ends.</li>
+<li><code>stroke</code>: its colour; black by default.</li>
+<li><code>width</code>: how thick it is.</li>
+<li><code>alpha</code>: how opaque, from 0.0 to 1.0.</li>
+<li><code>style</code>: a <code>tw.Style</code> for what is not given here.</li>
+</ul>
+<p class="pyk-api-label">Example</p>
+<div class="pkn-notebook pkn-embedded not-content"><div class="pkn-cell"><pre class="pkn-cell-fallback"><code>import tinyweb as tw
+import tinyweb.smooth as smooth
+tw.web_init(0)
+c = tw.canvas(200, 100)
+smooth.bezier(c, 10.0, 50.0, 60.5, 0.0, 140.5, 100.0, 190.0, 50.0, width = 2.5)</code></pre></div></div>
+</div>
+<div class="pyk-api">
+<h3 id="smoothtext">smooth.text</h3>
+<pre class="pyk-sig"><code><span class="k">def</span> <span class="n">smooth.text</span>(
+    <span class="p">c</span>: <span class="t">String</span>,
+    <span class="p">x</span>: <span class="t">Float</span>,
+    <span class="p">y</span>: <span class="t">Float</span>,
+    <span class="p">words</span>: <span class="t">String</span>,
+    <span class="p">fill</span>: color.Color = color.black,
+    <span class="p">size</span>: <span class="t">Int</span> = 16,
+    <span class="p">font</span>: <span class="t">String</span> = "",
+    <span class="p">align</span>: <span class="t">String</span> = "left",
+    <span class="p">bold</span>: <span class="t">Bool</span> = false,
+    <span class="p">alpha</span>: <span class="t">Float</span> = 1.0,
+    <span class="p">baseline</span>: <span class="t">String</span> = "top",
+    <span class="p">stroke</span>: color.Color = color.none,
+    <span class="p">width</span>: <span class="t">Float</span> = 1.0,
+    <span class="p">paint</span>: color.Paint = color.Plain(color.none),
+    <span class="p">style</span>: Style = Style(),
+) -> ()</code></pre>
+<p><code>tw.text</code>, at a position that need not be whole.</p>
+<p class="pyk-api-label">Parameters</p>
+<ul>
+<li><code>c</code>: the canvas.</li>
+<li><code>x</code>, <code>y</code>: where the text goes.</li>
+<li><code>words</code>: what is written.</li>
+<li><code>fill</code>: its colour; black by default.</li>
+<li><code>size</code>: its size in pixels; 16 by default.</li>
+<li><code>font</code>: the font’s name; the page’s own by default.</li>
+<li><code>align</code>: which part of the text is at <code>x</code>: <code>"left"</code>, <code>"center"</code> or <code>"right"</code>.</li>
+<li><code>bold</code>: whether it is bold.</li>
+<li><code>alpha</code>: how opaque, from 0.0 to 1.0.</li>
+<li><code>baseline</code>: which part is at <code>y</code>: <code>"top"</code>, <code>"middle"</code>, <code>"alphabetic"</code> or <code>"bottom"</code>.</li>
+<li><code>stroke</code>: the colour of an outline round each letter; none by default.</li>
+<li><code>width</code>: the outline’s width.</li>
+<li><code>paint</code>: a gradient to fill the letters with instead of <code>fill</code>.</li>
+<li><code>style</code>: a <code>tw.Style</code> for what is not given here.</li>
+</ul>
+<p class="pyk-api-label">Example</p>
+<div class="pkn-notebook pkn-embedded not-content"><div class="pkn-cell"><pre class="pkn-cell-fallback"><code>import tinyweb as tw
+import tinyweb.smooth as smooth
+tw.web_init(0)
+c = tw.canvas(200, 60)
+smooth.text(c, 10.5, 20.25, "Smooth")</code></pre></div></div>
+</div>
+<div class="pyk-api">
+<h3 id="smoothclip_circle">smooth.clip_circle</h3>
+<pre class="pyk-sig"><code><span class="k">def</span> <span class="n">smooth.clip_circle</span>(
+    <span class="p">c</span>: <span class="t">String</span>,
+    <span class="p">x</span>: <span class="t">Float</span>,
+    <span class="p">y</span>: <span class="t">Float</span>,
+    <span class="p">radius</span>: <span class="t">Float</span>,
+) -> ()</code></pre>
+<p><code>tw.clip_circle</code>, with a position and radius that need not be whole.</p>
+<p class="pyk-api-label">Parameters</p>
+<ul>
+<li><code>c</code>: the canvas.</li>
+<li><code>x</code>, <code>y</code>: the circle’s centre.</li>
+<li><code>radius</code>: its radius.</li>
+</ul>
+<p class="pyk-api-label">Example</p>
+<div class="pkn-notebook pkn-embedded not-content"><div class="pkn-cell"><pre class="pkn-cell-fallback"><code>import tinyweb as tw
+import tinyweb.smooth as smooth
+tw.web_init(0)
+c = tw.canvas(200, 100)
+smooth.clip_circle(c, 100.5, 50.5, 40.25)
+tw.rect(c, 0, 0, 200, 100)</code></pre></div></div>
+</div>
+<div class="pyk-api">
+<h3 id="smoothclip_polygon">smooth.clip_polygon</h3>
+<pre class="pyk-sig"><code><span class="k">def</span> <span class="n">smooth.clip_polygon</span>(<span class="p">c</span>: <span class="t">String</span>, <span class="p">points</span>: [smooth.Point]) -> ()</code></pre>
+<p><code>tw.clip_polygon</code>, through points that need not be whole.</p>
+<p class="pyk-api-label">Parameters</p>
+<ul>
+<li><code>c</code>: the canvas.</li>
+<li><code>points</code>: the polygon’s corners.</li>
+</ul>
+<p class="pyk-api-label">Example</p>
+<div class="pkn-notebook pkn-embedded not-content"><div class="pkn-cell"><pre class="pkn-cell-fallback"><code>import tinyweb as tw
+import tinyweb.smooth as smooth
+tw.web_init(0)
+c = tw.canvas(200, 100)
+smooth.clip_polygon(c, [smooth.Point(100.5, 0.0), smooth.Point(200.0, 100.0), smooth.Point(0.0, 100.0)])
+tw.rect(c, 0, 0, 200, 100)</code></pre></div></div>
+</div></div><footer class="sl-flex astro-ddtxxk7k"><div class="meta sl-flex astro-ddtxxk7k"></div><div class="pagination-links print:hidden astro-b5raizh3" dir="ltr"></div></footer></div></div></main></div></div></div></div></body></html>

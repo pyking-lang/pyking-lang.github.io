@@ -9,41 +9,54 @@ public final class Program {
     private static String frame_based;
     private static String count;
     private static String speed;
+    private static String gone;
+    private static String blank;
 
     private static void trails(final boolean on) {
-        TinywebExternal.set_label(shown, on ? "trails on" : "trails off");
+        Tinyweb.set_text(shown, on ? "trails on" : "trails off");
     }
 
     private static void mode(final String title) {
-        TinywebExternal.set_label(shown, "mode: " + title);
+        Tinyweb.set_text(shown, "mode: " + title);
     }
 
     private static void entered(final String name) {
-        TinywebExternal.set_label(shown, "hello, " + name);
+        Tinyweb.set_text(shown, "hello, " + name);
     }
 
     private static void balls(final int n) {
-        TinywebExternal.set_label(shown, String.valueOf(n) + " balls");
+        Tinyweb.set_text(shown, String.valueOf(n) + " balls");
     }
 
     public static void main(String[] args) {
+        Math.init();
+        Text.init();
         Tinyweb.init();
         Tinyweb.web_init(0);
         shown = TinywebExternal.label("nothing yet");
-        box = Tinyweb.checkbox("Trails", Tinyweb.checkbox__default__checked(), p$1 -> { trails(p$1); return null; });
+        box = Tinyweb.checkbox("Trails", false, p$1 -> { trails(p$1); return null; });
         Tinyweb.checkbox("Slow frames", true, Tinyweb.checkbox__default__on_change());
-        Tinyweb.radio("mode", "time-based", Tinyweb.radio__default__chosen(), p$1 -> { mode(p$1); return null; });
-        frame_based = Tinyweb.radio("mode", "frame-based", Tinyweb.radio__default__chosen(), p$1 -> { mode(p$1); return null; });
-        Tinyweb.radio("speed", "slow", Tinyweb.radio__default__chosen(), Tinyweb.radio__default__on_pick());
+        Tinyweb.radio("mode", "time-based", false, p$1 -> { mode(p$1); return null; });
+        frame_based = Tinyweb.radio("mode", "frame-based", false, p$1 -> { mode(p$1); return null; });
+        Tinyweb.radio("speed", "slow", false, Tinyweb.radio__default__on_pick());
         Tinyweb.radio("speed", "fast", true, Tinyweb.radio__default__on_pick());
         Tinyweb.text_input("your name", p$1 -> { entered(p$1); return null; });
-        Tinyweb.text_input(Tinyweb.text_input__default__placeholder(), Tinyweb.text_input__default__on_enter());
+        Tinyweb.text_input("", Tinyweb.text_input__default__on_enter());
         count = Tinyweb.number_input(1, 20, 3, p$1 -> { balls(p$1); return null; });
         speed = Tinyweb.slider(0, 10, 5, Tinyweb.slider__default__on_change());
         TinywebExternal.set_checked(box, true);
         TinywebExternal.set_checked(frame_based, true);
         TinywebExternal.set_value(count, 5);
         TinywebExternal.set_value(speed, 8);
-        System.out.println(frame_based);
+        gone = TinywebExternal.label("going");
+        Tinyweb.hide(gone);
+        Tinyweb.show(gone);
+        Tinyweb.disable(speed);
+        Tinyweb.enable(speed);
+        Tinyweb.disable(box);
+        Tinyweb.remove(gone);
+        blank = TinywebExternal.label("");
+        Tinyweb.set_text(blank, "filled in");
+        System.out.println(frame_based + " " + blank);
     }
 }

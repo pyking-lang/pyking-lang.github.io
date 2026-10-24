@@ -1,41 +1,4 @@
 # --- prelude begins ---
-# Pyking prints a Bool as `true`/`false`, not Python's own capitalised
-# `True`/`False`, wherever it sits -- on its own, or inside a list or
-# a tuple. This helper exists because at least one value printed below
-# isn't provably free of Bools from its Pyking source form alone (a
-# variable, a call, or a container), so it is walked at runtime.
-
-def __pyk_str(v, top):
-    if isinstance(v, bool):
-        return 'true' if v else 'false'
-    if isinstance(v, float):
-        return __pyk_float(v)
-    if isinstance(v, str):
-        if top:
-            return v
-        out = '\''
-        for c in v:
-            out = out + ('\\\\' if c == '\\' else '\\\'' if c == '\'' else '\\n' if c == '\n' else '\\t' if c == '\t' else '\\r' if c == '\r' else c)
-        return out + '\''
-    if isinstance(v, list):
-        out = ''
-        for e in v:
-            out = out + ('' if out == '' else ', ') + __pyk_str(e, False)
-        return '[' + out + ']'
-    if isinstance(v, tuple):
-        out = ''
-        for e in v:
-            out = out + ('' if out == '' else ', ') + __pyk_str(e, False)
-        if len(v) == 1:
-            return '(' + out + ',)'
-        return '(' + out + ')'
-    if hasattr(v, '_pyk_tag'):
-        out = ''
-        for f in v.__match_args__:
-            e = getattr(v, f)
-            out = out + ('' if out == '' else ', ') + __pyk_str(e, False)
-        return v._pyk_tag + ('(' + out + ')' if v.__match_args__ else '')
-    return str(v)
 
 def __pyk_fdiv(a, b):
     if b == 0.0:
@@ -85,12 +48,15 @@ def __pyk_float(x):
 
 import tinyweb as tw
 import tinyweb_external as tw_external
-from tinyweb import colors__palette as palette
+from tinyweb import Color__Color, color__black, color__white, color__gray, color__red, color__green, color__blue, color__yellow, color__orange, color__purple, color__pink, color__navy, color__teal, color__brown, color__cyan, color__magenta, color__none, color__theme, color__rgb, color__rgba, color__hsl, color__hex, color__to_hex, color__with_alpha, color__mix, color__same, color__palette, Color__Paint, Color__Plain, Color__Linear, Color__Radial, Color__Conic, color__stop
+from tinyweb import color__palette as palette
+from tinyweb import Point
 tw.web_init(0)
 c = tw_external.canvas(200, 200)
 ocean = palette('ocean')
 print(len(ocean))
-tw.polygon(c, [(100, 10), (130, 90), (70, 90)], 'orange', 'black', tw.polygon__default__outline_width(), tw.polygon__default__alpha())
-tw.path(c, [(10, 190), (60, 120), (110, 170), (190, 110)], 'teal', 3, tw.path__default__alpha())
-tw.polygon(c, [], 'red', tw.polygon__default__outline(), tw.polygon__default__outline_width(), tw.polygon__default__alpha())
-print(__pyk_str(palette('nothing'), True))
+tw.polygon(c, [Point(100, 10), Point(130, 90), Point(70, 90)], color__orange, color__black, 1, 1.0, tw.polygon__default__paint(), tw.polygon__default__style())
+tw.path(c, [Point(10, 190), Point(60, 120), Point(110, 170), Point(190, 110)], color__teal, 3, 1.0, tw.path__default__style())
+tw.polygon(c, [], color__red, tw.polygon__default__stroke(), 1, 1.0, tw.polygon__default__paint(), tw.polygon__default__style())
+tw.lines(c, [(Point(0, 0), Point(20, 20)), (Point(20, 0), Point(0, 20))], color__navy, 1, 1.0, tw.lines__default__style())
+print(len(palette('nothing')))

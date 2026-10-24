@@ -48,16 +48,17 @@ def __pyk_float(x):
 
 import tinyweb as tw
 import tinyweb_external as tw_external
+from tinyweb import Color__Color, color__black, color__white, color__gray, color__red, color__green, color__blue, color__yellow, color__orange, color__purple, color__pink, color__navy, color__teal, color__brown, color__cyan, color__magenta, color__none, color__theme, color__rgb, color__rgba, color__hsl, color__hex, color__to_hex, color__with_alpha, color__mix, color__same, color__palette, Color__Paint, Color__Plain, Color__Linear, Color__Radial, Color__Conic, color__stop
 tw.web_init(0)
 tw_external.set_splash('Click for drums')
 c = tw_external.canvas(200, 100)
-tw.clear(c, '#202020')
+tw.clear(c, color__hex(2105376))
 kick = tw_external.load_sample('kick1.wav')
-tw.play(kick, 0.25, tw.play__default__volume(), tw.play__default__rate())
-tw.circle(c, 100, 50, 30, '#ffcc00', tw.circle__default__outline(), tw.circle__default__outline_width(), tw.circle__default__alpha())
+tw.play(kick, 0.25, 1.0, 1.0, 0.0, tw.play__default__voice())
+tw.circle(c, 100, 50, 30, color__hex(16763904), tw.circle__default__stroke(), 1, 1.0, tw.circle__default__paint(), tw.circle__default__style())
 
 def again():
-    tw.play(kick, tw.play__default__at(), tw.play__default__volume(), tw.play__default__rate())
+    tw.play(kick, 0.0, 1.0, 1.0, 0.0, tw.play__default__voice())
     print('kick again')
     return ()
 

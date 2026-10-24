@@ -1,4 +1,14 @@
+from dataclasses import dataclass
+
 # --- prelude begins ---
+
+def __pyk_import(name):
+    from importlib.util import module_from_spec, spec_from_file_location
+    from os.path import abspath, dirname, join
+    spec = spec_from_file_location(name, join(dirname(abspath(__file__)), name + '.py'))
+    module = module_from_spec(spec)
+    spec.loader.exec_module(module)
+    return module
 
 def __pyk_div(a, b):
     q = abs(a) // abs(b)
@@ -48,9 +58,104 @@ def __pyk_float(x):
         return sign + digits + '0' * (decpt - n) + '.0'
     return sign + digits[:decpt] + '.' + digits[decpt:]
 
+def __pyk_trunc(x):
+    if x != x or x in (float('inf'), float('-inf')):
+        return 0
+    n = int(x)
+    return n if -2147483648 <= n <= 2147483647 else 0
+
+def __pyk_int(s):
+    digits = s[1:] if s[:1] in ('-', '+') else s
+    if not (digits.isascii() and digits.isdigit()):
+        return 0
+    n = int(s)
+    return n if -2147483648 <= n <= 2147483647 else 0
+
 # --- prelude ends; the compiled program follows ---
 
 import tinyweb_external
+
+@dataclass(frozen=True, slots=True)
+class Color__Color:
+    r: int
+    g: int
+    b: int
+    a: float
+
+@dataclass(frozen=True, slots=True)
+class Color__Plain:
+    _0: Color__Color
+
+@dataclass(frozen=True, slots=True)
+class Color__Linear:
+    x1: float
+    y1: float
+    x2: float
+    y2: float
+    start: Color__Color
+    end: Color__Color
+    stops: str
+
+@dataclass(frozen=True, slots=True)
+class Color__Radial:
+    x1: float
+    y1: float
+    r1: float
+    x2: float
+    y2: float
+    r2: float
+    start: Color__Color
+    end: Color__Color
+    stops: str
+
+@dataclass(frozen=True, slots=True)
+class Color__Conic:
+    x: float
+    y: float
+    angle: float
+    start: Color__Color
+    end: Color__Color
+    stops: str
+
+type Color__Paint = Color__Plain | Color__Linear | Color__Radial | Color__Conic
+
+@dataclass(frozen=True, slots=True)
+class Point:
+    x: int
+    y: int
+
+@dataclass(frozen=True, slots=True)
+class Style:
+    fill: Color__Color
+    stroke: Color__Color
+    width: int
+    alpha: float
+    paint: Color__Paint
+
+@dataclass(frozen=True, slots=True)
+class Pointer:
+    x: int
+    y: int
+    down: bool
+
+@dataclass(frozen=True, slots=True)
+class Sound__Voice:
+    volume: float
+    rate: float
+    pan: float
+    channel: int
+    looping: bool
+    reverse: bool
+
+@dataclass(frozen=True, slots=True)
+class Smooth__Point:
+    x: float
+    y: float
+
+math = __pyk_import('math')
+import math_external
+import text as strings
+import text_external as strings_external
 
 def nothing():
     return ()
@@ -64,11 +169,8 @@ def ignore_bool(value):
 def ignore_text(value):
     return ()
 
-def clear__default__color():
-    return '#ffffff'
-
-def clear(c, color):
-    return tinyweb_external.fill_canvas(c, color)
+def ignore_float(value):
+    return ()
 
 def numbers2(a, b):
     return str(a) + ' ' + str(b)
@@ -98,10 +200,10 @@ def joined(words):
     return joined_by(words, ' ')
 
 def points_text(points):
-    return joined([numbers2(x, y) for (x, y) in points])
+    return joined([numbers2(p.x, p.y) for p in points])
 
 def segments_text(segments):
-    return joined([numbers4(x1, y1, x2, y2) for (x1, y1, x2, y2) in segments])
+    return joined([numbers4(a.x, a.y, b.x, b.y) for (a, b) in segments])
 
 def floats2(a, b):
     return str(__pyk_float(a)) + ' ' + str(__pyk_float(b))
@@ -113,281 +215,68 @@ def floats4(a, b, c, d):
     return floats2(a, b) + ' ' + floats2(c, d)
 
 def float_points_text(points):
-    return joined([floats2(x, y) for (x, y) in points])
-
-def web_init__default__port():
-    return 0
-
-def web_init(port):
-    return tinyweb_external.web_start(port)
-
-def circle__default__color():
-    return '#000000'
-
-def circle__default__outline():
-    return ''
-
-def circle__default__outline_width():
-    return 1
-
-def circle__default__alpha():
-    return 1.0
-
-def circle(c, x, y, radius, color, outline, outline_width, alpha):
-    return tinyweb_external.draw_shape(c, 'circle', numbers3(x, y, radius), color, outline, float(outline_width), alpha)
-
-def rect__default__color():
-    return '#000000'
-
-def rect__default__outline():
-    return ''
-
-def rect__default__outline_width():
-    return 1
-
-def rect__default__alpha():
-    return 1.0
-
-def rect__default__radius():
-    return 0
-
-def rect(c, x, y, width, height, color, outline, outline_width, alpha, radius):
-    return tinyweb_external.draw_shape(c, 'rect', numbers4(x, y, width, height) + ' ' + str(radius), color, outline, float(outline_width), alpha)
-
-def ellipse__default__color():
-    return '#000000'
-
-def ellipse__default__outline():
-    return ''
-
-def ellipse__default__outline_width():
-    return 1
-
-def ellipse__default__alpha():
-    return 1.0
-
-def ellipse(c, x, y, rx, ry, color, outline, outline_width, alpha):
-    return tinyweb_external.draw_shape(c, 'ellipse', numbers4(x, y, rx, ry), color, outline, float(outline_width), alpha)
-
-def arc__default__color():
-    return '#000000'
-
-def arc__default__outline():
-    return ''
-
-def arc__default__outline_width():
-    return 1
-
-def arc__default__alpha():
-    return 1.0
-
-def arc(c, x, y, radius, start, end, color, outline, outline_width, alpha):
-    return tinyweb_external.draw_shape(c, 'arc', numbers3(x, y, radius) + ' ' + str(__pyk_float(start)) + ' ' + str(__pyk_float(end)), color, outline, float(outline_width), alpha)
-
-def polygon__default__color():
-    return '#000000'
-
-def polygon__default__outline():
-    return ''
-
-def polygon__default__outline_width():
-    return 1
-
-def polygon__default__alpha():
-    return 1.0
-
-def polygon(c, points, color, outline, outline_width, alpha):
-    return tinyweb_external.draw_shape(c, 'polygon', points_text(points), color, outline, float(outline_width), alpha)
-
-def line__default__color():
-    return '#000000'
-
-def line__default__width():
-    return 1
-
-def line__default__alpha():
-    return 1.0
-
-def line(c, x1, y1, x2, y2, color, width, alpha):
-    return tinyweb_external.draw_shape(c, 'line', numbers4(x1, y1, x2, y2), '', color, float(width), alpha)
-
-def path__default__color():
-    return '#000000'
-
-def path__default__width():
-    return 1
-
-def path__default__alpha():
-    return 1.0
-
-def path(c, points, color, width, alpha):
-    return tinyweb_external.draw_shape(c, 'path', points_text(points), '', color, float(width), alpha)
-
-def curve__default__color():
-    return '#000000'
-
-def curve__default__width():
-    return 1
-
-def curve__default__alpha():
-    return 1.0
-
-def curve(c, x1, y1, cx, cy, x2, y2, color, width, alpha):
-    return tinyweb_external.draw_shape(c, 'curve', numbers2(x1, y1) + ' ' + numbers4(cx, cy, x2, y2), '', color, float(width), alpha)
-
-def lines__default__color():
-    return '#000000'
-
-def lines__default__width():
-    return 1
-
-def lines__default__alpha():
-    return 1.0
-
-def lines(c, segments, color, width, alpha):
-    return tinyweb_external.draw_shape(c, 'lines', segments_text(segments), '', color, float(width), alpha)
-
-def bezier__default__color():
-    return '#000000'
-
-def bezier__default__width():
-    return 1
-
-def bezier__default__alpha():
-    return 1.0
-
-def bezier(c, x1, y1, ax, ay, bx, by, x2, y2, color, width, alpha):
-    return tinyweb_external.draw_shape(c, 'bezier', numbers4(x1, y1, ax, ay) + ' ' + numbers4(bx, by, x2, y2), '', color, float(width), alpha)
-
-def erase(c, x, y, width, height):
-    return tinyweb_external.draw_shape(c, 'erase', numbers4(x, y, width, height), '', '', 0.0, 1.0)
-
-def line_style__default__cap():
-    return 'round'
-
-def line_style__default__join():
-    return 'round'
-
-def line_style__default__dash():
-    return 0.0
-
-def line_style__default__gap():
-    return 0.0
-
-def line_style__default__offset():
-    return 0.0
-
-def line_style__default__dash2():
-    return 0.0
-
-def line_style__default__gap2():
-    return 0.0
-
-def line_style(c, cap, join, dash, gap, offset, dash2, gap2):
-    first = '' if dash <= 0.0 else ' ' + floats2(dash, dash) if gap <= 0.0 else ' ' + floats2(dash, gap)
-    second = '' if dash <= 0.0 else '' if dash2 <= 0.0 else ' ' + floats2(dash2, dash2) if gap2 <= 0.0 else ' ' + floats2(dash2, gap2)
-    return tinyweb_external.set_state(c, 'line_style', cap + ' ' + join, str(__pyk_float(offset)) + first + second)
-
-def clip_rect(c, x, y, width, height):
-    return tinyweb_external.set_state(c, 'clip', 'rect', numbers4(x, y, width, height) + ' 0')
-
-def clip_circle(c, x, y, radius):
-    return tinyweb_external.set_state(c, 'clip', 'circle', numbers3(x, y, radius))
-
-def clip_polygon(c, points):
-    return tinyweb_external.set_state(c, 'clip', 'polygon', points_text(points))
-
-def text__default__color():
-    return '#000000'
-
-def text__default__size():
-    return 16
-
-def text__default__font():
-    return ''
-
-def text__default__align():
-    return 'left'
-
-def text__default__bold():
-    return False
-
-def text__default__alpha():
-    return 1.0
-
-def text__default__baseline():
-    return 'top'
-
-def text__default__outline():
-    return ''
-
-def text__default__outline_width():
-    return 1
-
-def text(c, x, y, words, color, size, font, align, bold, alpha, baseline, outline, outline_width):
-    return tinyweb_external.draw_text(c, float(x), float(y), words, color, size, font, align, baseline, bold, outline, float(outline_width), alpha)
-
-def measure_text__default__size():
-    return 16
-
-def measure_text__default__font():
-    return ''
-
-def measure_text__default__bold():
-    return False
-
-def measure_text(words, answer, size, font, bold):
-    return tinyweb_external.measure(words, size, font, bold, answer)
-
-def translate(c, x, y):
-    return tinyweb_external.set_state(c, 'translate', '', str(__pyk_float(x)) + ' ' + str(__pyk_float(y)))
-
-def rotate(c, degrees):
-    return tinyweb_external.set_state(c, 'rotate', '', str(__pyk_float(degrees)))
-
-def scale(c, sx, sy):
-    return tinyweb_external.set_state(c, 'scale', '', str(__pyk_float(sx)) + ' ' + str(__pyk_float(sy)))
-
-def push(c):
-    return tinyweb_external.set_state(c, 'push', '', '')
-
-def pop(c):
-    return tinyweb_external.set_state(c, 'pop', '', '')
-
-def reset(c):
-    return tinyweb_external.set_state(c, 'reset', '', '')
-
-def shadow__default__blur():
-    return 10
-
-def shadow__default__dx():
-    return 0
-
-def shadow__default__dy():
-    return 0
-
-def shadow(c, color, blur, dx, dy):
-    return tinyweb_external.set_state(c, 'shadow', color, numbers3(blur, dx, dy))
-
-def blend(c, mode):
-    match mode:
-        case 'normal' | 'add':
-            return tinyweb_external.set_state(c, 'blend', mode, '')
+    return joined([floats2(p.x, p.y) for p in points])
+
+def bit(on):
+    return '1' if on else '0'
+
+color__black = Color__Color(0, 0, 0, 1.0)
+color__white = Color__Color(255, 255, 255, 1.0)
+color__gray = Color__Color(128, 128, 128, 1.0)
+color__red = Color__Color(255, 0, 0, 1.0)
+color__green = Color__Color(0, 128, 0, 1.0)
+color__blue = Color__Color(0, 0, 255, 1.0)
+color__yellow = Color__Color(255, 255, 0, 1.0)
+color__orange = Color__Color(255, 165, 0, 1.0)
+color__purple = Color__Color(128, 0, 128, 1.0)
+color__pink = Color__Color(255, 192, 203, 1.0)
+color__navy = Color__Color(0, 0, 128, 1.0)
+color__teal = Color__Color(0, 128, 128, 1.0)
+color__brown = Color__Color(139, 69, 19, 1.0)
+color__cyan = Color__Color(0, 255, 255, 1.0)
+color__magenta = Color__Color(255, 0, 255, 1.0)
+color__none = Color__Color(0, 0, 0, 0.0)
+color__theme = Color__Color(-1, -1, -1, -1.0)
+
+def color__sector(sector, chroma, x):
+    match sector:
+        case 0:
+            return (chroma, x, 0.0)
+        case 1:
+            return (x, chroma, 0.0)
+        case 2:
+            return (0.0, chroma, x)
+        case 3:
+            return (0.0, x, chroma)
+        case 4:
+            return (x, 0.0, chroma)
         case _:
-            print('tinyweb: there is no blending called "' + mode + '"; the modes are normal and add', file=__import__('sys').stderr)
-    return ()
+            return (chroma, 0.0, x)
 
-def image__default__alpha():
-    return 1.0
+def color__part(n):
+    return 0 if n < 0 else 255 if n > 255 else n
 
-def image(c, picture, x, y, width, height, alpha):
-    return tinyweb_external.draw_image(c, picture, x, y, width, height, alpha)
+def color__unit(x):
+    return 0.0 if x < 0.0 else 1.0 if x > 1.0 else x
 
-def colors__hex2(n):
-    clamped = 0 if n < 0 else 255 if n > 255 else n
-    return colors__hex_digit(__pyk_div(clamped, 16)) + colors__hex_digit(clamped - __pyk_div(clamped, 16) * 16)
+def color__byte(x):
+    return color__part(__pyk_trunc(color__unit(x) * 255.0 + 0.5))
 
-def colors__hex_digit(d):
+def color__absolute(x):
+    return -x if x < 0.0 else x
+
+def color__wrap(x, m):
+    r = x - float(__pyk_trunc(__pyk_fdiv(x, m))) * m
+    return r + m if r < 0.0 else r
+
+def color__between(a, b, t):
+    return float(a) + float(b - a) * t
+
+def color__hex2(n):
+    clamped = color__part(n)
+    return color__hex_digit(__pyk_div(clamped, 16)) + color__hex_digit(clamped - __pyk_div(clamped, 16) * 16)
+
+def color__hex_digit(d):
     match d:
         case 0:
             return '0'
@@ -422,42 +311,336 @@ def colors__hex_digit(d):
         case _:
             return 'f'
 
-def colors__rgb(r, g, b):
-    return '#' + colors__hex2(r) + colors__hex2(g) + colors__hex2(b)
+def color__css(c):
+    if c.a >= 1.0:
+        return '#' + color__hex2(c.r) + color__hex2(c.g) + color__hex2(c.b)
+    else:
+        return 'rgba(' + str(color__part(c.r)) + ', ' + str(color__part(c.g)) + ', ' + str(color__part(c.b)) + ', ' + str(__pyk_float(color__unit(c.a))) + ')'
 
-def colors__rgba(r, g, b, a):
-    return 'rgba(' + str(r) + ', ' + str(g) + ', ' + str(b) + ', ' + str(__pyk_float(a)) + ')'
+def color__drawn(c):
+    return '' if c.a <= 0.0 else color__css(c)
 
-def colors__hsl(h, s, l):
-    return 'hsl(' + str(h) + ', ' + str(s) + '%, ' + str(l) + '%)'
+def color__paint_text(p):
+    match p:
+        case Color__Plain(c):
+            return color__drawn(c)
+        case Color__Linear(x1, y1, x2, y2, start, end, stops):
+            return 'linear-gradient(' + floats4(x1, y1, x2, y2) + '); 0.0 ' + color__css(start) + '; 1.0 ' + color__css(end) + stops
+        case Color__Radial(x1, y1, r1, x2, y2, r2, start, end, stops):
+            return 'radial-gradient(' + floats3(x1, y1, r1) + ' ' + floats3(x2, y2, r2) + '); 0.0 ' + color__css(start) + '; 1.0 ' + color__css(end) + stops
+        case Color__Conic(x, y, angle, start, end, stops):
+            return 'conic-gradient(' + floats3(x, y, angle) + '); 0.0 ' + color__css(start) + '; 1.0 ' + color__css(end) + stops
 
-def colors__palette(name):
+def color__painted(p):
+    match p:
+        case Color__Plain(c):
+            return c.a > 0.0
+        case _:
+            return True
+
+def color__is_theme(c):
+    return c.a < 0.0
+
+def color__rgb(r, g, b):
+    return Color__Color(color__part(r), color__part(g), color__part(b), 1.0)
+
+def color__rgba(r, g, b, a):
+    return Color__Color(color__part(r), color__part(g), color__part(b), 0.0 if a < 0.0 else 1.0 if a > 1.0 else a)
+
+def color__hsl(h, s, l):
+    hue = __pyk_fdiv(color__wrap(h, 360.0), 60.0)
+    sat = color__unit(__pyk_fdiv(s, 100.0))
+    light = color__unit(__pyk_fdiv(l, 100.0))
+    chroma = (1.0 - color__absolute(2.0 * light - 1.0)) * sat
+    x = chroma * (1.0 - color__absolute(color__wrap(hue, 2.0) - 1.0))
+    m = light - __pyk_fdiv(chroma, 2.0)
+    (r, g, b) = color__sector(__pyk_trunc(hue), chroma, x)
+    return Color__Color(color__byte(r + m), color__byte(g + m), color__byte(b + m), 1.0)
+
+def color__hex(n):
+    return Color__Color(color__part(__pyk_div(n, 65536)), color__part(__pyk_div(n, 256) - __pyk_div(n, 65536) * 256), color__part(n - __pyk_div(n, 256) * 256), 1.0)
+
+def color__to_hex(c):
+    return color__part(c.r) * 65536 + color__part(c.g) * 256 + color__part(c.b)
+
+def color__with_alpha(c, a):
+    return Color__Color(c.r, c.g, c.b, color__unit(a))
+
+def color__mix(a, b, t):
+    k = color__unit(t)
+    return Color__Color(color__byte(__pyk_fdiv(color__between(a.r, b.r, k), 255.0)), color__byte(__pyk_fdiv(color__between(a.g, b.g, k), 255.0)), color__byte(__pyk_fdiv(color__between(a.b, b.b, k), 255.0)), a.a + (b.a - a.a) * k)
+
+def color__same(a, b):
+    return ((a.a == b.a if a.b == b.b else False) if a.g == b.g else False) if a.r == b.r else False
+
+def color__palette(name):
     match name:
         case 'ocean':
-            return ['#03045e', '#0077b6', '#00b4d8', '#90e0ef', '#caf0f8']
+            return [color__hex(197726), color__hex(30646), color__hex(46296), color__hex(9494767), color__hex(13299960)]
         case 'candy':
-            return ['#ff70a6', '#ff9770', '#ffd670', '#e9ff70', '#70d6ff']
+            return [color__hex(16740518), color__hex(16750448), color__hex(16766576), color__hex(15335280), color__hex(7395071)]
         case 'forest':
-            return ['#2d6a4f', '#40916c', '#52b788', '#95d5b2', '#d8f3dc']
+            return [color__hex(2976335), color__hex(4231532), color__hex(5420936), color__hex(9819570), color__hex(14218204)]
         case 'sunset':
-            return ['#f94144', '#f3722c', '#f8961e', '#f9c74f', '#90be6d']
+            return [color__hex(16335172), color__hex(15954476), color__hex(16291358), color__hex(16369487), color__hex(9485933)]
         case 'neon':
-            return ['#ff00ff', '#00ffff', '#39ff14', '#ffff00', '#ff3131']
+            return [color__hex(16711935), color__hex(65535), color__hex(3800852), color__hex(16776960), color__hex(16724273)]
         case _:
             print('tinyweb: there is no palette called "' + name + '"; the palettes are ocean, candy, forest, sunset and neon', file=__import__('sys').stderr)
             return []
 
-def colors__linear_gradient(x1, y1, x2, y2, start, end):
-    return 'linear-gradient(' + floats4(x1, y1, x2, y2) + '); 0.0 ' + start + '; 1.0 ' + end
+def color__stop(paint, at, c):
+    more = '; ' + str(__pyk_float(at)) + ' ' + color__css(c)
+    match paint:
+        case Color__Plain(_):
+            return paint
+        case Color__Linear(x1, y1, x2, y2, start, end, stops):
+            return Color__Linear(x1, y1, x2, y2, start, end, stops + more)
+        case Color__Radial(x1, y1, r1, x2, y2, r2, start, end, stops):
+            return Color__Radial(x1, y1, r1, x2, y2, r2, start, end, stops + more)
+        case Color__Conic(x, y, angle, start, end, stops):
+            return Color__Conic(x, y, angle, start, end, stops + more)
 
-def colors__radial_gradient(x1, y1, r1, x2, y2, r2, start, end):
-    return 'radial-gradient(' + floats3(x1, y1, r1) + ' ' + floats3(x2, y2, r2) + '); 0.0 ' + start + '; 1.0 ' + end
+def web_init(port):
+    return tinyweb_external.web_start(port)
 
-def colors__conic_gradient(x, y, angle, start, end):
-    return 'conic-gradient(' + floats3(x, y, angle) + '); 0.0 ' + start + '; 1.0 ' + end
+def field__default__Style__fill():
+    return color__black
 
-def colors__stop(gradient, at, color):
-    return gradient + '; ' + str(__pyk_float(at)) + ' ' + color
+def field__default__Style__stroke():
+    return color__none
+
+def field__default__Style__paint():
+    return Color__Plain(color__none)
+
+def fill_of(fill, paint, style):
+    if color__painted(paint):
+        return color__paint_text(paint)
+    elif not_default_fill(fill):
+        return color__drawn(fill)
+    elif color__painted(style.paint):
+        return color__paint_text(style.paint)
+    else:
+        return color__drawn(style.fill)
+
+def not_default_fill(fill):
+    return False if color__same(fill, color__black) else True
+
+def stroke_of(stroke, style):
+    return color__drawn(style.stroke if color__same(stroke, color__none) else stroke)
+
+def line_of(stroke, style):
+    if not_default_fill(stroke):
+        return color__drawn(stroke)
+    elif color__same(style.stroke, color__none):
+        return color__drawn(style.fill)
+    else:
+        return color__drawn(style.stroke)
+
+def width_of(width, style):
+    return float(style.width if width == 1 else width)
+
+def alpha_of(alpha, style):
+    return style.alpha if alpha == 1.0 else alpha
+
+def shape(c, kind, numbers, fill, stroke, width, alpha, paint, style):
+    return tinyweb_external.draw_shape(c, kind, numbers, fill_of(fill, paint, style), stroke_of(stroke, style), width_of(width, style), alpha_of(alpha, style))
+
+def stroked(c, kind, numbers, stroke, width, alpha, style):
+    return tinyweb_external.draw_shape(c, kind, numbers, '', line_of(stroke, style), width_of(width, style), alpha_of(alpha, style))
+
+def clear__default__fill():
+    return color__white
+
+def clear(c, fill):
+    return tinyweb_external.fill_canvas(c, color__css(fill))
+
+def circle__default__fill():
+    return color__black
+
+def circle__default__stroke():
+    return color__none
+
+def circle__default__paint():
+    return Color__Plain(color__none)
+
+def circle__default__style():
+    return Style(field__default__Style__fill(), field__default__Style__stroke(), 1, 1.0, field__default__Style__paint())
+
+def circle(c, x, y, radius, fill, stroke, width, alpha, paint, style):
+    return shape(c, 'circle', numbers3(x, y, radius), fill, stroke, width, alpha, paint, style)
+
+def rect__default__fill():
+    return color__black
+
+def rect__default__stroke():
+    return color__none
+
+def rect__default__paint():
+    return Color__Plain(color__none)
+
+def rect__default__style():
+    return Style(field__default__Style__fill(), field__default__Style__stroke(), 1, 1.0, field__default__Style__paint())
+
+def rect(c, x, y, w, h, fill, stroke, width, alpha, paint, style, radius):
+    return shape(c, 'rect', numbers4(x, y, w, h) + ' ' + str(radius), fill, stroke, width, alpha, paint, style)
+
+def ellipse__default__fill():
+    return color__black
+
+def ellipse__default__stroke():
+    return color__none
+
+def ellipse__default__paint():
+    return Color__Plain(color__none)
+
+def ellipse__default__style():
+    return Style(field__default__Style__fill(), field__default__Style__stroke(), 1, 1.0, field__default__Style__paint())
+
+def ellipse(c, x, y, rx, ry, fill, stroke, width, alpha, paint, style):
+    return shape(c, 'ellipse', numbers4(x, y, rx, ry), fill, stroke, width, alpha, paint, style)
+
+def arc__default__fill():
+    return color__black
+
+def arc__default__stroke():
+    return color__none
+
+def arc__default__paint():
+    return Color__Plain(color__none)
+
+def arc__default__style():
+    return Style(field__default__Style__fill(), field__default__Style__stroke(), 1, 1.0, field__default__Style__paint())
+
+def arc(c, x, y, radius, start, end, fill, stroke, width, alpha, paint, style):
+    return shape(c, 'arc', numbers3(x, y, radius) + ' ' + floats2(start, end), fill, stroke, width, alpha, paint, style)
+
+def polygon__default__fill():
+    return color__black
+
+def polygon__default__stroke():
+    return color__none
+
+def polygon__default__paint():
+    return Color__Plain(color__none)
+
+def polygon__default__style():
+    return Style(field__default__Style__fill(), field__default__Style__stroke(), 1, 1.0, field__default__Style__paint())
+
+def polygon(c, points, fill, stroke, width, alpha, paint, style):
+    return shape(c, 'polygon', points_text(points), fill, stroke, width, alpha, paint, style)
+
+def line__default__stroke():
+    return color__black
+
+def line__default__style():
+    return Style(field__default__Style__fill(), field__default__Style__stroke(), 1, 1.0, field__default__Style__paint())
+
+def line(c, x1, y1, x2, y2, stroke, width, alpha, style):
+    return stroked(c, 'line', numbers4(x1, y1, x2, y2), stroke, width, alpha, style)
+
+def path__default__stroke():
+    return color__black
+
+def path__default__style():
+    return Style(field__default__Style__fill(), field__default__Style__stroke(), 1, 1.0, field__default__Style__paint())
+
+def path(c, points, stroke, width, alpha, style):
+    return stroked(c, 'path', points_text(points), stroke, width, alpha, style)
+
+def curve__default__stroke():
+    return color__black
+
+def curve__default__style():
+    return Style(field__default__Style__fill(), field__default__Style__stroke(), 1, 1.0, field__default__Style__paint())
+
+def curve(c, x1, y1, cx, cy, x2, y2, stroke, width, alpha, style):
+    return stroked(c, 'curve', numbers2(x1, y1) + ' ' + numbers4(cx, cy, x2, y2), stroke, width, alpha, style)
+
+def lines__default__stroke():
+    return color__black
+
+def lines__default__style():
+    return Style(field__default__Style__fill(), field__default__Style__stroke(), 1, 1.0, field__default__Style__paint())
+
+def lines(c, segments, stroke, width, alpha, style):
+    return stroked(c, 'lines', segments_text(segments), stroke, width, alpha, style)
+
+def bezier__default__stroke():
+    return color__black
+
+def bezier__default__style():
+    return Style(field__default__Style__fill(), field__default__Style__stroke(), 1, 1.0, field__default__Style__paint())
+
+def bezier(c, x1, y1, ax, ay, bx, by, x2, y2, stroke, width, alpha, style):
+    return stroked(c, 'bezier', numbers4(x1, y1, ax, ay) + ' ' + numbers4(bx, by, x2, y2), stroke, width, alpha, style)
+
+def erase(c, x, y, w, h):
+    return tinyweb_external.draw_shape(c, 'erase', numbers4(x, y, w, h), '', '', 0.0, 1.0)
+
+def line_style(c, cap, join, dash, gap, offset, dash2, gap2):
+    first = '' if dash <= 0.0 else ' ' + floats2(dash, dash) if gap <= 0.0 else ' ' + floats2(dash, gap)
+    second = '' if dash <= 0.0 else '' if dash2 <= 0.0 else ' ' + floats2(dash2, dash2) if gap2 <= 0.0 else ' ' + floats2(dash2, gap2)
+    return tinyweb_external.set_state(c, 'line_style', cap + ' ' + join, str(__pyk_float(offset)) + first + second)
+
+def clip_rect(c, x, y, w, h):
+    return tinyweb_external.set_state(c, 'clip', 'rect', numbers4(x, y, w, h) + ' 0')
+
+def clip_circle(c, x, y, radius):
+    return tinyweb_external.set_state(c, 'clip', 'circle', numbers3(x, y, radius))
+
+def clip_polygon(c, points):
+    return tinyweb_external.set_state(c, 'clip', 'polygon', points_text(points))
+
+def text__default__fill():
+    return color__black
+
+def text__default__stroke():
+    return color__none
+
+def text__default__paint():
+    return Color__Plain(color__none)
+
+def text__default__style():
+    return Style(field__default__Style__fill(), field__default__Style__stroke(), 1, 1.0, field__default__Style__paint())
+
+def text(c, x, y, words, fill, size, font, align, bold, alpha, baseline, stroke, width, paint, style):
+    return tinyweb_external.draw_text(c, float(x), float(y), words, fill_of(fill, paint, style), size, font, align, baseline, bold, stroke_of(stroke, style), width_of(width, style), alpha_of(alpha, style))
+
+def measure_text(words, answer, size, font, bold):
+    return tinyweb_external.measure(words, size, font, bold, answer)
+
+def translate(c, x, y):
+    return tinyweb_external.set_state(c, 'translate', '', floats2(x, y))
+
+def rotate(c, angle):
+    return tinyweb_external.set_state(c, 'rotate', '', str(__pyk_float(angle)))
+
+def scale(c, sx, sy):
+    return tinyweb_external.set_state(c, 'scale', '', floats2(sx, sy))
+
+def push(c):
+    return tinyweb_external.set_state(c, 'push', '', '')
+
+def pop(c):
+    return tinyweb_external.set_state(c, 'pop', '', '')
+
+def reset(c):
+    return tinyweb_external.set_state(c, 'reset', '', '')
+
+def shadow(c, shade, blur, dx, dy):
+    return tinyweb_external.set_state(c, 'shadow', color__drawn(shade), numbers3(blur, dx, dy))
+
+def blend(c, mode):
+    match mode:
+        case 'normal' | 'add':
+            return tinyweb_external.set_state(c, 'blend', mode, '')
+        case _:
+            print('tinyweb: there is no blending called "' + mode + '"; the modes are normal and add', file=__import__('sys').stderr)
+    return ()
+
+def image(c, picture, x, y, w, h, alpha):
+    return tinyweb_external.draw_image(c, picture, x, y, w, h, alpha)
 
 def button__default__on_click():
     return nothing
@@ -471,17 +654,11 @@ def slider__default__on_change():
 def slider(low, high, value, on_change):
     return tinyweb_external.make_slider(low, high, value, on_change)
 
-def checkbox__default__checked():
-    return False
-
 def checkbox__default__on_change():
     return ignore_bool
 
 def checkbox(title, checked, on_change):
     return tinyweb_external.make_checkbox(title, checked, on_change)
-
-def radio__default__chosen():
-    return False
 
 def radio__default__on_pick():
     return ignore_text
@@ -490,25 +667,13 @@ def radio(group, title, chosen, on_pick):
     return tinyweb_external.make_radio(group, title, chosen, on_pick)
 
 def lines_of(options):
-    match options:
-        case []:
-            return ''
-        case [only]:
-            return only
-        case [first, *rest]:
-            return first + '\n' + lines_of(rest)
-
-def choice__default__chosen():
-    return 0
+    return joined_by(options, '\n')
 
 def choice__default__on_change():
     return ignore
 
 def choice(options, chosen, on_change):
     return tinyweb_external.make_choice(lines_of(options), chosen, on_change)
-
-def text_input__default__placeholder():
-    return ''
 
 def text_input__default__on_enter():
     return ignore_text
@@ -522,32 +687,50 @@ def number_input__default__on_change():
 def number_input(low, high, value, on_change):
     return tinyweb_external.make_number_input(low, high, value, on_change)
 
+def set_text(id, words):
+    return tinyweb_external.command('set_text', id, words, '', 1)
+
+def show(id):
+    return tinyweb_external.command('visible', id, '', '1', 1)
+
+def hide(id):
+    return tinyweb_external.command('visible', id, '', '0', 1)
+
+def enable(id):
+    return tinyweb_external.command('enabled', id, '', '1', 1)
+
+def disable(id):
+    return tinyweb_external.command('enabled', id, '', '0', 1)
+
+def remove(id):
+    return tinyweb_external.command('remove', id, '', '', 0)
+
+def value_of(id):
+    return tinyweb_external.report_text('value.' + id)
+
 def known_theme(name):
     match name:
-        case 'light':
-            return True
-        case 'dark':
-            return True
-        case 'plain':
-            return True
-        case 'paper':
-            return True
-        case 'retro':
+        case 'light' | 'dark' | 'plain' | 'paper' | 'retro':
             return True
         case _:
             return False
 
 def style_text(id, kind, property, value):
-    if value == '':
-        return ()
+    return () if value == '' else tinyweb_external.apply_style(id, kind, property, value)
+
+def style_color(id, kind, property, c):
+    return () if color__is_theme(c) else tinyweb_external.apply_style(id, kind, property, color__css(c))
+
+def style_border(id, kind, border, width):
+    if color__is_theme(border):
+        return tinyweb_external.apply_style(id, kind, 'border', str(width) + 'px solid currentColor') if width >= 0 else ()
+    elif border.a <= 0.0:
+        return tinyweb_external.apply_style(id, kind, 'border', 'none')
     else:
-        return tinyweb_external.apply_style(id, kind, property, value)
+        return tinyweb_external.apply_style(id, kind, 'border', str(width if width >= 0 else 1) + 'px solid ' + color__css(border))
 
 def style_pixels(id, kind, property, value):
-    if value < 0:
-        return ()
-    else:
-        return tinyweb_external.apply_style(id, kind, property, str(value) + 'px')
+    return () if value < 0 else tinyweb_external.apply_style(id, kind, property, str(value) + 'px')
 
 def theme(name):
     if known_theme(name):
@@ -557,29 +740,14 @@ def theme(name):
     return ()
 
 def page_style__default__background():
-    return ''
+    return color__theme
 
-def page_style__default__color():
-    return ''
+def page_style__default__foreground():
+    return color__theme
 
-def page_style__default__font():
-    return ''
-
-def page_style__default__size():
-    return -1
-
-def page_style__default__padding():
-    return -1
-
-def page_style__default__gap():
-    return -1
-
-def page_style__default__align():
-    return ''
-
-def page_style(background, color, font, size, padding, gap, align):
-    style_text('', 'page', 'background', background)
-    style_text('', 'page', 'color', color)
+def page_style(background, foreground, font, size, padding, gap, align):
+    style_color('', 'page', 'background', background)
+    style_color('', 'page', 'color', foreground)
     style_text('', 'page', 'font', font)
     style_pixels('', 'page', 'size', size)
     style_pixels('', 'page', 'padding', padding)
@@ -587,169 +755,89 @@ def page_style(background, color, font, size, padding, gap, align):
     return style_text('', 'page', 'align', align)
 
 def button_style__default__background():
-    return ''
+    return color__theme
 
-def button_style__default__color():
-    return ''
+def button_style__default__foreground():
+    return color__theme
 
 def button_style__default__border():
-    return ''
+    return color__theme
 
-def button_style__default__radius():
-    return -1
-
-def button_style__default__font():
-    return ''
-
-def button_style__default__size():
-    return -1
-
-def button_style__default__padding():
-    return -1
-
-def button_style(background, color, border, radius, font, size, padding):
-    style_text('', 'button', 'background', background)
-    style_text('', 'button', 'color', color)
-    style_text('', 'button', 'border', border)
+def button_style(background, foreground, border, border_width, radius, font, size, padding):
+    style_color('', 'button', 'background', background)
+    style_color('', 'button', 'color', foreground)
+    style_border('', 'button', border, border_width)
     style_pixels('', 'button', 'radius', radius)
     style_text('', 'button', 'font', font)
     style_pixels('', 'button', 'size', size)
     return style_pixels('', 'button', 'padding', padding)
 
 def label_style__default__background():
-    return ''
+    return color__theme
 
-def label_style__default__color():
-    return ''
+def label_style__default__foreground():
+    return color__theme
 
 def label_style__default__border():
-    return ''
+    return color__theme
 
-def label_style__default__radius():
-    return -1
-
-def label_style__default__font():
-    return ''
-
-def label_style__default__size():
-    return -1
-
-def label_style__default__padding():
-    return -1
-
-def label_style(background, color, border, radius, font, size, padding):
-    style_text('', 'label', 'background', background)
-    style_text('', 'label', 'color', color)
-    style_text('', 'label', 'border', border)
+def label_style(background, foreground, border, border_width, radius, font, size, padding):
+    style_color('', 'label', 'background', background)
+    style_color('', 'label', 'color', foreground)
+    style_border('', 'label', border, border_width)
     style_pixels('', 'label', 'radius', radius)
     style_text('', 'label', 'font', font)
     style_pixels('', 'label', 'size', size)
     return style_pixels('', 'label', 'padding', padding)
 
 def slider_style__default__accent():
-    return ''
+    return color__theme
 
-def slider_style__default__width():
-    return -1
+def slider_style__default__foreground():
+    return color__theme
 
-def slider_style__default__color():
-    return ''
-
-def slider_style__default__font():
-    return ''
-
-def slider_style__default__size():
-    return -1
-
-def slider_style(accent, width, color, font, size):
-    style_text('', 'slider', 'accent', accent)
+def slider_style(accent, width, foreground, font, size):
+    style_color('', 'slider', 'accent', accent)
     style_pixels('', 'slider', 'width', width)
-    style_text('', 'slider', 'color', color)
+    style_color('', 'slider', 'color', foreground)
     style_text('', 'slider', 'font', font)
     return style_pixels('', 'slider', 'size', size)
 
 def canvas_style__default__border():
-    return ''
+    return color__theme
 
-def canvas_style__default__radius():
-    return -1
-
-def canvas_style(border, radius):
-    style_text('', 'canvas', 'border', border)
+def canvas_style(border, border_width, radius):
+    style_border('', 'canvas', border, border_width)
     return style_pixels('', 'canvas', 'radius', radius)
 
-def set_colors__default__color():
-    return ''
-
-def set_colors__default__background():
-    return ''
-
-def set_colors(id, color, background):
-    style_text(id, 'element', 'color', color)
-    style_text(id, 'element', 'accent', color)
-    return style_text(id, 'element', 'background', background)
-
 def set_style__default__background():
-    return ''
+    return color__theme
 
-def set_style__default__color():
-    return ''
+def set_style__default__foreground():
+    return color__theme
 
 def set_style__default__border():
-    return ''
-
-def set_style__default__radius():
-    return -1
-
-def set_style__default__font():
-    return ''
-
-def set_style__default__size():
-    return -1
-
-def set_style__default__padding():
-    return -1
+    return color__theme
 
 def set_style__default__accent():
-    return ''
+    return color__theme
 
-def set_style__default__width():
-    return -1
-
-def set_style__default__weight():
-    return -1
-
-def set_style__default__height():
-    return -1
-
-def set_style(id, background, color, border, radius, font, size, padding, accent, width, weight, height):
-    style_text(id, 'element', 'background', background)
-    style_text(id, 'element', 'color', color)
-    style_text(id, 'element', 'border', border)
+def set_style(id, background, foreground, border, border_width, radius, font, size, padding, accent, width, weight, height):
+    style_color(id, 'element', 'background', background)
+    style_color(id, 'element', 'color', foreground)
+    style_border(id, 'element', border, border_width)
     style_pixels(id, 'element', 'radius', radius)
     style_text(id, 'element', 'font', font)
     style_pixels(id, 'element', 'size', size)
     style_pixels(id, 'element', 'padding', padding)
-    style_text(id, 'element', 'accent', accent)
+    style_color(id, 'element', 'accent', accent)
     style_pixels(id, 'element', 'width', width)
     if weight >= 0:
         style_text(id, 'element', 'weight', str(weight))
     return style_pixels(id, 'element', 'height', height)
 
-def play__default__at():
-    return 0.0
-
-def play__default__volume():
-    return 1.0
-
-def play__default__rate():
-    return 1.0
-
-def play(sample, at, volume, rate):
-    return tinyweb_external.play_sample(sample, at, volume, rate)
-
-def play_file(name):
-    return play(tinyweb_external.load_sample(name), play__default__at(), play__default__volume(), play__default__rate())
+def on_click(c, f):
+    return tinyweb_external.on_mouse(c, f)
 
 def on_press(c, f):
     return tinyweb_external.watch_pointer(c, 'press', f)
@@ -763,227 +851,378 @@ def on_move(c, f):
 def on_drag(c, f):
     return tinyweb_external.watch_pointer(c, 'drag', f)
 
-def mouse_x(c):
-    return tinyweb_external.pointer(c, 'x')
+def track_mouse(c):
+    return tinyweb_external.watch_pointer(c, 'move', ignore2)
 
-def mouse_y(c):
-    return tinyweb_external.pointer(c, 'y')
-
-def mouse_down(c):
-    return tinyweb_external.pointer(c, 'down') == 1
+def mouse(c):
+    return Pointer(tinyweb_external.pointer(c, 'x'), tinyweb_external.pointer(c, 'y'), tinyweb_external.pointer(c, 'down') == 1)
 
 def ignore2(x, y):
     return ()
 
-def show_bitmap__default__x():
-    return 0
+def after(seconds, f):
+    id = tinyweb_external.fresh_id('timer')
+    tinyweb_external.watch(id, 'timer', f)
+    tinyweb_external.command('after', id, '', str(__pyk_float(seconds)), 0)
+    return id
 
-def show_bitmap__default__y():
-    return 0
+def every(seconds, f):
+    id = tinyweb_external.fresh_id('timer')
+    tinyweb_external.watch(id, 'timer', f)
+    tinyweb_external.command('every', id, '', str(__pyk_float(seconds)), 0)
+    return id
 
-def show_bitmap__default__scale():
-    return 1.0
+def cancel(timer):
+    return tinyweb_external.command('cancel', timer, '', '', 0)
 
-def show_bitmap(c, b, x, y, scale):
+def sound__settings(at, volume, rate, pan, voice):
+    v = voice.volume if volume == 1.0 else volume
+    r = voice.rate if rate == 1.0 else rate
+    p = voice.pan if pan == 0.0 else pan
+    return floats4(at, v, r, p) + ' ' + str(voice.channel) + ' ' + bit(voice.reverse)
+
+def play__default__voice():
+    return Sound__Voice(1.0, 1.0, 0.0, 0, False, False)
+
+def play(sample, at, volume, rate, pan, voice):
+    return tinyweb_external.command('play', sample, '', sound__settings(at, volume, rate, pan, voice), 2)
+
+def play_file(name):
+    return play(tinyweb_external.load_sample(name), 0.0, 1.0, 1.0, 0.0, play__default__voice())
+
+def sound__start__default__voice():
+    return Sound__Voice(1.0, 1.0, 0.0, 0, False, False)
+
+def sound__start(sample, at, volume, rate, pan, looping, voice):
+    id = tinyweb_external.fresh_id('voice')
+    looped = True if looping else voice.looping
+    tinyweb_external.command('start', id, sample, sound__settings(at, volume, rate, pan, voice) + ' ' + bit(looped), 2)
+    return id
+
+def sound__stop(voice, at):
+    return tinyweb_external.command('stop', voice, '', str(__pyk_float(at)), 2)
+
+def sound__fade(voice, volume, over):
+    return tinyweb_external.command('fade', voice, '', floats2(volume, over), 2)
+
+def sound__stop_all():
+    return tinyweb_external.command('stop_all', '', '', '', 2)
+
+def sound__master_volume(volume):
+    return tinyweb_external.command('master', '', '', str(__pyk_float(volume)), 1)
+
+def sound__tone(frequency, at, duration, wave, volume, pan, channel):
+    return tinyweb_external.command('tone', '', wave, floats4(frequency, at, duration, volume) + ' ' + str(__pyk_float(pan)) + ' ' + str(channel), 2)
+
+def sound__note(name):
+    semitones = sound__semitones(name)
+    return 0.0 if semitones < -1000 else 440.0 * math.pow(2.0, __pyk_fdiv(float(semitones - 57), 12.0))
+
+def sound__rate_of(name, base):
+    origin = sound__semitones(base)
+    target = sound__semitones(name)
+    return 1.0 if origin < -1000 else 1.0 if target < -1000 else math.pow(2.0, __pyk_fdiv(float(target - origin), 12.0))
+
+def sound__semitones(name):
+    match strings.upper(strings.char_at(name, 0)):
+        case 'C':
+            base = 0
+        case 'D':
+            base = 2
+        case 'E':
+            base = 4
+        case 'F':
+            base = 5
+        case 'G':
+            base = 7
+        case 'A':
+            base = 9
+        case 'B':
+            base = 11
+        case _:
+            base = -10000
+    match strings.char_at(name, 1):
+        case '#':
+            shift = 1
+        case 'b':
+            shift = -1
+        case _:
+            shift = 0
+    rest = strings.slice(name, 1 if shift == 0 else 2, strings.length(name))
+    octave = 4 if rest == '' else __pyk_int(rest)
+    valid = False if base < 0 else True if rest == '' else str(octave) == rest
+    return base + shift + octave * 12 if valid else -10000
+
+def sound__tempo(bpm):
+    return tinyweb_external.command('tempo', '', '', str(__pyk_float(bpm)), 1)
+
+def sound__swing(amount):
+    return tinyweb_external.command('swing', '', '', str(__pyk_float(amount)), 1)
+
+def sound__on_beat(f, steps):
+    id = tinyweb_external.fresh_id('beat')
+    tinyweb_external.watch_step(id, 'beat', f)
+    tinyweb_external.command('beat', id, '', str(steps), 0)
+    return id
+
+def sound__beat():
+    return tinyweb_external.report_number('clock', 0)
+
+def sound__latency():
+    return tinyweb_external.report_number('clock', 1)
+
+def sound__pause():
+    return tinyweb_external.command('audio', '', 'pause', '', 2)
+
+def sound__resume():
+    return tinyweb_external.command('audio', '', 'resume', '', 2)
+
+def sound__channel_style(channel, volume, pan, echo, echo_time, feedback, reverb, low_pass):
+    return tinyweb_external.command('channel', str(channel), '', floats4(volume, pan, echo, echo_time) + ' ' + floats3(feedback, reverb, low_pass), 1)
+
+def sound__listen(bins, smoothing):
+    return tinyweb_external.command('listen', '', '', str(bins) + ' ' + str(__pyk_float(smoothing)), 1)
+
+def sound__level():
+    return tinyweb_external.report_number('level', 0)
+
+def sound__band(k):
+    return tinyweb_external.report_number('band', k)
+
+def sound__bands():
+    return tinyweb_external.report_count('band')
+
+def sound__wave(k):
+    return tinyweb_external.report_number('wave', k)
+
+def sound__render_wav__default__on_rendered():
+    return sound__ignore_rendered
+
+def sound__render_wav(seconds, f, name, on_rendered):
+    id = tinyweb_external.fresh_id('render')
+    tinyweb_external.watch_pair(id, 'rendered', on_rendered)
+    tinyweb_external.command('render', id, name, str(__pyk_float(seconds)), 2)
+    f()
+    return tinyweb_external.command('render_end', id, '', '', 2)
+
+def sound__ignore_rendered(took, peak):
+    return ()
+
+def bitmap__bitmap__default__background():
+    return color__white
+
+def bitmap__bitmap(width, height, background):
+    return tinyweb_external.make_bitmap(width, height, color__to_hex(background))
+
+def bitmap__set_pixel(b, x, y, pixel):
+    return tinyweb_external.set_pixel(b, x, y, color__to_hex(pixel))
+
+def bitmap__get_pixel(b, x, y):
+    return color__hex(tinyweb_external.get_pixel(b, x, y))
+
+def bitmap__fill_bitmap(b, fill):
+    return tinyweb_external.fill_bitmap(b, color__to_hex(fill))
+
+def bitmap__show_bitmap(c, b, x, y, scale):
     return tinyweb_external.draw_bitmap(c, b, x, y, scale)
 
-def channel_of(n):
-    return 0 if n < 0 else 255 if n > 255 else n
+def layout__row():
+    return tinyweb_external.row()
 
-def pixel_color(r, g, b):
-    return channel_of(r) * 65536 + channel_of(g) * 256 + channel_of(b)
+def layout__column():
+    return tinyweb_external.column()
 
-def red(color):
-    return __pyk_div(color, 65536) - __pyk_div(color, 16777216) * 256
+def layout__inside(id):
+    return tinyweb_external.inside(id)
 
-def green(color):
-    return __pyk_div(color, 256) - __pyk_div(color, 65536) * 256
+def layout__outside():
+    return tinyweb_external.outside()
 
-def blue(color):
-    return color - __pyk_div(color, 256) * 256
+def layout__text_area__default__on_change():
+    return ignore_text
 
-def smooth__circle__default__color():
-    return '#000000'
+def layout__text_area(words, rows, columns, on_change):
+    id = tinyweb_external.fresh_id('text')
+    tinyweb_external.watch_text(id, 'change', 'value.' + id, on_change)
+    tinyweb_external.command('text_area', id, words, numbers2(rows, columns), 0)
+    return id
 
-def smooth__circle__default__outline():
-    return ''
+def net__save_canvas(c, name):
+    return tinyweb_external.command('save_canvas', c, name, '', 2)
 
-def smooth__circle__default__outline_width():
-    return 1.0
+def net__download(name, words):
+    return tinyweb_external.command('download', name, words, '', 2)
 
-def smooth__circle__default__alpha():
-    return 1.0
+def net__file_button__default__on_load():
+    return ignore_text
 
-def smooth__circle(c, x, y, radius, color, outline, outline_width, alpha):
-    return tinyweb_external.draw_shape(c, 'circle', floats3(x, y, radius), color, outline, outline_width, alpha)
+def net__file_button(title, on_load):
+    id = tinyweb_external.fresh_id(title)
+    tinyweb_external.watch_text(id, 'loaded', 'file', on_load)
+    tinyweb_external.command('file_button', id, title, '', 0)
+    return id
 
-def smooth__circles__default__color():
-    return '#000000'
+def net__file_text():
+    return tinyweb_external.report_text('file.text')
 
-def smooth__circles__default__outline():
-    return ''
+def game__cursor(c, name):
+    return tinyweb_external.command('cursor', c, name, '', 1)
 
-def smooth__circles__default__outline_width():
-    return 1.0
+def smooth__width_of(width, style):
+    return float(style.width) if width == 1.0 else width
 
-def smooth__circles__default__alpha():
-    return 1.0
+def smooth__shape(c, kind, numbers, fill, stroke, width, alpha, paint, style):
+    return tinyweb_external.draw_shape(c, kind, numbers, fill_of(fill, paint, style), stroke_of(stroke, style), smooth__width_of(width, style), alpha_of(alpha, style))
 
-def smooth__circles(c, circles, color, outline, outline_width, alpha):
-    return tinyweb_external.draw_triples(c, 'circles', circles, color, outline, outline_width, alpha)
+def smooth__stroked(c, kind, numbers, stroke, width, alpha, style):
+    return tinyweb_external.draw_shape(c, kind, numbers, '', line_of(stroke, style), smooth__width_of(width, style), alpha_of(alpha, style))
 
-def smooth__rect__default__color():
-    return '#000000'
+def smooth__pairs(points):
+    return [(p.x, p.y) for p in points]
 
-def smooth__rect__default__outline():
-    return ''
+def smooth__circle__default__fill():
+    return color__black
 
-def smooth__rect__default__outline_width():
-    return 1.0
+def smooth__circle__default__stroke():
+    return color__none
 
-def smooth__rect__default__alpha():
-    return 1.0
+def smooth__circle__default__paint():
+    return Color__Plain(color__none)
 
-def smooth__rect__default__radius():
-    return 0.0
+def smooth__circle__default__style():
+    return Style(field__default__Style__fill(), field__default__Style__stroke(), 1, 1.0, field__default__Style__paint())
 
-def smooth__rect(c, x, y, width, height, color, outline, outline_width, alpha, radius):
-    return tinyweb_external.draw_shape(c, 'rect', floats4(x, y, width, height) + ' ' + str(__pyk_float(radius)), color, outline, outline_width, alpha)
+def smooth__circle(c, x, y, radius, fill, stroke, width, alpha, paint, style):
+    return smooth__shape(c, 'circle', floats3(x, y, radius), fill, stroke, width, alpha, paint, style)
 
-def smooth__ellipse__default__color():
-    return '#000000'
+def smooth__circles__default__fill():
+    return color__black
 
-def smooth__ellipse__default__outline():
-    return ''
+def smooth__circles__default__stroke():
+    return color__none
 
-def smooth__ellipse__default__outline_width():
-    return 1.0
+def smooth__circles__default__style():
+    return Style(field__default__Style__fill(), field__default__Style__stroke(), 1, 1.0, field__default__Style__paint())
 
-def smooth__ellipse__default__alpha():
-    return 1.0
+def smooth__circles(c, circles, fill, stroke, width, alpha, style):
+    return tinyweb_external.draw_triples(c, 'circles', circles, fill_of(fill, Color__Plain(color__none), style), stroke_of(stroke, style), smooth__width_of(width, style), alpha_of(alpha, style))
 
-def smooth__ellipse(c, x, y, rx, ry, color, outline, outline_width, alpha):
-    return tinyweb_external.draw_shape(c, 'ellipse', floats4(x, y, rx, ry), color, outline, outline_width, alpha)
+def smooth__rect__default__fill():
+    return color__black
 
-def smooth__arc__default__color():
-    return '#000000'
+def smooth__rect__default__stroke():
+    return color__none
 
-def smooth__arc__default__outline():
-    return ''
+def smooth__rect__default__paint():
+    return Color__Plain(color__none)
 
-def smooth__arc__default__outline_width():
-    return 1.0
+def smooth__rect__default__style():
+    return Style(field__default__Style__fill(), field__default__Style__stroke(), 1, 1.0, field__default__Style__paint())
 
-def smooth__arc__default__alpha():
-    return 1.0
+def smooth__rect(c, x, y, w, h, fill, stroke, width, alpha, paint, style, radius):
+    return smooth__shape(c, 'rect', floats4(x, y, w, h) + ' ' + str(__pyk_float(radius)), fill, stroke, width, alpha, paint, style)
 
-def smooth__arc(c, x, y, radius, start, end, color, outline, outline_width, alpha):
-    return tinyweb_external.draw_shape(c, 'arc', floats3(x, y, radius) + ' ' + floats2(start, end), color, outline, outline_width, alpha)
+def smooth__ellipse__default__fill():
+    return color__black
 
-def smooth__polygon__default__color():
-    return '#000000'
+def smooth__ellipse__default__stroke():
+    return color__none
 
-def smooth__polygon__default__outline():
-    return ''
+def smooth__ellipse__default__paint():
+    return Color__Plain(color__none)
 
-def smooth__polygon__default__outline_width():
-    return 1.0
+def smooth__ellipse__default__style():
+    return Style(field__default__Style__fill(), field__default__Style__stroke(), 1, 1.0, field__default__Style__paint())
 
-def smooth__polygon__default__alpha():
-    return 1.0
+def smooth__ellipse(c, x, y, rx, ry, fill, stroke, width, alpha, paint, style):
+    return smooth__shape(c, 'ellipse', floats4(x, y, rx, ry), fill, stroke, width, alpha, paint, style)
 
-def smooth__polygon(c, points, color, outline, outline_width, alpha):
-    return tinyweb_external.draw_pairs(c, 'polygon', points, color, outline, outline_width, alpha)
+def smooth__arc__default__fill():
+    return color__black
 
-def smooth__line__default__color():
-    return '#000000'
+def smooth__arc__default__stroke():
+    return color__none
 
-def smooth__line__default__width():
-    return 1.0
+def smooth__arc__default__paint():
+    return Color__Plain(color__none)
 
-def smooth__line__default__alpha():
-    return 1.0
+def smooth__arc__default__style():
+    return Style(field__default__Style__fill(), field__default__Style__stroke(), 1, 1.0, field__default__Style__paint())
 
-def smooth__line(c, x1, y1, x2, y2, color, width, alpha):
-    return tinyweb_external.draw_shape(c, 'line', floats4(x1, y1, x2, y2), '', color, width, alpha)
+def smooth__arc(c, x, y, radius, start, end, fill, stroke, width, alpha, paint, style):
+    return smooth__shape(c, 'arc', floats3(x, y, radius) + ' ' + floats2(start, end), fill, stroke, width, alpha, paint, style)
 
-def smooth__lines__default__color():
-    return '#000000'
+def smooth__polygon__default__fill():
+    return color__black
 
-def smooth__lines__default__width():
-    return 1.0
+def smooth__polygon__default__stroke():
+    return color__none
 
-def smooth__lines__default__alpha():
-    return 1.0
+def smooth__polygon__default__style():
+    return Style(field__default__Style__fill(), field__default__Style__stroke(), 1, 1.0, field__default__Style__paint())
 
-def smooth__lines(c, segments, color, width, alpha):
-    return tinyweb_external.draw_quads(c, 'lines', segments, '', color, width, alpha)
+def smooth__polygon(c, points, fill, stroke, width, alpha, style):
+    return tinyweb_external.draw_pairs(c, 'polygon', smooth__pairs(points), fill_of(fill, Color__Plain(color__none), style), stroke_of(stroke, style), smooth__width_of(width, style), alpha_of(alpha, style))
 
-def smooth__path__default__color():
-    return '#000000'
+def smooth__line__default__stroke():
+    return color__black
 
-def smooth__path__default__width():
-    return 1.0
+def smooth__line__default__style():
+    return Style(field__default__Style__fill(), field__default__Style__stroke(), 1, 1.0, field__default__Style__paint())
 
-def smooth__path__default__alpha():
-    return 1.0
+def smooth__line(c, x1, y1, x2, y2, stroke, width, alpha, style):
+    return smooth__stroked(c, 'line', floats4(x1, y1, x2, y2), stroke, width, alpha, style)
 
-def smooth__path(c, points, color, width, alpha):
-    return tinyweb_external.draw_pairs(c, 'path', points, '', color, width, alpha)
+def smooth__lines__default__stroke():
+    return color__black
 
-def smooth__curve__default__color():
-    return '#000000'
+def smooth__lines__default__style():
+    return Style(field__default__Style__fill(), field__default__Style__stroke(), 1, 1.0, field__default__Style__paint())
 
-def smooth__curve__default__width():
-    return 1.0
+def smooth__lines(c, segments, stroke, width, alpha, style):
+    return tinyweb_external.draw_quads(c, 'lines', [(a.x, a.y, b.x, b.y) for (a, b) in segments], '', line_of(stroke, style), smooth__width_of(width, style), alpha_of(alpha, style))
 
-def smooth__curve__default__alpha():
-    return 1.0
+def smooth__path__default__stroke():
+    return color__black
 
-def smooth__curve(c, x1, y1, cx, cy, x2, y2, color, width, alpha):
-    return tinyweb_external.draw_shape(c, 'curve', floats2(x1, y1) + ' ' + floats4(cx, cy, x2, y2), '', color, width, alpha)
+def smooth__path__default__style():
+    return Style(field__default__Style__fill(), field__default__Style__stroke(), 1, 1.0, field__default__Style__paint())
 
-def smooth__bezier__default__color():
-    return '#000000'
+def smooth__path(c, points, stroke, width, alpha, style):
+    return tinyweb_external.draw_pairs(c, 'path', smooth__pairs(points), '', line_of(stroke, style), smooth__width_of(width, style), alpha_of(alpha, style))
 
-def smooth__bezier__default__width():
-    return 1.0
+def smooth__curve__default__stroke():
+    return color__black
 
-def smooth__bezier__default__alpha():
-    return 1.0
+def smooth__curve__default__style():
+    return Style(field__default__Style__fill(), field__default__Style__stroke(), 1, 1.0, field__default__Style__paint())
 
-def smooth__bezier(c, x1, y1, ax, ay, bx, by, x2, y2, color, width, alpha):
-    return tinyweb_external.draw_shape(c, 'bezier', floats4(x1, y1, ax, ay) + ' ' + floats4(bx, by, x2, y2), '', color, width, alpha)
+def smooth__curve(c, x1, y1, cx, cy, x2, y2, stroke, width, alpha, style):
+    return smooth__stroked(c, 'curve', floats2(x1, y1) + ' ' + floats4(cx, cy, x2, y2), stroke, width, alpha, style)
 
-def smooth__text__default__color():
-    return '#000000'
+def smooth__bezier__default__stroke():
+    return color__black
 
-def smooth__text__default__size():
-    return 16
+def smooth__bezier__default__style():
+    return Style(field__default__Style__fill(), field__default__Style__stroke(), 1, 1.0, field__default__Style__paint())
 
-def smooth__text__default__font():
-    return ''
+def smooth__bezier(c, x1, y1, ax, ay, bx, by, x2, y2, stroke, width, alpha, style):
+    return smooth__stroked(c, 'bezier', floats4(x1, y1, ax, ay) + ' ' + floats4(bx, by, x2, y2), stroke, width, alpha, style)
 
-def smooth__text__default__align():
-    return 'left'
+def smooth__text__default__fill():
+    return color__black
 
-def smooth__text__default__bold():
-    return False
+def smooth__text__default__stroke():
+    return color__none
 
-def smooth__text__default__alpha():
-    return 1.0
+def smooth__text__default__paint():
+    return Color__Plain(color__none)
 
-def smooth__text__default__baseline():
-    return 'top'
+def smooth__text__default__style():
+    return Style(field__default__Style__fill(), field__default__Style__stroke(), 1, 1.0, field__default__Style__paint())
 
-def smooth__text__default__outline():
-    return ''
-
-def smooth__text__default__outline_width():
-    return 1.0
-
-def smooth__text(c, x, y, words, color, size, font, align, bold, alpha, baseline, outline, outline_width):
-    return tinyweb_external.draw_text(c, x, y, words, color, size, font, align, baseline, bold, outline, outline_width, alpha)
+def smooth__text(c, x, y, words, fill, size, font, align, bold, alpha, baseline, stroke, width, paint, style):
+    return tinyweb_external.draw_text(c, x, y, words, fill_of(fill, paint, style), size, font, align, baseline, bold, stroke_of(stroke, style), smooth__width_of(width, style), alpha_of(alpha, style))
 
 def smooth__clip_circle(c, x, y, radius):
     return tinyweb_external.set_state(c, 'clip', 'circle', floats3(x, y, radius))

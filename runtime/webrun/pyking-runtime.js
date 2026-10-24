@@ -31,12 +31,17 @@ export class PykingRuntime {
     this.nextId = 1;
     this.onOutput = null;          // set for the duration of a run
     this.onDebug = null;           // likewise, for `debug`
+    this.onTinyweb = null;         // likewise, for tinyweb's log kept apart
     this.onShow = null;            // what a REPL entry shows, while it runs
     this.onInput = null;           // likewise, for a line the program read
     this.onPage = null;            // likewise, for what a program sends its page
     this.onFailure = null;         // a failure after the run has answered
     this.onExit = null;            // likewise, for a `sys.exit`
     this.onEnd = null;             // called when a live run is let go
+    this.onDebugger = null;        // where a debugged program is, as it changes
+    // Whether a program is being debugged, which keeps its callbacks and
+    // its page's events attached until it ends or is stopped.
+    this._debugging = false;
     // Whether the latest run sent its page anything, which keeps it live
     // -- its callbacks attached -- after it has answered.
     this._live = false;
@@ -94,6 +99,7 @@ export class PykingRuntime {
     if (message.type === "status") return this.onStatus(message.message);
     if (message.type === "stdout") return this.onOutput?.(message.text);
     if (message.type === "debug") return this.onDebug?.(message.text);
+    if (message.type === "tinyweb") return this.onTinyweb?.(message.text);
     if (message.type === "show") return this.onShow?.(message.text);
     if (message.type === "stdin") return this.onInput?.(message.text);
     if (message.type === "page") {
@@ -102,6 +108,10 @@ export class PykingRuntime {
     }
     if (message.type === "failure") return this.onFailure?.(message.text);
     if (message.type === "exit") return this.onExit?.(message.code);
+    if (message.type === "debugger") {
+      if (message.state === "ended") this._debugging = false;
+      return this.onDebugger?.(message);
+    }
     const waiting = this.pending.get(message.id);
     if (!waiting) return;
     this.pending.delete(message.id);
@@ -221,15 +231,55 @@ export class PykingRuntime {
    *  with each piece of output as it is written, so output produced
    *  before a hang is not lost; `onDebug` with each `debug` line, and
    *  `onInput` with each line the program read. `stdin` is what the
-   *  program reads, and `args` what `sys.args()` answers.
+   *  program reads, and `args` what `sys.args()` answers. `tinywebLog`
+   *  true sends tinyweb's log to `onDebug`, and "separate" to
+   *  `onTinyweb`, a line at a time. `tinywebEvents` is the lines of an
+   *  events file, delivered once the top level has ended.
    *
    *  Resolves to {ok:true, exit?} -- `exit` being the status `sys.exit`
    *  ended the run with -- or to a refusal in `compile`'s own shape,
    *  {ok:false, text, info?}, since running compiles first and a program
    *  that does not check is refused the same way either way. */
   async runProgram(source, {
-    onOutput, onDebug, onInput, onPage, onFailure, onExit, onEnd,
+    onOutput, onDebug, onTinyweb, onInput, onPage, onFailure, onExit, onEnd,
     name = "playground.pyk", stdin = "", args = [], release = false, tinywebLog = false,
+    tinywebEvents = "",
+  } = {}) {
+    this._require();
+    this.endLive();
+    this.onOutput = onOutput || null;
+    this.onDebug = onDebug || null;
+    this.onTinyweb = onTinyweb || null;
+    this.onInput = onInput || null;
+    this.onPage = onPage || null;
+    this.onFailure = onFailure || null;
+    this.onExit = onExit || null;
+    this._live = false;
+    try {
+      return await this._send("run", { source, name, stdin, args, release, tinywebLog, tinywebEvents });
+    } finally {
+      // A program that sent its page something goes on after answering
+      // -- the page calls back the functions it gave it -- so it keeps
+      // its callbacks until the next run, `endLive` or `stop`.
+      if (this._live) this.onEnd = onEnd || null;
+      else this._detach();
+    }
+  }
+
+  /** Debug Pyking source with the interpreter (src/debug_session.ml):
+   *  like `runProgram`, but the program runs a slice at a time and stops
+   *  at `breakpoints` -- [{file, breakpoints: [{line, condition?, hit?,
+   *  log?}]}] -- at its first statement where `stopOnEntry`, and on a
+   *  runtime error. `onDebugger` is called with {state, events} whenever
+   *  where it is changes: state "running", "stopped", "idle" (its top
+   *  level has ended and its page's events are awaited) or "ended".
+   *  Resolves to {ok:true, breakpoints} once it has started, or to a
+   *  refusal in `compile`'s shape. `debug(action, payload)` then asks
+   *  it something, and `debugStop()` ends it. */
+  async debugProgram(source, {
+    onOutput, onDebug, onInput, onPage, onFailure, onExit, onEnd, onDebugger,
+    name = "playground.pyk", stdin = "", args = [], release = false, tinywebLog = false,
+    stopOnEntry = false, justMyCode = true, breakpoints = [],
   } = {}) {
     this._require();
     this.endLive();
@@ -239,16 +289,39 @@ export class PykingRuntime {
     this.onPage = onPage || null;
     this.onFailure = onFailure || null;
     this.onExit = onExit || null;
+    this.onEnd = onEnd || null;
+    this.onDebugger = onDebugger || null;
     this._live = false;
-    try {
-      return await this._send("run", { source, name, stdin, args, release, tinywebLog });
-    } finally {
-      // A program that sent its page something goes on after answering
-      // -- the page calls back the functions it gave it -- so it keeps
-      // its callbacks until the next run, `endLive` or `stop`.
-      if (this._live) this.onEnd = onEnd || null;
-      else this._detach();
+    this._debugging = true;
+    const answer = await this._send("debug", {
+      action: "start", source, name, stdin, args, release, tinywebLog,
+      stopOnEntry, justMyCode, breakpoints,
+    });
+    if (!answer.ok) {
+      this._debugging = false;
+      this._detach();
     }
+    return answer;
+  }
+
+  /** One request of the program being debugged: "command" {command},
+   *  "frames", "scopes" {frame}, "variables" {ref}, "evaluate" {frame?,
+   *  text}, "set" {ref, name, text} or "breakpoints" {file, breakpoints}.
+   *  String -> Object -> Promise<Object> */
+  debug(action, payload = {}) {
+    this._require();
+    return this._send("debug", { action, ...payload });
+  }
+
+  /** Whether a program is being debugged. () -> Bool */
+  get isDebugging() { return this._debugging; }
+
+  /** Ends the program being debugged, and lets its page go. () -> () */
+  debugStop() {
+    const was = this._debugging;
+    this._debugging = false;
+    if (was && this.worker) this._send("debug", { action: "stop" }).catch(() => {});
+    this.endLive();
   }
 
   /** The REPL (src/repl_session.ml), kept in this worker between calls.
@@ -295,7 +368,9 @@ export class PykingRuntime {
    *  {ev: "click", id} and the rest (docs/libraries.md, "A library that
    *  needs a page"). String -> Object -> () */
   sendEvent(module, data) {
-    if (this._live && this.worker) this.worker.postMessage({ type: "event", module, data });
+    if ((this._live || this._debugging) && this.worker) {
+      this.worker.postMessage({ type: "event", module, data });
+    }
   }
 
   /** Whether the running program's tinyweb log is shown, as `debug`
@@ -308,7 +383,8 @@ export class PykingRuntime {
    *  called, so its page can stop asking for events. () -> () */
   endLive() {
     const onEnd = this.onEnd;
-    const wasLive = this._live;
+    const wasLive = this._live || this._debugging;
+    this._debugging = false;
     this._detach();
     if (wasLive) onEnd?.();
   }
@@ -317,12 +393,14 @@ export class PykingRuntime {
     this._live = false;
     this.onOutput = null;
     this.onDebug = null;
+    this.onTinyweb = null;
     this.onShow = null;
     this.onInput = null;
     this.onPage = null;
     this.onFailure = null;
     this.onExit = null;
     this.onEnd = null;
+    this.onDebugger = null;
   }
 
   /** End whatever is running, immediately.

@@ -1,5 +1,5 @@
 // Generated from lib_tinyweb_splash_off.pyk by the Pyking compiler. Do not edit.
-// Target: node24. Run with:  node <this file>
+// Target: node22. Run with:  node <this file>
 
 import { print } from './pyk-runtime.js';
 
@@ -10,7 +10,7 @@ tw_external.set_splash('');
 const snare = tw_external.load_sample('snare1.wav');
 
 function hit() {
-  tw.play(snare, tw.play__default__at(), 0.5, tw.play__default__rate());
+  tw.play(snare, 0.0, 0.5, 1.0, 0.0, tw.play__default__voice());
   print('hit');
 }
 

@@ -11,6 +11,8 @@
 #pragma GCC optimize ("fp-contract=off")
 #endif
 
+#include "math.h"
+#include "text.h"
 #include "tinyweb.h"
 
 #ifndef PYK_TYPE_PYK_C_FF_U_
@@ -73,13 +75,15 @@ static void pyk_w_draw(void *env, double p1)
 
 static void draw(double t)
 {
-    tinyweb_clear(c, "#202040");
-    tinyweb_image(c, ball, pyk_truncate(t * 100.0), 20, 40, 40, tinyweb_image__default__alpha());
+    tinyweb_clear(c, tinyweb_color__hex(2105408));
+    tinyweb_image(c, ball, pyk_truncate(t * 100.0), 20, 40, 40, 1.0);
     tinyweb_image(c, star, 140, 20, 50, 50, 0.5);
 }
 
 int main(void)
 {
+    math_init();
+    text_init();
     tinyweb_init();
     tinyweb_web_init(0);
     c = tinyweb_canvas(200, 100);

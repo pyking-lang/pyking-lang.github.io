@@ -11,43 +11,53 @@ public final class Program {
     private static String left;
     private static String small;
     private static String right;
+    private static String notes;
 
     private static void clicked() {
         System.out.println("clicked");
     }
 
+    private static void edited(final String words) {
+        System.out.println("notes:" + " " + words);
+    }
+
     public static void main(String[] args) {
+        Math.init();
+        Text.init();
         Tinyweb.init();
-        Tinyweb.web_init(Tinyweb.web_init__default__port());
-        Tinyweb.page_style(Tinyweb.page_style__default__background(), Tinyweb.page_style__default__color(), Tinyweb.page_style__default__font(), Tinyweb.page_style__default__size(), Tinyweb.page_style__default__padding(), Tinyweb.page_style__default__gap(), "center");
+        Tinyweb.web_init(0);
+        Tinyweb.page_style(Tinyweb.page_style__default__background(), Tinyweb.page_style__default__foreground(), "", -1, -1, -1, "center");
         title = TinywebExternal.label("Layout");
-        Tinyweb.set_style(title, Tinyweb.set_style__default__background(), Tinyweb.set_style__default__color(), Tinyweb.set_style__default__border(), Tinyweb.set_style__default__radius(), Tinyweb.set_style__default__font(), 28, Tinyweb.set_style__default__padding(), Tinyweb.set_style__default__accent(), Tinyweb.set_style__default__width(), 700, Tinyweb.set_style__default__height());
-        buttons = TinywebExternal.row();
-        TinywebExternal.inside(buttons);
+        Tinyweb.set_style(title, Tinyweb.set_style__default__background(), Tinyweb.set_style__default__foreground(), Tinyweb.set_style__default__border(), -1, -1, "", 28, -1, Tinyweb.set_style__default__accent(), -1, 700, -1);
+        buttons = Tinyweb.layout__row();
+        Tinyweb.layout__inside(buttons);
         Tinyweb.button("one", () -> { clicked(); return null; });
         Tinyweb.button("two", Tinyweb.button__default__on_click());
-        TinywebExternal.outside();
+        Tinyweb.layout__outside();
         TinywebExternal.canvas(100, 40);
-        controls = TinywebExternal.row();
-        TinywebExternal.inside(controls);
+        controls = Tinyweb.layout__row();
+        Tinyweb.layout__inside(controls);
         TinywebExternal.label("speed");
         Tinyweb.slider(0, 10, 5, Tinyweb.slider__default__on_change());
-        TinywebExternal.inside(buttons);
+        Tinyweb.layout__inside(buttons);
         Tinyweb.button("three", Tinyweb.button__default__on_click());
-        TinywebExternal.outside();
-        figures = TinywebExternal.row();
-        TinywebExternal.inside(figures);
-        left = TinywebExternal.column();
-        TinywebExternal.inside(left);
+        Tinyweb.layout__outside();
+        figures = Tinyweb.layout__row();
+        Tinyweb.layout__inside(figures);
+        left = Tinyweb.layout__column();
+        Tinyweb.layout__inside(left);
         small = TinywebExternal.canvas(50, 20);
-        Tinyweb.set_style(small, Tinyweb.set_style__default__background(), Tinyweb.set_style__default__color(), Tinyweb.set_style__default__border(), Tinyweb.set_style__default__radius(), Tinyweb.set_style__default__font(), Tinyweb.set_style__default__size(), Tinyweb.set_style__default__padding(), Tinyweb.set_style__default__accent(), 100, Tinyweb.set_style__default__weight(), 40);
+        Tinyweb.set_style(small, Tinyweb.set_style__default__background(), Tinyweb.set_style__default__foreground(), Tinyweb.set_style__default__border(), -1, -1, "", -1, -1, Tinyweb.set_style__default__accent(), 100, -1, 40);
         TinywebExternal.label("stretched");
-        TinywebExternal.inside(figures);
-        right = TinywebExternal.column();
-        TinywebExternal.inside(right);
+        Tinyweb.layout__inside(figures);
+        right = Tinyweb.layout__column();
+        Tinyweb.layout__inside(right);
         TinywebExternal.canvas(100, 40);
         TinywebExternal.label("as it is");
-        TinywebExternal.outside();
+        Tinyweb.layout__outside();
+        notes = Tinyweb.layout__text_area("first line\nsecond \"line\"", 3, 30, p$1 -> { edited(p$1); return null; });
+        Tinyweb.layout__text_area("", 4, 40, Tinyweb.layout__text_area__default__on_change());
         TinywebExternal.label("the end");
+        System.out.println(notes + " " + Tinyweb.value_of(notes));
     }
 }

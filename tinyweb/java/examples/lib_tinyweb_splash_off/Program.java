@@ -7,11 +7,13 @@ public final class Program {
     private static String snare;
 
     private static void hit() {
-        Tinyweb.play(snare, Tinyweb.play__default__at(), 0.5, Tinyweb.play__default__rate());
+        Tinyweb.play(snare, 0.0, 0.5, 1.0, 0.0, Tinyweb.play__default__voice());
         System.out.println("hit");
     }
 
     public static void main(String[] args) {
+        Math.init();
+        Text.init();
         Tinyweb.init();
         Tinyweb.web_init(0);
         TinywebExternal.set_splash("");

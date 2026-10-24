@@ -1,5 +1,5 @@
 // Generated from lib_tinyweb_input.pyk by the Pyking compiler. Do not edit.
-// Target: node24. Run with:  node <this file>
+// Target: node22. Run with:  node <this file>
 
 import { print, pykFormat } from './pyk-runtime.js';
 
@@ -20,17 +20,18 @@ function pykConcat(a, b) {
 
 import * as tw from './tinyweb.js';
 import * as tw_external from './tinyweb_external.js';
+import { Color__Color, color__black, color__white, color__gray, color__red, color__green, color__blue, color__yellow, color__orange, color__purple, color__pink, color__navy, color__teal, color__brown, color__cyan, color__magenta, color__none, color__theme, color__rgb, color__rgba, color__hsl, color__hex, color__to_hex, color__with_alpha, color__mix, color__same, color__palette, Color__Paint, Color__Plain, Color__Linear, Color__Radial, Color__Conic, color__stop } from './tinyweb.js';
 tw.web_init(0);
 const c = tw_external.canvas(300, 200);
-tw.rect(c, 0, 0, 300, 200, '#eeeeee', tw.rect__default__outline(), tw.rect__default__outline_width(), tw.rect__default__alpha(), tw.rect__default__radius());
-tw.line(c, 0, 0, 300, 200, tw.line__default__color(), tw.line__default__width(), tw.line__default__alpha());
-tw.line(c, 0, 200, 300, 0, 'red', 3, tw.line__default__alpha());
-tw.text(c, 10, 10, 'click "me"', tw.text__default__color(), 20, tw.text__default__font(), tw.text__default__align(), tw.text__default__bold(), tw.text__default__alpha(), tw.text__default__baseline(), tw.text__default__outline(), tw.text__default__outline_width());
+tw.rect(c, 0, 0, 300, 200, color__hex(15658734), tw.rect__default__stroke(), 1, 1.0, tw.rect__default__paint(), tw.rect__default__style(), 0);
+tw.line(c, 0, 0, 300, 200, tw.line__default__stroke(), 1, 1.0, tw.line__default__style());
+tw.line(c, 0, 200, 300, 0, color__red, 3, 1.0, tw.line__default__style());
+tw.text(c, 10, 10, 'click "me"', tw.text__default__fill(), 20, '', 'left', false, 1.0, 'top', tw.text__default__stroke(), 1, tw.text__default__paint(), tw.text__default__style());
 const status = tw_external.label('nothing yet');
 
 function clicked(x, y) {
-  tw_external.set_label(status, pykConcat(pykConcat(pykConcat('clicked at ', pykFormat(x)), ', '), pykFormat(y)));
-  return tw.circle(c, x, y, 5, 'blue', tw.circle__default__outline(), tw.circle__default__outline_width(), tw.circle__default__alpha());
+  tw.set_text(status, pykConcat(pykConcat(pykConcat('clicked at ', pykFormat(x)), ', '), pykFormat(y)));
+  return tw.circle(c, x, y, 5, color__blue, tw.circle__default__stroke(), 1, 1.0, tw.circle__default__paint(), tw.circle__default__style());
 }
 
 function pressed(key) {
@@ -41,10 +42,10 @@ function pressed(key) {
 }
 
 function moved(value) {
-  return tw_external.set_label(status, pykConcat('slider at ', pykFormat(value)));
+  return tw.set_text(status, pykConcat('slider at ', pykFormat(value)));
 }
 
-tw_external.on_mouse(c, clicked);
+tw.on_click(c, clicked);
 tw_external.on_key(pressed);
 tw.slider(0, 10, 5, moved);
 tw.slider(1, 3, 2, tw.slider__default__on_change());

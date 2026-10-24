@@ -48,32 +48,38 @@ def __pyk_float(x):
 
 import tinyweb as tw
 import tinyweb_external as tw_external
+from tinyweb import Color__Color, color__black, color__white, color__gray, color__red, color__green, color__blue, color__yellow, color__orange, color__purple, color__pink, color__navy, color__teal, color__brown, color__cyan, color__magenta, color__none, color__theme, color__rgb, color__rgba, color__hsl, color__hex, color__to_hex, color__with_alpha, color__mix, color__same, color__palette, Color__Paint, Color__Plain, Color__Linear, Color__Radial, Color__Conic, color__stop
 tw.web_init(0)
 c = tw_external.canvas(200, 100)
 other = tw_external.canvas(50, 50)
+tw.track_mouse(c)
 
 def pressed(x, y):
-    print('press at', x, y, 'down', 'true' if tw.mouse_down(c) else 'false')
-    return tw.circle(c, x, y, 4, 'crimson', tw.circle__default__outline(), tw.circle__default__outline_width(), tw.circle__default__alpha())
+    print('press at', x, y, 'down', 'true' if tw.mouse(c).down else 'false')
+    return tw.circle(c, x, y, 4, color__hex(14423100), tw.circle__default__stroke(), 1, 1.0, tw.circle__default__paint(), tw.circle__default__style())
 
 def dragged(x, y):
-    print('drag to', x, y)
-    return tw.line(c, tw.mouse_x(c), tw.mouse_y(c), x, y, 'black', 2, tw.line__default__alpha())
+    print('drag to', x, y, 'down', 'true' if tw.mouse(c).down else 'false')
+    return tw.line(c, 0, 0, x, y, color__black, 2, 1.0, tw.line__default__style())
 
 def moved(x, y):
-    print('move to', x, y, 'down', 'true' if tw.mouse_down(c) else 'false')
+    print('move to', x, y, 'down', 'true' if tw.mouse(c).down else 'false')
     return ()
 
 def released(x, y):
-    print('release at', x, y, 'down', 'true' if tw.mouse_down(c) else 'false')
+    print('release at', x, y, 'down', 'true' if tw.mouse(c).down else 'false')
+    return ()
+
+def nothing(x, y):
     return ()
 
 tw.on_press(c, pressed)
 tw.on_drag(c, dragged)
 tw.on_move(c, moved)
 tw.on_release(c, released)
-tw.on_move(other, tw.ignore2)
-print('before any event', tw.mouse_x(c), tw.mouse_y(c), 'true' if tw.mouse_down(c) else 'false')
+tw.on_move(other, nothing)
+start = tw.mouse(c)
+print('before any event', start.x, start.y, 'true' if start.down else 'false')
 
 def let_go(key):
     print('let go of', key, 'still held:', 'true' if tw_external.key_down(key) else 'false')

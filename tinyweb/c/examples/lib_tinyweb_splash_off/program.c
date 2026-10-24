@@ -4,13 +4,8 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-// Every multiply and add rounded on its own, as on every other target.
-#if defined(__clang__)
-#pragma STDC FP_CONTRACT OFF
-#elif defined(__GNUC__)
-#pragma GCC optimize ("fp-contract=off")
-#endif
-
+#include "math.h"
+#include "text.h"
 #include "tinyweb.h"
 
 #ifndef PYK_TYPE_PYK_C_F_U_
@@ -49,13 +44,14 @@ static void pyk_w_hit(void *env)
 
 static void hit(void)
 {
-    double pyk_t1;
-    (pyk_t1 = tinyweb_play__default__at(), (tinyweb_play(snare, pyk_t1, 0.5, tinyweb_play__default__rate()), 0));
+    tinyweb_play(snare, 0.0, 0.5, 1.0, 0.0, tinyweb_play__default__voice());
     printf("%s\n", "hit");
 }
 
 int main(void)
 {
+    math_init();
+    text_init();
     tinyweb_init();
     tinyweb_web_init(0);
     tinyweb_set_splash("");

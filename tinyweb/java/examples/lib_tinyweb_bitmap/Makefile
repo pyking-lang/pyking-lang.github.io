@@ -7,8 +7,8 @@ JAVA ?= java
 
 all: Program.class
 
-Program.class: TinywebExternal.java Tinyweb.java Program.java
-	$(JAVAC) --release 21 -d . TinywebExternal.java Tinyweb.java PykRuntime.java Program.java
+Program.class: MathExternal.java Math.java TextExternal.java Text.java TinywebExternal.java Tinyweb.java Program.java
+	$(JAVAC) --release 21 -d . MathExternal.java Math.java TextExternal.java Text.java TinywebExternal.java Tinyweb.java PykRuntime.java Program.java
 
 run: all
 	$(JAVA) -cp . Program $(ARGS)

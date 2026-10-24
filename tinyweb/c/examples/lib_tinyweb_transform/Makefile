@@ -6,8 +6,8 @@ CC ?= cc
 
 all: program
 
-program: tinyweb_external.c tinyweb.c program.c
-	$(CC) -std=c23 -o program tinyweb_external.c tinyweb.c program.c -lm
+program: math_external.c math.c text_external.c text.c tinyweb_external.c tinyweb.c program.c
+	$(CC) -std=c23 -o program math_external.c math.c text_external.c text.c tinyweb_external.c tinyweb.c program.c -lm
 
 run: all
 	./program $(ARGS)

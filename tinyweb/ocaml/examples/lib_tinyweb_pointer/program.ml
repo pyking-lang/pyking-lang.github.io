@@ -1,5 +1,5 @@
 (* Generated from lib_tinyweb_pointer.pyk by the Pyking compiler. Do not edit. *)
-(* Target: ocaml5.5. Compile with:  ocamlopt <this file>
+(* Target: ocaml4.14. Compile with:  ocamlopt <this file>
    or run it directly with:      ocaml <this file> *)
 
 let pyk_float_str x =
@@ -49,33 +49,37 @@ let c = Tinyweb_external.canvas 200 100
 
 let other = Tinyweb_external.canvas 50 50
 
+let () = Tinyweb.track_mouse c
+
 let pressed x y =
-  print_endline ("press at" ^ " " ^ string_of_int x ^ " " ^ string_of_int y ^ " " ^ "down" ^ " " ^ string_of_bool (Tinyweb.mouse_down c));
-  let tmp1 = Tinyweb.circle__default__outline () in
-  let tmp2 = Tinyweb.circle__default__outline_width () in
-  Tinyweb.circle c x y 4 "crimson" tmp1 tmp2 (Tinyweb.circle__default__alpha ())
+  print_endline ("press at" ^ " " ^ string_of_int x ^ " " ^ string_of_int y ^ " " ^ "down" ^ " " ^ string_of_bool (let Tinyweb.Pointer (_, _, tmp1) = Tinyweb.mouse c in tmp1));
+  let tmp2 = Tinyweb.color__hex 14423100 in
+  let tmp3 = Tinyweb.circle__default__stroke () in
+  let tmp4 = Tinyweb.circle__default__paint () in
+  Tinyweb.circle c x y 4 tmp2 tmp3 1 1.0 tmp4 (Tinyweb.circle__default__style ())
 
 let dragged x y =
-  print_endline ("drag to" ^ " " ^ string_of_int x ^ " " ^ string_of_int y);
-  let tmp3 = Tinyweb.mouse_x c in
-  let tmp4 = Tinyweb.mouse_y c in
-  Tinyweb.line c tmp3 tmp4 x y "black" 2 (Tinyweb.line__default__alpha ())
+  print_endline ("drag to" ^ " " ^ string_of_int x ^ " " ^ string_of_int y ^ " " ^ "down" ^ " " ^ string_of_bool (let Tinyweb.Pointer (_, _, tmp5) = Tinyweb.mouse c in tmp5));
+  Tinyweb.line c 0 0 x y Tinyweb.color__black 2 1.0 (Tinyweb.line__default__style ())
 
 let moved x y =
-  print_endline ("move to" ^ " " ^ string_of_int x ^ " " ^ string_of_int y ^ " " ^ "down" ^ " " ^ string_of_bool (Tinyweb.mouse_down c))
+  print_endline ("move to" ^ " " ^ string_of_int x ^ " " ^ string_of_int y ^ " " ^ "down" ^ " " ^ string_of_bool (let Tinyweb.Pointer (_, _, tmp6) = Tinyweb.mouse c in tmp6))
 
 let released x y =
-  print_endline ("release at" ^ " " ^ string_of_int x ^ " " ^ string_of_int y ^ " " ^ "down" ^ " " ^ string_of_bool (Tinyweb.mouse_down c))
+  print_endline ("release at" ^ " " ^ string_of_int x ^ " " ^ string_of_int y ^ " " ^ "down" ^ " " ^ string_of_bool (let Tinyweb.Pointer (_, _, tmp7) = Tinyweb.mouse c in tmp7))
+
+let nothing _x _y = ()
 
 let () =
   Tinyweb.on_press c pressed;
   Tinyweb.on_drag c dragged;
   Tinyweb.on_move c moved;
-  Tinyweb.on_release c released;
-  Tinyweb.on_move other Tinyweb.ignore2;
-  let tmp5 = Tinyweb.mouse_x c in
-  let tmp6 = Tinyweb.mouse_y c in
-  print_endline ("before any event" ^ " " ^ string_of_int tmp5 ^ " " ^ string_of_int tmp6 ^ " " ^ string_of_bool (Tinyweb.mouse_down c))
+  Tinyweb.on_release c released; Tinyweb.on_move other nothing
+
+let start = Tinyweb.mouse c
+
+let () =
+  print_endline ("before any event" ^ " " ^ string_of_int (let Tinyweb.Pointer (tmp8, _, _) = start in tmp8) ^ " " ^ string_of_int (let Tinyweb.Pointer (_, tmp9, _) = start in tmp9) ^ " " ^ string_of_bool (let Tinyweb.Pointer (_, _, tmp10) = start in tmp10))
 
 let let_go key =
   print_endline ("let go of" ^ " " ^ key ^ " " ^ "still held:" ^ " " ^ string_of_bool (Tinyweb_external.key_down key))

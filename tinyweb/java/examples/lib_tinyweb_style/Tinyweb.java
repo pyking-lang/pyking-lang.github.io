@@ -3,8 +3,182 @@
 
 public final class Tinyweb {
 
+    public record Color__Color(int r, int g, int b, double a) implements PykRuntime.Data {
+        public String pykTag() { return "Color__Color"; }
+        public Object[] pykFields() { return new Object[] { r, g, b, a }; }
+    }
+
+    public sealed interface Color__Paint extends PykRuntime.Data permits Color__Plain, Color__Linear, Color__Radial, Color__Conic {
+    }
+
+    public static Color__Paint Color__Plain(final Color__Color f$0) {
+        return new Color__Plain(f$0);
+    }
+
+    public record Color__Plain(Color__Color f$0) implements Color__Paint {
+        public String pykTag() { return "Color__Plain"; }
+        public Object[] pykFields() { return new Object[] { f$0 }; }
+    }
+
+    public static Color__Paint Color__Linear(final double x1, final double y1, final double x2, final double y2, final Color__Color start, final Color__Color end, final String stops) {
+        return new Color__Linear(x1, y1, x2, y2, start, end, stops);
+    }
+
+    public record Color__Linear(double x1, double y1, double x2, double y2, Color__Color start, Color__Color end, String stops) implements Color__Paint {
+        public String pykTag() { return "Color__Linear"; }
+        public Object[] pykFields() { return new Object[] { x1, y1, x2, y2, start, end, stops }; }
+    }
+
+    public static Color__Paint Color__Radial(final double x1, final double y1, final double r1, final double x2, final double y2, final double r2, final Color__Color start, final Color__Color end, final String stops) {
+        return new Color__Radial(x1, y1, r1, x2, y2, r2, start, end, stops);
+    }
+
+    public record Color__Radial(double x1, double y1, double r1, double x2, double y2, double r2, Color__Color start, Color__Color end, String stops) implements Color__Paint {
+        public String pykTag() { return "Color__Radial"; }
+        public Object[] pykFields() { return new Object[] { x1, y1, r1, x2, y2, r2, start, end, stops }; }
+    }
+
+    public static Color__Paint Color__Conic(final double x, final double y, final double angle, final Color__Color start, final Color__Color end, final String stops) {
+        return new Color__Conic(x, y, angle, start, end, stops);
+    }
+
+    public record Color__Conic(double x, double y, double angle, Color__Color start, Color__Color end, String stops) implements Color__Paint {
+        public String pykTag() { return "Color__Conic"; }
+        public Object[] pykFields() { return new Object[] { x, y, angle, start, end, stops }; }
+    }
+
+    public record Point(int x, int y) implements PykRuntime.Data {
+        public String pykTag() { return "Point"; }
+        public Object[] pykFields() { return new Object[] { x, y }; }
+    }
+
+    public record Style(Color__Color fill, Color__Color stroke, int width, double alpha, Color__Paint paint) implements PykRuntime.Data {
+        public String pykTag() { return "Style"; }
+        public Object[] pykFields() { return new Object[] { fill, stroke, width, alpha, paint }; }
+    }
+
+    public record Pointer(int x, int y, boolean down) implements PykRuntime.Data {
+        public String pykTag() { return "Pointer"; }
+        public Object[] pykFields() { return new Object[] { x, y, down }; }
+    }
+
+    public record Sound__Voice(double volume, double rate, double pan, int channel, boolean looping, boolean reverse) implements PykRuntime.Data {
+        public String pykTag() { return "Sound__Voice"; }
+        public Object[] pykFields() { return new Object[] { volume, rate, pan, channel, looping, reverse }; }
+    }
+
+    public record Smooth__Point(double x, double y) implements PykRuntime.Data {
+        public String pykTag() { return "Smooth__Point"; }
+        public Object[] pykFields() { return new Object[] { x, y }; }
+    }
+
+    public static Color__Color color__black;
+    public static Color__Color color__white;
+    public static Color__Color color__gray;
+    public static Color__Color color__red;
+    public static Color__Color color__green;
+    public static Color__Color color__blue;
+    public static Color__Color color__yellow;
+    public static Color__Color color__orange;
+    public static Color__Color color__purple;
+    public static Color__Color color__pink;
+    public static Color__Color color__navy;
+    public static Color__Color color__teal;
+    public static Color__Color color__brown;
+    public static Color__Color color__cyan;
+    public static Color__Color color__magenta;
+    public static Color__Color color__none;
+    public static Color__Color color__theme;
+
     private static void ignore(final int value) {
 
+    }
+
+    private static int color__part(final int n) {
+        return n < 0 ? 0 : n > 255 ? 255 : n;
+    }
+
+    private static double color__unit(final double x) {
+        return x < 0.0 ? 0.0 : x > 1.0 ? 1.0 : x;
+    }
+
+    private static String color__hex2(final int n) {
+        final var clamped = color__part(n);
+        return color__hex_digit(clamped / 16) + color__hex_digit(clamped - clamped / 16 * 16);
+    }
+
+    private static String color__hex_digit(final int d) {
+        final Integer s$1 = d;
+        switch (s$1) {
+            case Integer t$2 when PykRuntime.truth((int) t$2 == 0) -> {
+                return "0";
+            }
+            case Integer t$3 when PykRuntime.truth((int) t$3 == 1) -> {
+                return "1";
+            }
+            case Integer t$4 when PykRuntime.truth((int) t$4 == 2) -> {
+                return "2";
+            }
+            case Integer t$5 when PykRuntime.truth((int) t$5 == 3) -> {
+                return "3";
+            }
+            case Integer t$6 when PykRuntime.truth((int) t$6 == 4) -> {
+                return "4";
+            }
+            case Integer t$7 when PykRuntime.truth((int) t$7 == 5) -> {
+                return "5";
+            }
+            case Integer t$8 when PykRuntime.truth((int) t$8 == 6) -> {
+                return "6";
+            }
+            case Integer t$9 when PykRuntime.truth((int) t$9 == 7) -> {
+                return "7";
+            }
+            case Integer t$10 when PykRuntime.truth((int) t$10 == 8) -> {
+                return "8";
+            }
+            case Integer t$11 when PykRuntime.truth((int) t$11 == 9) -> {
+                return "9";
+            }
+            case Integer t$12 when PykRuntime.truth((int) t$12 == 10) -> {
+                return "a";
+            }
+            case Integer t$13 when PykRuntime.truth((int) t$13 == 11) -> {
+                return "b";
+            }
+            case Integer t$14 when PykRuntime.truth((int) t$14 == 12) -> {
+                return "c";
+            }
+            case Integer t$15 when PykRuntime.truth((int) t$15 == 13) -> {
+                return "d";
+            }
+            case Integer t$16 when PykRuntime.truth((int) t$16 == 14) -> {
+                return "e";
+            }
+            case Integer t$17 -> {
+                return "f";
+            }
+        }
+    }
+
+    private static String color__css(final Color__Color c) {
+        if (c.a() >= 1.0) {
+            return "#" + color__hex2(c.r()) + color__hex2(c.g()) + color__hex2(c.b());
+        } else {
+            return "rgba(" + String.valueOf(color__part(c.r())) + ", " + String.valueOf(color__part(c.g())) + ", " + String.valueOf(color__part(c.b())) + ", " + PykRuntime.floatStr(color__unit(c.a())) + ")";
+        }
+    }
+
+    private static boolean color__is_theme(final Color__Color c) {
+        return c.a() < 0.0;
+    }
+
+    public static Color__Color color__rgba(final int r, final int g, final int b, final double a) {
+        return new Color__Color(color__part(r), color__part(g), color__part(b), a < 0.0 ? 0.0 : a > 1.0 ? 1.0 : a);
+    }
+
+    public static Color__Color color__hex(final int n) {
+        return new Color__Color(color__part(n / 65536), color__part(n / 256 - n / 65536 * 256), color__part(n - n / 256 * 256), 1.0);
     }
 
     public static void web_init(final int port) {
@@ -24,24 +198,12 @@ public final class Tinyweb {
     }
 
     private static boolean known_theme(final String name) {
-        final String s$1 = name;
-        switch (s$1) {
-            case String t$2 when "light".equals(t$2) -> {
+        final String s$18 = name;
+        switch (s$18) {
+            case String t$19 when "light".equals(t$19) || "dark".equals(t$19) || "plain".equals(t$19) || "paper".equals(t$19) || "retro".equals(t$19) -> {
                 return true;
             }
-            case String t$3 when "dark".equals(t$3) -> {
-                return true;
-            }
-            case String t$4 when "plain".equals(t$4) -> {
-                return true;
-            }
-            case String t$5 when "paper".equals(t$5) -> {
-                return true;
-            }
-            case String t$6 when "retro".equals(t$6) -> {
-                return true;
-            }
-            case String t$7 -> {
+            case String t$20 -> {
                 return false;
             }
         }
@@ -52,6 +214,26 @@ public final class Tinyweb {
 
         } else {
             TinywebExternal.apply_style(id, kind, property, value);
+        }
+    }
+
+    private static void style_color(final String id, final String kind, final String property, final Color__Color c) {
+        if (color__is_theme(c)) {
+
+        } else {
+            TinywebExternal.apply_style(id, kind, property, color__css(c));
+        }
+    }
+
+    private static void style_border(final String id, final String kind, final Color__Color border, final int width) {
+        if (color__is_theme(border)) {
+            if (width >= 0) {
+                TinywebExternal.apply_style(id, kind, "border", String.valueOf(width) + "px solid currentColor");
+            }
+        } else if (border.a() <= 0.0) {
+            TinywebExternal.apply_style(id, kind, "border", "none");
+        } else {
+            TinywebExternal.apply_style(id, kind, "border", String.valueOf(width >= 0 ? width : 1) + "px solid " + color__css(border));
         }
     }
 
@@ -71,13 +253,9 @@ public final class Tinyweb {
         }
     }
 
-    public static String page_style__default__align() {
-        return "";
-    }
-
-    public static void page_style(final String background, final String color, final String font, final int size, final int padding, final int gap, final String align) {
-        style_text("", "page", "background", background);
-        style_text("", "page", "color", color);
+    public static void page_style(final Color__Color background, final Color__Color foreground, final String font, final int size, final int padding, final int gap, final String align) {
+        style_color("", "page", "background", background);
+        style_color("", "page", "color", foreground);
         style_text("", "page", "font", font);
         style_pixels("", "page", "size", size);
         style_pixels("", "page", "padding", padding);
@@ -85,102 +263,64 @@ public final class Tinyweb {
         style_text("", "page", "align", align);
     }
 
-    public static void button_style(final String background, final String color, final String border, final int radius, final String font, final int size, final int padding) {
-        style_text("", "button", "background", background);
-        style_text("", "button", "color", color);
-        style_text("", "button", "border", border);
+    public static void button_style(final Color__Color background, final Color__Color foreground, final Color__Color border, final int border_width, final int radius, final String font, final int size, final int padding) {
+        style_color("", "button", "background", background);
+        style_color("", "button", "color", foreground);
+        style_border("", "button", border, border_width);
         style_pixels("", "button", "radius", radius);
         style_text("", "button", "font", font);
         style_pixels("", "button", "size", size);
         style_pixels("", "button", "padding", padding);
     }
 
-    public static void label_style(final String background, final String color, final String border, final int radius, final String font, final int size, final int padding) {
-        style_text("", "label", "background", background);
-        style_text("", "label", "color", color);
-        style_text("", "label", "border", border);
+    public static void label_style(final Color__Color background, final Color__Color foreground, final Color__Color border, final int border_width, final int radius, final String font, final int size, final int padding) {
+        style_color("", "label", "background", background);
+        style_color("", "label", "color", foreground);
+        style_border("", "label", border, border_width);
         style_pixels("", "label", "radius", radius);
         style_text("", "label", "font", font);
         style_pixels("", "label", "size", size);
         style_pixels("", "label", "padding", padding);
     }
 
-    public static void slider_style(final String accent, final int width, final String color, final String font, final int size) {
-        style_text("", "slider", "accent", accent);
+    public static void slider_style(final Color__Color accent, final int width, final Color__Color foreground, final String font, final int size) {
+        style_color("", "slider", "accent", accent);
         style_pixels("", "slider", "width", width);
-        style_text("", "slider", "color", color);
+        style_color("", "slider", "color", foreground);
         style_text("", "slider", "font", font);
         style_pixels("", "slider", "size", size);
     }
 
-    public static void canvas_style(final String border, final int radius) {
-        style_text("", "canvas", "border", border);
+    public static void canvas_style(final Color__Color border, final int border_width, final int radius) {
+        style_border("", "canvas", border, border_width);
         style_pixels("", "canvas", "radius", radius);
     }
 
-    public static String set_colors__default__color() {
-        return "";
+    public static Color__Color set_style__default__background() {
+        return color__theme;
     }
 
-    public static String set_colors__default__background() {
-        return "";
+    public static Color__Color set_style__default__foreground() {
+        return color__theme;
     }
 
-    public static void set_colors(final String id, final String color, final String background) {
-        style_text(id, "element", "color", color);
-        style_text(id, "element", "accent", color);
-        style_text(id, "element", "background", background);
+    public static Color__Color set_style__default__border() {
+        return color__theme;
     }
 
-    public static String set_style__default__background() {
-        return "";
+    public static Color__Color set_style__default__accent() {
+        return color__theme;
     }
 
-    public static String set_style__default__color() {
-        return "";
-    }
-
-    public static int set_style__default__radius() {
-        return -1;
-    }
-
-    public static String set_style__default__font() {
-        return "";
-    }
-
-    public static int set_style__default__size() {
-        return -1;
-    }
-
-    public static int set_style__default__padding() {
-        return -1;
-    }
-
-    public static String set_style__default__accent() {
-        return "";
-    }
-
-    public static int set_style__default__width() {
-        return -1;
-    }
-
-    public static int set_style__default__weight() {
-        return -1;
-    }
-
-    public static int set_style__default__height() {
-        return -1;
-    }
-
-    public static void set_style(final String id, final String background, final String color, final String border, final int radius, final String font, final int size, final int padding, final String accent, final int width, final int weight, final int height) {
-        style_text(id, "element", "background", background);
-        style_text(id, "element", "color", color);
-        style_text(id, "element", "border", border);
+    public static void set_style(final String id, final Color__Color background, final Color__Color foreground, final Color__Color border, final int border_width, final int radius, final String font, final int size, final int padding, final Color__Color accent, final int width, final int weight, final int height) {
+        style_color(id, "element", "background", background);
+        style_color(id, "element", "color", foreground);
+        style_border(id, "element", border, border_width);
         style_pixels(id, "element", "radius", radius);
         style_text(id, "element", "font", font);
         style_pixels(id, "element", "size", size);
         style_pixels(id, "element", "padding", padding);
-        style_text(id, "element", "accent", accent);
+        style_color(id, "element", "accent", accent);
         style_pixels(id, "element", "width", width);
         if (weight >= 0) {
             style_text(id, "element", "weight", String.valueOf(weight));
@@ -188,6 +328,27 @@ public final class Tinyweb {
         style_pixels(id, "element", "height", height);
     }
 
+    public static void on_click(final String c, final java.util.function.BiFunction<Integer, Integer, Void> f) {
+        TinywebExternal.on_mouse(c, f::apply);
+    }
+
     public static void init() {
+        color__black = new Color__Color(0, 0, 0, 1.0);
+        color__white = new Color__Color(255, 255, 255, 1.0);
+        color__gray = new Color__Color(128, 128, 128, 1.0);
+        color__red = new Color__Color(255, 0, 0, 1.0);
+        color__green = new Color__Color(0, 128, 0, 1.0);
+        color__blue = new Color__Color(0, 0, 255, 1.0);
+        color__yellow = new Color__Color(255, 255, 0, 1.0);
+        color__orange = new Color__Color(255, 165, 0, 1.0);
+        color__purple = new Color__Color(128, 0, 128, 1.0);
+        color__pink = new Color__Color(255, 192, 203, 1.0);
+        color__navy = new Color__Color(0, 0, 128, 1.0);
+        color__teal = new Color__Color(0, 128, 128, 1.0);
+        color__brown = new Color__Color(139, 69, 19, 1.0);
+        color__cyan = new Color__Color(0, 255, 255, 1.0);
+        color__magenta = new Color__Color(255, 0, 255, 1.0);
+        color__none = new Color__Color(0, 0, 0, 0.0);
+        color__theme = new Color__Color(-1, -1, -1, -1.0);
     }
 }

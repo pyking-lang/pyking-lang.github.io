@@ -14,7 +14,7 @@
 //
 // The blocks a notebook uses for exercises and quizzes -- ```rules,
 // ```pyking exercise and solution, ```stdin, ```stdout, ```stderr,
-// ```quiz and ```answer -- are recorded in `parts`, in document order,
+// ```events, ```quiz and ```answer -- are recorded in `parts`, in document order,
 // each with the line its fence starts on and the group of adjacent
 // blocks it belongs to, and left as a `<div class="pkn-part">`
 // placeholder. exercises.js reads what they mean.
@@ -46,8 +46,9 @@ export const CELL_ATTRIBUTES = ["norun", "readonly", "error", "exercise", "solut
 export const INPUT_LANGUAGES = ["stdin", "args"];
 
 /** The languages of the other blocks a notebook reads rather than shows
- *  as code: what a program should print, the quizzes, and the rules. */
-export const PART_LANGUAGES = ["stdout", "stderr", "quiz", "answer", "rules"];
+ *  as code: what a program should print, the tinyweb events it is sent,
+ *  the quizzes, the rules, and the differences an exercise allows. */
+export const PART_LANGUAGES = ["stdout", "stderr", "events", "quiz", "answer", "rules", "diff-allowed"];
 
 const CALLOUTS = {
   note: "Note", tip: "Tip", important: "Important",
@@ -711,28 +712,30 @@ export function inputLines(text) {
   return text === "" || text.endsWith("\n") ? text : text + "\n";
 }
 
-/** A quiz's alternatives: each starts a line with `*` (one may be
- *  chosen) or `[]` (any may be), and runs to the next. Text before the
- *  first, or the two markers mixed, is a problem exercises.js reports.
- *  String -> Context -> {alternatives, multiple, mixed, stray} */
+/** A quiz's question and alternatives: the question is the text before
+ *  the first alternative, and each alternative starts a line with `*`
+ *  (one may be chosen) or `[]` (any may be), and runs to the next. The
+ *  two markers mixed is a problem exercises.js reports.
+ *  String -> Context -> {question, alternatives, multiple, mixed} */
 function quizAlternatives(text, ctx) {
   const items = [];
-  let stray = false;
+  const question = [];
   for (const line of text.split("\n")) {
     const m = /^\s*(\*|\[\s*\])(?:\s+(.*)|\s*$)/.exec(line);
     if (m) items.push({ marker: m[1].startsWith("[") ? "[]" : "*", lines: [m[2] ?? ""] });
     else if (items.length) items[items.length - 1].lines.push(line);
-    else if (line.trim()) stray = true;
+    else question.push(line);
   }
   const markers = new Set(items.map((item) => item.marker));
+  const asked = question.join("\n").trim();
   return {
+    question: asked ? renderFragment(asked, ctx.opts) : "",
     alternatives: items.map((item) => {
       const body = item.lines.join("\n").trim();
       return { text: body, html: renderInlineFragment(body, ctx) };
     }),
     multiple: markers.has("[]") && !markers.has("*"),
     mixed: markers.size > 1,
-    stray,
   };
 }
 

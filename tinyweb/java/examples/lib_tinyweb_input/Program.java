@@ -8,8 +8,8 @@ public final class Program {
     private static String status;
 
     private static void clicked(final int x, final int y) {
-        TinywebExternal.set_label(status, "clicked at " + String.valueOf(x) + ", " + String.valueOf(y));
-        Tinyweb.circle(c, x, y, 5, "blue", Tinyweb.circle__default__outline(), Tinyweb.circle__default__outline_width(), Tinyweb.circle__default__alpha());
+        Tinyweb.set_text(status, "clicked at " + String.valueOf(x) + ", " + String.valueOf(y));
+        Tinyweb.circle(c, x, y, 5, Tinyweb.color__blue, Tinyweb.circle__default__stroke(), 1, 1.0, Tinyweb.circle__default__paint(), Tinyweb.circle__default__style());
     }
 
     private static void pressed(final String key) {
@@ -20,19 +20,21 @@ public final class Program {
     }
 
     private static void moved(final int value) {
-        TinywebExternal.set_label(status, "slider at " + String.valueOf(value));
+        Tinyweb.set_text(status, "slider at " + String.valueOf(value));
     }
 
     public static void main(String[] args) {
+        Math.init();
+        Text.init();
         Tinyweb.init();
         Tinyweb.web_init(0);
         c = TinywebExternal.canvas(300, 200);
-        Tinyweb.rect(c, 0, 0, 300, 200, "#eeeeee", Tinyweb.rect__default__outline(), Tinyweb.rect__default__outline_width(), Tinyweb.rect__default__alpha(), Tinyweb.rect__default__radius());
-        Tinyweb.line(c, 0, 0, 300, 200, Tinyweb.line__default__color(), Tinyweb.line__default__width(), Tinyweb.line__default__alpha());
-        Tinyweb.line(c, 0, 200, 300, 0, "red", 3, Tinyweb.line__default__alpha());
-        Tinyweb.text(c, 10, 10, "click \"me\"", Tinyweb.text__default__color(), 20, Tinyweb.text__default__font(), Tinyweb.text__default__align(), Tinyweb.text__default__bold(), Tinyweb.text__default__alpha(), Tinyweb.text__default__baseline(), Tinyweb.text__default__outline(), Tinyweb.text__default__outline_width());
+        Tinyweb.rect(c, 0, 0, 300, 200, Tinyweb.color__hex(15658734), Tinyweb.rect__default__stroke(), 1, 1.0, Tinyweb.rect__default__paint(), Tinyweb.rect__default__style(), 0);
+        Tinyweb.line(c, 0, 0, 300, 200, Tinyweb.line__default__stroke(), 1, 1.0, Tinyweb.line__default__style());
+        Tinyweb.line(c, 0, 200, 300, 0, Tinyweb.color__red, 3, 1.0, Tinyweb.line__default__style());
+        Tinyweb.text(c, 10, 10, "click \"me\"", Tinyweb.text__default__fill(), 20, "", "left", false, 1.0, "top", Tinyweb.text__default__stroke(), 1, Tinyweb.text__default__paint(), Tinyweb.text__default__style());
         status = TinywebExternal.label("nothing yet");
-        TinywebExternal.on_mouse(c, (c$1, c$2) -> clicked(c$1, c$2));
+        Tinyweb.on_click(c, (p$1, p$2) -> { clicked(p$1, p$2); return null; });
         TinywebExternal.on_key(c$1 -> pressed(c$1));
         Tinyweb.slider(0, 10, 5, p$1 -> { moved(p$1); return null; });
         Tinyweb.slider(1, 3, 2, Tinyweb.slider__default__on_change());

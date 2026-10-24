@@ -1,0 +1,583 @@
+<!DOCTYPE html><html lang="en" dir="ltr" data-theme="dark" data-has-sidebar class="astro-g5ptsecz"><head><meta charset="utf-8"/><meta name="viewport" content="width=device-width, initial-scale=1"/><title>tinyweb.color | Pyking</title><link rel="canonical" href="https://pyking.org/libraries/tinyweb-color/"/><link rel="sitemap" href="/sitemap-index.xml"/><script type="module" src="/site/cells.js"></script><script>try { if (localStorage.getItem('starlight-theme') === null) localStorage.setItem('starlight-theme', 'dark'); } catch (e) {}</script><link rel="shortcut icon" href="/site/favicon.svg" type="image/svg+xml"/><meta name="generator" content="Astro v7.3.5"/><meta name="generator" content="Starlight v0.42.5"/><meta property="og:title" content="tinyweb.color"/><meta property="og:type" content="article"/><meta property="og:url" content="https://pyking.org/libraries/tinyweb-color/"/><meta property="og:locale" content="en"/><meta property="og:description" content="Colours, and the paints a shape can be filled with."/><meta property="og:site_name" content="Pyking"/><meta name="twitter:card" content="summary_large_image"/><meta name="description" content="Colours, and the paints a shape can be filled with."/><script>
+	window.StarlightThemeProvider = (() => {
+		const storedTheme =
+			typeof localStorage !== 'undefined' && localStorage.getItem('starlight-theme');
+		const theme =
+			storedTheme ||
+			(window.matchMedia('(prefers-color-scheme: light)').matches ? 'light' : 'dark');
+		document.documentElement.dataset.theme = theme === 'light' ? 'light' : 'dark';
+		return {
+			updatePickers(theme = storedTheme || 'auto') {
+				document.querySelectorAll('starlight-theme-select').forEach((picker) => {
+					const select = picker.querySelector('select');
+					if (select) select.value = theme;
+					/** @type {HTMLTemplateElement | null} */
+					const tmpl = document.querySelector(`#theme-icons`);
+					const newIcon = tmpl && tmpl.content.querySelector('.' + theme);
+					if (newIcon) {
+						const oldIcon = picker.querySelector('svg.label-icon');
+						if (oldIcon) {
+							oldIcon.replaceChildren(...newIcon.cloneNode(true).childNodes);
+						}
+					}
+				});
+			},
+		};
+	})();
+</script><template id="theme-icons"><svg aria-hidden="true" class="light astro-hkc32dio" width="16" height="16" viewBox="0 0 24 24" fill="currentColor" style="--sl-icon-size: 1em;"><path d="M5 12a1 1 0 0 0-1-1H3a1 1 0 0 0 0 2h1a1 1 0 0 0 1-1Zm.64 5-.71.71a1 1 0 0 0 0 1.41 1 1 0 0 0 1.41 0l.71-.71A1 1 0 0 0 5.64 17ZM12 5a1 1 0 0 0 1-1V3a1 1 0 0 0-2 0v1a1 1 0 0 0 1 1Zm5.66 2.34a1 1 0 0 0 .7-.29l.71-.71a1 1 0 1 0-1.41-1.41l-.66.71a1 1 0 0 0 0 1.41 1 1 0 0 0 .66.29Zm-12-.29a1 1 0 0 0 1.41 0 1 1 0 0 0 0-1.41l-.71-.71a1.004 1.004 0 1 0-1.43 1.41l.73.71ZM21 11h-1a1 1 0 0 0 0 2h1a1 1 0 0 0 0-2Zm-2.64 6A1 1 0 0 0 17 18.36l.71.71a1 1 0 0 0 1.41 0 1 1 0 0 0 0-1.41l-.76-.66ZM12 6.5a5.5 5.5 0 1 0 5.5 5.5A5.51 5.51 0 0 0 12 6.5Zm0 9a3.5 3.5 0 1 1 0-7 3.5 3.5 0 0 1 0 7Zm0 3.5a1 1 0 0 0-1 1v1a1 1 0 0 0 2 0v-1a1 1 0 0 0-1-1Z"/></svg><svg aria-hidden="true" class="dark astro-hkc32dio" width="16" height="16" viewBox="0 0 24 24" fill="currentColor" style="--sl-icon-size: 1em;"><path d="M21.64 13a1 1 0 0 0-1.05-.14 8.049 8.049 0 0 1-3.37.73 8.15 8.15 0 0 1-8.14-8.1 8.59 8.59 0 0 1 .25-2A1 1 0 0 0 8 2.36a10.14 10.14 0 1 0 14 11.69 1 1 0 0 0-.36-1.05Zm-9.5 6.69A8.14 8.14 0 0 1 7.08 5.22v.27a10.15 10.15 0 0 0 10.14 10.14 9.784 9.784 0 0 0 2.1-.22 8.11 8.11 0 0 1-7.18 4.32v-.04Z"/></svg><svg aria-hidden="true" class="auto astro-hkc32dio" width="16" height="16" viewBox="0 0 24 24" fill="currentColor" style="--sl-icon-size: 1em;"><path d="M21 14h-1V7a3 3 0 0 0-3-3H7a3 3 0 0 0-3 3v7H3a1 1 0 0 0-1 1v2a3 3 0 0 0 3 3h14a3 3 0 0 0 3-3v-2a1 1 0 0 0-1-1ZM6 7a1 1 0 0 1 1-1h10a1 1 0 0 1 1 1v7H6V7Zm14 10a1 1 0 0 1-1 1H5a1 1 0 0 1-1-1v-1h16v1Z"/></svg></template><link rel="stylesheet" href="/_astro/print.ehPL0gv-.css" media="print"><link rel="stylesheet" href="/_astro/middleware.CytdhB19.css"><script type="module" src="/_astro/page.Dwipeu-R.js"></script></head><body class="astro-g5ptsecz"><a class="sl-skip-link astro-qb7clj6f" href="#_top">Skip to content</a><div class="page sl-flex astro-yntsjkba"><header class="header astro-yntsjkba"><div class="pyking-header"><div class="pyking-header-left"><a href="/" class="site-title sl-flex astro-6rvad3va"><img class="astro-6rvad3va" alt="Pyking" src="/_astro/logo.C9hvHOpV.svg" width="64" height="64"><span class="astro-6rvad3va" translate="no">Pyking</span></a><nav class="pyking-nav" aria-label="Sections"><a href="/install/">Install</a><a href="/getstarted/overview/">Getting started</a><a href="/documentation/language/">Documentation</a><a href="/libraries/" aria-current="page">Libraries</a><a href="/playground/">Playground</a></nav></div><div class="pyking-header-right print:hidden"><site-search class=" astro-b5kgnn7o" data-translations="{&quot;placeholder&quot;:&quot;Search&quot;}"><button data-open-modal disabled aria-label="Search" aria-keyshortcuts="Control+K" class="astro-b5kgnn7o"><svg aria-hidden="true" class="astro-b5kgnn7o astro-hkc32dio" width="16" height="16" viewBox="0 0 24 24" fill="currentColor" style="--sl-icon-size: 1em;"><path d="M21.71 20.29 18 16.61A9 9 0 1 0 16.61 18l3.68 3.68a.999.999 0 0 0 1.42 0 1 1 0 0 0 0-1.39ZM11 18a7 7 0 1 1 0-14 7 7 0 0 1 0 14Z"/></svg><span class="sl-hidden md:sl-block astro-b5kgnn7o" aria-hidden="true">Search</span><kbd class="sl-hidden md:sl-flex astro-b5kgnn7o" style="display: none;"><kbd class="astro-b5kgnn7o">Ctrl</kbd><kbd class="astro-b5kgnn7o">K</kbd></kbd></button><dialog style="padding:0" aria-label="Search" class="astro-b5kgnn7o"><div class="dialog-frame sl-flex astro-b5kgnn7o"><button data-close-modal class="sl-flex md:sl-hidden astro-b5kgnn7o">Cancel</button><div class="search-container astro-b5kgnn7o"><div id="starlight__search" class="astro-b5kgnn7o"></div></div></div></dialog></site-search><script>
+	(() => {
+		const openBtn = document.querySelector('button[data-open-modal]');
+		const shortcut = openBtn?.querySelector('kbd');
+		if (!openBtn || !(shortcut instanceof HTMLElement)) return;
+		const platformKey = shortcut.querySelector('kbd');
+		if (platformKey && /(Mac|iPhone|iPod|iPad)/i.test(navigator.platform)) {
+			platformKey.textContent = '⌘';
+			openBtn.setAttribute('aria-keyshortcuts', 'Meta+K');
+		}
+		shortcut.style.display = '';
+	})();
+</script><script type="module" src="/_astro/Search.astro_astro_type_script_index_0_lang.Bumivpjo.js"></script><div class="sl-hidden md:sl-flex"><starlight-theme-select><label style="--sl-select-width: 6.25em" class="astro-2z5xp7gb"><span class="sr-only astro-2z5xp7gb">Select theme</span><svg aria-hidden="true" class="icon label-icon astro-2z5xp7gb astro-hkc32dio" width="16" height="16" viewBox="0 0 24 24" fill="currentColor" style="--sl-icon-size: 1em;"><path d="M21 14h-1V7a3 3 0 0 0-3-3H7a3 3 0 0 0-3 3v7H3a1 1 0 0 0-1 1v2a3 3 0 0 0 3 3h14a3 3 0 0 0 3-3v-2a1 1 0 0 0-1-1ZM6 7a1 1 0 0 1 1-1h10a1 1 0 0 1 1 1v7H6V7Zm14 10a1 1 0 0 1-1 1H5a1 1 0 0 1-1-1v-1h16v1Z"/></svg><select autocomplete="off" class="astro-2z5xp7gb"><option value="dark" class="astro-2z5xp7gb">Dark</option><option value="light" class="astro-2z5xp7gb">Light</option><option value="auto" selected class="astro-2z5xp7gb">Auto</option></select><svg aria-hidden="true" class="icon caret astro-2z5xp7gb astro-hkc32dio" width="16" height="16" viewBox="0 0 24 24" fill="currentColor" style="--sl-icon-size: 1em;"><path d="M17 9.17a1 1 0 0 0-1.41 0L12 12.71 8.46 9.17a1 1 0 1 0-1.41 1.42l4.24 4.24a1.002 1.002 0 0 0 1.42 0L17 10.59a1.002 1.002 0 0 0 0-1.42Z"/></svg></label></starlight-theme-select><script>
+	StarlightThemeProvider.updatePickers();
+</script><script type="module">var e=`starlight-theme`,t=e=>e===`auto`||e===`dark`||e===`light`?e:`auto`,n=()=>t(typeof localStorage<`u`&&localStorage.getItem(e));function r(t){typeof localStorage<`u`&&localStorage.setItem(e,t===`light`||t===`dark`?t:``)}var i=()=>matchMedia(`(prefers-color-scheme: light)`).matches?`light`:`dark`;function a(e){StarlightThemeProvider.updatePickers(e),document.documentElement.dataset.theme=e===`auto`?i():e,r(e)}matchMedia(`(prefers-color-scheme: light)`).addEventListener(`change`,()=>{n()===`auto`&&a(`auto`)});var o=class extends HTMLElement{constructor(){super(),a(n()),this.querySelector(`select`)?.addEventListener(`change`,e=>{e.currentTarget instanceof HTMLSelectElement&&a(t(e.currentTarget.value))})}};customElements.define(`starlight-theme-select`,o);</script></div><a class="pyking-github" href="https://github.com/pyking-lang" title="Pyking on GitHub"><span class="sr-only">GitHub</span><svg aria-hidden="true" viewBox="0 0 24 24" width="22" height="22" fill="currentColor"><path d="M12 .3a12 12 0 0 0-3.8 23.4c.6.1.8-.3.8-.6v-2c-3.3.7-4-1.6-4-1.6-.6-1.4-1.4-1.8-1.4-1.8-1-.7.1-.7.1-.7 1.2.1 1.8 1.2 1.8 1.2 1 1.8 2.8 1.3 3.5 1 0-.8.4-1.3.7-1.6-2.7-.3-5.5-1.3-5.5-6 0-1.2.5-2.3 1.3-3.1-.2-.4-.6-1.6 0-3.2 0 0 1-.3 3.4 1.2a11.5 11.5 0 0 1 6 0c2.3-1.5 3.3-1.2 3.3-1.2.6 1.6.2 2.8.1 3.2.8.8 1.3 1.9 1.3 3.1 0 4.6-2.8 5.6-5.5 5.9.5.4.9 1.1.9 2.2v3.3c0 .3.1.7.8.6A12 12 0 0 0 12 .3"></path></svg></a></div></div></header><nav class="sidebar print:hidden astro-yntsjkba" aria-label="Main"><button popovertarget="starlight__sidebar" class="sl-menu-button sl-flex md:sl-hidden print:hidden astro-r2osgdlg"><svg aria-hidden="true" class="open-menu astro-r2osgdlg astro-hkc32dio" width="16" height="16" viewBox="0 0 24 24" fill="currentColor" style="--sl-icon-size: 1em;"><path d="M3 8h18a1 1 0 1 0 0-2H3a1 1 0 0 0 0 2Zm18 8H3a1 1 0 0 0 0 2h18a1 1 0 0 0 0-2Zm0-5H3a1 1 0 0 0 0 2h18a1 1 0 0 0 0-2Z"/></svg><svg aria-hidden="true" class="close-menu astro-r2osgdlg astro-hkc32dio" width="16" height="16" viewBox="0 0 24 24" fill="currentColor" style="--sl-icon-size: 1em;"><path d="m13.41 12 6.3-6.29a1.004 1.004 0 1 0-1.42-1.42L12 10.59l-6.29-6.3a1.004 1.004 0 0 0-1.42 1.42l6.3 6.29-6.3 6.29a1 1 0 0 0 0 1.42.998.998 0 0 0 1.42 0l6.29-6.3 6.29 6.3a.999.999 0 0 0 1.42 0 1 1 0 0 0 0-1.42L13.41 12Z"/></svg><span class="sr-only astro-r2osgdlg">Menu</span></button><script type="module">var e=class extends HTMLElement{constructor(){super();let e=matchMedia(`(min-width: 50em)`),t=()=>{this.popover=e.matches?null:`auto`};t(),e.addEventListener(`change`,()=>t()),this.addEventListener(`toggle`,({newState:e})=>this.trapFocus(e===`open`))}trapFocus(e){document.querySelectorAll(`.main-frame, .sl-skip-link`).forEach(t=>{t.toggleAttribute(`inert`,e)})}};customElements.define(`sl-sidebar-pane`,e);</script><script type="module">var e=class extends HTMLElement{constructor(){super();let e=this.querySelector(`select`);e&&(e.addEventListener(`change`,e=>{e.currentTarget instanceof HTMLSelectElement&&(window.location.pathname=e.currentTarget.value)}),window.addEventListener(`pageshow`,t=>{if(!t.persisted)return;let n=e.querySelector(`option[selected]`)?.index;n!==e.selectedIndex&&(e.selectedIndex=n??0)}))}};customElements.define(`starlight-lang-select`,e);</script><sl-sidebar-pane popover id="starlight__sidebar" class="sidebar-pane astro-yntsjkba"><div class="sidebar-content sl-flex astro-yntsjkba"><nav class="pyking-sidebar" aria-label="Libraries"><p class="pyking-sidebar-title">Libraries</p><ul><li><a href="/libraries/">Overview</a></li><li><a href="/libraries/fs/">fs</a></li><li><a href="/libraries/io/">io</a></li><li><a href="/libraries/math/">math</a></li><li><a href="/libraries/random/">random</a></li><li><a href="/libraries/sys/">sys</a></li><li><a href="/libraries/text/">text</a></li><li><a href="/libraries/time/">time</a></li><li><a href="/libraries/tinyweb/">tinyweb</a><ul class="pyking-sidebar-headings"><li><a href="/libraries/tinyweb-core/">page, canvas, widgets</a></li><li><a href="/libraries/tinyweb-color/" aria-current="page">color</a><ul class="pyking-sidebar-headings"><li><a href="#colours">Colours</a></li><li><a href="#paints-and-gradients">Paints and gradients</a></li></ul></li><li><a href="/libraries/tinyweb-sound/">sound</a></li><li><a href="/libraries/tinyweb-bitmap/">bitmap</a></li><li><a href="/libraries/tinyweb-layout/">layout</a></li><li><a href="/libraries/tinyweb-net/">net</a></li><li><a href="/libraries/tinyweb-game/">game</a></li><li><a href="/libraries/tinyweb-smooth/">smooth</a></li></ul></li></ul></nav><div class="md:sl-hidden"><div class="mobile-preferences sl-flex astro-p4azlveh"><div class="social-icons astro-p4azlveh"></div><starlight-theme-select><label style="--sl-select-width: 6.25em" class="astro-2z5xp7gb"><span class="sr-only astro-2z5xp7gb">Select theme</span><svg aria-hidden="true" class="icon label-icon astro-2z5xp7gb astro-hkc32dio" width="16" height="16" viewBox="0 0 24 24" fill="currentColor" style="--sl-icon-size: 1em;"><path d="M21 14h-1V7a3 3 0 0 0-3-3H7a3 3 0 0 0-3 3v7H3a1 1 0 0 0-1 1v2a3 3 0 0 0 3 3h14a3 3 0 0 0 3-3v-2a1 1 0 0 0-1-1ZM6 7a1 1 0 0 1 1-1h10a1 1 0 0 1 1 1v7H6V7Zm14 10a1 1 0 0 1-1 1H5a1 1 0 0 1-1-1v-1h16v1Z"/></svg><select autocomplete="off" class="astro-2z5xp7gb"><option value="dark" class="astro-2z5xp7gb">Dark</option><option value="light" class="astro-2z5xp7gb">Light</option><option value="auto" selected class="astro-2z5xp7gb">Auto</option></select><svg aria-hidden="true" class="icon caret astro-2z5xp7gb astro-hkc32dio" width="16" height="16" viewBox="0 0 24 24" fill="currentColor" style="--sl-icon-size: 1em;"><path d="M17 9.17a1 1 0 0 0-1.41 0L12 12.71 8.46 9.17a1 1 0 1 0-1.41 1.42l4.24 4.24a1.002 1.002 0 0 0 1.42 0L17 10.59a1.002 1.002 0 0 0 0-1.42Z"/></svg></label></starlight-theme-select><script>
+	StarlightThemeProvider.updatePickers();
+</script></div></div></div></sl-sidebar-pane></nav><div class="main-frame astro-yntsjkba"><script type="module">var e=document.getElementById(`starlight__sidebar`),t=e?.querySelector(`sl-sidebar-state-persist`),n=`sl-sidebar-state`,r=()=>{let r=[],i=t?.dataset.hash||``;try{let e=sessionStorage.getItem(n),t=JSON.parse(e||`{}`);Array.isArray(t.open)&&t.hash===i&&(r=t.open)}catch{}return{hash:i,open:r,scroll:e?.scrollTop||0}},i=e=>{try{sessionStorage.setItem(n,JSON.stringify(e))}catch{}},a=()=>i(r()),o=(e,t)=>{let n=r();n.open[t]=e,i(n)};t?.addEventListener(`click`,e=>{if(!(e.target instanceof Element))return;let t=e.target.closest(`summary`)?.closest(`details`);if(!t)return;let n=t.querySelector(`sl-sidebar-restore`),r=parseInt(n?.dataset.index||``);isNaN(r)||o(!t.open,r)}),addEventListener(`visibilitychange`,()=>{document.visibilityState===`hidden`&&a()});</script><div class="lg:sl-flex astro-lrzkfocr"><div class="main-pane astro-lrzkfocr"><main data-pagefind-body class="astro-g5ptsecz" lang="en" dir="ltr"><div class="content-panel astro-a7po4psb"><div class="sl-container astro-a7po4psb"><h1 id="_top" class="astro-bebwqqxs">tinyweb.color</h1></div></div><div class="content-panel astro-a7po4psb"><div class="sl-container astro-a7po4psb"><div class="sl-markdown-content"><p>Colours, and the paints a shape can be filled with.</p>
+<p>A colour is a <code>Color</code>: how much red, green and blue, each from 0 to
+255, and how opaque it is, from 0.0 (not at all) to 1.0. Make one with
+<code>rgb</code>, <code>rgba</code>, <code>hsl</code> or <code>hex</code>, take one of the named ones (<code>black</code>,
+<code>white</code>, <code>red</code>, …), or write <code>Color(255, 136, 0)</code>. <code>none</code> is fully
+transparent: a shape with <code>stroke = color.none</code> has no outline.</p>
+<p>A <code>Paint</code> is what fills a shape: a plain colour, or a linear, radial
+or conic gradient between two colours, with more stops added by <code>stop</code>.</p>
+<div class="pkn-notebook pkn-embedded not-content"><div class="pkn-cell"><pre class="pkn-cell-fallback"><code>import tinyweb as tw
+import tinyweb.color as color
+tw.web_init(0)
+c = tw.canvas(200, 100)
+tw.clear(c, color.navy)
+tw.circle(c, 50, 50, 30, color.rgb(255, 136, 0), stroke = color.white)
+sky = color.Linear(0.0, 0.0, 0.0, 100.0, color.blue, color.white)
+tw.rect(c, 110, 10, 80, 80, paint = sky)</code></pre></div></div>
+<div class="expressive-code"><link rel="stylesheet" href="/_astro/ec.w36nc.css"><script type="module" src="/_astro/ec.0vx5m.js"></script><figure class="frame not-content"><figcaption class="header"></figcaption><pre data-language="pyking"><code><div class="ec-line"><div class="code"><span style="--0:#C792EA;--1:#8844AE">import</span><span style="--0:#D6DEEB;--1:#403F53"> tinyweb.color </span><span style="--0:#C792EA;--1:#8844AE">as</span><span style="--0:#D6DEEB;--1:#403F53"> color</span></div></div></code></pre><div class="copy"><div aria-live="polite"></div><button title="Copy to clipboard" data-copied="Copied!" data-code="import tinyweb.color as color"><div></div></button></div></figure></div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<table><thead><tr><th>Topic</th><th></th></tr></thead><tbody><tr><td><a href="#colours">Colours</a></td><td><a href="#colorcolor"><code>Color</code></a>, <a href="#colorblack"><code>black</code></a>, <a href="#colorwhite"><code>white</code></a>, <a href="#colorgray"><code>gray</code></a>, <a href="#colorred"><code>red</code></a>, <a href="#colorgreen"><code>green</code></a>, <a href="#colorblue"><code>blue</code></a>, <a href="#coloryellow"><code>yellow</code></a>, <a href="#colororange"><code>orange</code></a>, <a href="#colorpurple"><code>purple</code></a>, <a href="#colorpink"><code>pink</code></a>, <a href="#colornavy"><code>navy</code></a>, <a href="#colorteal"><code>teal</code></a>, <a href="#colorbrown"><code>brown</code></a>, <a href="#colorcyan"><code>cyan</code></a>, <a href="#colormagenta"><code>magenta</code></a>, <a href="#colornone"><code>none</code></a>, <a href="#colortheme"><code>theme</code></a>, <a href="#colorrgb"><code>rgb</code></a>, <a href="#colorrgba"><code>rgba</code></a>, <a href="#colorhsl"><code>hsl</code></a>, <a href="#colorhex"><code>hex</code></a>, <a href="#colorto_hex"><code>to_hex</code></a>, <a href="#colorwith_alpha"><code>with_alpha</code></a>, <a href="#colormix"><code>mix</code></a>, <a href="#colorsame"><code>same</code></a>, <a href="#colorpalette"><code>palette</code></a></td></tr><tr><td><a href="#paints-and-gradients">Paints and gradients</a></td><td><a href="#colorpaint"><code>Paint</code></a>, <a href="#colorstop"><code>stop</code></a></td></tr></tbody></table>
+<h2 id="colours">Colours</h2>
+<div class="pyk-api">
+<h3 id="colorcolor">color.Color</h3>
+<pre class="pyk-sig"><code><span class="k">struct</span> <span class="n">color.Color</span>(r: <span class="t">Int</span>, g: <span class="t">Int</span>, b: <span class="t">Int</span>, a = 1.0)</code></pre>
+<p>A colour: its red, green and blue parts, each from 0 to 255, and how
+opaque it is, from 0.0 (not at all) to 1.0.</p>
+<p class="pyk-api-label">Parameters</p>
+<ul>
+<li><code>r</code>, <code>g</code>, <code>b</code>: how much red, green and blue.</li>
+<li><code>a</code>: how opaque; 1.0 by default.</li>
+</ul>
+<p class="pyk-api-label">Example</p>
+<div class="pkn-notebook pkn-embedded not-content"><div class="pkn-fragment" data-markdown="&#x60;&#x60;&#x60;pyking
+import tinyweb.color as color
+faded = color.Color(255, 0, 0, a = 0.5)
+print(faded.r, faded.g, faded.b, faded.a)
+&#x60;&#x60;&#x60;
+
+&#x60;&#x60;&#x60;stdout visible = true
+255 0 0 0.5
+&#x60;&#x60;&#x60;"></div></div>
+</div>
+<div class="pyk-api">
+<h3 id="colorblack">color.black</h3>
+<pre class="pyk-sig"><code><span class="n">color.black</span>: color.Color = color.Color(0, 0, 0)</code></pre>
+<p>Black.</p>
+<p class="pyk-api-label">Example</p>
+<div class="pkn-notebook pkn-embedded not-content"><div class="pkn-fragment" data-markdown="&#x60;&#x60;&#x60;pyking
+import tinyweb.color as color
+print(color.black.r, color.black.g, color.black.b)
+&#x60;&#x60;&#x60;
+
+&#x60;&#x60;&#x60;stdout visible = true
+0 0 0
+&#x60;&#x60;&#x60;"></div></div>
+</div>
+<div class="pyk-api">
+<h3 id="colorwhite">color.white</h3>
+<pre class="pyk-sig"><code><span class="n">color.white</span>: color.Color = color.Color(255, 255, 255)</code></pre>
+<p>White.</p>
+<p class="pyk-api-label">Example</p>
+<div class="pkn-notebook pkn-embedded not-content"><div class="pkn-fragment" data-markdown="&#x60;&#x60;&#x60;pyking
+import tinyweb.color as color
+print(color.white.r, color.white.g, color.white.b)
+&#x60;&#x60;&#x60;
+
+&#x60;&#x60;&#x60;stdout visible = true
+255 255 255
+&#x60;&#x60;&#x60;"></div></div>
+</div>
+<div class="pyk-api">
+<h3 id="colorgray">color.gray</h3>
+<pre class="pyk-sig"><code><span class="n">color.gray</span>: color.Color = color.Color(128, 128, 128)</code></pre>
+<p>Grey, halfway between black and white.</p>
+<p class="pyk-api-label">Example</p>
+<div class="pkn-notebook pkn-embedded not-content"><div class="pkn-fragment" data-markdown="&#x60;&#x60;&#x60;pyking
+import tinyweb.color as color
+print(color.gray.r, color.gray.g, color.gray.b)
+&#x60;&#x60;&#x60;
+
+&#x60;&#x60;&#x60;stdout visible = true
+128 128 128
+&#x60;&#x60;&#x60;"></div></div>
+</div>
+<div class="pyk-api">
+<h3 id="colorred">color.red</h3>
+<pre class="pyk-sig"><code><span class="n">color.red</span>: color.Color = color.Color(255, 0, 0)</code></pre>
+<p>Red.</p>
+<p class="pyk-api-label">Example</p>
+<div class="pkn-notebook pkn-embedded not-content"><div class="pkn-fragment" data-markdown="&#x60;&#x60;&#x60;pyking
+import tinyweb.color as color
+print(color.red.r, color.red.g, color.red.b)
+&#x60;&#x60;&#x60;
+
+&#x60;&#x60;&#x60;stdout visible = true
+255 0 0
+&#x60;&#x60;&#x60;"></div></div>
+</div>
+<div class="pyk-api">
+<h3 id="colorgreen">color.green</h3>
+<pre class="pyk-sig"><code><span class="n">color.green</span>: color.Color = color.Color(0, 128, 0)</code></pre>
+<p>Green.</p>
+<p class="pyk-api-label">Example</p>
+<div class="pkn-notebook pkn-embedded not-content"><div class="pkn-fragment" data-markdown="&#x60;&#x60;&#x60;pyking
+import tinyweb.color as color
+print(color.green.r, color.green.g, color.green.b)
+&#x60;&#x60;&#x60;
+
+&#x60;&#x60;&#x60;stdout visible = true
+0 128 0
+&#x60;&#x60;&#x60;"></div></div>
+</div>
+<div class="pyk-api">
+<h3 id="colorblue">color.blue</h3>
+<pre class="pyk-sig"><code><span class="n">color.blue</span>: color.Color = color.Color(0, 0, 255)</code></pre>
+<p>Blue.</p>
+<p class="pyk-api-label">Example</p>
+<div class="pkn-notebook pkn-embedded not-content"><div class="pkn-fragment" data-markdown="&#x60;&#x60;&#x60;pyking
+import tinyweb.color as color
+print(color.blue.r, color.blue.g, color.blue.b)
+&#x60;&#x60;&#x60;
+
+&#x60;&#x60;&#x60;stdout visible = true
+0 0 255
+&#x60;&#x60;&#x60;"></div></div>
+</div>
+<div class="pyk-api">
+<h3 id="coloryellow">color.yellow</h3>
+<pre class="pyk-sig"><code><span class="n">color.yellow</span>: color.Color = color.Color(255, 255, 0)</code></pre>
+<p>Yellow.</p>
+<p class="pyk-api-label">Example</p>
+<div class="pkn-notebook pkn-embedded not-content"><div class="pkn-fragment" data-markdown="&#x60;&#x60;&#x60;pyking
+import tinyweb.color as color
+print(color.yellow.r, color.yellow.g, color.yellow.b)
+&#x60;&#x60;&#x60;
+
+&#x60;&#x60;&#x60;stdout visible = true
+255 255 0
+&#x60;&#x60;&#x60;"></div></div>
+</div>
+<div class="pyk-api">
+<h3 id="colororange">color.orange</h3>
+<pre class="pyk-sig"><code><span class="n">color.orange</span>: color.Color = color.Color(255, 165, 0)</code></pre>
+<p>Orange.</p>
+<p class="pyk-api-label">Example</p>
+<div class="pkn-notebook pkn-embedded not-content"><div class="pkn-fragment" data-markdown="&#x60;&#x60;&#x60;pyking
+import tinyweb.color as color
+print(color.orange.r, color.orange.g, color.orange.b)
+&#x60;&#x60;&#x60;
+
+&#x60;&#x60;&#x60;stdout visible = true
+255 165 0
+&#x60;&#x60;&#x60;"></div></div>
+</div>
+<div class="pyk-api">
+<h3 id="colorpurple">color.purple</h3>
+<pre class="pyk-sig"><code><span class="n">color.purple</span>: color.Color = color.Color(128, 0, 128)</code></pre>
+<p>Purple.</p>
+<p class="pyk-api-label">Example</p>
+<div class="pkn-notebook pkn-embedded not-content"><div class="pkn-fragment" data-markdown="&#x60;&#x60;&#x60;pyking
+import tinyweb.color as color
+print(color.purple.r, color.purple.g, color.purple.b)
+&#x60;&#x60;&#x60;
+
+&#x60;&#x60;&#x60;stdout visible = true
+128 0 128
+&#x60;&#x60;&#x60;"></div></div>
+</div>
+<div class="pyk-api">
+<h3 id="colorpink">color.pink</h3>
+<pre class="pyk-sig"><code><span class="n">color.pink</span>: color.Color = color.Color(255, 192, 203)</code></pre>
+<p>Pink.</p>
+<p class="pyk-api-label">Example</p>
+<div class="pkn-notebook pkn-embedded not-content"><div class="pkn-fragment" data-markdown="&#x60;&#x60;&#x60;pyking
+import tinyweb.color as color
+print(color.pink.r, color.pink.g, color.pink.b)
+&#x60;&#x60;&#x60;
+
+&#x60;&#x60;&#x60;stdout visible = true
+255 192 203
+&#x60;&#x60;&#x60;"></div></div>
+</div>
+<div class="pyk-api">
+<h3 id="colornavy">color.navy</h3>
+<pre class="pyk-sig"><code><span class="n">color.navy</span>: color.Color = color.Color(0, 0, 128)</code></pre>
+<p>Navy, a dark blue.</p>
+<p class="pyk-api-label">Example</p>
+<div class="pkn-notebook pkn-embedded not-content"><div class="pkn-fragment" data-markdown="&#x60;&#x60;&#x60;pyking
+import tinyweb.color as color
+print(color.navy.r, color.navy.g, color.navy.b)
+&#x60;&#x60;&#x60;
+
+&#x60;&#x60;&#x60;stdout visible = true
+0 0 128
+&#x60;&#x60;&#x60;"></div></div>
+</div>
+<div class="pyk-api">
+<h3 id="colorteal">color.teal</h3>
+<pre class="pyk-sig"><code><span class="n">color.teal</span>: color.Color = color.Color(0, 128, 128)</code></pre>
+<p>Teal, a dark cyan.</p>
+<p class="pyk-api-label">Example</p>
+<div class="pkn-notebook pkn-embedded not-content"><div class="pkn-fragment" data-markdown="&#x60;&#x60;&#x60;pyking
+import tinyweb.color as color
+print(color.teal.r, color.teal.g, color.teal.b)
+&#x60;&#x60;&#x60;
+
+&#x60;&#x60;&#x60;stdout visible = true
+0 128 128
+&#x60;&#x60;&#x60;"></div></div>
+</div>
+<div class="pyk-api">
+<h3 id="colorbrown">color.brown</h3>
+<pre class="pyk-sig"><code><span class="n">color.brown</span>: color.Color = color.Color(139, 69, 19)</code></pre>
+<p>Brown.</p>
+<p class="pyk-api-label">Example</p>
+<div class="pkn-notebook pkn-embedded not-content"><div class="pkn-fragment" data-markdown="&#x60;&#x60;&#x60;pyking
+import tinyweb.color as color
+print(color.brown.r, color.brown.g, color.brown.b)
+&#x60;&#x60;&#x60;
+
+&#x60;&#x60;&#x60;stdout visible = true
+139 69 19
+&#x60;&#x60;&#x60;"></div></div>
+</div>
+<div class="pyk-api">
+<h3 id="colorcyan">color.cyan</h3>
+<pre class="pyk-sig"><code><span class="n">color.cyan</span>: color.Color = color.Color(0, 255, 255)</code></pre>
+<p>Cyan.</p>
+<p class="pyk-api-label">Example</p>
+<div class="pkn-notebook pkn-embedded not-content"><div class="pkn-fragment" data-markdown="&#x60;&#x60;&#x60;pyking
+import tinyweb.color as color
+print(color.cyan.r, color.cyan.g, color.cyan.b)
+&#x60;&#x60;&#x60;
+
+&#x60;&#x60;&#x60;stdout visible = true
+0 255 255
+&#x60;&#x60;&#x60;"></div></div>
+</div>
+<div class="pyk-api">
+<h3 id="colormagenta">color.magenta</h3>
+<pre class="pyk-sig"><code><span class="n">color.magenta</span>: color.Color = color.Color(255, 0, 255)</code></pre>
+<p>Magenta.</p>
+<p class="pyk-api-label">Example</p>
+<div class="pkn-notebook pkn-embedded not-content"><div class="pkn-fragment" data-markdown="&#x60;&#x60;&#x60;pyking
+import tinyweb.color as color
+print(color.magenta.r, color.magenta.g, color.magenta.b)
+&#x60;&#x60;&#x60;
+
+&#x60;&#x60;&#x60;stdout visible = true
+255 0 255
+&#x60;&#x60;&#x60;"></div></div>
+</div>
+<div class="pyk-api">
+<h3 id="colornone">color.none</h3>
+<pre class="pyk-sig"><code><span class="n">color.none</span>: color.Color = color.Color(0, 0, 0, a = 0.0)</code></pre>
+<p>No colour at all: fully transparent. A shape filled with it shows only
+its outline, and one stroked with it has none.</p>
+<p class="pyk-api-label">Example</p>
+<div class="pkn-notebook pkn-embedded not-content"><div class="pkn-fragment" data-markdown="&#x60;&#x60;&#x60;pyking
+import tinyweb.color as color
+print(color.none.a)
+&#x60;&#x60;&#x60;
+
+&#x60;&#x60;&#x60;stdout visible = true
+0.0
+&#x60;&#x60;&#x60;"></div></div>
+</div>
+<div class="pyk-api">
+<h3 id="colortheme">color.theme</h3>
+<pre class="pyk-sig"><code><span class="n">color.theme</span>: color.Color = color.Color(-1, -1, -1, a = -1.0)</code></pre>
+<p>The theme’s own colour: what a <code>_style</code> function leaves as it is.</p>
+<p class="pyk-api-label">Example</p>
+<div class="pkn-notebook pkn-embedded not-content"><div class="pkn-fragment" data-markdown="&#x60;&#x60;&#x60;pyking
+import tinyweb.color as color
+print(color.theme.a < 0.0)
+&#x60;&#x60;&#x60;
+
+&#x60;&#x60;&#x60;stdout visible = true
+true
+&#x60;&#x60;&#x60;"></div></div>
+</div>
+<div class="pyk-api">
+<h3 id="colorrgb">color.rgb</h3>
+<pre class="pyk-sig"><code><span class="k">def</span> <span class="n">color.rgb</span>(<span class="p">r</span>: <span class="t">Int</span>, <span class="p">g</span>: <span class="t">Int</span>, <span class="p">b</span>: <span class="t">Int</span>) -> color.Color</code></pre>
+<p>A colour from its red, green and blue parts.</p>
+<p class="pyk-api-label">Parameters</p>
+<ul>
+<li><code>r</code>, <code>g</code>, <code>b</code>: how much red, green and blue, each from 0 to 255.</li>
+</ul>
+<p class="pyk-api-label">Returns</p>
+<p>The colour, fully opaque.</p>
+<p class="pyk-api-label">Example</p>
+<div class="pkn-notebook pkn-embedded not-content"><div class="pkn-fragment" data-markdown="&#x60;&#x60;&#x60;pyking
+import tinyweb.color as color
+orange = color.rgb(255, 136, 0)
+print(orange.r, orange.g, orange.b)
+&#x60;&#x60;&#x60;
+
+&#x60;&#x60;&#x60;stdout visible = true
+255 136 0
+&#x60;&#x60;&#x60;"></div></div>
+</div>
+<div class="pyk-api">
+<h3 id="colorrgba">color.rgba</h3>
+<pre class="pyk-sig"><code><span class="k">def</span> <span class="n">color.rgba</span>(<span class="p">r</span>: <span class="t">Int</span>, <span class="p">g</span>: <span class="t">Int</span>, <span class="p">b</span>: <span class="t">Int</span>, <span class="p">a</span>: <span class="t">Float</span>) -> color.Color</code></pre>
+<p>A colour from its red, green and blue parts and how opaque it is.</p>
+<p class="pyk-api-label">Parameters</p>
+<ul>
+<li><code>r</code>, <code>g</code>, <code>b</code>: how much red, green and blue, each from 0 to 255.</li>
+<li><code>a</code>: how opaque, from 0.0 (not at all) to 1.0.</li>
+</ul>
+<p class="pyk-api-label">Returns</p>
+<p>The colour.</p>
+<p class="pyk-api-label">Example</p>
+<div class="pkn-notebook pkn-embedded not-content"><div class="pkn-fragment" data-markdown="&#x60;&#x60;&#x60;pyking
+import tinyweb.color as color
+print(color.rgba(0, 0, 0, 0.25).a)
+&#x60;&#x60;&#x60;
+
+&#x60;&#x60;&#x60;stdout visible = true
+0.25
+&#x60;&#x60;&#x60;"></div></div>
+</div>
+<div class="pyk-api">
+<h3 id="colorhsl">color.hsl</h3>
+<pre class="pyk-sig"><code><span class="k">def</span> <span class="n">color.hsl</span>(<span class="p">h</span>: <span class="t">Float</span>, <span class="p">s</span>: <span class="t">Float</span>, <span class="p">l</span>: <span class="t">Float</span>) -> color.Color</code></pre>
+<p>A colour from its hue, saturation and lightness: the easy way to walk
+round the colour wheel.</p>
+<p class="pyk-api-label">Parameters</p>
+<ul>
+<li><code>h</code>: the hue, an angle on the colour wheel in degrees: 0 is red, 120 green and 240 blue.</li>
+<li><code>s</code>: the saturation, from 0 (grey) to 100 (the purest colour).</li>
+<li><code>l</code>: the lightness, from 0 (black) to 100 (white); 50 is the colour itself.</li>
+</ul>
+<p class="pyk-api-label">Returns</p>
+<p>The colour, fully opaque.</p>
+<p class="pyk-api-label">Example</p>
+<div class="pkn-notebook pkn-embedded not-content"><div class="pkn-fragment" data-markdown="&#x60;&#x60;&#x60;pyking
+import tinyweb.color as color
+green = color.hsl(120.0, 100.0, 50.0)
+print(green.r, green.g, green.b)
+&#x60;&#x60;&#x60;
+
+&#x60;&#x60;&#x60;stdout visible = true
+0 255 0
+&#x60;&#x60;&#x60;"></div></div>
+</div>
+<div class="pyk-api">
+<h3 id="colorhex">color.hex</h3>
+<pre class="pyk-sig"><code><span class="k">def</span> <span class="n">color.hex</span>(<span class="p">n</span>: <span class="t">Int</span>) -> color.Color</code></pre>
+<p>A colour from one number holding its red, green and blue parts, as a
+hexadecimal literal writes it: <code>0xff8800</code> is red 255, green 136, blue 0.</p>
+<p class="pyk-api-label">Parameters</p>
+<ul>
+<li><code>n</code>: the colour, <code>0xRRGGBB</code>.</li>
+</ul>
+<p class="pyk-api-label">Returns</p>
+<p>The colour, fully opaque.</p>
+<p class="pyk-api-label">Example</p>
+<div class="pkn-notebook pkn-embedded not-content"><div class="pkn-fragment" data-markdown="&#x60;&#x60;&#x60;pyking
+import tinyweb.color as color
+orange = color.hex(0xff8800)
+print(orange.r, orange.g, orange.b)
+&#x60;&#x60;&#x60;
+
+&#x60;&#x60;&#x60;stdout visible = true
+255 136 0
+&#x60;&#x60;&#x60;"></div></div>
+</div>
+<div class="pyk-api">
+<h3 id="colorto_hex">color.to_hex</h3>
+<pre class="pyk-sig"><code><span class="k">def</span> <span class="n">color.to_hex</span>(<span class="p">c</span>: color.Color) -> <span class="t">Int</span></code></pre>
+<p>A colour as one number, <code>0xRRGGBB</code>: what <code>hex</code> takes. How opaque it is
+is left out.</p>
+<p class="pyk-api-label">Parameters</p>
+<ul>
+<li><code>c</code>: the colour.</li>
+</ul>
+<p class="pyk-api-label">Returns</p>
+<p>Its red part times 65536, plus its green part times 256, plus its blue part.</p>
+<p class="pyk-api-label">Example</p>
+<div class="pkn-notebook pkn-embedded not-content"><div class="pkn-fragment" data-markdown="&#x60;&#x60;&#x60;pyking
+import tinyweb.color as color
+print(color.to_hex(color.rgb(255, 136, 0)) == 0xff8800)
+&#x60;&#x60;&#x60;
+
+&#x60;&#x60;&#x60;stdout visible = true
+true
+&#x60;&#x60;&#x60;"></div></div>
+</div>
+<div class="pyk-api">
+<h3 id="colorwith_alpha">color.with_alpha</h3>
+<pre class="pyk-sig"><code><span class="k">def</span> <span class="n">color.with_alpha</span>(<span class="p">c</span>: color.Color, <span class="p">a</span>: <span class="t">Float</span>) -> color.Color</code></pre>
+<p>The same colour with another opacity.</p>
+<p class="pyk-api-label">Parameters</p>
+<ul>
+<li><code>c</code>: the colour.</li>
+<li><code>a</code>: how opaque, from 0.0 to 1.0.</li>
+</ul>
+<p class="pyk-api-label">Returns</p>
+<p>The colour.</p>
+<p class="pyk-api-label">Example</p>
+<div class="pkn-notebook pkn-embedded not-content"><div class="pkn-fragment" data-markdown="&#x60;&#x60;&#x60;pyking
+import tinyweb.color as color
+print(color.with_alpha(color.red, 0.5).a)
+&#x60;&#x60;&#x60;
+
+&#x60;&#x60;&#x60;stdout visible = true
+0.5
+&#x60;&#x60;&#x60;"></div></div>
+</div>
+<div class="pyk-api">
+<h3 id="colormix">color.mix</h3>
+<pre class="pyk-sig"><code><span class="k">def</span> <span class="n">color.mix</span>(<span class="p">a</span>: color.Color, <span class="p">b</span>: color.Color, <span class="p">t</span>: <span class="t">Float</span>) -> color.Color</code></pre>
+<p>A colour between two others: <code>t</code> 0.0 is <code>a</code>, 1.0 is <code>b</code>, 0.5 halfway.</p>
+<p class="pyk-api-label">Parameters</p>
+<ul>
+<li><code>a</code>, <code>b</code>: the two colours.</li>
+<li><code>t</code>: how far from <code>a</code> towards <code>b</code>, from 0.0 to 1.0.</li>
+</ul>
+<p class="pyk-api-label">Returns</p>
+<p>The colour, each part and the opacity taken that far.</p>
+<p class="pyk-api-label">Example</p>
+<div class="pkn-notebook pkn-embedded not-content"><div class="pkn-fragment" data-markdown="&#x60;&#x60;&#x60;pyking
+import tinyweb.color as color
+grey = color.mix(color.black, color.white, 0.5)
+print(grey.r, grey.g, grey.b)
+&#x60;&#x60;&#x60;
+
+&#x60;&#x60;&#x60;stdout visible = true
+128 128 128
+&#x60;&#x60;&#x60;"></div></div>
+</div>
+<div class="pyk-api">
+<h3 id="colorsame">color.same</h3>
+<pre class="pyk-sig"><code><span class="k">def</span> <span class="n">color.same</span>(<span class="p">a</span>: color.Color, <span class="p">b</span>: color.Color) -> <span class="t">Bool</span></code></pre>
+<p>Whether two colours are the same: every part and the opacity.</p>
+<p class="pyk-api-label">Parameters</p>
+<ul>
+<li><code>a</code>, <code>b</code>: the colours.</li>
+</ul>
+<p class="pyk-api-label">Returns</p>
+<p><code>true</code> when they are the same colour.</p>
+<p class="pyk-api-label">Example</p>
+<div class="pkn-notebook pkn-embedded not-content"><div class="pkn-fragment" data-markdown="&#x60;&#x60;&#x60;pyking
+import tinyweb.color as color
+print(color.same(color.rgb(255, 0, 0), color.red), color.same(color.red, color.blue))
+&#x60;&#x60;&#x60;
+
+&#x60;&#x60;&#x60;stdout visible = true
+true false
+&#x60;&#x60;&#x60;"></div></div>
+</div>
+<div class="pyk-api">
+<h3 id="colorpalette">color.palette</h3>
+<pre class="pyk-sig"><code><span class="k">def</span> <span class="n">color.palette</span>(<span class="p">name</span>: <span class="t">String</span>) -> [color.Color]</code></pre>
+<p>Five colours that go together, for a picture that should look
+designed.</p>
+<p class="pyk-api-label">Parameters</p>
+<ul>
+<li><code>name</code>: <code>"ocean"</code>, <code>"candy"</code>, <code>"forest"</code>, <code>"sunset"</code> or <code>"neon"</code>.</li>
+</ul>
+<p class="pyk-api-label">Returns</p>
+<p>The five colours, darkest or first first; no colours for a name there
+is none of, which is reported on the debug output.</p>
+<p class="pyk-api-label">Example</p>
+<div class="pkn-notebook pkn-embedded not-content"><div class="pkn-fragment" data-markdown="&#x60;&#x60;&#x60;pyking
+import tinyweb.color as color
+ocean = color.palette(&#x22;ocean&#x22;)
+match ocean:
+    case [darkest, ..rest]:
+        print(len(ocean), darkest.b, len(rest))
+    case []:
+        print(&#x22;none&#x22;)
+&#x60;&#x60;&#x60;
+
+&#x60;&#x60;&#x60;stdout visible = true
+5 94 4
+&#x60;&#x60;&#x60;"></div></div>
+</div>
+<h2 id="paints-and-gradients">Paints and gradients</h2>
+<div class="pyk-api">
+<h3 id="colorpaint">color.Paint</h3>
+<pre class="pyk-sig"><code><span class="k">datatype</span> <span class="n">color.Paint</span>:
+    Plain(color.Color)
+    Linear(x1: <span class="t">Float</span>, y1: <span class="t">Float</span>, x2: <span class="t">Float</span>, y2: <span class="t">Float</span>, start: color.Color, end: color.Color, stops = "")
+    Radial(x1: <span class="t">Float</span>, y1: <span class="t">Float</span>, r1: <span class="t">Float</span>, x2: <span class="t">Float</span>, y2: <span class="t">Float</span>, r2: <span class="t">Float</span>, start: color.Color, end: color.Color, stops = "")
+    Conic(x: <span class="t">Float</span>, y: <span class="t">Float</span>, angle: <span class="t">Float</span>, start: color.Color, end: color.Color, stops = "")</code></pre>
+<p>What fills a shape: a plain colour, or a gradient between two colours
+across a line (<code>Linear</code>), out from a circle (<code>Radial</code>) or round a
+point (<code>Conic</code>). Positions are in the canvas’s pixels, and an angle is
+in radians. <code>stop</code> adds a colour on the way; <code>stops</code> is how those are
+kept, and is left out when one is written.</p>
+<p class="pyk-api-label">Example</p>
+<div class="pkn-notebook pkn-embedded not-content"><div class="pkn-cell"><pre class="pkn-cell-fallback"><code>import tinyweb as tw
+import tinyweb.color as color
+tw.web_init(0)
+c = tw.canvas(200, 100)
+glow = color.Radial(100.0, 50.0, 0.0, 100.0, 50.0, 50.0, color.yellow, color.none)
+tw.circle(c, 100, 50, 50, paint = glow)</code></pre></div></div>
+</div>
+<div class="pyk-api">
+<h3 id="colorstop">color.stop</h3>
+<pre class="pyk-sig"><code><span class="k">def</span> <span class="n">color.stop</span>(
+    <span class="p">paint</span>: color.Paint,
+    <span class="p">at</span>: <span class="t">Float</span>,
+    <span class="p">c</span>: color.Color,
+) -> color.Paint</code></pre>
+<p>A gradient with one more colour on the way: <code>at</code> 0.0 is where it
+starts and 1.0 where it ends. A plain colour is left as it is.</p>
+<p class="pyk-api-label">Parameters</p>
+<ul>
+<li><code>paint</code>: the gradient.</li>
+<li><code>at</code>: where the colour is, from 0.0 to 1.0.</li>
+<li><code>c</code>: the colour.</li>
+</ul>
+<p class="pyk-api-label">Returns</p>
+<p>The gradient.</p>
+<p class="pyk-api-label">Example</p>
+<div class="pkn-notebook pkn-embedded not-content"><div class="pkn-cell"><pre class="pkn-cell-fallback"><code>import tinyweb as tw
+import tinyweb.color as color
+tw.web_init(0)
+c = tw.canvas(200, 40)
+rainbow = color.stop(color.Linear(0.0, 0.0, 200.0, 0.0, color.red, color.blue), 0.5, color.green)
+tw.rect(c, 0, 0, 200, 40, paint = rainbow)</code></pre></div></div>
+</div></div><footer class="sl-flex astro-ddtxxk7k"><div class="meta sl-flex astro-ddtxxk7k"></div><div class="pagination-links print:hidden astro-b5raizh3" dir="ltr"></div></footer></div></div></main></div></div></div></div></body></html>

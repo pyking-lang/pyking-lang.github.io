@@ -1,5 +1,13 @@
 # --- prelude begins ---
 
+def __pyk_import(name):
+    from importlib.util import module_from_spec, spec_from_file_location
+    from os.path import abspath, dirname, join
+    spec = spec_from_file_location(name, join(dirname(abspath(__file__)), name + '.py'))
+    module = module_from_spec(spec)
+    spec.loader.exec_module(module)
+    return module
+
 def __pyk_fdiv(a, b):
     if b == 0.0:
         # Python raises where IEEE answers. Pyking follows IEEE.
@@ -46,21 +54,33 @@ def __pyk_float(x):
 
 # --- prelude ends; the compiled program follows ---
 
+math = __pyk_import('math')
+import math_external
 import tinyweb as tw
 import tinyweb_external as tw_external
-from tinyweb import colors__rgb, colors__rgba, colors__hsl, colors__palette, colors__linear_gradient, colors__radial_gradient, colors__conic_gradient, colors__stop
+from tinyweb import Color__Color, color__black, color__white, color__gray, color__red, color__green, color__blue, color__yellow, color__orange, color__purple, color__pink, color__navy, color__teal, color__brown, color__cyan, color__magenta, color__none, color__theme, color__rgb, color__rgba, color__hsl, color__hex, color__to_hex, color__with_alpha, color__mix, color__same, color__palette, Color__Paint, Color__Plain, Color__Linear, Color__Radial, Color__Conic, color__stop
 tw.web_init(0)
 c = tw_external.canvas(300, 200)
-tw.clear(c, colors__rgb(17, 17, 17))
-tw.circle(c, 50, 50, 30, 'gold', 'white', 3, tw.circle__default__alpha())
-tw.circle(c, 80, 50, 30, colors__rgba(0, 128, 255, 0.5), tw.circle__default__outline(), tw.circle__default__outline_width(), tw.circle__default__alpha())
-tw.rect(c, 120, 20, 60, 40, '', colors__hsl(120, 100, 50), tw.rect__default__outline_width(), tw.rect__default__alpha(), 8)
-tw.ellipse(c, 220, 40, 50, 20, 'orchid', tw.ellipse__default__outline(), tw.ellipse__default__outline_width(), 0.75)
-tw.arc(c, 50, 140, 40, 30.0, 330.0, 'yellow', tw.arc__default__outline(), tw.arc__default__outline_width(), tw.arc__default__alpha())
-tw.arc(c, 150, 140, 40, 180.0, 360.0, '', 'red', 4, tw.arc__default__alpha())
-tw.line(c, 200, 100, 290, 190, 'cyan', 2, tw.line__default__alpha())
-tw.curve(c, 200, 190, 245, 60, 290, 190, 'white', 2, 0.5)
-tw.text(c, 150, 180, 'Step 1', 'white', 18, 'serif', 'center', True, tw.text__default__alpha(), tw.text__default__baseline(), tw.text__default__outline(), tw.text__default__outline_width())
-print(colors__rgb(255, 136, 0))
-print(colors__rgb(-5, 300, 16))
-print(colors__hsl(200, 50, 25))
+tw.clear(c, color__rgb(17, 17, 17))
+gold = color__hex(16766720)
+tw.circle(c, 50, 50, 30, gold, color__white, 3, 1.0, tw.circle__default__paint(), tw.circle__default__style())
+tw.circle(c, 80, 50, 30, color__rgba(0, 128, 255, 0.5), tw.circle__default__stroke(), 1, 1.0, tw.circle__default__paint(), tw.circle__default__style())
+tw.rect(c, 120, 20, 60, 40, color__none, color__hsl(120.0, 100.0, 50.0), 1, 1.0, tw.rect__default__paint(), tw.rect__default__style(), 8)
+tw.ellipse(c, 220, 40, 50, 20, color__hex(14315734), tw.ellipse__default__stroke(), 1, 0.75, tw.ellipse__default__paint(), tw.ellipse__default__style())
+tw.arc(c, 50, 140, 40, __pyk_fdiv(math.pi, 6.0), __pyk_fdiv(11.0 * math.pi, 6.0), color__yellow, tw.arc__default__stroke(), 1, 1.0, tw.arc__default__paint(), tw.arc__default__style())
+tw.arc(c, 150, 140, 40, math.pi, 2.0 * math.pi, color__none, color__red, 4, 1.0, tw.arc__default__paint(), tw.arc__default__style())
+tw.line(c, 200, 100, 290, 190, color__cyan, 2, 1.0, tw.line__default__style())
+tw.curve(c, 200, 190, 245, 60, 290, 190, color__white, 2, 0.5, tw.curve__default__style())
+tw.text(c, 150, 180, 'Step 1', color__white, 18, 'serif', 'center', True, 1.0, 'top', tw.text__default__stroke(), 1, tw.text__default__paint(), tw.text__default__style())
+
+def show(c):
+    return str(c.r) + ' ' + str(c.g) + ' ' + str(c.b) + ' ' + str(__pyk_float(c.a))
+
+print(show(color__rgb(255, 136, 0)))
+print(show(color__rgb(-5, 300, 16)))
+print(show(color__hsl(200.0, 50.0, 25.0)))
+print(color__to_hex(color__hex(16746496)), color__to_hex(color__rgb(1, 2, 3)))
+print('true' if color__same(color__hex(65535), color__cyan) else 'false', 'true' if color__same(color__red, color__blue) else 'false')
+print(show(color__mix(color__black, color__white, 0.5)))
+print(show(color__with_alpha(color__red, 0.25)))
+print(show(color__rgba(10, 20, 30, 0.5)), show(color__none))

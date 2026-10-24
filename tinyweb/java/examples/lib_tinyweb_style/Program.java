@@ -11,27 +11,29 @@ public final class Program {
 
     private static void pressed() {
         Tinyweb.theme("retro");
-        Tinyweb.set_colors(title, Tinyweb.set_colors__default__color(), "black");
+        Tinyweb.set_style(title, Tinyweb.color__black, Tinyweb.set_style__default__foreground(), Tinyweb.set_style__default__border(), -1, -1, "", -1, -1, Tinyweb.set_style__default__accent(), -1, -1, -1);
         System.out.println("now retro");
     }
 
     public static void main(String[] args) {
+        Math.init();
+        Text.init();
         Tinyweb.init();
         Tinyweb.web_init(0);
         Tinyweb.theme("paper");
         Tinyweb.theme("no such theme");
-        Tinyweb.page_style("#fdf6e3", "#586e75", "serif", 18, 12, 16, Tinyweb.page_style__default__align());
-        Tinyweb.button_style("#268bd2", "white", "none", 14, "monospace", 16, 8);
-        Tinyweb.label_style("lightyellow", "#333333", "1px solid gold", 4, "sans-serif", 14, 6);
-        Tinyweb.slider_style("crimson", 240, "crimson", "monospace", 20);
-        Tinyweb.canvas_style("3px solid teal", 10);
+        Tinyweb.page_style(Tinyweb.color__hex(16643811), Tinyweb.color__hex(5795445), "serif", 18, 12, 16, "");
+        Tinyweb.button_style(Tinyweb.color__hex(2526162), Tinyweb.color__white, Tinyweb.color__none, -1, 14, "monospace", 16, 8);
+        Tinyweb.label_style(Tinyweb.color__hex(16777184), Tinyweb.color__hex(3355443), Tinyweb.color__hex(16766720), 1, 4, "sans-serif", 14, 6);
+        Tinyweb.slider_style(Tinyweb.color__hex(14423100), 240, Tinyweb.color__hex(14423100), "monospace", 20);
+        Tinyweb.canvas_style(Tinyweb.color__teal, 3, 10);
         title = TinywebExternal.label("Styled");
-        Tinyweb.set_style(title, "navy", "white", "2px dashed orange", 0, "Georgia", 28, 10, Tinyweb.set_style__default__accent(), 300, Tinyweb.set_style__default__weight(), Tinyweb.set_style__default__height());
+        Tinyweb.set_style(title, Tinyweb.color__navy, Tinyweb.color__white, Tinyweb.color__orange, 2, 0, "Georgia", 28, 10, Tinyweb.set_style__default__accent(), 300, -1, -1);
         level = Tinyweb.slider(0, 10, 4, Tinyweb.slider__default__on_change());
-        Tinyweb.set_colors(level, "seagreen", Tinyweb.set_colors__default__background());
+        Tinyweb.set_style(level, Tinyweb.set_style__default__background(), Tinyweb.color__hex(3050327), Tinyweb.set_style__default__border(), -1, -1, "", -1, -1, Tinyweb.set_style__default__accent(), -1, -1, -1);
         c = TinywebExternal.canvas(120, 60);
-        Tinyweb.set_style(c, Tinyweb.set_style__default__background(), Tinyweb.set_style__default__color(), "1px solid black", Tinyweb.set_style__default__radius(), Tinyweb.set_style__default__font(), Tinyweb.set_style__default__size(), Tinyweb.set_style__default__padding(), Tinyweb.set_style__default__accent(), Tinyweb.set_style__default__width(), Tinyweb.set_style__default__weight(), Tinyweb.set_style__default__height());
+        Tinyweb.set_style(c, Tinyweb.set_style__default__background(), Tinyweb.set_style__default__foreground(), Tinyweb.color__black, 1, -1, "", -1, -1, Tinyweb.set_style__default__accent(), -1, -1, -1);
         ok = Tinyweb.button("Retro", () -> { pressed(); return null; });
-        Tinyweb.set_colors(ok, "black", "gold");
+        PykRuntime.ignore(PykRuntime.<Tinyweb.Color__Color, Void>let(Tinyweb.color__rgba(255, 215, 0, 0.5), background__arg -> PykRuntime.<Tinyweb.Color__Color, Void>let(Tinyweb.set_style__default__border(), border__arg -> PykRuntime.<Tinyweb.Color__Color, Void>let(Tinyweb.set_style__default__accent(), accent__arg -> PykRuntime.unit(() -> Tinyweb.set_style(ok, background__arg, Tinyweb.color__black, border__arg, -1, -1, "", -1, -1, accent__arg, -1, -1, -1))))));
     }
 }

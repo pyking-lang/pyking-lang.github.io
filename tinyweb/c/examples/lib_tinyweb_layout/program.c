@@ -4,7 +4,26 @@
 #include <stdio.h>
 #include <stdlib.h>
 
+// Every multiply and add rounded on its own, as on every other target.
+#if defined(__clang__)
+#pragma STDC FP_CONTRACT OFF
+#elif defined(__GNUC__)
+#pragma GCC optimize ("fp-contract=off")
+#endif
+
+#include "math.h"
+#include "text.h"
 #include "tinyweb.h"
+
+#ifndef PYK_TYPE_PYK_D_DTINYWEB_COLOR__COLOR__
+#define PYK_TYPE_PYK_D_DTINYWEB_COLOR__COLOR__
+typedef struct pyk_d_Dtinyweb_Color__Color__ {
+    int r;
+    int g;
+    int b;
+    double a;
+} pyk_d_Dtinyweb_Color__Color__;
+#endif
 
 #ifndef PYK_TYPE_PYK_C_F_U_
 #define PYK_TYPE_PYK_C_F_U_
@@ -15,17 +34,41 @@ typedef struct pyk_c_F_u_ {
 } pyk_c_F_u_;
 #endif
 
+#ifndef PYK_TYPE_PYK_C_FS_U_
+#define PYK_TYPE_PYK_C_FS_U_
+typedef struct pyk_c_Fs_u_ {
+    void (*fn)(void *, const char *);
+    void *env;
+    void (*plain)(const char *);
+} pyk_c_Fs_u_;
+#endif
+
 // What the external modules this one imports implement.
 const char *tinyweb_canvas(int, int);
 const char *tinyweb_label(const char *);
-const char *tinyweb_row(void);
-const char *tinyweb_column(void);
-void tinyweb_inside(const char *);
-void tinyweb_outside(void);
+
+static pyk_d_Dtinyweb_Color__Color__ pyk_mk_Dtinyweb_Color__Color___Color__Color(int r, int g, int b, double a)
+{
+    pyk_d_Dtinyweb_Color__Color__ v;
+    v.r = r;
+    v.g = g;
+    v.b = b;
+    v.a = a;
+    return v;
+}
 
 static pyk_c_F_u_ pyk_mk_F_u_(void (*fn)(void *), void *env, void (*plain)(void))
 {
     pyk_c_F_u_ v;
+    v.fn = fn;
+    v.env = env;
+    v.plain = plain;
+    return v;
+}
+
+static pyk_c_Fs_u_ pyk_mk_Fs_u_(void (*fn)(void *, const char *), void *env, void (*plain)(const char *))
+{
+    pyk_c_Fs_u_ v;
     v.fn = fn;
     v.env = env;
     v.plain = plain;
@@ -39,9 +82,11 @@ static const char *figures;
 static const char *left;
 static const char *small;
 static const char *right;
+static const char *notes;
 
 // Declared ahead of their definitions: a Pyking function may be called before it is written.
 static void clicked(void);
+static void edited(const char *words);
 
 static void pyk_w_clicked(void *env)
 {
@@ -49,66 +94,68 @@ static void pyk_w_clicked(void *env)
     clicked();
 }
 
+static void pyk_w_edited(void *env, const char *p1)
+{
+    (void)env;
+    edited(p1);
+}
+
 static void clicked(void)
 {
     printf("%s\n", "clicked");
 }
 
+static void edited(const char *words)
+{
+    printf("%s %s\n", "notes:", words);
+}
+
 int main(void)
 {
-    const char *pyk_t1;
-    const char *pyk_t2;
-    const char *pyk_t3;
-    int pyk_t4;
-    int pyk_t5;
-    const char *pyk_t6;
-    const char *pyk_t7;
-    const char *pyk_t8;
-    int pyk_t9;
-    const char *pyk_t10;
-    int pyk_t11;
-    const char *pyk_t12;
-    int pyk_t13;
-    const char *pyk_t14;
-    const char *pyk_t15;
-    const char *pyk_t16;
-    int pyk_t17;
-    const char *pyk_t18;
-    int pyk_t19;
-    int pyk_t20;
-    const char *pyk_t21;
+    pyk_d_Dtinyweb_Color__Color__ pyk_t1;
+    pyk_d_Dtinyweb_Color__Color__ pyk_t2;
+    pyk_d_Dtinyweb_Color__Color__ pyk_t3;
+    pyk_d_Dtinyweb_Color__Color__ pyk_t4;
+    pyk_d_Dtinyweb_Color__Color__ pyk_t5;
+    pyk_d_Dtinyweb_Color__Color__ pyk_t6;
+    pyk_d_Dtinyweb_Color__Color__ pyk_t7;
+    math_init();
+    text_init();
     tinyweb_init();
-    tinyweb_web_init(tinyweb_web_init__default__port());
-    (pyk_t1 = tinyweb_page_style__default__background(), pyk_t2 = tinyweb_page_style__default__color(), pyk_t3 = tinyweb_page_style__default__font(), pyk_t4 = tinyweb_page_style__default__size(), pyk_t5 = tinyweb_page_style__default__padding(), (tinyweb_page_style(pyk_t1, pyk_t2, pyk_t3, pyk_t4, pyk_t5, tinyweb_page_style__default__gap(), "center"), 0));
+    tinyweb_web_init(0);
+    (pyk_t1 = tinyweb_page_style__default__background(), (tinyweb_page_style(pyk_t1, tinyweb_page_style__default__foreground(), "", -1, -1, -1, "center"), 0));
     title = tinyweb_label("Layout");
-    (pyk_t6 = tinyweb_set_style__default__background(), pyk_t7 = tinyweb_set_style__default__color(), pyk_t8 = tinyweb_set_style__default__border(), pyk_t9 = tinyweb_set_style__default__radius(), pyk_t10 = tinyweb_set_style__default__font(), pyk_t11 = tinyweb_set_style__default__padding(), pyk_t12 = tinyweb_set_style__default__accent(), pyk_t13 = tinyweb_set_style__default__width(), (tinyweb_set_style(title, pyk_t6, pyk_t7, pyk_t8, pyk_t9, pyk_t10, 28, pyk_t11, pyk_t12, pyk_t13, 700, tinyweb_set_style__default__height()), 0));
-    buttons = tinyweb_row();
-    tinyweb_inside(buttons);
+    (pyk_t2 = tinyweb_set_style__default__background(), pyk_t3 = tinyweb_set_style__default__foreground(), pyk_t4 = tinyweb_set_style__default__border(), (tinyweb_set_style(title, pyk_t2, pyk_t3, pyk_t4, -1, -1, "", 28, -1, tinyweb_set_style__default__accent(), -1, 700, -1), 0));
+    buttons = tinyweb_layout__row();
+    tinyweb_layout__inside(buttons);
     tinyweb_button("one", pyk_mk_F_u_(pyk_w_clicked, NULL, clicked));
     tinyweb_button("two", tinyweb_button__default__on_click());
-    tinyweb_outside();
+    tinyweb_layout__outside();
     tinyweb_canvas(100, 40);
-    controls = tinyweb_row();
-    tinyweb_inside(controls);
+    controls = tinyweb_layout__row();
+    tinyweb_layout__inside(controls);
     tinyweb_label("speed");
     tinyweb_slider(0, 10, 5, tinyweb_slider__default__on_change());
-    tinyweb_inside(buttons);
+    tinyweb_layout__inside(buttons);
     tinyweb_button("three", tinyweb_button__default__on_click());
-    tinyweb_outside();
-    figures = tinyweb_row();
-    tinyweb_inside(figures);
-    left = tinyweb_column();
-    tinyweb_inside(left);
+    tinyweb_layout__outside();
+    figures = tinyweb_layout__row();
+    tinyweb_layout__inside(figures);
+    left = tinyweb_layout__column();
+    tinyweb_layout__inside(left);
     small = tinyweb_canvas(50, 20);
-    (pyk_t14 = tinyweb_set_style__default__background(), pyk_t15 = tinyweb_set_style__default__color(), pyk_t16 = tinyweb_set_style__default__border(), pyk_t17 = tinyweb_set_style__default__radius(), pyk_t18 = tinyweb_set_style__default__font(), pyk_t19 = tinyweb_set_style__default__size(), pyk_t20 = tinyweb_set_style__default__padding(), pyk_t21 = tinyweb_set_style__default__accent(), (tinyweb_set_style(small, pyk_t14, pyk_t15, pyk_t16, pyk_t17, pyk_t18, pyk_t19, pyk_t20, pyk_t21, 100, tinyweb_set_style__default__weight(), 40), 0));
+    (pyk_t5 = tinyweb_set_style__default__background(), pyk_t6 = tinyweb_set_style__default__foreground(), pyk_t7 = tinyweb_set_style__default__border(), (tinyweb_set_style(small, pyk_t5, pyk_t6, pyk_t7, -1, -1, "", -1, -1, tinyweb_set_style__default__accent(), 100, -1, 40), 0));
     tinyweb_label("stretched");
-    tinyweb_inside(figures);
-    right = tinyweb_column();
-    tinyweb_inside(right);
+    tinyweb_layout__inside(figures);
+    right = tinyweb_layout__column();
+    tinyweb_layout__inside(right);
     tinyweb_canvas(100, 40);
     tinyweb_label("as it is");
-    tinyweb_outside();
+    tinyweb_layout__outside();
+    notes = tinyweb_layout__text_area("first line\nsecond \"line\"", 3, 30, pyk_mk_Fs_u_(pyk_w_edited, NULL, edited));
+    tinyweb_layout__text_area("", 4, 40, tinyweb_layout__text_area__default__on_change());
     tinyweb_label("the end");
+    printf("%s %s\n", notes, tinyweb_value_of(notes));
 
     return 0;
 }

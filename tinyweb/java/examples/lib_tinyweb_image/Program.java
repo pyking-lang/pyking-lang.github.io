@@ -10,12 +10,14 @@ public final class Program {
     private static String again;
 
     private static void draw(final double t) {
-        Tinyweb.clear(c, "#202040");
-        Tinyweb.image(c, ball, PykRuntime.truncate(t * 100.0), 20, 40, 40, Tinyweb.image__default__alpha());
+        Tinyweb.clear(c, Tinyweb.color__hex(2105408));
+        Tinyweb.image(c, ball, PykRuntime.truncate(t * 100.0), 20, 40, 40, 1.0);
         Tinyweb.image(c, star, 140, 20, 50, 50, 0.5);
     }
 
     public static void main(String[] args) {
+        Math.init();
+        Text.init();
         Tinyweb.init();
         Tinyweb.web_init(0);
         c = TinywebExternal.canvas(200, 100);

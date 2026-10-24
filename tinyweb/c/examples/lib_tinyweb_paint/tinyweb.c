@@ -14,6 +14,69 @@
 #endif
 
 #include "tinyweb.h"
+#include "math.h"
+#include "text.h"
+
+#ifndef PYK_TYPE_PYK_D_DTINYWEB_COLOR__COLOR__
+#define PYK_TYPE_PYK_D_DTINYWEB_COLOR__COLOR__
+typedef struct pyk_d_Dtinyweb_Color__Color__ {
+    int r;
+    int g;
+    int b;
+    double a;
+} pyk_d_Dtinyweb_Color__Color__;
+#endif
+
+#ifndef PYK_TYPE_PYK_D_DTINYWEB_COLOR__PAINT__
+#define PYK_TYPE_PYK_D_DTINYWEB_COLOR__PAINT__
+typedef struct pyk_d_Dtinyweb_Color__Paint__ {
+    int tag;
+    union {
+        struct {
+            pyk_d_Dtinyweb_Color__Color__ f0;
+        } Color__Plain;
+        struct {
+            double f0;
+            double f1;
+            double f2;
+            double f3;
+            pyk_d_Dtinyweb_Color__Color__ f4;
+            pyk_d_Dtinyweb_Color__Color__ f5;
+            const char *f6;
+        } Color__Linear;
+        struct {
+            double f0;
+            double f1;
+            double f2;
+            double f3;
+            double f4;
+            double f5;
+            pyk_d_Dtinyweb_Color__Color__ f6;
+            pyk_d_Dtinyweb_Color__Color__ f7;
+            const char *f8;
+        } Color__Radial;
+        struct {
+            double f0;
+            double f1;
+            double f2;
+            pyk_d_Dtinyweb_Color__Color__ f3;
+            pyk_d_Dtinyweb_Color__Color__ f4;
+            const char *f5;
+        } Color__Conic;
+    } u;
+} pyk_d_Dtinyweb_Color__Paint__;
+#endif
+
+#ifndef PYK_TYPE_PYK_D_DTINYWEB_STYLE__
+#define PYK_TYPE_PYK_D_DTINYWEB_STYLE__
+typedef struct pyk_d_Dtinyweb_Style__ {
+    pyk_d_Dtinyweb_Color__Color__ fill;
+    pyk_d_Dtinyweb_Color__Color__ stroke;
+    int width;
+    double alpha;
+    pyk_d_Dtinyweb_Color__Paint__ paint;
+} pyk_d_Dtinyweb_Style__;
+#endif
 
 #ifndef PYK_TYPE_PYK_C_FF_U_
 #define PYK_TYPE_PYK_C_FF_U_
@@ -43,7 +106,7 @@ typedef void (*pyk_fn_ii_v)(int, int);
 void tinyweb_watch_pointer(const char *, const char *, pyk_fn_ii_v);
 int tinyweb_pointer(const char *, const char *);
 void tinyweb_draw_image(const char *, const char *, int, int, int, int, double);
-const char *tinyweb_bitmap(int, int);
+const char *tinyweb_make_bitmap(int, int, int);
 void tinyweb_set_pixel(const char *, int, int, int);
 int tinyweb_get_pixel(const char *, int, int);
 void tinyweb_fill_bitmap(const char *, int);
@@ -94,7 +157,31 @@ void tinyweb_set_checked(const char *, bool);
 void tinyweb_set_value(const char *, int);
 void tinyweb_apply_style(const char *, const char *, const char *, const char *);
 const char *tinyweb_load_sample(const char *);
-void tinyweb_play_sample(const char *, double, double, double);
+const char *tinyweb_fresh_id(const char *);
+void tinyweb_command(const char *, const char *, const char *, const char *, int);
+#ifndef PYK_FN__V
+#define PYK_FN__V
+typedef void (*pyk_fn__v)(void);
+#endif
+void tinyweb_watch(const char *, const char *, pyk_fn__v);
+double tinyweb_report_number(const char *, int);
+const char *tinyweb_report_text(const char *);
+int tinyweb_report_count(const char *);
+#ifndef PYK_FN_S_V
+#define PYK_FN_S_V
+typedef void (*pyk_fn_s_v)(const char *);
+#endif
+void tinyweb_watch_text(const char *, const char *, const char *, pyk_fn_s_v);
+#ifndef PYK_FN_IF_V
+#define PYK_FN_IF_V
+typedef void (*pyk_fn_if_v)(int, double);
+#endif
+void tinyweb_watch_step(const char *, const char *, pyk_fn_if_v);
+#ifndef PYK_FN_FF_V
+#define PYK_FN_FF_V
+typedef void (*pyk_fn_ff_v)(double, double);
+#endif
+void tinyweb_watch_pair(const char *, const char *, pyk_fn_ff_v);
 void tinyweb_splash(void);
 void tinyweb_set_splash(const char *);
 double tinyweb_time(void);
@@ -191,6 +278,78 @@ static const char *pyk_float_str(double x)
     return out;
 }
 
+static pyk_d_Dtinyweb_Color__Color__ pyk_mk_Dtinyweb_Color__Color___Color__Color(int r, int g, int b, double a)
+{
+    pyk_d_Dtinyweb_Color__Color__ v;
+    v.r = r;
+    v.g = g;
+    v.b = b;
+    v.a = a;
+    return v;
+}
+
+static pyk_d_Dtinyweb_Color__Paint__ pyk_mk_Dtinyweb_Color__Paint___Color__Plain(pyk_d_Dtinyweb_Color__Color__ f0)
+{
+    pyk_d_Dtinyweb_Color__Paint__ v;
+    v.tag = 0;
+    v.u.Color__Plain.f0 = f0;
+    return v;
+}
+
+static pyk_d_Dtinyweb_Color__Paint__ pyk_mk_Dtinyweb_Color__Paint___Color__Linear(double f0, double f1, double f2, double f3, pyk_d_Dtinyweb_Color__Color__ f4, pyk_d_Dtinyweb_Color__Color__ f5, const char *f6)
+{
+    pyk_d_Dtinyweb_Color__Paint__ v;
+    v.tag = 1;
+    v.u.Color__Linear.f0 = f0;
+    v.u.Color__Linear.f1 = f1;
+    v.u.Color__Linear.f2 = f2;
+    v.u.Color__Linear.f3 = f3;
+    v.u.Color__Linear.f4 = f4;
+    v.u.Color__Linear.f5 = f5;
+    v.u.Color__Linear.f6 = f6;
+    return v;
+}
+
+static pyk_d_Dtinyweb_Color__Paint__ pyk_mk_Dtinyweb_Color__Paint___Color__Radial(double f0, double f1, double f2, double f3, double f4, double f5, pyk_d_Dtinyweb_Color__Color__ f6, pyk_d_Dtinyweb_Color__Color__ f7, const char *f8)
+{
+    pyk_d_Dtinyweb_Color__Paint__ v;
+    v.tag = 2;
+    v.u.Color__Radial.f0 = f0;
+    v.u.Color__Radial.f1 = f1;
+    v.u.Color__Radial.f2 = f2;
+    v.u.Color__Radial.f3 = f3;
+    v.u.Color__Radial.f4 = f4;
+    v.u.Color__Radial.f5 = f5;
+    v.u.Color__Radial.f6 = f6;
+    v.u.Color__Radial.f7 = f7;
+    v.u.Color__Radial.f8 = f8;
+    return v;
+}
+
+static pyk_d_Dtinyweb_Color__Paint__ pyk_mk_Dtinyweb_Color__Paint___Color__Conic(double f0, double f1, double f2, pyk_d_Dtinyweb_Color__Color__ f3, pyk_d_Dtinyweb_Color__Color__ f4, const char *f5)
+{
+    pyk_d_Dtinyweb_Color__Paint__ v;
+    v.tag = 3;
+    v.u.Color__Conic.f0 = f0;
+    v.u.Color__Conic.f1 = f1;
+    v.u.Color__Conic.f2 = f2;
+    v.u.Color__Conic.f3 = f3;
+    v.u.Color__Conic.f4 = f4;
+    v.u.Color__Conic.f5 = f5;
+    return v;
+}
+
+static pyk_d_Dtinyweb_Style__ pyk_mk_Dtinyweb_Style___Style(pyk_d_Dtinyweb_Color__Color__ fill, pyk_d_Dtinyweb_Color__Color__ stroke, int width, double alpha, pyk_d_Dtinyweb_Color__Paint__ paint)
+{
+    pyk_d_Dtinyweb_Style__ v;
+    v.fill = fill;
+    v.stroke = stroke;
+    v.width = width;
+    v.alpha = alpha;
+    v.paint = paint;
+    return v;
+}
+
 static pyk_c_Ff_u_ pyk_mk_Ff_u_(void (*fn)(void *, double), void *env, void (*plain)(double))
 {
     pyk_c_Ff_u_ v;
@@ -209,81 +368,109 @@ static pyk_fn_f_v pyk_plain_Ff_u_(pyk_c_Ff_u_ c)
     return c.plain;
 }
 
+pyk_d_Dtinyweb_Color__Color__ tinyweb_color__black;
+pyk_d_Dtinyweb_Color__Color__ tinyweb_color__white;
+pyk_d_Dtinyweb_Color__Color__ tinyweb_color__gray;
+pyk_d_Dtinyweb_Color__Color__ tinyweb_color__red;
+pyk_d_Dtinyweb_Color__Color__ tinyweb_color__green;
+pyk_d_Dtinyweb_Color__Color__ tinyweb_color__blue;
+pyk_d_Dtinyweb_Color__Color__ tinyweb_color__yellow;
+pyk_d_Dtinyweb_Color__Color__ tinyweb_color__orange;
+pyk_d_Dtinyweb_Color__Color__ tinyweb_color__purple;
+pyk_d_Dtinyweb_Color__Color__ tinyweb_color__pink;
+pyk_d_Dtinyweb_Color__Color__ tinyweb_color__navy;
+pyk_d_Dtinyweb_Color__Color__ tinyweb_color__teal;
+pyk_d_Dtinyweb_Color__Color__ tinyweb_color__brown;
+pyk_d_Dtinyweb_Color__Color__ tinyweb_color__cyan;
+pyk_d_Dtinyweb_Color__Color__ tinyweb_color__magenta;
+pyk_d_Dtinyweb_Color__Color__ tinyweb_color__none;
+pyk_d_Dtinyweb_Color__Color__ tinyweb_color__theme;
+
 // Declared ahead of their definitions: a Pyking function may be called before it is written.
-void tinyweb_clear(const char *c, const char *color);
 static const char *numbers2(int a, int b);
 static const char *numbers3(int a, int b, int c);
 static const char *numbers4(int a, int b, int c, int d);
 static const char *floats2(double a, double b);
 static const char *floats3(double a, double b, double c);
 static const char *floats4(double a, double b, double c, double d);
+static int color__part(int n);
+static double color__unit(double x);
+static const char *color__hex2(int n);
+static const char *color__hex_digit(int d);
+static const char *color__css(pyk_d_Dtinyweb_Color__Color__ c);
+static const char *color__drawn(pyk_d_Dtinyweb_Color__Color__ c);
+static const char *color__paint_text(pyk_d_Dtinyweb_Color__Paint__ p);
+static bool color__painted(pyk_d_Dtinyweb_Color__Paint__ p);
+pyk_d_Dtinyweb_Color__Color__ tinyweb_color__hex(int n);
+bool tinyweb_color__same(pyk_d_Dtinyweb_Color__Color__ a, pyk_d_Dtinyweb_Color__Color__ b);
+pyk_d_Dtinyweb_Color__Paint__ tinyweb_color__stop(pyk_d_Dtinyweb_Color__Paint__ paint, double at, pyk_d_Dtinyweb_Color__Color__ c);
 void tinyweb_web_init(int port);
-const char *tinyweb_circle__default__outline(void);
-int tinyweb_circle__default__outline_width(void);
-double tinyweb_circle__default__alpha(void);
-void tinyweb_circle(const char *c, int x, int y, int radius, const char *color, const char *outline, int outline_width, double alpha);
-const char *tinyweb_rect__default__outline(void);
-int tinyweb_rect__default__outline_width(void);
-double tinyweb_rect__default__alpha(void);
-int tinyweb_rect__default__radius(void);
-void tinyweb_rect(const char *c, int x, int y, int width, int height, const char *color, const char *outline, int outline_width, double alpha, int radius);
-double tinyweb_line__default__alpha(void);
-void tinyweb_line(const char *c, int x1, int y1_, int x2, int y2, const char *color, int width, double alpha);
-double tinyweb_bezier__default__alpha(void);
-void tinyweb_bezier(const char *c, int x1, int y1_, int ax, int ay, int bx, int by, int x2, int y2, const char *color, int width, double alpha);
-void tinyweb_erase(const char *c, int x, int y, int width, int height);
-const char *tinyweb_line_style__default__cap(void);
-const char *tinyweb_line_style__default__join(void);
-double tinyweb_line_style__default__gap(void);
-double tinyweb_line_style__default__offset(void);
-double tinyweb_line_style__default__dash2(void);
-double tinyweb_line_style__default__gap2(void);
+pyk_d_Dtinyweb_Color__Color__ tinyweb_field__default__Style__fill(void);
+pyk_d_Dtinyweb_Color__Color__ tinyweb_field__default__Style__stroke(void);
+pyk_d_Dtinyweb_Color__Paint__ tinyweb_field__default__Style__paint(void);
+static const char *fill_of(pyk_d_Dtinyweb_Color__Color__ fill, pyk_d_Dtinyweb_Color__Paint__ paint, pyk_d_Dtinyweb_Style__ style);
+static bool not_default_fill(pyk_d_Dtinyweb_Color__Color__ fill);
+static const char *stroke_of(pyk_d_Dtinyweb_Color__Color__ stroke, pyk_d_Dtinyweb_Style__ style);
+static const char *line_of(pyk_d_Dtinyweb_Color__Color__ stroke, pyk_d_Dtinyweb_Style__ style);
+static double width_of(int width, pyk_d_Dtinyweb_Style__ style);
+static double alpha_of(double alpha, pyk_d_Dtinyweb_Style__ style);
+static void shape(const char *c, const char *kind, const char *numbers, pyk_d_Dtinyweb_Color__Color__ fill, pyk_d_Dtinyweb_Color__Color__ stroke, int width, double alpha, pyk_d_Dtinyweb_Color__Paint__ paint, pyk_d_Dtinyweb_Style__ style);
+static void stroked(const char *c, const char *kind, const char *numbers, pyk_d_Dtinyweb_Color__Color__ stroke, int width, double alpha, pyk_d_Dtinyweb_Style__ style);
+pyk_d_Dtinyweb_Color__Color__ tinyweb_circle__default__fill(void);
+pyk_d_Dtinyweb_Color__Color__ tinyweb_circle__default__stroke(void);
+pyk_d_Dtinyweb_Color__Paint__ tinyweb_circle__default__paint(void);
+pyk_d_Dtinyweb_Style__ tinyweb_circle__default__style(void);
+void tinyweb_circle(const char *c, int x, int y, int radius, pyk_d_Dtinyweb_Color__Color__ fill, pyk_d_Dtinyweb_Color__Color__ stroke, int width, double alpha, pyk_d_Dtinyweb_Color__Paint__ paint, pyk_d_Dtinyweb_Style__ style);
+pyk_d_Dtinyweb_Color__Color__ tinyweb_rect__default__fill(void);
+pyk_d_Dtinyweb_Color__Color__ tinyweb_rect__default__stroke(void);
+pyk_d_Dtinyweb_Color__Paint__ tinyweb_rect__default__paint(void);
+pyk_d_Dtinyweb_Style__ tinyweb_rect__default__style(void);
+void tinyweb_rect(const char *c, int x, int y, int w, int h, pyk_d_Dtinyweb_Color__Color__ fill, pyk_d_Dtinyweb_Color__Color__ stroke, int width, double alpha, pyk_d_Dtinyweb_Color__Paint__ paint, pyk_d_Dtinyweb_Style__ style, int radius);
+pyk_d_Dtinyweb_Color__Color__ tinyweb_line__default__stroke(void);
+pyk_d_Dtinyweb_Style__ tinyweb_line__default__style(void);
+void tinyweb_line(const char *c, int x1, int y1_, int x2, int y2, pyk_d_Dtinyweb_Color__Color__ stroke, int width, double alpha, pyk_d_Dtinyweb_Style__ style);
+pyk_d_Dtinyweb_Style__ tinyweb_bezier__default__style(void);
+void tinyweb_bezier(const char *c, int x1, int y1_, int ax, int ay, int bx, int by, int x2, int y2, pyk_d_Dtinyweb_Color__Color__ stroke, int width, double alpha, pyk_d_Dtinyweb_Style__ style);
+void tinyweb_erase(const char *c, int x, int y, int w, int h);
 void tinyweb_line_style(const char *c, const char *cap, const char *join, double dash, double gap, double offset, double dash2, double gap2);
-void tinyweb_clip_rect(const char *c, int x, int y, int width, int height);
+void tinyweb_clip_rect(const char *c, int x, int y, int w, int h);
 void tinyweb_clip_circle(const char *c, int x, int y, int radius);
-const char *tinyweb_text__default__font(void);
-const char *tinyweb_text__default__align(void);
-bool tinyweb_text__default__bold(void);
-double tinyweb_text__default__alpha(void);
-const char *tinyweb_text__default__outline(void);
-int tinyweb_text__default__outline_width(void);
-void tinyweb_text(const char *c, int x, int y, const char *words, const char *color, int size, const char *font, const char *align, bool bold, double alpha, const char *baseline, const char *outline, int outline_width);
-const char *tinyweb_measure_text__default__font(void);
+pyk_d_Dtinyweb_Color__Color__ tinyweb_text__default__stroke(void);
+pyk_d_Dtinyweb_Color__Paint__ tinyweb_text__default__paint(void);
+pyk_d_Dtinyweb_Style__ tinyweb_text__default__style(void);
+void tinyweb_text(const char *c, int x, int y, const char *words, pyk_d_Dtinyweb_Color__Color__ fill, int size, const char *font, const char *align, bool bold, double alpha, const char *baseline, pyk_d_Dtinyweb_Color__Color__ stroke, int width, pyk_d_Dtinyweb_Color__Paint__ paint, pyk_d_Dtinyweb_Style__ style);
 void tinyweb_measure_text(const char *words, pyk_c_Ff_u_ answer, int size, const char *font, bool bold);
 void tinyweb_push(const char *c);
 void tinyweb_pop(const char *c);
-const char *tinyweb_colors__linear_gradient(double x1, double y1_, double x2, double y2, const char *start, const char *end);
-const char *tinyweb_colors__radial_gradient(double x1, double y1_, double r1, double x2, double y2, double r2, const char *start, const char *end);
-const char *tinyweb_colors__conic_gradient(double x, double y, double angle, const char *start, const char *end);
-const char *tinyweb_colors__stop(const char *gradient, double at, const char *color);
-double tinyweb_smooth__circle__default__alpha(void);
-void tinyweb_smooth__circle(const char *c, double x, double y, double radius, const char *color, const char *outline, double outline_width, double alpha);
-double tinyweb_smooth__rect__default__outline_width(void);
-double tinyweb_smooth__rect__default__alpha(void);
-void tinyweb_smooth__rect(const char *c, double x, double y, double width, double height, const char *color, const char *outline, double outline_width, double alpha, double radius);
-const char *tinyweb_smooth__ellipse__default__outline(void);
-double tinyweb_smooth__ellipse__default__outline_width(void);
-double tinyweb_smooth__ellipse__default__alpha(void);
-void tinyweb_smooth__ellipse(const char *c, double x, double y, double rx, double ry, const char *color, const char *outline, double outline_width, double alpha);
-double tinyweb_smooth__arc__default__alpha(void);
-void tinyweb_smooth__arc(const char *c, double x, double y, double radius, double start, double end, const char *color, const char *outline, double outline_width, double alpha);
-double tinyweb_smooth__line__default__alpha(void);
-void tinyweb_smooth__line(const char *c, double x1, double y1_, double x2, double y2, const char *color, double width, double alpha);
-double tinyweb_smooth__curve__default__alpha(void);
-void tinyweb_smooth__curve(const char *c, double x1, double y1_, double cx, double cy, double x2, double y2, const char *color, double width, double alpha);
-void tinyweb_smooth__bezier(const char *c, double x1, double y1_, double ax, double ay, double bx, double by, double x2, double y2, const char *color, double width, double alpha);
-const char *tinyweb_smooth__text__default__font(void);
-bool tinyweb_smooth__text__default__bold(void);
-double tinyweb_smooth__text__default__alpha(void);
-const char *tinyweb_smooth__text__default__outline(void);
-double tinyweb_smooth__text__default__outline_width(void);
-void tinyweb_smooth__text(const char *c, double x, double y, const char *words, const char *color, int size, const char *font, const char *align, bool bold, double alpha, const char *baseline, const char *outline, double outline_width);
+static double smooth__width_of(double width, pyk_d_Dtinyweb_Style__ style);
+static void smooth__shape(const char *c, const char *kind, const char *numbers, pyk_d_Dtinyweb_Color__Color__ fill, pyk_d_Dtinyweb_Color__Color__ stroke, double width, double alpha, pyk_d_Dtinyweb_Color__Paint__ paint, pyk_d_Dtinyweb_Style__ style);
+static void smooth__stroked(const char *c, const char *kind, const char *numbers, pyk_d_Dtinyweb_Color__Color__ stroke, double width, double alpha, pyk_d_Dtinyweb_Style__ style);
+pyk_d_Dtinyweb_Color__Color__ tinyweb_smooth__circle__default__fill(void);
+pyk_d_Dtinyweb_Color__Color__ tinyweb_smooth__circle__default__stroke(void);
+pyk_d_Dtinyweb_Color__Paint__ tinyweb_smooth__circle__default__paint(void);
+pyk_d_Dtinyweb_Style__ tinyweb_smooth__circle__default__style(void);
+void tinyweb_smooth__circle(const char *c, double x, double y, double radius, pyk_d_Dtinyweb_Color__Color__ fill, pyk_d_Dtinyweb_Color__Color__ stroke, double width, double alpha, pyk_d_Dtinyweb_Color__Paint__ paint, pyk_d_Dtinyweb_Style__ style);
+pyk_d_Dtinyweb_Color__Paint__ tinyweb_smooth__rect__default__paint(void);
+pyk_d_Dtinyweb_Style__ tinyweb_smooth__rect__default__style(void);
+void tinyweb_smooth__rect(const char *c, double x, double y, double w, double h, pyk_d_Dtinyweb_Color__Color__ fill, pyk_d_Dtinyweb_Color__Color__ stroke, double width, double alpha, pyk_d_Dtinyweb_Color__Paint__ paint, pyk_d_Dtinyweb_Style__ style, double radius);
+pyk_d_Dtinyweb_Color__Color__ tinyweb_smooth__ellipse__default__stroke(void);
+pyk_d_Dtinyweb_Color__Paint__ tinyweb_smooth__ellipse__default__paint(void);
+pyk_d_Dtinyweb_Style__ tinyweb_smooth__ellipse__default__style(void);
+void tinyweb_smooth__ellipse(const char *c, double x, double y, double rx, double ry, pyk_d_Dtinyweb_Color__Color__ fill, pyk_d_Dtinyweb_Color__Color__ stroke, double width, double alpha, pyk_d_Dtinyweb_Color__Paint__ paint, pyk_d_Dtinyweb_Style__ style);
+pyk_d_Dtinyweb_Color__Paint__ tinyweb_smooth__arc__default__paint(void);
+pyk_d_Dtinyweb_Style__ tinyweb_smooth__arc__default__style(void);
+void tinyweb_smooth__arc(const char *c, double x, double y, double radius, double start, double end, pyk_d_Dtinyweb_Color__Color__ fill, pyk_d_Dtinyweb_Color__Color__ stroke, double width, double alpha, pyk_d_Dtinyweb_Color__Paint__ paint, pyk_d_Dtinyweb_Style__ style);
+pyk_d_Dtinyweb_Style__ tinyweb_smooth__line__default__style(void);
+void tinyweb_smooth__line(const char *c, double x1, double y1_, double x2, double y2, pyk_d_Dtinyweb_Color__Color__ stroke, double width, double alpha, pyk_d_Dtinyweb_Style__ style);
+pyk_d_Dtinyweb_Style__ tinyweb_smooth__curve__default__style(void);
+void tinyweb_smooth__curve(const char *c, double x1, double y1_, double cx, double cy, double x2, double y2, pyk_d_Dtinyweb_Color__Color__ stroke, double width, double alpha, pyk_d_Dtinyweb_Style__ style);
+pyk_d_Dtinyweb_Style__ tinyweb_smooth__bezier__default__style(void);
+void tinyweb_smooth__bezier(const char *c, double x1, double y1_, double ax, double ay, double bx, double by, double x2, double y2, pyk_d_Dtinyweb_Color__Color__ stroke, double width, double alpha, pyk_d_Dtinyweb_Style__ style);
+pyk_d_Dtinyweb_Color__Color__ tinyweb_smooth__text__default__stroke(void);
+pyk_d_Dtinyweb_Color__Paint__ tinyweb_smooth__text__default__paint(void);
+pyk_d_Dtinyweb_Style__ tinyweb_smooth__text__default__style(void);
+void tinyweb_smooth__text(const char *c, double x, double y, const char *words, pyk_d_Dtinyweb_Color__Color__ fill, int size, const char *font, const char *align, bool bold, double alpha, const char *baseline, pyk_d_Dtinyweb_Color__Color__ stroke, double width, pyk_d_Dtinyweb_Color__Paint__ paint, pyk_d_Dtinyweb_Style__ style);
 void tinyweb_smooth__clip_circle(const char *c, double x, double y, double radius);
-
-void tinyweb_clear(const char *c, const char *color)
-{
-    tinyweb_fill_canvas(c, color);
-}
 
 static const char *numbers2(int a, int b)
 {
@@ -315,109 +502,373 @@ static const char *floats4(double a, double b, double c, double d)
     return pyk_concat(pyk_concat(floats2(a, b), " "), floats2(c, d));
 }
 
+static int color__part(int n)
+{
+    return n < 0 ? 0 : n > 255 ? 255 : n;
+}
+
+static double color__unit(double x)
+{
+    return x < 0.0 ? 0.0 : x > 1.0 ? 1.0 : x;
+}
+
+static const char *color__hex2(int n)
+{
+    int clamped = color__part(n);
+    return pyk_concat(color__hex_digit(clamped / 16), color__hex_digit(clamped - clamped / 16 * 16));
+}
+
+static const char *color__hex_digit(int d)
+{
+    int pyk_s1 = d;
+    if (pyk_s1 == 0) {
+        {
+            return "0";
+        }
+    } else if (pyk_s1 == 1) {
+        {
+            return "1";
+        }
+    } else if (pyk_s1 == 2) {
+        {
+            return "2";
+        }
+    } else if (pyk_s1 == 3) {
+        {
+            return "3";
+        }
+    } else if (pyk_s1 == 4) {
+        {
+            return "4";
+        }
+    } else if (pyk_s1 == 5) {
+        {
+            return "5";
+        }
+    } else if (pyk_s1 == 6) {
+        {
+            return "6";
+        }
+    } else if (pyk_s1 == 7) {
+        {
+            return "7";
+        }
+    } else if (pyk_s1 == 8) {
+        {
+            return "8";
+        }
+    } else if (pyk_s1 == 9) {
+        {
+            return "9";
+        }
+    } else if (pyk_s1 == 10) {
+        {
+            return "a";
+        }
+    } else if (pyk_s1 == 11) {
+        {
+            return "b";
+        }
+    } else if (pyk_s1 == 12) {
+        {
+            return "c";
+        }
+    } else if (pyk_s1 == 13) {
+        {
+            return "d";
+        }
+    } else if (pyk_s1 == 14) {
+        {
+            return "e";
+        }
+    } else {
+        {
+            return "f";
+        }
+    }
+}
+
+static const char *color__css(pyk_d_Dtinyweb_Color__Color__ c)
+{
+    if (c.a >= 1.0) {
+        return pyk_concat(pyk_concat(pyk_concat("#", color__hex2(c.r)), color__hex2(c.g)), color__hex2(c.b));
+    } else {
+        return pyk_concat(pyk_concat(pyk_concat(pyk_concat(pyk_concat(pyk_concat(pyk_concat(pyk_concat("rgba(", pyk_int_str(color__part(c.r))), ", "), pyk_int_str(color__part(c.g))), ", "), pyk_int_str(color__part(c.b))), ", "), pyk_float_str(color__unit(c.a))), ")");
+    }
+}
+
+static const char *color__drawn(pyk_d_Dtinyweb_Color__Color__ c)
+{
+    return c.a <= 0.0 ? "" : color__css(c);
+}
+
+static const char *color__paint_text(pyk_d_Dtinyweb_Color__Paint__ p)
+{
+    pyk_d_Dtinyweb_Color__Paint__ pyk_s2 = p;
+    if (pyk_s2.tag == 0) {
+        {
+            pyk_d_Dtinyweb_Color__Color__ c = pyk_s2.u.Color__Plain.f0;
+            return color__drawn(c);
+        }
+    } else if (pyk_s2.tag == 1) {
+        {
+            double x1 = pyk_s2.u.Color__Linear.f0;
+            double y1_ = pyk_s2.u.Color__Linear.f1;
+            double x2 = pyk_s2.u.Color__Linear.f2;
+            double y2 = pyk_s2.u.Color__Linear.f3;
+            pyk_d_Dtinyweb_Color__Color__ start = pyk_s2.u.Color__Linear.f4;
+            pyk_d_Dtinyweb_Color__Color__ end = pyk_s2.u.Color__Linear.f5;
+            const char *stops = pyk_s2.u.Color__Linear.f6;
+            return pyk_concat(pyk_concat(pyk_concat(pyk_concat(pyk_concat(pyk_concat("linear-gradient(", floats4(x1, y1_, x2, y2)), "); 0.0 "), color__css(start)), "; 1.0 "), color__css(end)), stops);
+        }
+    } else if (pyk_s2.tag == 2) {
+        {
+            double x12 = pyk_s2.u.Color__Radial.f0;
+            double y1_2 = pyk_s2.u.Color__Radial.f1;
+            double r1 = pyk_s2.u.Color__Radial.f2;
+            double x22 = pyk_s2.u.Color__Radial.f3;
+            double y22 = pyk_s2.u.Color__Radial.f4;
+            double r2 = pyk_s2.u.Color__Radial.f5;
+            pyk_d_Dtinyweb_Color__Color__ start2 = pyk_s2.u.Color__Radial.f6;
+            pyk_d_Dtinyweb_Color__Color__ end2 = pyk_s2.u.Color__Radial.f7;
+            const char *stops2 = pyk_s2.u.Color__Radial.f8;
+            return pyk_concat(pyk_concat(pyk_concat(pyk_concat(pyk_concat(pyk_concat(pyk_concat(pyk_concat("radial-gradient(", floats3(x12, y1_2, r1)), " "), floats3(x22, y22, r2)), "); 0.0 "), color__css(start2)), "; 1.0 "), color__css(end2)), stops2);
+        }
+    } else {
+        {
+            double x = pyk_s2.u.Color__Conic.f0;
+            double y = pyk_s2.u.Color__Conic.f1;
+            double angle = pyk_s2.u.Color__Conic.f2;
+            pyk_d_Dtinyweb_Color__Color__ start3 = pyk_s2.u.Color__Conic.f3;
+            pyk_d_Dtinyweb_Color__Color__ end3 = pyk_s2.u.Color__Conic.f4;
+            const char *stops3 = pyk_s2.u.Color__Conic.f5;
+            return pyk_concat(pyk_concat(pyk_concat(pyk_concat(pyk_concat(pyk_concat("conic-gradient(", floats3(x, y, angle)), "); 0.0 "), color__css(start3)), "; 1.0 "), color__css(end3)), stops3);
+        }
+    }
+}
+
+static bool color__painted(pyk_d_Dtinyweb_Color__Paint__ p)
+{
+    pyk_d_Dtinyweb_Color__Paint__ pyk_s3 = p;
+    if (pyk_s3.tag == 0) {
+        {
+            pyk_d_Dtinyweb_Color__Color__ c = pyk_s3.u.Color__Plain.f0;
+            return c.a > 0.0;
+        }
+    } else {
+        {
+            return true;
+        }
+    }
+}
+
+pyk_d_Dtinyweb_Color__Color__ tinyweb_color__hex(int n)
+{
+    return pyk_mk_Dtinyweb_Color__Color___Color__Color(color__part(n / 65536), color__part(n / 256 - n / 65536 * 256), color__part(n - n / 256 * 256), 1.0);
+}
+
+bool tinyweb_color__same(pyk_d_Dtinyweb_Color__Color__ a, pyk_d_Dtinyweb_Color__Color__ b)
+{
+    return a.r == b.r ? a.g == b.g ? a.b == b.b ? a.a == b.a : false : false : false;
+}
+
+pyk_d_Dtinyweb_Color__Paint__ tinyweb_color__stop(pyk_d_Dtinyweb_Color__Paint__ paint, double at, pyk_d_Dtinyweb_Color__Color__ c)
+{
+    const char *more = pyk_concat(pyk_concat(pyk_concat("; ", pyk_float_str(at)), " "), color__css(c));
+    pyk_d_Dtinyweb_Color__Paint__ pyk_s4 = paint;
+    if (pyk_s4.tag == 0) {
+        {
+            return paint;
+        }
+    } else if (pyk_s4.tag == 1) {
+        {
+            double x1 = pyk_s4.u.Color__Linear.f0;
+            double y1_ = pyk_s4.u.Color__Linear.f1;
+            double x2 = pyk_s4.u.Color__Linear.f2;
+            double y2 = pyk_s4.u.Color__Linear.f3;
+            pyk_d_Dtinyweb_Color__Color__ start = pyk_s4.u.Color__Linear.f4;
+            pyk_d_Dtinyweb_Color__Color__ end = pyk_s4.u.Color__Linear.f5;
+            const char *stops = pyk_s4.u.Color__Linear.f6;
+            return pyk_mk_Dtinyweb_Color__Paint___Color__Linear(x1, y1_, x2, y2, start, end, pyk_concat(stops, more));
+        }
+    } else if (pyk_s4.tag == 2) {
+        {
+            double x12 = pyk_s4.u.Color__Radial.f0;
+            double y1_2 = pyk_s4.u.Color__Radial.f1;
+            double r1 = pyk_s4.u.Color__Radial.f2;
+            double x22 = pyk_s4.u.Color__Radial.f3;
+            double y22 = pyk_s4.u.Color__Radial.f4;
+            double r2 = pyk_s4.u.Color__Radial.f5;
+            pyk_d_Dtinyweb_Color__Color__ start2 = pyk_s4.u.Color__Radial.f6;
+            pyk_d_Dtinyweb_Color__Color__ end2 = pyk_s4.u.Color__Radial.f7;
+            const char *stops2 = pyk_s4.u.Color__Radial.f8;
+            return pyk_mk_Dtinyweb_Color__Paint___Color__Radial(x12, y1_2, r1, x22, y22, r2, start2, end2, pyk_concat(stops2, more));
+        }
+    } else {
+        {
+            double x = pyk_s4.u.Color__Conic.f0;
+            double y = pyk_s4.u.Color__Conic.f1;
+            double angle = pyk_s4.u.Color__Conic.f2;
+            pyk_d_Dtinyweb_Color__Color__ start3 = pyk_s4.u.Color__Conic.f3;
+            pyk_d_Dtinyweb_Color__Color__ end3 = pyk_s4.u.Color__Conic.f4;
+            const char *stops3 = pyk_s4.u.Color__Conic.f5;
+            return pyk_mk_Dtinyweb_Color__Paint___Color__Conic(x, y, angle, start3, end3, pyk_concat(stops3, more));
+        }
+    }
+}
+
 void tinyweb_web_init(int port)
 {
     tinyweb_web_start(port);
 }
 
-const char *tinyweb_circle__default__outline(void)
+pyk_d_Dtinyweb_Color__Color__ tinyweb_field__default__Style__fill(void)
 {
-    return "";
+    return tinyweb_color__black;
 }
 
-int tinyweb_circle__default__outline_width(void)
+pyk_d_Dtinyweb_Color__Color__ tinyweb_field__default__Style__stroke(void)
 {
-    return 1;
+    return tinyweb_color__none;
 }
 
-double tinyweb_circle__default__alpha(void)
+pyk_d_Dtinyweb_Color__Paint__ tinyweb_field__default__Style__paint(void)
 {
-    return 1.0;
+    return pyk_mk_Dtinyweb_Color__Paint___Color__Plain(tinyweb_color__none);
 }
 
-void tinyweb_circle(const char *c, int x, int y, int radius, const char *color, const char *outline, int outline_width, double alpha)
+static const char *fill_of(pyk_d_Dtinyweb_Color__Color__ fill, pyk_d_Dtinyweb_Color__Paint__ paint, pyk_d_Dtinyweb_Style__ style)
 {
-    tinyweb_draw_shape(c, "circle", numbers3(x, y, radius), color, outline, (double)outline_width, alpha);
+    if (color__painted(paint)) {
+        return color__paint_text(paint);
+    } else if (not_default_fill(fill)) {
+        return color__drawn(fill);
+    } else if (color__painted(style.paint)) {
+        return color__paint_text(style.paint);
+    } else {
+        return color__drawn(style.fill);
+    }
 }
 
-const char *tinyweb_rect__default__outline(void)
+static bool not_default_fill(pyk_d_Dtinyweb_Color__Color__ fill)
 {
-    return "";
+    return tinyweb_color__same(fill, tinyweb_color__black) ? false : true;
 }
 
-int tinyweb_rect__default__outline_width(void)
+static const char *stroke_of(pyk_d_Dtinyweb_Color__Color__ stroke, pyk_d_Dtinyweb_Style__ style)
 {
-    return 1;
+    return color__drawn(tinyweb_color__same(stroke, tinyweb_color__none) ? style.stroke : stroke);
 }
 
-double tinyweb_rect__default__alpha(void)
+static const char *line_of(pyk_d_Dtinyweb_Color__Color__ stroke, pyk_d_Dtinyweb_Style__ style)
 {
-    return 1.0;
+    if (not_default_fill(stroke)) {
+        return color__drawn(stroke);
+    } else if (tinyweb_color__same(style.stroke, tinyweb_color__none)) {
+        return color__drawn(style.fill);
+    } else {
+        return color__drawn(style.stroke);
+    }
 }
 
-int tinyweb_rect__default__radius(void)
+static double width_of(int width, pyk_d_Dtinyweb_Style__ style)
 {
-    return 0;
+    return (double)(width == 1 ? style.width : width);
 }
 
-void tinyweb_rect(const char *c, int x, int y, int width, int height, const char *color, const char *outline, int outline_width, double alpha, int radius)
+static double alpha_of(double alpha, pyk_d_Dtinyweb_Style__ style)
 {
-    tinyweb_draw_shape(c, "rect", pyk_concat(pyk_concat(numbers4(x, y, width, height), " "), pyk_int_str(radius)), color, outline, (double)outline_width, alpha);
+    return alpha == 1.0 ? style.alpha : alpha;
 }
 
-double tinyweb_line__default__alpha(void)
+static void shape(const char *c, const char *kind, const char *numbers, pyk_d_Dtinyweb_Color__Color__ fill, pyk_d_Dtinyweb_Color__Color__ stroke, int width, double alpha, pyk_d_Dtinyweb_Color__Paint__ paint, pyk_d_Dtinyweb_Style__ style)
 {
-    return 1.0;
+    tinyweb_draw_shape(c, kind, numbers, fill_of(fill, paint, style), stroke_of(stroke, style), width_of(width, style), alpha_of(alpha, style));
 }
 
-void tinyweb_line(const char *c, int x1, int y1_, int x2, int y2, const char *color, int width, double alpha)
+static void stroked(const char *c, const char *kind, const char *numbers, pyk_d_Dtinyweb_Color__Color__ stroke, int width, double alpha, pyk_d_Dtinyweb_Style__ style)
 {
-    tinyweb_draw_shape(c, "line", numbers4(x1, y1_, x2, y2), "", color, (double)width, alpha);
+    tinyweb_draw_shape(c, kind, numbers, "", line_of(stroke, style), width_of(width, style), alpha_of(alpha, style));
 }
 
-double tinyweb_bezier__default__alpha(void)
+pyk_d_Dtinyweb_Color__Color__ tinyweb_circle__default__fill(void)
 {
-    return 1.0;
+    return tinyweb_color__black;
 }
 
-void tinyweb_bezier(const char *c, int x1, int y1_, int ax, int ay, int bx, int by, int x2, int y2, const char *color, int width, double alpha)
+pyk_d_Dtinyweb_Color__Color__ tinyweb_circle__default__stroke(void)
 {
-    tinyweb_draw_shape(c, "bezier", pyk_concat(pyk_concat(numbers4(x1, y1_, ax, ay), " "), numbers4(bx, by, x2, y2)), "", color, (double)width, alpha);
+    return tinyweb_color__none;
 }
 
-void tinyweb_erase(const char *c, int x, int y, int width, int height)
+pyk_d_Dtinyweb_Color__Paint__ tinyweb_circle__default__paint(void)
 {
-    tinyweb_draw_shape(c, "erase", numbers4(x, y, width, height), "", "", 0.0, 1.0);
+    return pyk_mk_Dtinyweb_Color__Paint___Color__Plain(tinyweb_color__none);
 }
 
-const char *tinyweb_line_style__default__cap(void)
+pyk_d_Dtinyweb_Style__ tinyweb_circle__default__style(void)
 {
-    return "round";
+    return pyk_mk_Dtinyweb_Style___Style(tinyweb_field__default__Style__fill(), tinyweb_field__default__Style__stroke(), 1, 1.0, tinyweb_field__default__Style__paint());
 }
 
-const char *tinyweb_line_style__default__join(void)
+void tinyweb_circle(const char *c, int x, int y, int radius, pyk_d_Dtinyweb_Color__Color__ fill, pyk_d_Dtinyweb_Color__Color__ stroke, int width, double alpha, pyk_d_Dtinyweb_Color__Paint__ paint, pyk_d_Dtinyweb_Style__ style)
 {
-    return "round";
+    shape(c, "circle", numbers3(x, y, radius), fill, stroke, width, alpha, paint, style);
 }
 
-double tinyweb_line_style__default__gap(void)
+pyk_d_Dtinyweb_Color__Color__ tinyweb_rect__default__fill(void)
 {
-    return 0.0;
+    return tinyweb_color__black;
 }
 
-double tinyweb_line_style__default__offset(void)
+pyk_d_Dtinyweb_Color__Color__ tinyweb_rect__default__stroke(void)
 {
-    return 0.0;
+    return tinyweb_color__none;
 }
 
-double tinyweb_line_style__default__dash2(void)
+pyk_d_Dtinyweb_Color__Paint__ tinyweb_rect__default__paint(void)
 {
-    return 0.0;
+    return pyk_mk_Dtinyweb_Color__Paint___Color__Plain(tinyweb_color__none);
 }
 
-double tinyweb_line_style__default__gap2(void)
+pyk_d_Dtinyweb_Style__ tinyweb_rect__default__style(void)
 {
-    return 0.0;
+    return pyk_mk_Dtinyweb_Style___Style(tinyweb_field__default__Style__fill(), tinyweb_field__default__Style__stroke(), 1, 1.0, tinyweb_field__default__Style__paint());
+}
+
+void tinyweb_rect(const char *c, int x, int y, int w, int h, pyk_d_Dtinyweb_Color__Color__ fill, pyk_d_Dtinyweb_Color__Color__ stroke, int width, double alpha, pyk_d_Dtinyweb_Color__Paint__ paint, pyk_d_Dtinyweb_Style__ style, int radius)
+{
+    shape(c, "rect", pyk_concat(pyk_concat(numbers4(x, y, w, h), " "), pyk_int_str(radius)), fill, stroke, width, alpha, paint, style);
+}
+
+pyk_d_Dtinyweb_Color__Color__ tinyweb_line__default__stroke(void)
+{
+    return tinyweb_color__black;
+}
+
+pyk_d_Dtinyweb_Style__ tinyweb_line__default__style(void)
+{
+    return pyk_mk_Dtinyweb_Style___Style(tinyweb_field__default__Style__fill(), tinyweb_field__default__Style__stroke(), 1, 1.0, tinyweb_field__default__Style__paint());
+}
+
+void tinyweb_line(const char *c, int x1, int y1_, int x2, int y2, pyk_d_Dtinyweb_Color__Color__ stroke, int width, double alpha, pyk_d_Dtinyweb_Style__ style)
+{
+    stroked(c, "line", numbers4(x1, y1_, x2, y2), stroke, width, alpha, style);
+}
+
+pyk_d_Dtinyweb_Style__ tinyweb_bezier__default__style(void)
+{
+    return pyk_mk_Dtinyweb_Style___Style(tinyweb_field__default__Style__fill(), tinyweb_field__default__Style__stroke(), 1, 1.0, tinyweb_field__default__Style__paint());
+}
+
+void tinyweb_bezier(const char *c, int x1, int y1_, int ax, int ay, int bx, int by, int x2, int y2, pyk_d_Dtinyweb_Color__Color__ stroke, int width, double alpha, pyk_d_Dtinyweb_Style__ style)
+{
+    stroked(c, "bezier", pyk_concat(pyk_concat(numbers4(x1, y1_, ax, ay), " "), numbers4(bx, by, x2, y2)), stroke, width, alpha, style);
+}
+
+void tinyweb_erase(const char *c, int x, int y, int w, int h)
+{
+    tinyweb_draw_shape(c, "erase", numbers4(x, y, w, h), "", "", 0.0, 1.0);
 }
 
 void tinyweb_line_style(const char *c, const char *cap, const char *join, double dash, double gap, double offset, double dash2, double gap2)
@@ -427,9 +878,9 @@ void tinyweb_line_style(const char *c, const char *cap, const char *join, double
     tinyweb_set_state(c, "line_style", pyk_concat(pyk_concat(cap, " "), join), pyk_concat(pyk_concat(pyk_float_str(offset), first), second));
 }
 
-void tinyweb_clip_rect(const char *c, int x, int y, int width, int height)
+void tinyweb_clip_rect(const char *c, int x, int y, int w, int h)
 {
-    tinyweb_set_state(c, "clip", "rect", pyk_concat(numbers4(x, y, width, height), " 0"));
+    tinyweb_set_state(c, "clip", "rect", pyk_concat(numbers4(x, y, w, h), " 0"));
 }
 
 void tinyweb_clip_circle(const char *c, int x, int y, int radius)
@@ -437,44 +888,24 @@ void tinyweb_clip_circle(const char *c, int x, int y, int radius)
     tinyweb_set_state(c, "clip", "circle", numbers3(x, y, radius));
 }
 
-const char *tinyweb_text__default__font(void)
+pyk_d_Dtinyweb_Color__Color__ tinyweb_text__default__stroke(void)
 {
-    return "";
+    return tinyweb_color__none;
 }
 
-const char *tinyweb_text__default__align(void)
+pyk_d_Dtinyweb_Color__Paint__ tinyweb_text__default__paint(void)
 {
-    return "left";
+    return pyk_mk_Dtinyweb_Color__Paint___Color__Plain(tinyweb_color__none);
 }
 
-bool tinyweb_text__default__bold(void)
+pyk_d_Dtinyweb_Style__ tinyweb_text__default__style(void)
 {
-    return false;
+    return pyk_mk_Dtinyweb_Style___Style(tinyweb_field__default__Style__fill(), tinyweb_field__default__Style__stroke(), 1, 1.0, tinyweb_field__default__Style__paint());
 }
 
-double tinyweb_text__default__alpha(void)
+void tinyweb_text(const char *c, int x, int y, const char *words, pyk_d_Dtinyweb_Color__Color__ fill, int size, const char *font, const char *align, bool bold, double alpha, const char *baseline, pyk_d_Dtinyweb_Color__Color__ stroke, int width, pyk_d_Dtinyweb_Color__Paint__ paint, pyk_d_Dtinyweb_Style__ style)
 {
-    return 1.0;
-}
-
-const char *tinyweb_text__default__outline(void)
-{
-    return "";
-}
-
-int tinyweb_text__default__outline_width(void)
-{
-    return 1;
-}
-
-void tinyweb_text(const char *c, int x, int y, const char *words, const char *color, int size, const char *font, const char *align, bool bold, double alpha, const char *baseline, const char *outline, int outline_width)
-{
-    tinyweb_draw_text(c, (double)x, (double)y, words, color, size, font, align, baseline, bold, outline, (double)outline_width, alpha);
-}
-
-const char *tinyweb_measure_text__default__font(void)
-{
-    return "";
+    tinyweb_draw_text(c, (double)x, (double)y, words, fill_of(fill, paint, style), size, font, align, baseline, bold, stroke_of(stroke, style), width_of(width, style), alpha_of(alpha, style));
 }
 
 void tinyweb_measure_text(const char *words, pyk_c_Ff_u_ answer, int size, const char *font, bool bold)
@@ -492,134 +923,144 @@ void tinyweb_pop(const char *c)
     tinyweb_set_state(c, "pop", "", "");
 }
 
-const char *tinyweb_colors__linear_gradient(double x1, double y1_, double x2, double y2, const char *start, const char *end)
+static double smooth__width_of(double width, pyk_d_Dtinyweb_Style__ style)
 {
-    return pyk_concat(pyk_concat(pyk_concat(pyk_concat(pyk_concat("linear-gradient(", floats4(x1, y1_, x2, y2)), "); 0.0 "), start), "; 1.0 "), end);
+    return width == 1.0 ? (double)style.width : width;
 }
 
-const char *tinyweb_colors__radial_gradient(double x1, double y1_, double r1, double x2, double y2, double r2, const char *start, const char *end)
+static void smooth__shape(const char *c, const char *kind, const char *numbers, pyk_d_Dtinyweb_Color__Color__ fill, pyk_d_Dtinyweb_Color__Color__ stroke, double width, double alpha, pyk_d_Dtinyweb_Color__Paint__ paint, pyk_d_Dtinyweb_Style__ style)
 {
-    return pyk_concat(pyk_concat(pyk_concat(pyk_concat(pyk_concat(pyk_concat(pyk_concat("radial-gradient(", floats3(x1, y1_, r1)), " "), floats3(x2, y2, r2)), "); 0.0 "), start), "; 1.0 "), end);
+    tinyweb_draw_shape(c, kind, numbers, fill_of(fill, paint, style), stroke_of(stroke, style), smooth__width_of(width, style), alpha_of(alpha, style));
 }
 
-const char *tinyweb_colors__conic_gradient(double x, double y, double angle, const char *start, const char *end)
+static void smooth__stroked(const char *c, const char *kind, const char *numbers, pyk_d_Dtinyweb_Color__Color__ stroke, double width, double alpha, pyk_d_Dtinyweb_Style__ style)
 {
-    return pyk_concat(pyk_concat(pyk_concat(pyk_concat(pyk_concat("conic-gradient(", floats3(x, y, angle)), "); 0.0 "), start), "; 1.0 "), end);
+    tinyweb_draw_shape(c, kind, numbers, "", line_of(stroke, style), smooth__width_of(width, style), alpha_of(alpha, style));
 }
 
-const char *tinyweb_colors__stop(const char *gradient, double at, const char *color)
+pyk_d_Dtinyweb_Color__Color__ tinyweb_smooth__circle__default__fill(void)
 {
-    return pyk_concat(pyk_concat(pyk_concat(pyk_concat(gradient, "; "), pyk_float_str(at)), " "), color);
+    return tinyweb_color__black;
 }
 
-double tinyweb_smooth__circle__default__alpha(void)
+pyk_d_Dtinyweb_Color__Color__ tinyweb_smooth__circle__default__stroke(void)
 {
-    return 1.0;
+    return tinyweb_color__none;
 }
 
-void tinyweb_smooth__circle(const char *c, double x, double y, double radius, const char *color, const char *outline, double outline_width, double alpha)
+pyk_d_Dtinyweb_Color__Paint__ tinyweb_smooth__circle__default__paint(void)
 {
-    tinyweb_draw_shape(c, "circle", floats3(x, y, radius), color, outline, outline_width, alpha);
+    return pyk_mk_Dtinyweb_Color__Paint___Color__Plain(tinyweb_color__none);
 }
 
-double tinyweb_smooth__rect__default__outline_width(void)
+pyk_d_Dtinyweb_Style__ tinyweb_smooth__circle__default__style(void)
 {
-    return 1.0;
+    return pyk_mk_Dtinyweb_Style___Style(tinyweb_field__default__Style__fill(), tinyweb_field__default__Style__stroke(), 1, 1.0, tinyweb_field__default__Style__paint());
 }
 
-double tinyweb_smooth__rect__default__alpha(void)
+void tinyweb_smooth__circle(const char *c, double x, double y, double radius, pyk_d_Dtinyweb_Color__Color__ fill, pyk_d_Dtinyweb_Color__Color__ stroke, double width, double alpha, pyk_d_Dtinyweb_Color__Paint__ paint, pyk_d_Dtinyweb_Style__ style)
 {
-    return 1.0;
+    smooth__shape(c, "circle", floats3(x, y, radius), fill, stroke, width, alpha, paint, style);
 }
 
-void tinyweb_smooth__rect(const char *c, double x, double y, double width, double height, const char *color, const char *outline, double outline_width, double alpha, double radius)
+pyk_d_Dtinyweb_Color__Paint__ tinyweb_smooth__rect__default__paint(void)
 {
-    tinyweb_draw_shape(c, "rect", pyk_concat(pyk_concat(floats4(x, y, width, height), " "), pyk_float_str(radius)), color, outline, outline_width, alpha);
+    return pyk_mk_Dtinyweb_Color__Paint___Color__Plain(tinyweb_color__none);
 }
 
-const char *tinyweb_smooth__ellipse__default__outline(void)
+pyk_d_Dtinyweb_Style__ tinyweb_smooth__rect__default__style(void)
 {
-    return "";
+    return pyk_mk_Dtinyweb_Style___Style(tinyweb_field__default__Style__fill(), tinyweb_field__default__Style__stroke(), 1, 1.0, tinyweb_field__default__Style__paint());
 }
 
-double tinyweb_smooth__ellipse__default__outline_width(void)
+void tinyweb_smooth__rect(const char *c, double x, double y, double w, double h, pyk_d_Dtinyweb_Color__Color__ fill, pyk_d_Dtinyweb_Color__Color__ stroke, double width, double alpha, pyk_d_Dtinyweb_Color__Paint__ paint, pyk_d_Dtinyweb_Style__ style, double radius)
 {
-    return 1.0;
+    smooth__shape(c, "rect", pyk_concat(pyk_concat(floats4(x, y, w, h), " "), pyk_float_str(radius)), fill, stroke, width, alpha, paint, style);
 }
 
-double tinyweb_smooth__ellipse__default__alpha(void)
+pyk_d_Dtinyweb_Color__Color__ tinyweb_smooth__ellipse__default__stroke(void)
 {
-    return 1.0;
+    return tinyweb_color__none;
 }
 
-void tinyweb_smooth__ellipse(const char *c, double x, double y, double rx, double ry, const char *color, const char *outline, double outline_width, double alpha)
+pyk_d_Dtinyweb_Color__Paint__ tinyweb_smooth__ellipse__default__paint(void)
 {
-    tinyweb_draw_shape(c, "ellipse", floats4(x, y, rx, ry), color, outline, outline_width, alpha);
+    return pyk_mk_Dtinyweb_Color__Paint___Color__Plain(tinyweb_color__none);
 }
 
-double tinyweb_smooth__arc__default__alpha(void)
+pyk_d_Dtinyweb_Style__ tinyweb_smooth__ellipse__default__style(void)
 {
-    return 1.0;
+    return pyk_mk_Dtinyweb_Style___Style(tinyweb_field__default__Style__fill(), tinyweb_field__default__Style__stroke(), 1, 1.0, tinyweb_field__default__Style__paint());
 }
 
-void tinyweb_smooth__arc(const char *c, double x, double y, double radius, double start, double end, const char *color, const char *outline, double outline_width, double alpha)
+void tinyweb_smooth__ellipse(const char *c, double x, double y, double rx, double ry, pyk_d_Dtinyweb_Color__Color__ fill, pyk_d_Dtinyweb_Color__Color__ stroke, double width, double alpha, pyk_d_Dtinyweb_Color__Paint__ paint, pyk_d_Dtinyweb_Style__ style)
 {
-    tinyweb_draw_shape(c, "arc", pyk_concat(pyk_concat(floats3(x, y, radius), " "), floats2(start, end)), color, outline, outline_width, alpha);
+    smooth__shape(c, "ellipse", floats4(x, y, rx, ry), fill, stroke, width, alpha, paint, style);
 }
 
-double tinyweb_smooth__line__default__alpha(void)
+pyk_d_Dtinyweb_Color__Paint__ tinyweb_smooth__arc__default__paint(void)
 {
-    return 1.0;
+    return pyk_mk_Dtinyweb_Color__Paint___Color__Plain(tinyweb_color__none);
 }
 
-void tinyweb_smooth__line(const char *c, double x1, double y1_, double x2, double y2, const char *color, double width, double alpha)
+pyk_d_Dtinyweb_Style__ tinyweb_smooth__arc__default__style(void)
 {
-    tinyweb_draw_shape(c, "line", floats4(x1, y1_, x2, y2), "", color, width, alpha);
+    return pyk_mk_Dtinyweb_Style___Style(tinyweb_field__default__Style__fill(), tinyweb_field__default__Style__stroke(), 1, 1.0, tinyweb_field__default__Style__paint());
 }
 
-double tinyweb_smooth__curve__default__alpha(void)
+void tinyweb_smooth__arc(const char *c, double x, double y, double radius, double start, double end, pyk_d_Dtinyweb_Color__Color__ fill, pyk_d_Dtinyweb_Color__Color__ stroke, double width, double alpha, pyk_d_Dtinyweb_Color__Paint__ paint, pyk_d_Dtinyweb_Style__ style)
 {
-    return 1.0;
+    smooth__shape(c, "arc", pyk_concat(pyk_concat(floats3(x, y, radius), " "), floats2(start, end)), fill, stroke, width, alpha, paint, style);
 }
 
-void tinyweb_smooth__curve(const char *c, double x1, double y1_, double cx, double cy, double x2, double y2, const char *color, double width, double alpha)
+pyk_d_Dtinyweb_Style__ tinyweb_smooth__line__default__style(void)
 {
-    tinyweb_draw_shape(c, "curve", pyk_concat(pyk_concat(floats2(x1, y1_), " "), floats4(cx, cy, x2, y2)), "", color, width, alpha);
+    return pyk_mk_Dtinyweb_Style___Style(tinyweb_field__default__Style__fill(), tinyweb_field__default__Style__stroke(), 1, 1.0, tinyweb_field__default__Style__paint());
 }
 
-void tinyweb_smooth__bezier(const char *c, double x1, double y1_, double ax, double ay, double bx, double by, double x2, double y2, const char *color, double width, double alpha)
+void tinyweb_smooth__line(const char *c, double x1, double y1_, double x2, double y2, pyk_d_Dtinyweb_Color__Color__ stroke, double width, double alpha, pyk_d_Dtinyweb_Style__ style)
 {
-    tinyweb_draw_shape(c, "bezier", pyk_concat(pyk_concat(floats4(x1, y1_, ax, ay), " "), floats4(bx, by, x2, y2)), "", color, width, alpha);
+    smooth__stroked(c, "line", floats4(x1, y1_, x2, y2), stroke, width, alpha, style);
 }
 
-const char *tinyweb_smooth__text__default__font(void)
+pyk_d_Dtinyweb_Style__ tinyweb_smooth__curve__default__style(void)
 {
-    return "";
+    return pyk_mk_Dtinyweb_Style___Style(tinyweb_field__default__Style__fill(), tinyweb_field__default__Style__stroke(), 1, 1.0, tinyweb_field__default__Style__paint());
 }
 
-bool tinyweb_smooth__text__default__bold(void)
+void tinyweb_smooth__curve(const char *c, double x1, double y1_, double cx, double cy, double x2, double y2, pyk_d_Dtinyweb_Color__Color__ stroke, double width, double alpha, pyk_d_Dtinyweb_Style__ style)
 {
-    return false;
+    smooth__stroked(c, "curve", pyk_concat(pyk_concat(floats2(x1, y1_), " "), floats4(cx, cy, x2, y2)), stroke, width, alpha, style);
 }
 
-double tinyweb_smooth__text__default__alpha(void)
+pyk_d_Dtinyweb_Style__ tinyweb_smooth__bezier__default__style(void)
 {
-    return 1.0;
+    return pyk_mk_Dtinyweb_Style___Style(tinyweb_field__default__Style__fill(), tinyweb_field__default__Style__stroke(), 1, 1.0, tinyweb_field__default__Style__paint());
 }
 
-const char *tinyweb_smooth__text__default__outline(void)
+void tinyweb_smooth__bezier(const char *c, double x1, double y1_, double ax, double ay, double bx, double by, double x2, double y2, pyk_d_Dtinyweb_Color__Color__ stroke, double width, double alpha, pyk_d_Dtinyweb_Style__ style)
 {
-    return "";
+    smooth__stroked(c, "bezier", pyk_concat(pyk_concat(floats4(x1, y1_, ax, ay), " "), floats4(bx, by, x2, y2)), stroke, width, alpha, style);
 }
 
-double tinyweb_smooth__text__default__outline_width(void)
+pyk_d_Dtinyweb_Color__Color__ tinyweb_smooth__text__default__stroke(void)
 {
-    return 1.0;
+    return tinyweb_color__none;
 }
 
-void tinyweb_smooth__text(const char *c, double x, double y, const char *words, const char *color, int size, const char *font, const char *align, bool bold, double alpha, const char *baseline, const char *outline, double outline_width)
+pyk_d_Dtinyweb_Color__Paint__ tinyweb_smooth__text__default__paint(void)
 {
-    tinyweb_draw_text(c, x, y, words, color, size, font, align, baseline, bold, outline, outline_width, alpha);
+    return pyk_mk_Dtinyweb_Color__Paint___Color__Plain(tinyweb_color__none);
+}
+
+pyk_d_Dtinyweb_Style__ tinyweb_smooth__text__default__style(void)
+{
+    return pyk_mk_Dtinyweb_Style___Style(tinyweb_field__default__Style__fill(), tinyweb_field__default__Style__stroke(), 1, 1.0, tinyweb_field__default__Style__paint());
+}
+
+void tinyweb_smooth__text(const char *c, double x, double y, const char *words, pyk_d_Dtinyweb_Color__Color__ fill, int size, const char *font, const char *align, bool bold, double alpha, const char *baseline, pyk_d_Dtinyweb_Color__Color__ stroke, double width, pyk_d_Dtinyweb_Color__Paint__ paint, pyk_d_Dtinyweb_Style__ style)
+{
+    tinyweb_draw_text(c, x, y, words, fill_of(fill, paint, style), size, font, align, baseline, bold, stroke_of(stroke, style), smooth__width_of(width, style), alpha_of(alpha, style));
 }
 
 void tinyweb_smooth__clip_circle(const char *c, double x, double y, double radius)
@@ -629,5 +1070,21 @@ void tinyweb_smooth__clip_circle(const char *c, double x, double y, double radiu
 
 void tinyweb_init(void)
 {
-
+    tinyweb_color__black = pyk_mk_Dtinyweb_Color__Color___Color__Color(0, 0, 0, 1.0);
+    tinyweb_color__white = pyk_mk_Dtinyweb_Color__Color___Color__Color(255, 255, 255, 1.0);
+    tinyweb_color__gray = pyk_mk_Dtinyweb_Color__Color___Color__Color(128, 128, 128, 1.0);
+    tinyweb_color__red = pyk_mk_Dtinyweb_Color__Color___Color__Color(255, 0, 0, 1.0);
+    tinyweb_color__green = pyk_mk_Dtinyweb_Color__Color___Color__Color(0, 128, 0, 1.0);
+    tinyweb_color__blue = pyk_mk_Dtinyweb_Color__Color___Color__Color(0, 0, 255, 1.0);
+    tinyweb_color__yellow = pyk_mk_Dtinyweb_Color__Color___Color__Color(255, 255, 0, 1.0);
+    tinyweb_color__orange = pyk_mk_Dtinyweb_Color__Color___Color__Color(255, 165, 0, 1.0);
+    tinyweb_color__purple = pyk_mk_Dtinyweb_Color__Color___Color__Color(128, 0, 128, 1.0);
+    tinyweb_color__pink = pyk_mk_Dtinyweb_Color__Color___Color__Color(255, 192, 203, 1.0);
+    tinyweb_color__navy = pyk_mk_Dtinyweb_Color__Color___Color__Color(0, 0, 128, 1.0);
+    tinyweb_color__teal = pyk_mk_Dtinyweb_Color__Color___Color__Color(0, 128, 128, 1.0);
+    tinyweb_color__brown = pyk_mk_Dtinyweb_Color__Color___Color__Color(139, 69, 19, 1.0);
+    tinyweb_color__cyan = pyk_mk_Dtinyweb_Color__Color___Color__Color(0, 255, 255, 1.0);
+    tinyweb_color__magenta = pyk_mk_Dtinyweb_Color__Color___Color__Color(255, 0, 255, 1.0);
+    tinyweb_color__none = pyk_mk_Dtinyweb_Color__Color___Color__Color(0, 0, 0, 0.0);
+    tinyweb_color__theme = pyk_mk_Dtinyweb_Color__Color___Color__Color(-1, -1, -1, -1.0);
 }

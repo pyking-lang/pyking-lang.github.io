@@ -5,6 +5,8 @@
 #include <stdlib.h>
 #include <string.h>
 
+#include "math.h"
+#include "text.h"
 #include "tinyweb.h"
 
 #ifndef PYK_TYPE_PYK_C_FB_U_
@@ -36,7 +38,6 @@ typedef struct pyk_c_Fi_u_ {
 
 // What the external modules this one imports implement.
 const char *tinyweb_label(const char *);
-void tinyweb_set_label(const char *, const char *);
 void tinyweb_set_checked(const char *, bool);
 void tinyweb_set_value(const char *, int);
 
@@ -89,6 +90,8 @@ static const char *box;
 static const char *frame_based;
 static const char *count;
 static const char *speed;
+static const char *gone;
+static const char *blank;
 
 // Declared ahead of their definitions: a Pyking function may be called before it is written.
 static void trails(bool on);
@@ -122,46 +125,55 @@ static void pyk_w_balls(void *env, int p1)
 
 static void trails(bool on)
 {
-    tinyweb_set_label(shown, on ? "trails on" : "trails off");
+    tinyweb_set_text(shown, on ? "trails on" : "trails off");
 }
 
 static void mode(const char *title)
 {
-    tinyweb_set_label(shown, pyk_concat("mode: ", title));
+    tinyweb_set_text(shown, pyk_concat("mode: ", title));
 }
 
 static void entered(const char *name)
 {
-    tinyweb_set_label(shown, pyk_concat("hello, ", name));
+    tinyweb_set_text(shown, pyk_concat("hello, ", name));
 }
 
 static void balls(int n)
 {
-    tinyweb_set_label(shown, pyk_concat(pyk_int_str(n), " balls"));
+    tinyweb_set_text(shown, pyk_concat(pyk_int_str(n), " balls"));
 }
 
 int main(void)
 {
-    bool pyk_t1;
-    const char *pyk_t2;
+    math_init();
+    text_init();
     tinyweb_init();
     tinyweb_web_init(0);
     shown = tinyweb_label("nothing yet");
-    box = tinyweb_checkbox("Trails", tinyweb_checkbox__default__checked(), pyk_mk_Fb_u_(pyk_w_trails, NULL, trails));
+    box = tinyweb_checkbox("Trails", false, pyk_mk_Fb_u_(pyk_w_trails, NULL, trails));
     tinyweb_checkbox("Slow frames", true, tinyweb_checkbox__default__on_change());
-    tinyweb_radio("mode", "time-based", tinyweb_radio__default__chosen(), pyk_mk_Fs_u_(pyk_w_mode, NULL, mode));
-    frame_based = tinyweb_radio("mode", "frame-based", tinyweb_radio__default__chosen(), pyk_mk_Fs_u_(pyk_w_mode, NULL, mode));
-    (pyk_t1 = tinyweb_radio__default__chosen(), tinyweb_radio("speed", "slow", pyk_t1, tinyweb_radio__default__on_pick()));
+    tinyweb_radio("mode", "time-based", false, pyk_mk_Fs_u_(pyk_w_mode, NULL, mode));
+    frame_based = tinyweb_radio("mode", "frame-based", false, pyk_mk_Fs_u_(pyk_w_mode, NULL, mode));
+    tinyweb_radio("speed", "slow", false, tinyweb_radio__default__on_pick());
     tinyweb_radio("speed", "fast", true, tinyweb_radio__default__on_pick());
     tinyweb_text_input("your name", pyk_mk_Fs_u_(pyk_w_entered, NULL, entered));
-    (pyk_t2 = tinyweb_text_input__default__placeholder(), tinyweb_text_input(pyk_t2, tinyweb_text_input__default__on_enter()));
+    tinyweb_text_input("", tinyweb_text_input__default__on_enter());
     count = tinyweb_number_input(1, 20, 3, pyk_mk_Fi_u_(pyk_w_balls, NULL, balls));
     speed = tinyweb_slider(0, 10, 5, tinyweb_slider__default__on_change());
     tinyweb_set_checked(box, true);
     tinyweb_set_checked(frame_based, true);
     tinyweb_set_value(count, 5);
     tinyweb_set_value(speed, 8);
-    printf("%s\n", frame_based);
+    gone = tinyweb_label("going");
+    tinyweb_hide(gone);
+    tinyweb_show(gone);
+    tinyweb_disable(speed);
+    tinyweb_enable(speed);
+    tinyweb_disable(box);
+    tinyweb_remove(gone);
+    blank = tinyweb_label("");
+    tinyweb_set_text(blank, "filled in");
+    printf("%s %s\n", frame_based, blank);
 
     return 0;
 }

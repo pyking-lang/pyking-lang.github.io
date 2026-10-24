@@ -1,7 +1,8 @@
 // The playground user interface: the source editor with its example
-// selector, and five tabs on the right -- the run's output, the compiled
-// code with its target selector, the page a run draws, a REPL, and the
-// help. Served by tools/playground/playground.py.
+// selector, and six tabs on the right -- the run's output, the compiled
+// code with its target selector, the page a run draws, a REPL, the
+// debugger (debugger.js) and the help. Served by
+// tools/playground/playground.py.
 //
 // Embedding this in another page is one call:
 //
@@ -17,6 +18,7 @@ import {
   splitArguments, themeFor,
 } from "../webrun/web.js";
 import { LspClient } from "./lsp-client.js";
+import { ACTIONS, DEFAULT_KEYS, Debugger, keyList, showKey, showKeys, specOf } from "./debugger.js";
 import { linkTo, sourceFromHash } from "./share.js";
 import { packFiles, zip } from "./download.js";
 
@@ -35,6 +37,12 @@ const DEFAULT_SETTINGS = {
   clearOnRun: true,
   autoRun: false,
   tinywebLog: false,
+  // The debugger: whether it stops at the first statement, whether it
+  // steps over the standard library's code, and each action's key where
+  // the viewer changed it (debugger.js, DEFAULT_KEYS).
+  debugStopOnEntry: false,
+  debugJustMyCode: true,
+  debugKeys: {},
 };
 
 /** How long the source has to sit still before an automatic run. Long
@@ -85,7 +93,7 @@ const DEFAULTS = {
   // calls `setTheme` as its own changes -- and null where the viewer does,
   // with the header's switch and the settings.
   theme: null,
-  initialTarget: "node24",
+  initialTarget: "node22",
   initialExample: null,               // the first example
   // Whether the page's own URL may hold a program, `#code=...`
   // (share.js), which then opens in the editor in place of an example.
@@ -145,6 +153,7 @@ class Playground {
     this.replDraft = "";        // what was being typed before Up
     this.help = null;           // the Help tab's help, once it is opened
     this.helpStarting = null;
+    this.debugger = null;       // the Debug tab (debugger.js)
   }
 
   async init() {
@@ -159,6 +168,12 @@ class Playground {
       tabSize: 4, insertSpaces: true, detectIndentation: false,
       automaticLayout: true, minimap: { enabled: false },
       fixedOverflowWidgets: true,
+      // What the language server says of names (semantic tokens) shows
+      // in the text.
+      "semanticHighlighting.enabled": true,
+      // A plain textarea for input: a key the debugger takes is then kept
+      // out of the text on every platform.
+      editContext: false,
     };
     const model = (text, language, uri) => {
       const made = monaco.editor.createModel(text, language, uri);
@@ -179,10 +194,16 @@ class Playground {
       // runtime download, before anyone had touched the page.
       if (!this.programmaticEdit) this.scheduleAutoRun();
     });
+    this.watchDeadKeys();
 
     ui.target.addEventListener("change", () => this.onTargetChange());
     ui.example.addEventListener("change", () => this.loadExample(ui.example.value));
     ui.compile.addEventListener("click", () => this.compile());
+    // Pressing Run takes the focus from the editor before the click is
+    // seen, so whether the editor had it is noted on the way down.
+    ui.runLeft.addEventListener("mousedown", () => {
+      this.focusAtRun = this.left.hasTextFocus() ? this.left.getSelection() : false;
+    });
     ui.runLeft.addEventListener("click", () => this.runFromSource());
     ui.runRight.addEventListener("click", () => this.runGenerated());
     ui.stopLeft.addEventListener("click", () => this.stopRun());
@@ -191,6 +212,9 @@ class Playground {
     ui.download.addEventListener("click", () => this.download());
     ui.copyLink.addEventListener("click", () => this.copyLink());
     ui.refresh.addEventListener("click", () => this.refreshPage());
+    // A press anywhere is the reader choosing where the focus goes: the
+    // editor no longer keeps the focus a run gave it back.
+    document.addEventListener("pointerdown", () => { this.keepEditorFocus = null; }, true);
     // A click on the window's bar gives the page in it the keyboard.
     ui.frameBar.addEventListener("click", (event) => {
       if (this.pageHost && !event.target.closest("button")) ui.page.focus({ preventScroll: true });
@@ -201,6 +225,8 @@ class Playground {
       tab.addEventListener("click", () => this.showTab(tab.dataset.tab));
     }
     this.installRepl();
+    this.debugger = new Debugger(this);
+    this.debugger.install(ui.panelDebug);
     this.installTheme();
 
     this.installSplitters();
@@ -231,6 +257,21 @@ class Playground {
          () => (this.running ? this.stopRun() : this.runFromSource()));
     bind(this.right, "pyk-run", "Run the generated code",
          () => (this.running ? this.stopRun() : this.runGenerated()));
+
+    // The debugger's keys, caught on the way down, before an editor sees
+    // them: Start's, Continue's and the steps' anywhere in the
+    // playground, or on the page itself where nothing has the focus; the
+    // rest where the focus is in the editor or the Debug tab.
+    const debugKey = (event) => {
+      if (!ui.modal.classList.contains("pyk-hidden")) return;
+      if (!ui.inputModal.classList.contains("pyk-hidden")) return;
+      const near = ui.leftEditor.contains(event.target) || ui.panels.debug?.contains(event.target);
+      this.debugger?.handleKey(event, near ? null : ["start", "continue", "next", "in", "out"]);
+    };
+    ui.root.addEventListener("keydown", debugKey, true);
+    document.addEventListener("keydown", (event) => {
+      if (event.target === document.body || event.target === document.documentElement) debugKey(event);
+    });
 
     // The same keys when focus is outside both editors -- on a dropdown, a
     // button, or the page itself. Monaco stops propagation for keys it
@@ -296,6 +337,7 @@ class Playground {
   /** Puts the program a link held in the editor; it is not run. */
   openLinked(text) {
     this.setSource(text);
+    this.debugger?.clearBreakpoints();
     this.ui.example.value = "";
     this.clearError();
     this.note("Opened the program in the link.");
@@ -317,6 +359,7 @@ class Playground {
     if (!entry) return;
     const response = await fetch(this.cfg.examplesURL + file);
     this.setSource(await response.text());
+    this.debugger?.clearBreakpoints();
     this.ui.example.value = file;
     this.clearError();
     if (!silent) this.note(`Loaded ${file} — ${entry.description}`);
@@ -464,6 +507,17 @@ class Playground {
    *  A run asked for (`asked`, not "run while you type") asks for the
    *  program's input and gives a page the keyboard. */
   async runFromSource({ switchTab = true, asked = true } = {}) {
+    // Where the editor's cursor was, if it had the focus when Run was
+    // pressed: by a key in it, or by the button (`focusAtRun`).
+    const back = this.focusAtRun !== undefined ? this.focusAtRun
+      : this.left.hasTextFocus() ? this.left.getSelection() : false;
+    this.focusAtRun = undefined;
+    const refocus = () => {
+      if (!back) return;
+      this.left.setSelection(back);
+      this.left.focus();
+    };
+    this.keepEditorFocus = null;
     // Before starting the runtime, so the one-off "loading the compiler"
     // note survives rather than being wiped by the clear that follows it.
     this.beforeRun();
@@ -486,13 +540,53 @@ class Playground {
       else if (switchTab && this.tab !== "web") this.showTab("run");
       const input = await this.askForInput(analysis, asked);
       if (input === null) return;
-      if (asked && paged) this.ui.page.focus({ preventScroll: true });
+      // The editor gets its focus back where it had it, and keeps it while
+      // a page starts up and takes it -- until the reader presses the
+      // page. Otherwise a page takes the keys, which its program may read.
+      if (back) {
+        refocus();
+        if (paged) this.holdEditorFocus(back);
+      } else if (asked && paged) {
+        this.ui.page.focus({ preventScroll: true });
+      }
       await this.executeProgram(source, input);
     } finally {
       // A program that sent its page something goes on running there --
       // the page calls back what it was given -- so Stop stays armed.
       if (!(this.runtime.isLive && this.running)) this.endRun();
+      // Again once it has ended, unless the focus went somewhere since.
+      const focused = document.activeElement;
+      const paged = this.pageHost && this.ui.page.contains(focused);
+      if (!paged && (!focused || focused === document.body
+                     || focused === this.ui.runLeft || focused === this.ui.stopLeft)) {
+        refocus();
+      }
     }
+  }
+
+  /** Keeps the focus in the editor, at `selection`, for a short while
+   *  after a page's program starts: focus the page takes, or loses to
+   *  nothing, as it starts up is given back, until the reader presses
+   *  anywhere. Selection -> () */
+  holdEditorFocus(selection) {
+    const hold = { until: Date.now() + 2000 };
+    this.keepEditorFocus = hold;
+    const check = () => {
+      if (this.keepEditorFocus !== hold) return;
+      if (Date.now() > hold.until) {
+        this.keepEditorFocus = null;
+        return;
+      }
+      const focused = document.activeElement;
+      const taken = !this.left.hasTextFocus()
+        && (!focused || focused === document.body || this.ui.page.contains(focused));
+      if (taken) {
+        this.left.setSelection(selection);
+        this.left.focus();
+      }
+      setTimeout(check, 50);
+    };
+    setTimeout(check, 50);
   }
 
   /** Shows one of the right-hand tabs: "run", "compiled", "web" or
@@ -535,6 +629,7 @@ class Playground {
         theme: this.effectiveTheme(),
         onCopy: (code) => {
           this.setSource(code);
+          this.debugger?.clearBreakpoints();
           this.note("Copied an example from the help into the editor.");
         },
       });
@@ -730,6 +825,10 @@ class Playground {
    *  booting the runtime, compiling, executing -- because the programs
    *  this exists for are the ones that never reach the end on their own. */
   beginRun(origin, kind) {
+    // A run started while a program is debugged ends the debugging.
+    if (kind !== "debug" && this.debugger && this.debugger.state !== "off") {
+      this.debugger.stop({ quiet: true });
+    }
     this.endRun();
     this.stopped = false;
     this.running = { origin, kind };
@@ -755,6 +854,10 @@ class Playground {
   stopRun({ quiet = false } = {}) {
     if (!this.running) return;
     const { kind } = this.running;
+    if (kind === "debug") {
+      this.debugger.stop({ quiet });
+      return;
+    }
     this.stopped = true;
     if (!quiet) (kind === "js" ? this.right : this.left).focus();
     const log = kind === "js" ? this.ui.compiledOutput : this.ui.output;
@@ -789,6 +892,106 @@ class Playground {
 
   /** Replace the source without it counting as typing. Also the method to
    *  use from an embedding page, for the same reason. */
+  /** A debugger key that is a dead key on the reader's keyboard (Option+I
+   *  on a Mac starts a ˆ) cannot be kept from starting its accent. So a
+   *  composition such a key started or ran into is ended at once, and
+   *  what a run of them left -- each dead key ending the one before and
+   *  starting the next -- is taken back out when the last one ends: in
+   *  the editor once Monaco has written it, in a text field at once.
+   *  () -> () */
+  watchDeadKeys() {
+    const { ui } = this;
+    // A letter without its accent, and no accent on its own: the spacing
+    // modifier letters (ˆ is one) and the modifier symbols (¨ ´ ˜ ^ `).
+    const strip = (text) => text.normalize("NFD").replace(/[\u0300-\u036f]/g, "")
+      .replace(/[\p{Sk}\u02b0-\u02ff]/gu, "").normalize("NFC");
+    // The span `before` and `after` differ in: {from, to} in `after`.
+    const changed = (before, after) => {
+      let from = 0;
+      while (from < before.length && from < after.length && before[from] === after[from]) from += 1;
+      let end = 0;
+      while (end < before.length - from && end < after.length - from
+             && before[before.length - 1 - end] === after[after.length - 1 - end]) end += 1;
+      return { from, to: after.length - end };
+    };
+    // A run of compositions in one place: what it began from, whether a
+    // debugger key is in it, and whether one is open now.
+    let run = null;
+    let pending = false;
+    // A dead key may run into a composition already open, and starts the
+    // next one when the keyboard ends that.
+    this.deadKeyTaken = () => {
+      pending = true;
+      if (run?.open) {
+        run.ours = true;
+        setTimeout(finish, 0);
+      }
+    };
+    // Ends the open composition: a blur commits it.
+    const finish = () => {
+      if (!run?.open || !run.ours) return;
+      const el = run.field ?? ui.leftEditor.querySelector("textarea");
+      el?.blur();
+      if (run?.field) run.field.focus();
+      else this.left.focus();
+    };
+    const begin = (field, value) => {
+      if (!run) run = { field, before: value, ours: false, open: false };
+      run.open = true;
+      if (pending) run.ours = true;
+      pending = false;
+      if (run.ours) setTimeout(finish, 0);
+    };
+    // Once no composition has followed the one that ended, the run is over.
+    const end = () => {
+      if (!run) return;
+      run.open = false;
+      setTimeout(() => {
+        if (!run || run.open) return;
+        const done = run;
+        run = null;
+        if (done.ours) clean(done);
+      }, 0);
+    };
+    const clean = ({ field, before }) => {
+      if (field) {
+        const value = field.value;
+        const { from, to } = changed(before, value);
+        const kept = strip(value.slice(from, to));
+        if (kept === value.slice(from, to)) return;
+        field.value = value.slice(0, from) + kept + value.slice(to);
+        field.setSelectionRange(from + kept.length, from + kept.length);
+        return;
+      }
+      const model = this.left.getModel();
+      const value = model.getValue();
+      const { from, to } = changed(before, value);
+      const kept = strip(value.slice(from, to));
+      if (kept === value.slice(from, to)) return;
+      const start = model.getPositionAt(from);
+      const stop = model.getPositionAt(to);
+      this.left.executeEdits("debugger-key", [{
+        range: new this.monaco.Range(start.lineNumber, start.column, stop.lineNumber, stop.column),
+        text: kept,
+      }]);
+    };
+    // A key after a dead one that started no composition: none is coming.
+    ui.root.addEventListener("keydown", (event) => {
+      if (event.key !== "Dead" && !event.isComposing && !run) pending = false;
+    }, true);
+
+    this.left.onDidCompositionStart(() => begin(null, this.left.getValue()));
+    this.left.onDidCompositionEnd(end);
+    const isField = (el) => el && ["INPUT", "TEXTAREA"].includes(el.tagName)
+      && !ui.leftEditor.contains(el);
+    ui.root.addEventListener("compositionstart", (event) => {
+      if (isField(event.target)) begin(event.target, event.target.value);
+    }, true);
+    ui.root.addEventListener("compositionend", (event) => {
+      if (isField(event.target) && run?.field === event.target) end();
+    }, true);
+  }
+
   setSource(text) {
     // Monaco fires its change event synchronously from setValue, so a
     // plain flag is enough and no reset-on-a-timer is needed.
@@ -1481,6 +1684,98 @@ class Playground {
       this.saveSettings();
     });
     this.ui.resetLayoutButton.addEventListener("click", () => this.resetLayout());
+    this.ui.debugStopOnEntry.addEventListener("change", () => {
+      this.settings.debugStopOnEntry = this.ui.debugStopOnEntry.checked;
+      this.saveSettings();
+    });
+    this.ui.debugJustMyCode.addEventListener("change", () => {
+      this.settings.debugJustMyCode = this.ui.debugJustMyCode.checked;
+      this.saveSettings();
+    });
+    this.ui.debugKeysReset.addEventListener("click", () => {
+      this.settings.debugKeys = {};
+      this.saveSettings();
+      this.showDebugKeys();
+    });
+    this.showDebugKeys();
+  }
+
+  /** The settings' debugger keys: per action, a chip for each key with
+   *  ✕ to remove it, + to record one more (Escape leaves it), and Reset
+   *  for the action's defaults. () -> () */
+  showDebugKeys() {
+    const list = this.ui.debugKeyList;
+    list.textContent = "";
+    const saved = this.settings.debugKeys ?? {};
+    const keysOf = (action) => action in saved ? keyList(saved[action]) : DEFAULT_KEYS[action];
+    const save = (action, specs) => {
+      const rest = { ...(this.settings.debugKeys ?? {}) };
+      if (specs.join("\n") === DEFAULT_KEYS[action].join("\n")) delete rest[action];
+      else rest[action] = specs;
+      this.settings.debugKeys = rest;
+      this.saveSettings();
+      this.showDebugKeys();
+    };
+    const button = (text, title, onClick) => {
+      const b = document.createElement("button");
+      b.type = "button";
+      b.textContent = text;
+      b.title = title;
+      b.addEventListener("click", onClick);
+      return b;
+    };
+    for (const [action, label] of ACTIONS) {
+      const specs = keysOf(action);
+      const row = document.createElement("div");
+      row.className = "pyk-key-row";
+      row.dataset.action = action;
+      const name = document.createElement("span");
+      name.className = "pyk-key-name";
+      name.textContent = label;
+      const chips = document.createElement("span");
+      chips.className = "pyk-key-chips";
+      for (const spec of specs) {
+        const chip = document.createElement("span");
+        chip.className = "pyk-key-chip";
+        chip.textContent = showKey(spec);
+        chip.append(button("✕", `Remove ${showKey(spec)}`,
+          () => save(action, specs.filter((k) => k !== spec))));
+        chips.append(chip);
+      }
+      const add = button("+", "Add a key: click, then press it", () => {
+        const field = document.createElement("input");
+        field.type = "text";
+        field.readOnly = true;
+        field.className = "pyk-key-field";
+        field.placeholder = "press a key";
+        field.addEventListener("keydown", (event) => {
+          if (event.key === "Tab") return;
+          event.preventDefault();
+          event.stopPropagation();
+          if (event.key === "Escape") {
+            field.blur();
+            return;
+          }
+          const spec = specOf(event);
+          if (spec === null) return;
+          save(action, specs.includes(spec) ? specs : [...specs, spec]);
+        });
+        field.addEventListener("blur", () => {
+          if (field.isConnected) field.replaceWith(add);
+        });
+        add.replaceWith(field);
+        field.focus();
+      });
+      add.className = "pyk-key-add";
+      chips.append(add);
+      const reset = button("reset", `${label}: its default keys, ${showKeys(DEFAULT_KEYS[action])}`,
+        () => save(action, DEFAULT_KEYS[action]));
+      reset.className = "pyk-key-reset";
+      reset.disabled = !(action in saved);
+      row.append(name, chips, reset);
+      list.append(row);
+    }
+    this.debugger?.showKeys();
   }
 
   openSettings() {
@@ -1499,7 +1794,8 @@ class Playground {
     this.right.updateOptions({ fontSize: px });
     // The output pane is plain text, not an editor, so it needs telling
     // separately -- but it should scale with the code beside it.
-    for (const element of [this.ui.output, this.ui.compiledOutput, this.ui.repl, this.ui.env]) {
+    for (const element of [this.ui.output, this.ui.compiledOutput, this.ui.repl, this.ui.env,
+                           this.ui.panelDebug]) {
       element.style.fontSize = px + "px";
     }
     this.ui.fontValue.textContent = px + "px";
@@ -1520,6 +1816,8 @@ class Playground {
     this.ui.clearOnRun.checked = this.settings.clearOnRun;
     this.ui.autoRun.checked = this.settings.autoRun;
     this.ui.tinywebLog.checked = this.settings.tinywebLog;
+    this.ui.debugStopOnEntry.checked = Boolean(this.settings.debugStopOnEntry);
+    this.ui.debugJustMyCode.checked = this.settings.debugJustMyCode !== false;
     for (const [key, name] of [["colSplit", "--pyk-col-split"],
                                ["outSplit", "--pyk-out-split"]]) {
       if (this.settings[key]) this.ui.root.style.setProperty(name, this.settings[key]);
@@ -1535,6 +1833,9 @@ class Playground {
       clearOnRun: this.settings.clearOnRun,
       autoRun: this.settings.autoRun,
       tinywebLog: this.settings.tinywebLog,
+      debugStopOnEntry: this.settings.debugStopOnEntry,
+      debugJustMyCode: this.settings.debugJustMyCode,
+      debugKeys: this.settings.debugKeys,
       colSplit: style.getPropertyValue("--pyk-col-split") || null,
       outSplit: style.getPropertyValue("--pyk-out-split") || null,
     });
@@ -1600,6 +1901,8 @@ function buildDom(host, meta, cfg) {
                   title="What the program shows: a program using tinyweb draws here">Web output</button>
           <button class="pyk-tab" data-r="tabRepl" data-tab="repl" role="tab"
                   title="Type Pyking an entry at a time">REPL</button>
+          <button class="pyk-tab" data-r="tabDebug" data-tab="debug" role="tab"
+                  title="Run the program a step at a time: breakpoints, variables and the calls in progress">Debug</button>
           <button class="pyk-tab" data-r="tabHelp" data-tab="help" role="tab"
                   title="Getting started, the language reference and the libraries">Help</button>
         </div>
@@ -1665,6 +1968,8 @@ function buildDom(host, meta, cfg) {
           <div class="pyk-gutter pyk-gutter-h" data-r="gutterWeb" role="separator"
                aria-orientation="horizontal" title="Drag to resize"></div>
         </div>
+
+        <div class="pyk-panel pyk-hidden pyk-panel-debug" data-r="panelDebug" role="tabpanel"></div>
 
         <div class="pyk-panel pyk-hidden" data-r="panelHelp" role="tabpanel">
           <div class="pyk-help-host" data-r="helpHost"></div>
@@ -1733,7 +2038,7 @@ function buildDom(host, meta, cfg) {
       </div>
     </div>
     <div class="pyk-modal-backdrop pyk-hidden" data-r="modal">
-      <div class="pyk-modal" role="dialog" aria-modal="true"
+      <div class="pyk-modal pyk-modal-wide" role="dialog" aria-modal="true"
            aria-label="Playground settings">
         <div class="pyk-modal-head">
           <strong>Settings</strong>
@@ -1741,51 +2046,78 @@ function buildDom(host, meta, cfg) {
           <button class="pyk-icon" data-r="modalClose"
                   title="Close (Esc)" aria-label="Close">✕</button>
         </div>
-        <div class="pyk-modal-body">
-          <div class="pyk-field" data-r="themeField">
-            <label for="pyk-theme-choice">Appearance</label>
-            <select id="pyk-theme-choice" data-r="themeChoice">
-              <option value="system">Same as the system</option>
-              <option value="light">Light</option>
-              <option value="dark">Dark</option>
-            </select>
-          </div>
-          <div class="pyk-field">
-            <label>Editor font size</label>
-            <div class="pyk-field-row">
-              <input type="range" min="10" max="26" step="1" data-r="fontSize"
-                     aria-label="Editor font size">
-              <span class="pyk-value" data-r="fontValue">13px</span>
+        <div class="pyk-modal-body pyk-settings-body">
+          <div class="pyk-settings-column">
+            <div class="pyk-field" data-r="themeField">
+              <label for="pyk-theme-choice">Appearance</label>
+              <select id="pyk-theme-choice" data-r="themeChoice">
+                <option value="system">Same as the system</option>
+                <option value="light">Light</option>
+                <option value="dark">Dark</option>
+              </select>
             </div>
-            <p class="pyk-hint">Applies to both editors, the output panes and the REPL.</p>
-          </div>
-          <div class="pyk-field">
-            <label>Running</label>
-            <label class="pyk-check">
-              <input type="checkbox" data-r="autoRun">
-              Run while you type
-            </label>
-            <p class="pyk-hint">Runs the source about half a second after you
-              stop typing, as if you had pressed Run.</p>
-          </div>
-          <div class="pyk-field">
-            <label>Output pane</label>
-            <label class="pyk-check">
-              <input type="checkbox" data-r="scrollOutput">
-              Scrollable
-            </label>
-            <label class="pyk-check">
-              <input type="checkbox" data-r="clearOnRun">
-              Clear it each time you press Run
-            </label>
-          </div>
-          <div class="pyk-field">
-            <label>Layout</label>
-            <div class="pyk-field-row">
-              <button data-r="resetLayoutButton">Reset pane sizes</button>
+            <div class="pyk-field">
+              <label>Editor font size</label>
+              <div class="pyk-field-row">
+                <input type="range" min="10" max="26" step="1" data-r="fontSize"
+                       aria-label="Editor font size">
+                <span class="pyk-value" data-r="fontValue">13px</span>
+              </div>
+              <p class="pyk-hint">Applies to both editors, the output panes and the REPL.</p>
             </div>
-            <p class="pyk-hint">Drag the bars between panes to resize them.
-              Settings are remembered in this browser.</p>
+            <div class="pyk-field">
+              <label>Layout</label>
+              <div class="pyk-field-row">
+                <button data-r="resetLayoutButton">Reset pane sizes</button>
+              </div>
+              <p class="pyk-hint">Drag the bars between panes to resize them.
+                Settings are remembered in this browser.</p>
+            </div>
+          </div>
+          <div class="pyk-settings-column">
+            <div class="pyk-field">
+              <label>Running</label>
+              <label class="pyk-check">
+                <input type="checkbox" data-r="autoRun">
+                Run while you type
+              </label>
+              <p class="pyk-hint">Runs the source about half a second after you
+                stop typing, as if you had pressed Run.</p>
+            </div>
+            <div class="pyk-field">
+              <label>Output pane</label>
+              <label class="pyk-check">
+                <input type="checkbox" data-r="scrollOutput">
+                Scrollable
+              </label>
+              <label class="pyk-check">
+                <input type="checkbox" data-r="clearOnRun">
+                Clear it each time you press Run
+              </label>
+            </div>
+          </div>
+          <div class="pyk-settings-column">
+            <div class="pyk-field">
+              <label>Debugger</label>
+              <label class="pyk-check">
+                <input type="checkbox" data-r="debugStopOnEntry">
+                Stop at the first statement
+              </label>
+              <label class="pyk-check">
+                <input type="checkbox" data-r="debugJustMyCode">
+                Step over the standard library's code
+              </label>
+            </div>
+          </div>
+          <div class="pyk-field pyk-settings-wide">
+            <label>Debugger keys</label>
+            <div class="pyk-key-list" data-r="debugKeyList"></div>
+            <div class="pyk-field-row">
+              <button data-r="debugKeysReset">Reset all the keys</button>
+            </div>
+            <p class="pyk-hint">Click + to add a key and press it; ✕ removes
+              one. The keys act where the focus is in the editor or the
+              Debug tab, and stepping's only while a program is debugged.</p>
           </div>
         </div>
       </div>
@@ -1799,7 +2131,7 @@ function buildDom(host, meta, cfg) {
   ui.tabs = [...host.querySelectorAll(".pyk-tab")];
   ui.panels = {
     run: ui.panelRun, compiled: ui.panelCompiled, web: ui.panelWeb, repl: ui.panelRepl,
-    help: ui.panelHelp,
+    debug: ui.panelDebug, help: ui.panelHelp,
   };
 
   for (const target of meta.targets) {

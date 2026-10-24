@@ -1,5 +1,5 @@
 // Generated from lib_tinyweb_choice.pyk by the Pyking compiler. Do not edit.
-// Target: node24. Run with:  node <this file>
+// Target: node22. Run with:  node <this file>
 
 import { pykFormat } from './pyk-runtime.js';
 
@@ -25,9 +25,9 @@ const names = pykList(['ocean', 'candy', 'forest']);
 const shown = tw_external.label('ocean');
 
 function changed(position) {
-  return tw_external.set_label(shown, pykConcat('chose ', pykFormat(position)));
+  return tw.set_text(shown, pykConcat('chose ', pykFormat(position)));
 }
 
-const menu = tw.choice(names, tw.choice__default__chosen(), changed);
+const menu = tw.choice(names, 0, changed);
 tw.choice(pykList(['one']), 0, tw.choice__default__on_change());
 tw_external.set_value(menu, 2);

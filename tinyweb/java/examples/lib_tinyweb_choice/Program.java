@@ -9,15 +9,17 @@ public final class Program {
     private static String menu;
 
     private static void changed(final int position) {
-        TinywebExternal.set_label(shown, "chose " + String.valueOf(position));
+        Tinyweb.set_text(shown, "chose " + String.valueOf(position));
     }
 
     public static void main(String[] args) {
+        Math.init();
+        Text.init();
         Tinyweb.init();
         Tinyweb.web_init(0);
         names = java.util.Arrays.asList("ocean", "candy", "forest");
         shown = TinywebExternal.label("ocean");
-        menu = Tinyweb.choice(names, Tinyweb.choice__default__chosen(), p$1 -> { changed(p$1); return null; });
+        menu = Tinyweb.choice(names, 0, p$1 -> { changed(p$1); return null; });
         Tinyweb.choice(java.util.Arrays.asList("one"), 0, Tinyweb.choice__default__on_change());
         TinywebExternal.set_value(menu, 2);
     }

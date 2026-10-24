@@ -10,16 +10,18 @@ public final class Program {
     private static double next_beat;
 
     private static void draw(final double t) {
-        Tinyweb.clear(c, "#111111");
-        Tinyweb.circle(c, PykRuntime.truncate(t * 100.0), 50, 10, "#ffcc00", Tinyweb.circle__default__outline(), Tinyweb.circle__default__outline_width(), Tinyweb.circle__default__alpha());
+        Tinyweb.clear(c, Tinyweb.color__hex(1118481));
+        Tinyweb.circle(c, PykRuntime.truncate(t * 100.0), 50, 10, Tinyweb.color__hex(16763904), Tinyweb.circle__default__stroke(), 1, 1.0, Tinyweb.circle__default__paint(), Tinyweb.circle__default__style());
         if (t >= next_beat) {
             System.out.println("beat scheduled at " + PykRuntime.floatStr(next_beat + beat) + ", drawn at " + PykRuntime.floatStr(t));
-            Tinyweb.play(kick, next_beat + beat, Tinyweb.play__default__volume(), Tinyweb.play__default__rate());
+            Tinyweb.play(kick, next_beat + beat, 1.0, 1.0, 0.0, Tinyweb.play__default__voice());
             next_beat = next_beat + beat;
         }
     }
 
     public static void main(String[] args) {
+        Math.init();
+        Text.init();
         Tinyweb.init();
         Tinyweb.web_init(0);
         c = TinywebExternal.canvas(200, 100);

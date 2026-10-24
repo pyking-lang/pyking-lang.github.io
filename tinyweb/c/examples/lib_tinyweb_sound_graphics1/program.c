@@ -12,7 +12,59 @@
 #pragma GCC optimize ("fp-contract=off")
 #endif
 
+#include "math.h"
+#include "text.h"
 #include "tinyweb.h"
+
+#ifndef PYK_TYPE_PYK_D_DTINYWEB_COLOR__COLOR__
+#define PYK_TYPE_PYK_D_DTINYWEB_COLOR__COLOR__
+typedef struct pyk_d_Dtinyweb_Color__Color__ {
+    int r;
+    int g;
+    int b;
+    double a;
+} pyk_d_Dtinyweb_Color__Color__;
+#endif
+
+#ifndef PYK_TYPE_PYK_D_DTINYWEB_COLOR__PAINT__
+#define PYK_TYPE_PYK_D_DTINYWEB_COLOR__PAINT__
+typedef struct pyk_d_Dtinyweb_Color__Paint__ {
+    int tag;
+    union {
+        struct {
+            pyk_d_Dtinyweb_Color__Color__ f0;
+        } Color__Plain;
+        struct {
+            double f0;
+            double f1;
+            double f2;
+            double f3;
+            pyk_d_Dtinyweb_Color__Color__ f4;
+            pyk_d_Dtinyweb_Color__Color__ f5;
+            const char *f6;
+        } Color__Linear;
+        struct {
+            double f0;
+            double f1;
+            double f2;
+            double f3;
+            double f4;
+            double f5;
+            pyk_d_Dtinyweb_Color__Color__ f6;
+            pyk_d_Dtinyweb_Color__Color__ f7;
+            const char *f8;
+        } Color__Radial;
+        struct {
+            double f0;
+            double f1;
+            double f2;
+            pyk_d_Dtinyweb_Color__Color__ f3;
+            pyk_d_Dtinyweb_Color__Color__ f4;
+            const char *f5;
+        } Color__Conic;
+    } u;
+} pyk_d_Dtinyweb_Color__Paint__;
+#endif
 
 #ifndef PYK_TYPE_PYK_C_F_U_
 #define PYK_TYPE_PYK_C_F_U_
@@ -27,6 +79,67 @@ typedef struct pyk_c_F_u_ {
 const char *tinyweb_canvas(int, int);
 const char *tinyweb_load_sample(const char *);
 void tinyweb_splash(void);
+
+static pyk_d_Dtinyweb_Color__Color__ pyk_mk_Dtinyweb_Color__Color___Color__Color(int r, int g, int b, double a)
+{
+    pyk_d_Dtinyweb_Color__Color__ v;
+    v.r = r;
+    v.g = g;
+    v.b = b;
+    v.a = a;
+    return v;
+}
+
+static pyk_d_Dtinyweb_Color__Paint__ pyk_mk_Dtinyweb_Color__Paint___Color__Plain(pyk_d_Dtinyweb_Color__Color__ f0)
+{
+    pyk_d_Dtinyweb_Color__Paint__ v;
+    v.tag = 0;
+    v.u.Color__Plain.f0 = f0;
+    return v;
+}
+
+static pyk_d_Dtinyweb_Color__Paint__ pyk_mk_Dtinyweb_Color__Paint___Color__Linear(double f0, double f1, double f2, double f3, pyk_d_Dtinyweb_Color__Color__ f4, pyk_d_Dtinyweb_Color__Color__ f5, const char *f6)
+{
+    pyk_d_Dtinyweb_Color__Paint__ v;
+    v.tag = 1;
+    v.u.Color__Linear.f0 = f0;
+    v.u.Color__Linear.f1 = f1;
+    v.u.Color__Linear.f2 = f2;
+    v.u.Color__Linear.f3 = f3;
+    v.u.Color__Linear.f4 = f4;
+    v.u.Color__Linear.f5 = f5;
+    v.u.Color__Linear.f6 = f6;
+    return v;
+}
+
+static pyk_d_Dtinyweb_Color__Paint__ pyk_mk_Dtinyweb_Color__Paint___Color__Radial(double f0, double f1, double f2, double f3, double f4, double f5, pyk_d_Dtinyweb_Color__Color__ f6, pyk_d_Dtinyweb_Color__Color__ f7, const char *f8)
+{
+    pyk_d_Dtinyweb_Color__Paint__ v;
+    v.tag = 2;
+    v.u.Color__Radial.f0 = f0;
+    v.u.Color__Radial.f1 = f1;
+    v.u.Color__Radial.f2 = f2;
+    v.u.Color__Radial.f3 = f3;
+    v.u.Color__Radial.f4 = f4;
+    v.u.Color__Radial.f5 = f5;
+    v.u.Color__Radial.f6 = f6;
+    v.u.Color__Radial.f7 = f7;
+    v.u.Color__Radial.f8 = f8;
+    return v;
+}
+
+static pyk_d_Dtinyweb_Color__Paint__ pyk_mk_Dtinyweb_Color__Paint___Color__Conic(double f0, double f1, double f2, pyk_d_Dtinyweb_Color__Color__ f3, pyk_d_Dtinyweb_Color__Color__ f4, const char *f5)
+{
+    pyk_d_Dtinyweb_Color__Paint__ v;
+    v.tag = 3;
+    v.u.Color__Conic.f0 = f0;
+    v.u.Color__Conic.f1 = f1;
+    v.u.Color__Conic.f2 = f2;
+    v.u.Color__Conic.f3 = f3;
+    v.u.Color__Conic.f4 = f4;
+    v.u.Color__Conic.f5 = f5;
+    return v;
+}
 
 static const char *pyk_int_str(int n)
 {
@@ -77,33 +190,32 @@ static void pyk_w_play_sound(void *env)
 
 static void play_kick(void)
 {
-    double pyk_t6;
-    double pyk_t7;
-    (pyk_t6 = tinyweb_play__default__at(), pyk_t7 = tinyweb_play__default__volume(), (tinyweb_play(kick, pyk_t6, pyk_t7, tinyweb_play__default__rate()), 0));
+    tinyweb_play(kick, 0.0, 1.0, 1.0, 0.0, tinyweb_play__default__voice());
 }
 
 static void play_sound(void)
 {
-    double pyk_t8;
     presses = presses + 1;
     printf("%s\n", pyk_concat("snare, press ", pyk_int_str(presses)));
-    (pyk_t8 = tinyweb_play__default__at(), (tinyweb_play(snare, pyk_t8, 0.5, tinyweb_play__default__rate()), 0));
+    tinyweb_play(snare, 0.0, 0.5, 1.0, 0.0, tinyweb_play__default__voice());
 }
 
 int main(void)
 {
-    const char *pyk_t1;
-    int pyk_t2;
-    const char *pyk_t3;
-    const char *pyk_t4;
-    int pyk_t5;
+    pyk_d_Dtinyweb_Color__Color__ pyk_t1;
+    pyk_d_Dtinyweb_Color__Paint__ pyk_t2;
+    pyk_d_Dtinyweb_Color__Color__ pyk_t3;
+    pyk_d_Dtinyweb_Color__Color__ pyk_t4;
+    pyk_d_Dtinyweb_Color__Paint__ pyk_t5;
+    math_init();
+    text_init();
     tinyweb_init();
     tinyweb_web_init(0);
     kick = tinyweb_load_sample("kick1.wav");
     snare = tinyweb_load_sample("snare1.wav");
     canvas = tinyweb_canvas(400, 200);
-    (pyk_t1 = tinyweb_circle__default__outline(), pyk_t2 = tinyweb_circle__default__outline_width(), (tinyweb_circle(canvas, 100, 50, 30, "#ff0000", pyk_t1, pyk_t2, tinyweb_circle__default__alpha()), 0));
-    (pyk_t3 = tinyweb_circle__default__color(), pyk_t4 = tinyweb_circle__default__outline(), pyk_t5 = tinyweb_circle__default__outline_width(), (tinyweb_circle(canvas, 100, 50, 20, pyk_t3, pyk_t4, pyk_t5, tinyweb_circle__default__alpha()), 0));
+    (pyk_t1 = tinyweb_circle__default__stroke(), pyk_t2 = tinyweb_circle__default__paint(), (tinyweb_circle(canvas, 100, 50, 30, tinyweb_color__red, pyk_t1, 1, 1.0, pyk_t2, tinyweb_circle__default__style()), 0));
+    (pyk_t3 = tinyweb_circle__default__fill(), pyk_t4 = tinyweb_circle__default__stroke(), pyk_t5 = tinyweb_circle__default__paint(), (tinyweb_circle(canvas, 100, 50, 20, pyk_t3, pyk_t4, 1, 1.0, pyk_t5, tinyweb_circle__default__style()), 0));
     presses = 0;
     tinyweb_button("Play kick", pyk_mk_F_u_(pyk_w_play_kick, NULL, play_kick));
     tinyweb_button("Play snare", pyk_mk_F_u_(pyk_w_play_sound, NULL, play_sound));

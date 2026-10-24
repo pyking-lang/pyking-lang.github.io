@@ -53,7 +53,7 @@ tw_external.set_splash('')
 snare = tw_external.load_sample('snare1.wav')
 
 def hit():
-    tw.play(snare, tw.play__default__at(), 0.5, tw.play__default__rate())
+    tw.play(snare, 0.0, 0.5, 1.0, 0.0, tw.play__default__voice())
     print('hit')
     return ()
 

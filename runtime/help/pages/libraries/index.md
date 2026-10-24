@@ -20,9 +20,10 @@ io.write_line("libraries")
 |---|---|
 | [`fs`](./fs/) | Reading and writing files. |
 | [`io`](./io/) | Standard input and standard output. |
-| [`math`](./math/) | Numbers: trigonometry in degrees and in radians, powers and logarithms, rounding to an Int, and helpers for drawing and games. |
+| [`math`](./math/) | Numbers: trigonometry, powers and logarithms, rounding to an Int, and helpers for drawing and games. |
 | [`random`](./random/) | Random numbers: a Float between 0.0 and 1.0, a whole number in a range, a pick from a list and a list shuffled. |
 | [`sys`](./sys/) | The process this program is running as: its arguments, its name, and its environment. |
+| [`text`](./text/) | Looking inside a String: its length, its characters, finding and replacing a part, and taking it apart into pieces and words. |
 | [`time`](./time/) | Dates and times: reading the clock, and rendering an instant. |
 | [`tinyweb`](./tinyweb/) | Graphics, widgets and sound on a web page, kept in time with each other. |
 

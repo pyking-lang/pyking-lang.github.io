@@ -1,4 +1,4 @@
-<!DOCTYPE html><html lang="en" dir="ltr" data-theme="dark" data-has-sidebar class="astro-g5ptsecz"><head><meta charset="utf-8"/><meta name="viewport" content="width=device-width, initial-scale=1"/><title>math | Pyking</title><link rel="canonical" href="https://pyking.org/libraries/math/"/><link rel="sitemap" href="/sitemap-index.xml"/><script type="module" src="/site/cells.js"></script><script>try { if (localStorage.getItem('starlight-theme') === null) localStorage.setItem('starlight-theme', 'dark'); } catch (e) {}</script><link rel="shortcut icon" href="/site/favicon.svg" type="image/svg+xml"/><meta name="generator" content="Astro v7.3.5"/><meta name="generator" content="Starlight v0.42.5"/><meta property="og:title" content="math"/><meta property="og:type" content="article"/><meta property="og:url" content="https://pyking.org/libraries/math/"/><meta property="og:locale" content="en"/><meta property="og:description" content="Numbers: trigonometry in degrees and in radians, powers and logarithms, rounding to an Int, and helpers for drawing and games."/><meta property="og:site_name" content="Pyking"/><meta name="twitter:card" content="summary_large_image"/><meta name="description" content="Numbers: trigonometry in degrees and in radians, powers and logarithms, rounding to an Int, and helpers for drawing and games."/><script>
+<!DOCTYPE html><html lang="en" dir="ltr" data-theme="dark" data-has-sidebar class="astro-g5ptsecz"><head><meta charset="utf-8"/><meta name="viewport" content="width=device-width, initial-scale=1"/><title>math | Pyking</title><link rel="canonical" href="https://pyking.org/libraries/math/"/><link rel="sitemap" href="/sitemap-index.xml"/><script type="module" src="/site/cells.js"></script><script>try { if (localStorage.getItem('starlight-theme') === null) localStorage.setItem('starlight-theme', 'dark'); } catch (e) {}</script><link rel="shortcut icon" href="/site/favicon.svg" type="image/svg+xml"/><meta name="generator" content="Astro v7.3.5"/><meta name="generator" content="Starlight v0.42.5"/><meta property="og:title" content="math"/><meta property="og:type" content="article"/><meta property="og:url" content="https://pyking.org/libraries/math/"/><meta property="og:locale" content="en"/><meta property="og:description" content="Numbers: trigonometry, powers and logarithms, rounding to an Int, and helpers for drawing and games."/><meta property="og:site_name" content="Pyking"/><meta name="twitter:card" content="summary_large_image"/><meta name="description" content="Numbers: trigonometry, powers and logarithms, rounding to an Int, and helpers for drawing and games."/><script>
 	window.StarlightThemeProvider = (() => {
 		const storedTheme =
 			typeof localStorage !== 'undefined' && localStorage.getItem('starlight-theme');
@@ -38,13 +38,12 @@
 	})();
 </script><script type="module" src="/_astro/Search.astro_astro_type_script_index_0_lang.Bumivpjo.js"></script><div class="sl-hidden md:sl-flex"><starlight-theme-select><label style="--sl-select-width: 6.25em" class="astro-2z5xp7gb"><span class="sr-only astro-2z5xp7gb">Select theme</span><svg aria-hidden="true" class="icon label-icon astro-2z5xp7gb astro-hkc32dio" width="16" height="16" viewBox="0 0 24 24" fill="currentColor" style="--sl-icon-size: 1em;"><path d="M21 14h-1V7a3 3 0 0 0-3-3H7a3 3 0 0 0-3 3v7H3a1 1 0 0 0-1 1v2a3 3 0 0 0 3 3h14a3 3 0 0 0 3-3v-2a1 1 0 0 0-1-1ZM6 7a1 1 0 0 1 1-1h10a1 1 0 0 1 1 1v7H6V7Zm14 10a1 1 0 0 1-1 1H5a1 1 0 0 1-1-1v-1h16v1Z"/></svg><select autocomplete="off" class="astro-2z5xp7gb"><option value="dark" class="astro-2z5xp7gb">Dark</option><option value="light" class="astro-2z5xp7gb">Light</option><option value="auto" selected class="astro-2z5xp7gb">Auto</option></select><svg aria-hidden="true" class="icon caret astro-2z5xp7gb astro-hkc32dio" width="16" height="16" viewBox="0 0 24 24" fill="currentColor" style="--sl-icon-size: 1em;"><path d="M17 9.17a1 1 0 0 0-1.41 0L12 12.71 8.46 9.17a1 1 0 1 0-1.41 1.42l4.24 4.24a1.002 1.002 0 0 0 1.42 0L17 10.59a1.002 1.002 0 0 0 0-1.42Z"/></svg></label></starlight-theme-select><script>
 	StarlightThemeProvider.updatePickers();
-</script><script type="module">var e=`starlight-theme`,t=e=>e===`auto`||e===`dark`||e===`light`?e:`auto`,n=()=>t(typeof localStorage<`u`&&localStorage.getItem(e));function r(t){typeof localStorage<`u`&&localStorage.setItem(e,t===`light`||t===`dark`?t:``)}var i=()=>matchMedia(`(prefers-color-scheme: light)`).matches?`light`:`dark`;function a(e){StarlightThemeProvider.updatePickers(e),document.documentElement.dataset.theme=e===`auto`?i():e,r(e)}matchMedia(`(prefers-color-scheme: light)`).addEventListener(`change`,()=>{n()===`auto`&&a(`auto`)});var o=class extends HTMLElement{constructor(){super(),a(n()),this.querySelector(`select`)?.addEventListener(`change`,e=>{e.currentTarget instanceof HTMLSelectElement&&a(t(e.currentTarget.value))})}};customElements.define(`starlight-theme-select`,o);</script></div><a class="pyking-github" href="https://github.com/pyking-lang" title="Pyking on GitHub"><span class="sr-only">GitHub</span><svg aria-hidden="true" viewBox="0 0 24 24" width="22" height="22" fill="currentColor"><path d="M12 .3a12 12 0 0 0-3.8 23.4c.6.1.8-.3.8-.6v-2c-3.3.7-4-1.6-4-1.6-.6-1.4-1.4-1.8-1.4-1.8-1-.7.1-.7.1-.7 1.2.1 1.8 1.2 1.8 1.2 1 1.8 2.8 1.3 3.5 1 0-.8.4-1.3.7-1.6-2.7-.3-5.5-1.3-5.5-6 0-1.2.5-2.3 1.3-3.1-.2-.4-.6-1.6 0-3.2 0 0 1-.3 3.4 1.2a11.5 11.5 0 0 1 6 0c2.3-1.5 3.3-1.2 3.3-1.2.6 1.6.2 2.8.1 3.2.8.8 1.3 1.9 1.3 3.1 0 4.6-2.8 5.6-5.5 5.9.5.4.9 1.1.9 2.2v3.3c0 .3.1.7.8.6A12 12 0 0 0 12 .3"></path></svg></a></div></div></header><nav class="sidebar print:hidden astro-yntsjkba" aria-label="Main"><button popovertarget="starlight__sidebar" class="sl-menu-button sl-flex md:sl-hidden print:hidden astro-r2osgdlg"><svg aria-hidden="true" class="open-menu astro-r2osgdlg astro-hkc32dio" width="16" height="16" viewBox="0 0 24 24" fill="currentColor" style="--sl-icon-size: 1em;"><path d="M3 8h18a1 1 0 1 0 0-2H3a1 1 0 0 0 0 2Zm18 8H3a1 1 0 0 0 0 2h18a1 1 0 0 0 0-2Zm0-5H3a1 1 0 0 0 0 2h18a1 1 0 0 0 0-2Z"/></svg><svg aria-hidden="true" class="close-menu astro-r2osgdlg astro-hkc32dio" width="16" height="16" viewBox="0 0 24 24" fill="currentColor" style="--sl-icon-size: 1em;"><path d="m13.41 12 6.3-6.29a1.004 1.004 0 1 0-1.42-1.42L12 10.59l-6.29-6.3a1.004 1.004 0 0 0-1.42 1.42l6.3 6.29-6.3 6.29a1 1 0 0 0 0 1.42.998.998 0 0 0 1.42 0l6.29-6.3 6.29 6.3a.999.999 0 0 0 1.42 0 1 1 0 0 0 0-1.42L13.41 12Z"/></svg><span class="sr-only astro-r2osgdlg">Menu</span></button><script type="module">var e=class extends HTMLElement{constructor(){super();let e=matchMedia(`(min-width: 50em)`),t=()=>{this.popover=e.matches?null:`auto`};t(),e.addEventListener(`change`,()=>t()),this.addEventListener(`toggle`,({newState:e})=>this.trapFocus(e===`open`))}trapFocus(e){document.querySelectorAll(`.main-frame, .sl-skip-link`).forEach(t=>{t.toggleAttribute(`inert`,e)})}};customElements.define(`sl-sidebar-pane`,e);</script><script type="module">var e=class extends HTMLElement{constructor(){super();let e=this.querySelector(`select`);e&&(e.addEventListener(`change`,e=>{e.currentTarget instanceof HTMLSelectElement&&(window.location.pathname=e.currentTarget.value)}),window.addEventListener(`pageshow`,t=>{if(!t.persisted)return;let n=e.querySelector(`option[selected]`)?.index;n!==e.selectedIndex&&(e.selectedIndex=n??0)}))}};customElements.define(`starlight-lang-select`,e);</script><sl-sidebar-pane popover id="starlight__sidebar" class="sidebar-pane astro-yntsjkba"><div class="sidebar-content sl-flex astro-yntsjkba"><nav class="pyking-sidebar" aria-label="Libraries"><p class="pyking-sidebar-title">Libraries</p><ul><li><a href="/libraries/">Overview</a></li><li><a href="/libraries/fs/">fs</a></li><li><a href="/libraries/io/">io</a></li><li><a href="/libraries/math/" aria-current="page">math</a><ul class="pyking-sidebar-headings"><li><a href="#e">e</a></li><li><a href="#inf">inf</a></li><li><a href="#nan">nan</a></li><li><a href="#pi">pi</a></li><li><a href="#tau">tau</a></li><li><a href="#acos">acos</a></li><li><a href="#acos_rad">acos_rad</a></li><li><a href="#asin">asin</a></li><li><a href="#asin_rad">asin_rad</a></li><li><a href="#atan">atan</a></li><li><a href="#atan2">atan2</a></li><li><a href="#atan2_rad">atan2_rad</a></li><li><a href="#atan_rad">atan_rad</a></li><li><a href="#cbrt">cbrt</a></li><li><a href="#ceil">ceil</a></li><li><a href="#cos">cos</a></li><li><a href="#cos_rad">cos_rad</a></li><li><a href="#cosh">cosh</a></li><li><a href="#degrees">degrees</a></li><li><a href="#distance">distance</a></li><li><a href="#exp">exp</a></li><li><a href="#floatabs">float::abs</a></li><li><a href="#floatclamp">float::clamp</a></li><li><a href="#floatmax">float::max</a></li><li><a href="#floatmin">float::min</a></li><li><a href="#floatmod">float::mod</a></li><li><a href="#floatsign">float::sign</a></li><li><a href="#floor">floor</a></li><li><a href="#gcd">gcd</a></li><li><a href="#hypot">hypot</a></li><li><a href="#intabs">int::abs</a></li><li><a href="#intclamp">int::clamp</a></li><li><a href="#intmax">int::max</a></li><li><a href="#intmin">int::min</a></li><li><a href="#intmod">int::mod</a></li><li><a href="#intsign">int::sign</a></li><li><a href="#is_finite">is_finite</a></li><li><a href="#is_nan">is_nan</a></li><li><a href="#lcm">lcm</a></li><li><a href="#lerp">lerp</a></li><li><a href="#log">log</a></li><li><a href="#log10">log10</a></li><li><a href="#log2">log2</a></li><li><a href="#map_range">map_range</a></li><li><a href="#pow">pow</a></li><li><a href="#radians">radians</a></li><li><a href="#round">round</a></li><li><a href="#sin">sin</a></li><li><a href="#sin_rad">sin_rad</a></li><li><a href="#sinh">sinh</a></li><li><a href="#sqrt">sqrt</a></li><li><a href="#tan">tan</a></li><li><a href="#tan_rad">tan_rad</a></li><li><a href="#tanh">tanh</a></li><li><a href="#trunc">trunc</a></li></ul></li><li><a href="/libraries/random/">random</a></li><li><a href="/libraries/sys/">sys</a></li><li><a href="/libraries/time/">time</a></li><li><a href="/libraries/tinyweb/">tinyweb</a></li></ul></nav><div class="md:sl-hidden"><div class="mobile-preferences sl-flex astro-p4azlveh"><div class="social-icons astro-p4azlveh"></div><starlight-theme-select><label style="--sl-select-width: 6.25em" class="astro-2z5xp7gb"><span class="sr-only astro-2z5xp7gb">Select theme</span><svg aria-hidden="true" class="icon label-icon astro-2z5xp7gb astro-hkc32dio" width="16" height="16" viewBox="0 0 24 24" fill="currentColor" style="--sl-icon-size: 1em;"><path d="M21 14h-1V7a3 3 0 0 0-3-3H7a3 3 0 0 0-3 3v7H3a1 1 0 0 0-1 1v2a3 3 0 0 0 3 3h14a3 3 0 0 0 3-3v-2a1 1 0 0 0-1-1ZM6 7a1 1 0 0 1 1-1h10a1 1 0 0 1 1 1v7H6V7Zm14 10a1 1 0 0 1-1 1H5a1 1 0 0 1-1-1v-1h16v1Z"/></svg><select autocomplete="off" class="astro-2z5xp7gb"><option value="dark" class="astro-2z5xp7gb">Dark</option><option value="light" class="astro-2z5xp7gb">Light</option><option value="auto" selected class="astro-2z5xp7gb">Auto</option></select><svg aria-hidden="true" class="icon caret astro-2z5xp7gb astro-hkc32dio" width="16" height="16" viewBox="0 0 24 24" fill="currentColor" style="--sl-icon-size: 1em;"><path d="M17 9.17a1 1 0 0 0-1.41 0L12 12.71 8.46 9.17a1 1 0 1 0-1.41 1.42l4.24 4.24a1.002 1.002 0 0 0 1.42 0L17 10.59a1.002 1.002 0 0 0 0-1.42Z"/></svg></label></starlight-theme-select><script>
+</script><script type="module">var e=`starlight-theme`,t=e=>e===`auto`||e===`dark`||e===`light`?e:`auto`,n=()=>t(typeof localStorage<`u`&&localStorage.getItem(e));function r(t){typeof localStorage<`u`&&localStorage.setItem(e,t===`light`||t===`dark`?t:``)}var i=()=>matchMedia(`(prefers-color-scheme: light)`).matches?`light`:`dark`;function a(e){StarlightThemeProvider.updatePickers(e),document.documentElement.dataset.theme=e===`auto`?i():e,r(e)}matchMedia(`(prefers-color-scheme: light)`).addEventListener(`change`,()=>{n()===`auto`&&a(`auto`)});var o=class extends HTMLElement{constructor(){super(),a(n()),this.querySelector(`select`)?.addEventListener(`change`,e=>{e.currentTarget instanceof HTMLSelectElement&&a(t(e.currentTarget.value))})}};customElements.define(`starlight-theme-select`,o);</script></div><a class="pyking-github" href="https://github.com/pyking-lang" title="Pyking on GitHub"><span class="sr-only">GitHub</span><svg aria-hidden="true" viewBox="0 0 24 24" width="22" height="22" fill="currentColor"><path d="M12 .3a12 12 0 0 0-3.8 23.4c.6.1.8-.3.8-.6v-2c-3.3.7-4-1.6-4-1.6-.6-1.4-1.4-1.8-1.4-1.8-1-.7.1-.7.1-.7 1.2.1 1.8 1.2 1.8 1.2 1 1.8 2.8 1.3 3.5 1 0-.8.4-1.3.7-1.6-2.7-.3-5.5-1.3-5.5-6 0-1.2.5-2.3 1.3-3.1-.2-.4-.6-1.6 0-3.2 0 0 1-.3 3.4 1.2a11.5 11.5 0 0 1 6 0c2.3-1.5 3.3-1.2 3.3-1.2.6 1.6.2 2.8.1 3.2.8.8 1.3 1.9 1.3 3.1 0 4.6-2.8 5.6-5.5 5.9.5.4.9 1.1.9 2.2v3.3c0 .3.1.7.8.6A12 12 0 0 0 12 .3"></path></svg></a></div></div></header><nav class="sidebar print:hidden astro-yntsjkba" aria-label="Main"><button popovertarget="starlight__sidebar" class="sl-menu-button sl-flex md:sl-hidden print:hidden astro-r2osgdlg"><svg aria-hidden="true" class="open-menu astro-r2osgdlg astro-hkc32dio" width="16" height="16" viewBox="0 0 24 24" fill="currentColor" style="--sl-icon-size: 1em;"><path d="M3 8h18a1 1 0 1 0 0-2H3a1 1 0 0 0 0 2Zm18 8H3a1 1 0 0 0 0 2h18a1 1 0 0 0 0-2Zm0-5H3a1 1 0 0 0 0 2h18a1 1 0 0 0 0-2Z"/></svg><svg aria-hidden="true" class="close-menu astro-r2osgdlg astro-hkc32dio" width="16" height="16" viewBox="0 0 24 24" fill="currentColor" style="--sl-icon-size: 1em;"><path d="m13.41 12 6.3-6.29a1.004 1.004 0 1 0-1.42-1.42L12 10.59l-6.29-6.3a1.004 1.004 0 0 0-1.42 1.42l6.3 6.29-6.3 6.29a1 1 0 0 0 0 1.42.998.998 0 0 0 1.42 0l6.29-6.3 6.29 6.3a.999.999 0 0 0 1.42 0 1 1 0 0 0 0-1.42L13.41 12Z"/></svg><span class="sr-only astro-r2osgdlg">Menu</span></button><script type="module">var e=class extends HTMLElement{constructor(){super();let e=matchMedia(`(min-width: 50em)`),t=()=>{this.popover=e.matches?null:`auto`};t(),e.addEventListener(`change`,()=>t()),this.addEventListener(`toggle`,({newState:e})=>this.trapFocus(e===`open`))}trapFocus(e){document.querySelectorAll(`.main-frame, .sl-skip-link`).forEach(t=>{t.toggleAttribute(`inert`,e)})}};customElements.define(`sl-sidebar-pane`,e);</script><script type="module">var e=class extends HTMLElement{constructor(){super();let e=this.querySelector(`select`);e&&(e.addEventListener(`change`,e=>{e.currentTarget instanceof HTMLSelectElement&&(window.location.pathname=e.currentTarget.value)}),window.addEventListener(`pageshow`,t=>{if(!t.persisted)return;let n=e.querySelector(`option[selected]`)?.index;n!==e.selectedIndex&&(e.selectedIndex=n??0)}))}};customElements.define(`starlight-lang-select`,e);</script><sl-sidebar-pane popover id="starlight__sidebar" class="sidebar-pane astro-yntsjkba"><div class="sidebar-content sl-flex astro-yntsjkba"><nav class="pyking-sidebar" aria-label="Libraries"><p class="pyking-sidebar-title">Libraries</p><ul><li><a href="/libraries/">Overview</a></li><li><a href="/libraries/fs/">fs</a></li><li><a href="/libraries/io/">io</a></li><li><a href="/libraries/math/" aria-current="page">math</a><ul class="pyking-sidebar-headings"><li><a href="#e">e</a></li><li><a href="#inf">inf</a></li><li><a href="#nan">nan</a></li><li><a href="#pi">pi</a></li><li><a href="#tau">tau</a></li><li><a href="#acos">acos</a></li><li><a href="#asin">asin</a></li><li><a href="#atan">atan</a></li><li><a href="#atan2">atan2</a></li><li><a href="#cbrt">cbrt</a></li><li><a href="#ceil">ceil</a></li><li><a href="#cos">cos</a></li><li><a href="#cosh">cosh</a></li><li><a href="#distance">distance</a></li><li><a href="#exp">exp</a></li><li><a href="#floatabs">float::abs</a></li><li><a href="#floatclamp">float::clamp</a></li><li><a href="#floatmax">float::max</a></li><li><a href="#floatmin">float::min</a></li><li><a href="#floatmod">float::mod</a></li><li><a href="#floatsign">float::sign</a></li><li><a href="#floor">floor</a></li><li><a href="#gcd">gcd</a></li><li><a href="#hypot">hypot</a></li><li><a href="#intabs">int::abs</a></li><li><a href="#intclamp">int::clamp</a></li><li><a href="#intmax">int::max</a></li><li><a href="#intmin">int::min</a></li><li><a href="#intmod">int::mod</a></li><li><a href="#intsign">int::sign</a></li><li><a href="#is_finite">is_finite</a></li><li><a href="#is_nan">is_nan</a></li><li><a href="#lcm">lcm</a></li><li><a href="#lerp">lerp</a></li><li><a href="#log">log</a></li><li><a href="#log10">log10</a></li><li><a href="#log2">log2</a></li><li><a href="#map_range">map_range</a></li><li><a href="#pow">pow</a></li><li><a href="#round">round</a></li><li><a href="#sin">sin</a></li><li><a href="#sinh">sinh</a></li><li><a href="#sqrt">sqrt</a></li><li><a href="#tan">tan</a></li><li><a href="#tanh">tanh</a></li><li><a href="#to_degrees">to_degrees</a></li><li><a href="#to_radians">to_radians</a></li><li><a href="#trunc">trunc</a></li></ul></li><li><a href="/libraries/random/">random</a></li><li><a href="/libraries/sys/">sys</a></li><li><a href="/libraries/text/">text</a></li><li><a href="/libraries/time/">time</a></li><li><a href="/libraries/tinyweb/">tinyweb</a></li></ul></nav><div class="md:sl-hidden"><div class="mobile-preferences sl-flex astro-p4azlveh"><div class="social-icons astro-p4azlveh"></div><starlight-theme-select><label style="--sl-select-width: 6.25em" class="astro-2z5xp7gb"><span class="sr-only astro-2z5xp7gb">Select theme</span><svg aria-hidden="true" class="icon label-icon astro-2z5xp7gb astro-hkc32dio" width="16" height="16" viewBox="0 0 24 24" fill="currentColor" style="--sl-icon-size: 1em;"><path d="M21 14h-1V7a3 3 0 0 0-3-3H7a3 3 0 0 0-3 3v7H3a1 1 0 0 0-1 1v2a3 3 0 0 0 3 3h14a3 3 0 0 0 3-3v-2a1 1 0 0 0-1-1ZM6 7a1 1 0 0 1 1-1h10a1 1 0 0 1 1 1v7H6V7Zm14 10a1 1 0 0 1-1 1H5a1 1 0 0 1-1-1v-1h16v1Z"/></svg><select autocomplete="off" class="astro-2z5xp7gb"><option value="dark" class="astro-2z5xp7gb">Dark</option><option value="light" class="astro-2z5xp7gb">Light</option><option value="auto" selected class="astro-2z5xp7gb">Auto</option></select><svg aria-hidden="true" class="icon caret astro-2z5xp7gb astro-hkc32dio" width="16" height="16" viewBox="0 0 24 24" fill="currentColor" style="--sl-icon-size: 1em;"><path d="M17 9.17a1 1 0 0 0-1.41 0L12 12.71 8.46 9.17a1 1 0 1 0-1.41 1.42l4.24 4.24a1.002 1.002 0 0 0 1.42 0L17 10.59a1.002 1.002 0 0 0 0-1.42Z"/></svg></label></starlight-theme-select><script>
 	StarlightThemeProvider.updatePickers();
-</script></div></div></div></sl-sidebar-pane></nav><div class="main-frame astro-yntsjkba"><script type="module">var e=document.getElementById(`starlight__sidebar`),t=e?.querySelector(`sl-sidebar-state-persist`),n=`sl-sidebar-state`,r=()=>{let r=[],i=t?.dataset.hash||``;try{let e=sessionStorage.getItem(n),t=JSON.parse(e||`{}`);Array.isArray(t.open)&&t.hash===i&&(r=t.open)}catch{}return{hash:i,open:r,scroll:e?.scrollTop||0}},i=e=>{try{sessionStorage.setItem(n,JSON.stringify(e))}catch{}},a=()=>i(r()),o=(e,t)=>{let n=r();n.open[t]=e,i(n)};t?.addEventListener(`click`,e=>{if(!(e.target instanceof Element))return;let t=e.target.closest(`summary`)?.closest(`details`);if(!t)return;let n=t.querySelector(`sl-sidebar-restore`),r=parseInt(n?.dataset.index||``);isNaN(r)||o(!t.open,r)}),addEventListener(`visibilitychange`,()=>{document.visibilityState===`hidden`&&a()});</script><div class="lg:sl-flex astro-lrzkfocr"><div class="main-pane astro-lrzkfocr"><main data-pagefind-body class="astro-g5ptsecz" lang="en" dir="ltr"><div class="content-panel astro-a7po4psb"><div class="sl-container astro-a7po4psb"><h1 id="_top" class="astro-bebwqqxs">math</h1></div></div><div class="content-panel astro-a7po4psb"><div class="sl-container astro-a7po4psb"><div class="sl-markdown-content"><p>Numbers: trigonometry in degrees and in radians, powers and
-logarithms, rounding to an Int, and helpers for drawing and games.</p>
-<p>Angles are in <strong>degrees</strong>: <code>sin(90.0)</code> is <code>1.0</code>. Each trigonometric
-function has a twin ending in <code>_rad</code> that works in radians, and
-<code>radians</code> and <code>degrees</code> convert between the two. <code>abs</code>, <code>min</code>, <code>max</code>,
+</script></div></div></div></sl-sidebar-pane></nav><div class="main-frame astro-yntsjkba"><script type="module">var e=document.getElementById(`starlight__sidebar`),t=e?.querySelector(`sl-sidebar-state-persist`),n=`sl-sidebar-state`,r=()=>{let r=[],i=t?.dataset.hash||``;try{let e=sessionStorage.getItem(n),t=JSON.parse(e||`{}`);Array.isArray(t.open)&&t.hash===i&&(r=t.open)}catch{}return{hash:i,open:r,scroll:e?.scrollTop||0}},i=e=>{try{sessionStorage.setItem(n,JSON.stringify(e))}catch{}},a=()=>i(r()),o=(e,t)=>{let n=r();n.open[t]=e,i(n)};t?.addEventListener(`click`,e=>{if(!(e.target instanceof Element))return;let t=e.target.closest(`summary`)?.closest(`details`);if(!t)return;let n=t.querySelector(`sl-sidebar-restore`),r=parseInt(n?.dataset.index||``);isNaN(r)||o(!t.open,r)}),addEventListener(`visibilitychange`,()=>{document.visibilityState===`hidden`&&a()});</script><div class="lg:sl-flex astro-lrzkfocr"><div class="main-pane astro-lrzkfocr"><main data-pagefind-body class="astro-g5ptsecz" lang="en" dir="ltr"><div class="content-panel astro-a7po4psb"><div class="sl-container astro-a7po4psb"><h1 id="_top" class="astro-bebwqqxs">math</h1></div></div><div class="content-panel astro-a7po4psb"><div class="sl-container astro-a7po4psb"><div class="sl-markdown-content"><p>Numbers: trigonometry, powers and logarithms, rounding to an Int,
+and helpers for drawing and games.</p>
+<p>Angles are in <strong>radians</strong>: <code>sin(pi / 2.0)</code> is <code>1.0</code>. <code>to_radians</code> and
+<code>to_degrees</code> convert from and to degrees. <code>abs</code>, <code>min</code>, <code>max</code>,
 <code>clamp</code>, <code>sign</code> and <code>mod</code> take two Ints or two Floats and answer the
 same type; everything else takes and answers Floats, so an Int is
 passed as <code>float(n)</code>.</p>
@@ -125,26 +124,6 @@ print(math.tau)
 <div class="pyk-api">
 <h2 id="acos">acos</h2>
 <pre class="pyk-sig"><code><span class="k">def</span> <span class="n">acos</span>(<span class="p">x</span>: <span class="t">Float</span>) -> <span class="t">Float</span></code></pre>
-<p>The angle in degrees whose cosine is <code>x</code>.</p>
-<p class="pyk-api-label">Parameters</p>
-<ul>
-<li><code>x</code>: the cosine, from -1 to 1.</li>
-</ul>
-<p class="pyk-api-label">Returns</p>
-<p>The angle, from 0 to 180 degrees; NaN when <code>x</code> is outside -1 to 1.</p>
-<p class="pyk-api-label">Example</p>
-<div class="pkn-notebook pkn-embedded not-content"><div class="pkn-fragment" data-markdown="&#x60;&#x60;&#x60;pyking
-import math
-print(math.acos(0.5), math.acos(0.0), math.acos(-1.0))
-&#x60;&#x60;&#x60;
-
-&#x60;&#x60;&#x60;stdout visible = true
-60.0 90.0 180.0
-&#x60;&#x60;&#x60;"></div></div>
-</div>
-<div class="pyk-api">
-<h2 id="acos_rad">acos_rad</h2>
-<pre class="pyk-sig"><code><span class="k">def</span> <span class="n">acos_rad</span>(<span class="p">x</span>: <span class="t">Float</span>) -> <span class="t">Float</span></code></pre>
 <p>The angle in radians whose cosine is <code>x</code>.</p>
 <p class="pyk-api-label">Parameters</p>
 <ul>
@@ -155,7 +134,7 @@ print(math.acos(0.5), math.acos(0.0), math.acos(-1.0))
 <p class="pyk-api-label">Example</p>
 <div class="pkn-notebook pkn-embedded not-content"><div class="pkn-fragment" data-markdown="&#x60;&#x60;&#x60;pyking
 import math
-print(math.acos_rad(-1.0) == math.pi)
+print(math.acos(-1.0) == math.pi)
 &#x60;&#x60;&#x60;
 
 &#x60;&#x60;&#x60;stdout visible = true
@@ -165,26 +144,6 @@ true
 <div class="pyk-api">
 <h2 id="asin">asin</h2>
 <pre class="pyk-sig"><code><span class="k">def</span> <span class="n">asin</span>(<span class="p">x</span>: <span class="t">Float</span>) -> <span class="t">Float</span></code></pre>
-<p>The angle in degrees whose sine is <code>x</code>.</p>
-<p class="pyk-api-label">Parameters</p>
-<ul>
-<li><code>x</code>: the sine, from -1 to 1.</li>
-</ul>
-<p class="pyk-api-label">Returns</p>
-<p>The angle, from -90 to 90 degrees; NaN when <code>x</code> is outside -1 to 1.</p>
-<p class="pyk-api-label">Example</p>
-<div class="pkn-notebook pkn-embedded not-content"><div class="pkn-fragment" data-markdown="&#x60;&#x60;&#x60;pyking
-import math
-print(math.asin(0.5), math.asin(1.0), math.asin(-1.0))
-&#x60;&#x60;&#x60;
-
-&#x60;&#x60;&#x60;stdout visible = true
-30.0 90.0 -90.0
-&#x60;&#x60;&#x60;"></div></div>
-</div>
-<div class="pyk-api">
-<h2 id="asin_rad">asin_rad</h2>
-<pre class="pyk-sig"><code><span class="k">def</span> <span class="n">asin_rad</span>(<span class="p">x</span>: <span class="t">Float</span>) -> <span class="t">Float</span></code></pre>
 <p>The angle in radians whose sine is <code>x</code>.</p>
 <p class="pyk-api-label">Parameters</p>
 <ul>
@@ -195,7 +154,7 @@ print(math.asin(0.5), math.asin(1.0), math.asin(-1.0))
 <p class="pyk-api-label">Example</p>
 <div class="pkn-notebook pkn-embedded not-content"><div class="pkn-fragment" data-markdown="&#x60;&#x60;&#x60;pyking
 import math
-print(math.asin_rad(1.0) == math.pi / 2.0)
+print(math.asin(1.0) == math.pi / 2.0)
 &#x60;&#x60;&#x60;
 
 &#x60;&#x60;&#x60;stdout visible = true
@@ -205,72 +164,6 @@ true
 <div class="pyk-api">
 <h2 id="atan">atan</h2>
 <pre class="pyk-sig"><code><span class="k">def</span> <span class="n">atan</span>(<span class="p">x</span>: <span class="t">Float</span>) -> <span class="t">Float</span></code></pre>
-<p>The angle in degrees whose tangent is <code>x</code>.</p>
-<p class="pyk-api-label">Parameters</p>
-<ul>
-<li><code>x</code>: the tangent.</li>
-</ul>
-<p class="pyk-api-label">Returns</p>
-<p>The angle, between -90 and 90 degrees.</p>
-<p class="pyk-api-label">Example</p>
-<div class="pkn-notebook pkn-embedded not-content"><div class="pkn-fragment" data-markdown="&#x60;&#x60;&#x60;pyking
-import math
-print(math.atan(1.0), math.atan(-1.0), math.atan(math.inf))
-&#x60;&#x60;&#x60;
-
-&#x60;&#x60;&#x60;stdout visible = true
-45.0 -45.0 90.0
-&#x60;&#x60;&#x60;"></div></div>
-</div>
-<div class="pyk-api">
-<h2 id="atan2">atan2</h2>
-<pre class="pyk-sig"><code><span class="k">def</span> <span class="n">atan2</span>(<span class="p">y</span>: <span class="t">Float</span>, <span class="p">x</span>: <span class="t">Float</span>) -> <span class="t">Float</span></code></pre>
-<p>The direction in degrees from the origin to the point (<code>x</code>, <code>y</code>): the
-angle a line from (0, 0) to that point makes with the x axis. Unlike
-<code>atan(y / x)</code>, it tells all four quarters of the plane apart. Note the
-order: <code>y</code> comes first.</p>
-<p class="pyk-api-label">Parameters</p>
-<ul>
-<li><code>y</code>: the point’s y coordinate.</li>
-<li><code>x</code>: the point’s x coordinate.</li>
-</ul>
-<p class="pyk-api-label">Returns</p>
-<p>The angle, from -180 to 180 degrees.</p>
-<p class="pyk-api-label">Example</p>
-<div class="pkn-notebook pkn-embedded not-content"><div class="pkn-fragment" data-markdown="&#x60;&#x60;&#x60;pyking
-import math
-print(math.atan2(1.0, 1.0), math.atan2(1.0, -1.0), math.atan2(-1.0, 0.0))
-&#x60;&#x60;&#x60;
-
-&#x60;&#x60;&#x60;stdout visible = true
-45.0 135.0 -90.0
-&#x60;&#x60;&#x60;"></div></div>
-</div>
-<div class="pyk-api">
-<h2 id="atan2_rad">atan2_rad</h2>
-<pre class="pyk-sig"><code><span class="k">def</span> <span class="n">atan2_rad</span>(<span class="p">y</span>: <span class="t">Float</span>, <span class="p">x</span>: <span class="t">Float</span>) -> <span class="t">Float</span></code></pre>
-<p>The direction in radians from the origin to the point (<code>x</code>, <code>y</code>), as
-<code>atan2</code> answers it in degrees. <code>y</code> comes first.</p>
-<p class="pyk-api-label">Parameters</p>
-<ul>
-<li><code>y</code>: the point’s y coordinate.</li>
-<li><code>x</code>: the point’s x coordinate.</li>
-</ul>
-<p class="pyk-api-label">Returns</p>
-<p>The angle, from -π to π.</p>
-<p class="pyk-api-label">Example</p>
-<div class="pkn-notebook pkn-embedded not-content"><div class="pkn-fragment" data-markdown="&#x60;&#x60;&#x60;pyking
-import math
-print(math.atan2_rad(0.0, -1.0) == math.pi)
-&#x60;&#x60;&#x60;
-
-&#x60;&#x60;&#x60;stdout visible = true
-true
-&#x60;&#x60;&#x60;"></div></div>
-</div>
-<div class="pyk-api">
-<h2 id="atan_rad">atan_rad</h2>
-<pre class="pyk-sig"><code><span class="k">def</span> <span class="n">atan_rad</span>(<span class="p">x</span>: <span class="t">Float</span>) -> <span class="t">Float</span></code></pre>
 <p>The angle in radians whose tangent is <code>x</code>.</p>
 <p class="pyk-api-label">Parameters</p>
 <ul>
@@ -281,11 +174,35 @@ true
 <p class="pyk-api-label">Example</p>
 <div class="pkn-notebook pkn-embedded not-content"><div class="pkn-fragment" data-markdown="&#x60;&#x60;&#x60;pyking
 import math
-print(math.atan_rad(0.0))
+print(math.atan(0.0), math.atan(1.0) == math.pi / 4.0)
 &#x60;&#x60;&#x60;
 
 &#x60;&#x60;&#x60;stdout visible = true
-0.0
+0.0 true
+&#x60;&#x60;&#x60;"></div></div>
+</div>
+<div class="pyk-api">
+<h2 id="atan2">atan2</h2>
+<pre class="pyk-sig"><code><span class="k">def</span> <span class="n">atan2</span>(<span class="p">y</span>: <span class="t">Float</span>, <span class="p">x</span>: <span class="t">Float</span>) -> <span class="t">Float</span></code></pre>
+<p>The direction in radians from the origin to the point (<code>x</code>, <code>y</code>): the
+angle a line from (0, 0) to that point makes with the x axis. Unlike
+<code>atan(y / x)</code>, it tells all four quarters of the plane apart. Note the
+order: <code>y</code> comes first.</p>
+<p class="pyk-api-label">Parameters</p>
+<ul>
+<li><code>y</code>: the point’s y coordinate.</li>
+<li><code>x</code>: the point’s x coordinate.</li>
+</ul>
+<p class="pyk-api-label">Returns</p>
+<p>The angle, from -π to π.</p>
+<p class="pyk-api-label">Example</p>
+<div class="pkn-notebook pkn-embedded not-content"><div class="pkn-fragment" data-markdown="&#x60;&#x60;&#x60;pyking
+import math
+print(math.atan2(0.0, -1.0) == math.pi, math.atan2(-1.0, 0.0) == -math.pi / 2.0)
+&#x60;&#x60;&#x60;
+
+&#x60;&#x60;&#x60;stdout visible = true
+true true
 &#x60;&#x60;&#x60;"></div></div>
 </div>
 <div class="pyk-api">
@@ -332,27 +249,6 @@ print(math.ceil(2.2), math.ceil(-2.7))
 <div class="pyk-api">
 <h2 id="cos">cos</h2>
 <pre class="pyk-sig"><code><span class="k">def</span> <span class="n">cos</span>(<span class="p">angle</span>: <span class="t">Float</span>) -> <span class="t">Float</span></code></pre>
-<p>The cosine of an angle in degrees.</p>
-<p class="pyk-api-label">Parameters</p>
-<ul>
-<li><code>angle</code>: the angle in degrees.</li>
-</ul>
-<p class="pyk-api-label">Returns</p>
-<p>The cosine, from -1 to 1. It is exact at every multiple of 30 degrees:
-<code>cos(60.0)</code> is <code>0.5</code> and <code>cos(90.0)</code> is <code>0.0</code>.</p>
-<p class="pyk-api-label">Example</p>
-<div class="pkn-notebook pkn-embedded not-content"><div class="pkn-fragment" data-markdown="&#x60;&#x60;&#x60;pyking
-import math
-print(math.cos(0.0), math.cos(60.0), math.cos(90.0), math.cos(180.0))
-&#x60;&#x60;&#x60;
-
-&#x60;&#x60;&#x60;stdout visible = true
-1.0 0.5 0.0 -1.0
-&#x60;&#x60;&#x60;"></div></div>
-</div>
-<div class="pyk-api">
-<h2 id="cos_rad">cos_rad</h2>
-<pre class="pyk-sig"><code><span class="k">def</span> <span class="n">cos_rad</span>(<span class="p">angle</span>: <span class="t">Float</span>) -> <span class="t">Float</span></code></pre>
 <p>The cosine of an angle in radians.</p>
 <p class="pyk-api-label">Parameters</p>
 <ul>
@@ -363,7 +259,7 @@ print(math.cos(0.0), math.cos(60.0), math.cos(90.0), math.cos(180.0))
 <p class="pyk-api-label">Example</p>
 <div class="pkn-notebook pkn-embedded not-content"><div class="pkn-fragment" data-markdown="&#x60;&#x60;&#x60;pyking
 import math
-print(math.cos_rad(0.0), math.cos_rad(math.pi))
+print(math.cos(0.0), math.cos(math.pi))
 &#x60;&#x60;&#x60;
 
 &#x60;&#x60;&#x60;stdout visible = true
@@ -388,26 +284,6 @@ print(math.cosh(0.0))
 
 &#x60;&#x60;&#x60;stdout visible = true
 1.0
-&#x60;&#x60;&#x60;"></div></div>
-</div>
-<div class="pyk-api">
-<h2 id="degrees">degrees</h2>
-<pre class="pyk-sig"><code><span class="k">def</span> <span class="n">degrees</span>(<span class="p">angle</span>: <span class="t">Float</span>) -> <span class="t">Float</span></code></pre>
-<p>An angle in radians, in degrees.</p>
-<p class="pyk-api-label">Parameters</p>
-<ul>
-<li><code>angle</code>: the angle in radians.</li>
-</ul>
-<p class="pyk-api-label">Returns</p>
-<p>The same angle in degrees: <code>angle * 180 / pi</code>.</p>
-<p class="pyk-api-label">Example</p>
-<div class="pkn-notebook pkn-embedded not-content"><div class="pkn-fragment" data-markdown="&#x60;&#x60;&#x60;pyking
-import math
-print(math.degrees(math.pi))
-&#x60;&#x60;&#x60;
-
-&#x60;&#x60;&#x60;stdout visible = true
-180.0
 &#x60;&#x60;&#x60;"></div></div>
 </div>
 <div class="pyk-api">
@@ -984,26 +860,6 @@ print(math.pow(2.0, 10.0), math.pow(9.0, 0.5), math.pow(2.0, -1.0))
 &#x60;&#x60;&#x60;"></div></div>
 </div>
 <div class="pyk-api">
-<h2 id="radians">radians</h2>
-<pre class="pyk-sig"><code><span class="k">def</span> <span class="n">radians</span>(<span class="p">angle</span>: <span class="t">Float</span>) -> <span class="t">Float</span></code></pre>
-<p>An angle in degrees, in radians.</p>
-<p class="pyk-api-label">Parameters</p>
-<ul>
-<li><code>angle</code>: the angle in degrees.</li>
-</ul>
-<p class="pyk-api-label">Returns</p>
-<p>The same angle in radians: <code>angle * pi / 180</code>.</p>
-<p class="pyk-api-label">Example</p>
-<div class="pkn-notebook pkn-embedded not-content"><div class="pkn-fragment" data-markdown="&#x60;&#x60;&#x60;pyking
-import math
-print(math.radians(180.0))
-&#x60;&#x60;&#x60;
-
-&#x60;&#x60;&#x60;stdout visible = true
-3.141592653589793
-&#x60;&#x60;&#x60;"></div></div>
-</div>
-<div class="pyk-api">
 <h2 id="round">round</h2>
 <pre class="pyk-sig"><code><span class="k">def</span> <span class="n">round</span>(<span class="p">x</span>: <span class="t">Float</span>) -> <span class="t">Int</span></code></pre>
 <p><code>x</code> rounded to the nearest whole number, a tie going away from zero:
@@ -1028,27 +884,6 @@ print(math.round(2.4), math.round(2.5), math.round(-2.5), math.round(-2.6))
 <div class="pyk-api">
 <h2 id="sin">sin</h2>
 <pre class="pyk-sig"><code><span class="k">def</span> <span class="n">sin</span>(<span class="p">angle</span>: <span class="t">Float</span>) -> <span class="t">Float</span></code></pre>
-<p>The sine of an angle in degrees.</p>
-<p class="pyk-api-label">Parameters</p>
-<ul>
-<li><code>angle</code>: the angle in degrees.</li>
-</ul>
-<p class="pyk-api-label">Returns</p>
-<p>The sine, from -1 to 1. It is exact at every multiple of 30 degrees:
-<code>sin(30.0)</code> is <code>0.5</code> and <code>sin(180.0)</code> is <code>0.0</code>.</p>
-<p class="pyk-api-label">Example</p>
-<div class="pkn-notebook pkn-embedded not-content"><div class="pkn-fragment" data-markdown="&#x60;&#x60;&#x60;pyking
-import math
-print(math.sin(30.0), math.sin(90.0), math.sin(-90.0))
-&#x60;&#x60;&#x60;
-
-&#x60;&#x60;&#x60;stdout visible = true
-0.5 1.0 -1.0
-&#x60;&#x60;&#x60;"></div></div>
-</div>
-<div class="pyk-api">
-<h2 id="sin_rad">sin_rad</h2>
-<pre class="pyk-sig"><code><span class="k">def</span> <span class="n">sin_rad</span>(<span class="p">angle</span>: <span class="t">Float</span>) -> <span class="t">Float</span></code></pre>
 <p>The sine of an angle in radians.</p>
 <p class="pyk-api-label">Parameters</p>
 <ul>
@@ -1059,7 +894,7 @@ print(math.sin(30.0), math.sin(90.0), math.sin(-90.0))
 <p class="pyk-api-label">Example</p>
 <div class="pkn-notebook pkn-embedded not-content"><div class="pkn-fragment" data-markdown="&#x60;&#x60;&#x60;pyking
 import math
-print(math.sin_rad(0.0), math.sin_rad(math.pi / 2.0))
+print(math.sin(0.0), math.sin(math.pi / 2.0))
 &#x60;&#x60;&#x60;
 
 &#x60;&#x60;&#x60;stdout visible = true
@@ -1109,28 +944,6 @@ print(math.sqrt(16.0), math.sqrt(2.0))
 <div class="pyk-api">
 <h2 id="tan">tan</h2>
 <pre class="pyk-sig"><code><span class="k">def</span> <span class="n">tan</span>(<span class="p">angle</span>: <span class="t">Float</span>) -> <span class="t">Float</span></code></pre>
-<p>The tangent of an angle in degrees.</p>
-<p class="pyk-api-label">Parameters</p>
-<ul>
-<li><code>angle</code>: the angle in degrees.</li>
-</ul>
-<p class="pyk-api-label">Returns</p>
-<p>The tangent. It is exact at every multiple of 45 degrees, and <code>inf</code>
-at 90 degrees, 270 degrees and so on, where the tangent grows without
-bound.</p>
-<p class="pyk-api-label">Example</p>
-<div class="pkn-notebook pkn-embedded not-content"><div class="pkn-fragment" data-markdown="&#x60;&#x60;&#x60;pyking
-import math
-print(math.tan(45.0), math.tan(135.0), math.tan(90.0))
-&#x60;&#x60;&#x60;
-
-&#x60;&#x60;&#x60;stdout visible = true
-1.0 -1.0 inf
-&#x60;&#x60;&#x60;"></div></div>
-</div>
-<div class="pyk-api">
-<h2 id="tan_rad">tan_rad</h2>
-<pre class="pyk-sig"><code><span class="k">def</span> <span class="n">tan_rad</span>(<span class="p">angle</span>: <span class="t">Float</span>) -> <span class="t">Float</span></code></pre>
 <p>The tangent of an angle in radians.</p>
 <p class="pyk-api-label">Parameters</p>
 <ul>
@@ -1141,7 +954,7 @@ print(math.tan(45.0), math.tan(135.0), math.tan(90.0))
 <p class="pyk-api-label">Example</p>
 <div class="pkn-notebook pkn-embedded not-content"><div class="pkn-fragment" data-markdown="&#x60;&#x60;&#x60;pyking
 import math
-print(math.tan_rad(0.0))
+print(math.tan(0.0))
 &#x60;&#x60;&#x60;
 
 &#x60;&#x60;&#x60;stdout visible = true
@@ -1166,6 +979,46 @@ print(math.tanh(0.0), math.tanh(math.inf))
 
 &#x60;&#x60;&#x60;stdout visible = true
 0.0 1.0
+&#x60;&#x60;&#x60;"></div></div>
+</div>
+<div class="pyk-api">
+<h2 id="to_degrees">to_degrees</h2>
+<pre class="pyk-sig"><code><span class="k">def</span> <span class="n">to_degrees</span>(<span class="p">rad</span>: <span class="t">Float</span>) -> <span class="t">Float</span></code></pre>
+<p>An angle in radians, in degrees.</p>
+<p class="pyk-api-label">Parameters</p>
+<ul>
+<li><code>rad</code>: the angle in radians.</li>
+</ul>
+<p class="pyk-api-label">Returns</p>
+<p>The same angle in degrees: <code>rad * 180 / pi</code>.</p>
+<p class="pyk-api-label">Example</p>
+<div class="pkn-notebook pkn-embedded not-content"><div class="pkn-fragment" data-markdown="&#x60;&#x60;&#x60;pyking
+import math
+print(math.to_degrees(math.pi))
+&#x60;&#x60;&#x60;
+
+&#x60;&#x60;&#x60;stdout visible = true
+180.0
+&#x60;&#x60;&#x60;"></div></div>
+</div>
+<div class="pyk-api">
+<h2 id="to_radians">to_radians</h2>
+<pre class="pyk-sig"><code><span class="k">def</span> <span class="n">to_radians</span>(<span class="p">deg</span>: <span class="t">Float</span>) -> <span class="t">Float</span></code></pre>
+<p>An angle in degrees, in radians.</p>
+<p class="pyk-api-label">Parameters</p>
+<ul>
+<li><code>deg</code>: the angle in degrees.</li>
+</ul>
+<p class="pyk-api-label">Returns</p>
+<p>The same angle in radians: <code>deg * pi / 180</code>.</p>
+<p class="pyk-api-label">Example</p>
+<div class="pkn-notebook pkn-embedded not-content"><div class="pkn-fragment" data-markdown="&#x60;&#x60;&#x60;pyking
+import math
+print(math.to_radians(180.0))
+&#x60;&#x60;&#x60;
+
+&#x60;&#x60;&#x60;stdout visible = true
+3.141592653589793
 &#x60;&#x60;&#x60;"></div></div>
 </div>
 <div class="pyk-api">

@@ -4,6 +4,16 @@
 #ifndef PYK_TINYWEB_H
 #define PYK_TINYWEB_H
 
+#ifndef PYK_TYPE_PYK_D_DTINYWEB_COLOR__COLOR__
+#define PYK_TYPE_PYK_D_DTINYWEB_COLOR__COLOR__
+typedef struct pyk_d_Dtinyweb_Color__Color__ {
+    int r;
+    int g;
+    int b;
+    double a;
+} pyk_d_Dtinyweb_Color__Color__;
+#endif
+
 #ifndef PYK_TYPE_PYK_C_F_U_
 #define PYK_TYPE_PYK_C_F_U_
 typedef struct pyk_c_F_u_ {
@@ -22,31 +32,51 @@ typedef struct pyk_c_Fi_u_ {
 } pyk_c_Fi_u_;
 #endif
 
+#ifndef PYK_TYPE_PYK_C_FII_U_
+#define PYK_TYPE_PYK_C_FII_U_
+typedef struct pyk_c_Fii_u_ {
+    void (*fn)(void *, int, int);
+    void *env;
+    void (*plain)(int, int);
+} pyk_c_Fii_u_;
+#endif
+
+extern pyk_d_Dtinyweb_Color__Color__ tinyweb_color__black;
+extern pyk_d_Dtinyweb_Color__Color__ tinyweb_color__white;
+extern pyk_d_Dtinyweb_Color__Color__ tinyweb_color__gray;
+extern pyk_d_Dtinyweb_Color__Color__ tinyweb_color__red;
+extern pyk_d_Dtinyweb_Color__Color__ tinyweb_color__green;
+extern pyk_d_Dtinyweb_Color__Color__ tinyweb_color__blue;
+extern pyk_d_Dtinyweb_Color__Color__ tinyweb_color__yellow;
+extern pyk_d_Dtinyweb_Color__Color__ tinyweb_color__orange;
+extern pyk_d_Dtinyweb_Color__Color__ tinyweb_color__purple;
+extern pyk_d_Dtinyweb_Color__Color__ tinyweb_color__pink;
+extern pyk_d_Dtinyweb_Color__Color__ tinyweb_color__navy;
+extern pyk_d_Dtinyweb_Color__Color__ tinyweb_color__teal;
+extern pyk_d_Dtinyweb_Color__Color__ tinyweb_color__brown;
+extern pyk_d_Dtinyweb_Color__Color__ tinyweb_color__cyan;
+extern pyk_d_Dtinyweb_Color__Color__ tinyweb_color__magenta;
+extern pyk_d_Dtinyweb_Color__Color__ tinyweb_color__none;
+extern pyk_d_Dtinyweb_Color__Color__ tinyweb_color__theme;
+
+pyk_d_Dtinyweb_Color__Color__ tinyweb_color__rgba(int r, int g, int b, double a);
+pyk_d_Dtinyweb_Color__Color__ tinyweb_color__hex(int n);
 void tinyweb_web_init(int port);
 const char *tinyweb_button(const char *title, pyk_c_F_u_ on_click);
 pyk_c_Fi_u_ tinyweb_slider__default__on_change(void);
 const char *tinyweb_slider(int low, int high, int value, pyk_c_Fi_u_ on_change);
 void tinyweb_theme(const char *name);
-const char *tinyweb_page_style__default__align(void);
-void tinyweb_page_style(const char *background, const char *color, const char *font, int size, int padding, int gap, const char *align);
-void tinyweb_button_style(const char *background, const char *color, const char *border, int radius, const char *font, int size, int padding);
-void tinyweb_label_style(const char *background, const char *color, const char *border, int radius, const char *font, int size, int padding);
-void tinyweb_slider_style(const char *accent, int width, const char *color, const char *font, int size);
-void tinyweb_canvas_style(const char *border, int radius);
-const char *tinyweb_set_colors__default__color(void);
-const char *tinyweb_set_colors__default__background(void);
-void tinyweb_set_colors(const char *id, const char *color, const char *background);
-const char *tinyweb_set_style__default__background(void);
-const char *tinyweb_set_style__default__color(void);
-int tinyweb_set_style__default__radius(void);
-const char *tinyweb_set_style__default__font(void);
-int tinyweb_set_style__default__size(void);
-int tinyweb_set_style__default__padding(void);
-const char *tinyweb_set_style__default__accent(void);
-int tinyweb_set_style__default__width(void);
-int tinyweb_set_style__default__weight(void);
-int tinyweb_set_style__default__height(void);
-void tinyweb_set_style(const char *id, const char *background, const char *color, const char *border, int radius, const char *font, int size, int padding, const char *accent, int width, int weight, int height);
+void tinyweb_page_style(pyk_d_Dtinyweb_Color__Color__ background, pyk_d_Dtinyweb_Color__Color__ foreground, const char *font, int size, int padding, int gap, const char *align);
+void tinyweb_button_style(pyk_d_Dtinyweb_Color__Color__ background, pyk_d_Dtinyweb_Color__Color__ foreground, pyk_d_Dtinyweb_Color__Color__ border, int border_width, int radius, const char *font, int size, int padding);
+void tinyweb_label_style(pyk_d_Dtinyweb_Color__Color__ background, pyk_d_Dtinyweb_Color__Color__ foreground, pyk_d_Dtinyweb_Color__Color__ border, int border_width, int radius, const char *font, int size, int padding);
+void tinyweb_slider_style(pyk_d_Dtinyweb_Color__Color__ accent, int width, pyk_d_Dtinyweb_Color__Color__ foreground, const char *font, int size);
+void tinyweb_canvas_style(pyk_d_Dtinyweb_Color__Color__ border, int border_width, int radius);
+pyk_d_Dtinyweb_Color__Color__ tinyweb_set_style__default__background(void);
+pyk_d_Dtinyweb_Color__Color__ tinyweb_set_style__default__foreground(void);
+pyk_d_Dtinyweb_Color__Color__ tinyweb_set_style__default__border(void);
+pyk_d_Dtinyweb_Color__Color__ tinyweb_set_style__default__accent(void);
+void tinyweb_set_style(const char *id, pyk_d_Dtinyweb_Color__Color__ background, pyk_d_Dtinyweb_Color__Color__ foreground, pyk_d_Dtinyweb_Color__Color__ border, int border_width, int radius, const char *font, int size, int padding, pyk_d_Dtinyweb_Color__Color__ accent, int width, int weight, int height);
+void tinyweb_on_click(const char *c, pyk_c_Fii_u_ f);
 
 // Runs the module's own top level; the program calls it once, before any module that imports this one.
 void tinyweb_init(void);

@@ -3,6 +3,8 @@
 
 #include <stdio.h>
 #include <stdlib.h>
+#include <string.h>
+#include <float.h>
 
 // Every multiply and add rounded on its own, as on every other target.
 #if defined(__clang__)
@@ -12,6 +14,18 @@
 #endif
 
 #include "tinyweb.h"
+#include "math.h"
+#include "text.h"
+
+#ifndef PYK_TYPE_PYK_D_DTINYWEB_COLOR__COLOR__
+#define PYK_TYPE_PYK_D_DTINYWEB_COLOR__COLOR__
+typedef struct pyk_d_Dtinyweb_Color__Color__ {
+    int r;
+    int g;
+    int b;
+    double a;
+} pyk_d_Dtinyweb_Color__Color__;
+#endif
 
 #ifndef PYK_TYPE_PYK_C_F_U_
 #define PYK_TYPE_PYK_C_F_U_
@@ -20,6 +34,27 @@ typedef struct pyk_c_F_u_ {
     void *env;
     void (*plain)(void);
 } pyk_c_F_u_;
+#endif
+
+#ifndef PYK_TYPE_PYK_C_FII_U_
+#define PYK_TYPE_PYK_C_FII_U_
+typedef struct pyk_c_Fii_u_ {
+    void (*fn)(void *, int, int);
+    void *env;
+    void (*plain)(int, int);
+} pyk_c_Fii_u_;
+#endif
+
+#ifndef PYK_TYPE_PYK_D_DTINYWEB_SOUND__VOICE__
+#define PYK_TYPE_PYK_D_DTINYWEB_SOUND__VOICE__
+typedef struct pyk_d_Dtinyweb_Sound__Voice__ {
+    double volume;
+    double rate;
+    double pan;
+    int channel;
+    bool looping;
+    bool reverse;
+} pyk_d_Dtinyweb_Sound__Voice__;
 #endif
 
 // What the external modules this one imports implement.
@@ -41,7 +76,7 @@ typedef void (*pyk_fn_ii_v)(int, int);
 void tinyweb_watch_pointer(const char *, const char *, pyk_fn_ii_v);
 int tinyweb_pointer(const char *, const char *);
 void tinyweb_draw_image(const char *, const char *, int, int, int, int, double);
-const char *tinyweb_bitmap(int, int);
+const char *tinyweb_make_bitmap(int, int, int);
 void tinyweb_set_pixel(const char *, int, int, int);
 int tinyweb_get_pixel(const char *, int, int);
 void tinyweb_fill_bitmap(const char *, int);
@@ -92,7 +127,31 @@ void tinyweb_set_checked(const char *, bool);
 void tinyweb_set_value(const char *, int);
 void tinyweb_apply_style(const char *, const char *, const char *, const char *);
 const char *tinyweb_load_sample(const char *);
-void tinyweb_play_sample(const char *, double, double, double);
+const char *tinyweb_fresh_id(const char *);
+void tinyweb_command(const char *, const char *, const char *, const char *, int);
+#ifndef PYK_FN__V
+#define PYK_FN__V
+typedef void (*pyk_fn__v)(void);
+#endif
+void tinyweb_watch(const char *, const char *, pyk_fn__v);
+double tinyweb_report_number(const char *, int);
+const char *tinyweb_report_text(const char *);
+int tinyweb_report_count(const char *);
+#ifndef PYK_FN_S_V
+#define PYK_FN_S_V
+typedef void (*pyk_fn_s_v)(const char *);
+#endif
+void tinyweb_watch_text(const char *, const char *, const char *, pyk_fn_s_v);
+#ifndef PYK_FN_IF_V
+#define PYK_FN_IF_V
+typedef void (*pyk_fn_if_v)(int, double);
+#endif
+void tinyweb_watch_step(const char *, const char *, pyk_fn_if_v);
+#ifndef PYK_FN_FF_V
+#define PYK_FN_FF_V
+typedef void (*pyk_fn_ff_v)(double, double);
+#endif
+void tinyweb_watch_pair(const char *, const char *, pyk_fn_ff_v);
 void tinyweb_splash(void);
 void tinyweb_set_splash(const char *);
 double tinyweb_time(void);
@@ -118,6 +177,80 @@ typedef void (*pyk_fn_s_v)(const char *);
 void tinyweb_on_key_up(pyk_fn_s_v);
 bool tinyweb_key_down(const char *);
 
+static const char *pyk_float_str(double x)
+{
+    char buf[64];
+    char digits[32];
+    char *out = malloc(64);
+    double a;
+    int negative, p, at, i, n, decpt, k;
+    const char *e;
+    if (x != x) { strcpy(out, "nan"); return out; }
+    if (x > DBL_MAX) { strcpy(out, "inf"); return out; }
+    if (x < -DBL_MAX) { strcpy(out, "-inf"); return out; }
+    negative = x < 0.0 || (x == 0.0 && 1.0 / x < 0.0);
+    a = negative ? -x : x;
+    if (a == 0.0) { strcpy(out, negative ? "-0.0" : "0.0"); return out; }
+    for (p = 0; p < 16; p++) {
+        sprintf(buf, "%.*e", p, a);
+        if (strtod(buf, NULL) == a) break;
+    }
+    if (p == 16) sprintf(buf, "%.*e", 16, a);
+    e = strchr(buf, 'e');
+    at = (int)(e - buf);
+    n = 0;
+    for (i = 0; i < at; i++) if (buf[i] != '.') digits[n++] = buf[i];
+    while (n > 1 && digits[n - 1] == '0') n--;
+    digits[n] = '\0';
+    decpt = atoi(e + 1) + 1;
+    k = 0;
+    if (negative) out[k++] = '-';
+    if (decpt <= -4 || decpt > 16) {
+        out[k++] = digits[0];
+        if (n > 1) { out[k++] = '.'; strcpy(out + k, digits + 1); k += n - 1; }
+        sprintf(out + k, "e%d", decpt - 1);
+        return out;
+    }
+    if (decpt <= 0) {
+        out[k++] = '0';
+        out[k++] = '.';
+        for (i = 0; i < -decpt; i++) out[k++] = '0';
+        strcpy(out + k, digits);
+        return out;
+    }
+    if (decpt >= n) {
+        strcpy(out + k, digits);
+        k += n;
+        for (i = 0; i < decpt - n; i++) out[k++] = '0';
+        strcpy(out + k, ".0");
+        return out;
+    }
+    for (i = 0; i < decpt; i++) out[k++] = digits[i];
+    out[k++] = '.';
+    strcpy(out + k, digits + decpt);
+    return out;
+}
+
+static const char *pyk_concat(const char *a, const char *b)
+{
+    size_t la = strlen(a);
+    size_t lb = strlen(b);
+    char *result = malloc(la + lb + 1);
+    memcpy(result, a, la);
+    memcpy(result + la, b, lb + 1);
+    return result;
+}
+
+static pyk_d_Dtinyweb_Color__Color__ pyk_mk_Dtinyweb_Color__Color___Color__Color(int r, int g, int b, double a)
+{
+    pyk_d_Dtinyweb_Color__Color__ v;
+    v.r = r;
+    v.g = g;
+    v.b = b;
+    v.a = a;
+    return v;
+}
+
 static pyk_c_F_u_ pyk_mk_F_u_(void (*fn)(void *), void *env, void (*plain)(void))
 {
     pyk_c_F_u_ v;
@@ -136,12 +269,86 @@ static pyk_fn__v pyk_plain_F_u_(pyk_c_F_u_ c)
     return c.plain;
 }
 
+static pyk_c_Fii_u_ pyk_mk_Fii_u_(void (*fn)(void *, int, int), void *env, void (*plain)(int, int))
+{
+    pyk_c_Fii_u_ v;
+    v.fn = fn;
+    v.env = env;
+    v.plain = plain;
+    return v;
+}
+
+static pyk_fn_ii_v pyk_plain_Fii_u_(pyk_c_Fii_u_ c)
+{
+    if (c.plain == NULL) {
+        fprintf(stderr, "a function that captures values cannot be handed to a module implemented in C\n");
+        exit(1);
+    }
+    return c.plain;
+}
+
+static pyk_d_Dtinyweb_Sound__Voice__ pyk_mk_Dtinyweb_Sound__Voice___Sound__Voice(double volume, double rate, double pan, int channel, bool looping, bool reverse)
+{
+    pyk_d_Dtinyweb_Sound__Voice__ v;
+    v.volume = volume;
+    v.rate = rate;
+    v.pan = pan;
+    v.channel = channel;
+    v.looping = looping;
+    v.reverse = reverse;
+    return v;
+}
+
+static const char *pyk_int_str(int n)
+{
+    char *out = malloc(24);
+    sprintf(out, "%d", n);
+    return out;
+}
+
+pyk_d_Dtinyweb_Color__Color__ tinyweb_color__black;
+pyk_d_Dtinyweb_Color__Color__ tinyweb_color__white;
+pyk_d_Dtinyweb_Color__Color__ tinyweb_color__gray;
+pyk_d_Dtinyweb_Color__Color__ tinyweb_color__red;
+pyk_d_Dtinyweb_Color__Color__ tinyweb_color__green;
+pyk_d_Dtinyweb_Color__Color__ tinyweb_color__blue;
+pyk_d_Dtinyweb_Color__Color__ tinyweb_color__yellow;
+pyk_d_Dtinyweb_Color__Color__ tinyweb_color__orange;
+pyk_d_Dtinyweb_Color__Color__ tinyweb_color__purple;
+pyk_d_Dtinyweb_Color__Color__ tinyweb_color__pink;
+pyk_d_Dtinyweb_Color__Color__ tinyweb_color__navy;
+pyk_d_Dtinyweb_Color__Color__ tinyweb_color__teal;
+pyk_d_Dtinyweb_Color__Color__ tinyweb_color__brown;
+pyk_d_Dtinyweb_Color__Color__ tinyweb_color__cyan;
+pyk_d_Dtinyweb_Color__Color__ tinyweb_color__magenta;
+pyk_d_Dtinyweb_Color__Color__ tinyweb_color__none;
+pyk_d_Dtinyweb_Color__Color__ tinyweb_color__theme;
+
 // Declared ahead of their definitions: a Pyking function may be called before it is written.
+static const char *floats2(double a, double b);
+static const char *floats4(double a, double b, double c, double d);
+static const char *bit(bool on);
 void tinyweb_web_init(int port);
 const char *tinyweb_button(const char *title, pyk_c_F_u_ on_click);
-double tinyweb_play__default__at(void);
-double tinyweb_play__default__rate(void);
-void tinyweb_play(const char *sample, double at, double volume, double rate);
+void tinyweb_on_click(const char *c, pyk_c_Fii_u_ f);
+static const char *sound__settings(double at, double volume, double rate, double pan, pyk_d_Dtinyweb_Sound__Voice__ voice);
+pyk_d_Dtinyweb_Sound__Voice__ tinyweb_play__default__voice(void);
+void tinyweb_play(const char *sample, double at, double volume, double rate, double pan, pyk_d_Dtinyweb_Sound__Voice__ voice);
+
+static const char *floats2(double a, double b)
+{
+    return pyk_concat(pyk_concat(pyk_float_str(a), " "), pyk_float_str(b));
+}
+
+static const char *floats4(double a, double b, double c, double d)
+{
+    return pyk_concat(pyk_concat(floats2(a, b), " "), floats2(c, d));
+}
+
+static const char *bit(bool on)
+{
+    return on ? "1" : "0";
+}
 
 void tinyweb_web_init(int port)
 {
@@ -153,22 +360,46 @@ const char *tinyweb_button(const char *title, pyk_c_F_u_ on_click)
     return tinyweb_make_button(title, pyk_plain_F_u_(on_click));
 }
 
-double tinyweb_play__default__at(void)
+void tinyweb_on_click(const char *c, pyk_c_Fii_u_ f)
 {
-    return 0.0;
+    tinyweb_on_mouse(c, pyk_plain_Fii_u_(f));
 }
 
-double tinyweb_play__default__rate(void)
+static const char *sound__settings(double at, double volume, double rate, double pan, pyk_d_Dtinyweb_Sound__Voice__ voice)
 {
-    return 1.0;
+    double v = volume == 1.0 ? voice.volume : volume;
+    double r = rate == 1.0 ? voice.rate : rate;
+    double p = pan == 0.0 ? voice.pan : pan;
+    return pyk_concat(pyk_concat(pyk_concat(pyk_concat(floats4(at, v, r, p), " "), pyk_int_str(voice.channel)), " "), bit(voice.reverse));
 }
 
-void tinyweb_play(const char *sample, double at, double volume, double rate)
+pyk_d_Dtinyweb_Sound__Voice__ tinyweb_play__default__voice(void)
 {
-    tinyweb_play_sample(sample, at, volume, rate);
+    return pyk_mk_Dtinyweb_Sound__Voice___Sound__Voice(1.0, 1.0, 0.0, 0, false, false);
+}
+
+void tinyweb_play(const char *sample, double at, double volume, double rate, double pan, pyk_d_Dtinyweb_Sound__Voice__ voice)
+{
+    tinyweb_command("play", sample, "", sound__settings(at, volume, rate, pan, voice), 2);
 }
 
 void tinyweb_init(void)
 {
-
+    tinyweb_color__black = pyk_mk_Dtinyweb_Color__Color___Color__Color(0, 0, 0, 1.0);
+    tinyweb_color__white = pyk_mk_Dtinyweb_Color__Color___Color__Color(255, 255, 255, 1.0);
+    tinyweb_color__gray = pyk_mk_Dtinyweb_Color__Color___Color__Color(128, 128, 128, 1.0);
+    tinyweb_color__red = pyk_mk_Dtinyweb_Color__Color___Color__Color(255, 0, 0, 1.0);
+    tinyweb_color__green = pyk_mk_Dtinyweb_Color__Color___Color__Color(0, 128, 0, 1.0);
+    tinyweb_color__blue = pyk_mk_Dtinyweb_Color__Color___Color__Color(0, 0, 255, 1.0);
+    tinyweb_color__yellow = pyk_mk_Dtinyweb_Color__Color___Color__Color(255, 255, 0, 1.0);
+    tinyweb_color__orange = pyk_mk_Dtinyweb_Color__Color___Color__Color(255, 165, 0, 1.0);
+    tinyweb_color__purple = pyk_mk_Dtinyweb_Color__Color___Color__Color(128, 0, 128, 1.0);
+    tinyweb_color__pink = pyk_mk_Dtinyweb_Color__Color___Color__Color(255, 192, 203, 1.0);
+    tinyweb_color__navy = pyk_mk_Dtinyweb_Color__Color___Color__Color(0, 0, 128, 1.0);
+    tinyweb_color__teal = pyk_mk_Dtinyweb_Color__Color___Color__Color(0, 128, 128, 1.0);
+    tinyweb_color__brown = pyk_mk_Dtinyweb_Color__Color___Color__Color(139, 69, 19, 1.0);
+    tinyweb_color__cyan = pyk_mk_Dtinyweb_Color__Color___Color__Color(0, 255, 255, 1.0);
+    tinyweb_color__magenta = pyk_mk_Dtinyweb_Color__Color___Color__Color(255, 0, 255, 1.0);
+    tinyweb_color__none = pyk_mk_Dtinyweb_Color__Color___Color__Color(0, 0, 0, 0.0);
+    tinyweb_color__theme = pyk_mk_Dtinyweb_Color__Color___Color__Color(-1, -1, -1, -1.0);
 }

@@ -1,5 +1,5 @@
 // Generated from lib_tinyweb_sound_graphics1.pyk by the Pyking compiler. Do not edit.
-// Target: node24. Run with:  node <this file>
+// Target: node22. Run with:  node <this file>
 
 import { print, pykFormat } from './pyk-runtime.js';
 
@@ -20,22 +20,23 @@ function pykConcat(a, b) {
 
 import * as tw from './tinyweb.js';
 import * as tw_external from './tinyweb_external.js';
+import { Color__Color, color__black, color__white, color__gray, color__red, color__green, color__blue, color__yellow, color__orange, color__purple, color__pink, color__navy, color__teal, color__brown, color__cyan, color__magenta, color__none, color__theme, color__rgb, color__rgba, color__hsl, color__hex, color__to_hex, color__with_alpha, color__mix, color__same, color__palette, Color__Paint, Color__Plain, Color__Linear, Color__Radial, Color__Conic, color__stop } from './tinyweb.js';
 tw.web_init(0);
 const kick = tw_external.load_sample('kick1.wav');
 const snare = tw_external.load_sample('snare1.wav');
 const canvas = tw_external.canvas(400, 200);
-tw.circle(canvas, 100, 50, 30, '#ff0000', tw.circle__default__outline(), tw.circle__default__outline_width(), tw.circle__default__alpha());
-tw.circle(canvas, 100, 50, 20, tw.circle__default__color(), tw.circle__default__outline(), tw.circle__default__outline_width(), tw.circle__default__alpha());
+tw.circle(canvas, 100, 50, 30, color__red, tw.circle__default__stroke(), 1, 1.0, tw.circle__default__paint(), tw.circle__default__style());
+tw.circle(canvas, 100, 50, 20, tw.circle__default__fill(), tw.circle__default__stroke(), 1, 1.0, tw.circle__default__paint(), tw.circle__default__style());
 let presses = 0;
 
 function play_kick() {
-  return tw.play(kick, tw.play__default__at(), tw.play__default__volume(), tw.play__default__rate());
+  return tw.play(kick, 0.0, 1.0, 1.0, 0.0, tw.play__default__voice());
 }
 
 function play_sound() {
   presses = presses + 1;
   print(pykConcat('snare, press ', pykFormat(presses)));
-  return tw.play(snare, tw.play__default__at(), 0.5, tw.play__default__rate());
+  return tw.play(snare, 0.0, 0.5, 1.0, 0.0, tw.play__default__voice());
 }
 
 tw.button('Play kick', play_kick);

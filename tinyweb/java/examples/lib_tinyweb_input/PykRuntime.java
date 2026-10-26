@@ -91,6 +91,17 @@ public final class PykRuntime {
         return value;
     }
 
+    // An int raised to an int at least 0, by repeated squaring.
+    public static int ipow(int base, int exponent) {
+        int result = 1;
+        while (exponent > 0) {
+            if (exponent % 2 == 1) result = result * base;
+            base = base * base;
+            exponent = exponent / 2;
+        }
+        return result;
+    }
+
     public static <T> java.util.List<T> concat(java.util.List<T> a, java.util.List<T> b) {
         java.util.ArrayList<T> out = new java.util.ArrayList<T>(a.size() + b.size());
         out.addAll(a);

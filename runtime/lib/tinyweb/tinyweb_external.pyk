@@ -84,8 +84,10 @@ def draw_bitmap(c: String, b: String, x: Int, y: Int, scale: Float) -> ()
 # topic: Images
 ## Starts loading a picture, so that `image` can draw it. The file is
 ## looked for beside the page first, then among the pictures tinyweb
-## ships: `ball.png`, `star.png` and `tile.png`. A picture drawn before
-## it has loaded is not drawn; the next frame draws it.
+## ships: `ball.png`, `star.png` and `tile.png`. Drawing a picture
+## before it has loaded waits for it: the page holds that and everything
+## after it until the picture has loaded, so what is drawn later still
+## lands on top of it.
 ##
 ## # Parameters
 ## - `name`: the file's name, such as `"ball.png"`.
@@ -100,10 +102,7 @@ def draw_bitmap(c: String, b: String, x: Int, y: Int, scale: Float) -> ()
 ## tw.web_init(0)
 ## c = tw.canvas(200, 100)
 ## ball = tw.load_image("ball.png")
-## def draw(t: Float):
-##     tw.clear(c)
-##     tw.image(c, ball, 80, 30, 40, 40)
-## tw.on_frame(draw)
+## tw.image(c, ball, 80, 30, 40, 40)
 ## ```
 ## ```stdout
 ## ```
@@ -307,6 +306,49 @@ public def set_splash(message: String) -> ()
 public def time() -> Float
 
 # topic: Time
+## Waits, keeping in time with the sound: the program goes on `time`
+## seconds after the last `sdelay` ended, on the page's audio clock. The
+## first waits `time` seconds from now. Since each counts from where the
+## last one ended rather than from when it was called, a loop of them
+## does not drift, however long what runs between them takes. A program
+## that has fallen behind -- where that end has passed already -- goes on
+## at once, and the next counts from then.
+##
+## A sound started after `sdelay`, with no `at` of its own, starts
+## exactly where it ends, and what is drawn after it is shown then.
+## While the program waits, the page's events still arrive: a button's
+## function runs, and so does `on_frame`'s. Since the program really
+## waits, `print` after it comes out then too.
+##
+## With no page open yet, the program waits for one. It cannot be used
+## in a program compiled for the web target, which cannot wait: run it
+## with the interpreter (`pyk`, `-t iweb`, the playground) or compile it
+## for another target.
+##
+## # Parameters
+## - `time`: how long after the last `sdelay` to go on, in seconds; a
+##   negative one is 0.
+##
+## # Examples
+## A drum that never stops: a kick every half second, and a word
+## printed with each.
+## ```pyking norun
+## import tinyweb as tw
+## tw.web_init(0)
+## kick = tw.load_sample("kick1.wav")
+## loop:
+##     tw.play(kick)
+##     print("kick")
+##     tw.sdelay(0.5)
+## ```
+## ```stdout
+## kick
+## kick
+## kick
+## ```
+public def sdelay(time: Float) -> ()
+
+# topic: Time
 ## Calls `draw` before each frame the page shows, about 60 times a second,
 ## with the time the frame is for. This is how a program animates.
 ##
@@ -347,7 +389,7 @@ def on_mouse(c: String, click: (Int, Int) -> ()) -> ()
 ## tw.web_init(0)
 ## shown = tw.label("press a key")
 ## def pressed(key: String):
-##     tw.set_text(shown, "you pressed " ++ key)
+##     tw.set_text(shown, "you pressed " + key)
 ## tw.on_key(pressed)
 ## ```
 ## ```stdout
@@ -368,7 +410,7 @@ public def on_key(pressed: (String) -> ()) -> ()
 ## tw.web_init(0)
 ## shown = tw.label("hold a key")
 ## def released(key: String):
-##     tw.set_text(shown, "you let go of " ++ key)
+##     tw.set_text(shown, "you let go of " + key)
 ## tw.on_key_up(released)
 ## ```
 ## ```stdout
@@ -388,6 +430,7 @@ public def on_key_up(released: (String) -> ()) -> ()
 ##
 ## # Examples
 ## ```pyking
+## use mutation
 ## import tinyweb as tw
 ## import tinyweb.color as color
 ## tw.web_init(0)

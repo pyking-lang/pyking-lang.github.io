@@ -613,18 +613,26 @@ let page_js = String.concat "" [
   "\n";
   "// Starts loading a picture: beside the page first, then among the ones\n";
   "// tinyweb ships beside `base`. Answers what `drawPicture` draws once it\n";
-  "// has loaded. String -> String -> Picture\n";
+  "// has loaded; `loading` is true until it has loaded or failed, and then\n";
+  "// each function in `settled` is called. String -> String -> Picture\n";
   "function loadPicture(name, base) {\n";
-  "  const picture = { element: null, ready: false, retried: false };\n";
+  "  const picture = { element: null, ready: false, retried: false, loading: false, settled: [] };\n";
   "  if (typeof Image === \"undefined\") return picture;\n";
   "  const element = new Image();\n";
   "  picture.element = element;\n";
+  "  picture.loading = true;\n";
+  "  const settle = () => {\n";
+  "    picture.loading = false;\n";
+  "    for (const then of picture.settled.splice(0)) then();\n";
+  "  };\n";
   "  element.onload = () => {\n";
   "    picture.ready = true;\n";
+  "    settle();\n";
   "  };\n";
   "  element.onerror = () => {\n";
   "    if (picture.retried) {\n";
   "      console.error(`tinyweb: cannot load the picture ${name}`);\n";
+  "      settle();\n";
   "      return;\n";
   "    }\n";
   "    picture.retried = true;\n";
@@ -796,6 +804,12 @@ let page_js = String.concat "" [
   "// How far ahead the beat is scheduled, and how often it is looked at.\n";
   "const LOOKAHEAD = 0.15;\n";
   "const TICK_MS = 25;\n";
+  "\n";
+  "// How long before an `sdelay` ends the page answers it, so that what the\n";
+  "// program plays next reaches the page in time to start exactly there,\n";
+  "// and how often the clock is looked at while one waits.\n";
+  "const SDELAY_LEAD = 0.05;\n";
+  "const SDELAY_TICK_MS = 5;\n";
   "\n";
   "// The numbers a command carries. String -> [Float]\n";
   "function engineNumbers(text) {\n";
@@ -1521,6 +1535,19 @@ let page_js = String.concat "" [
   "  let held = null;\n";
   "  let heldClock = 0;\n";
   "  let heldAt = 0;\n";
+  "  // The picture the held commands wait for, and the events the reader\n";
+  "  // caused while they waited for it.\n";
+  "  let waitingFor = null;\n";
+  "  let deferred = [];\n";
+  "  // tinyweb's `sdelay`: where the last one ends on the page's clock (null\n";
+  "  // before the first), the one to answer and when, and once it is\n";
+  "  // answered, what the program does next that is not a sound, held until\n";
+  "  // the end -- a sound is started at the end instead (`timed`). The\n";
+  "  // interval looks at the clock while one of them waits.\n";
+  "  let sdelayEnd = null;\n";
+  "  let answering = null;\n";
+  "  let paced = null;\n";
+  "  let pacer = 0;\n";
   "\n";
   "  let focusable = false;    // whether mounting made `element` focusable\n";
   "\n";
@@ -1552,7 +1579,11 @@ let page_js = String.concat "" [
   "  // Every event carries where the beat is and how late sound comes out,\n";
   "  // and a frame what the program listens to.\n";
   "  function report(event) {\n";
-  "    if (closed || held !== null) return;\n";
+  "    if (closed) return;\n";
+  "    if (held !== null) {\n";
+  "      if (splash === null) deferred.push(event);\n";
+  "      return;\n";
+  "    }\n";
   "    const reports = { ...engine.reports(event.ev === \"frame\"), ...(event.reports || {}) };\n";
   "    sendEvent({ ...event, t: clockNow(), running: running(), reports });\n";
   "  }\n";
@@ -1578,17 +1609,106 @@ let page_js = String.concat "" [
   "  // The reader's click or key: the splash screen goes, sound starts, the\n";
   "  // clock goes on from where it stopped, and what was held is carried out.\n";
   "  function dismissSplash(event) {\n";
-  "    if (held === null) return;\n";
+  "    if (splash === null) return;\n";
   "    event?.preventDefault?.();\n";
   "    event?.stopImmediatePropagation?.();\n";
   "    window.removeEventListener(\"keydown\", dismissSplash, true);\n";
   "    splash.remove();\n";
   "    splash = null;\n";
+  "    startAudio();\n";
+  "    release();\n";
+  "  }\n";
+  "\n";
+  "  // Holds what comes after a picture still loading, until it has loaded\n";
+  "  // or failed: the commands, the frames, the events and the clock.\n";
+  "  // Picture -> ()\n";
+  "  function waitFor(picture) {\n";
+  "    if (held === null) {\n";
+  "      heldClock = clockNow();\n";
+  "      heldAt = now();\n";
+  "      held = [];\n";
+  "    }\n";
+  "    waitingFor = picture;\n";
+  "    picture.settled.push(() => {\n";
+  "      waitingFor = null;\n";
+  "      release();\n";
+  "    });\n";
+  "  }\n";
+  "\n";
+  "  // Carries out what was held once nothing holds it any more, then sends\n";
+  "  // the events that waited with it. ()\n";
+  "  function release() {\n";
+  "    if (held === null || splash !== null || waitingFor !== null) return;\n";
   "    start += now() - heldAt;\n";
   "    const pending = held;\n";
   "    held = null;\n";
-  "    startAudio();\n";
-  "    for (const command of pending) carryOut(command);\n";
+  "    for (const command of pending) take(command);\n";
+  "    if (held !== null) return;\n";
+  "    const events = deferred;\n";
+  "    deferred = [];\n";
+  "    for (const event of events) report(event);\n";
+  "  }\n";
+  "\n";
+  "  // Carries out a command, or holds it while something holds the page,\n";
+  "  // or until the `sdelay` before it has ended. Command -> ()\n";
+  "  function take(command) {\n";
+  "    if (held !== null) held.push(command);\n";
+  "    else if (paced !== null && !sound(command)) paced.push(command);\n";
+  "    else carryOut(paced !== null ? timed(command) : command);\n";
+  "  }\n";
+  "\n";
+  "  // `sdelay seconds`, reached in the program's order: it ends `seconds`\n";
+  "  // after the last one ended -- or after now, for the first, and where\n";
+  "  // that end has passed already, so a program that fell behind starts\n";
+  "  // again from now rather than catching up. The program waits until the\n";
+  "  // page answers it. Command -> ()\n";
+  "  function sdelay(command) {\n";
+  "    const t = clockNow();\n";
+  "    const seconds = Math.max(0, Number(command.seconds) || 0);\n";
+  "    sdelayEnd = sdelayEnd === null ? t + seconds : Math.max(sdelayEnd + seconds, t);\n";
+  "    answering = { id: command.id, at: sdelayEnd - SDELAY_LEAD };\n";
+  "    pace();\n";
+  "  }\n";
+  "\n";
+  "  // Looks at the clock for the `sdelay` waiting: answers it a little\n";
+  "  // before its end, and carries out what was held after it once the end\n";
+  "  // has come. ()\n";
+  "  function pace() {\n";
+  "    if (closed) return;\n";
+  "    const t = clockNow();\n";
+  "    if (answering !== null && t >= answering.at) {\n";
+  "      const { id } = answering;\n";
+  "      answering = null;\n";
+  "      if (paced === null) paced = [];\n";
+  "      report({ ev: \"sdelay\", id });\n";
+  "    }\n";
+  "    if (paced !== null && answering === null && t >= sdelayEnd) {\n";
+  "      const pending = paced;\n";
+  "      paced = null;\n";
+  "      for (const command of pending) take(command);\n";
+  "    }\n";
+  "    const needed = answering !== null || paced !== null;\n";
+  "    if (needed && pacer === 0) pacer = setInterval(pace, SDELAY_TICK_MS);\n";
+  "    else if (!needed && pacer !== 0) {\n";
+  "      clearInterval(pacer);\n";
+  "      pacer = 0;\n";
+  "    }\n";
+  "  }\n";
+  "\n";
+  "  // Whether a command starts a sound. Command -> Bool\n";
+  "  function sound(command) {\n";
+  "    return command.op === \"cmd\" && engine.sounds(command);\n";
+  "  }\n";
+  "\n";
+  "  // A sound the program starts after an `sdelay`, with no time of its\n";
+  "  // own, starts where the `sdelay` ends, exactly. Command -> Command\n";
+  "  function timed(command) {\n";
+  "    if (sdelayEnd === null || !sound(command)) return command;\n";
+  "    const n = String(command.numbers ?? \"\").trim().split(/\\s+/);\n";
+  "    const k = command.kind === \"tone\" ? 1 : 0;\n";
+  "    if (n.length <= k || Number(n[k]) !== 0) return command;\n";
+  "    n[k] = String(sdelayEnd);\n";
+  "    return { ...command, numbers: n.join(\" \") };\n";
   "  }\n";
   "\n";
   "  // Sound may start only after the reader did something, so every\n";
@@ -1631,7 +1751,7 @@ let page_js = String.concat "" [
   "  });\n";
   "\n";
   "  function onKey(event) {\n";
-  "    if (held !== null) {\n";
+  "    if (splash !== null) {\n";
   "      dismissSplash(event);\n";
   "      return;\n";
   "    }\n";
@@ -1682,6 +1802,7 @@ let page_js = String.concat "" [
   "      frameWaiting = true;\n";
   "      report({ ev: \"frame\" });\n";
   "    }\n";
+  "    if (answering !== null || paced !== null) pace();\n";
   "    frameRequest = requestAnimationFrame(frame);\n";
   "  }\n";
   "\n";
@@ -1783,10 +1904,17 @@ let page_js = String.concat "" [
   "      case \"image_load\":\n";
   "        pictures.set(command.id, loadPicture(command.name, import.meta.url));\n";
   "        break;\n";
-  "      case \"image\":\n";
-  "        draw(command.c, (g) => drawPicture(g, pictures.get(command.picture), command.x,\n";
+  "      case \"image\": {\n";
+  "        const picture = pictures.get(command.picture);\n";
+  "        if (picture && picture.loading) {\n";
+  "          waitFor(picture);\n";
+  "          held.push(command);\n";
+  "          break;\n";
+  "        }\n";
+  "        draw(command.c, (g) => drawPicture(g, picture, command.x,\n";
   "          command.y, command.width, command.height, command.alpha));\n";
   "        break;\n";
+  "      }\n";
   "      case \"checkbox\": {\n";
   "        const { row, input } = choiceRow(\"checkbox\", command.id, command.title, command.checked);\n";
   "        input.addEventListener(\"change\", () => {\n";
@@ -1965,6 +2093,9 @@ let page_js = String.concat "" [
   "      case \"frame_done\":\n";
   "        frameWaiting = false;\n";
   "        break;\n";
+  "      case \"sdelay\":\n";
+  "        sdelay(command);\n";
+  "        break;\n";
   "      case \"on_mouse\": {\n";
   "        const entry = canvases.get(command.c);\n";
   "        if (entry) entry.mouse = true;\n";
@@ -1994,6 +2125,7 @@ let page_js = String.concat "" [
   "    if (closed) return;\n";
   "    closed = true;\n";
   "    cancelAnimationFrame(frameRequest);\n";
+  "    if (pacer !== 0) clearInterval(pacer);\n";
   "    if (splash !== null) {\n";
   "      window.removeEventListener(\"keydown\", dismissSplash, true);\n";
   "      splash.remove();\n";
@@ -2009,10 +2141,7 @@ let page_js = String.concat "" [
   "  return {\n";
   "    receive(commands) {\n";
   "      if (closed) return;\n";
-  "      for (const command of commands) {\n";
-  "        if (held !== null) held.push(command);\n";
-  "        else carryOut(command);\n";
-  "      }\n";
+  "      for (const command of commands) take(command);\n";
   "    },\n";
   "    // Stops: no more events, frames or sound, and what is shown stays.\n";
   "    freeze,\n";
@@ -2149,6 +2278,7 @@ let log_line command =
     | "on_mouse" -> [ "on_mouse"; q "c" ]
     | "style" -> [ "style"; q "id"; f "kind"; f "prop"; q "value" ]
     | "splash_text" -> [ "splash_text"; q "text" ]
+    | "sdelay" -> [ "sdelay"; f "seconds" ]
     | op -> [ op ]
   in
   String.concat " " words
@@ -3162,6 +3292,71 @@ let set_splash message =
 let time () =
   ready ();
   !clock
+
+(* tinyweb's `sdelay`: how many have been sent, and with no page, where
+   the last one ended on the clock the events give. *)
+let sdelays = ref 0
+let sdelay_end : float option ref = ref None
+
+(* Sends `sdelay` and waits for the page to answer it, serving the page
+   and delivering its other events meanwhile. With no page, moves the
+   clock on to where it ends instead. *)
+let sdelay seconds =
+  ready ();
+  let seconds = if seconds > 0.0 then seconds else 0.0 in
+  incr sdelays;
+  let id = !sdelays in
+  send { op = "sdelay"; fields = [ ("id", I id); ("seconds", F seconds) ] };
+  match log_file with
+  | Some _ ->
+      let ended =
+        match !sdelay_end with
+        | None -> !clock +. seconds
+        | Some last -> Float.max (last +. seconds) !clock
+      in
+      sdelay_end := Some ended;
+      clock := ended
+  | None ->
+      (* Sound played after the first `sdelay` is live: a page
+         connecting later is not sent it, as it is not sent a
+         callback's. *)
+      delivered := true;
+      Stdlib.flush Stdlib.stdout;
+      flush_pending ();
+      let was = !batching in
+      let answered = ref false in
+      let is_answer event =
+        List.assoc_opt "ev" event = Some "sdelay"
+      in
+      let ours event =
+        match Option.bind (List.assoc_opt "id" event) float_of_string_opt with
+        | Some n -> int_of_float n = id
+        | None -> false
+      in
+      Fun.protect
+        ~finally:(fun () -> batching := was)
+        (fun () ->
+          while not !answered do
+            if Queue.is_empty events then poll (-1.0);
+            while (not !answered) && not (Queue.is_empty events) do
+              let event = Queue.pop events in
+              if is_answer event then (
+                if ours event then (
+                  deliver event;
+                  history :=
+                    List.filter
+                      (fun h -> not (h.op = "sdelay" && List.assoc_opt "id" h.fields = Some (I id)))
+                      !history;
+                  answered := true))
+              else (
+                batching := true;
+                deliver event;
+                send { op = "event_done"; fields = [] };
+                Stdlib.flush Stdlib.stdout;
+                flush_pending ();
+                batching := was)
+            done
+          done)
 
 let on_frame draw =
   ready ();

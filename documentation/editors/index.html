@@ -52,7 +52,9 @@ module system, names, types or mutability. An error in an imported
 module is shown at the <code>import</code> that reaches it.</li>
 <li><strong>Hover</strong>: the type of the expression, binding, parameter or
 definition under the cursor, and for a name, the <code>##</code> comment above
-its definition.</li>
+its definition. Types are inferred where a function is called, so
+inside a function nothing calls, hover says so instead; while the
+program has a type error, it says that.</li>
 <li><strong>Go to definition</strong>: where a name is bound, in the same file, in a
 module it imports, or in the standard library.</li>
 <li><strong>Outline</strong> (document symbols): the <code>def</code>s, the top-level bindings
@@ -73,8 +75,9 @@ not say what it returns.</li>
 <li><strong>Folding</strong>: blocks, runs of comment lines, and the imports.</li>
 <li><strong>Semantic highlighting</strong>: functions, parameters, variables (a <code>var</code>
 apart from an <code>=</code> binding), modules, types, constructors and fields.</li>
-<li><strong>Quick fixes</strong>: <code>++</code> for a <code>+</code> on strings and the other way round, a
-name in scope for a misspelt one, and an annotation changed to the type
+<li><strong>Quick fixes</strong>: <code>+</code> for the <code>++</code> and <code>^</code> for the <code>**</code> Pyking no
+longer has, <code>and</code> for an <code>&#x26;</code> on Bools and the like, the <code>use mutation</code>
+line a <code>var</code> needs, a name in scope for a misspelt one, and an annotation changed to the type
 of the value.</li>
 </ul>
 <p>Each document is checked as a program, together with the modules it
@@ -114,12 +117,7 @@ error.</li>
 
 
 
-
-
-
-
-
-<table><thead><tr><th>setting</th><th>default</th><th>meaning</th></tr></thead><tbody><tr><td><code>libPath</code></td><td><code>[]</code></td><td>more library directories, searched after <code>-L</code></td></tr><tr><td><code>diagnostics</code></td><td><code>"change"</code></td><td><code>"change"</code>: check as you type, once typing pauses; <code>"save"</code>: check only when a file is opened or saved</td></tr><tr><td><code>inlayHints</code></td><td><code>true</code></td><td>show the inferred types in the text</td></tr></tbody></table>
+<table><thead><tr><th>setting</th><th>default</th><th>meaning</th></tr></thead><tbody><tr><td><code>libPath</code></td><td><code>[]</code></td><td>more library directories, searched after <code>-L</code></td></tr><tr><td><code>diagnostics</code></td><td><code>"change"</code></td><td><code>"change"</code>: check as you type, once typing pauses; <code>"save"</code>: check only when a file is opened or saved</td></tr></tbody></table>
 <h2 id="the-debugger">The debugger</h2>
 <div class="expressive-code"><figure class="frame is-terminal not-content"><figcaption class="header"><span class="title"></span><span class="sr-only">Terminal window</span></figcaption><pre data-language="sh"><code><div class="ec-line"><div class="code"><span style="--0:#82AAFF;--1:#3B61B0">pyk</span><span style="--0:#D6DEEB;--1:#403F53"> </span><span style="--0:#ECC48D;--1:#3B61B0">dap</span><span style="--0:#D6DEEB;--1:#403F53"> [--stdio] [--log FILE]</span></div></div></code></pre><div class="copy"><div aria-live="polite"></div><button title="Copy to clipboard" data-copied="Copied!" data-code="pyk dap [--stdio] [--log FILE]"><div></div></button></div></figure></div>
 <p><code>pyk dap</code> runs a program with the interpreter, as <code>pyk &#x3C;file></code> does, and

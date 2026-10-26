@@ -27,7 +27,7 @@ import tinyweb as tw
 | [Changing the page](#changing-the-page) | [`set_text`](#set_text), [`show`](#show), [`hide`](#hide), [`enable`](#enable), [`disable`](#disable), [`remove`](#remove), [`value_of`](#value_of) |
 | [Styles](#styles) | [`theme`](#theme), [`page_style`](#page_style), [`button_style`](#button_style), [`label_style`](#label_style), [`slider_style`](#slider_style), [`canvas_style`](#canvas_style), [`set_style`](#set_style) |
 | [Mouse and keyboard](#mouse-and-keyboard) | [`on_key`](#on_key), [`on_key_up`](#on_key_up), [`key_down`](#key_down), [`on_click`](#on_click), [`on_press`](#on_press), [`on_release`](#on_release), [`on_move`](#on_move), [`on_drag`](#on_drag), [`track_mouse`](#track_mouse), [`mouse`](#mouse) |
-| [Time](#time) | [`time`](#time), [`on_frame`](#on_frame), [`after`](#after), [`every`](#every), [`cancel`](#cancel) |
+| [Time](#time) | [`time`](#time), [`sdelay`](#sdelay), [`on_frame`](#on_frame), [`after`](#after), [`every`](#every), [`cancel`](#cancel) |
 | [Sound](#sound) | [`load_sample`](#load_sample), [`play`](#play), [`play_file`](#play_file) |
 | [Splash screen](#splash-screen) | [`splash`](#splash), [`set_splash`](#set_splash) |
 
@@ -1122,8 +1122,10 @@ tw.circle(c, 120, 50, 40, color.blue)
 
 Starts loading a picture, so that `image` can draw it. The file is
 looked for beside the page first, then among the pictures tinyweb
-ships: `ball.png`, `star.png` and `tile.png`. A picture drawn before
-it has loaded is not drawn; the next frame draws it.
+ships: `ball.png`, `star.png` and `tile.png`. Drawing a picture
+before it has loaded waits for it: the page holds that and everything
+after it until the picture has loaded, so what is drawn later still
+lands on top of it.
 
 <p class="pyk-api-label">Parameters</p>
 
@@ -1141,10 +1143,7 @@ import tinyweb as tw
 tw.web_init(0)
 c = tw.canvas(200, 100)
 ball = tw.load_image("ball.png")
-def draw(t: Float):
-    tw.clear(c)
-    tw.image(c, ball, 80, 30, 40, 40)
-tw.on_frame(draw)
+tw.image(c, ball, 80, 30, 40, 40)
 ```
 
 </div>
@@ -1164,8 +1163,8 @@ tw.on_frame(draw)
 ) -&gt; ()</code></pre>
 
 Draws a picture `load_image` loaded on the canvas `c`, stretched to
-the rectangle given. A picture not loaded yet is not drawn: the next
-frame draws it.
+the rectangle given. A picture not loaded yet is drawn once it has
+loaded, and what the program draws after it waits until then.
 
 <p class="pyk-api-label">Parameters</p>
 
@@ -1993,7 +1992,7 @@ import tinyweb as tw
 tw.web_init(0)
 shown = tw.label("press a key")
 def pressed(key: String):
-    tw.set_text(shown, "you pressed " ++ key)
+    tw.set_text(shown, "you pressed " + key)
 tw.on_key(pressed)
 ```
 
@@ -2019,7 +2018,7 @@ import tinyweb as tw
 tw.web_init(0)
 shown = tw.label("hold a key")
 def released(key: String):
-    tw.set_text(shown, "you let go of " ++ key)
+    tw.set_text(shown, "you let go of " + key)
 tw.on_key_up(released)
 ```
 
@@ -2045,6 +2044,7 @@ while an arrow is held, rather than once per press.
 <p class="pyk-api-label">Example</p>
 
 ```pyking
+use mutation
 import tinyweb as tw
 import tinyweb.color as color
 tw.web_init(0)
@@ -2288,6 +2288,55 @@ true
 
 <div class="pyk-api">
 
+### sdelay
+
+<pre class="pyk-sig"><code><span class="k">def</span> <span class="n">sdelay</span>(<span class="p">time</span>: <span class="t">Float</span>) -&gt; ()</code></pre>
+
+Waits, keeping in time with the sound: the program goes on `time`
+seconds after the last `sdelay` ended, on the page's audio clock. The
+first waits `time` seconds from now. Since each counts from where the
+last one ended rather than from when it was called, a loop of them
+does not drift, however long what runs between them takes. A program
+that has fallen behind -- where that end has passed already -- goes on
+at once, and the next counts from then.
+
+A sound started after `sdelay`, with no `at` of its own, starts
+exactly where it ends, and what is drawn after it is shown then.
+While the program waits, the page's events still arrive: a button's
+function runs, and so does `on_frame`'s. Since the program really
+waits, `print` after it comes out then too.
+
+With no page open yet, the program waits for one. It cannot be used
+in a program compiled for the web target, which cannot wait: run it
+with the interpreter (`pyk`, `-t iweb`, the playground) or compile it
+for another target.
+
+<p class="pyk-api-label">Parameters</p>
+
+- `time`: how long after the last `sdelay` to go on, in seconds; a negative one is 0.
+
+<p class="pyk-api-label">Example</p>
+
+```pyking norun
+import tinyweb as tw
+tw.web_init(0)
+kick = tw.load_sample("kick1.wav")
+loop:
+    tw.play(kick)
+    print("kick")
+    tw.sdelay(0.5)
+```
+
+```stdout visible = true
+kick
+kick
+kick
+```
+
+</div>
+
+<div class="pyk-api">
+
 ### on_frame
 
 <pre class="pyk-sig"><code><span class="k">def</span> <span class="n">on_frame</span>(<span class="p">draw</span>: (<span class="t">Float</span>) -&gt; ()) -&gt; ()</code></pre>
@@ -2370,6 +2419,7 @@ The timer's identifier, which `cancel` takes.
 <p class="pyk-api-label">Example</p>
 
 ```pyking
+use mutation
 import tinyweb as tw
 tw.web_init(0)
 clock = tw.label("0")

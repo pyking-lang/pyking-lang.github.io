@@ -13,6 +13,11 @@
 // docs/libraries.md, "tinyweb". Keep this file and tinyweb_page.js in
 // step: the operations each makes on the page, and their order, are what
 // the test compares.
+//
+// What a program compiled for web cannot do, the compiler refuses where
+// it is called, reading why from this line (docs/modules.md, "A
+// function a target cannot provide"):
+// unavailable sdelay: it waits for the page's audio clock, and a program compiled for the web target cannot wait; run it with the interpreter (-t iweb, or pyk) or compile it for another target, or keep time with sound.on_beat or every
 
 function now() {
   return typeof performance !== "undefined" ? performance.now() : Date.now();
@@ -516,18 +521,26 @@ function freshState(g, entry) {
 
 // Starts loading a picture: beside the page first, then among the ones
 // tinyweb ships beside `base`. Answers what `drawPicture` draws once it
-// has loaded. String -> String -> Picture
+// has loaded; `loading` is true until it has loaded or failed, and then
+// each function in `settled` is called. String -> String -> Picture
 function loadPicture(name, base) {
-  const picture = { element: null, ready: false, retried: false };
+  const picture = { element: null, ready: false, retried: false, loading: false, settled: [] };
   if (typeof Image === "undefined") return picture;
   const element = new Image();
   picture.element = element;
+  picture.loading = true;
+  const settle = () => {
+    picture.loading = false;
+    for (const then of picture.settled.splice(0)) then();
+  };
   element.onload = () => {
     picture.ready = true;
+    settle();
   };
   element.onerror = () => {
     if (picture.retried) {
       console.error(`tinyweb: cannot load the picture ${name}`);
+      settle();
       return;
     }
     picture.retried = true;
@@ -699,6 +712,12 @@ function typedInField(event) {
 // How far ahead the beat is scheduled, and how often it is looked at.
 const LOOKAHEAD = 0.15;
 const TICK_MS = 25;
+
+// How long before an `sdelay` ends the page answers it, so that what the
+// program plays next reaches the page in time to start exactly there,
+// and how often the clock is looked at while one waits.
+const SDELAY_LEAD = 0.05;
+const SDELAY_TICK_MS = 5;
 
 // The numbers a command carries. String -> [Float]
 function engineNumbers(text) {
@@ -1439,6 +1458,8 @@ function mount(element, { standalone }) {
     held: null,
     heldClock: 0,
     heldAt: 0,
+    // The picture what is held waits for.
+    waitingFor: null,
     // The functions `watch` handed over, by element and kind; what the
     // page last reported, by name; and the engine carrying out `command`.
     watchers: new Map(),
@@ -1467,7 +1488,7 @@ function mount(element, { standalone }) {
   if (!standalone) box.tabIndex = 0;
   box.addEventListener("pointerdown", () => startAudio(state));
   state.keyTarget.addEventListener("keydown", (event) => {
-    if (state.held !== null) {
+    if (state.splash !== null) {
       dismissSplash(state, event);
       return;
     }
@@ -1560,17 +1581,45 @@ function showSplash(state) {
 // clock goes on from where it stopped, and what was held is done.
 // State -> Event -> ()
 function dismissSplash(state, event) {
-  if (state.held === null) return;
+  if (state.splash === null) return;
   event?.preventDefault?.();
   event?.stopImmediatePropagation?.();
   window.removeEventListener("keydown", state.splash.dismiss, true);
   state.splash.element.remove();
   state.splash = null;
+  startAudio(state);
+  release(state);
+}
+
+// Holds what comes after a picture still loading, until it has loaded
+// or failed: what the program does to the page, its frames and the
+// clock. State -> Picture -> ()
+function waitFor(state, picture) {
+  if (state.held === null) {
+    state.heldClock = clockNow(state);
+    state.heldAt = now();
+    state.held = [];
+  }
+  state.waitingFor = picture;
+  picture.settled.push(() => {
+    state.waitingFor = null;
+    release(state);
+  });
+}
+
+// Does what was held once nothing holds it any more. State -> ()
+function release(state) {
+  if (state.held === null || state.splash !== null || state.waitingFor !== null) return;
   state.start += now() - state.heldAt;
   const pending = state.held;
   state.held = null;
-  startAudio(state);
-  for (const effect of pending) effect();
+  for (const [i, effect] of pending.entries()) {
+    if (state.held !== null) {
+      state.held.push(...pending.slice(i));
+      return;
+    }
+    effect();
+  }
 }
 
 function draw(c, paint) {
@@ -1723,7 +1772,16 @@ export function load_image(name) {
 
 export function draw_image(c, picture, x, y, width, height, alpha) {
   const state = mounted();
-  draw(c, (g) => drawPicture(g, state.pictures.get(picture), x, y, width, height, alpha));
+  act(state, () => {
+    const loaded = state.pictures.get(picture);
+    if (loaded && loaded.loading) {
+      waitFor(state, loaded);
+      state.held.push(() => draw_image(c, picture, x, y, width, height, alpha));
+      return;
+    }
+    const entry = state.canvases.get(c);
+    if (entry) drawPicture(entry.context, loaded, x, y, width, height, alpha);
+  });
 }
 
 export function make_checkbox(title, checked, onChange) {
@@ -1996,6 +2054,12 @@ export function set_splash(message) {
   act(state, () => {
     state.splashText = message;
   });
+}
+
+// Never called: the compiler refuses a web program that calls `sdelay`
+// (see the top of this file).
+export function sdelay() {
+  throw new Error("tinyweb.sdelay cannot be used on the web target");
 }
 
 export function time() {

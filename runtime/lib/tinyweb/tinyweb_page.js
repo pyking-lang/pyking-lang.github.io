@@ -520,18 +520,26 @@ function freshState(g, entry) {
 
 // Starts loading a picture: beside the page first, then among the ones
 // tinyweb ships beside `base`. Answers what `drawPicture` draws once it
-// has loaded. String -> String -> Picture
+// has loaded; `loading` is true until it has loaded or failed, and then
+// each function in `settled` is called. String -> String -> Picture
 function loadPicture(name, base) {
-  const picture = { element: null, ready: false, retried: false };
+  const picture = { element: null, ready: false, retried: false, loading: false, settled: [] };
   if (typeof Image === "undefined") return picture;
   const element = new Image();
   picture.element = element;
+  picture.loading = true;
+  const settle = () => {
+    picture.loading = false;
+    for (const then of picture.settled.splice(0)) then();
+  };
   element.onload = () => {
     picture.ready = true;
+    settle();
   };
   element.onerror = () => {
     if (picture.retried) {
       console.error(`tinyweb: cannot load the picture ${name}`);
+      settle();
       return;
     }
     picture.retried = true;
@@ -703,6 +711,12 @@ function typedInField(event) {
 // How far ahead the beat is scheduled, and how often it is looked at.
 const LOOKAHEAD = 0.15;
 const TICK_MS = 25;
+
+// How long before an `sdelay` ends the page answers it, so that what the
+// program plays next reaches the page in time to start exactly there,
+// and how often the clock is looked at while one waits.
+const SDELAY_LEAD = 0.05;
+const SDELAY_TICK_MS = 5;
 
 // The numbers a command carries. String -> [Float]
 function engineNumbers(text) {
@@ -1428,6 +1442,19 @@ export function mountPage(element, sendEvent, { standalone = false, activated = 
   let held = null;
   let heldClock = 0;
   let heldAt = 0;
+  // The picture the held commands wait for, and the events the reader
+  // caused while they waited for it.
+  let waitingFor = null;
+  let deferred = [];
+  // tinyweb's `sdelay`: where the last one ends on the page's clock (null
+  // before the first), the one to answer and when, and once it is
+  // answered, what the program does next that is not a sound, held until
+  // the end -- a sound is started at the end instead (`timed`). The
+  // interval looks at the clock while one of them waits.
+  let sdelayEnd = null;
+  let answering = null;
+  let paced = null;
+  let pacer = 0;
 
   let focusable = false;    // whether mounting made `element` focusable
 
@@ -1459,7 +1486,11 @@ export function mountPage(element, sendEvent, { standalone = false, activated = 
   // Every event carries where the beat is and how late sound comes out,
   // and a frame what the program listens to.
   function report(event) {
-    if (closed || held !== null) return;
+    if (closed) return;
+    if (held !== null) {
+      if (splash === null) deferred.push(event);
+      return;
+    }
     const reports = { ...engine.reports(event.ev === "frame"), ...(event.reports || {}) };
     sendEvent({ ...event, t: clockNow(), running: running(), reports });
   }
@@ -1485,17 +1516,106 @@ export function mountPage(element, sendEvent, { standalone = false, activated = 
   // The reader's click or key: the splash screen goes, sound starts, the
   // clock goes on from where it stopped, and what was held is carried out.
   function dismissSplash(event) {
-    if (held === null) return;
+    if (splash === null) return;
     event?.preventDefault?.();
     event?.stopImmediatePropagation?.();
     window.removeEventListener("keydown", dismissSplash, true);
     splash.remove();
     splash = null;
+    startAudio();
+    release();
+  }
+
+  // Holds what comes after a picture still loading, until it has loaded
+  // or failed: the commands, the frames, the events and the clock.
+  // Picture -> ()
+  function waitFor(picture) {
+    if (held === null) {
+      heldClock = clockNow();
+      heldAt = now();
+      held = [];
+    }
+    waitingFor = picture;
+    picture.settled.push(() => {
+      waitingFor = null;
+      release();
+    });
+  }
+
+  // Carries out what was held once nothing holds it any more, then sends
+  // the events that waited with it. ()
+  function release() {
+    if (held === null || splash !== null || waitingFor !== null) return;
     start += now() - heldAt;
     const pending = held;
     held = null;
-    startAudio();
-    for (const command of pending) carryOut(command);
+    for (const command of pending) take(command);
+    if (held !== null) return;
+    const events = deferred;
+    deferred = [];
+    for (const event of events) report(event);
+  }
+
+  // Carries out a command, or holds it while something holds the page,
+  // or until the `sdelay` before it has ended. Command -> ()
+  function take(command) {
+    if (held !== null) held.push(command);
+    else if (paced !== null && !sound(command)) paced.push(command);
+    else carryOut(paced !== null ? timed(command) : command);
+  }
+
+  // `sdelay seconds`, reached in the program's order: it ends `seconds`
+  // after the last one ended -- or after now, for the first, and where
+  // that end has passed already, so a program that fell behind starts
+  // again from now rather than catching up. The program waits until the
+  // page answers it. Command -> ()
+  function sdelay(command) {
+    const t = clockNow();
+    const seconds = Math.max(0, Number(command.seconds) || 0);
+    sdelayEnd = sdelayEnd === null ? t + seconds : Math.max(sdelayEnd + seconds, t);
+    answering = { id: command.id, at: sdelayEnd - SDELAY_LEAD };
+    pace();
+  }
+
+  // Looks at the clock for the `sdelay` waiting: answers it a little
+  // before its end, and carries out what was held after it once the end
+  // has come. ()
+  function pace() {
+    if (closed) return;
+    const t = clockNow();
+    if (answering !== null && t >= answering.at) {
+      const { id } = answering;
+      answering = null;
+      if (paced === null) paced = [];
+      report({ ev: "sdelay", id });
+    }
+    if (paced !== null && answering === null && t >= sdelayEnd) {
+      const pending = paced;
+      paced = null;
+      for (const command of pending) take(command);
+    }
+    const needed = answering !== null || paced !== null;
+    if (needed && pacer === 0) pacer = setInterval(pace, SDELAY_TICK_MS);
+    else if (!needed && pacer !== 0) {
+      clearInterval(pacer);
+      pacer = 0;
+    }
+  }
+
+  // Whether a command starts a sound. Command -> Bool
+  function sound(command) {
+    return command.op === "cmd" && engine.sounds(command);
+  }
+
+  // A sound the program starts after an `sdelay`, with no time of its
+  // own, starts where the `sdelay` ends, exactly. Command -> Command
+  function timed(command) {
+    if (sdelayEnd === null || !sound(command)) return command;
+    const n = String(command.numbers ?? "").trim().split(/\s+/);
+    const k = command.kind === "tone" ? 1 : 0;
+    if (n.length <= k || Number(n[k]) !== 0) return command;
+    n[k] = String(sdelayEnd);
+    return { ...command, numbers: n.join(" ") };
   }
 
   // Sound may start only after the reader did something, so every
@@ -1538,7 +1658,7 @@ export function mountPage(element, sendEvent, { standalone = false, activated = 
   });
 
   function onKey(event) {
-    if (held !== null) {
+    if (splash !== null) {
       dismissSplash(event);
       return;
     }
@@ -1589,6 +1709,7 @@ export function mountPage(element, sendEvent, { standalone = false, activated = 
       frameWaiting = true;
       report({ ev: "frame" });
     }
+    if (answering !== null || paced !== null) pace();
     frameRequest = requestAnimationFrame(frame);
   }
 
@@ -1690,10 +1811,17 @@ export function mountPage(element, sendEvent, { standalone = false, activated = 
       case "image_load":
         pictures.set(command.id, loadPicture(command.name, import.meta.url));
         break;
-      case "image":
-        draw(command.c, (g) => drawPicture(g, pictures.get(command.picture), command.x,
+      case "image": {
+        const picture = pictures.get(command.picture);
+        if (picture && picture.loading) {
+          waitFor(picture);
+          held.push(command);
+          break;
+        }
+        draw(command.c, (g) => drawPicture(g, picture, command.x,
           command.y, command.width, command.height, command.alpha));
         break;
+      }
       case "checkbox": {
         const { row, input } = choiceRow("checkbox", command.id, command.title, command.checked);
         input.addEventListener("change", () => {
@@ -1872,6 +2000,9 @@ export function mountPage(element, sendEvent, { standalone = false, activated = 
       case "frame_done":
         frameWaiting = false;
         break;
+      case "sdelay":
+        sdelay(command);
+        break;
       case "on_mouse": {
         const entry = canvases.get(command.c);
         if (entry) entry.mouse = true;
@@ -1901,6 +2032,7 @@ export function mountPage(element, sendEvent, { standalone = false, activated = 
     if (closed) return;
     closed = true;
     cancelAnimationFrame(frameRequest);
+    if (pacer !== 0) clearInterval(pacer);
     if (splash !== null) {
       window.removeEventListener("keydown", dismissSplash, true);
       splash.remove();
@@ -1916,10 +2048,7 @@ export function mountPage(element, sendEvent, { standalone = false, activated = 
   return {
     receive(commands) {
       if (closed) return;
-      for (const command of commands) {
-        if (held !== null) held.push(command);
-        else carryOut(command);
-      }
+      for (const command of commands) take(command);
     },
     // Stops: no more events, frames or sound, and what is shown stays.
     freeze,

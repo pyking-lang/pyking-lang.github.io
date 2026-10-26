@@ -176,7 +176,7 @@ a string can hold: 0, a negative number, a surrogate (55296 to
 <p class="pyk-api-label">Example</p>
 <div class="pkn-notebook pkn-embedded not-content"><div class="pkn-fragment" data-markdown="&#x60;&#x60;&#x60;pyking
 import text
-print(text.from_code(65) ++ text.from_code(229) ++ text.from_code(128081))
+print(text.from_code(65) + text.from_code(229) + text.from_code(128081))
 print(text.from_code(-1) == &#x22;&#x22;)
 &#x60;&#x60;&#x60;
 
@@ -406,7 +406,7 @@ last.</p>
 <p class="pyk-api-label">Example</p>
 <div class="pkn-notebook pkn-embedded not-content"><div class="pkn-fragment" data-markdown="&#x60;&#x60;&#x60;pyking
 import text
-print(&#x22;[&#x22; ++ text.trim(&#x22;  two words \n&#x22;) ++ &#x22;]&#x22;)
+print(&#x22;[&#x22; + text.trim(&#x22;  two words \n&#x22;) + &#x22;]&#x22;)
 &#x60;&#x60;&#x60;
 
 &#x60;&#x60;&#x60;stdout visible = true

@@ -185,6 +185,7 @@ void tinyweb_watch_pair(const char *, const char *, pyk_fn_ff_v);
 void tinyweb_splash(void);
 void tinyweb_set_splash(const char *);
 double tinyweb_time(void);
+void tinyweb_sdelay(double);
 #ifndef PYK_FN_F_V
 #define PYK_FN_F_V
 typedef void (*pyk_fn_f_v)(double);

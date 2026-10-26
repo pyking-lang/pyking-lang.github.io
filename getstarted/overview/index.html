@@ -38,7 +38,7 @@
 	})();
 </script><script type="module" src="/_astro/Search.astro_astro_type_script_index_0_lang.Bumivpjo.js"></script><div class="sl-hidden md:sl-flex"><starlight-theme-select><label style="--sl-select-width: 6.25em" class="astro-2z5xp7gb"><span class="sr-only astro-2z5xp7gb">Select theme</span><svg aria-hidden="true" class="icon label-icon astro-2z5xp7gb astro-hkc32dio" width="16" height="16" viewBox="0 0 24 24" fill="currentColor" style="--sl-icon-size: 1em;"><path d="M21 14h-1V7a3 3 0 0 0-3-3H7a3 3 0 0 0-3 3v7H3a1 1 0 0 0-1 1v2a3 3 0 0 0 3 3h14a3 3 0 0 0 3-3v-2a1 1 0 0 0-1-1ZM6 7a1 1 0 0 1 1-1h10a1 1 0 0 1 1 1v7H6V7Zm14 10a1 1 0 0 1-1 1H5a1 1 0 0 1-1-1v-1h16v1Z"/></svg><select autocomplete="off" class="astro-2z5xp7gb"><option value="dark" class="astro-2z5xp7gb">Dark</option><option value="light" class="astro-2z5xp7gb">Light</option><option value="auto" selected class="astro-2z5xp7gb">Auto</option></select><svg aria-hidden="true" class="icon caret astro-2z5xp7gb astro-hkc32dio" width="16" height="16" viewBox="0 0 24 24" fill="currentColor" style="--sl-icon-size: 1em;"><path d="M17 9.17a1 1 0 0 0-1.41 0L12 12.71 8.46 9.17a1 1 0 1 0-1.41 1.42l4.24 4.24a1.002 1.002 0 0 0 1.42 0L17 10.59a1.002 1.002 0 0 0 0-1.42Z"/></svg></label></starlight-theme-select><script>
 	StarlightThemeProvider.updatePickers();
-</script><script type="module">var e=`starlight-theme`,t=e=>e===`auto`||e===`dark`||e===`light`?e:`auto`,n=()=>t(typeof localStorage<`u`&&localStorage.getItem(e));function r(t){typeof localStorage<`u`&&localStorage.setItem(e,t===`light`||t===`dark`?t:``)}var i=()=>matchMedia(`(prefers-color-scheme: light)`).matches?`light`:`dark`;function a(e){StarlightThemeProvider.updatePickers(e),document.documentElement.dataset.theme=e===`auto`?i():e,r(e)}matchMedia(`(prefers-color-scheme: light)`).addEventListener(`change`,()=>{n()===`auto`&&a(`auto`)});var o=class extends HTMLElement{constructor(){super(),a(n()),this.querySelector(`select`)?.addEventListener(`change`,e=>{e.currentTarget instanceof HTMLSelectElement&&a(t(e.currentTarget.value))})}};customElements.define(`starlight-theme-select`,o);</script></div><a class="pyking-github" href="https://github.com/pyking-lang" title="Pyking on GitHub"><span class="sr-only">GitHub</span><svg aria-hidden="true" viewBox="0 0 24 24" width="22" height="22" fill="currentColor"><path d="M12 .3a12 12 0 0 0-3.8 23.4c.6.1.8-.3.8-.6v-2c-3.3.7-4-1.6-4-1.6-.6-1.4-1.4-1.8-1.4-1.8-1-.7.1-.7.1-.7 1.2.1 1.8 1.2 1.8 1.2 1 1.8 2.8 1.3 3.5 1 0-.8.4-1.3.7-1.6-2.7-.3-5.5-1.3-5.5-6 0-1.2.5-2.3 1.3-3.1-.2-.4-.6-1.6 0-3.2 0 0 1-.3 3.4 1.2a11.5 11.5 0 0 1 6 0c2.3-1.5 3.3-1.2 3.3-1.2.6 1.6.2 2.8.1 3.2.8.8 1.3 1.9 1.3 3.1 0 4.6-2.8 5.6-5.5 5.9.5.4.9 1.1.9 2.2v3.3c0 .3.1.7.8.6A12 12 0 0 0 12 .3"></path></svg></a></div></div></header><nav class="sidebar print:hidden astro-yntsjkba" aria-label="Main"><button popovertarget="starlight__sidebar" class="sl-menu-button sl-flex md:sl-hidden print:hidden astro-r2osgdlg"><svg aria-hidden="true" class="open-menu astro-r2osgdlg astro-hkc32dio" width="16" height="16" viewBox="0 0 24 24" fill="currentColor" style="--sl-icon-size: 1em;"><path d="M3 8h18a1 1 0 1 0 0-2H3a1 1 0 0 0 0 2Zm18 8H3a1 1 0 0 0 0 2h18a1 1 0 0 0 0-2Zm0-5H3a1 1 0 0 0 0 2h18a1 1 0 0 0 0-2Z"/></svg><svg aria-hidden="true" class="close-menu astro-r2osgdlg astro-hkc32dio" width="16" height="16" viewBox="0 0 24 24" fill="currentColor" style="--sl-icon-size: 1em;"><path d="m13.41 12 6.3-6.29a1.004 1.004 0 1 0-1.42-1.42L12 10.59l-6.29-6.3a1.004 1.004 0 0 0-1.42 1.42l6.3 6.29-6.3 6.29a1 1 0 0 0 0 1.42.998.998 0 0 0 1.42 0l6.29-6.3 6.29 6.3a.999.999 0 0 0 1.42 0 1 1 0 0 0 0-1.42L13.41 12Z"/></svg><span class="sr-only astro-r2osgdlg">Menu</span></button><script type="module">var e=class extends HTMLElement{constructor(){super();let e=matchMedia(`(min-width: 50em)`),t=()=>{this.popover=e.matches?null:`auto`};t(),e.addEventListener(`change`,()=>t()),this.addEventListener(`toggle`,({newState:e})=>this.trapFocus(e===`open`))}trapFocus(e){document.querySelectorAll(`.main-frame, .sl-skip-link`).forEach(t=>{t.toggleAttribute(`inert`,e)})}};customElements.define(`sl-sidebar-pane`,e);</script><script type="module">var e=class extends HTMLElement{constructor(){super();let e=this.querySelector(`select`);e&&(e.addEventListener(`change`,e=>{e.currentTarget instanceof HTMLSelectElement&&(window.location.pathname=e.currentTarget.value)}),window.addEventListener(`pageshow`,t=>{if(!t.persisted)return;let n=e.querySelector(`option[selected]`)?.index;n!==e.selectedIndex&&(e.selectedIndex=n??0)}))}};customElements.define(`starlight-lang-select`,e);</script><sl-sidebar-pane popover id="starlight__sidebar" class="sidebar-pane astro-yntsjkba"><div class="sidebar-content sl-flex astro-yntsjkba"><nav class="pyking-sidebar" aria-label="Getting started"><p class="pyking-sidebar-title">Getting started</p><ul><li><a href="/getstarted/overview/" aria-current="page">Language overview</a><ul class="pyking-sidebar-headings"><li><a href="#bindings-and-variables">Bindings and variables</a></li><li><a href="#functions-and-types">Functions and types</a></li><li><a href="#control-flow">Control flow</a></li><li><a href="#lists-tuples-and-pattern-matching">Lists, tuples and pattern matching</a></li><li><a href="#recursion">Recursion</a></li><li><a href="#modules-and-the-standard-library">Modules and the standard library</a></li><li><a href="#next-steps">Next steps</a></li></ul></li><li><a href="/getstarted/tinyweb-styles/">Styling tinyweb</a></li></ul></nav><div class="md:sl-hidden"><div class="mobile-preferences sl-flex astro-p4azlveh"><div class="social-icons astro-p4azlveh"></div><starlight-theme-select><label style="--sl-select-width: 6.25em" class="astro-2z5xp7gb"><span class="sr-only astro-2z5xp7gb">Select theme</span><svg aria-hidden="true" class="icon label-icon astro-2z5xp7gb astro-hkc32dio" width="16" height="16" viewBox="0 0 24 24" fill="currentColor" style="--sl-icon-size: 1em;"><path d="M21 14h-1V7a3 3 0 0 0-3-3H7a3 3 0 0 0-3 3v7H3a1 1 0 0 0-1 1v2a3 3 0 0 0 3 3h14a3 3 0 0 0 3-3v-2a1 1 0 0 0-1-1ZM6 7a1 1 0 0 1 1-1h10a1 1 0 0 1 1 1v7H6V7Zm14 10a1 1 0 0 1-1 1H5a1 1 0 0 1-1-1v-1h16v1Z"/></svg><select autocomplete="off" class="astro-2z5xp7gb"><option value="dark" class="astro-2z5xp7gb">Dark</option><option value="light" class="astro-2z5xp7gb">Light</option><option value="auto" selected class="astro-2z5xp7gb">Auto</option></select><svg aria-hidden="true" class="icon caret astro-2z5xp7gb astro-hkc32dio" width="16" height="16" viewBox="0 0 24 24" fill="currentColor" style="--sl-icon-size: 1em;"><path d="M17 9.17a1 1 0 0 0-1.41 0L12 12.71 8.46 9.17a1 1 0 1 0-1.41 1.42l4.24 4.24a1.002 1.002 0 0 0 1.42 0L17 10.59a1.002 1.002 0 0 0 0-1.42Z"/></svg></label></starlight-theme-select><script>
+</script><script type="module">var e=`starlight-theme`,t=e=>e===`auto`||e===`dark`||e===`light`?e:`auto`,n=()=>t(typeof localStorage<`u`&&localStorage.getItem(e));function r(t){typeof localStorage<`u`&&localStorage.setItem(e,t===`light`||t===`dark`?t:``)}var i=()=>matchMedia(`(prefers-color-scheme: light)`).matches?`light`:`dark`;function a(e){StarlightThemeProvider.updatePickers(e),document.documentElement.dataset.theme=e===`auto`?i():e,r(e)}matchMedia(`(prefers-color-scheme: light)`).addEventListener(`change`,()=>{n()===`auto`&&a(`auto`)});var o=class extends HTMLElement{constructor(){super(),a(n()),this.querySelector(`select`)?.addEventListener(`change`,e=>{e.currentTarget instanceof HTMLSelectElement&&a(t(e.currentTarget.value))})}};customElements.define(`starlight-theme-select`,o);</script></div><a class="pyking-github" href="https://github.com/pyking-lang" title="Pyking on GitHub"><span class="sr-only">GitHub</span><svg aria-hidden="true" viewBox="0 0 24 24" width="22" height="22" fill="currentColor"><path d="M12 .3a12 12 0 0 0-3.8 23.4c.6.1.8-.3.8-.6v-2c-3.3.7-4-1.6-4-1.6-.6-1.4-1.4-1.8-1.4-1.8-1-.7.1-.7.1-.7 1.2.1 1.8 1.2 1.8 1.2 1 1.8 2.8 1.3 3.5 1 0-.8.4-1.3.7-1.6-2.7-.3-5.5-1.3-5.5-6 0-1.2.5-2.3 1.3-3.1-.2-.4-.6-1.6 0-3.2 0 0 1-.3 3.4 1.2a11.5 11.5 0 0 1 6 0c2.3-1.5 3.3-1.2 3.3-1.2.6 1.6.2 2.8.1 3.2.8.8 1.3 1.9 1.3 3.1 0 4.6-2.8 5.6-5.5 5.9.5.4.9 1.1.9 2.2v3.3c0 .3.1.7.8.6A12 12 0 0 0 12 .3"></path></svg></a></div></div></header><nav class="sidebar print:hidden astro-yntsjkba" aria-label="Main"><button popovertarget="starlight__sidebar" class="sl-menu-button sl-flex md:sl-hidden print:hidden astro-r2osgdlg"><svg aria-hidden="true" class="open-menu astro-r2osgdlg astro-hkc32dio" width="16" height="16" viewBox="0 0 24 24" fill="currentColor" style="--sl-icon-size: 1em;"><path d="M3 8h18a1 1 0 1 0 0-2H3a1 1 0 0 0 0 2Zm18 8H3a1 1 0 0 0 0 2h18a1 1 0 0 0 0-2Zm0-5H3a1 1 0 0 0 0 2h18a1 1 0 0 0 0-2Z"/></svg><svg aria-hidden="true" class="close-menu astro-r2osgdlg astro-hkc32dio" width="16" height="16" viewBox="0 0 24 24" fill="currentColor" style="--sl-icon-size: 1em;"><path d="m13.41 12 6.3-6.29a1.004 1.004 0 1 0-1.42-1.42L12 10.59l-6.29-6.3a1.004 1.004 0 0 0-1.42 1.42l6.3 6.29-6.3 6.29a1 1 0 0 0 0 1.42.998.998 0 0 0 1.42 0l6.29-6.3 6.29 6.3a.999.999 0 0 0 1.42 0 1 1 0 0 0 0-1.42L13.41 12Z"/></svg><span class="sr-only astro-r2osgdlg">Menu</span></button><script type="module">var e=class extends HTMLElement{constructor(){super();let e=matchMedia(`(min-width: 50em)`),t=()=>{this.popover=e.matches?null:`auto`};t(),e.addEventListener(`change`,()=>t()),this.addEventListener(`toggle`,({newState:e})=>this.trapFocus(e===`open`))}trapFocus(e){document.querySelectorAll(`.main-frame, .sl-skip-link`).forEach(t=>{t.toggleAttribute(`inert`,e)})}};customElements.define(`sl-sidebar-pane`,e);</script><script type="module">var e=class extends HTMLElement{constructor(){super();let e=this.querySelector(`select`);e&&(e.addEventListener(`change`,e=>{e.currentTarget instanceof HTMLSelectElement&&(window.location.pathname=e.currentTarget.value)}),window.addEventListener(`pageshow`,t=>{if(!t.persisted)return;let n=e.querySelector(`option[selected]`)?.index;n!==e.selectedIndex&&(e.selectedIndex=n??0)}))}};customElements.define(`starlight-lang-select`,e);</script><sl-sidebar-pane popover id="starlight__sidebar" class="sidebar-pane astro-yntsjkba"><div class="sidebar-content sl-flex astro-yntsjkba"><nav class="pyking-sidebar" aria-label="Getting started"><p class="pyking-sidebar-title">Getting started</p><ul><li><a href="/getstarted/overview/" aria-current="page">Language overview</a><ul class="pyking-sidebar-headings"><li><a href="#bindings-and-variables">Bindings and variables</a></li><li><a href="#functions-and-types">Functions and types</a></li><li><a href="#operators">Operators</a></li><li><a href="#control-flow">Control flow</a></li><li><a href="#lists-tuples-and-pattern-matching">Lists, tuples and pattern matching</a></li><li><a href="#recursion">Recursion</a></li><li><a href="#modules-and-the-standard-library">Modules and the standard library</a></li><li><a href="#next-steps">Next steps</a></li></ul></li><li><a href="/getstarted/tinyweb-styles/">Styling tinyweb</a></li></ul></nav><div class="md:sl-hidden"><div class="mobile-preferences sl-flex astro-p4azlveh"><div class="social-icons astro-p4azlveh"></div><starlight-theme-select><label style="--sl-select-width: 6.25em" class="astro-2z5xp7gb"><span class="sr-only astro-2z5xp7gb">Select theme</span><svg aria-hidden="true" class="icon label-icon astro-2z5xp7gb astro-hkc32dio" width="16" height="16" viewBox="0 0 24 24" fill="currentColor" style="--sl-icon-size: 1em;"><path d="M21 14h-1V7a3 3 0 0 0-3-3H7a3 3 0 0 0-3 3v7H3a1 1 0 0 0-1 1v2a3 3 0 0 0 3 3h14a3 3 0 0 0 3-3v-2a1 1 0 0 0-1-1ZM6 7a1 1 0 0 1 1-1h10a1 1 0 0 1 1 1v7H6V7Zm14 10a1 1 0 0 1-1 1H5a1 1 0 0 1-1-1v-1h16v1Z"/></svg><select autocomplete="off" class="astro-2z5xp7gb"><option value="dark" class="astro-2z5xp7gb">Dark</option><option value="light" class="astro-2z5xp7gb">Light</option><option value="auto" selected class="astro-2z5xp7gb">Auto</option></select><svg aria-hidden="true" class="icon caret astro-2z5xp7gb astro-hkc32dio" width="16" height="16" viewBox="0 0 24 24" fill="currentColor" style="--sl-icon-size: 1em;"><path d="M17 9.17a1 1 0 0 0-1.41 0L12 12.71 8.46 9.17a1 1 0 1 0-1.41 1.42l4.24 4.24a1.002 1.002 0 0 0 1.42 0L17 10.59a1.002 1.002 0 0 0 0-1.42Z"/></svg></label></starlight-theme-select><script>
 	StarlightThemeProvider.updatePickers();
 </script></div></div></div></sl-sidebar-pane></nav><div class="main-frame astro-yntsjkba"><script type="module">var e=document.getElementById(`starlight__sidebar`),t=e?.querySelector(`sl-sidebar-state-persist`),n=`sl-sidebar-state`,r=()=>{let r=[],i=t?.dataset.hash||``;try{let e=sessionStorage.getItem(n),t=JSON.parse(e||`{}`);Array.isArray(t.open)&&t.hash===i&&(r=t.open)}catch{}return{hash:i,open:r,scroll:e?.scrollTop||0}},i=e=>{try{sessionStorage.setItem(n,JSON.stringify(e))}catch{}},a=()=>i(r()),o=(e,t)=>{let n=r();n.open[t]=e,i(n)};t?.addEventListener(`click`,e=>{if(!(e.target instanceof Element))return;let t=e.target.closest(`summary`)?.closest(`details`);if(!t)return;let n=t.querySelector(`sl-sidebar-restore`),r=parseInt(n?.dataset.index||``);isNaN(r)||o(!t.open,r)}),addEventListener(`visibilitychange`,()=>{document.visibilityState===`hidden`&&a()});</script><div class="lg:sl-flex astro-lrzkfocr"><div class="main-pane astro-lrzkfocr"><main data-pagefind-body class="astro-g5ptsecz" lang="en" dir="ltr"><div class="content-panel astro-a7po4psb"><div class="sl-container astro-a7po4psb"><h1 id="_top" class="astro-bebwqqxs">Language overview</h1></div></div><div class="content-panel astro-a7po4psb"><div class="sl-container astro-a7po4psb"><div class="sl-markdown-content"><p>Pyking reads like Python. This page covers the main places where it
 differs. Every example is a whole program: press <strong>▶</strong> to run it, or edit
@@ -46,15 +46,21 @@ it first. Each one runs on its own, so a name defined in one example is
 not visible in the next.</p>
 <h2 id="bindings-and-variables">Bindings and variables</h2>
 <p><code>=</code> binds a name to a value, and that binding never changes. A variable
-that changes is declared with <code>var</code> and updated with <code>:=</code>.</p>
-<div class="pkn-notebook pkn-embedded not-content"><div class="pkn-cell"><pre class="pkn-cell-fallback"><code>limit = 10
+that changes is declared with <code>var</code> and updated with <code>:=</code>, which a
+program turns on with <code>use mutation</code> at its top: a program is functional
+unless it says otherwise.</p>
+<div class="pkn-notebook pkn-embedded not-content"><div class="pkn-cell"><pre class="pkn-cell-fallback"><code>use mutation
+
+limit = 10
 var total = 0
 for i in range(1, limit + 1):
     total := total + i
 print("The sum of 1 ..", limit, "is", total)</code></pre></div></div>
 <p>Updating a name that was bound with <code>=</code> is a compile-time error. This
 example is meant to be refused:</p>
-<div class="pkn-notebook pkn-embedded not-content"><div class="pkn-cell" data-error=""><pre class="pkn-cell-fallback"><code>count = 1
+<div class="pkn-notebook pkn-embedded not-content"><div class="pkn-cell" data-error=""><pre class="pkn-cell-fallback"><code>use mutation
+
+count = 1
 count := count + 1</code></pre></div></div>
 <h2 id="functions-and-types">Functions and types</h2>
 <p>Annotations are optional. Where a function has none, the checker infers
@@ -62,16 +68,29 @@ its most general type, so <code>twice</code> below works with any function whose
 argument and result have the same type.</p>
 <div class="pkn-notebook pkn-embedded not-content"><div class="pkn-cell"><pre class="pkn-cell-fallback"><code>def twice(f, x): f(f(x))
 def inc(n): n + 1
-def shout(s): s ++ "!"
+def shout(s): s + "!"
 
 print(twice(inc, 5))
 print(twice(shout, "hey"))</code></pre></div></div>
 <p>A function’s value is its last expression, or what it <code>return</code>s. A body
 of one expression can go on the header’s line, as above.</p>
+<h2 id="operators">Operators</h2>
+<p><code>+</code> adds two numbers and joins two strings or two lists, and converts
+nothing on the way. <code>and</code>, <code>or</code> and <code>not</code> — or <code>&#x26;&#x26;</code>, <code>||</code> and <code>!</code> —
+combine Bools, <code>%</code> is the remainder and <code>^</code> the power, and a list is
+indexed with <code>xs[i]</code>. A lambda is written <code>lam x. x + 1</code>.</p>
+<div class="pkn-notebook pkn-embedded not-content"><div class="pkn-cell"><pre class="pkn-cell-fallback"><code>xs = [3, 1, 4, 1, 5]
+print("first", xs[0], "and last", xs[len(xs) - 1])
+print("joined: " + string(xs) + "!", xs + [9])
+print(17 % 5, 2 ^ 10, 7 > 3 and not (7 > 5))
+square = lam n. n * n
+print([square(x) for x in xs if x != 1])</code></pre></div></div>
 <h2 id="control-flow">Control flow</h2>
 <p><code>if</code> is a statement, and also an expression written
 <code>if c then a else b</code>. <code>while</code> loops while its condition holds.</p>
-<div class="pkn-notebook pkn-embedded not-content"><div class="pkn-cell"><pre class="pkn-cell-fallback"><code>var n = 27
+<div class="pkn-notebook pkn-embedded not-content"><div class="pkn-cell"><pre class="pkn-cell-fallback"><code>use mutation
+
+var n = 27
 var steps = 0
 while n > 1:
     n := if n / 2 * 2 == n then n / 2 else 3 * n + 1
@@ -89,7 +108,7 @@ carried last.</p>
 
 print(factorial(10))</code></pre></div></div>
 <h2 id="lists-tuples-and-pattern-matching">Lists, tuples and pattern matching</h2>
-<p><code>match</code> takes values apart. A list pattern <code>[first] ++ rest</code> matches a
+<p><code>match</code> takes values apart. A list pattern <code>[first] + rest</code> matches a
 non-empty list, and a tuple is taken apart with <code>=</code>.</p>
 <div class="pkn-notebook pkn-embedded not-content"><div class="pkn-cell"><pre class="pkn-cell-fallback"><code>def describe(n: Int) -> String:
     match n:
@@ -100,7 +119,7 @@ non-empty list, and a tuple is taken apart with <code>=</code>.</p>
 def sum(xs: [Int]) -> Int:
     match xs:
         case []: 0
-        case [first] ++ rest: first + sum(rest)
+        case [first] + rest: first + sum(rest)
 
 print(describe(0), describe(1), describe(7))
 print(sum([1, 2, 3, 4]))
@@ -125,7 +144,7 @@ filled in above the code:</p>
 "><pre class="pkn-cell-fallback"><code>import io
 
 name = io.read_line("What is your name? ")
-io.write_line("Nice to meet you, " ++ name ++ "!")</code></pre></div></div>
+io.write_line("Nice to meet you, " + name + "!")</code></pre></div></div>
 <h2 id="next-steps">Next steps</h2>
 <ul>
 <li>Try your own programs in the <a href="/playground/">playground</a>.</li>

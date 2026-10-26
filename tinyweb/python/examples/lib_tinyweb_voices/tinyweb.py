@@ -24,6 +24,29 @@ def __pyk_fdiv(a, b):
     return a / b
 
 
+def __pyk_fmod(a, b):
+    # Python's fmod raises on a zero divisor or an infinite
+    # dividend, where IEEE answers NaN.
+    if b == 0.0 or a != a or b != b or a in (float('inf'), float('-inf')):
+        return float('nan')
+    return __import__('math').fmod(a, b)
+
+
+def __pyk_fpow(a, b):
+    # Python's pow raises on an overflow, a zero to a negative
+    # power and a negative number to a fraction, where IEEE
+    # answers an infinity or a NaN.
+    odd = b == b and abs(b) != float('inf') and b == int(b) and int(b) % 2 == 1
+    try:
+        return __import__('math').pow(a, b)
+    except OverflowError:
+        return float('-inf') if a < 0.0 and odd else float('inf')
+    except ValueError:
+        if a == 0.0:
+            return float('-inf') if repr(a)[0] == '-' and odd else float('inf')
+        return float('nan')
+
+
 def __pyk_float(x):
     if x != x:
         return 'nan'

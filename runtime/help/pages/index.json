@@ -59,6 +59,10 @@
               "anchor": "functions-and-types"
             },
             {
+              "text": "Operators",
+              "anchor": "operators"
+            },
+            {
               "text": "Control flow",
               "anchor": "control-flow"
             },

@@ -110,6 +110,7 @@ something on the page has that name already.
 <p class="pyk-api-label">Example</p>
 
 ```pyking
+use mutation
 import tinyweb as tw
 import tinyweb.net as net
 tw.web_init(0)

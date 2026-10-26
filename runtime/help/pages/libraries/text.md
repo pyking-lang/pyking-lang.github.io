@@ -196,7 +196,7 @@ a string can hold: 0, a negative number, a surrogate (55296 to
 
 ```pyking
 import text
-print(text.from_code(65) ++ text.from_code(229) ++ text.from_code(128081))
+print(text.from_code(65) + text.from_code(229) + text.from_code(128081))
 print(text.from_code(-1) == "")
 ```
 
@@ -516,7 +516,7 @@ last.
 
 ```pyking
 import text
-print("[" ++ text.trim("  two words \n") ++ "]")
+print("[" + text.trim("  two words \n") + "]")
 ```
 
 ```stdout visible = true

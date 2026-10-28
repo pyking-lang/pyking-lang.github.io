@@ -20,9 +20,12 @@ function pykRange(a, b, c) {
   return pykList(items);
 }
 
-// Pyking's `len`: a list's items, or a String's bytes in UTF-8.
+// Pyking's `len`: a list's items, or a String's code points.
 function pykLen(value) {
-  return Array.isArray(value) ? value.length : new TextEncoder().encode(value).length;
+  if (Array.isArray(value)) return value.length;
+  let n = 0;
+  for (const _ of value) n++;
+  return n;
 }
 
 // Which fields of a datatype's value are Floats, which only the

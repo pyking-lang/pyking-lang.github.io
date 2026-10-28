@@ -6,11 +6,15 @@ val length : string -> int
 
 val slice : string -> int -> int -> string
 
-val char_at : string -> int -> string
+val char_at : string -> int -> int
 
-val code : string -> int -> int
+val code : int -> int
 
-val from_code : int -> string
+val from_code : int -> int
+
+val chars : string -> int list
+
+val from_chars : int list -> string
 
 val find : string -> string -> int -> int
 

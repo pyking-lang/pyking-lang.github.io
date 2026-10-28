@@ -147,15 +147,75 @@ public final class PykRuntime {
         return java.util.Collections.unmodifiableList(out);
     }
 
-    // A String's length in UTF-8 bytes, as Pyking counts it.
-    public static int len(String s) {
-        return s.getBytes(java.nio.charset.StandardCharsets.UTF_8).length;
+    // A Char: one Unicode code point. A class of its own, so that print
+    // tells it from an Integer and a String.
+    public static final class PykChar implements Comparable<PykChar> {
+        public final int code;
+
+        public PykChar(int code) {
+            this.code = code;
+        }
+
+        @Override
+        public boolean equals(Object other) {
+            return other instanceof PykChar && ((PykChar) other).code == code;
+        }
+
+        @Override
+        public int hashCode() {
+            return code;
+        }
+
+        @Override
+        public int compareTo(PykChar other) {
+            return Integer.compare(code, other.code);
+        }
+
+        @Override
+        public String toString() {
+            return new String(Character.toChars(code));
+        }
     }
 
-    // What print writes for a value: a String bare, everything else as
-    // it is written inside another value.
+    public static PykChar chr(int code) {
+        return new PykChar(code);
+    }
+
+    // The Char of a code point, or '\0' where n is none.
+    public static PykChar charOfInt(int n) {
+        return new PykChar(n >= 0 && n <= 0x10FFFF && !(n >= 0xD800 && n <= 0xDFFF) ? n : 0);
+    }
+
+    // A String's first Char, or '\0' for "".
+    public static PykChar charOfString(String s) {
+        return new PykChar(s.isEmpty() ? 0 : s.codePointAt(0));
+    }
+
+    // s[i]: the i-th code point, counting from 0.
+    public static PykChar charAt(String s, int i) {
+        if (i < 0 || i >= s.codePointCount(0, s.length()))
+            throw new IndexOutOfBoundsException("String index " + i + " out of range");
+        return new PykChar(s.codePointAt(s.offsetByCodePoints(0, i)));
+    }
+
+    // A String's Chars, in order: what `for c in s` walks.
+    public static java.util.List<PykChar> chars(String s) {
+        java.util.ArrayList<PykChar> out = new java.util.ArrayList<PykChar>();
+        for (int k = 0; k < s.length(); k = s.offsetByCodePoints(k, 1)) out.add(new PykChar(s.codePointAt(k)));
+        return java.util.Collections.unmodifiableList(out);
+    }
+
+    // A String's length in code points, as Pyking counts it.
+    public static int len(String s) {
+        return s.codePointCount(0, s.length());
+    }
+
+    // What print writes for a value: a String or a Char bare, everything
+    // else as it is written inside another value.
     public static String str(Object value) {
-        return value instanceof String ? (String) value : show(value);
+        if (value instanceof String) return (String) value;
+        if (value instanceof PykChar) return value.toString();
+        return show(value);
     }
 
     public static String show(Object value) {
@@ -169,6 +229,8 @@ public final class PykRuntime {
             out.append("()");
         } else if (value instanceof String) {
             out.append(quote((String) value));
+        } else if (value instanceof PykChar) {
+            out.append(quoteChar((PykChar) value));
         } else if (value instanceof Double) {
             out.append(floatStr((Double) value));
         } else if (value instanceof java.util.List) {
@@ -205,20 +267,35 @@ public final class PykRuntime {
         }
     }
 
+    // A String inside another value: in double quotes, escaped.
     private static String quote(String text) {
-        StringBuilder out = new StringBuilder("'");
+        StringBuilder out = new StringBuilder("\"");
         for (int i = 0; i < text.length(); i++) {
             char c = text.charAt(i);
             switch (c) {
                 case '\\': out.append("\\\\"); break;
-                case '\'': out.append("\\'"); break;
+                case '"': out.append("\\\""); break;
                 case '\n': out.append("\\n"); break;
                 case '\t': out.append("\\t"); break;
                 case '\r': out.append("\\r"); break;
+                case '\0': out.append("\\0"); break;
                 default: out.append(c);
             }
         }
-        return out.append('\'').toString();
+        return out.append('"').toString();
+    }
+
+    // A Char inside another value: in single quotes, escaped.
+    private static String quoteChar(PykChar c) {
+        switch (c.code) {
+            case '\'': return "'\\''";
+            case '\\': return "'\\\\'";
+            case '\n': return "'\\n'";
+            case '\t': return "'\\t'";
+            case '\r': return "'\\r'";
+            case 0: return "'\\0'";
+            default: return "'" + c + "'";
+        }
     }
 
     // A Float written the way Pyking writes one. Locale.ROOT, since a

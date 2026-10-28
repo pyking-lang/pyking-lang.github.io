@@ -947,20 +947,20 @@ def sound__rate_of(name, base):
     return 1.0 if origin < -1000 else 1.0 if target < -1000 else math.pow(2.0, __pyk_fdiv(float(target - origin), 12.0))
 
 def sound__semitones(name):
-    match strings.upper(strings.char_at(name, 0)):
-        case 'C':
+    match strings.char_at(name, 0):
+        case 'C' | 'c':
             base = 0
-        case 'D':
+        case 'D' | 'd':
             base = 2
-        case 'E':
+        case 'E' | 'e':
             base = 4
-        case 'F':
+        case 'F' | 'f':
             base = 5
-        case 'G':
+        case 'G' | 'g':
             base = 7
-        case 'A':
+        case 'A' | 'a':
             base = 9
-        case 'B':
+        case 'B' | 'b':
             base = 11
         case _:
             base = -10000

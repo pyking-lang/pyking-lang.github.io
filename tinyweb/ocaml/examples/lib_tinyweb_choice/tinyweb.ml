@@ -6,18 +6,19 @@
 
 let pyk_quote text =
   let out = Buffer.create (String.length text + 2) in
-  Buffer.add_char out '\'';
+  Buffer.add_char out '"';
   String.iter
     (fun c ->
       match c with
       | '\\' -> Buffer.add_string out "\\\\"
-      | '\'' -> Buffer.add_string out "\\'"
+      | '"' -> Buffer.add_string out "\\\""
       | '\n' -> Buffer.add_string out "\\n"
       | '\t' -> Buffer.add_string out "\\t"
       | '\r' -> Buffer.add_string out "\\r"
+      | '\000' -> Buffer.add_string out "\\0"
       | c -> Buffer.add_char out c)
     text;
-  Buffer.add_char out '\'';
+  Buffer.add_char out '"';
   Buffer.contents out
 
 let pyk_float_str x =
@@ -800,19 +801,19 @@ and sound__rate_of name base =
   else Math.pow 2.0 (float_of_int (target - origin) /. 12.0)
 and sound__semitones name =
   let base =
-    match Text.upper (Text.char_at name 0) with
-        | "C" -> 0
-        | "D" -> 2
-        | "E" -> 4
-        | "F" -> 5
-        | "G" -> 7
-        | "A" -> 9
-        | "B" -> 11
+    match Text.char_at name 0 with
+        | (67 | 99) -> 0
+        | (68 | 100) -> 2
+        | (69 | 101) -> 4
+        | (70 | 102) -> 5
+        | (71 | 103) -> 7
+        | (65 | 97) -> 9
+        | (66 | 98) -> 11
         | _ -> -10000 in
   let shift =
     match Text.char_at name 1 with
-        | "#" -> 1
-        | "b" -> -1
+        | 35 -> 1
+        | 98 -> -1
         | _ -> 0 in
   let rest =
     Text.slice name (if shift = 0 then 1 else 2) (Text.length name) in

@@ -6,8 +6,7 @@
 
 int text_length(const char *s);
 const char *text_slice(const char *s, int start, int stop);
-const char *text_char_at(const char *s, int k);
-const char *text_upper(const char *s);
+int text_char_at(const char *s, int k);
 
 // Runs the module's own top level; the program calls it once, before any module that imports this one.
 void text_init(void);

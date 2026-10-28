@@ -8,7 +8,8 @@ replacing a part, and taking it apart into pieces and words.
 
 A position or a length counts **characters** -- Unicode code points
 -- so `"åäö"` has length 3 and `"👑"` length 1 on every target. The
-first character is at position 0. `upper`, `lower`, `trim` and
+first character is at position 0, and a character is a `Char`, as
+`s[k]` gives it. `upper`, `lower`, `trim` and
 `words` know the ASCII letters and the ASCII spaces only, so every
 target answers alike. A String is read as a number by the builtins
 `int` and `float`, and a number written as one by `string`.
@@ -21,9 +22,9 @@ import text
 
 ## char_at
 
-<pre class="pyk-sig"><code><span class="k">def</span> <span class="n">char_at</span>(<span class="p">s</span>: <span class="t">String</span>, <span class="p">k</span>: <span class="t">Int</span>) -&gt; <span class="t">String</span></code></pre>
+<pre class="pyk-sig"><code><span class="k">def</span> <span class="n">char_at</span>(<span class="p">s</span>: <span class="t">String</span>, <span class="p">k</span>: <span class="t">Int</span>) -&gt; Char</code></pre>
 
-The character at position `k`.
+The character at position `k`: `s[k]`, where `s` has a position `k`.
 
 <p class="pyk-api-label">Parameters</p>
 
@@ -32,14 +33,14 @@ The character at position `k`.
 
 <p class="pyk-api-label">Returns</p>
 
-A string of that one character, or `""` where `s` has no position `k`.
+That character, or `'\0'` where `s` has no position `k`.
 
 <p class="pyk-api-label">Example</p>
 
 ```pyking
 import text
 print(text.char_at("åäö 👑", 4), text.char_at("abc", 0))
-print(text.char_at("abc", 3) == "")
+print(text.char_at("abc", 3) == '\0')
 ```
 
 ```stdout visible = true
@@ -51,30 +52,59 @@ true
 
 <div class="pyk-api">
 
-## code
+## chars
 
-<pre class="pyk-sig"><code><span class="k">def</span> <span class="n">code</span>(<span class="p">s</span>: <span class="t">String</span>, <span class="p">k</span>: <span class="t">Int</span>) -&gt; <span class="t">Int</span></code></pre>
+<pre class="pyk-sig"><code><span class="k">def</span> <span class="n">chars</span>(<span class="p">s</span>: <span class="t">String</span>) -&gt; [Char]</code></pre>
 
-The number of the character at position `k`: its Unicode code point.
+The characters of a string, in order: what `for c in s` walks.
 
 <p class="pyk-api-label">Parameters</p>
 
 - `s`: the string.
-- `k`: the position, 0 for the first character.
 
 <p class="pyk-api-label">Returns</p>
 
-The code point, or -1 where `s` has no position `k`.
+A list of its characters, empty for `""`.
 
 <p class="pyk-api-label">Example</p>
 
 ```pyking
 import text
-print(text.code("A", 0), text.code("åäö 👑", 4), text.code("A", 1))
+print(text.chars("hé!"), text.chars(""))
 ```
 
 ```stdout visible = true
-65 128081 -1
+['h', 'é', '!'] []
+```
+
+</div>
+
+<div class="pyk-api">
+
+## code
+
+<pre class="pyk-sig"><code><span class="k">def</span> <span class="n">code</span>(<span class="p">c</span>: Char) -&gt; <span class="t">Int</span></code></pre>
+
+The number of a character: its Unicode code point, as `int(c)` gives
+it.
+
+<p class="pyk-api-label">Parameters</p>
+
+- `c`: the character.
+
+<p class="pyk-api-label">Returns</p>
+
+The code point.
+
+<p class="pyk-api-label">Example</p>
+
+```pyking
+import text
+print(text.code('A'), text.code("åäö 👑"[4]))
+```
+
+```stdout visible = true
+65 128081
 ```
 
 </div>
@@ -176,11 +206,41 @@ print(text.find("åäö 👑", "👑"))
 
 <div class="pyk-api">
 
+## from_chars
+
+<pre class="pyk-sig"><code><span class="k">def</span> <span class="n">from_chars</span>(<span class="p">cs</span>: [Char]) -&gt; <span class="t">String</span></code></pre>
+
+A string of characters: `chars`'s other way round.
+
+<p class="pyk-api-label">Parameters</p>
+
+- `cs`: the characters.
+
+<p class="pyk-api-label">Returns</p>
+
+The string they spell, `""` for none.
+
+<p class="pyk-api-label">Example</p>
+
+```pyking
+import text
+print(text.from_chars(['o', 'k']), text.from_chars(text.chars("åäö")))
+```
+
+```stdout visible = true
+ok åäö
+```
+
+</div>
+
+<div class="pyk-api">
+
 ## from_code
 
-<pre class="pyk-sig"><code><span class="k">def</span> <span class="n">from_code</span>(<span class="p">n</span>: <span class="t">Int</span>) -&gt; <span class="t">String</span></code></pre>
+<pre class="pyk-sig"><code><span class="k">def</span> <span class="n">from_code</span>(<span class="p">n</span>: <span class="t">Int</span>) -&gt; Char</code></pre>
 
-The character whose code point is `n`: `code`'s other way round.
+The character whose code point is `n`: `code`'s other way round, as
+`char(n)` gives it.
 
 <p class="pyk-api-label">Parameters</p>
 
@@ -188,16 +248,15 @@ The character whose code point is `n`: `code`'s other way round.
 
 <p class="pyk-api-label">Returns</p>
 
-A string of that one character, or `""` where `n` is not a character
-a string can hold: 0, a negative number, a surrogate (55296 to
-57343) or past 1114111.
+That character, or `'\0'` where `n` is not one: a negative number, a
+surrogate (55296 to 57343) or past 1114111.
 
 <p class="pyk-api-label">Example</p>
 
 ```pyking
 import text
-print(text.from_code(65) + text.from_code(229) + text.from_code(128081))
-print(text.from_code(-1) == "")
+print(string(text.from_code(65)) + string(text.from_code(229)) + string(text.from_code(128081)))
+print(text.from_code(-1) == '\0')
 ```
 
 ```stdout visible = true
@@ -295,7 +354,7 @@ print(text.lines("one\r\ntwo\n\nfour\n"))
 ```
 
 ```stdout visible = true
-['one', 'two', '', 'four']
+["one", "two", "", "four"]
 ```
 
 </div>
@@ -458,8 +517,8 @@ print(text.split("one and two", " and "))
 ```
 
 ```stdout visible = true
-['a', 'b', '', 'c']
-['one', 'two']
+["a", "b", "", "c"]
+["one", "two"]
 ```
 
 </div>
@@ -580,7 +639,7 @@ print(text.words("  the quick\tbrown \n fox "))
 ```
 
 ```stdout visible = true
-['the', 'quick', 'brown', 'fox']
+["the", "quick", "brown", "fox"]
 ```
 
 </div>

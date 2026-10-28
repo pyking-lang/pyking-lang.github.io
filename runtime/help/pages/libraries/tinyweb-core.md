@@ -2317,14 +2317,17 @@ for another target.
 
 <p class="pyk-api-label">Example</p>
 
-```pyking norun
+```pyking
 import tinyweb as tw
 tw.web_init(0)
 kick = tw.load_sample("kick1.wav")
-loop:
+loop n = 0:
+    if n == 3:
+        break
     tw.play(kick)
     print("kick")
     tw.sdelay(0.5)
+    n + 1
 ```
 
 ```stdout visible = true

@@ -434,32 +434,32 @@ double tinyweb_sound__note(const char *name)
 static int sound__semitones(const char *name)
 {
     int pyk_v1;
-    const char *pyk_s2 = text_upper(text_char_at(name, 0));
-    if (strcmp(pyk_s2, "C") == 0) {
+    int pyk_s2 = text_char_at(name, 0);
+    if (pyk_s2 == 67 || pyk_s2 == 99) {
         {
             pyk_v1 = 0;
         }
-    } else if (strcmp(pyk_s2, "D") == 0) {
+    } else if (pyk_s2 == 68 || pyk_s2 == 100) {
         {
             pyk_v1 = 2;
         }
-    } else if (strcmp(pyk_s2, "E") == 0) {
+    } else if (pyk_s2 == 69 || pyk_s2 == 101) {
         {
             pyk_v1 = 4;
         }
-    } else if (strcmp(pyk_s2, "F") == 0) {
+    } else if (pyk_s2 == 70 || pyk_s2 == 102) {
         {
             pyk_v1 = 5;
         }
-    } else if (strcmp(pyk_s2, "G") == 0) {
+    } else if (pyk_s2 == 71 || pyk_s2 == 103) {
         {
             pyk_v1 = 7;
         }
-    } else if (strcmp(pyk_s2, "A") == 0) {
+    } else if (pyk_s2 == 65 || pyk_s2 == 97) {
         {
             pyk_v1 = 9;
         }
-    } else if (strcmp(pyk_s2, "B") == 0) {
+    } else if (pyk_s2 == 66 || pyk_s2 == 98) {
         {
             pyk_v1 = 11;
         }
@@ -470,12 +470,12 @@ static int sound__semitones(const char *name)
     }
     int base = pyk_v1;
     int pyk_v3;
-    const char *pyk_s4 = text_char_at(name, 1);
-    if (strcmp(pyk_s4, "#") == 0) {
+    int pyk_s4 = text_char_at(name, 1);
+    if (pyk_s4 == 35) {
         {
             pyk_v3 = 1;
         }
-    } else if (strcmp(pyk_s4, "b") == 0) {
+    } else if (pyk_s4 == 98) {
         {
             pyk_v3 = -1;
         }

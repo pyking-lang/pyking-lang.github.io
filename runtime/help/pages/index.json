@@ -555,6 +555,10 @@
               "anchor": "char_at"
             },
             {
+              "text": "chars",
+              "anchor": "chars"
+            },
+            {
               "text": "code",
               "anchor": "code"
             },
@@ -569,6 +573,10 @@
             {
               "text": "find",
               "anchor": "find"
+            },
+            {
+              "text": "from_chars",
+              "anchor": "from_chars"
             },
             {
               "text": "from_code",

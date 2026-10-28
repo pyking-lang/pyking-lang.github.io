@@ -177,43 +177,43 @@ public final class Tinyweb {
 
     private static int sound__semitones(final String name) {
         final int base;
-        final String s$1 = Text.upper(Text.char_at(name, 0));
+        final PykRuntime.PykChar s$1 = Text.char_at(name, 0);
         switch (s$1) {
-            case String t$2 when "C".equals(t$2) -> {
+            case PykRuntime.PykChar t$2 when java.util.Objects.equals(t$2, PykRuntime.chr(67)) || java.util.Objects.equals(t$2, PykRuntime.chr(99)) -> {
                 base = 0;
             }
-            case String t$3 when "D".equals(t$3) -> {
+            case PykRuntime.PykChar t$3 when java.util.Objects.equals(t$3, PykRuntime.chr(68)) || java.util.Objects.equals(t$3, PykRuntime.chr(100)) -> {
                 base = 2;
             }
-            case String t$4 when "E".equals(t$4) -> {
+            case PykRuntime.PykChar t$4 when java.util.Objects.equals(t$4, PykRuntime.chr(69)) || java.util.Objects.equals(t$4, PykRuntime.chr(101)) -> {
                 base = 4;
             }
-            case String t$5 when "F".equals(t$5) -> {
+            case PykRuntime.PykChar t$5 when java.util.Objects.equals(t$5, PykRuntime.chr(70)) || java.util.Objects.equals(t$5, PykRuntime.chr(102)) -> {
                 base = 5;
             }
-            case String t$6 when "G".equals(t$6) -> {
+            case PykRuntime.PykChar t$6 when java.util.Objects.equals(t$6, PykRuntime.chr(71)) || java.util.Objects.equals(t$6, PykRuntime.chr(103)) -> {
                 base = 7;
             }
-            case String t$7 when "A".equals(t$7) -> {
+            case PykRuntime.PykChar t$7 when java.util.Objects.equals(t$7, PykRuntime.chr(65)) || java.util.Objects.equals(t$7, PykRuntime.chr(97)) -> {
                 base = 9;
             }
-            case String t$8 when "B".equals(t$8) -> {
+            case PykRuntime.PykChar t$8 when java.util.Objects.equals(t$8, PykRuntime.chr(66)) || java.util.Objects.equals(t$8, PykRuntime.chr(98)) -> {
                 base = 11;
             }
-            case String t$9 -> {
+            case PykRuntime.PykChar t$9 -> {
                 base = -10000;
             }
         }
         final int shift;
-        final String s$10 = Text.char_at(name, 1);
+        final PykRuntime.PykChar s$10 = Text.char_at(name, 1);
         switch (s$10) {
-            case String t$11 when "#".equals(t$11) -> {
+            case PykRuntime.PykChar t$11 when java.util.Objects.equals(t$11, PykRuntime.chr(35)) -> {
                 shift = 1;
             }
-            case String t$12 when "b".equals(t$12) -> {
+            case PykRuntime.PykChar t$12 when java.util.Objects.equals(t$12, PykRuntime.chr(98)) -> {
                 shift = -1;
             }
-            case String t$13 -> {
+            case PykRuntime.PykChar t$13 -> {
                 shift = 0;
             }
         }

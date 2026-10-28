@@ -24,18 +24,14 @@ public final class Text {
         return b <= a ? "" : TextExternal.host_slice(s, a, b);
     }
 
-    public static String char_at(final String s, final int k) {
+    public static PykRuntime.PykChar char_at(final String s, final int k) {
         if (k < 0) {
-            return "";
-        } else if (k < TextExternal.host_length(s)) {
-            return TextExternal.host_slice(s, k, k + 1);
+            return PykRuntime.chr(0);
+        } else if (k < PykRuntime.len(s)) {
+            return PykRuntime.charAt(s, k);
         } else {
-            return "";
+            return PykRuntime.chr(0);
         }
-    }
-
-    public static String upper(final String s) {
-        return TextExternal.host_upper(s);
     }
 
     public static void init() {

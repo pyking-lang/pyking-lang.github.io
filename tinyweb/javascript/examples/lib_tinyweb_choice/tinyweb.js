@@ -1103,20 +1103,20 @@ function sound__rate_of(name, base) {
 
 function sound__semitones(name) {
   let __value = undefined;
-  const __subject = strings.upper(strings.char_at(name, 0));
-  if (__subject === 'C') {
+  const __subject = strings.char_at(name, 0);
+  if (__subject === 67 || __subject === 99) {
     __value = 0;
-  } else if (__subject === 'D') {
+  } else if (__subject === 68 || __subject === 100) {
     __value = 2;
-  } else if (__subject === 'E') {
+  } else if (__subject === 69 || __subject === 101) {
     __value = 4;
-  } else if (__subject === 'F') {
+  } else if (__subject === 70 || __subject === 102) {
     __value = 5;
-  } else if (__subject === 'G') {
+  } else if (__subject === 71 || __subject === 103) {
     __value = 7;
-  } else if (__subject === 'A') {
+  } else if (__subject === 65 || __subject === 97) {
     __value = 9;
-  } else if (__subject === 'B') {
+  } else if (__subject === 66 || __subject === 98) {
     __value = 11;
   } else {
     __value = -10000;
@@ -1124,9 +1124,9 @@ function sound__semitones(name) {
   const base = __value;
   let __value2 = undefined;
   const __subject2 = strings.char_at(name, 1);
-  if (__subject2 === '#') {
+  if (__subject2 === 35) {
     __value2 = 1;
-  } else if (__subject2 === 'b') {
+  } else if (__subject2 === 98) {
     __value2 = -1;
   } else {
     __value2 = 0;

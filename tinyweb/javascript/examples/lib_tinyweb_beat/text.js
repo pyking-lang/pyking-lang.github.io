@@ -1,12 +1,45 @@
 // Generated from text.pyk by the Pyking compiler. Do not edit.
 // Target: node22. A module of the program, imported as 'text'.
 
+import { pykShaped } from './pyk-runtime.js';
+
 // A Pyking list is a JavaScript array with a marker on it: a tuple
 // is an array too, and the two print differently. A property rather
 // than a class, so that a formatter in another module can read it.
 function pykList(items) {
   items.pykList = true;
   return items;
+}
+
+// Pyking's `len`: a list's items, or a String's code points.
+function pykLen(value) {
+  if (Array.isArray(value)) return value.length;
+  let n = 0;
+  for (const _ of value) n++;
+  return n;
+}
+
+// A String's Chars, as `for` walks them: its code points, a
+// surrogate pair being one.
+function pykChars(text) {
+  return pykList(Array.from(text, (c) => c.codePointAt(0)));
+}
+
+// `s[i]`: a String's i-th code point, counting from 0.
+function pykCharAt(text, index) {
+  if (index >= 0) {
+    let i = 0;
+    for (const c of text) {
+      if (i === index) return c.codePointAt(0);
+      i++;
+    }
+  }
+  throw new RangeError('string index out of range');
+}
+
+// `char(n)`: n where it is a Unicode scalar value, else '\0'.
+function pykCharOfInt(n) {
+  return n >= 0 && n <= 0x10FFFF && !(n >= 0xD800 && n <= 0xDFFF) ? n : 0;
 }
 
 // Pyking's `++` joins two strings or two lists. A list is an array
@@ -54,36 +87,34 @@ function slice(s, start, stop) {
 
 function char_at(s, k) {
   if (k < 0) {
-    return '';
-  } else if (k < text_external.host_length(s)) {
-    return text_external.host_slice(s, k, k + 1);
+    return 0;
+  } else if (k < pykLen(s)) {
+    return pykCharAt(s, k);
   } else {
-    return '';
+    return 0;
   }
 }
 
-function code(s, k) {
-  if (k < 0) {
-    return -1;
-  } else if (k < text_external.host_length(s)) {
-    return text_external.host_code(s, k);
-  } else {
-    return -1;
-  }
+function code(c) {
+  return c;
 }
 
 function from_code(n) {
-  if (n <= 0) {
-    return '';
-  } else if (n > 1114111) {
-    return '';
-  } else if (n < 55296) {
-    return text_external.host_from_code(n);
-  } else if (n <= 57343) {
-    return '';
-  } else {
-    return text_external.host_from_code(n);
-  }
+  return pykCharOfInt(n);
+}
+
+function chars(s) {
+  return pykList(pykChars(s).flatMap((__item) => {
+  const c = __item;
+  return [c];
+}));
+}
+
+function from_chars(cs) {
+  return join(pykList(cs.flatMap((__item) => {
+  const c = __item;
+  return [pykShaped(c, 'c')];
+})), '');
 }
 
 function find(s, part, start) {
@@ -216,4 +247,4 @@ function lines(s) {
   }
 }
 
-export { length, slice, char_at, code, from_code, find, contains, starts_with, ends_with, upper, lower, trim, replace, repeat, split, words, join, lines };
+export { length, slice, char_at, code, from_code, chars, from_chars, find, contains, starts_with, ends_with, upper, lower, trim, replace, repeat, split, words, join, lines };

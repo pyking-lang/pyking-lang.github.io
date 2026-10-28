@@ -27,13 +27,25 @@ function pykFormat(value, inner) {
   return String(value);
 }
 
+// A String inside a list, tuple or datatype: in double quotes, with
+// builtin.ml's escapes (quote_string).
 function pykQuote(text) {
-  return "'" + text
-    .replace(/\\/g, '\\\\')
-    .replace(/'/g, "\\'")
-    .replace(/\n/g, '\\n')
-    .replace(/\t/g, '\\t')
-    .replace(/\r/g, '\\r') + "'";
+  return '"' + text.replace(/[\\"\n\t\r\0]/g, pykEscape) + '"';
+}
+
+// A Char inside one: in single quotes (quote_char).
+function pykQuoteChar(code) {
+  return "'" + String.fromCodePoint(code).replace(/[\\'\n\t\r\0]/g, pykEscape) + "'";
+}
+
+function pykEscape(c) {
+  switch (c) {
+    case '\n': return '\\n';
+    case '\t': return '\\t';
+    case '\r': return '\\r';
+    case '\0': return '\\0';
+    default: return '\\' + c;
+  }
 }
 
 function pykFloatStr(x) {
@@ -87,10 +99,11 @@ function pykShapeParts(body) {
   return parts;
 }
 
-// `f` is a Float, `.` anything pykFormat already prints right,
-// `[s]` a list of s and `(s,s)` a tuple.
+// `f` is a Float, `c` a Char (a code point), `.` anything pykFormat
+// already prints right, `[s]` a list of s and `(s,s)` a tuple.
 function pykShaped(value, shape, inner) {
   if (shape === 'f') return pykFloatStr(value);
+  if (shape === 'c') return inner ? pykQuoteChar(value) : String.fromCodePoint(value);
   if (shape === '.') return pykFormat(value, inner);
   const body = shape.slice(1, -1);
   if (shape[0] === '[') {

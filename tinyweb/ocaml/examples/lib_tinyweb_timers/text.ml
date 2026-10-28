@@ -2,6 +2,40 @@
 (* Target: ocaml4.14. The module 'text' of the program; compile it
    before the ones that import it. *)
 
+let pyk_char_length s =
+  let rec go k n =
+    if k >= String.length s then n
+    else go (k + Uchar.utf_decode_length (String.get_utf_8_uchar s k)) (n + 1)
+  in
+  go 0 0
+
+let pyk_char_at s i =
+  let rec go k j =
+    if i < 0 || k >= String.length s then invalid_arg "index out of range"
+    else
+      let d = String.get_utf_8_uchar s k in
+      if j = i then Uchar.to_int (Uchar.utf_decode_uchar d)
+      else go (k + Uchar.utf_decode_length d) (j + 1)
+  in
+  go 0 0
+
+let pyk_char_of_int n =
+  if n >= 0 && n <= 0x10FFFF && not (n >= 0xD800 && n <= 0xDFFF) then n else 0
+
+let pyk_chars s =
+  let rec go k out =
+    if k >= String.length s then List.rev out
+    else
+      let d = String.get_utf_8_uchar s k in
+      go (k + Uchar.utf_decode_length d) (Uchar.to_int (Uchar.utf_decode_uchar d) :: out)
+  in
+  go 0 []
+
+let pyk_char_text c =
+  let out = Buffer.create 4 in
+  Buffer.add_utf_8_uchar out (Uchar.of_int c);
+  Buffer.contents out
+
 let within k top = if k < 0 then 0 else if k > top then top else k
 
 let blank c =
@@ -20,23 +54,15 @@ let slice s start stop =
   if b <= a then "" else Text_external.host_slice s a b
 
 let char_at s k =
-  if k < 0 then ""
-  else if k < Text_external.host_length s then
-    Text_external.host_slice s k (k + 1)
-  else ""
+  if k < 0 then 0
+  else if k < pyk_char_length s then pyk_char_at s k
+  else 0
 
-let code s k =
-  if k < 0 then -1
-  else if k < Text_external.host_length s then
-    Text_external.host_code s k
-  else -1
+let code c = c
 
-let from_code n =
-  if n <= 0 then ""
-  else if n > 1114111 then ""
-  else if n < 55296 then Text_external.host_from_code n
-  else if n <= 57343 then ""
-  else Text_external.host_from_code n
+let from_code n = pyk_char_of_int n
+
+let chars s = List.concat_map (function | c -> [c]) (pyk_chars s)
 
 let find s part start =
   let n = Text_external.host_length s in
@@ -107,7 +133,9 @@ let words s =
     Text_external.host_replace (Text_external.host_replace (Text_external.host_replace s "\t" " ") "\n" " ") "\r" " " in
   List.concat_map (function | w -> if filled w then [w] else []) (split spaced " ")
 
-let join parts between =
+let rec from_chars cs =
+  join (List.concat_map (function | c -> [pyk_char_text c]) cs) ""
+and join parts between =
   let whole = ref "" in
   let chunk = ref "" in
   let count = ref 0 in

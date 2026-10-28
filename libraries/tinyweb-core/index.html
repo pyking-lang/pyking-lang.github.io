@@ -1758,14 +1758,17 @@ for another target.</p>
 <li><code>time</code>: how long after the last <code>sdelay</code> to go on, in seconds; a negative one is 0.</li>
 </ul>
 <p class="pyk-api-label">Example</p>
-<div class="pkn-notebook pkn-embedded not-content"><div class="pkn-fragment" data-markdown="&#x60;&#x60;&#x60;pyking norun
+<div class="pkn-notebook pkn-embedded not-content"><div class="pkn-fragment" data-markdown="&#x60;&#x60;&#x60;pyking
 import tinyweb as tw
 tw.web_init(0)
 kick = tw.load_sample(&#x22;kick1.wav&#x22;)
-loop:
+loop n = 0:
+    if n == 3:
+        break
     tw.play(kick)
     print(&#x22;kick&#x22;)
     tw.sdelay(0.5)
+    n + 1
 &#x60;&#x60;&#x60;
 
 &#x60;&#x60;&#x60;stdout visible = true

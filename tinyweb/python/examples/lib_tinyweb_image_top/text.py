@@ -4,6 +4,20 @@ def __pyk_div(a, b):
     q = abs(a) // abs(b)
     return q if (a < 0) == (b < 0) else -q
 
+class __PykChar(str):
+    # A Char: one code point, told from a String when printed.
+    __slots__ = ()
+
+__pyk_code = ord
+
+def __pyk_char_of_int(n, chr=chr):
+    if 0 <= n <= 0x10FFFF and not 0xD800 <= n <= 0xDFFF:
+        return __PykChar(chr(n))
+    return __PykChar('\0')
+
+def __pyk_chars(s):
+    return (__PykChar(c) for c in s)
+
 # --- prelude ends; the compiled program follows ---
 
 import text_external
@@ -37,31 +51,23 @@ def slice(s, start, stop):
 
 def char_at(s, k):
     if k < 0:
-        return ''
-    elif k < text_external.host_length(s):
-        return text_external.host_slice(s, k, k + 1)
+        return __PykChar('\x00')
+    elif k < len(s):
+        return __PykChar(s[k])
     else:
-        return ''
+        return __PykChar('\x00')
 
-def code(s, k):
-    if k < 0:
-        return -1
-    elif k < text_external.host_length(s):
-        return text_external.host_code(s, k)
-    else:
-        return -1
+def code(c):
+    return __pyk_code(c)
 
 def from_code(n):
-    if n <= 0:
-        return ''
-    elif n > 1114111:
-        return ''
-    elif n < 55296:
-        return text_external.host_from_code(n)
-    elif n <= 57343:
-        return ''
-    else:
-        return text_external.host_from_code(n)
+    return __pyk_char_of_int(n)
+
+def chars(s):
+    return [c for c in __pyk_chars(s)]
+
+def from_chars(cs):
+    return join([str(c) for c in cs], '')
 
 def find(s, part, start):
     n = text_external.host_length(s)

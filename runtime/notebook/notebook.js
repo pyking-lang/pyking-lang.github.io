@@ -367,6 +367,7 @@ class Cells {
     const started = performance.now();
     try {
       await this.runtime.ready();
+      const input = await cell.currentInput();
       const result = await this.runtime.runProgram(cell.source(), {
         name: cell.name(),
         onOutput: (text) => cell.write(text),
@@ -374,14 +375,13 @@ class Cells {
           cell.write(text, "pkn-debug");
           console.log(text.replace(/\n$/, ""));
         },
-        onInput: (text) => cell.write(text, "pkn-echo"),
         // A program using a library that needs a page shows it under the
         // cell, and goes on running there after this run has answered.
         onPage: (module, data) => cell.page(module, data),
         onFailure: (text) => cell.write(text.trimEnd() + "\n", "pkn-failure"),
         onExit: (code) => cell.write(`exited with status ${code}\n`, "pkn-failure"),
         onEnd: () => cell.host?.freeze(),
-        ...cell.input(),
+        ...input,
       });
       cell.finish(result, ++this.executions, performance.now() - started);
       this.status("ready", "ready");
@@ -883,6 +883,7 @@ class Cell {
     }
     this.analyzeTimer = null;
     this.uses = { stdin: false, args: false };
+    this.analyzed = null;          // the source `uses` was found for
     this.editListeners = [];
     this.pendingSource = null;
   }
@@ -918,18 +919,33 @@ class Cell {
     };
   }
 
+  /** What the cell's program reads and is passed, once the compiler has
+   *  said whether its code as it is now uses them: a run right after
+   *  the page opened or the code changed does not wait on the analysis
+   *  the timer would start, and so gets no input.
+   *  () -> Promise<{stdin, args}> */
+  async currentInput() {
+    if (this.analyzed !== this.source()) {
+      clearTimeout(this.analyzeTimer);
+      await this.analyze();
+    }
+    return this.input();
+  }
+
   /** Asks the compiler whether the program reads standard input or its
    *  arguments, and shows the fields for whichever it does. A program
    *  that does not check keeps the fields it had. () -> Promise */
   async analyze() {
+    const source = this.source();
     let analysis;
     try {
-      analysis = await this.notebook.runtime.analyze(this.source(), this.name());
+      analysis = await this.notebook.runtime.analyze(source, this.name());
     } catch {
       return;
     }
     if (!analysis.ok) return;
     this.uses = { stdin: analysis.stdin, args: analysis.args };
+    this.analyzed = source;
     this.ui.stdinField.classList.toggle("pkn-hidden", !analysis.stdin);
     this.ui.argsField.classList.toggle("pkn-hidden", !analysis.args);
     this.ui.inputs.classList.toggle("pkn-hidden", !(analysis.stdin || analysis.args));
@@ -1055,7 +1071,8 @@ class Cell {
   }
 
   /** Appends what the program wrote -- marked with `kind` where it is a
-   *  `debug` line or a line the program read. String -> String? -> () */
+   *  `debug` line or a failure. What it reads is not shown.
+   *  String -> String? -> () */
   write(text, kind = null) {
     if (this.outputSize >= OUTPUT_LIMIT) return;
     this.ui.output.classList.remove("pkn-hidden");

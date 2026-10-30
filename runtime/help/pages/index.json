@@ -205,6 +205,31 @@
             }
           ],
           "parent": ""
+        },
+        {
+          "slug": "documentation/slides",
+          "file": "documentation/slides.md",
+          "title": "Code on slides",
+          "label": "Code on slides",
+          "headings": [
+            {
+              "text": "From the playground",
+              "anchor": "from-the-playground"
+            },
+            {
+              "text": "Indentation that survives a PDF",
+              "anchor": "indentation-that-survives-a-pdf"
+            },
+            {
+              "text": "The options",
+              "anchor": "the-options"
+            },
+            {
+              "text": "A notebook's code",
+              "anchor": "a-notebooks-code"
+            }
+          ],
+          "parent": ""
         }
       ],
       "help": [

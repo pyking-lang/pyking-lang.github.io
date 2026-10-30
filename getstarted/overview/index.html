@@ -107,6 +107,16 @@ carried last.</p>
     return result
 
 print(factorial(10))</code></pre></div></div>
+<p><code>break</code> and <code>continue</code> may also say what the loop carries from then on:
+<code>break x</code> stops the loop with <code>x</code>, and <code>continue x</code> starts the next turn
+with <code>x</code>.</p>
+<div class="pkn-notebook pkn-embedded not-content"><div class="pkn-cell"><pre class="pkn-cell-fallback"><code>def first_negative(xs: [Int]) -> Int:
+    return loop found = 0 for x in xs:
+        if x &#x3C; 0:
+            break x
+        found
+
+print(first_negative([3, -2, 5]))</code></pre></div></div>
 <h2 id="lists-tuples-and-pattern-matching">Lists, tuples and pattern matching</h2>
 <p><code>match</code> takes values apart. A list pattern <code>[first] + rest</code> matches a
 non-empty list, and a tuple is taken apart with <code>=</code>.</p>

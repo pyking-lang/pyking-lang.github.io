@@ -143,6 +143,10 @@
               "anchor": "type-checking"
             },
             {
+              "text": "Warnings",
+              "anchor": "warnings"
+            },
+            {
               "text": "Modules",
               "anchor": "modules"
             }

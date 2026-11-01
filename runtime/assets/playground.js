@@ -17,7 +17,7 @@ import {
   JsRunner, LANGUAGE, PageHost, createRuntime, ensureMonaco, fetchJSON,
   splitArguments, themeFor,
 } from "../webrun/web.js";
-import { LspClient } from "./lsp-client.js";
+import { LspClient, MARKER_OWNER } from "./lsp-client.js";
 import { Debugger } from "./debugger.js";
 import {
   AREAS, COMMANDS, defaultKeys, isDefault, isKey, keysOf, migrateSettings, monacoKey,
@@ -27,6 +27,22 @@ import { linkTo, sourceFromHash } from "./share.js";
 import { packFiles, zip } from "./download.js";
 
 const STORAGE_KEY = "pyking-playground.settings";
+
+/** Where the playground keeps what it is in the middle of -- the program,
+ *  the example and target chosen, the tab showing, the output, the input
+ *  a run was given and the REPL's history -- for the rest of the browser
+ *  tab's life: in sessionStorage, so going to another page of the site
+ *  and back, or reloading, finds it as it was, and a new tab starts
+ *  afresh. */
+const STATE_KEY = "pyking-playground.state";
+
+/** How much of the output pane is kept with the state, in characters of
+ *  its HTML; more than this is not kept at all. */
+const STATE_OUTPUT_LIMIT = 200000;
+
+/** How long the state waits after a change before it is saved, in
+ *  milliseconds. Leaving the page saves it at once. */
+const STATE_DELAY = 300;
 
 /** What the settings dialog starts from, before anything saved is layered
  *  over it. The two output switches default on: a pane you cannot scroll
@@ -59,6 +75,11 @@ const DEFAULT_SETTINGS = {
   slidesBackground: "none",
   slidesSpaces: "indent",
   slidesButton: false,
+  // The warnings (Warnings tab): each one the viewer changed, by its
+  // flag's name, as {on, error}; and whether every warning is an error,
+  // as -Werror makes it.
+  warnings: {},
+  warningsError: false,
 };
 
 /** What the settings' Copy for slides tab previews. */
@@ -72,8 +93,8 @@ print(greet("world"))
 /** The settings dialog's tabs, in order: [name, title]. It opens on the
  *  first, as the right-hand tabs open on Run output. */
 const SETTINGS_TABS = [
-  ["appearance", "Appearance"], ["running", "Running"], ["debugger", "Debugger"],
-  ["slides", "Copy for slides"], ["keys", "Keys"],
+  ["appearance", "Appearance"], ["running", "Running"], ["warnings", "Warnings"],
+  ["debugger", "Debugger"], ["slides", "Copy for slides"], ["keys", "Keys"],
 ];
 
 /** How long the source has to sit still before an automatic run. Long
@@ -129,6 +150,10 @@ const DEFAULTS = {
   // Whether the page's own URL may hold a program, `#code=...`
   // (share.js), which then opens in the editor in place of an example.
   readLink: true,
+  // Whether what the playground is in the middle of is kept for the rest
+  // of the browser tab's life, and found again when the page is opened
+  // again in it (STATE_KEY).
+  keepState: true,
 };
 
 export async function mountPlayground(host, options = {}) {
@@ -139,6 +164,7 @@ export async function mountPlayground(host, options = {}) {
   // the compiler is loaded before the editors are made.
   const { words, monaco } = await ensureMonaco(runtime, { vendor: cfg.vendorURL });
   meta.formatHelper = words.formatHelper;
+  meta.warnings = words.warnings ?? [];
   quietLanguageWorkers(monaco);
 
   const ui = buildDom(host, meta, cfg);
@@ -311,8 +337,14 @@ class Playground {
     // No src/examples.toml beside the tools: nothing to offer.
     if (!this.meta.examples.length) ui.example.classList.add("pyk-hidden");
     const linked = this.cfg.readLink ? sourceFromHash(location.hash) : null;
+    // What the playground was in the middle of when this browser tab left
+    // it -- for another page of the site, say -- unless a link brings a
+    // program of its own.
+    const kept = this.cfg.keepState && linked === null ? loadState() : null;
     if (linked !== null) {
       this.openLinked(linked);
+    } else if (kept) {
+      this.restoreState(kept);
     } else if (this.meta.examples.length) {
       await this.loadExample(this.cfg.initialExample ?? this.meta.examples[0].file,
                              { silent: true });
@@ -328,6 +360,8 @@ class Playground {
       });
     }
     this.onTargetChange();
+    if (kept) this.restoreTab(kept);
+    if (this.cfg.keepState) this.keepStateUpdated();
     // Hover, definition, outline, completion and diagnostics, from the
     // language server in the compiler's worker -- where the bundle has one.
     this.lsp = new LspClient(monaco, this.runtime, this.left, {
@@ -340,10 +374,97 @@ class Playground {
       },
     });
     this.lspStarted = this.lsp.start().catch(() => false);
+    // A refused Run's marker steps aside while the language server marks
+    // the same place, so a hover shows the error once.
+    monaco.editor.onDidChangeMarkers((uris) => {
+      const model = this.left.getModel();
+      if (uris.some((uri) => uri.toString() === model.uri.toString())) this.showCompileMarker();
+    });
     // The compiler was loaded before the editors were made (mountPlayground).
     this.status("ready", "ready");
-    this.note("Press Run to run the program. Compiled code compiles it for a "
-              + "target, and the REPL runs Pyking an entry at a time.");
+    if (!kept) {
+      this.note("Press Run to run the program. Compiled code compiles it for a "
+                + "target, and the REPL runs Pyking an entry at a time.");
+    }
+  }
+
+  // -- the state kept while the browser tab lives -------------------------
+
+  /** What the playground is in the middle of, as STATE_KEY keeps it.
+   *  () -> {...} */
+  captureState() {
+    const { ui } = this;
+    const output = ui.output.innerHTML;
+    return {
+      source: this.left.getValue(),
+      example: ui.example.value,
+      target: ui.target.value,
+      tab: this.tab,
+      view: this.left.saveViewState(),
+      output: output.length <= STATE_OUTPUT_LIMIT ? output : "",
+      input: this.input,
+      replHistory: this.replHistory.slice(-200),
+    };
+  }
+
+  /** Puts back what `captureState` kept: the program, where the editor
+   *  was in it, the example and target chosen, the output, the input and
+   *  the REPL's history. The tab is shown once the page is ready
+   *  (`restoreTab`). {...} -> () */
+  restoreState(kept) {
+    const { ui } = this;
+    this.setSource(typeof kept.source === "string" ? kept.source : "");
+    if (kept.view) {
+      try {
+        this.left.restoreViewState(kept.view);
+      } catch {
+        /* a view of another Monaco: the start of the program will do */
+      }
+    }
+    const offered = (select, value) => [...select.options].some((o) => o.value === value);
+    ui.example.value = offered(ui.example, kept.example) ? kept.example : "";
+    if (offered(ui.target, kept.target)) ui.target.value = kept.target;
+    if (typeof kept.output === "string") ui.output.innerHTML = kept.output;
+    if (kept.input && typeof kept.input.stdin === "string" && typeof kept.input.args === "string") {
+      this.input = { stdin: kept.input.stdin, args: kept.input.args };
+    }
+    if (Array.isArray(kept.replHistory)) {
+      this.replHistory = kept.replHistory.filter((entry) => typeof entry === "string");
+      this.replAt = this.replHistory.length;
+    }
+  }
+
+  /** Shows the tab that was showing, unless it showed something that
+   *  ended with the page -- a program's page, a debugged program -- when
+   *  the Run output tab stands for it. {...} -> () */
+  restoreTab(kept) {
+    const tab = ["compiled", "repl", "help"].includes(kept.tab) ? kept.tab : "run";
+    if (tab !== this.tab) this.showTab(tab);
+  }
+
+  /** Saves the state whenever it changes, a moment later, and at once when
+   *  the page is left or hidden. () -> () */
+  keepStateUpdated() {
+    const save = () => {
+      clearTimeout(this.stateTimer);
+      this.stateTimer = null;
+      saveState(this.captureState());
+    };
+    this.saveStateSoon = () => {
+      clearTimeout(this.stateTimer);
+      this.stateTimer = setTimeout(save, STATE_DELAY);
+    };
+    this.left.onDidChangeModelContent(() => this.saveStateSoon());
+    this.left.onDidChangeCursorPosition(() => this.saveStateSoon());
+    this.ui.target.addEventListener("change", () => this.saveStateSoon());
+    this.ui.example.addEventListener("change", () => this.saveStateSoon());
+    new MutationObserver(() => this.saveStateSoon())
+      .observe(this.ui.output, { childList: true, characterData: true, subtree: true });
+    window.addEventListener("pagehide", save);
+    document.addEventListener("visibilitychange", () => {
+      if (document.visibilityState === "hidden") save();
+    });
+    save();
   }
 
   // -- the editors' keys ------------------------------------------------
@@ -550,9 +671,13 @@ class Playground {
     if (!(await this.ensureRuntime())) return;
     const target = this.ui.target.value;
     const source = this.left.getValue();
-    const result = await this.runtime.compile(source, target, "playground.pyk");
+    const warned = [];
+    const result = await this.runtime.compile(source, target, "playground.pyk", {
+      onWarning: (text) => warned.push(text),
+    });
     this.clearError();
     const log = this.ui.compiledOutput;
+    for (const text of warned) this.write(text, "warn", log);
 
     if (!result.ok) {
       this.showFiles({});
@@ -758,6 +883,7 @@ class Playground {
     if (name === "compiled") this.right.layout();
     if (name === "repl") this.openRepl();
     if (name === "help") this.openHelp();
+    this.saveStateSoon?.();
   }
 
   /** Mounts the help in the Help tab, the first time it is opened: the
@@ -893,6 +1019,7 @@ class Playground {
       return null;
     }
     this.input = { stdin: ui.inputStdin.value, args: ui.inputArgs.value };
+    this.saveStateSoon?.();
     return {
       stdin: analysis.stdin ? this.input.stdin : "",
       args: analysis.args ? splitArguments(this.input.args) : [],
@@ -907,6 +1034,7 @@ class Playground {
       const result = await this.runtime.runProgram(source, {
         onOutput: (text) => this.write(text),
         onDebug: (text) => this.debugLine(text),
+        onWarning: (text) => this.write(text, "warn"),
         onInput: (text) => this.write(text, "input"),
         onPage: (module, data) => this.pageReceive(module, data),
         onFailure: (text) => this.error(text.trimEnd()),
@@ -1228,14 +1356,37 @@ class Playground {
       startLineNumber: info.row1, startColumn: info.col1 + 1,
       endLineNumber: info.row2, endColumn: Math.max(info.col2 + 1, info.col1 + 2),
     };
-    monaco.editor.setModelMarkers(this.left.getModel(), COMPILE_MARKERS, [{
-      ...range, severity: monaco.MarkerSeverity.Error, message,
-    }]);
+    this.compileMarker = { ...range, severity: monaco.MarkerSeverity.Error, message };
+    this.compileShown = null;
+    this.showCompileMarker();
     this.left.revealLineInCenterIfOutsideViewport(info.row1);
   }
 
+  /** Shows the refused Run's marker, unless the language server has one
+   *  starting at the same place: Monaco's hover lists every marker under
+   *  the pointer, so the two would say the same error twice. The
+   *  language server's then stays the only one, and goes when the error
+   *  is fixed. Sets the markers only when that answer changes, since
+   *  setting them is itself a change of markers. () -> () */
+  showCompileMarker() {
+    const { monaco } = this;
+    const model = this.left.getModel();
+    const marker = this.compileMarker;
+    if (marker && monaco.editor.getModelMarkers({ owner: MARKER_OWNER, resource: model.uri })
+      .some((m) => m.startLineNumber === marker.startLineNumber
+        && m.startColumn === marker.startColumn)) {
+      this.compileMarker = null;
+    }
+    const shown = !!this.compileMarker;
+    if (shown === this.compileShown) return;
+    this.compileShown = shown;
+    monaco.editor.setModelMarkers(model, COMPILE_MARKERS, shown ? [marker] : []);
+  }
+
   clearError() {
-    this.monaco.editor.setModelMarkers(this.left.getModel(), COMPILE_MARKERS, []);
+    this.compileMarker = null;
+    this.compileShown = null;
+    this.showCompileMarker();
   }
 
   // -- misc -------------------------------------------------------------
@@ -1387,6 +1538,7 @@ class Playground {
         this.replRuntime = createRuntime({
           webrun: this.cfg.webrunURL, pyking: this.cfg.pykingURL,
         });
+        this.replRuntime.setWarnings(this.warningFlags());
         await this.replRuntime.ready();
         const { bindings } = await this.replRuntime.replStart();
         this.showBindings(bindings);
@@ -1585,6 +1737,7 @@ class Playground {
     this.replEcho(text);
     if (text.trim() !== "" && this.replHistory[this.replHistory.length - 1] !== text) {
       this.replHistory.push(text);
+      this.saveStateSoon?.();
     }
     this.replAt = this.replHistory.length;
     this.replDraft = "";
@@ -1598,6 +1751,7 @@ class Playground {
         onShow: (out) => this.replWrite(out, "shown"),
         onDebug: (out) => this.replWrite(out, "debug"),
       });
+      for (const warning of answer.warnings ?? []) this.replWrite(warning + "\n", "warn");
       for (const error of answer.errors) this.replError(error);
       if (answer.exit !== undefined) {
         this.replError(`sys.exit(${answer.exit}) ended the entry; the session goes on.`);
@@ -1853,12 +2007,133 @@ class Playground {
       this.settings.debugJustMyCode = ui.debugJustMyCode.checked;
       this.saveSettings();
     });
+    this.installWarningSettings();
     this.installSlidesSettings();
     ui.keysReset.addEventListener("click", () => {
       this.settings.keys = {};
       this.keysChanged();
     });
     this.showKeySettings();
+  }
+
+  // -- warnings ---------------------------------------------------------
+
+  /** Whether a warning is on, as the settings have it: what the viewer
+   *  chose, or its default. {name, on} -> Bool */
+  warningOn(kind) {
+    return this.settings.warnings[kind.name]?.on ?? kind.on;
+  }
+
+  /** Whether a warning is an error, as the settings have it.
+   *  {name} -> Bool */
+  warningError(kind) {
+    return this.settings.warningsError || Boolean(this.settings.warnings[kind.name]?.error);
+  }
+
+  /** The -W flags the settings stand for, as `pyk` takes them: each
+   *  warning turned on or off against its default, then -Werror, or each
+   *  warning made an error by itself. () -> [String] */
+  warningFlags() {
+    const kinds = this.meta.warnings ?? [];
+    const flags = [];
+    for (const kind of kinds) {
+      const on = this.warningOn(kind);
+      if (on !== kind.on) flags.push((on ? "-W" : "-Wno-") + kind.name);
+    }
+    if (this.settings.warningsError) flags.push("-Werror");
+    else {
+      for (const kind of kinds) {
+        if (this.settings.warnings[kind.name]?.error) flags.push("-Werror=" + kind.name);
+      }
+    }
+    return flags;
+  }
+
+  /** Hands the settings' warnings to every runtime -- the Run's, whose
+   *  language server underlines them, and the REPL's -- and asks the
+   *  server for the diagnostics again. () -> () */
+  applyWarnings() {
+    const flags = this.warningFlags();
+    this.runtime.setWarnings(flags);
+    this.replRuntime?.setWarnings(flags);
+    this.lsp?.scheduleIdle();
+    this.showWarningSettings();
+  }
+
+  /** One warning changed: saved, and in force at once.
+   *  String -> {on?, error?} -> () */
+  setWarning(name, change) {
+    this.settings.warnings = {
+      ...this.settings.warnings, [name]: { ...this.settings.warnings[name], ...change },
+    };
+    this.saveSettings();
+    this.applyWarnings();
+  }
+
+  /** The Warnings tab's buttons and its -Werror box. () -> () */
+  installWarningSettings() {
+    const { ui } = this;
+    const every = (on) => {
+      this.settings.warnings = Object.fromEntries((this.meta.warnings ?? []).map(
+        (kind) => [kind.name, { ...this.settings.warnings[kind.name], on }]));
+      this.saveSettings();
+      this.applyWarnings();
+    };
+    ui.warningsAll.addEventListener("click", () => every(true));
+    ui.warningsNone.addEventListener("click", () => every(false));
+    ui.warningsDefaults.addEventListener("click", () => {
+      this.settings.warnings = {};
+      this.settings.warningsError = false;
+      this.saveSettings();
+      this.applyWarnings();
+    });
+    ui.warningsError.addEventListener("change", () => {
+      this.settings.warningsError = ui.warningsError.checked;
+      this.saveSettings();
+      this.applyWarnings();
+    });
+  }
+
+  /** The Warnings tab as the settings have it: a row per warning, with
+   *  whether it is on, its flag, whether it is an error, and what it
+   *  reports; and the command line that says the same. () -> () */
+  showWarningSettings() {
+    const { ui } = this;
+    if (!ui.warningList) return;
+    ui.warningList.textContent = "";
+    for (const kind of this.meta.warnings ?? []) {
+      const row = document.createElement("div");
+      row.className = "pyk-warning";
+      const on = document.createElement("input");
+      on.type = "checkbox";
+      on.checked = this.warningOn(kind);
+      on.id = `pyk-warning-${kind.name}`;
+      on.addEventListener("change", () => this.setWarning(kind.name, { on: on.checked }));
+      const label = document.createElement("label");
+      label.htmlFor = on.id;
+      label.className = "pyk-warning-flag";
+      const flag = document.createElement("code");
+      flag.textContent = "-W" + kind.name;
+      label.append(flag, kind.on ? " on by default" : " off by default");
+      const error = document.createElement("label");
+      error.className = "pyk-check pyk-warning-error";
+      const box = document.createElement("input");
+      box.type = "checkbox";
+      box.checked = this.warningError(kind);
+      box.disabled = this.settings.warningsError;
+      box.addEventListener("change", () => this.setWarning(kind.name, { error: box.checked }));
+      const errorFlag = document.createElement("code");
+      errorFlag.textContent = "-Werror=" + kind.name;
+      error.append(box, " as an error ", errorFlag);
+      const says = document.createElement("p");
+      says.className = "pyk-hint";
+      says.textContent = kind.description;
+      row.append(on, label, error, says);
+      ui.warningList.appendChild(row);
+    }
+    ui.warningsError.checked = this.settings.warningsError;
+    const flags = this.warningFlags();
+    ui.warningCommand.textContent = ["pyk", ...flags, "playground.pyk"].join(" ");
   }
 
   /** The settings' tabs: a click, or the arrow keys, Home and End on the
@@ -2120,6 +2395,7 @@ class Playground {
     this.ui.debugStopOnEntry.checked = Boolean(this.settings.debugStopOnEntry);
     this.ui.debugJustMyCode.checked = this.settings.debugJustMyCode !== false;
     this.applySlidesSettings();
+    this.applyWarnings();
     for (const [key, name] of [["colSplit", "--pyk-col-split"],
                                ["outSplit", "--pyk-out-split"]]) {
       if (this.settings[key]) this.ui.root.style.setProperty(name, this.settings[key]);
@@ -2145,6 +2421,8 @@ class Playground {
       slidesBackground: this.settings.slidesBackground,
       slidesSpaces: this.settings.slidesSpaces,
       slidesButton: this.settings.slidesButton,
+      warnings: this.settings.warnings,
+      warningsError: this.settings.warningsError,
       colSplit: style.getPropertyValue("--pyk-col-split") || null,
       outSplit: style.getPropertyValue("--pyk-out-split") || null,
     });
@@ -2426,6 +2704,30 @@ function buildDom(host, meta, cfg) {
                 tab has the same switch.</p>
             </div>
           </div>
+          <div class="pyk-settings-panel pyk-hidden pyk-warnings-panel" role="tabpanel"
+               data-settings-panel="warnings"
+               id="pyk-settings-warnings" aria-labelledby="pyk-settings-tab-warnings">
+            <p class="pyk-hint pyk-wide">What the compiler reports about a program that
+              checks but may still be wrong: a name bound and never used. A warning
+              is shown in the output and under the source, and the program still
+              runs; one made an error stops it, as <code>pyk -Werror</code> does. A
+              name starting with <code>_</code> is never reported. Each flag is the
+              one <code>pyk</code> takes.</p>
+            <div class="pyk-warning-list pyk-wide" data-r="warningList"></div>
+            <div class="pyk-field pyk-wide">
+              <label class="pyk-check">
+                <input type="checkbox" data-r="warningsError">
+                Every warning that is on is an error <code>-Werror</code>
+              </label>
+              <div class="pyk-field-row">
+                <button data-r="warningsAll">Turn them all on <code>-Wall</code></button>
+                <button data-r="warningsNone">Turn them all off <code>-w</code></button>
+                <button data-r="warningsDefaults">Back to the defaults</button>
+              </div>
+              <p class="pyk-hint">On the command line, the same is
+                <code data-r="warningCommand"></code></p>
+            </div>
+          </div>
           <div class="pyk-settings-panel pyk-hidden" role="tabpanel" data-settings-panel="debugger"
                id="pyk-settings-debugger" aria-labelledby="pyk-settings-tab-debugger">
             <div class="pyk-field">
@@ -2630,6 +2932,25 @@ function loadSettings() {
     return JSON.parse(localStorage.getItem(STORAGE_KEY)) || {};
   } catch {
     return {};
+  }
+}
+
+/** What STATE_KEY holds for this browser tab, or null. () -> {...}? */
+function loadState() {
+  try {
+    const kept = JSON.parse(sessionStorage.getItem(STATE_KEY));
+    return kept && typeof kept === "object" && typeof kept.source === "string" ? kept : null;
+  } catch {
+    return null;
+  }
+}
+
+/** Keeps the state for the rest of the browser tab's life. {...} -> () */
+function saveState(state) {
+  try {
+    sessionStorage.setItem(STATE_KEY, JSON.stringify(state));
+  } catch {
+    /* not fatal: the playground simply starts afresh next time */
   }
 }
 

@@ -21,6 +21,13 @@
    - neither: the first call says `web_init` is missing, and the program
      ends with status 1.
 
+   With $PYKING_TINYWEB_LOG set, $PYKING_TINYWEB_UNTIL may name a file
+   holding a number on its first line and a pattern on each line after
+   it, `*` standing for any text: once the log has had that many lines
+   one of the patterns matches, the program ends with status 0, right
+   after the line. It is how tools/nbverify checks a notebook task with
+   a compare-until block.
+
    What runs once the top level has ended is `after_program`: a compiled
    program runs it from `at_exit`, and the interpreter, which sets
    `hosted`, runs it itself. `descriptors` and `handle` are how the REPL
@@ -1482,9 +1489,11 @@ let page_js = String.concat "" [
   "}\n";
   "// END tinyweb style\n";
   "\n";
-  "// Mounts a tinyweb page in `element` and answers {receive, freeze, close}:\n";
-  "// `receive(commands)` carries out a batch of commands, and `send(event)`\n";
-  "// is how the page reports one. `standalone` is true where the page is\n";
+  "// Mounts a tinyweb page in `element` and answers {receive, setHidden,\n";
+  "// freeze, close}: `receive(commands)` carries out a batch of commands,\n";
+  "// and `send(event)` is how the page reports one. `setHidden(true)` holds\n";
+  "// the page while the reader cannot see it -- the website showing another\n";
+  "// of its sections -- and `setHidden(false)` lets it go on. `standalone` is true where the page is\n";
   "// the whole document, which is where a key press is listened for; a\n";
   "// page inside another (a notebook cell) listens on `element`, which\n";
   "// takes the focus when clicked. `activated` is true where the reader\n";
@@ -1555,6 +1564,9 @@ let page_js = String.concat "" [
   "  let pacer = 0;\n";
   "\n";
   "  let focusable = false;    // whether mounting made `element` focusable\n";
+  "  // Whether the page is out of sight (`setHidden`): held like the splash\n";
+  "  // screen holds it, with its sound suspended.\n";
+  "  let away = false;\n";
   "\n";
   "  function takeFocus(event) {\n";
   "    // A slider keeps the focus for its arrow keys.\n";
@@ -1643,7 +1655,7 @@ let page_js = String.concat "" [
   "  // Carries out what was held once nothing holds it any more, then sends\n";
   "  // the events that waited with it. ()\n";
   "  function release() {\n";
-  "    if (held === null || splash !== null || waitingFor !== null) return;\n";
+  "    if (held === null || splash !== null || waitingFor !== null || away) return;\n";
   "    start += now() - heldAt;\n";
   "    const pending = held;\n";
   "    held = null;\n";
@@ -1652,6 +1664,32 @@ let page_js = String.concat "" [
   "    const events = deferred;\n";
   "    deferred = [];\n";
   "    for (const event of events) report(event);\n";
+  "  }\n";
+  "\n";
+  "  // Holds the page while it is out of sight, as the splash screen does --\n";
+  "  // the commands, the frames, the events and the clock -- and suspends its\n";
+  "  // sound; shown again, the clock goes on from where it stopped, the sound\n";
+  "  // too unless the program paused it itself, and what was held is carried\n";
+  "  // out. Bool -> ()\n";
+  "  function setHidden(hidden) {\n";
+  "    if (closed || hidden === away) return;\n";
+  "    away = hidden;\n";
+  "    if (hidden) {\n";
+  "      if (held === null) {\n";
+  "        heldClock = clockNow();\n";
+  "        held = [];\n";
+  "      }\n";
+  "      if (audio !== null && audio.state === \"running\") audio.suspend().catch(() => {});\n";
+  "      return;\n";
+  "    }\n";
+  "    // From where the clock was held, whatever held it first; the splash\n";
+  "    // screen, if it is still shown, holds it on from here.\n";
+  "    start = now() - heldClock * 1000;\n";
+  "    heldAt = now();\n";
+  "    if (audio !== null && audio.state === \"suspended\" && engine.frozen() === null) {\n";
+  "      audio.resume().catch(() => {});\n";
+  "    }\n";
+  "    release();\n";
   "  }\n";
   "\n";
   "  // Carries out a command, or holds it while something holds the page,\n";
@@ -2150,6 +2188,7 @@ let page_js = String.concat "" [
   "      if (closed) return;\n";
   "      for (const command of commands) take(command);\n";
   "    },\n";
+  "    setHidden,\n";
   "    // Stops: no more events, frames or sound, and what is shown stays.\n";
   "    freeze,\n";
   "    close() {\n";
@@ -2317,6 +2356,42 @@ let event_line event =
   | Some "cb" -> "cb " ^ quote (text "id") ^ " " ^ quote (text "kind")
   | Some other -> other
   | None -> ""
+
+(* $PYKING_TINYWEB_UNTIL: how many matching lines the log may have, and
+   the patterns, or None. *)
+let until =
+  match log_file, Stdlib.Sys.getenv_opt "PYKING_TINYWEB_UNTIL" with
+  | Some _, Some path when Stdlib.Sys.file_exists path -> (
+      let channel = Stdlib.open_in_bin path in
+      let rec lines acc =
+        match Stdlib.input_line channel with
+        | line -> lines (line :: acc)
+        | exception End_of_file -> List.rev acc
+      in
+      let all = lines [] in
+      Stdlib.close_in channel;
+      let trim line = String.trim line in
+      match all with
+      | first :: patterns -> (
+          match int_of_string_opt (trim first) with
+          | Some n when n >= 1 ->
+              Some (n, List.filter (fun p -> p <> "") (List.map trim patterns))
+          | _ -> None)
+      | [] -> None)
+  | _ -> None
+
+(* Whether a line is what a pattern says, `*` standing for any text.
+   string -> string -> bool *)
+let star_match pattern line =
+  let p = String.length pattern and l = String.length line in
+  let rec go i j =
+    if i = p then j = l
+    else if pattern.[i] = '*' then go (i + 1) j || (j < l && go i (j + 1))
+    else j < l && pattern.[i] = line.[j] && go (i + 1) (j + 1)
+  in
+  go 0 0
+
+let until_seen = ref 0
 
 let write_log line =
   match log_file with
@@ -2711,6 +2786,18 @@ let merge_reports text =
 let after_registered = ref false
 let running_after = ref false
 
+(* A line written to the log, counted where $PYKING_TINYWEB_UNTIL says
+   which lines count: the one that makes the count ends the program,
+   with status 0 and nothing delivered after it. string -> unit *)
+let count_until line =
+  match until with
+  | Some (most, patterns) when List.exists (fun p -> star_match p line) patterns ->
+      incr until_seen;
+      if !until_seen >= most then (
+        running_after := true;
+        Stdlib.exit 0)
+  | _ -> ()
+
 let rec after_program () =
   if not !running_after then (
     running_after := true;
@@ -2884,7 +2971,11 @@ and send command =
   if trace && command.op <> "frame_done" && command.op <> "event_done" then
     prerr_endline (log_line command);
   match log_file with
-  | Some _ -> if command.op <> "frame_done" && command.op <> "event_done" then write_log (log_line command)
+  | Some _ ->
+      if command.op <> "frame_done" && command.op <> "event_done" then (
+        let line = log_line command in
+        write_log line;
+        count_until line)
   | None ->
       history := kept !history command;
       pending := !pending @ [ command ];

@@ -62,6 +62,7 @@ const DEFAULTS = {
   save: null,             // {url, root}: where a picture a solution makes is saved
   runtime: null,          // a PykingRuntime to share; default: one of its own
   watch: false,           // reload the page when the document at url changes
+  warnings: [],           // the -W flags a cell's run is checked with, as pyk takes them
 };
 
 // How often a watched document is fetched again, in milliseconds.
@@ -91,6 +92,17 @@ const OUTPUT_LIMIT = 200000;
 // How long an edited cell sits still before the page asks the compiler
 // whether it reads standard input or its arguments.
 const ANALYZE_DELAY = 400;
+
+/** The most lines a cell's stdin field shows; longer input scrolls. */
+const STDIN_ROWS = 8;
+
+/** How many lines a stdin field shows for its text: one per line, at
+ *  least one and at most STDIN_ROWS, a final newline starting none.
+ *  String -> Int */
+export function stdinRows(text) {
+  const lines = text.replace(/\n$/, "").split("\n").length;
+  return Math.min(STDIN_ROWS, Math.max(1, lines));
+}
 
 /** Renders a document into host and makes its cells runnable. Resolves
  *  to the mounted Notebook. Element -> {...} -> Promise<Notebook> */
@@ -221,6 +233,7 @@ class Cells {
     this.ui = {};
     this.runtime = cfg.runtime
       ?? web.createRuntime({ webrun: cfg.webrunURL, pyking: cfg.pykingURL });
+    this.runtime.setWarnings?.(cfg.warnings ?? []);
     this.cells = [];
     this.queue = Promise.resolve();
     this.generation = 0;       // bumped by Stop, which cancels what is queued
@@ -349,18 +362,20 @@ class Cells {
   // -- running -----------------------------------------------------------
 
   /** Queues a cell to run; cells run one at a time, in the order asked.
-   *  Cell -> Promise */
-  enqueue(cell) {
+   *  `until` is a task's compare-until limit (tasks.js `untilLimit`), which
+   *  Submit's run of the answer stops at. Cell -> {events, patterns}? -> Promise */
+  enqueue(cell, until = null) {
     const generation = this.generation;
     cell.setState("queued");
     this.queue = this.queue.then(async () => {
       if (generation !== this.generation) return cell.setState("idle");
-      await this.execute(cell);
+      await this.execute(cell, until);
     });
     return this.queue;
   }
 
-  async execute(cell) {
+  async execute(cell, until = null) {
+    let stopped = false;           // whether `until` has ended the program
     this.running = cell;
     cell.begin();
     this.status("busy", `running cell ${cell.spec.index + 1}`);
@@ -371,6 +386,9 @@ class Cells {
       const result = await this.runtime.runProgram(cell.source(), {
         name: cell.name(),
         onOutput: (text) => cell.write(text),
+        // What the cell's check found -- a name never used -- above what
+        // it printed. An answer being checked (`capture`) shows none.
+        onWarning: (text) => cell.write(text, "pkn-warning"),
         onDebug: (text) => {
           cell.write(text, "pkn-debug");
           console.log(text.replace(/\n$/, ""));
@@ -381,8 +399,20 @@ class Cells {
         onFailure: (text) => cell.write(text.trimEnd() + "\n", "pkn-failure"),
         onExit: (code) => cell.write(`exited with status ${code}\n`, "pkn-failure"),
         onEnd: () => cell.host?.freeze(),
+        // A callback the page made reached the limit: the program is over.
+        onUntil: () => {
+          if (!stopped) cell.write(`stopped after ${until.events} events, as far as the task compares\n`, "pkn-debug");
+          stopped = true;
+          cell.host?.freeze();
+        },
+        tinywebUntil: until,
         ...input,
       });
+      if (result.until) {
+        result.until = until.events;
+        stopped = true;
+        cell.host?.freeze();
+      }
       cell.finish(result, ++this.executions, performance.now() - started);
       this.status("ready", "ready");
     } catch (err) {
@@ -401,10 +431,13 @@ class Cells {
    *  it is checked against -- in the same queue as the cells, and answers
    *  what it printed. A run longer than `timeout` is stopped. With
    *  `tinyweb`, also tinyweb's log and what the program sent its page,
-   *  each batch as [module, data].
-   *  String -> {name, stdin, args, timeout, tinyweb} ->
-   *  Promise<{ok, text?, stdout, stderr, exit, timedOut?, tinyweb?, page?}> */
-  capture(source, { name = "check.pyk", stdin = "", args = [], timeout = 10000, tinyweb = false, events = "" } = {}) {
+   *  each batch as [module, data]. `until`, a task's compare-until limit,
+   *  ends the run once tinyweb's log has had that many matching lines;
+   *  it then answers `until` true and ended with status 0.
+   *  String -> {name, stdin, args, timeout, tinyweb, events, until} ->
+   *  Promise<{ok, text?, stdout, stderr, exit, timedOut?, tinyweb?, page?, until?}> */
+  capture(source, { name = "check.pyk", stdin = "", args = [], timeout = 10000, tinyweb = false, events = "",
+    until = null } = {}) {
     const generation = this.generation;
     const job = this.queue.then(async () => {
       if (generation !== this.generation) return { ok: false, text: "stopped", stdout: "", stderr: "" };
@@ -422,6 +455,7 @@ class Cells {
         const drawing = tinyweb ? {
           tinywebLog: "separate",
           tinywebEvents: events,
+          tinywebUntil: until,
           onTinyweb: (text) => { log += text; },
           onPage: (module, data) => { page.push([module, data]); },
         } : {};
@@ -642,9 +676,9 @@ class Notebook extends Cells {
   /** Runs what test mode checks, in this page's worker, and shows each
    *  problem under the element it is about. () -> Promise */
   async check() {
-    const run = (source, name, stdin, args, events = "") =>
+    const run = (source, name, stdin, args, events = "", until = null) =>
       this.capture(source, { name, stdin, args: this.web.splitArguments(args ?? ""),
-        tinyweb: events !== "", events });
+        tinyweb: events !== "" || until !== null, events, until });
     const { problems } = await checkNotebook(this.doc, run);
     this.activities[0].showChecks(problems);
     this.checked = problems;
@@ -814,7 +848,7 @@ class Cell {
         <div class="pkn-cell-inputs pkn-hidden" data-r="inputs">
           <label class="pkn-input pkn-hidden" data-r="stdinField">
             <span class="pkn-input-label">stdin</span>
-            <textarea class="pkn-stdin" rows="2" spellcheck="false"
+            <textarea class="pkn-stdin" rows="1" spellcheck="false"
                       data-r="stdin" aria-label="Standard input for cell ${spec.index + 1}"></textarea>
           </label>
           <label class="pkn-input pkn-hidden" data-r="argsField">
@@ -850,6 +884,11 @@ class Cell {
     this.element = element;
 
     this.ui.stdin.value = spec.stdin ?? "";
+    // The stdin field is as tall as its text, up to STDIN_ROWS lines,
+    // and grows and shrinks as it is typed in; beyond that it scrolls.
+    const fit = () => { this.ui.stdin.rows = stdinRows(this.ui.stdin.value); };
+    fit();
+    this.ui.stdin.addEventListener("input", fit);
     this.ui.args.value = spec.args ?? "";
     // The code editor's own keys, in the two input fields too, so a cell
     // can be run from wherever its input is being typed.
@@ -1011,11 +1050,13 @@ class Cell {
     if (!this.editor && this.notebook.editorsReady) this.attachEditor();
   }
 
-  run() {
+  /** Runs the cell; `until` is a task's compare-until limit, which
+   *  Submit's run of an answer stops at. {events, patterns}? -> Promise */
+  run(until = null) {
     this.ensureEditor();
     if (!this.editor) return Promise.resolve();
     if (this.state === "queued" || this.state === "running") return Promise.resolve();
-    return this.notebook.enqueue(this);
+    return this.notebook.enqueue(this, until);
   }
 
   reset() {
@@ -1098,6 +1139,9 @@ class Cell {
     const expectError = this.spec.attrs.error;
     if (result.ok && result.exit && !expectError) {
       this.result("pkn-error", `exited with status ${result.exit} after ${formatTime(elapsed)}`);
+    } else if (result.ok && result.until && !expectError) {
+      this.result("pkn-ok", `${ICON.ok} stopped after ${result.until} events, as far as the task `
+        + `compares, in ${formatTime(elapsed)}`);
     } else if (result.ok && !expectError) {
       this.result("pkn-ok", `${ICON.ok} ran in ${formatTime(elapsed)}`);
     } else if (result.ok) {

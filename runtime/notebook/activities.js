@@ -18,7 +18,7 @@
 
 import { escapeHTML } from "./markdown.js";
 import { sameLine, checkQuiz, award, excused, graded, normalizeOutput, quizAward, rightAnswers,
-  sameOutput, summary, overCalls } from "./tasks.js";
+  sameOutput, summary, overCalls, untilLimit } from "./tasks.js";
 
 /** How long one run of a submitted answer may take, in milliseconds. */
 const SUBMIT_TIMEOUT = 10000;
@@ -446,30 +446,32 @@ class TaskWidget {
     if (this.lastFailure && feedback.kind === "bad") box.append(this.ui.diff);
   }
 
-  /** Runs the answer in its cell first, as Run does, so the reader sees
-   *  and hears it; once that has finished, runs it quietly on every
-   *  test, and the solution beside it where there is one; solved when
-   *  every output matches. A Stop while it runs in its cell calls the
-   *  submission off, and costs no attempt. */
+  /** Runs the answer quietly on every test, and the solution beside it
+   *  where there is one; solved when every output matches. Where the
+   *  solution says run_on_submit = true, the answer runs in its cell
+   *  first, as Run does, so the reader sees and hears it; a Stop while
+   *  it runs there calls the submission off, and costs no attempt. */
   async submit() {
     const { item } = this;
     const s = this.a.states[item.id];
     if (s.state !== "open" || !this.cell || this.busy) return;
     this.busy = true;
     this.ui.submit.disabled = true;
-    this.feedback({ kind: "busy", html: "Running your program…" });
     const { cells } = this.a;
-    const generation = cells.generation;
-    try {
-      await this.cell.run();
-    } catch {
-      // What went wrong is shown in the cell; the checks below say so too.
-    }
-    if (generation !== cells.generation) {
-      this.busy = false;
-      s.feedback = null;
-      this.render();
-      return;
+    if (item.solution?.runOnSubmit) {
+      this.feedback({ kind: "busy", html: "Running your program…" });
+      const generation = cells.generation;
+      try {
+        await this.cell.run(untilLimit(item));
+      } catch {
+        // What went wrong is shown in the cell; the checks below say so too.
+      }
+      if (generation !== cells.generation) {
+        this.busy = false;
+        s.feedback = null;
+        this.render();
+        return;
+      }
     }
     this.feedback({ kind: "busy", html: "Checking your answer…" });
     let failed = null;
@@ -537,6 +539,7 @@ class TaskWidget {
       timeout: SUBMIT_TIMEOUT,
       tinyweb: true,
       events: events ?? "",
+      until: untilLimit(this.item),
     });
   }
 
@@ -707,7 +710,7 @@ export function lineDiff(a, b, same = (x, y) => x === y) {
 function compare(answer, expected, test, hasSolution, rules = []) {
   if (answer.timedOut) return "Your program did not finish in time.";
   if (!answer.ok) return "Your program did not run:\n" + (answer.text ?? "").trimEnd();
-  const allowed = hasSolution ? rules : [];
+  const allowed = rules;
   if ((hasSolution || test.output) && !sameOutput(answer.stdout, expected.stdout, allowed)) {
     return "The output is not what it should be.";
   }

@@ -11,14 +11,21 @@
 //   Rules -- {line, max, pass, html}: the one ```rules block.
 //   Task -- {kind: "task", practice, id, name, number, key, line, part,
 //     cell, method, attempts, points, penalty, maxCalls, stdin, args,
-//     solution, tests, allowed, allowedParts}: `practice` true for a
+//     solution, tests, allowed, allowedParts, until}: `practice` true for a
 //     ```pyking practice, which gives no points; `allowed` the Rules of
 //     its diff-allowed, optional-last, any-order and ignore-chars blocks;
 //     `method` "inline" (answered in the page) or
 //     "git" (not graded here); `name` the name = it was given, or null.
+//     `until` its compare-until block as an Until, or null; the block is
+//     among `allowedParts`, its lines not among `allowed`.
+//   Until -- {events, rules, line}: a compare-until block. A run checking
+//     the task stops once tinyweb's log has had `events` lines that one
+//     of `rules` (kind "until") matches; what came before is compared.
 //   Limit -- {max, name}: one (N,name) of a max_calls =.
-//   Solution -- {cell, line, available, picture}: `picture` {canvas,
-//     file} where the solution's canvas is saved as a picture, or null.
+//   Solution -- {cell, line, available, runOnSubmit, picture}: `picture`
+//     {canvas, file} where the solution's canvas is saved as a picture, or
+//     null; `runOnSubmit` true where Submit runs the answer in its cell,
+//     for the reader to see, before checking it (run_on_submit = true).
 //   Test -- {line, stdin, args, events, input, eventsPart, output, error}:
 //     one input and what it should print; `input`, `eventsPart`, `output`
 //     and `error` are the blocks, `events` the tinyweb events delivered
@@ -35,7 +42,8 @@
 //     an optional-last line; "between" and "any", an any-order block's
 //     BETWEEN: and ANY: lines; "chars", an ignore-chars line, with
 //     `chars` the characters its block's chars = removes from a line it
-//     matches. These four have a * for any text.
+//     matches; "until", a compare-until line. These five have a * for
+//     any text.
 //   Problem -- {line, message}.
 //
 // Functions:
@@ -57,6 +65,7 @@
 //   pictures(notebook) -- the pictures the solutions save.
 //   callCount(source, name) -- how often a program names a function.
 //   overCalls(source, limits) -- the first limit a program goes past.
+//   untilLimit(task) -- a task's compare-until as a run is given it.
 
 /** The attributes each kind of block may carry. */
 const KNOWN = {
@@ -64,7 +73,8 @@ const KNOWN = {
   task: ["task", "name", "attempts", "points", "penalty", "stdin", "args", "readonly", "method",
     "max_calls"],
   practice: ["practice", "name", "attempts", "stdin", "args", "readonly", "method", "max_calls"],
-  solution: ["solution", "available", "readonly", "stdin", "args", "save_canvas", "file"],
+  solution: ["solution", "available", "readonly", "stdin", "args", "save_canvas", "file",
+    "run_on_submit"],
   // `playground` is the website's (tools/site/src/remark-pyking-cells.mjs).
   pyking: ["norun", "readonly", "error", "stdin", "args", "playground"],
   stdin: ["args", "visible", "lines_per_multi_input"],
@@ -78,6 +88,7 @@ const KNOWN = {
   "optional-last": [],
   "any-order": [],
   "ignore-chars": ["chars"],
+  "compare-until": ["events"],
 };
 
 /** What the blocks of a document make, and the problems with them. Also
@@ -135,6 +146,8 @@ export function structure(parts, cells) {
               cell: part.cell, line: part.line,
               // A student is shown it only where it says so.
               available: flag(part, "available", false, problem),
+              // Submit shows the answer running only where it says so.
+              runOnSubmit: flag(part, "run_on_submit", false, problem),
               picture: readPicture(part, problem),
             };
             // Run on its own, a solution reads what the task does.
@@ -169,8 +182,18 @@ export function structure(parts, cells) {
           if (owner?.kind !== "task") {
             problem(part, `${article(kind)} ${kind} block belongs under a task`);
           } else {
-            if (!owner.solution) problem(part, `${article(kind)} ${kind} block loosens how an answer is compared with the solution, which this ${title(owner)} does not have`);
             owner.allowed.push(...readAllowed(part, problem));
+            owner.allowedParts.push(part);
+          }
+          break;
+        }
+        case "compare-until": {
+          if (owner?.kind !== "task") {
+            problem(part, "a compare-until block belongs under a task");
+          } else if (owner.until) {
+            problem(part, `a ${title(owner)} has one compare-until block, and this is a second`);
+          } else {
+            owner.until = readUntil(part, problem);
             owner.allowedParts.push(part);
           }
           break;
@@ -326,6 +349,7 @@ function readTask(part, cells, number_, problem) {
     tests: [],
     allowed: [],
     allowedParts: [],
+    until: null,
   };
 }
 
@@ -524,6 +548,32 @@ function readAllowed(part, problem) {
   return rules;
 }
 
+/** A compare-until block: how many matching lines of tinyweb's log a
+ *  run may write, and the patterns, one a line. Part -> (..) -> Until? */
+function readUntil(part, problem) {
+  const events = part.attrs.events;
+  if (events === undefined) {
+    problem(part, "a compare-until block says how many events to compare, as events = 60");
+    return null;
+  }
+  const max = count(part, "events", problem);
+  const rules = part.text.split("\n").filter((text) => text.trim() !== "")
+    .map((text) => ({ kind: "until", text: text.trimEnd(), pattern: starPattern(text.trim()), slots: [] }));
+  if (!rules.length) {
+    problem(part, "a compare-until block needs at least one line, a pattern of the events it counts");
+  }
+  return max === null || !rules.length ? null : { events: max, rules, line: part.line };
+}
+
+/** A task's compare-until as a run is given it -- {events, patterns},
+ *  each pattern a RegExp's source -- or null where it has none.
+ *  Task -> {events, patterns}? */
+export function untilLimit(task) {
+  return task?.until
+    ? { events: task.until.events, patterns: task.until.rules.map((rule) => rule.pattern.source) }
+    : null;
+}
+
 /** "a" or "an", as a block's language begins. String -> String */
 function article(language) {
   return /^[aeiou]/.test(language) ? "an" : "a";
@@ -540,17 +590,19 @@ const NUMBER = "[-+]?(?:\\d+\\.?\\d*|\\.\\d+)(?:[eE][-+]?\\d+)?";
 
 /** One diff-allowed line as a Rule, or why it is not one: its text is
  *  matched exactly, and each [+/-N] stands for a number allowed to be N
- *  away from the solution's. String -> Rule | String */
+ *  away from the expected one (the solution's, or a stdout block's). N
+ *  is a whole number or a decimal: 2, 0.3, .3 or 1.3.
+ *  String -> Rule | String */
 function allowedRule(text) {
   const slots = [];
   let pattern = "";
   let rest = text;
-  const slot = /\[\s*\+\s*\/\s*-\s*([0-9]+(?:\.[0-9]+)?)\s*\]/;
+  const slot = /\[\s*\+\s*\/\s*-\s*([0-9]+(?:\.[0-9]*)?|\.[0-9]+)\s*\]/;
   for (;;) {
     const found = slot.exec(rest);
     const literal = found ? rest.slice(0, found.index) : rest;
     if (/[[\]]/.test(literal)) {
-      return `a diff-allowed line's [ ] holds +/- and a number, as [+/-2] or [+/-0.5]: '${text}'`;
+      return `a diff-allowed line's [ ] holds +/- and a number, as [+/-2], [+/-0.5] or [+/-1.3]: '${text}'`;
     }
     pattern += literal.replace(/[.*+?^${}()|\\]/g, "\\$&");
     if (!found) break;

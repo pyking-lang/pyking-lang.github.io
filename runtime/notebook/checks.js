@@ -12,15 +12,18 @@
 // cell's stdout and stderr blocks.
 //
 // Data structures:
-//   Run -- (source, name, stdin, args, events) -> Promise<{ok, text?,
-//     stdout, stderr}>: runs one program, `args` as the text a header
-//     writes, `events` the tinyweb events delivered after its top level.
+//   Run -- (source, name, stdin, args, events, until) -> Promise<{ok,
+//     text?, stdout, stderr}>: runs one program, `args` as the text a
+//     header writes, `events` the tinyweb events delivered after its top
+//     level, `until` a task's compare-until limit (tasks.js `untilLimit`),
+//     which ends the run once tinyweb's log has had that many matching
+//     lines, or null.
 //   Problem -- {line, message}, as tasks.js reports one.
 //
 // Functions:
 //   checkNotebook(doc, run) -- every problem in a rendered document.
 
-import { sameOutput, overCalls } from "./tasks.js";
+import { sameOutput, overCalls, untilLimit } from "./tasks.js";
 
 /** Every problem in a document renderMarkdown answered: the blocks' own,
  *  then what running its programs finds, sorted by line.
@@ -49,7 +52,8 @@ export async function checkNotebook(doc, run) {
     // A cell's own input first: a solution may name the one it is shown with.
     const stdin = cell.stdin ?? (item ? item.stdin : "");
     const args = cell.args ?? (item ? item.args : "");
-    const result = await run(cell.source, name, stdin, args);
+    // A task's code and its solution stop where its compare-until says.
+    const result = await run(cell.source, name, stdin, args, "", untilLimit(item));
     const what = item?.cell === cell.index ? `the ${item.practice ? "practice" : "task"}'s starting code`
       : cell.attrs.solution ? "the solution" : "this cell";
     if (cell.attrs.error) {
@@ -60,19 +64,21 @@ export async function checkNotebook(doc, run) {
   }
 
   // Each test of a task with a solution, and each example under a
-  // cell: what runs is what the block after it says.
-  const compare = async (source, name, line, test, stdin, args) => {
-    const result = await run(source, name, stdin, args, test.events ?? "");
+  // cell: what runs is what the block after it says, but for what the
+  // task's diff-allowed, optional-last, any-order and ignore-chars
+  // blocks allow.
+  const compare = async (source, name, line, test, stdin, args, until = null, rules = []) => {
+    const result = await run(source, name, stdin, args, test.events ?? "", until);
     if (!result.ok) {
       check(false, line, `the program does not run on this input:\n  ${result.text}`);
       return;
     }
     if (test.output) {
-      check(sameOutput(result.stdout, test.output.text), test.output.line,
+      check(sameOutput(result.stdout, test.output.text, rules), test.output.line,
         `the program prints\n${indent(result.stdout)}\nand this stdout block says\n${indent(test.output.text)}`);
     }
     if (test.error) {
-      check(sameOutput(result.stderr, test.error.text), test.error.line,
+      check(sameOutput(result.stderr, test.error.text, rules), test.error.line,
         `the program writes to stderr\n${indent(result.stderr)}\nand this stderr block says\n${indent(test.error.text)}`);
     }
   };
@@ -84,7 +90,7 @@ export async function checkNotebook(doc, run) {
       : `the solution uses ${over.name} ${over.count} times, and max_calls allows ${over.max}`);
     for (const test of item.tests) {
       await compare(source, `${item.id}-solution.pyk`, test.line, test,
-        test.stdin ?? item.stdin, test.args ?? item.args);
+        test.stdin ?? item.stdin, test.args ?? item.args, untilLimit(item), item.allowed);
     }
   }
   for (const example of notebook.examples) {

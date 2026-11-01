@@ -1,4 +1,4 @@
-<!DOCTYPE html><html lang="en" dir="ltr" data-theme="dark" data-has-sidebar class="astro-g5ptsecz"><head><meta charset="utf-8"/><meta name="viewport" content="width=device-width, initial-scale=1"/><title>Language reference | Pyking</title><link rel="canonical" href="https://pyking.org/documentation/language/"/><link rel="sitemap" href="/sitemap-index.xml"/><script type="module" src="/site/cells.js"></script><script>try { if (localStorage.getItem('starlight-theme') === null) localStorage.setItem('starlight-theme', 'dark'); } catch (e) {}</script><link rel="shortcut icon" href="/site/favicon.svg" type="image/svg+xml"/><meta name="generator" content="Astro v7.3.5"/><meta name="generator" content="Starlight v0.42.5"/><meta property="og:title" content="Language reference"/><meta property="og:type" content="article"/><meta property="og:url" content="https://pyking.org/documentation/language/"/><meta property="og:locale" content="en"/><meta property="og:description" content="The Pyking language, construct by construct, with its grammar."/><meta property="og:site_name" content="Pyking"/><meta name="twitter:card" content="summary_large_image"/><meta name="description" content="The Pyking language, construct by construct, with its grammar."/><script>
+<!DOCTYPE html><html lang="en" dir="ltr" data-theme="dark" data-has-sidebar class="astro-g5ptsecz"><head><meta charset="utf-8"/><meta name="viewport" content="width=device-width, initial-scale=1"/><title>Language reference | Pyking</title><link rel="canonical" href="https://pyking.org/documentation/language/"/><link rel="sitemap" href="/sitemap-index.xml"/><script src="/site/shell.js" data-base data-sections="[{&quot;key&quot;:&quot;install&quot;,&quot;label&quot;:&quot;Install&quot;,&quot;prefix&quot;:&quot;/install/&quot;},{&quot;key&quot;:&quot;getstarted&quot;,&quot;label&quot;:&quot;Getting started&quot;,&quot;prefix&quot;:&quot;/getstarted/&quot;},{&quot;key&quot;:&quot;documentation&quot;,&quot;label&quot;:&quot;Documentation&quot;,&quot;prefix&quot;:&quot;/documentation/&quot;},{&quot;key&quot;:&quot;libraries&quot;,&quot;label&quot;:&quot;Libraries&quot;,&quot;prefix&quot;:&quot;/libraries/&quot;},{&quot;key&quot;:&quot;playground&quot;,&quot;label&quot;:&quot;Playground&quot;,&quot;prefix&quot;:&quot;/playground/&quot;}]"></script><script type="module" src="/site/cells.js"></script><script>try { if (localStorage.getItem('starlight-theme') === null) localStorage.setItem('starlight-theme', 'dark'); } catch (e) {}</script><link rel="shortcut icon" href="/site/favicon.svg" type="image/svg+xml"/><meta name="generator" content="Astro v7.3.5"/><meta name="generator" content="Starlight v0.42.5"/><meta property="og:title" content="Language reference"/><meta property="og:type" content="article"/><meta property="og:url" content="https://pyking.org/documentation/language/"/><meta property="og:locale" content="en"/><meta property="og:description" content="The Pyking language, construct by construct, with its grammar."/><meta property="og:site_name" content="Pyking"/><meta name="twitter:card" content="summary_large_image"/><meta name="description" content="The Pyking language, construct by construct, with its grammar."/><script>
 	window.StarlightThemeProvider = (() => {
 		const storedTheme =
 			typeof localStorage !== 'undefined' && localStorage.getItem('starlight-theme');
@@ -38,7 +38,7 @@
 	})();
 </script><script type="module" src="/_astro/Search.astro_astro_type_script_index_0_lang.Bumivpjo.js"></script><div class="sl-hidden md:sl-flex"><starlight-theme-select><label style="--sl-select-width: 6.25em" class="astro-2z5xp7gb"><span class="sr-only astro-2z5xp7gb">Select theme</span><svg aria-hidden="true" class="icon label-icon astro-2z5xp7gb astro-hkc32dio" width="16" height="16" viewBox="0 0 24 24" fill="currentColor" style="--sl-icon-size: 1em;"><path d="M21 14h-1V7a3 3 0 0 0-3-3H7a3 3 0 0 0-3 3v7H3a1 1 0 0 0-1 1v2a3 3 0 0 0 3 3h14a3 3 0 0 0 3-3v-2a1 1 0 0 0-1-1ZM6 7a1 1 0 0 1 1-1h10a1 1 0 0 1 1 1v7H6V7Zm14 10a1 1 0 0 1-1 1H5a1 1 0 0 1-1-1v-1h16v1Z"/></svg><select autocomplete="off" class="astro-2z5xp7gb"><option value="dark" class="astro-2z5xp7gb">Dark</option><option value="light" class="astro-2z5xp7gb">Light</option><option value="auto" selected class="astro-2z5xp7gb">Auto</option></select><svg aria-hidden="true" class="icon caret astro-2z5xp7gb astro-hkc32dio" width="16" height="16" viewBox="0 0 24 24" fill="currentColor" style="--sl-icon-size: 1em;"><path d="M17 9.17a1 1 0 0 0-1.41 0L12 12.71 8.46 9.17a1 1 0 1 0-1.41 1.42l4.24 4.24a1.002 1.002 0 0 0 1.42 0L17 10.59a1.002 1.002 0 0 0 0-1.42Z"/></svg></label></starlight-theme-select><script>
 	StarlightThemeProvider.updatePickers();
-</script><script type="module">var e=`starlight-theme`,t=e=>e===`auto`||e===`dark`||e===`light`?e:`auto`,n=()=>t(typeof localStorage<`u`&&localStorage.getItem(e));function r(t){typeof localStorage<`u`&&localStorage.setItem(e,t===`light`||t===`dark`?t:``)}var i=()=>matchMedia(`(prefers-color-scheme: light)`).matches?`light`:`dark`;function a(e){StarlightThemeProvider.updatePickers(e),document.documentElement.dataset.theme=e===`auto`?i():e,r(e)}matchMedia(`(prefers-color-scheme: light)`).addEventListener(`change`,()=>{n()===`auto`&&a(`auto`)});var o=class extends HTMLElement{constructor(){super(),a(n()),this.querySelector(`select`)?.addEventListener(`change`,e=>{e.currentTarget instanceof HTMLSelectElement&&a(t(e.currentTarget.value))})}};customElements.define(`starlight-theme-select`,o);</script></div><a class="pyking-github" href="https://github.com/pyking-lang" title="Pyking on GitHub"><span class="sr-only">GitHub</span><svg aria-hidden="true" viewBox="0 0 24 24" width="22" height="22" fill="currentColor"><path d="M12 .3a12 12 0 0 0-3.8 23.4c.6.1.8-.3.8-.6v-2c-3.3.7-4-1.6-4-1.6-.6-1.4-1.4-1.8-1.4-1.8-1-.7.1-.7.1-.7 1.2.1 1.8 1.2 1.8 1.2 1 1.8 2.8 1.3 3.5 1 0-.8.4-1.3.7-1.6-2.7-.3-5.5-1.3-5.5-6 0-1.2.5-2.3 1.3-3.1-.2-.4-.6-1.6 0-3.2 0 0 1-.3 3.4 1.2a11.5 11.5 0 0 1 6 0c2.3-1.5 3.3-1.2 3.3-1.2.6 1.6.2 2.8.1 3.2.8.8 1.3 1.9 1.3 3.1 0 4.6-2.8 5.6-5.5 5.9.5.4.9 1.1.9 2.2v3.3c0 .3.1.7.8.6A12 12 0 0 0 12 .3"></path></svg></a></div></div></header><nav class="sidebar print:hidden astro-yntsjkba" aria-label="Main"><button popovertarget="starlight__sidebar" class="sl-menu-button sl-flex md:sl-hidden print:hidden astro-r2osgdlg"><svg aria-hidden="true" class="open-menu astro-r2osgdlg astro-hkc32dio" width="16" height="16" viewBox="0 0 24 24" fill="currentColor" style="--sl-icon-size: 1em;"><path d="M3 8h18a1 1 0 1 0 0-2H3a1 1 0 0 0 0 2Zm18 8H3a1 1 0 0 0 0 2h18a1 1 0 0 0 0-2Zm0-5H3a1 1 0 0 0 0 2h18a1 1 0 0 0 0-2Z"/></svg><svg aria-hidden="true" class="close-menu astro-r2osgdlg astro-hkc32dio" width="16" height="16" viewBox="0 0 24 24" fill="currentColor" style="--sl-icon-size: 1em;"><path d="m13.41 12 6.3-6.29a1.004 1.004 0 1 0-1.42-1.42L12 10.59l-6.29-6.3a1.004 1.004 0 0 0-1.42 1.42l6.3 6.29-6.3 6.29a1 1 0 0 0 0 1.42.998.998 0 0 0 1.42 0l6.29-6.3 6.29 6.3a.999.999 0 0 0 1.42 0 1 1 0 0 0 0-1.42L13.41 12Z"/></svg><span class="sr-only astro-r2osgdlg">Menu</span></button><script type="module">var e=class extends HTMLElement{constructor(){super();let e=matchMedia(`(min-width: 50em)`),t=()=>{this.popover=e.matches?null:`auto`};t(),e.addEventListener(`change`,()=>t()),this.addEventListener(`toggle`,({newState:e})=>this.trapFocus(e===`open`))}trapFocus(e){document.querySelectorAll(`.main-frame, .sl-skip-link`).forEach(t=>{t.toggleAttribute(`inert`,e)})}};customElements.define(`sl-sidebar-pane`,e);</script><script type="module">var e=class extends HTMLElement{constructor(){super();let e=this.querySelector(`select`);e&&(e.addEventListener(`change`,e=>{e.currentTarget instanceof HTMLSelectElement&&(window.location.pathname=e.currentTarget.value)}),window.addEventListener(`pageshow`,t=>{if(!t.persisted)return;let n=e.querySelector(`option[selected]`)?.index;n!==e.selectedIndex&&(e.selectedIndex=n??0)}))}};customElements.define(`starlight-lang-select`,e);</script><sl-sidebar-pane popover id="starlight__sidebar" class="sidebar-pane astro-yntsjkba"><div class="sidebar-content sl-flex astro-yntsjkba"><nav class="pyking-sidebar" aria-label="Documentation"><p class="pyking-sidebar-title">Documentation</p><ul><li><a href="/documentation/language/" aria-current="page">Language reference</a><ul class="pyking-sidebar-headings"><li><a href="#new-in-pyking-not-in-python">New in Pyking (not in Python)</a></li><li><a href="#feature-summary">Feature summary</a></li><li><a href="#grammar">Grammar</a></li><li><a href="#feature-details">Feature details</a></li><li><a href="#type-checking">Type checking</a></li><li><a href="#modules">Modules</a></li></ul></li><li><a href="/documentation/editors/">Editors</a></li><li><a href="/documentation/slides/">Code on slides</a></li><li><a href="/documentation/tinyweb/">Tinyweb without Pyking</a></li></ul></nav><div class="md:sl-hidden"><div class="mobile-preferences sl-flex astro-p4azlveh"><div class="social-icons astro-p4azlveh"></div><starlight-theme-select><label style="--sl-select-width: 6.25em" class="astro-2z5xp7gb"><span class="sr-only astro-2z5xp7gb">Select theme</span><svg aria-hidden="true" class="icon label-icon astro-2z5xp7gb astro-hkc32dio" width="16" height="16" viewBox="0 0 24 24" fill="currentColor" style="--sl-icon-size: 1em;"><path d="M21 14h-1V7a3 3 0 0 0-3-3H7a3 3 0 0 0-3 3v7H3a1 1 0 0 0-1 1v2a3 3 0 0 0 3 3h14a3 3 0 0 0 3-3v-2a1 1 0 0 0-1-1ZM6 7a1 1 0 0 1 1-1h10a1 1 0 0 1 1 1v7H6V7Zm14 10a1 1 0 0 1-1 1H5a1 1 0 0 1-1-1v-1h16v1Z"/></svg><select autocomplete="off" class="astro-2z5xp7gb"><option value="dark" class="astro-2z5xp7gb">Dark</option><option value="light" class="astro-2z5xp7gb">Light</option><option value="auto" selected class="astro-2z5xp7gb">Auto</option></select><svg aria-hidden="true" class="icon caret astro-2z5xp7gb astro-hkc32dio" width="16" height="16" viewBox="0 0 24 24" fill="currentColor" style="--sl-icon-size: 1em;"><path d="M17 9.17a1 1 0 0 0-1.41 0L12 12.71 8.46 9.17a1 1 0 1 0-1.41 1.42l4.24 4.24a1.002 1.002 0 0 0 1.42 0L17 10.59a1.002 1.002 0 0 0 0-1.42Z"/></svg></label></starlight-theme-select><script>
+</script><script type="module">var e=`starlight-theme`,t=e=>e===`auto`||e===`dark`||e===`light`?e:`auto`,n=()=>t(typeof localStorage<`u`&&localStorage.getItem(e));function r(t){typeof localStorage<`u`&&localStorage.setItem(e,t===`light`||t===`dark`?t:``)}var i=()=>matchMedia(`(prefers-color-scheme: light)`).matches?`light`:`dark`;function a(e){StarlightThemeProvider.updatePickers(e),document.documentElement.dataset.theme=e===`auto`?i():e,r(e)}matchMedia(`(prefers-color-scheme: light)`).addEventListener(`change`,()=>{n()===`auto`&&a(`auto`)});var o=class extends HTMLElement{constructor(){super(),a(n()),this.querySelector(`select`)?.addEventListener(`change`,e=>{e.currentTarget instanceof HTMLSelectElement&&a(t(e.currentTarget.value))})}};customElements.define(`starlight-theme-select`,o);</script></div><a class="pyking-github" href="https://github.com/pyking-lang" title="Pyking on GitHub"><span class="sr-only">GitHub</span><svg aria-hidden="true" viewBox="0 0 24 24" width="22" height="22" fill="currentColor"><path d="M12 .3a12 12 0 0 0-3.8 23.4c.6.1.8-.3.8-.6v-2c-3.3.7-4-1.6-4-1.6-.6-1.4-1.4-1.8-1.4-1.8-1-.7.1-.7.1-.7 1.2.1 1.8 1.2 1.8 1.2 1 1.8 2.8 1.3 3.5 1 0-.8.4-1.3.7-1.6-2.7-.3-5.5-1.3-5.5-6 0-1.2.5-2.3 1.3-3.1-.2-.4-.6-1.6 0-3.2 0 0 1-.3 3.4 1.2a11.5 11.5 0 0 1 6 0c2.3-1.5 3.3-1.2 3.3-1.2.6 1.6.2 2.8.1 3.2.8.8 1.3 1.9 1.3 3.1 0 4.6-2.8 5.6-5.5 5.9.5.4.9 1.1.9 2.2v3.3c0 .3.1.7.8.6A12 12 0 0 0 12 .3"></path></svg></a></div></div></header><nav class="sidebar print:hidden astro-yntsjkba" aria-label="Main"><button popovertarget="starlight__sidebar" class="sl-menu-button sl-flex md:sl-hidden print:hidden astro-r2osgdlg"><svg aria-hidden="true" class="open-menu astro-r2osgdlg astro-hkc32dio" width="16" height="16" viewBox="0 0 24 24" fill="currentColor" style="--sl-icon-size: 1em;"><path d="M3 8h18a1 1 0 1 0 0-2H3a1 1 0 0 0 0 2Zm18 8H3a1 1 0 0 0 0 2h18a1 1 0 0 0 0-2Zm0-5H3a1 1 0 0 0 0 2h18a1 1 0 0 0 0-2Z"/></svg><svg aria-hidden="true" class="close-menu astro-r2osgdlg astro-hkc32dio" width="16" height="16" viewBox="0 0 24 24" fill="currentColor" style="--sl-icon-size: 1em;"><path d="m13.41 12 6.3-6.29a1.004 1.004 0 1 0-1.42-1.42L12 10.59l-6.29-6.3a1.004 1.004 0 0 0-1.42 1.42l6.3 6.29-6.3 6.29a1 1 0 0 0 0 1.42.998.998 0 0 0 1.42 0l6.29-6.3 6.29 6.3a.999.999 0 0 0 1.42 0 1 1 0 0 0 0-1.42L13.41 12Z"/></svg><span class="sr-only astro-r2osgdlg">Menu</span></button><script type="module">var e=class extends HTMLElement{constructor(){super();let e=matchMedia(`(min-width: 50em)`),t=()=>{this.popover=e.matches?null:`auto`};t(),e.addEventListener(`change`,()=>t()),this.addEventListener(`toggle`,({newState:e})=>this.trapFocus(e===`open`))}trapFocus(e){document.querySelectorAll(`.main-frame, .sl-skip-link`).forEach(t=>{t.toggleAttribute(`inert`,e)})}};customElements.define(`sl-sidebar-pane`,e);</script><script type="module">var e=class extends HTMLElement{constructor(){super();let e=this.querySelector(`select`);e&&(e.addEventListener(`change`,e=>{e.currentTarget instanceof HTMLSelectElement&&(window.location.pathname=e.currentTarget.value)}),window.addEventListener(`pageshow`,t=>{if(!t.persisted)return;let n=e.querySelector(`option[selected]`)?.index;n!==e.selectedIndex&&(e.selectedIndex=n??0)}))}};customElements.define(`starlight-lang-select`,e);</script><sl-sidebar-pane popover id="starlight__sidebar" class="sidebar-pane astro-yntsjkba"><div class="sidebar-content sl-flex astro-yntsjkba"><nav class="pyking-sidebar" aria-label="Documentation"><p class="pyking-sidebar-title">Documentation</p><ul><li><a href="/documentation/language/" aria-current="page">Language reference</a><ul class="pyking-sidebar-headings"><li><a href="#new-in-pyking-not-in-python">New in Pyking (not in Python)</a></li><li><a href="#feature-summary">Feature summary</a></li><li><a href="#grammar">Grammar</a></li><li><a href="#feature-details">Feature details</a></li><li><a href="#type-checking">Type checking</a></li><li><a href="#warnings">Warnings</a></li><li><a href="#modules">Modules</a></li></ul></li><li><a href="/documentation/editors/">Editors</a></li><li><a href="/documentation/slides/">Code on slides</a></li><li><a href="/documentation/tinyweb/">Tinyweb without Pyking</a></li></ul></nav><div class="md:sl-hidden"><div class="mobile-preferences sl-flex astro-p4azlveh"><div class="social-icons astro-p4azlveh"></div><starlight-theme-select><label style="--sl-select-width: 6.25em" class="astro-2z5xp7gb"><span class="sr-only astro-2z5xp7gb">Select theme</span><svg aria-hidden="true" class="icon label-icon astro-2z5xp7gb astro-hkc32dio" width="16" height="16" viewBox="0 0 24 24" fill="currentColor" style="--sl-icon-size: 1em;"><path d="M21 14h-1V7a3 3 0 0 0-3-3H7a3 3 0 0 0-3 3v7H3a1 1 0 0 0-1 1v2a3 3 0 0 0 3 3h14a3 3 0 0 0 3-3v-2a1 1 0 0 0-1-1ZM6 7a1 1 0 0 1 1-1h10a1 1 0 0 1 1 1v7H6V7Zm14 10a1 1 0 0 1-1 1H5a1 1 0 0 1-1-1v-1h16v1Z"/></svg><select autocomplete="off" class="astro-2z5xp7gb"><option value="dark" class="astro-2z5xp7gb">Dark</option><option value="light" class="astro-2z5xp7gb">Light</option><option value="auto" selected class="astro-2z5xp7gb">Auto</option></select><svg aria-hidden="true" class="icon caret astro-2z5xp7gb astro-hkc32dio" width="16" height="16" viewBox="0 0 24 24" fill="currentColor" style="--sl-icon-size: 1em;"><path d="M17 9.17a1 1 0 0 0-1.41 0L12 12.71 8.46 9.17a1 1 0 1 0-1.41 1.42l4.24 4.24a1.002 1.002 0 0 0 1.42 0L17 10.59a1.002 1.002 0 0 0 0-1.42Z"/></svg></label></starlight-theme-select><script>
 	StarlightThemeProvider.updatePickers();
 </script></div></div></div></sl-sidebar-pane></nav><div class="main-frame astro-yntsjkba"><script type="module">var e=document.getElementById(`starlight__sidebar`),t=e?.querySelector(`sl-sidebar-state-persist`),n=`sl-sidebar-state`,r=()=>{let r=[],i=t?.dataset.hash||``;try{let e=sessionStorage.getItem(n),t=JSON.parse(e||`{}`);Array.isArray(t.open)&&t.hash===i&&(r=t.open)}catch{}return{hash:i,open:r,scroll:e?.scrollTop||0}},i=e=>{try{sessionStorage.setItem(n,JSON.stringify(e))}catch{}},a=()=>i(r()),o=(e,t)=>{let n=r();n.open[t]=e,i(n)};t?.addEventListener(`click`,e=>{if(!(e.target instanceof Element))return;let t=e.target.closest(`summary`)?.closest(`details`);if(!t)return;let n=t.querySelector(`sl-sidebar-restore`),r=parseInt(n?.dataset.index||``);isNaN(r)||o(!t.open,r)}),addEventListener(`visibilitychange`,()=>{document.visibilityState===`hidden`&&a()});</script><div class="lg:sl-flex astro-lrzkfocr"><div class="main-pane astro-lrzkfocr"><main data-pagefind-body class="astro-g5ptsecz" lang="en" dir="ltr"><div class="content-panel astro-a7po4psb"><div class="sl-container astro-a7po4psb"><h1 id="_top" class="astro-bebwqqxs">Language reference</h1></div></div><div class="content-panel astro-a7po4psb"><div class="sl-container astro-a7po4psb"><div class="sl-markdown-content"><p>Pyking is a small, lexically-scoped, Python-like language. Its syntax and
 core expression/statement forms are borrowed directly from Python
@@ -212,6 +212,12 @@ always a type or a constructor.</li>
 reaches no case of is refused at compile time, naming a value it
 misses, and so is a case no value can reach. Python’s <code>match</code> quietly
 does nothing for a subject no case takes. See “Exhaustiveness”.</li>
+<li><strong>Warnings</strong>: a name bound and never used is reported before the
+program runs, and so is an <code>=</code> in a block that shadows a name from
+outside it and is never used — an update written as a new binding,
+which the warning asks about. GCC’s flags say which
+are reported and which stop the program: <code>-Wall</code>, <code>-Werror</code>,
+<code>-Wno-unused-function</code>. See “Warnings”.</li>
 <li><strong>Arbitrary, refutable patterns in list comprehensions</strong>:
 <code>[expr for pattern in seq]</code> accepts any Pyking pattern, not just a
 plain name or Python’s simple destructuring targets. When the pattern
@@ -376,6 +382,9 @@ share its name with another binding of the same block (see “Names and
 scoping”)</li>
 <li>Statically typed: every program is type-checked, whatever is then done
 with it, and a type error stops the compile (see “Type checking”)</li>
+<li>Warnings for names bound and never used, and for an <code>=</code> shadowing a
+name it was probably meant to update, with GCC’s <code>-W</code> flags (see
+“Warnings”)</li>
 <li>One file is one module, exporting only what it marks <code>public</code>, and a
 program is the acyclic graph of the modules its main file reaches —
 each running its own top level before anything that imports it (see
@@ -3802,6 +3811,26 @@ block, and the builtins are in scope throughout. An unbound name is
 reported as a name error rather than a type error, since that is what it
 is:</p>
 <div class="expressive-code"><figure class="frame not-content"><figcaption class="header"></figcaption><pre data-language="plaintext"><code><div class="ec-line"><div class="code"><span style="--0:#d6deeb;--1:#403f53">'prog.pyk' 14:16-14:23 Name error: unbound name 'missing'</span></div></div></code></pre><div class="copy"><div aria-live="polite"></div><button title="Copy to clipboard" data-copied="Copied!" data-code="&#x27;prog.pyk&#x27; 14:16-14:23 Name error: unbound name &#x27;missing&#x27;"><div></div></button></div></figure></div>
+<p><strong>Did you mean.</strong> Where a name that is not in scope is close to one
+that is, or to a keyword, the message names it: <code>unbound name 'nmae': did you mean 'name'?</code>, <code>unbound name 'braek': did you mean the keyword 'break'?</code>, and for an uppercase name, which is read as a constructor,
+<code>unknown constructor 'True': ... Did you mean the keyword 'true'?</code>.
+Close means a few single-character edits — one inserted, removed or
+changed, or two neighbours swapped — none in a one-letter name, one in
+a name of up to three letters, and two or more the longer it is.</p>
+<p>Three mistakes that would otherwise be reported as something else are
+named for what they are:</p>
+<ul>
+<li><strong>A misspelled keyword before an expression.</strong> <code>returns x</code> is a name
+followed by a second statement on the same line, so it breaks the
+one-statement-per-line rule; the message says <code>'returns' is not a keyword: did you mean 'return'?</code>. A lone name that is no keyword’s
+misspelling is told how a call is written instead: <code>prnt "hi"</code> gets
+<code>Did you mean 'print'? To call it, write print("hi")</code>.</li>
+<li><strong><code>=</code> in a condition.</strong> <code>if i = 5:</code>, <code>while i = 5:</code> and <code>else if i = 5:</code> get <code>did you mean '=='? A single '=' binds a name; '==' compares two values</code>.</li>
+<li><strong>A loop body that ends in an <code>if</code> with no <code>else</code>.</strong> The body of a
+loop carrying a value must give the next turn that value on every
+path; an <code>if</code> with no <code>else</code> at its end has a path that does not, and
+the message points at that <code>if</code>: <code>this loop carries Float, but its body can reach its end without a 'continue' or a 'break': this 'if' has no 'else', so when its condition is false nothing says what the loop does next</code>.</li>
+</ul>
 <p><strong>Mutability is not a type.</strong> A <code>var</code> may hold any type, and the checker
 says only that each <code>:=</code> gives the type its declaration fixed; <em>which</em> names may be written to is a separate question, and
 one a type cannot answer — the same <code>Int</code> is a <code>var</code> in one scope and an
@@ -3834,6 +3863,142 @@ written <code>implicit</code> is never considered. Exactly one fit resolves it.<
 call is written. Nothing is deferred to a caller and nothing is decided
 at run time: a program that compiles has one definition per call site,
 chosen before anything runs.</p>
+<h2 id="warnings">Warnings</h2>
+<p>A program that checks may still say something its writer did not mean.
+The compiler reports what it can see of that as <strong>warnings</strong>: each is
+printed before the program runs, and the program then runs as usual.
+Today they are about names bound and never used.</p>
+<div class="pkn-notebook pkn-embedded not-content"><div class="pkn-cell"><pre class="pkn-cell-fallback"><code>x = 5
+if true:
+    x = 10
+
+def helper(n: Int) -> Int:
+    return n + 1
+
+print("done")</code></pre></div></div>
+<div class="expressive-code"><figure class="frame not-content"><figcaption class="header"></figcaption><pre data-language="plaintext"><code><div class="ec-line"><div class="code"><span style="--0:#d6deeb;--1:#403f53">'prog.pyk' 1:0-1:1 Warning: Unused binding 'x', bound on line 1: it is</span></div></div><div class="ec-line"><div class="code"><span class="indent"><span style="--0:#d6deeb;--1:#403f53">  </span></span><span style="--0:#d6deeb;--1:#403f53">never used in its scope. [-Wunused-binding]</span></div></div><div class="ec-line"><div class="code"><span style="--0:#d6deeb;--1:#403f53">'prog.pyk' 3:4-3:5 Warning: Unused binding 'x', bound on line 3: it is</span></div></div><div class="ec-line"><div class="code"><span class="indent"><span style="--0:#d6deeb;--1:#403f53">  </span></span><span style="--0:#d6deeb;--1:#403f53">never used in its scope. Did you try to update x as a variable? Name</span></div></div><div class="ec-line"><div class="code"><span class="indent"><span style="--0:#d6deeb;--1:#403f53">  </span></span><span style="--0:#d6deeb;--1:#403f53">x is bound on line 1, but is not defined as a mutable variable. The</span></div></div><div class="ec-line"><div class="code"><span class="indent"><span style="--0:#d6deeb;--1:#403f53">  </span></span><span style="--0:#d6deeb;--1:#403f53">declaration on line 3 is shadowing x, and then never used in the</span></div></div><div class="ec-line"><div class="code"><span class="indent"><span style="--0:#d6deeb;--1:#403f53">  </span></span><span style="--0:#d6deeb;--1:#403f53">scope. [-Wshadowed-update]</span></div></div><div class="ec-line"><div class="code"><span style="--0:#d6deeb;--1:#403f53">'prog.pyk' 5:4-5:10 Warning: Function 'helper' is defined but never</span></div></div><div class="ec-line"><div class="code"><span class="indent"><span style="--0:#d6deeb;--1:#403f53">  </span></span><span style="--0:#d6deeb;--1:#403f53">used. [-Wunused-function]</span></div></div><div class="ec-line"><div class="code"><span style="--0:#d6deeb;--1:#403f53">done</span></div></div></code></pre><div class="copy"><div aria-live="polite"></div><button title="Copy to clipboard" data-copied="Copied!" data-code="&#x27;prog.pyk&#x27; 1:0-1:1 Warning: Unused binding &#x27;x&#x27;, bound on line 1: it is  never used in its scope. [-Wunused-binding]&#x27;prog.pyk&#x27; 3:4-3:5 Warning: Unused binding &#x27;x&#x27;, bound on line 3: it is  never used in its scope. Did you try to update x as a variable? Name  x is bound on line 1, but is not defined as a mutable variable. The  declaration on line 3 is shadowing x, and then never used in the  scope. [-Wshadowed-update]&#x27;prog.pyk&#x27; 5:4-5:10 Warning: Function &#x27;helper&#x27; is defined but never  used. [-Wunused-function]done"><div></div></button></div></figure></div>
+<p>The second is the one worth knowing about. <code>x = 10</code> inside the <code>if</code> is
+a <em>new</em> binding of <code>x</code> for that block — <code>=</code> never updates (see
+“Immutable bindings”) — so the <code>x</code> outside is still 5 after it. Where
+such a binding shadows a name from an enclosing block and is then never
+used, an update is almost certainly what was meant, and the warning
+asks whether it was. An update is written with a <code>var</code> and <code>:=</code> (see
+“Mutable variables”).</p>
+<h3 id="what-is-reported">What is reported</h3>
+<p>Each warning has a name, which is what its flag is called:</p>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<table><thead><tr><th>warning</th><th>on by default</th><th>reports</th></tr></thead><tbody><tr><td><code>unused-binding</code></td><td>yes</td><td>a name bound with <code>=</code>, or by a <code>let</code>, that nothing in its scope uses</td></tr><tr><td><code>unused-function</code></td><td>yes</td><td>a function defined with <code>def</code> that is never called or passed on</td></tr><tr><td><code>unused-var</code></td><td>yes</td><td>a <code>var</code> that is never read — writing to it with <code>:=</code> does not count</td></tr><tr><td><code>shadowed-update</code></td><td>yes</td><td>an unused <code>=</code> binding in a block that shadows a name bound outside it, as above</td></tr><tr><td><code>unused-pattern-var</code></td><td>no</td><td>a name a <code>case</code> pattern binds that its arm never uses</td></tr><tr><td><code>unused-parameter</code></td><td>no</td><td>a parameter of a <code>def</code> or a lambda that its body never uses</td></tr><tr><td><code>unused-loop-var</code></td><td>no</td><td>a <code>for</code> variable, a loop’s accumulator, or a name a comprehension binds, that is never used</td></tr></tbody></table>
+<p>A function is used when something that runs calls it, or passes it on
+as a value. A function that only calls itself is reported, and so is a
+group of functions that only call one another; one called only by an
+unused function is not reported as well, since the unused function is
+the one to look at. A call that overloading or an implicit argument
+resolves uses the definition it reaches, though its name is not
+written there (see “Static overloading” and “Implicits”). A <code>var</code> read
+anywhere is used, in the value of its own update too
+(<code>count := count + 1</code>).</p>
+<p><strong>A name starting with <code>_</code> is never reported</strong>, which is how to say
+that a name is meant to go unused: <code>_, second = pair</code>,
+<code>for _ in range(3)</code>, <code>def handler(_event: String)</code>. Neither is a
+module’s <code>public</code> name, which another module uses, nor anything in a
+module of a library.</p>
+<h3 id="flags">Flags</h3>
+<p>Which warnings are reported, and which are errors, is said with the
+flags GCC uses, applied in the order they are written, so a later one
+wins:</p>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<table><thead><tr><th>flag</th><th>what it does</th></tr></thead><tbody><tr><td><code>-W&#x3C;name></code></td><td>turns one warning on: <code>-Wunused-parameter</code></td></tr><tr><td><code>-Wno-&#x3C;name></code></td><td>turns one off: <code>-Wno-unused-function</code></td></tr><tr><td><code>-Wall</code></td><td>turns every warning on</td></tr><tr><td><code>-w</code></td><td>turns every warning off</td></tr><tr><td><code>-Werror</code></td><td>makes every warning that is on an error</td></tr><tr><td><code>-Werror=&#x3C;name></code></td><td>makes one an error, and turns it on</td></tr><tr><td><code>-Wno-error</code> / <code>-Wno-error=&#x3C;name></code></td><td>makes every warning, or one, a warning again</td></tr></tbody></table>
+<div class="expressive-code"><figure class="frame not-content"><figcaption class="header"></figcaption><pre data-language="plaintext"><code><div class="ec-line"><div class="code"><span style="--0:#d6deeb;--1:#403f53">pyk -Wall prog.pyk</span></div></div><div class="ec-line"><div class="code"><span style="--0:#d6deeb;--1:#403f53">pyk compile -Werror -Wno-error=unused-binding prog.pyk</span></div></div></code></pre><div class="copy"><div aria-live="polite"></div><button title="Copy to clipboard" data-copied="Copied!" data-code="pyk -Wall prog.pykpyk compile -Werror -Wno-error=unused-binding prog.pyk"><div></div></button></div></figure></div>
+<p><strong>An error stops the program.</strong> Every warning is still printed, those
+that are errors as <code>Error:</code> with the flag that made them so, and then
+nothing runs and nothing is written:</p>
+<div class="expressive-code"><figure class="frame not-content"><figcaption class="header"></figcaption><pre data-language="plaintext"><code><div class="ec-line"><div class="code"><span style="--0:#d6deeb;--1:#403f53">'prog.pyk' 5:4-5:10 Error: Function 'helper' is defined but never</span></div></div><div class="ec-line"><div class="code"><span class="indent"><span style="--0:#d6deeb;--1:#403f53">  </span></span><span style="--0:#d6deeb;--1:#403f53">used. [-Werror=unused-function]</span></div></div></code></pre><div class="copy"><div aria-live="polite"></div><button title="Copy to clipboard" data-copied="Copied!" data-code="&#x27;prog.pyk&#x27; 5:4-5:10 Error: Function &#x27;helper&#x27; is defined but never  used. [-Werror=unused-function]"><div></div></button></div></figure></div>
+<p>The flags are taken by <code>pyk &#x3C;file></code>, <code>pyk compile</code>, <code>pyk repl</code>, <code>pyk lsp</code>, <code>pyk dap</code> and <code>pyk notebook</code>, and <code>pyk --help</code> lists every
+warning. At the REPL an entry’s own top-level names are never reported,
+since a later entry may use them. An editor shows warnings under the
+names they are about, set with its <code>warnings</code> setting (see “Editors”
+on the website), and the playground has a Warnings tab in its settings
+that says each flag and what it means.</p>
 <h2 id="modules">Modules</h2>
 <p><strong>One file is one module.</strong> A file called <code>list.pyk</code> is the module
 <code>list</code>, and a program is that file together with every module it

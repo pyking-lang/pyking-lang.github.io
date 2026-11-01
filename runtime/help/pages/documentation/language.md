@@ -182,6 +182,12 @@ restriction of it, but these are genuinely new.
   reaches no case of is refused at compile time, naming a value it
   misses, and so is a case no value can reach. Python's `match` quietly
   does nothing for a subject no case takes. See "Exhaustiveness".
+- **Warnings**: a name bound and never used is reported before the
+  program runs, and so is an `=` in a block that shadows a name from
+  outside it and is never used -- an update written as a new binding,
+  which the warning asks about. GCC's flags say which
+  are reported and which stop the program: `-Wall`, `-Werror`,
+  `-Wno-unused-function`. See "Warnings".
 - **Arbitrary, refutable patterns in list comprehensions**:
   `[expr for pattern in seq]` accepts any Pyking pattern, not just a
   plain name or Python's simple destructuring targets. When the pattern
@@ -347,6 +353,9 @@ Structure:
   scoping")
 - Statically typed: every program is type-checked, whatever is then done
   with it, and a type error stops the compile (see "Type checking")
+- Warnings for names bound and never used, and for an `=` shadowing a
+  name it was probably meant to update, with GCC's `-W` flags (see
+  "Warnings")
 - One file is one module, exporting only what it marks `public`, and a
   program is the acyclic graph of the modules its main file reaches —
   each running its own top level before anything that imports it (see
@@ -4957,6 +4966,35 @@ is:
 'prog.pyk' 14:16-14:23 Name error: unbound name 'missing'
 ```
 
+**Did you mean.** Where a name that is not in scope is close to one
+that is, or to a keyword, the message names it: `unbound name 'nmae':
+did you mean 'name'?`, `unbound name 'braek': did you mean the keyword
+'break'?`, and for an uppercase name, which is read as a constructor,
+`unknown constructor 'True': ... Did you mean the keyword 'true'?`.
+Close means a few single-character edits -- one inserted, removed or
+changed, or two neighbours swapped -- none in a one-letter name, one in
+a name of up to three letters, and two or more the longer it is.
+
+Three mistakes that would otherwise be reported as something else are
+named for what they are:
+
+- **A misspelled keyword before an expression.** `returns x` is a name
+  followed by a second statement on the same line, so it breaks the
+  one-statement-per-line rule; the message says `'returns' is not a
+  keyword: did you mean 'return'?`. A lone name that is no keyword's
+  misspelling is told how a call is written instead: `prnt "hi"` gets
+  `Did you mean 'print'? To call it, write print("hi")`.
+- **`=` in a condition.** `if i = 5:`, `while i = 5:` and `else if i =
+  5:` get `did you mean '=='? A single '=' binds a name; '==' compares
+  two values`.
+- **A loop body that ends in an `if` with no `else`.** The body of a
+  loop carrying a value must give the next turn that value on every
+  path; an `if` with no `else` at its end has a path that does not, and
+  the message points at that `if`: `this loop carries Float, but its
+  body can reach its end without a 'continue' or a 'break': this 'if'
+  has no 'else', so when its condition is false nothing says what the
+  loop does next`.
+
 **Mutability is not a type.** A `var` may hold any type, and the checker
 says only that each `:=` gives the type its declaration fixed; *which* names may be written to is a separate question, and
 one a type cannot answer — the same `Int` is a `var` in one scope and an
@@ -4995,6 +5033,113 @@ Both are questions about the program's *text*, settled once, where the
 call is written. Nothing is deferred to a caller and nothing is decided
 at run time: a program that compiles has one definition per call site,
 chosen before anything runs.
+
+## Warnings
+
+A program that checks may still say something its writer did not mean.
+The compiler reports what it can see of that as **warnings**: each is
+printed before the program runs, and the program then runs as usual.
+Today they are about names bound and never used.
+
+```pyking
+x = 5
+if true:
+    x = 10
+
+def helper(n: Int) -> Int:
+    return n + 1
+
+print("done")
+```
+
+```
+'prog.pyk' 1:0-1:1 Warning: Unused binding 'x', bound on line 1: it is
+  never used in its scope. [-Wunused-binding]
+'prog.pyk' 3:4-3:5 Warning: Unused binding 'x', bound on line 3: it is
+  never used in its scope. Did you try to update x as a variable? Name
+  x is bound on line 1, but is not defined as a mutable variable. The
+  declaration on line 3 is shadowing x, and then never used in the
+  scope. [-Wshadowed-update]
+'prog.pyk' 5:4-5:10 Warning: Function 'helper' is defined but never
+  used. [-Wunused-function]
+done
+```
+
+The second is the one worth knowing about. `x = 10` inside the `if` is
+a *new* binding of `x` for that block -- `=` never updates (see
+"Immutable bindings") -- so the `x` outside is still 5 after it. Where
+such a binding shadows a name from an enclosing block and is then never
+used, an update is almost certainly what was meant, and the warning
+asks whether it was. An update is written with a `var` and `:=` (see
+"Mutable variables").
+
+### What is reported
+
+Each warning has a name, which is what its flag is called:
+
+| warning | on by default | reports |
+|---|---|---|
+| `unused-binding` | yes | a name bound with `=`, or by a `let`, that nothing in its scope uses |
+| `unused-function` | yes | a function defined with `def` that is never called or passed on |
+| `unused-var` | yes | a `var` that is never read -- writing to it with `:=` does not count |
+| `shadowed-update` | yes | an unused `=` binding in a block that shadows a name bound outside it, as above |
+| `unused-pattern-var` | no | a name a `case` pattern binds that its arm never uses |
+| `unused-parameter` | no | a parameter of a `def` or a lambda that its body never uses |
+| `unused-loop-var` | no | a `for` variable, a loop's accumulator, or a name a comprehension binds, that is never used |
+
+A function is used when something that runs calls it, or passes it on
+as a value. A function that only calls itself is reported, and so is a
+group of functions that only call one another; one called only by an
+unused function is not reported as well, since the unused function is
+the one to look at. A call that overloading or an implicit argument
+resolves uses the definition it reaches, though its name is not
+written there (see "Static overloading" and "Implicits"). A `var` read
+anywhere is used, in the value of its own update too
+(`count := count + 1`).
+
+**A name starting with `_` is never reported**, which is how to say
+that a name is meant to go unused: `_, second = pair`,
+`for _ in range(3)`, `def handler(_event: String)`. Neither is a
+module's `public` name, which another module uses, nor anything in a
+module of a library.
+
+### Flags
+
+Which warnings are reported, and which are errors, is said with the
+flags GCC uses, applied in the order they are written, so a later one
+wins:
+
+| flag | what it does |
+|---|---|
+| `-W<name>` | turns one warning on: `-Wunused-parameter` |
+| `-Wno-<name>` | turns one off: `-Wno-unused-function` |
+| `-Wall` | turns every warning on |
+| `-w` | turns every warning off |
+| `-Werror` | makes every warning that is on an error |
+| `-Werror=<name>` | makes one an error, and turns it on |
+| `-Wno-error` / `-Wno-error=<name>` | makes every warning, or one, a warning again |
+
+```
+pyk -Wall prog.pyk
+pyk compile -Werror -Wno-error=unused-binding prog.pyk
+```
+
+**An error stops the program.** Every warning is still printed, those
+that are errors as `Error:` with the flag that made them so, and then
+nothing runs and nothing is written:
+
+```
+'prog.pyk' 5:4-5:10 Error: Function 'helper' is defined but never
+  used. [-Werror=unused-function]
+```
+
+The flags are taken by `pyk <file>`, `pyk compile`, `pyk repl`, `pyk
+lsp`, `pyk dap` and `pyk notebook`, and `pyk --help` lists every
+warning. At the REPL an entry's own top-level names are never reported,
+since a later entry may use them. An editor shows warnings under the
+names they are about, set with its `warnings` setting (see "Editors"
+on the website), and the playground has a Warnings tab in its settings
+that says each flag and what it means.
 
 ## Modules
 

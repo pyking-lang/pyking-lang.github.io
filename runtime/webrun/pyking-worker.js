@@ -41,7 +41,11 @@
 // and the log is what it would be. `run` may
 // also carry `tinywebEvents`, the lines of an events file, delivered to
 // tinyweb once the program's top level has ended and before `run`
-// answers.
+// answers, and `tinywebUntil`, {events, patterns} -- a notebook task's
+// compare-until block, each pattern a RegExp's source -- which ends the
+// run once tinyweb's log has had `events` lines its patterns match. A run
+// that ends so answers `until: true` and no `exit`, and a callback that
+// ends it sends {type: "until"} in place of `exit`.
 //
 // `debug` debugs a program instead of running it; see "the debugger"
 // below.
@@ -50,6 +54,10 @@
 // JSON-RPC message and answers the messages it sends back, and `lsp-idle`
 // answers what it sends once the client has stopped typing -- the
 // diagnostics. Both answer null where the bundle has no `pykLsp`.
+//
+// Every request may carry `warnings`, the -W flags the page's checks
+// report with (pykSetWarnings); what a check finds arrives as {type:
+// "warning", text}, a line as `pyk` prints it on stderr.
 //
 // `highlight` colours Pyking source as `pyk highlight` does
 // (src/highlight.ml): {source, options} -- options {theme, font, size,
@@ -86,7 +94,26 @@ self.pykOnPrint = (text) => stdout(text);
 self.pykOnDebug = (text) => debugOut(text);
 self.pykOnShow = (text) => self.postMessage({ type: "show", text });
 self.pykOnError = (text) => self.postMessage({ type: "failure", text });
-self.pykOnExit = (code) => self.postMessage({ type: "exit", code });
+self.pykOnExit = (code) => self.postMessage(self.pykTinywebUntil?.reached
+  ? { type: "until" } : { type: "exit", code });
+// A warning the check of a program found, one line as `pyk` prints it.
+self.pykOnWarning = (text) => self.postMessage({ type: "warning", text });
+
+// The -W flags the page asked for, as last handed to the compiler. Every
+// request carries the page's, so a worker started afresh -- after a stop,
+// or for the REPL -- checks with them too.
+let warningFlags = null;
+
+/** Hands the compiler the page's -W flags where they changed. Before the
+ *  compiler has loaded there is nothing to hand them to, and the next
+ *  request does it. [String] -> () */
+function applyWarnings(flags) {
+  const text = flags.join(" ");
+  if (text === warningFlags || typeof self.pykSetWarnings !== "function") return;
+  const answer = JSON.parse(self.pykSetWarnings(text));
+  warningFlags = text;
+  if (!answer.ok) status(answer.text);
+}
 // A browser implementation writes what it has to say to the console --
 // that a function is not supported here, say -- and in this worker the
 // console is the output pane.
@@ -121,6 +148,7 @@ self.pykFetchSource = (name) => {
 
 self.onmessage = (event) => {
   const message = event.data;
+  if (Array.isArray(message.warnings)) applyWarnings(message.warnings);
   const answer = (work) => {
     try {
       const value = work();
@@ -148,13 +176,15 @@ self.onmessage = (event) => {
       });
     case "words":
       // What a page reads out of the compiler rather than keeping a copy
-      // of: the words its editor highlights, the targets it offers, and
-      // the value formatter generated JavaScript is run with.
+      // of: the words its editor highlights, the targets it offers, the
+      // value formatter generated JavaScript is run with, and the
+      // warnings its settings list.
       return answer(() => ({
         keywords: JSON.parse(self.pykKeywords()),
         builtins: JSON.parse(self.pykBuiltins()),
         targets: JSON.parse(self.pykTargets()),
         formatHelper: self.pykFormatHelper(),
+        warnings: typeof self.pykWarnings === "function" ? JSON.parse(self.pykWarnings()) : [],
       }));
     case "analyze":
       return answer(() => analyze(message));
@@ -218,6 +248,7 @@ function boot({ pykingURL, libURL: lib }) {
   }
   loaded = true;
   self.pykStamp = stamp;
+  if (Array.isArray(arguments[0]?.warnings)) applyWarnings(arguments[0].warnings);
   status("ready");
   // Which compiler this worker is running, so the page can tell when the
   // one on disk has moved on (PykingRuntime, `_checkStamp`).
@@ -265,6 +296,9 @@ function tinywebLog(on) {
 
 function run(message) {
   tinywebLog(message.tinywebLog === "separate" ? "separate" : Boolean(message.tinywebLog));
+  self.pykTinywebUntil = message.tinywebUntil
+    ? { events: message.tinywebUntil.events, patterns: message.tinywebUntil.patterns }
+    : null;
   const analysis = analyze(message);
   if (!analysis.ok) return analysis;
   const mine = own(message);
@@ -291,7 +325,16 @@ function run(message) {
         await replay(message.tinywebEvents);
       }
       return result;
-    });
+    })
+    .then(untilReached);
+}
+
+/** A run's answer, with `until` in place of the `exit` a compare-until
+ *  limit ended it with. Object -> Object */
+function untilReached(result) {
+  if (!self.pykTinywebUntil?.reached || !result?.ok) return result;
+  const { exit, ...rest } = result;
+  return { ...rest, until: true };
 }
 
 // --- the debugger ---
@@ -359,6 +402,7 @@ function debugStart(message) {
   if (debug !== null) self.pykDebugStop();
   debug = null;
   tinywebLog(message.tinywebLog === "separate" ? "separate" : Boolean(message.tinywebLog));
+  self.pykTinywebUntil = null;
   const analysis = analyze(message);
   if (!analysis.ok) return analysis;
   const mine = own(message);

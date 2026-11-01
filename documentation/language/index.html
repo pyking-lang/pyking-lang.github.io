@@ -2824,7 +2824,8 @@ an <code>if</code> needs nothing special: every branch of every level is itself 
 tail position. An <code>else if</code> ladder works for the same reason — a ladder
 <em>is</em> a nested <code>if</code> in the else branch (see “<code>if</code>/<code>else</code> statements”).</p>
 <p>Only the <strong>last</strong> statement is in tail position. An <code>if</code> with something
-after it is an ordinary statement run for its effect, and the trailing
+after it is an ordinary statement run for its effect — its branches
+need not even agree on a type (see “Type checking”) — and the trailing
 expression is the value:</p>
 <div class="pkn-notebook pkn-embedded not-content"><div class="pkn-cell"><pre class="pkn-cell-fallback"><code>use mutation
 
@@ -3229,9 +3230,9 @@ with the target bound. The <code>let</code> has its body’s type. A name it bin
 has one type, as a name an <code>=</code> binding binds does: binding a lambda
 with <code>let</code> does not make it polymorphic.</p>
 <p><strong>Blocks and <code>if</code>.</strong> A block’s type is its last statement’s, and unit if
-it is empty. The two branches of an <code>if</code> must have the <em>same</em> type —
-which is what makes <code>x = if ...</code> sound, since only one branch runs but
-the binding has one type either way:</p>
+it is empty. Where that value is used, the two branches of an <code>if</code> must
+have the <em>same</em> type — which is what makes <code>x = if ...</code> sound, since only
+one branch runs but the binding has one type either way:</p>
 <div class="pkn-notebook pkn-embedded not-content"><div class="pkn-cell"><pre class="pkn-cell-fallback"><code>flag = 3 &#x3C; 4
 
 best = if flag:      # both branches yield Int
@@ -3259,6 +3260,34 @@ there is a way through such a statement that runs no branch at all, so
 there is no value it can be counted on for. A function that needed that
 value is refused where the value was needed — at the function, not at
 the <code>if</code>. A condition must be <code>Bool</code> — there is no truthiness.</p>
+<p><strong>An <code>if</code> whose value nothing uses</strong> need not have branches of one type.
+Its value is used where it is bound (<code>x = if ...</code>, <code>return if ...</code>) and
+where it is in tail position: the last statement of a function body, or
+of a loop body that carries a value (see “Tail position”). Anywhere else
+— with a statement after it, as the last statement of a loop that
+carries nothing, or of the program — it is only run, and it supplies
+unit. That reaches into its branches: an <code>if</code> ending a branch of such an
+<code>if</code> is not used either. The arms of a <code>match</code> follow the same rule.</p>
+<div class="pkn-notebook pkn-embedded not-content"><div class="pkn-cell"><pre class="pkn-cell-fallback"><code>def twice(n: Int) -> Int:
+    n * 2
+
+
+def first(n: Int) -> Int:
+    if n > 0:
+        twice(n)             # Int
+    else:
+        print("no")          # unit: fine, the `if` is only run
+    n + 1
+
+
+print(first(3))</code></pre></div></div>
+<p>Where the value is used, the branches are still held to one type, and
+the error says why. Here the <code>if</code> is <code>pick</code>’s last statement, so it is
+<code>pick</code>’s value:</p>
+<div class="expressive-code"><figure class="frame not-content"><figcaption class="header"></figcaption><pre data-language="plaintext"><code><div class="ec-line"><div class="code"><span style="--0:#d6deeb;--1:#403f53">def twice(n: Int) -> Int:</span></div></div><div class="ec-line"><div class="code"><span class="indent"><span style="--0:#d6deeb;--1:#403f53">    </span></span><span style="--0:#d6deeb;--1:#403f53">n * 2</span></div></div><div class="ec-line"><div class="code"><span style="--0:#d6deeb;--1:#403f53">def pick(n: Int):</span></div></div><div class="ec-line"><div class="code"><span class="indent"><span style="--0:#d6deeb;--1:#403f53">    </span></span><span style="--0:#d6deeb;--1:#403f53">if n > 0:</span></div></div><div class="ec-line"><div class="code"><span class="indent"><span style="--0:#d6deeb;--1:#403f53">        </span></span><span style="--0:#d6deeb;--1:#403f53">twice(n)</span></div></div><div class="ec-line"><div class="code"><span class="indent"><span style="--0:#d6deeb;--1:#403f53">    </span></span><span style="--0:#d6deeb;--1:#403f53">else:</span></div></div><div class="ec-line"><div class="code"><span class="indent"><span style="--0:#d6deeb;--1:#403f53">        </span></span><span style="--0:#d6deeb;--1:#403f53">print("no")</span></div></div></code></pre><div class="copy"><div aria-live="polite"></div><button title="Copy to clipboard" data-copied="Copied!" data-code="def twice(n: Int) -> Int:    n * 2def pick(n: Int):    if n > 0:        twice(n)    else:        print(&#x22;no&#x22;)"><div></div></button></div></figure></div>
+<div class="expressive-code"><figure class="frame not-content"><figcaption class="header"></figcaption><pre data-language="plaintext"><code><div class="ec-line"><div class="code"><span style="--0:#d6deeb;--1:#403f53">'prog.pyk' 4:4-7:19 Type error: the branches of this 'if' have</span></div></div><div class="ec-line"><div class="code"><span class="indent"><span style="--0:#d6deeb;--1:#403f53">  </span></span><span style="--0:#d6deeb;--1:#403f53">different types: Int and (). Its value is used -- it is bound, or it</span></div></div><div class="ec-line"><div class="code"><span class="indent"><span style="--0:#d6deeb;--1:#403f53">  </span></span><span style="--0:#d6deeb;--1:#403f53">ends a function or a loop body that carries a value -- so its</span></div></div><div class="ec-line"><div class="code"><span class="indent"><span style="--0:#d6deeb;--1:#403f53">  </span></span><span style="--0:#d6deeb;--1:#403f53">branches must give one type. With a statement after it, the 'if'</span></div></div><div class="ec-line"><div class="code"><span class="indent"><span style="--0:#d6deeb;--1:#403f53">  </span></span><span style="--0:#d6deeb;--1:#403f53">would only be run, and its branches could differ</span></div></div></code></pre><div class="copy"><div aria-live="polite"></div><button title="Copy to clipboard" data-copied="Copied!" data-code="&#x27;prog.pyk&#x27; 4:4-7:19 Type error: the branches of this &#x27;if&#x27; have  different types: Int and (). Its value is used -- it is bound, or it  ends a function or a loop body that carries a value -- so its  branches must give one type. With a statement after it, the &#x27;if&#x27;  would only be run, and its branches could differ"><div></div></button></div></figure></div>
+<p>The REPL shows the value of every statement typed at its prompt, so
+there an <code>if</code> on its own is used, and its branches must agree.</p>
 <p><strong>Tuples.</strong> <code>(e1, e2, ...)</code> has the tuple type of its elements, <code>()</code> is
 unit, and a binding may take one apart — <code>a, b = pair</code> binds each name
 to its part, and is refused if the value is not a tuple of that many.</p>
@@ -3602,7 +3631,8 @@ print(count([]), count([1, 2]))     # 0 2</code></pre></div></div>
 it answers is the names it binds: <code>case [x, ..rest]</code> over a <code>[Int]</code>
 gives <code>x : Int</code> and <code>rest : [Int]</code>. A pattern that could never match —
 a String pattern over an Int — is refused where it is written.</p>
-<p>The <strong>arms of a <code>match</code> agree on one type</strong>, again the <code>if</code> rule. Where
+<p>The <strong>arms of a <code>match</code> agree on one type</strong> where its value is used,
+again the <code>if</code> rule — one with a statement after it is only run. Where
 the arms disagree only in how general they are, the more general one
 wins, which is what lets a base case return <code>[]</code>:</p>
 <div class="pkn-notebook pkn-embedded not-content"><div class="pkn-cell"><pre class="pkn-cell-fallback"><code>def reverse(xs:[Int]) -> [Int]:

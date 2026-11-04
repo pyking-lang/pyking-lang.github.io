@@ -195,8 +195,10 @@ static int round_;
 
 int main(void)
 {
-    pyk_d_Dtinyweb_Color__Color__ pyk_t1;
-    pyk_d_Dtinyweb_Color__Paint__ pyk_t2;
+    int pyk_t1;
+    int pyk_t2;
+    pyk_d_Dtinyweb_Color__Color__ pyk_t3;
+    pyk_d_Dtinyweb_Color__Paint__ pyk_t4;
     math_init();
     text_init();
     tinyweb_init();
@@ -206,8 +208,8 @@ int main(void)
     round_ = 0;
     while (1) {
         tinyweb_play(piano, 0.0, 1.0, 1.0, 0.0, tinyweb_play__default__voice());
-        printf("%s %d %s %s\n", "round", round_, "at", pyk_float_str(tinyweb_time()));
-        (pyk_t1 = tinyweb_circle__default__stroke(), pyk_t2 = tinyweb_circle__default__paint(), (tinyweb_circle(c, 10 + 20 * round_, 20, 8, tinyweb_color__orange, pyk_t1, 1, 1.0, pyk_t2, tinyweb_circle__default__style()), 0));
+        (pyk_t1 = round_, printf("%s %d %s %s\n", "round", pyk_t1, "at", pyk_float_str(tinyweb_time())));
+        (pyk_t2 = 10 + 20 * round_, pyk_t3 = tinyweb_circle__default__stroke(), pyk_t4 = tinyweb_circle__default__paint(), (tinyweb_circle(c, pyk_t2, 20, 8, tinyweb_color__orange, pyk_t3, 1, 1.0, pyk_t4, tinyweb_circle__default__style()), 0));
         round_ = round_ + 1;
         if (round_ == 8) {
             break;

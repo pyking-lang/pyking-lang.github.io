@@ -253,6 +253,148 @@
           "parent": ""
         },
         {
+          "slug": "libraries/array",
+          "file": "libraries/array.md",
+          "title": "array",
+          "label": "array",
+          "headings": [
+            {
+              "text": "bool::equal",
+              "anchor": "boolequal"
+            },
+            {
+              "text": "char::equal",
+              "anchor": "charequal"
+            },
+            {
+              "text": "char::sort",
+              "anchor": "charsort"
+            },
+            {
+              "text": "concat",
+              "anchor": "concat"
+            },
+            {
+              "text": "copy",
+              "anchor": "copy"
+            },
+            {
+              "text": "fill",
+              "anchor": "fill"
+            },
+            {
+              "text": "float::equal",
+              "anchor": "floatequal"
+            },
+            {
+              "text": "float::sort",
+              "anchor": "floatsort"
+            },
+            {
+              "text": "int::equal",
+              "anchor": "intequal"
+            },
+            {
+              "text": "int::sort",
+              "anchor": "intsort"
+            },
+            {
+              "text": "resize",
+              "anchor": "resize"
+            },
+            {
+              "text": "reverse",
+              "anchor": "reverse"
+            },
+            {
+              "text": "string::equal",
+              "anchor": "stringequal"
+            },
+            {
+              "text": "string::sort",
+              "anchor": "stringsort"
+            },
+            {
+              "text": "swap",
+              "anchor": "swap"
+            },
+            {
+              "text": "to_list",
+              "anchor": "to_list"
+            }
+          ],
+          "parent": ""
+        },
+        {
+          "slug": "libraries/dynarray",
+          "file": "libraries/dynarray.md",
+          "title": "dynarray",
+          "label": "dynarray",
+          "headings": [
+            {
+              "text": "bool::equal",
+              "anchor": "boolequal"
+            },
+            {
+              "text": "char::equal",
+              "anchor": "charequal"
+            },
+            {
+              "text": "char::sort",
+              "anchor": "charsort"
+            },
+            {
+              "text": "copy",
+              "anchor": "copy"
+            },
+            {
+              "text": "extend",
+              "anchor": "extend"
+            },
+            {
+              "text": "float::equal",
+              "anchor": "floatequal"
+            },
+            {
+              "text": "float::sort",
+              "anchor": "floatsort"
+            },
+            {
+              "text": "from_array",
+              "anchor": "from_array"
+            },
+            {
+              "text": "int::equal",
+              "anchor": "intequal"
+            },
+            {
+              "text": "int::sort",
+              "anchor": "intsort"
+            },
+            {
+              "text": "reverse",
+              "anchor": "reverse"
+            },
+            {
+              "text": "string::equal",
+              "anchor": "stringequal"
+            },
+            {
+              "text": "string::sort",
+              "anchor": "stringsort"
+            },
+            {
+              "text": "to_array",
+              "anchor": "to_array"
+            },
+            {
+              "text": "to_list",
+              "anchor": "to_list"
+            }
+          ],
+          "parent": ""
+        },
+        {
           "slug": "libraries/fs",
           "file": "libraries/fs.md",
           "title": "fs",
@@ -499,6 +641,31 @@
             {
               "text": "trunc",
               "anchor": "trunc"
+            }
+          ],
+          "parent": ""
+        },
+        {
+          "slug": "libraries/option",
+          "file": "libraries/option.md",
+          "title": "option",
+          "label": "option",
+          "headings": [
+            {
+              "text": "Option",
+              "anchor": "option"
+            },
+            {
+              "text": "is_none",
+              "anchor": "is_none"
+            },
+            {
+              "text": "is_some",
+              "anchor": "is_some"
+            },
+            {
+              "text": "or_else",
+              "anchor": "or_else"
             }
           ],
           "parent": ""
@@ -910,9 +1077,12 @@
       ],
       "help": [
         "libraries",
+        "libraries/array",
+        "libraries/dynarray",
         "libraries/fs",
         "libraries/io",
         "libraries/math",
+        "libraries/option",
         "libraries/random",
         "libraries/sys",
         "libraries/text",

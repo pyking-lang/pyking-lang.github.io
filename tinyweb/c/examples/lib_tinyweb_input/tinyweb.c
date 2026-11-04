@@ -904,7 +904,8 @@ void tinyweb_play(const char *sample, double at, double volume, double rate, dou
 
 void tinyweb_play_file(const char *name)
 {
-    tinyweb_play(tinyweb_load_sample(name), 0.0, 1.0, 1.0, 0.0, tinyweb_play__default__voice());
+    const char *pyk_t4;
+    (pyk_t4 = tinyweb_load_sample(name), (tinyweb_play(pyk_t4, 0.0, 1.0, 1.0, 0.0, tinyweb_play__default__voice()), 0));
 }
 
 void tinyweb_init(void)

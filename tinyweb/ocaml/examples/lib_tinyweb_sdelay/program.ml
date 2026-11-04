@@ -54,10 +54,12 @@ let round = ref 0
 let () =
   let rec tmp1 _tmp2 =
     Tinyweb.play piano 0.0 1.0 1.0 0.0 (Tinyweb.play__default__voice ());
-    print_endline ("round" ^ " " ^ string_of_int !round ^ " " ^ "at" ^ " " ^ pyk_float_str (Tinyweb_external.time ()));
-    let tmp3 = Tinyweb.circle__default__stroke () in
-    let tmp4 = Tinyweb.circle__default__paint () in
-    Tinyweb.circle c (10 + 20 * !round) 20 8 Tinyweb.color__orange tmp3 1 1.0 tmp4 (Tinyweb.circle__default__style ());
+    let tmp3 = !round in
+    print_endline ("round" ^ " " ^ string_of_int tmp3 ^ " " ^ "at" ^ " " ^ pyk_float_str (Tinyweb_external.time ()));
+    let tmp4 = 10 + 20 * !round in
+    let tmp5 = Tinyweb.circle__default__stroke () in
+    let tmp6 = Tinyweb.circle__default__paint () in
+    Tinyweb.circle c tmp4 20 8 Tinyweb.color__orange tmp5 1 1.0 tmp6 (Tinyweb.circle__default__style ());
     round := !round + 1;
     if !round = 8 then ()
     else

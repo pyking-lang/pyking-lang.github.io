@@ -114,8 +114,9 @@ static void pyk_w_once(void *env)
 
 static void tick(void)
 {
+    int pyk_t1;
     ticks = ticks + 1;
-    printf("%s %d %s\n", "tick", ticks, pyk_float_str(tinyweb_time()));
+    (pyk_t1 = ticks, printf("%s %d %s\n", "tick", pyk_t1, pyk_float_str(tinyweb_time())));
     if (ticks == 3) {
         tinyweb_cancel(repeating);
     }
@@ -123,14 +124,14 @@ static void tick(void)
 
 static void once(void)
 {
-    double pyk_t1;
     double pyk_t2;
     double pyk_t3;
-    int pyk_t4;
-    double pyk_t5;
+    double pyk_t4;
+    int pyk_t5;
     double pyk_t6;
-    (pyk_t1 = tinyweb_time(), pyk_t2 = tinyweb_sound__beat(), pyk_t3 = tinyweb_sound__latency(), printf("%s %s %s %s %s %s %s %s\n", "once at", pyk_float_str(pyk_t1), "beat", pyk_float_str(pyk_t2), "latency", pyk_float_str(pyk_t3), "level", pyk_float_str(tinyweb_sound__level())));
-    (pyk_t4 = tinyweb_sound__bands(), pyk_t5 = tinyweb_sound__band(0), pyk_t6 = tinyweb_sound__band(1), printf("%s %d %s %s %s\n", "bands", pyk_t4, pyk_float_str(pyk_t5), pyk_float_str(pyk_t6), pyk_float_str(tinyweb_sound__band(9))));
+    double pyk_t7;
+    (pyk_t2 = tinyweb_time(), pyk_t3 = tinyweb_sound__beat(), pyk_t4 = tinyweb_sound__latency(), printf("%s %s %s %s %s %s %s %s\n", "once at", pyk_float_str(pyk_t2), "beat", pyk_float_str(pyk_t3), "latency", pyk_float_str(pyk_t4), "level", pyk_float_str(tinyweb_sound__level())));
+    (pyk_t5 = tinyweb_sound__bands(), pyk_t6 = tinyweb_sound__band(0), pyk_t7 = tinyweb_sound__band(1), printf("%s %d %s %s %s\n", "bands", pyk_t5, pyk_float_str(pyk_t6), pyk_float_str(pyk_t7), pyk_float_str(tinyweb_sound__band(9))));
     printf("%s %s\n", "typed", tinyweb_value_of("name"));
 }
 

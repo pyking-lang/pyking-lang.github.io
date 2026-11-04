@@ -14,12 +14,14 @@ let missing = Tinyweb_external.load_image "no_such_picture.png"
 
 let () =
   Tinyweb.image c tile 0 0 200 100 1.0;
-  let tmp1 = Tinyweb.rect__default__stroke () in
-  let tmp2 = Tinyweb.rect__default__paint () in
-  Tinyweb.rect c 20 20 60 30 (Tinyweb.color__hex 2113664) tmp1 1 1.0 tmp2 (Tinyweb.rect__default__style ()) 0;
+  let tmp1 = Tinyweb.color__hex 2113664 in
+  let tmp2 = Tinyweb.rect__default__stroke () in
+  let tmp3 = Tinyweb.rect__default__paint () in
+  Tinyweb.rect c 20 20 60 30 tmp1 tmp2 1 1.0 tmp3 (Tinyweb.rect__default__style ()) 0;
   Tinyweb.image c star 100 10 50 50 0.5;
   Tinyweb.image c missing 10 60 30 30 1.0;
-  let tmp3 = Tinyweb.circle__default__stroke () in
-  let tmp4 = Tinyweb.circle__default__paint () in
-  Tinyweb.circle c 170 70 15 (Tinyweb.color__hex 12595248) tmp3 1 1.0 tmp4 (Tinyweb.circle__default__style ());
+  let tmp4 = Tinyweb.color__hex 12595248 in
+  let tmp5 = Tinyweb.circle__default__stroke () in
+  let tmp6 = Tinyweb.circle__default__paint () in
+  Tinyweb.circle c 170 70 15 tmp4 tmp5 1 1.0 tmp6 (Tinyweb.circle__default__style ());
   print_endline "drawn"

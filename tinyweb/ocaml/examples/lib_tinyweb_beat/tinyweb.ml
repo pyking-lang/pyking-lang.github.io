@@ -762,7 +762,8 @@ let play sample at volume rate pan voice =
   Tinyweb_external.command "play" sample "" (sound__settings at volume rate pan voice) 2
 
 let play_file name =
-  play (Tinyweb_external.load_sample name) 0.0 1.0 1.0 0.0 (play__default__voice ())
+  let tmp64 = Tinyweb_external.load_sample name in
+  play tmp64 0.0 1.0 1.0 0.0 (play__default__voice ())
 
 let sound__start__default__voice () =
   Sound__Voice (1.0, 1.0, 0.0, 0, false, false)
@@ -771,7 +772,7 @@ let sound__start sample at volume rate pan looping voice =
   let id = Tinyweb_external.fresh_id "voice" in
   let looped =
     if looping then true
-    else (let Sound__Voice (_, _, _, _, tmp64, _) = voice in tmp64) in
+    else (let Sound__Voice (_, _, _, _, tmp65, _) = voice in tmp65) in
   Tinyweb_external.command "start" id sample (sound__settings at volume rate pan voice ^ " " ^ bit looped) 2;
   id
 
@@ -920,7 +921,7 @@ let game__cursor c name = Tinyweb_external.command "cursor" c name "" 1
 
 let smooth__width_of width style =
   if width = 1.0 then
-    float_of_int (let Style (_, _, tmp65, _, _) = style in tmp65)
+    float_of_int (let Style (_, _, tmp66, _, _) = style in tmp66)
   else width
 
 let smooth__shape c kind numbers fill stroke width alpha paint style =
@@ -930,7 +931,7 @@ let smooth__stroked c kind numbers stroke width alpha style =
   Tinyweb_external.draw_shape c kind numbers "" (line_of stroke style) (smooth__width_of width style) (alpha_of alpha style)
 
 let smooth__pairs points =
-  List.concat_map (function | p -> [((let Smooth__Point (tmp66, _) = p in tmp66), (let Smooth__Point (_, tmp67) = p in tmp67))]) points
+  List.concat_map (function | p -> [((let Smooth__Point (tmp67, _) = p in tmp67), (let Smooth__Point (_, tmp68) = p in tmp68))]) points
 
 let smooth__circle__default__fill () = color__black
 
@@ -1014,7 +1015,7 @@ let smooth__lines__default__style () =
   Style (field__default__Style__fill (), field__default__Style__stroke (), 1, 1.0, field__default__Style__paint ())
 
 let smooth__lines c segments stroke width alpha style =
-  Tinyweb_external.draw_quads c "lines" (List.concat_map (function | (a, b) -> [((let Smooth__Point (tmp68, _) = a in tmp68), (let Smooth__Point (_, tmp69) = a in tmp69), (let Smooth__Point (tmp70, _) = b in tmp70), (let Smooth__Point (_, tmp71) = b in tmp71))]) segments) "" (line_of stroke style) (smooth__width_of width style) (alpha_of alpha style)
+  Tinyweb_external.draw_quads c "lines" (List.concat_map (function | (a, b) -> [((let Smooth__Point (tmp69, _) = a in tmp69), (let Smooth__Point (_, tmp70) = a in tmp70), (let Smooth__Point (tmp71, _) = b in tmp71), (let Smooth__Point (_, tmp72) = b in tmp72))]) segments) "" (line_of stroke style) (smooth__width_of width style) (alpha_of alpha style)
 
 let smooth__path__default__stroke () = color__black
 

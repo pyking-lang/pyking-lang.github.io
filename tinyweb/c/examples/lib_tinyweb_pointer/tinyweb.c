@@ -785,7 +785,9 @@ void tinyweb_track_mouse(const char *c)
 
 pyk_d_Dtinyweb_Pointer__ tinyweb_mouse(const char *c)
 {
-    return pyk_mk_Dtinyweb_Pointer___Pointer(tinyweb_pointer(c, "x"), tinyweb_pointer(c, "y"), tinyweb_pointer(c, "down") == 1);
+    int pyk_t4;
+    int pyk_t5;
+    return (pyk_t4 = tinyweb_pointer(c, "x"), pyk_t5 = tinyweb_pointer(c, "y"), pyk_mk_Dtinyweb_Pointer___Pointer(pyk_t4, pyk_t5, tinyweb_pointer(c, "down") == 1));
 }
 
 static void ignore2(int x, int y)

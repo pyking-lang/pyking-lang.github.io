@@ -10,6 +10,11 @@ public final class PykRuntime {
         Object[] pykFields();
     }
 
+    // A var struct, whose field i a pointer reads and writes.
+    public interface Struct extends Data {
+        void pykSet(int i, Object value);
+    }
+
     // A tuple, as print writes it.
     public interface Tuple {
         Object[] pykItems();
@@ -126,10 +131,545 @@ public final class PykRuntime {
         return java.util.Collections.emptyList();
     }
 
-    public static <A, B> java.util.List<B> flatMap(java.util.List<A> items, java.util.function.Function<A, java.util.List<B>> f) {
+    // A comprehension's `for`: over a list or an array.
+    public static <A, B> java.util.List<B> flatMap(Iterable<A> items, java.util.function.Function<A, java.util.List<B>> f) {
         java.util.ArrayList<B> out = new java.util.ArrayList<B>();
         for (A item : items) out.addAll(f.apply(item));
         return java.util.Collections.unmodifiableList(out);
+    }
+
+    // A runtime error: what the program printed so far, then the
+    // message on stderr, and status 1. Answers an exception only so
+    // that a caller can `throw` it, which javac reads as the end.
+    public static RuntimeException fail(String message) {
+        System.out.flush();
+        System.err.println("error: " + message);
+        System.err.flush();
+        System.exit(1);
+        return new IllegalStateException(message);
+    }
+
+    // " element" or " elements", after a count.
+    static String elements(int n) {
+        return n == 1 ? " element" : " elements";
+    }
+
+    // What an element is read from and written to by index: an array, a
+    // DynArray or a view. Every index is checked, a read's and a write's alike,
+    // against the length as it is then; walking one reads element i when
+    // turn i is reached, and goes on while i is below the length.
+    public static abstract class PykStore<T> implements Iterable<T> {
+        public abstract int size();
+
+        // Element i, unchecked, and element i written, unchecked.
+        abstract Object at(int i);
+
+        abstract void put(int i, Object value);
+
+        // "an array", "a DynArray" or "a view", for a message.
+        abstract String kind();
+
+        public void check(int i) {
+            if (i < 0 || i >= size())
+                throw fail("the index " + i + " is outside " + kind() + " of " + size() + elements(size()));
+        }
+
+        @SuppressWarnings("unchecked")
+        public T get(int i) {
+            check(i);
+            return (T) at(i);
+        }
+
+        public void set(int i, Object value) {
+            check(i);
+            put(i, value);
+        }
+
+        // Elements low up to high, copied, high the length where it is
+        // null; the bounds checked first.
+        Object[] copy(int low, Integer high) {
+            int n = size();
+            int h = high == null ? n : high;
+            if (low < 0 || low > h || h > n)
+                throw fail("the slice " + low + ":" + h + " is outside " + kind() + " of " + n + elements(n));
+            Object[] out = new Object[h - low];
+            for (int i = low; i < h; i++) out[i - low] = at(i);
+            return out;
+        }
+
+        // The elements as they are now, as a list.
+        @SuppressWarnings("unchecked")
+        public java.util.List<T> toList() {
+            java.util.ArrayList<T> out = new java.util.ArrayList<T>(size());
+            for (int i = 0; i < size(); i++) out.add((T) at(i));
+            return java.util.Collections.unmodifiableList(out);
+        }
+
+        @Override
+        public java.util.Iterator<T> iterator() {
+            return new java.util.Iterator<T>() {
+                private int next = 0;
+
+                @Override
+                public boolean hasNext() {
+                    return next < size();
+                }
+
+                @Override
+                public T next() {
+                    return get(next++);
+                }
+            };
+        }
+    }
+
+    // An array: a fixed number of elements, written in place and shared
+    // by every name holding it.
+    public static final class PykArray<T> extends PykStore<T> {
+        final Object[] items;
+
+        PykArray(Object[] items) {
+            this.items = items;
+        }
+
+        public int size() {
+            return items.length;
+        }
+
+        Object at(int i) {
+            return items[i];
+        }
+
+        void put(int i, Object value) {
+            items[i] = value;
+        }
+
+        String kind() {
+            return "an array";
+        }
+
+        // a[low:high]: a new array.
+        public PykArray<T> slice(int low, Integer high) {
+            return new PykArray<T>(copy(low, high));
+        }
+
+        // &a[i]: element i, its index checked now.
+        public PykPtr<T> pointer(int i) {
+            check(i);
+            return new PykPtr<T>(this, i);
+        }
+
+        // view(a, i, j): elements i up to j, shared.
+        public PykView<T> view(int i, int j) {
+            if (i < 0 || i > j || j > items.length)
+                throw fail("the view " + i + ":" + j + " is outside an array of " + items.length + elements(items.length));
+            return new PykView<T>(this, i, j - i);
+        }
+    }
+
+    // A view (a Slice): a run of an array's elements, read and written
+    // where they are, in the array.
+    public static final class PykView<T> extends PykStore<T> {
+        final PykArray<T> owner;
+        final int offset;
+        final int length;
+
+        PykView(PykArray<T> owner, int offset, int length) {
+            this.owner = owner;
+            this.offset = offset;
+            this.length = length;
+        }
+
+        public int size() {
+            return length;
+        }
+
+        Object at(int i) {
+            return owner.items[offset + i];
+        }
+
+        void put(int i, Object value) {
+            owner.items[offset + i] = value;
+        }
+
+        String kind() {
+            return "a view";
+        }
+
+        // w[low:high]: a new array.
+        public PykArray<T> slice(int low, Integer high) {
+            return new PykArray<T>(copy(low, high));
+        }
+
+        // &w[i]: the array's element offset + i, the index checked now.
+        public PykPtr<T> pointer(int i) {
+            check(i);
+            return new PykPtr<T>(owner, offset + i);
+        }
+
+        // view(w, i, j): a view of the same array, the offsets added.
+        public PykView<T> view(int i, int j) {
+            if (i < 0 || i > j || j > length)
+                throw fail("the view " + i + ":" + j + " is outside a view of " + length + elements(length));
+            return new PykView<T>(owner, offset + i, j - i);
+        }
+    }
+
+    // A DynArray: an array that grows and shrinks at run time, shared by every
+    // name holding it.
+    public static final class PykDynArray<T> extends PykStore<T> {
+        final java.util.ArrayList<Object> items;
+
+        PykDynArray(java.util.ArrayList<Object> items) {
+            this.items = items;
+        }
+
+        public int size() {
+            return items.size();
+        }
+
+        Object at(int i) {
+            return items.get(i);
+        }
+
+        void put(int i, Object value) {
+            items.set(i, value);
+        }
+
+        String kind() {
+            return "a DynArray";
+        }
+
+        public Void push(Object value) {
+            items.add(value);
+            return null;
+        }
+
+        @SuppressWarnings("unchecked")
+        public T pop() {
+            if (items.isEmpty()) throw fail("pop from an empty DynArray");
+            return (T) items.remove(items.size() - 1);
+        }
+
+        public Void insert(int i, Object value) {
+            if (i < 0 || i > items.size())
+                throw fail("insert's index " + i + " is outside 0 to " + items.size() + ", the DynArray's length");
+            items.add(i, value);
+            return null;
+        }
+
+        @SuppressWarnings("unchecked")
+        public T remove(int i) {
+            check(i);
+            return (T) items.remove(i);
+        }
+
+        public Void clear() {
+            items.clear();
+            return null;
+        }
+
+        // v[low:high]: a new DynArray.
+        public PykDynArray<T> slice(int low, Integer high) {
+            return new PykDynArray<T>(new java.util.ArrayList<Object>(java.util.Arrays.asList(copy(low, high))));
+        }
+    }
+
+    // A pointer: a place -- slot 0 of a `var`'s cell, an element of an
+    // array, a field of a var struct -- read and written where it is. Two
+    // are equal when they name one place: the same store, the same slot.
+    public static final class PykPtr<T> {
+        final Object store;
+        final int slot;
+
+        PykPtr(Object store, int slot) {
+            this.store = store;
+            this.slot = slot;
+        }
+
+        @SuppressWarnings("unchecked")
+        public T get() {
+            if (store instanceof PykArray) return (T) ((PykArray<?>) store).items[slot];
+            if (store instanceof Struct) return (T) ((Struct) store).pykFields()[slot];
+            return (T) ((Object[]) store)[slot];
+        }
+
+        public Void set(Object value) {
+            if (store instanceof PykArray) ((PykArray<?>) store).items[slot] = value;
+            else if (store instanceof Struct) ((Struct) store).pykSet(slot, value);
+            else ((Object[]) store)[slot] = value;
+            return null;
+        }
+
+        @Override
+        public boolean equals(Object other) {
+            return other instanceof PykPtr && ((PykPtr<?>) other).store == store && ((PykPtr<?>) other).slot == slot;
+        }
+
+        @Override
+        public int hashCode() {
+            return 31 * System.identityHashCode(store) + slot;
+        }
+    }
+
+    // &x: the cell of a `var` a pointer is taken to.
+    public static <T> PykPtr<T> pointer(T[] cell, int slot) {
+        return new PykPtr<T>(cell, slot);
+    }
+
+    // &s.f: field `slot` of a var struct.
+    public static <T> PykPtr<T> pointer(Struct struct, int slot) {
+        return new PykPtr<T>(struct, slot);
+    }
+    // dynarray(): no elements.
+    public static <T> PykDynArray<T> dynarrayEmpty() {
+        return new PykDynArray<T>(new java.util.ArrayList<Object>());
+    }
+
+    // dynarray(xs): the list's elements.
+    public static <T> PykDynArray<T> dynarrayOfList(java.util.List<T> list) {
+        return new PykDynArray<T>(new java.util.ArrayList<Object>(list));
+    }
+
+    // copy_into(dst, src): src's elements over dst's first ones, right
+    // where the two are runs of one array that overlap (arraycopy is a
+    // memmove).
+    public static Void copyInto(PykStore<?> dst, PykStore<?> src) {
+        int n = src.size();
+        int m = dst.size();
+        if (n > m) throw fail("copy_into copies " + n + elements(n) + " into " + m);
+        System.arraycopy(storage(src), start(src), storage(dst), start(dst), n);
+        return null;
+    }
+
+    private static Object[] storage(PykStore<?> run) {
+        return run instanceof PykView ? ((PykView<?>) run).owner.items : ((PykArray<?>) run).items;
+    }
+
+    private static int start(PykStore<?> run) {
+        return run instanceof PykView ? ((PykView<?>) run).offset : 0;
+    }
+
+    // xs[low:high]: a new list, the bounds checked.
+    public static <T> java.util.List<T> slice(java.util.List<T> list, int low, Integer high) {
+        int n = list.size();
+        int h = high == null ? n : high;
+        if (low < 0 || low > h || h > n)
+            throw fail("the slice " + low + ":" + h + " is outside a list of " + n + elements(n));
+        return java.util.Collections.unmodifiableList(new java.util.ArrayList<T>(list.subList(low, h)));
+    }
+
+    // s[low:high]: by code point, the bounds checked.
+    public static String slice(String s, int low, Integer high) {
+        int n = s.codePointCount(0, s.length());
+        int h = high == null ? n : high;
+        if (low < 0 || low > h || h > n)
+            throw fail("the slice " + low + ":" + h + " is outside a String of " + n + elements(n));
+        return s.substring(s.offsetByCodePoints(0, low), s.offsetByCodePoints(0, h));
+    }
+
+    // A MutMap: its entries in the order their keys were first put, keys
+    // compared and hashed by their own equals and hashCode, which are
+    // Pyking's `==` for every type a key can have. Shared by every name
+    // holding it. `version` counts the keys put and taken, which a walk
+    // over the keys watches.
+    public static final class PykMutMap<K, V> implements Iterable<K> {
+        private final java.util.LinkedHashMap<Object, Object> entries = new java.util.LinkedHashMap<Object, Object>();
+        private int version = 0;
+
+        public int size() {
+            return entries.size();
+        }
+
+        @SuppressWarnings("unchecked")
+        public V get(Object key) {
+            if (!entries.containsKey(key)) throw fail("the MutMap has no key " + show(key));
+            return (V) entries.get(key);
+        }
+
+        @SuppressWarnings("unchecked")
+        public V get(Object key, V otherwise) {
+            return entries.containsKey(key) ? (V) entries.get(key) : otherwise;
+        }
+
+        public boolean has(Object key) {
+            return entries.containsKey(key);
+        }
+
+        // A new key at the end; a key already there keeps its place.
+        public Void put(Object key, Object value) {
+            if (!entries.containsKey(key)) version++;
+            entries.put(key, value);
+            return null;
+        }
+
+        @SuppressWarnings("unchecked")
+        public V remove(Object key) {
+            if (!entries.containsKey(key)) throw fail("the MutMap has no key " + show(key) + " to remove");
+            version++;
+            return (V) entries.remove(key);
+        }
+
+        public Void discard(Object key) {
+            if (entries.containsKey(key)) {
+                version++;
+                entries.remove(key);
+            }
+            return null;
+        }
+
+        public Void clear() {
+            entries.clear();
+            version++;
+            return null;
+        }
+
+        @SuppressWarnings("unchecked")
+        public java.util.List<K> keys() {
+            return java.util.Collections.unmodifiableList(new java.util.ArrayList<K>((java.util.Set<K>) (Object) entries.keySet()));
+        }
+
+        @SuppressWarnings("unchecked")
+        public java.util.List<V> values() {
+            return java.util.Collections.unmodifiableList(new java.util.ArrayList<V>((java.util.Collection<V>) (Object) entries.values()));
+        }
+
+        @SuppressWarnings("unchecked")
+        public java.util.List<T2<K, V>> items() {
+            java.util.ArrayList<T2<K, V>> out = new java.util.ArrayList<T2<K, V>>(entries.size());
+            for (java.util.Map.Entry<Object, Object> e : entries.entrySet()) out.add(new T2<K, V>((K) e.getKey(), (V) e.getValue()));
+            return java.util.Collections.unmodifiableList(out);
+        }
+
+        // The keys in order. A key put or taken while it walks stops the
+        // program at the next step, the last one too; a value replaced
+        // does not.
+        @Override
+        public java.util.Iterator<K> iterator() {
+            final java.util.Iterator<Object> keys = entries.keySet().iterator();
+            final int seen = version;
+            return new java.util.Iterator<K>() {
+                @Override
+                public boolean hasNext() {
+                    if (version != seen) throw fail("the MutMap changed while a for loop was reading it");
+                    return keys.hasNext();
+                }
+
+                @Override
+                @SuppressWarnings("unchecked")
+                public K next() {
+                    return (K) keys.next();
+                }
+            };
+        }
+    }
+
+    // mutmap(): no entries.
+    public static <K, V> PykMutMap<K, V> mutmapEmpty() {
+        return new PykMutMap<K, V>();
+    }
+
+    // mutmap(pairs): a key given twice keeps its first place and its last
+    // value.
+    public static <K, V> PykMutMap<K, V> mutmapOfList(java.util.List<T2<K, V>> pairs) {
+        PykMutMap<K, V> out = new PykMutMap<K, V>();
+        for (T2<K, V> pair : pairs) {
+            Object[] kv = pair.pykItems();
+            out.put(kv[0], kv[1]);
+        }
+        return out;
+    }
+
+    // Pyking's `==` on two values of one type: lists and tuples part by
+    // part, datatypes by constructor and then field by field, a Float by
+    // IEEE's == (nan is not itself; -0.0 is 0.0), anything else by its
+    // own equals.
+    public static boolean equal(Object a, Object b) {
+        if (a == null || b == null) return a == b;
+        if (a instanceof Double && b instanceof Double) return ((Double) a).doubleValue() == ((Double) b).doubleValue();
+        if (a instanceof java.util.List && b instanceof java.util.List) {
+            java.util.List<?> x = (java.util.List<?>) a;
+            java.util.List<?> y = (java.util.List<?>) b;
+            if (x.size() != y.size()) return false;
+            java.util.Iterator<?> i = x.iterator();
+            java.util.Iterator<?> j = y.iterator();
+            while (i.hasNext()) if (!equal(i.next(), j.next())) return false;
+            return true;
+        }
+        if (a instanceof Tuple && b instanceof Tuple) return equalAll(((Tuple) a).pykItems(), ((Tuple) b).pykItems());
+        if (a instanceof Data && b instanceof Data)
+            return ((Data) a).pykTag().equals(((Data) b).pykTag()) && equalAll(((Data) a).pykFields(), ((Data) b).pykFields());
+        return a.equals(b);
+    }
+
+    private static boolean equalAll(Object[] a, Object[] b) {
+        if (a.length != b.length) return false;
+        for (int i = 0; i < a.length; i++) if (!equal(a[i], b[i])) return false;
+        return true;
+    }
+
+    // A hash agreeing with equal: what a java8 tuple's or datatype's
+    // hashCode is, so that one can be a MutMap's key.
+    public static int hash(Object value) {
+        if (value == null) return 0;
+        if (value instanceof java.util.List) {
+            int h = 1;
+            for (Object item : (java.util.List<?>) value) h = 31 * h + hash(item);
+            return h;
+        }
+        if (value instanceof Tuple) return hashAll(1, ((Tuple) value).pykItems());
+        if (value instanceof Data) return hashAll(((Data) value).pykTag().hashCode(), ((Data) value).pykFields());
+        return value.hashCode();
+    }
+
+    private static int hashAll(int h, Object[] parts) {
+        for (Object part : parts) h = 31 * h + hash(part);
+        return h;
+    }
+
+    // Room for an array of n elements, n checked first.
+    private static Object[] slots(int n) {
+        if (n < 0) throw fail("an array's size is never negative, and this one is " + n);
+        try {
+            return new Object[n];
+        } catch (OutOfMemoryError tooBig) {
+            throw fail("an array of " + n + " elements is more than this machine can hold");
+        }
+    }
+
+    // array(xs): the list's elements.
+    public static <T> PykArray<T> arrayOfList(java.util.List<T> list) {
+        Object[] items = slots(list.size());
+        int i = 0;
+        for (T item : list) items[i++] = item;
+        return new PykArray<T>(items);
+    }
+
+    // array(n, v): n elements, every one the value v.
+    public static <T> PykArray<T> arrayFill(int n, T value) {
+        Object[] items = slots(n);
+        java.util.Arrays.fill(items, value);
+        return new PykArray<T>(items);
+    }
+
+    // array(n, f): element i is f(i), made in index order.
+    public static <T> PykArray<T> arrayInit(int n, java.util.function.Function<Integer, T> f) {
+        Object[] items = slots(n);
+        for (int i = 0; i < n; i++) items[i] = f.apply(i);
+        return new PykArray<T>(items);
+    }
+
+    // array(n, seed, f): each element and the next state from f of the
+    // state before; the last state is dropped.
+    public static <T, S> PykArray<T> arrayUnfold(int n, S seed, java.util.function.Function<S, T2<T, S>> f) {
+        Object[] items = slots(n);
+        S state = seed;
+        for (int i = 0; i < n; i++) {
+            T2<T, S> step = f.apply(state);
+            items[i] = step.a0();
+            state = step.a1();
+        }
+        return new PykArray<T>(items);
     }
 
     public static java.util.List<Integer> range(int stop) {
@@ -218,13 +758,28 @@ public final class PykRuntime {
         return show(value);
     }
 
-    public static String show(Object value) {
+    // print's line of several values: each written only once all of
+    // them are worked out, which Java does before it calls this.
+    public static String line(Object... values) {
         StringBuilder out = new StringBuilder();
-        write(out, value);
+        for (int i = 0; i < values.length; i++) {
+            if (i > 0) out.append(' ');
+            out.append(str(values[i]));
+        }
         return out.toString();
     }
 
-    private static void write(StringBuilder out, Object value) {
+    public static String show(Object value) {
+        StringBuilder out = new StringBuilder();
+        write(out, value, java.util.Collections.newSetFromMap(new java.util.IdentityHashMap<Object, Boolean>()));
+        return out.toString();
+    }
+
+    // path: the stores, MutMaps and datatype values writing is inside
+    // of. One met again inside itself -- a cycle, which only a store, a
+    // MutMap or a var struct can make -- is written `...`; one that is
+    // only shared is written in full wherever it is.
+    private static void write(StringBuilder out, Object value, java.util.Set<Object> path) {
         if (value == null) {
             out.append("()");
         } else if (value instanceof String) {
@@ -239,27 +794,78 @@ public final class PykRuntime {
             for (Object item : (java.util.List<?>) value) {
                 if (!first) out.append(", ");
                 first = false;
-                write(out, item);
+                write(out, item, path);
             }
             out.append(']');
-        } else if (value instanceof Data) {
-            Data data = (Data) value;
-            out.append(data.pykTag());
-            Object[] fields = data.pykFields();
-            if (fields.length > 0) {
+        } else if (value instanceof PykStore) {
+            // A view is on the path as the array it is of.
+            PykStore<?> store = (PykStore<?>) value;
+            Object self = store instanceof PykView ? ((PykView<?>) store).owner : store;
+            if (!path.add(self)) {
+                out.append("...");
+                return;
+            }
+            out.append(store instanceof PykDynArray ? "dynarray([" : store instanceof PykView ? "view([" : "array([");
+            for (int i = 0; i < store.size(); i++) {
+                if (i > 0) out.append(", ");
+                write(out, store.at(i), path);
+            }
+            out.append("])");
+            path.remove(self);
+        } else if (value instanceof PykPtr) {
+            // What it points at now, never an address; on the path as the
+            // store it points into.
+            Object store = ((PykPtr<?>) value).store;
+            if (!path.add(store)) {
+                out.append("...");
+                return;
+            }
+            out.append("Ptr(");
+            write(out, ((PykPtr<?>) value).get(), path);
+            out.append(')');
+            path.remove(store);
+        } else if (value instanceof PykMutMap) {
+            if (!path.add(value)) {
+                out.append("...");
+                return;
+            }
+            out.append("mutmap([");
+            boolean first = true;
+            for (java.util.Map.Entry<Object, Object> entry : ((PykMutMap<?, ?>) value).entries.entrySet()) {
+                if (!first) out.append(", ");
+                first = false;
                 out.append('(');
-                for (int i = 0; i < fields.length; i++) {
-                    if (i > 0) out.append(", ");
-                    write(out, fields[i]);
-                }
+                write(out, entry.getKey(), path);
+                out.append(", ");
+                write(out, entry.getValue(), path);
                 out.append(')');
             }
+            out.append("])");
+            path.remove(value);
+        } else if (value instanceof Data) {
+            Data data = (Data) value;
+            Object[] fields = data.pykFields();
+            if (fields.length == 0) {
+                out.append(data.pykTag());
+                return;
+            }
+            if (!path.add(value)) {
+                out.append("...");
+                return;
+            }
+            out.append(data.pykTag()).append('(');
+            for (int i = 0; i < fields.length; i++) {
+                if (i > 0) out.append(", ");
+                write(out, fields[i], path);
+            }
+            out.append(')');
+            path.remove(value);
         } else if (value instanceof Tuple) {
             Object[] parts = ((Tuple) value).pykItems();
             out.append('(');
             for (int i = 0; i < parts.length; i++) {
                 if (i > 0) out.append(", ");
-                write(out, parts[i]);
+                write(out, parts[i], path);
             }
             out.append(parts.length == 1 ? ",)" : ")");
         } else {

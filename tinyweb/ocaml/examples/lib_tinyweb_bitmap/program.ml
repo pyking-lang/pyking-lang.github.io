@@ -80,7 +80,9 @@ let () =
   Tinyweb.bitmap__set_pixel b 4 2 orange;
   Tinyweb.bitmap__set_pixel b 7 5 orange;
   Tinyweb.bitmap__set_pixel b 40 2 orange;
-  print_endline ("pixel (4, 2):" ^ " " ^ show (Tinyweb.bitmap__get_pixel b 4 2) ^ " " ^ "outside:" ^ " " ^ show (Tinyweb.bitmap__get_pixel b (-1) 0) ^ " " ^ pyk_float_str (let Tinyweb.Color__Color (_, _, _, tmp12) = Tinyweb.bitmap__get_pixel b (-1) 0 in tmp12));
+  let tmp13 = show (Tinyweb.bitmap__get_pixel b 4 2) in
+  let tmp14 = show (Tinyweb.bitmap__get_pixel b (-1) 0) in
+  print_endline ("pixel (4, 2):" ^ " " ^ tmp13 ^ " " ^ "outside:" ^ " " ^ tmp14 ^ " " ^ pyk_float_str (let Tinyweb.Color__Color (_, _, _, tmp12) = Tinyweb.bitmap__get_pixel b (-1) 0 in tmp12));
   Tinyweb.bitmap__show_bitmap c b 0 0 10.0;
   Tinyweb.bitmap__show_bitmap c b 5 5 1.0
 
@@ -89,7 +91,7 @@ let small =
 
 let () =
   Tinyweb.bitmap__fill_bitmap small Tinyweb.color__blue;
-  print_endline ("filled:" ^ " " ^ string_of_int (let Tinyweb.Color__Color (_, _, tmp13, _) = Tinyweb.bitmap__get_pixel small 3 3 in tmp13))
+  print_endline ("filled:" ^ " " ^ string_of_int (let Tinyweb.Color__Color (_, _, tmp15, _) = Tinyweb.bitmap__get_pixel small 3 3 in tmp15))
 
 let frame t =
   Tinyweb.bitmap__set_pixel small 1 1 (Tinyweb.color__rgb (pyk_truncate (t *. 100.0)) 0 0);

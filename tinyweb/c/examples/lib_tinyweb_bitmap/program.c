@@ -179,6 +179,8 @@ static void frame(double t)
 
 int main(void)
 {
+    const char *pyk_t1;
+    const char *pyk_t2;
     math_init();
     text_init();
     tinyweb_init();
@@ -204,7 +206,7 @@ int main(void)
     tinyweb_bitmap__set_pixel(b, 4, 2, orange);
     tinyweb_bitmap__set_pixel(b, 7, 5, orange);
     tinyweb_bitmap__set_pixel(b, 40, 2, orange);
-    printf("%s %s %s %s %s\n", "pixel (4, 2):", show(tinyweb_bitmap__get_pixel(b, 4, 2)), "outside:", show(tinyweb_bitmap__get_pixel(b, -1, 0)), pyk_float_str(tinyweb_bitmap__get_pixel(b, -1, 0).a));
+    (pyk_t1 = show(tinyweb_bitmap__get_pixel(b, 4, 2)), pyk_t2 = show(tinyweb_bitmap__get_pixel(b, -1, 0)), printf("%s %s %s %s %s\n", "pixel (4, 2):", pyk_t1, "outside:", pyk_t2, pyk_float_str(tinyweb_bitmap__get_pixel(b, -1, 0).a)));
     tinyweb_bitmap__show_bitmap(c, b, 0, 0, 10.0);
     tinyweb_bitmap__show_bitmap(c, b, 5, 5, 1.0);
     small = tinyweb_bitmap__bitmap(4, 4, tinyweb_bitmap__bitmap__default__background());

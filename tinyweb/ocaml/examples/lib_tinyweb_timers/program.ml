@@ -51,18 +51,19 @@ let repeating = ref ""
 
 let tick () =
   ticks := !ticks + 1;
-  print_endline ("tick" ^ " " ^ string_of_int !ticks ^ " " ^ pyk_float_str (Tinyweb_external.time ()));
+  let tmp1 = !ticks in
+  print_endline ("tick" ^ " " ^ string_of_int tmp1 ^ " " ^ pyk_float_str (Tinyweb_external.time ()));
   if !ticks = 3 then Tinyweb.cancel !repeating
 
 let once () =
-  let tmp1 = Tinyweb_external.time () in
-  let tmp2 = Tinyweb.sound__beat () in
-  let tmp3 = Tinyweb.sound__latency () in
-  print_endline ("once at" ^ " " ^ pyk_float_str tmp1 ^ " " ^ "beat" ^ " " ^ pyk_float_str tmp2 ^ " " ^ "latency" ^ " " ^ pyk_float_str tmp3 ^ " " ^ "level" ^ " " ^ pyk_float_str (Tinyweb.sound__level ()));
-  let tmp4 = Tinyweb.sound__bands () in
-  let tmp5 = Tinyweb.sound__band 0 in
-  let tmp6 = Tinyweb.sound__band 1 in
-  print_endline ("bands" ^ " " ^ string_of_int tmp4 ^ " " ^ pyk_float_str tmp5 ^ " " ^ pyk_float_str tmp6 ^ " " ^ pyk_float_str (Tinyweb.sound__band 9));
+  let tmp2 = Tinyweb_external.time () in
+  let tmp3 = Tinyweb.sound__beat () in
+  let tmp4 = Tinyweb.sound__latency () in
+  print_endline ("once at" ^ " " ^ pyk_float_str tmp2 ^ " " ^ "beat" ^ " " ^ pyk_float_str tmp3 ^ " " ^ "latency" ^ " " ^ pyk_float_str tmp4 ^ " " ^ "level" ^ " " ^ pyk_float_str (Tinyweb.sound__level ()));
+  let tmp5 = Tinyweb.sound__bands () in
+  let tmp6 = Tinyweb.sound__band 0 in
+  let tmp7 = Tinyweb.sound__band 1 in
+  print_endline ("bands" ^ " " ^ string_of_int tmp5 ^ " " ^ pyk_float_str tmp6 ^ " " ^ pyk_float_str tmp7 ^ " " ^ pyk_float_str (Tinyweb.sound__band 9));
   print_endline ("typed" ^ " " ^ Tinyweb.value_of "name")
 
 let () = repeating := Tinyweb.every 0.5 tick

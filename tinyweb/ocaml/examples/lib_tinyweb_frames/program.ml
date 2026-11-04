@@ -67,7 +67,8 @@ let draw t =
   Tinyweb.circle c (pyk_truncate (t *. 100.0)) 50 10 tmp1 tmp2 1 1.0 tmp3 (Tinyweb.circle__default__style ());
   if t >= !next_beat then
     (print_endline ("beat scheduled at " ^ pyk_float_str (!next_beat +. beat) ^ ", drawn at " ^ pyk_float_str t);
-    Tinyweb.play kick (!next_beat +. beat) 1.0 1.0 0.0 (Tinyweb.play__default__voice ());
+    let tmp4 = !next_beat +. beat in
+    Tinyweb.play kick tmp4 1.0 1.0 0.0 (Tinyweb.play__default__voice ());
     next_beat := !next_beat +. beat)
 
 let () =

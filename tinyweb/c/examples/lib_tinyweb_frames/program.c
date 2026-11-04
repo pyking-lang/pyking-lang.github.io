@@ -257,11 +257,12 @@ static void draw(double t)
     pyk_d_Dtinyweb_Color__Color__ pyk_t1;
     pyk_d_Dtinyweb_Color__Color__ pyk_t2;
     pyk_d_Dtinyweb_Color__Paint__ pyk_t3;
+    double pyk_t4;
     tinyweb_clear(c, tinyweb_color__hex(1118481));
     (pyk_t1 = tinyweb_color__hex(16763904), pyk_t2 = tinyweb_circle__default__stroke(), pyk_t3 = tinyweb_circle__default__paint(), (tinyweb_circle(c, pyk_truncate(t * 100.0), 50, 10, pyk_t1, pyk_t2, 1, 1.0, pyk_t3, tinyweb_circle__default__style()), 0));
     if (t >= next_beat) {
         printf("%s\n", pyk_concat(pyk_concat(pyk_concat("beat scheduled at ", pyk_float_str(next_beat + beat)), ", drawn at "), pyk_float_str(t)));
-        tinyweb_play(kick, next_beat + beat, 1.0, 1.0, 0.0, tinyweb_play__default__voice());
+        (pyk_t4 = next_beat + beat, (tinyweb_play(kick, pyk_t4, 1.0, 1.0, 0.0, tinyweb_play__default__voice()), 0));
         next_beat = next_beat + beat;
     }
 }

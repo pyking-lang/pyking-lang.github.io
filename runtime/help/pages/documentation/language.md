@@ -173,7 +173,10 @@ restriction of it, but these are genuinely new.
 - **Structs**: `struct Point(x: Int, y = 78)` is a datatype of one
   constructor, and `Point(x = 5, ..p)` builds a copy of `p` with `x`
   changed. Python's nearest is a frozen dataclass and
-  `dataclasses.replace`. See "Structs".
+  `dataclasses.replace`. See "Structs". Under `use mutation`, a `var
+  struct` is one whose fields are written in place (`p.x := 1`), shared
+  by every name that holds it, as a Python object is. See "Mutable
+  structs".
 - **Uppercase is for types and constructors**: every name a program
   binds starts with a lowercase letter or `_`, so a constant is
   `pi = 3.14` rather than Python's `PI = 3.14`, and an uppercase name is
@@ -272,8 +275,9 @@ Statements:
   several names at once (e.g. `a, b = 1, 2` or `(a, (b, c)) = pair`),
   and whose right-hand side may be an `if`/`match` *statement* in value
   form (`x = if cond:` / `x = match e:`) — Pyking extension
-- Mutable variables (`var` and `:=`), turned on with `use mutation` —
-  Pyking extension
+- Mutable variables (`var` and `:=`), and compound assignment
+  (`count += 1`, `bits <<= 2`, `flag xor= true`), turned on with
+  `use mutation` — Pyking extension
 - Features turned on per module with `use` (`use mutation`) — Pyking
   extension (see "Features turned on with `use`")
 - **Default parameters** (`def greet(who: String = "world"):`), used
@@ -317,6 +321,20 @@ Statements:
 - **Structs** (`struct Point(x: Int, y = 78)`), datatypes of one
   constructor, and updates (`Point(x = 5, ..p)`) — Pyking extension (see
   "Structs")
+- **DynArrays** (`DynArray(T)`), arrays that grow by `push`, `pop`, `insert`,
+  `remove` and `clear` — Pyking extension (see "DynArrays")
+- **MutMaps** (`MutMap(K, V)`), maps that keep their keys' order, read with
+  `d[k]` and written with `d[k] := v` — Pyking extension (see "MutMaps")
+- **Slices** (`xs[i:j]`, a copy) and **views** (`view(a, i, j)`, sharing
+  an array's elements) — Pyking extension (see "Slices and views")
+- **Option** (`Some(x)`, `None`), builtin from lib/option — Pyking
+  extension (see "Option")
+- **Pointers** (`&x`, `*p`, `*p := v`, `Ptr(T)`) under `use mutation,
+  pointers` — Pyking extension (see "Pointers")
+- **Mutable structs** (`var struct Point(x: Int, y: Int)`), whose fields
+  are written with `:=` and the compound operators and whose values are
+  shared; `same(p, q)` asks whether two are one — Pyking extension (see
+  "Mutable structs")
 - Patterns of every kind may be combined with `|` (`case 1 | 2:`), bind
   the whole value as well with `as` (`case Node(l, r) as whole:`), and
   carry a guard (`case n if n > 0:`); every `match` matches every
@@ -413,8 +431,10 @@ upper_ident = ? an ident beginning with an uppercase letter ? ;
    fields are in parentheses on its own line -- every type variable they
    name is then a parameter -- or on indented lines under its ':', a
    line holding one or more separated by commas, after the parameters
-   written in parentheses. With neither it has no fields. *)
-struct_stmt = "struct" , [ sub_path , "." ] , upper_ident ,
+   written in parentheses. With neither it has no fields. "var" makes
+   it a var struct, whose fields are written in place: it has at least
+   one field, and needs `use mutation`. *)
+struct_stmt = [ "var" ] , "struct" , [ sub_path , "." ] , upper_ident ,
               [ "(" , [ field , { "," , field } ] , ")"
               | [ "(" , type_var , { "," , type_var } , ")" ] , ":" ,
                 INDENT , field_line , { field_line } , DEDENT ] ;
@@ -532,7 +552,17 @@ rest_marker        = ".." , [ ident ] ;
 
 var_decl    = "var" , ident , "=" , bound_expr ;
 assignment  = [ "implicit" ] , target , [ ":" , type ] , "=" , bound_value ;
-mutation    = ident , ":=" , bound_expr ;
+mutation    = ident , ":=" , bound_expr
+            | target , ":=" , bound_expr            (* a tuple of names *)
+            | ident , compound_op , bound_expr
+            | atom , ( ":=" | compound_op ) , bound_expr
+                       (* an array's element, an atom ending in an
+                          index_tail, or a var struct's field, an atom
+                          ending in "." ident *)
+            | "*" , unary , ( ":=" | compound_op ) , bound_expr ;
+                       (* what a pointer points at *)
+compound_op = "+=" | "-=" | "*=" | "/=" | "%=" | "^="
+            | "&=" | "|=" | "<<=" | ">>=" | "xor" "=" ;   (* no space in "xor=" *)
 
 (* A bound value may start on the line after its "=", indented -- the
    lexer wraps it in the same INDENT/DEDENT any other block gets. *)
@@ -586,7 +616,10 @@ bit_and     = shift , { "&" , shift } ;
 shift       = additive , { ( "<<" | ">>" ) , additive } ;
 additive    = multiplicative , { ( "+" | "-" ) , multiplicative } ;
 multiplicative = unary , { ( "*" | "/" | "%" ) , unary } ;
-unary       = ( "-" | "!" | "~" ) , unary | power ;
+unary       = ( "-" | "!" | "~" | "&" | "*" ) , unary | power ;
+                       (* "&" and "*" are a pointer's, under
+                          `use pointers`: an address and what a pointer
+                          points at *)
 (* `^` associates to the right, and its right operand may be negated:
    `2 ^ -1`. It binds tighter than unary minus: `-2 ^ 2` is `-(2 ^ 2)`. *)
 power       = atom , [ "^" , unary ] ;
@@ -596,7 +629,8 @@ atom        = ( float | int | string | char | bool | ident | list_lit | list_com
               | "(" , expr , ")" ) ,
               { call_tail | field_tail | index_tail } ;
 (* `xs[i]`: the `[` on the row the indexed expression ends on. *)
-index_tail  = "[" , expr , "]" ;
+index_tail  = "[" , expr , "]"
+            | "[" , [ expr ] , ":" , [ expr ] , "]" ;   (* a slice: a copy *)
 (* A constructor applied to its fields, with a call's arguments; one with
    no fields is written bare. *)
 construct   = [ sub_path , "." ] , upper_ident , [ call_tail ] ;
@@ -1479,6 +1513,30 @@ nan` is false and `nan != nan` true.
 print(1.5 < 2.5, 1.5 == 1.5, "a" != "b")
 ```
 
+**`==` and `!=` on compound values** compare them part by part: two
+lists of the same elements in the same order, two tuples of equal
+parts, two values of a struct or a datatype built by the same
+constructor from equal fields. A Float inside compares by IEEE's rule
+still, so `[nan] == [nan]` is false.
+
+```pyking
+struct Point(x: Int, y: Int)
+
+datatype Shape:
+    Circle(r: Float)
+    Rect(w: Float, h: Float)
+
+print([1, 2] == [1, 2], (1, "a") != (1, "b"), Point(1, 2) == Point(1, 2), Circle(1.0) == Rect(1.0, 1.0))
+# true true true false
+```
+
+A value compared this way holds only what `==` compares: a function
+has no equality, and an array, a DynArray, a MutMap and a `var struct` have
+an identity instead, which `same(a, b)` asks about -- so `==` on a list
+of functions or a tuple holding an array is refused, naming what it
+holds. So is `==` on a type variable, `def f(x: a, y: a)`, which could
+stand for a function. `<`, `<=`, `>` and `>=` stay the scalars'.
+
 ### Remainder and power
 
 `%` is the remainder and `^` the power, both over `Int` and `Float`
@@ -1592,7 +1650,10 @@ print(xs[0], xs[2], xs[len(xs) - 1], rows[1][0])   # 10 30 30 3
 - An index binds as tightly as a call and a field, and the `[` is on
   the row the list ends on: a `[` starting the next line starts a list
   literal there, as a `(` there starts a new statement.
-- A list is never changed: there is no `xs[i] := v`.
+- A list is never changed: there is no `xs[i] := v`. An array's
+  element is written that way (see "Arrays").
+- An array is indexed the same way, and an index outside it is a
+  runtime error on every target.
 - An index outside the list -- negative included -- is a runtime error
   in the interpreter (`the index 5 is outside a list of 2 elements`) and
   whatever the host does with it in compiled code.
@@ -1600,7 +1661,7 @@ print(xs[0], xs[2], xs[len(xs) - 1], rows[1][0])   # 10 30 30 3
   counting code points, and is a `Char` (see "Char literals"). An index
   outside the String is a runtime error in the interpreter (`the index 9
   is outside a String of 3 characters`).
-- Only a list and a String are indexed. A tuple is taken apart by a
+- Only a list, an array and a String are indexed. A tuple is taken apart by a
   pattern or a `let`; the checker says so.
 
 ### Function calls
@@ -1803,7 +1864,8 @@ print(count)
 
 | Feature | Turns on |
 |---|---|
-| `mutation` | `var` and `:=` (see "Mutable variables") |
+| `mutation` | `var`, `:=` and compound assignment such as `+=` (see "Mutable variables"), making and writing arrays (see "Arrays"), DynArrays (see "DynArrays"), MutMaps (see "MutMaps") and views (see "Slices and views"), and declaring, making and writing `var struct`s (see "Mutable structs") |
+| `pointers` | `&`, `*` and `*p := v` (see "Pointers"); needs `mutation` too |
 | `objects` | nothing yet: the name is reserved for classes and methods |
 
 Several are written on one line, `use mutation, objects`, or on lines
@@ -1884,6 +1946,455 @@ that reading step becomes something a program can talk about.)
 A mutable variable is also the one name that may not be shadowed, and
 `:=` only ever accepts one — both checked at compile time, and neither
 of them a question about types; see "Names and scoping" below.
+
+**Compound assignment.** `name op= expr` is `name := name op expr`, for
+every arithmetic and bitwise operator: `+=`, `-=`, `*=`, `/=`, `%=`,
+`^=`, `&=`, `|=`, `<<=`, `>>=` and `xor=`. It is checked exactly as the
+`:=` it means is, so it needs `use mutation` and a `var`, and the
+operator's result must be the variable's own type: `ratio /= 2` on a
+Float is refused, since Pyking mixes no numbers, and `ratio /= 2.0` is
+what works. The right-hand side is one whole expression, so
+`n *= 1 + 2` is `n := n * (1 + 2)`:
+
+```pyking
+use mutation
+
+var count = 10
+count += 5          # 15
+count *= 1 + 2      # 45
+var greeting = "hello"
+greeting += ", world"
+var bits = 12
+bits <<= 2          # 48
+print(count, greeting, bits)
+```
+
+**Several at once.** `a, b := e` writes several mutable variables from
+one tuple, and the names may nest to match its shape:
+`(x, (y, z)) := (1, (2, 3))`. The value is worked out once, in full,
+and only then is each name written, left to right — so `a, b := b, a`
+swaps them, where two `:=` in a row would not. Each name must be a `var`
+of the part's type, and is named once. This is how a function updates
+several variables: it returns their new values, and one `:=` stores
+them (there are no reference parameters):
+
+```pyking
+use mutation
+
+def divmod(n: Int, d: Int) -> (Int, Int):
+    (n / d, n % d)
+
+var q = 0
+var r = 0
+q, r := divmod(17, 5)
+var a = 1
+var b = 2
+a, b := b, a
+print(q, r, a, b)       # 3 2 2 1
+```
+
+`+=` on a String or a list joins, as `+` does, and builds a new value:
+a list held by a `var` is still never changed in place, so a binding
+that held the old list keeps it. Like `:=`, a compound assignment is a
+statement with no value of its own: `print(count += 1)` is refused.
+There is no `++`, and no `and=`/`or=`. `-t pyking` prints one back as
+it was written.
+
+### Arrays (`Array(T)`) — Pyking extension
+
+An **array** is a fixed number of elements of one type, written in
+place and shared by every name that holds it. Its type is `Array(T)`,
+apart from the list type `[T]`: a list is a value that is never
+changed, an array is a store that is. Making one and writing to one
+need `use mutation`; reading, passing, returning and holding one do
+not.
+
+**Making one.** An array is made by `array(...)` or `array_init(...)`
+alone -- `var` before a list still makes a `var` holding a list. Each is
+a builtin overload set (see "Static overloading") of two forms, told
+apart by how many arguments they take:
+
+| call | form | makes |
+|---|---|---|
+| `array(xs)` | `list::array` | the elements of the list `xs` |
+| `array(n, v)` | `fill::array` | `n` elements, each the one value `v`, worked out once |
+| `array_init(n, f)`, `f: (Int) -> T` | `init::array_init` | element `i` is `f(i)` |
+| `array_init(n, seed, f)`, `f: (S) -> (T, S)` | `unfold::array_init` | each element and the next `seed` from `f` |
+
+```pyking
+use mutation
+
+primes = array([2, 3, 5])
+zeros = array(4, 0)
+squares = array_init(5, lam i. i * i)
+fibs = array_init(8, (0, 1), lam p. let (a, b) = p in (a, (b, a + b)))
+print(primes, zeros, squares, fibs)
+# array([2, 3, 5]) array([0, 0, 0, 0]) array([0, 1, 4, 9, 16]) array([0, 1, 1, 2, 3, 5, 8, 13])
+```
+
+- **`array` fills, `array_init` generates.** `array(3, f)` with a
+  function `f` is an array of three copies of `f`; `array_init(3, f)`
+  calls it for each element. Since the two names take different
+  arguments, no call is ever ambiguous, whatever is known of its
+  arguments' types.
+- **`array_init` calls `f` in index order**, once per element, and
+  never when `n` is 0; the unfolding form drops the last `seed`. A
+  negative `n` is a runtime error (`an array's size is never negative`)
+  on `c23-gc` and every target but plain C, and a size is checked before
+  anything is allocated.
+- **An empty array needs its element type known**: from its use, or
+  written, `empty: Array(Int) = array([])`. One whose element type
+  nothing decides is refused at its binding: `the type of 'empty' is
+  Array(?)`. An immutable `xs = []` stays a list of anything.
+
+**Reading and writing.** `a[i]` reads element `i`, counting from 0, and
+`a[i] := v` writes it; the compound forms (`a[i] += 1`) work on an
+element as on a `var`. `len(a)` is the number of elements, fixed when it
+was made: an array never grows or shrinks.
+
+```pyking
+use mutation
+
+a = array([5, 1, 2])
+a[0] := a[1] + a[2]
+a[2] *= 10
+print(a, len(a))        # array([3, 1, 20]) 3
+```
+
+- **Every index is checked, on every target but plain C.** One outside
+  the array -- a negative one too, since nothing counts from the end --
+  is a runtime error, `the index 5 is outside an array of 2 elements`,
+  where C, Java and Python would each do something different. Plain C
+  (`c89`, `c99`, `c23`) is the exception, kept as plain C for teaching:
+  `a[i]` is C's own `a.items[i]`, checked by nothing, and an index
+  outside the array is undefined there, as it is in C. `c23-gc` checks
+  every index, as the other targets do.
+- **An element write runs in a fixed order.** `a[i] := e` works out `a`,
+  then `i`, then checks `i` -- an index outside the array fails before
+  `e` runs -- then works out `e`, and writes into the array `a` was. A
+  compound form reads the element between the check and `e`. So if `e`
+  writes `a[i]` itself, `a[i] += e` adds to what was there before `e`
+  ran, and if `e` makes `a` name another array, the write still goes to
+  the first one.
+- **`=` does not write.** `a[i] = v` is refused with "did you mean
+  `a[i] := v`?", and a list's or a String's element cannot be written at
+  all.
+- **The costs.** Reading, writing and `len` take constant time; making,
+  copying and filling one take time in proportion to its length. Growing
+  a list with `xs := xs + [x]` copies it each time, so a loop doing that
+  is quadratic: an array made by `array_init(n, f)`, or a comprehension,
+  is linear.
+
+**Sharing.** `b = a` makes `b` a second name for the same array, and a
+call `f(a)` gives `f` the same array, so a write through either is seen
+through both -- Java's and Python's rule. `same(a, b)` asks whether two
+names hold one array. `==` compares no arrays: whether two hold the
+same elements is `array.equal(a, b)` from `lib/array`, which says so
+when `==` is tried.
+
+```pyking
+use mutation
+
+def zero_first(xs: Array(Int)) -> ():
+    xs[0] := 0
+
+a = array([5, 6])
+b = a
+zero_first(b)
+print(a, same(a, b), same(a, array([0, 6])))   # array([0, 6]) true false
+```
+
+**Arrays of arrays** are a matrix, indexed `m[r][c]`. `array(n, v)` with
+an array `v` stores one row `n` times -- the classic trap -- and the
+`shared-fill` warning says so (see "Warnings"); `array_init` makes a
+new row each time:
+
+```pyking
+use mutation
+
+grid = array_init(3, lam _. array(3, 0))
+grid[0][0] := 1
+print(grid)      # array([array([1, 0, 0]), array([0, 0, 0]), array([0, 0, 0])])
+```
+
+**Walking one.** `for x in a` runs `len(a)` turns and reads each
+element as its turn is reached, so a write ahead of the loop is seen. A
+comprehension over an array makes a list, and a `loop` may carry an
+array as its accumulator. There are no array patterns: a `match` takes
+an array as a whole, with a name or `_`.
+
+**Printing.** An array prints as what makes one, `array([1, 2])`, so it
+is told from the list `[1, 2]`, and nested arrays print nested.
+`string(a)` is the same text.
+
+**Types.** `Array(T)` is a type like any datatype's, and it is
+*invariant*: an `Array(Int)` is never an `Array(a)` of some other `a`.
+Only `def`s are polymorphic, so `def first(xs: Array(a)) -> a` serves
+every element type, while a binding's array has one.
+
+The rest -- copying, filling, comparing, sorting, joining -- is the
+library `lib/array` (see "Modules", and its help page): `copy`,
+`to_list`, `fill`, `swap`, `reverse`, `concat`, `resize`, `equal` and
+`sort`, which is stable and orders Floats with NaN last and Strings by
+code point, alike on every target.
+
+### DynArrays (`DynArray(T)`) — Pyking extension
+
+A **DynArray** is an array that grows: its elements are read and written by
+index as an array's are, and it is shared by every name that holds it,
+but `push`, `pop`, `insert`, `remove` and `clear` change how many it
+has. It is how a collection is built one element at a time in linear
+time. Its type is `DynArray(T)`. Making and changing one need `use
+mutation`; reading, passing, returning and holding one do not.
+
+```pyking
+use mutation
+
+squares: DynArray(Int) = dynarray()
+for i in range(5):
+    push(squares, i * i)
+print(squares, len(squares), squares[4])      # dynarray([0, 1, 4, 9, 16]) 5 16
+```
+
+**Making one.** `dynarray()` makes one with no elements, whose element type
+its use or an annotation decides, and `dynarray(xs)` one holding a list's
+elements; `dynarray` is a builtin overload set of the two (`empty::dynarray`,
+`list::dynarray`).
+
+**Growing and shrinking.** Five builtins change a DynArray:
+
+| call | does | answers |
+|---|---|---|
+| `push(v, x)` | adds `x` at the end | `()` |
+| `pop(v)` | takes the last element out | it |
+| `insert(v, i, x)` | puts `x` before index `i`, moving the elements from `i` on up; `0 <= i <= len(v)` | `()` |
+| `remove(v, i)` | takes the element at `i` out, moving the ones after it down | it |
+| `clear(v)` | removes every element | `()` |
+
+`pop` of an empty DynArray, and an index outside one, are runtime errors on
+every target but plain C. `push` and `pop` take constant time on
+average, `insert` and `remove` time in proportion to the elements they
+move.
+
+**Reading and writing** are an array's: `v[i]`, `v[i] := x`, `v[i] += 1`,
+`len(v)`, the index checked against the length the DynArray has *now*. A
+`for` over a DynArray reads each element as it is reached and goes on while
+the index is below the DynArray's length at that turn, so what the loop
+pushes is walked too and what it removes ends it sooner; a
+comprehension over a DynArray makes a list of its elements as they are.
+
+```pyking
+use mutation
+
+v = dynarray([1, 2, 3])
+v[0] := 10
+insert(v, 1, 5)
+print(pop(v), remove(v, 0), v)                 # 3 10 dynarray([5, 2])
+```
+
+**Sharing and identity** are as for arrays: `w = v` and `f(v)` hand
+over the one DynArray, `same(v, w)` asks whether two are one, and `==`
+compares none -- `dynarray.equal(v, w)` from `lib/dynarray` compares elements. A
+DynArray prints as what makes one, `dynarray([1, 2])`.
+
+**The names are yours to take.** `push`, `pop`, `insert`, `remove` and
+`clear` are builtins, but a module's own definition or import of one of
+those names wins there: a module defining `insert` for a tree, or
+importing tinyweb's `push`, means its own.
+
+The rest is the library `lib/dynarray`: `copy`, `to_list`, `to_array`,
+`from_array`, `extend`, `reverse`, `equal` and `sort` (lib/array's, the
+same on every target).
+
+### MutMaps (`MutMap(K, V)`) — Pyking extension
+
+A **MutMap** maps keys to values, and remembers the order its keys were
+put in. It is written in place and shared by every name that holds one.
+Its type is `MutMap(K, V)`. Making and changing one need `use mutation`;
+reading, passing, returning and holding one do not.
+
+```pyking
+use mutation
+
+counts: MutMap(String, Int) = mutmap()
+for word in ["the", "cat", "the", "hat"]:
+    counts[word] := get(counts, word, 0) + 1
+print(counts, counts["the"], len(counts))
+# mutmap([("the", 2), ("cat", 1), ("hat", 1)]) 2 3
+```
+
+**Making one.** `mutmap()` makes one with no entries, whose types its use
+or an annotation decides, and `mutmap(pairs)` one from a list of `(key,
+value)` pairs; a key written twice keeps its first place and its last
+value. There is no literal syntax.
+
+**Reading and writing.** `d[k]` reads the value of the key `k` -- one
+the MutMap has no entry for is a runtime error, `the MutMap has no key
+"zed"` -- and `d[k] := v` writes one: an entry for a new key goes at the
+end, and a key already there keeps its place and gets the new value.
+The compound forms read and write it back, `d[k] += 1`.
+
+| call | answers |
+|---|---|
+| `get(d, k, default)` | the value of `k`, or `default` where there is none (`default` is worked out either way) |
+| `has(d, k)` | whether `d` has an entry for `k` |
+| `remove(d, k)` | the value of `k`, its entry taken out -- a runtime error where there is none |
+| `discard(d, k)` | `()`, its entry taken out where there is one |
+| `keys(d)`, `values(d)`, `items(d)` | lists, in the MutMap's order; `items` gives `(key, value)` pairs |
+| `clear(d)` | `()`, every entry taken out |
+| `len(d)`, `same(d, e)` | the number of entries; whether two are one MutMap |
+
+A key taken out and put back goes to the end.
+
+**Walking one.** `for k in d` walks the keys in order. Putting a new
+key in or taking one out while the walk is on is a runtime error, `the
+MutMap changed while a for loop was reading it`, at the next step of the
+walk; replacing a value is not a change. A comprehension over a MutMap
+makes a list of its keys.
+
+**Keys.** A key is compared and hashed, so its type is one whose values
+never change and always equal themselves: Int, Char, String, Bool, (),
+and tuples, lists, structs and datatypes of those. A Float is not a key
+-- NaN equals nothing, itself included -- nor is a function, nor an
+array, a DynArray, a MutMap or a `var struct`, nor anything holding one; the
+checker says which part of the key type is not.
+
+```pyking
+use mutation
+
+struct Pos(row: Int, col: Int)
+
+board = mutmap([(Pos(0, 0), 'x')])
+board[Pos(1, 1)] := 'o'
+print(board[Pos(1, 1)], has(board, Pos(2, 2)), keys(board))
+# o false [Pos(0, 0), Pos(1, 1)]
+```
+
+**Sharing and printing** are as for arrays and DynArrays: `same(d, e)` asks
+whether two names hold one MutMap, `==` compares none, and a MutMap prints
+as what makes one, `mutmap([(1, "a")])`.
+
+**Names.** `get`, `has`, `keys`, `values`, `items`, `discard`, `remove`
+and `clear` are builtins, but a module's own definition or import of
+one of those names wins there.
+
+### Slices and views — Pyking extension
+
+**A slice copies.** `s[i:j]` is a new value holding elements `i` up to
+`j` of a list, a String (by character), an array or a DynArray -- of the
+same kind -- with either bound left out for the start or the end. The
+bounds satisfy `0 <= i <= j <= len(s)`; anything else is a runtime
+error, `the slice 2:4 is outside an array of 3 elements`, on every
+target but plain C. There are no negative bounds and no step. A copy is
+shallow: an element that is itself an array or a `var struct` is shared
+by both.
+
+```pyking
+xs = [1, 2, 3, 4, 5]
+print(xs[1:3], xs[:2], xs[3:], "héllo"[1:4])     # [2, 3] [1, 2] [4, 5] éll
+```
+
+**A view shares.** Under `use mutation`, `view(a, i, j)` is a
+`Slice(T)` of elements `i` up to `j` of the array `a` -- or of another
+view, which reaches the same array. It holds no elements of its own:
+`w[k]` reads `a[i + k]` and `w[k] := x` writes it, `len(w)` is `j - i`,
+`for` and comprehensions walk it, and `same` asks whether two are one
+view. A view prints as its elements are now, `view([2, 3])`, and a
+slice of a view, `w[1:]`, is a new array.
+
+```pyking
+use mutation
+
+a = array([10, 20, 30, 40])
+w = view(a, 1, 3)
+w[0] := 21
+print(w, a)          # view([21, 30]) array([10, 21, 30, 40])
+```
+
+**`copy_into(dst, src)`** writes the elements of an array or a view
+`src` over the first ones of `dst`, as C's `memmove` does: right even
+where the two share elements. `src` is no longer than `dst`.
+
+```pyking
+use mutation
+
+b = array([1, 2, 3, 4, 5, 6])
+copy_into(view(b, 2, 6), view(b, 0, 4))
+print(b)             # array([1, 2, 1, 2, 3, 4])
+```
+
+### Option — Pyking extension
+
+`Option(a)` is a value or none: `Some(value)` or `None`. It is builtin
+in the way a library is: a module that uses `Option`, `Some` or `None`,
+and declares and imports none of them, has lib/option's -- as if it
+began `from option import Option` -- and `import option` reaches its
+functions, `is_some`, `is_none` and `or_else`.
+
+```pyking
+import option
+
+def first_even(xs: [Int]) -> Option(Int):
+    match xs:
+        case []: None
+        case [x, ..rest]: if x % 2 == 0 then Some(x) else first_even(rest)
+
+print(first_even([1, 4, 5]), first_even([1]), option.or_else(first_even([3]), 0))
+# Some(4) None 0
+```
+
+A module declaring a datatype `Option`, or one with a constructor `Some`
+or `None`, means its own, as programs written before Option was builtin
+do. A pointer that may point nowhere is an `Option(Ptr(T))` (see
+"Pointers"): Pyking has no null.
+
+### Pointers — Pyking extension
+
+`use pointers` adds C's pointers -- without null, arithmetic or freeing
+-- for teaching how memory is addressed. It needs `use mutation` in the
+same module: a pointer is a way to write to a variable.
+
+```pyking
+use mutation, pointers
+
+def swap(a: Ptr(Int), b: Ptr(Int)) -> ():
+    t = *a
+    *a := *b
+    *b := t
+
+var x = 1
+var y = 2
+swap(&x, &y)
+print(x, y)            # 2 1
+```
+
+- **`&place`** is a pointer to a place something may write: a `var`, an
+  element of an array or of a view (`&a[i]`, which is the array's), a
+  field of a `var struct` (`&p.x`), or what a pointer points at (`&*p`
+  is `p`). Its type is `Ptr(T)`. An `=` binding, a list's or a DynArray's
+  element, a plain struct's field, a call's result and a literal have
+  no address, and `&` of one is refused with the reason.
+- **`*p`** reads what `p` points at, now; **`*p := v`** and the compound
+  forms (`*p += 1`) write it, the pointer worked out before the value.
+  A field through a pointer is written `(*pp).x`, as in C; there is no
+  `->` and no automatic dereferencing.
+- **`&` and `*` are prefix** where an operand starts, and bitwise and
+  and times between two operands, as `-` is negation or subtraction. A
+  line starting with `*` or `&` is a statement of its own: `*p := 5`.
+- **Equality.** `p == q` is true when both name one place. A pointer is
+  never a MutMap's key.
+- **Printing** writes what a pointer points at, `Ptr(12)`, never an
+  address, so every target prints the same.
+- **Lifetime.** A `var` whose address is taken lives as long as a
+  pointer to it, even after its function returns -- except on plain C,
+  which refuses a pointer to a local that would outlive its function
+  (C would leave it dangling); `c23-gc` keeps such a variable on its
+  collected heap.
+- **None.** A pointer that may point nowhere is `Option(Ptr(T))`:
+  `None`, or `Some(&x)`, matched before it is used.
+
+docs/pointers.md has the whole story, with each target's
+representation.
 
 ### Names and scoping
 
@@ -2990,7 +3501,11 @@ Three rules follow, and each is refused where it is written:
   `twice` with no qualifier, `twice(...)` means that one and is a type
   error if it does not fit.
 - **A builtin's name is never part of a set.** `string(1)` is the builtin
-  whatever `q::string` definitions are in scope.
+  whatever `q::string` definitions are in scope. The two exceptions are
+  `array`, which *is* a set -- `list::array` and `fill::array` -- and
+  `array_init`, another -- `init::array_init` and `unfold::array_init`
+  (see "Arrays"). Each set's members take different numbers of
+  arguments, so a call to one is never ambiguous.
 
 Resolution needs the argument types to be decided. Inside a function
 whose parameter could be anything, they are not, and the call is
@@ -3561,8 +4076,9 @@ struct Box(value: a, label = "box")
 print(Pair(1, "one"), Box(true).label)
 ```
 
-A struct's value, like every value in Pyking, never changes: there is
-no assignment to a field. A changed copy is built instead.
+A struct's value never changes: there is no assignment to its field. A
+changed copy is built instead, with `..` below. A struct whose fields
+are written in place is a `var struct` (see "Mutable structs").
 
 **`..base`** as the last argument of a constructor gives every field
 not written before it from `base`, a value of the same datatype, by
@@ -3587,6 +4103,123 @@ constructor `base` was built by -- and is refused where it fills no
 field, and in a call to a `def`, which has no fields to fill. Where the
 datatype has parameters, the fields written may change them:
 `Pair(first = true, ..Pair(1, "one"))` is a `Pair(Bool, String)`.
+
+### Mutable structs (`var struct`) — Pyking extension
+
+A **`var struct`** is a struct whose fields are written in place. Its
+values are *shared*: every name, parameter, element and field holding
+one holds the same struct, so a write through any of them is seen
+through all -- Java's objects and Python's class instances work this
+way. A plain `struct` stays a value that never changes. Declaring,
+making and writing a `var struct` need `use mutation`; reading, passing,
+returning and holding one do not.
+
+```pyking
+use mutation
+
+var struct Point(x: Int, y: Int = 0)
+
+p = Point(5)
+p.x := 10
+p.y += 1
+q = p
+q.x *= 3
+print(p, same(p, q))        # Point(30, 1) true
+```
+
+**Declaring one.** `var` goes in front of `struct`, and makes every
+field writable; the rest is as "Structs" says -- fields in parentheses
+or on indented lines, defaults, type parameters, `public`. A `var
+struct` has at least one field, since one with none has nothing to
+write. Only a struct is written in place: `var datatype` is refused, and
+a datatype's or a plain struct's field is never written.
+
+**Writing a field.** `p.x := e` writes the field `x` of the struct `p`
+holds, and the compound forms (`p.x += 1`, every one "Mutable variables"
+lists) read it and write it back. The left side is any expression
+giving a `var struct`, followed by a field: `points[i].x := 0`,
+`player().score += 1`, `box.inner.y := 8` -- the last needs `inner` to
+be a `var struct` too.
+
+- **`var` is for rebinding, not for writing.** `p = Point(1, 2)` binds
+  `p` once, and `p.x := 3` still writes the struct: whether a field may
+  be written is its type's question, as an array's element is. A
+  function's parameter, never a `var`, writes the struct it was given.
+  `var p = ...` is what lets `p := Point(0, 0)` make `p` name another
+  struct.
+- **A write runs in a fixed order.** `p.x := e` works out `p`, then
+  `e`, and writes into the struct `p` was, even if `e` made `p` name
+  another one. A compound form reads the field between the two.
+- **`=` does not write.** `p.x = 1` is refused with "did you mean `p.x
+  := v`?". Writing a plain struct's field is refused with how to build a
+  changed copy, `Point(x = ..., ..old)`, or to declare it `var struct`.
+
+**Making one.** A `var struct`'s constructor is called as any struct's,
+with defaults and named arguments, and makes a new, separate struct
+each time. `Point(x = 1, ..p)` makes a new struct too: `p` is not
+changed, and a mutable field the two would hold -- an array, another
+`var struct` -- is shared by both. Making one needs `use mutation` in
+the module that makes it, wherever it was declared; a module without it
+may still hold, read and pass on one another module made.
+
+**Reading one.** `p.x` reads the field as it is now, and a pattern
+`case Point(x, y):` reads every field it names as the struct is when it
+is matched; a guard that writes a field is seen by the cases after it.
+
+**Identity.** `same(p, q)` asks whether two names hold one struct, as it
+does for arrays. `==` compares no structs: whether two hold the same
+fields is a function the program writes.
+
+```pyking
+use mutation
+
+var struct Counter(n: Int)
+
+def bump(c: Counter) -> ():
+    c.n += 1
+
+a = Counter(0)
+b = a
+bump(b)
+print(a.n, same(a, b), same(a, Counter(1)))     # 1 true false
+```
+
+**Linked structures.** A `var struct` may hold a value of its own type,
+through a datatype that can also hold nothing -- there is no null --
+which is how linked lists, trees and graphs are built, cycles and all:
+
+```pyking
+use mutation
+
+datatype Link:
+    End
+    Next(node: Node)
+
+var struct Node(value: Int, next: Link)
+
+a = Node(1, End)
+b = Node(2, Next(a))
+a.next := Next(b)
+print(a)        # Node(1, Next(Node(2, Next(...))))
+```
+
+**Printing** is as for a struct, `Point(30, 1)`. A struct -- or an
+array -- met again *inside itself*, a cycle, prints `...` where it
+repeats, so printing always ends; one that is only shared, the same
+struct twice in an array, prints in full each time. `string(p)`, the
+REPL and the debugger show the same text. `print(p, f(p))` works out
+every argument before it writes any, so a change `f` makes to `p` is
+printed.
+
+**Types.** A `var struct` with a type parameter, `var struct Cell(value:
+a)`, is one type once made: a binding whose struct has a parameter
+nothing decides is refused, as an empty array is -- `c = Cell([])`
+needs a use or an annotation saying what the list holds.
+
+**Targets.** Every target compiles them: a class with fields that can be
+written on Python and JavaScript, a final class on Java, a record with
+`mutable` fields on OCaml, and on C a pointer to a struct, which plain C
+mallocs and never frees and `c23-gc` takes from the collector.
 
 ### `if`/`match` statements as bound values
 
@@ -5138,6 +5771,7 @@ Each warning has a name, which is what its flag is called:
 | `unused-pattern-var` | no | a name a `case` pattern binds that its arm never uses |
 | `unused-parameter` | no | a parameter of a `def` or a lambda that its body never uses |
 | `unused-loop-var` | no | a `for` variable, a loop's accumulator, or a name a comprehension binds, that is never used |
+| `shared-fill` | yes | `array(n, v)` where `v` is itself an array, so every element is one and the same array (see "Arrays"); not for a size of 0 or 1 |
 
 A function is used when something that runs calls it, or passes it on
 as a value. A function that only calls itself is reported, and so is a

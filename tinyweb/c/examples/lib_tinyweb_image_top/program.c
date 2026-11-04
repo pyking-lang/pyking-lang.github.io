@@ -137,9 +137,11 @@ static const char *missing;
 int main(void)
 {
     pyk_d_Dtinyweb_Color__Color__ pyk_t1;
-    pyk_d_Dtinyweb_Color__Paint__ pyk_t2;
-    pyk_d_Dtinyweb_Color__Color__ pyk_t3;
-    pyk_d_Dtinyweb_Color__Paint__ pyk_t4;
+    pyk_d_Dtinyweb_Color__Color__ pyk_t2;
+    pyk_d_Dtinyweb_Color__Paint__ pyk_t3;
+    pyk_d_Dtinyweb_Color__Color__ pyk_t4;
+    pyk_d_Dtinyweb_Color__Color__ pyk_t5;
+    pyk_d_Dtinyweb_Color__Paint__ pyk_t6;
     math_init();
     text_init();
     tinyweb_init();
@@ -149,10 +151,10 @@ int main(void)
     star = tinyweb_load_image("star.png");
     missing = tinyweb_load_image("no_such_picture.png");
     tinyweb_image(c, tile, 0, 0, 200, 100, 1.0);
-    (pyk_t1 = tinyweb_rect__default__stroke(), pyk_t2 = tinyweb_rect__default__paint(), (tinyweb_rect(c, 20, 20, 60, 30, tinyweb_color__hex(2113664), pyk_t1, 1, 1.0, pyk_t2, tinyweb_rect__default__style(), 0), 0));
+    (pyk_t1 = tinyweb_color__hex(2113664), pyk_t2 = tinyweb_rect__default__stroke(), pyk_t3 = tinyweb_rect__default__paint(), (tinyweb_rect(c, 20, 20, 60, 30, pyk_t1, pyk_t2, 1, 1.0, pyk_t3, tinyweb_rect__default__style(), 0), 0));
     tinyweb_image(c, star, 100, 10, 50, 50, 0.5);
     tinyweb_image(c, missing, 10, 60, 30, 30, 1.0);
-    (pyk_t3 = tinyweb_circle__default__stroke(), pyk_t4 = tinyweb_circle__default__paint(), (tinyweb_circle(c, 170, 70, 15, tinyweb_color__hex(12595248), pyk_t3, 1, 1.0, pyk_t4, tinyweb_circle__default__style()), 0));
+    (pyk_t4 = tinyweb_color__hex(12595248), pyk_t5 = tinyweb_circle__default__stroke(), pyk_t6 = tinyweb_circle__default__paint(), (tinyweb_circle(c, 170, 70, 15, pyk_t4, pyk_t5, 1, 1.0, pyk_t6, tinyweb_circle__default__style()), 0));
     printf("%s\n", "drawn");
 
     return 0;

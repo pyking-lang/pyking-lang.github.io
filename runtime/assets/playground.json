@@ -1,5 +1,5 @@
 {
-  "version": "0.1.8-dev",
+  "version": "0.1.8-dev-2",
   "targets": [
     {
       "name": "pyking",
@@ -42,6 +42,10 @@
       "label": "C23"
     },
     {
+      "name": "c23-gc",
+      "label": "C23 with a garbage collector (bdwgc)"
+    },
+    {
       "name": "java8",
       "label": "Java 8"
     },
@@ -73,6 +77,7 @@
     "c89": "c_cpp",
     "c99": "c_cpp",
     "c23": "c_cpp",
+    "c23-gc": "c_cpp",
     "java8": "java",
     "java17": "java",
     "java21": "java",

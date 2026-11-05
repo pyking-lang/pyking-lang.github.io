@@ -1,0 +1,119 @@
+{
+  "version": "0.1.9-dev-2",
+  "targets": [
+    {
+      "name": "pyking",
+      "label": "Pyking (the front end's own output)"
+    },
+    {
+      "name": "python12",
+      "label": "Python 3.12"
+    },
+    {
+      "name": "python14",
+      "label": "Python 3.14"
+    },
+    {
+      "name": "node22",
+      "label": "JavaScript - node 22 (ES2020)"
+    },
+    {
+      "name": "node24",
+      "label": "JavaScript - node 24 (ES2024)"
+    },
+    {
+      "name": "web2020",
+      "label": "JavaScript - web (ES2020)"
+    },
+    {
+      "name": "web2024",
+      "label": "JavaScript - web (ES2024)"
+    },
+    {
+      "name": "c89",
+      "label": "C89"
+    },
+    {
+      "name": "c99",
+      "label": "C99"
+    },
+    {
+      "name": "c23",
+      "label": "C23"
+    },
+    {
+      "name": "c23-gc",
+      "label": "C23 with a garbage collector (bdwgc)"
+    },
+    {
+      "name": "java8",
+      "label": "Java 8"
+    },
+    {
+      "name": "java17",
+      "label": "Java 17"
+    },
+    {
+      "name": "java21",
+      "label": "Java 21"
+    },
+    {
+      "name": "ocaml4.14",
+      "label": "OCaml 4.14"
+    },
+    {
+      "name": "ocaml5.5",
+      "label": "OCaml 5.5"
+    }
+  ],
+  "modes": {
+    "pyking": "text",
+    "python12": "python",
+    "python14": "python",
+    "node22": "javascript",
+    "node24": "javascript",
+    "web2020": "html",
+    "web2024": "html",
+    "c89": "c_cpp",
+    "c99": "c_cpp",
+    "c23": "c_cpp",
+    "c23-gc": "c_cpp",
+    "java8": "java",
+    "java17": "java",
+    "java21": "java",
+    "ocaml4.14": "ocaml",
+    "ocaml5.5": "ocaml"
+  },
+  "run": {
+    "node22": "module",
+    "node24": "module",
+    "web2020": "module",
+    "web2024": "module"
+  },
+  "examples": [
+    {
+      "file": "hello.pyk",
+      "description": "Prints Hello, world!"
+    },
+    {
+      "file": "use_args.pyk",
+      "description": "Use program args and print using loop"
+    },
+    {
+      "file": "tinyweb1.pyk",
+      "description": "Draws simple graphics and plays sound when pressing buttons."
+    },
+    {
+      "file": "drum_pad.pyk",
+      "description": "A drum pad: three drums, played by clicking or with keys."
+    },
+    {
+      "file": "sequencer.pyk",
+      "description": "A step sequencer: a grid of drum steps played on the beat."
+    },
+    {
+      "file": "piano.pyk",
+      "description": "A small piano: one octave, from one sample at many rates."
+    }
+  ]
+}

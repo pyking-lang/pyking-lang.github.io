@@ -10,6 +10,12 @@ public final class PykRuntime {
         Object[] pykFields();
     }
 
+    // An object of a class: printed as its `show` says, where it has one,
+    // and otherwise as a datatype's value with its header's fields.
+    public interface Obj extends Data {
+        default String pykShow() { return null; }
+    }
+
     // A var struct, whose field i a pointer reads and writes.
     public interface Struct extends Data {
         void pykSet(int i, Object value);
@@ -473,17 +479,22 @@ public final class PykRuntime {
     // Pyking's `==` for every type a key can have. Shared by every name
     // holding it. `version` counts the keys put and taken, which a walk
     // over the keys watches.
-    public static final class PykMutMap<K, V> implements Iterable<K> {
-        private final java.util.LinkedHashMap<Object, Object> entries = new java.util.LinkedHashMap<Object, Object>();
+    public static class PykMutMap<K, V> implements Iterable<K> {
+        final java.util.LinkedHashMap<Object, Object> entries = new java.util.LinkedHashMap<Object, Object>();
         private int version = 0;
 
         public int size() {
             return entries.size();
         }
 
+        // What a message calls it.
+        String word() {
+            return "MutMap";
+        }
+
         @SuppressWarnings("unchecked")
         public V get(Object key) {
-            if (!entries.containsKey(key)) throw fail("the MutMap has no key " + show(key));
+            if (!entries.containsKey(key)) throw fail("the " + word() + " has no key " + show(key));
             return (V) entries.get(key);
         }
 
@@ -564,6 +575,35 @@ public final class PykRuntime {
         }
     }
 
+    // A Map: a MutMap nothing writes once it is made, `==` to another
+    // with the same keys, each with an equal value, in whatever order.
+    public static final class PykMap<K, V> extends PykMutMap<K, V> {
+        @Override
+        String word() {
+            return "Map";
+        }
+    }
+
+    // map(): no entries.
+    public static <K, V> PykMap<K, V> mapEmpty() {
+        return new PykMap<K, V>();
+    }
+
+    // map(pairs): as mutmap(pairs).
+    public static <K, V> PykMap<K, V> mapOfList(java.util.List<T2<K, V>> pairs) {
+        PykMap<K, V> out = new PykMap<K, V>();
+        for (T2<K, V> pair : pairs) {
+            Object[] kv = pair.pykItems();
+            out.put(kv[0], kv[1]);
+        }
+        return out;
+    }
+
+    // panic(message): a runtime error, answering whatever type is wanted.
+    public static <T> T panic(String message) {
+        throw fail(message);
+    }
+
     // mutmap(): no entries.
     public static <K, V> PykMutMap<K, V> mutmapEmpty() {
         return new PykMutMap<K, V>();
@@ -581,9 +621,9 @@ public final class PykRuntime {
     }
 
     // Pyking's `==` on two values of one type: lists and tuples part by
-    // part, datatypes by constructor and then field by field, a Float by
-    // IEEE's == (nan is not itself; -0.0 is 0.0), anything else by its
-    // own equals.
+    // part, datatypes by constructor and then field by field, Maps by
+    // their entries in whatever order, a Float by IEEE's == (nan is not
+    // itself; -0.0 is 0.0), anything else by its own equals.
     public static boolean equal(Object a, Object b) {
         if (a == null || b == null) return a == b;
         if (a instanceof Double && b instanceof Double) return ((Double) a).doubleValue() == ((Double) b).doubleValue();
@@ -594,6 +634,14 @@ public final class PykRuntime {
             java.util.Iterator<?> i = x.iterator();
             java.util.Iterator<?> j = y.iterator();
             while (i.hasNext()) if (!equal(i.next(), j.next())) return false;
+            return true;
+        }
+        if (a instanceof PykMap && b instanceof PykMap) {
+            java.util.LinkedHashMap<Object, Object> x = ((PykMap<?, ?>) a).entries;
+            java.util.LinkedHashMap<Object, Object> y = ((PykMap<?, ?>) b).entries;
+            if (x.size() != y.size()) return false;
+            for (java.util.Map.Entry<Object, Object> e : x.entrySet())
+                if (!y.containsKey(e.getKey()) || !equal(e.getValue(), y.get(e.getKey()))) return false;
             return true;
         }
         if (a instanceof Tuple && b instanceof Tuple) return equalAll(((Tuple) a).pykItems(), ((Tuple) b).pykItems());
@@ -829,7 +877,7 @@ public final class PykRuntime {
                 out.append("...");
                 return;
             }
-            out.append("mutmap([");
+            out.append(value instanceof PykMap ? "map([" : "mutmap([");
             boolean first = true;
             for (java.util.Map.Entry<Object, Object> entry : ((PykMutMap<?, ?>) value).entries.entrySet()) {
                 if (!first) out.append(", ");
@@ -842,6 +890,8 @@ public final class PykRuntime {
             }
             out.append("])");
             path.remove(value);
+        } else if (value instanceof Obj && ((Obj) value).pykShow() != null) {
+            out.append(((Obj) value).pykShow());
         } else if (value instanceof Data) {
             Data data = (Data) value;
             Object[] fields = data.pykFields();

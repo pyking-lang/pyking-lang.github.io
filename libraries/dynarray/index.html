@@ -1,4 +1,4 @@
-<!DOCTYPE html><html lang="en" dir="ltr" data-theme="dark" data-has-sidebar class="astro-g5ptsecz"><head><meta charset="utf-8"/><meta name="viewport" content="width=device-width, initial-scale=1"/><title>dynarray | Pyking</title><link rel="canonical" href="https://pyking.org/libraries/dynarray/"/><link rel="sitemap" href="/sitemap-index.xml"/><script src="/v/2428fde398f0/site/shell.js" data-base data-build="2428fde398f0" data-sections="[{&quot;key&quot;:&quot;install&quot;,&quot;label&quot;:&quot;Install&quot;,&quot;prefix&quot;:&quot;/install/&quot;},{&quot;key&quot;:&quot;getstarted&quot;,&quot;label&quot;:&quot;Getting started&quot;,&quot;prefix&quot;:&quot;/getstarted/&quot;},{&quot;key&quot;:&quot;documentation&quot;,&quot;label&quot;:&quot;Documentation&quot;,&quot;prefix&quot;:&quot;/documentation/&quot;},{&quot;key&quot;:&quot;libraries&quot;,&quot;label&quot;:&quot;Libraries&quot;,&quot;prefix&quot;:&quot;/libraries/&quot;},{&quot;key&quot;:&quot;playground&quot;,&quot;label&quot;:&quot;Playground&quot;,&quot;prefix&quot;:&quot;/playground/&quot;}]"></script><script type="module" src="/v/2428fde398f0/site/cells.js"></script><script>try { if (localStorage.getItem('starlight-theme') === null) localStorage.setItem('starlight-theme', 'dark'); } catch (e) {}</script><link rel="shortcut icon" href="/v/2428fde398f0/site/favicon.svg" type="image/svg+xml"/><meta name="generator" content="Astro v7.3.5"/><meta name="generator" content="Starlight v0.42.5"/><meta property="og:title" content="dynarray"/><meta property="og:type" content="article"/><meta property="og:url" content="https://pyking.org/libraries/dynarray/"/><meta property="og:locale" content="en"/><meta property="og:description" content="DynArrays: copying, joining, comparing, reversing and sorting them."/><meta property="og:site_name" content="Pyking"/><meta name="twitter:card" content="summary_large_image"/><meta name="description" content="DynArrays: copying, joining, comparing, reversing and sorting them."/><script>
+<!DOCTYPE html><html lang="en" dir="ltr" data-theme="dark" data-has-sidebar class="astro-g5ptsecz"><head><meta charset="utf-8"/><meta name="viewport" content="width=device-width, initial-scale=1"/><title>dynarray | Pyking</title><link rel="canonical" href="https://pyking.org/libraries/dynarray/"/><link rel="sitemap" href="/sitemap-index.xml"/><script src="/v/42683900f13c/site/shell.js" data-base data-build="42683900f13c" data-sections="[{&quot;key&quot;:&quot;install&quot;,&quot;label&quot;:&quot;Install&quot;,&quot;prefix&quot;:&quot;/install/&quot;},{&quot;key&quot;:&quot;getstarted&quot;,&quot;label&quot;:&quot;Getting started&quot;,&quot;prefix&quot;:&quot;/getstarted/&quot;},{&quot;key&quot;:&quot;documentation&quot;,&quot;label&quot;:&quot;Documentation&quot;,&quot;prefix&quot;:&quot;/documentation/&quot;},{&quot;key&quot;:&quot;libraries&quot;,&quot;label&quot;:&quot;Libraries&quot;,&quot;prefix&quot;:&quot;/libraries/&quot;},{&quot;key&quot;:&quot;playground&quot;,&quot;label&quot;:&quot;Playground&quot;,&quot;prefix&quot;:&quot;/playground/&quot;}]"></script><script type="module" src="/v/42683900f13c/site/cells.js"></script><script>try { if (localStorage.getItem('starlight-theme') === null) localStorage.setItem('starlight-theme', 'dark'); } catch (e) {}</script><link rel="shortcut icon" href="/v/42683900f13c/site/favicon.svg" type="image/svg+xml"/><meta name="generator" content="Astro v7.3.5"/><meta name="generator" content="Starlight v0.42.5"/><meta property="og:title" content="dynarray"/><meta property="og:type" content="article"/><meta property="og:url" content="https://pyking.org/libraries/dynarray/"/><meta property="og:locale" content="en"/><meta property="og:description" content="DynArrays: copying, joining, comparing, reversing and sorting them."/><meta property="og:site_name" content="Pyking"/><meta name="twitter:card" content="summary_large_image"/><meta name="description" content="DynArrays: copying, joining, comparing, reversing and sorting them."/><script>
 	window.StarlightThemeProvider = (() => {
 		const storedTheme =
 			typeof localStorage !== 'undefined' && localStorage.getItem('starlight-theme');
@@ -38,7 +38,7 @@
 	})();
 </script><script type="module" src="/_astro/Search.astro_astro_type_script_index_0_lang.Bumivpjo.js"></script><div class="sl-hidden md:sl-flex"><starlight-theme-select><label style="--sl-select-width: 6.25em" class="astro-2z5xp7gb"><span class="sr-only astro-2z5xp7gb">Select theme</span><svg aria-hidden="true" class="icon label-icon astro-2z5xp7gb astro-hkc32dio" width="16" height="16" viewBox="0 0 24 24" fill="currentColor" style="--sl-icon-size: 1em;"><path d="M21 14h-1V7a3 3 0 0 0-3-3H7a3 3 0 0 0-3 3v7H3a1 1 0 0 0-1 1v2a3 3 0 0 0 3 3h14a3 3 0 0 0 3-3v-2a1 1 0 0 0-1-1ZM6 7a1 1 0 0 1 1-1h10a1 1 0 0 1 1 1v7H6V7Zm14 10a1 1 0 0 1-1 1H5a1 1 0 0 1-1-1v-1h16v1Z"/></svg><select autocomplete="off" class="astro-2z5xp7gb"><option value="dark" class="astro-2z5xp7gb">Dark</option><option value="light" class="astro-2z5xp7gb">Light</option><option value="auto" selected class="astro-2z5xp7gb">Auto</option></select><svg aria-hidden="true" class="icon caret astro-2z5xp7gb astro-hkc32dio" width="16" height="16" viewBox="0 0 24 24" fill="currentColor" style="--sl-icon-size: 1em;"><path d="M17 9.17a1 1 0 0 0-1.41 0L12 12.71 8.46 9.17a1 1 0 1 0-1.41 1.42l4.24 4.24a1.002 1.002 0 0 0 1.42 0L17 10.59a1.002 1.002 0 0 0 0-1.42Z"/></svg></label></starlight-theme-select><script>
 	StarlightThemeProvider.updatePickers();
-</script><script type="module">var e=`starlight-theme`,t=e=>e===`auto`||e===`dark`||e===`light`?e:`auto`,n=()=>t(typeof localStorage<`u`&&localStorage.getItem(e));function r(t){typeof localStorage<`u`&&localStorage.setItem(e,t===`light`||t===`dark`?t:``)}var i=()=>matchMedia(`(prefers-color-scheme: light)`).matches?`light`:`dark`;function a(e){StarlightThemeProvider.updatePickers(e),document.documentElement.dataset.theme=e===`auto`?i():e,r(e)}matchMedia(`(prefers-color-scheme: light)`).addEventListener(`change`,()=>{n()===`auto`&&a(`auto`)});var o=class extends HTMLElement{constructor(){super(),a(n()),this.querySelector(`select`)?.addEventListener(`change`,e=>{e.currentTarget instanceof HTMLSelectElement&&a(t(e.currentTarget.value))})}};customElements.define(`starlight-theme-select`,o);</script></div><a class="pyking-github" href="https://github.com/pyking-lang" title="Pyking on GitHub"><span class="sr-only">GitHub</span><svg aria-hidden="true" viewBox="0 0 24 24" width="22" height="22" fill="currentColor"><path d="M12 .3a12 12 0 0 0-3.8 23.4c.6.1.8-.3.8-.6v-2c-3.3.7-4-1.6-4-1.6-.6-1.4-1.4-1.8-1.4-1.8-1-.7.1-.7.1-.7 1.2.1 1.8 1.2 1.8 1.2 1 1.8 2.8 1.3 3.5 1 0-.8.4-1.3.7-1.6-2.7-.3-5.5-1.3-5.5-6 0-1.2.5-2.3 1.3-3.1-.2-.4-.6-1.6 0-3.2 0 0 1-.3 3.4 1.2a11.5 11.5 0 0 1 6 0c2.3-1.5 3.3-1.2 3.3-1.2.6 1.6.2 2.8.1 3.2.8.8 1.3 1.9 1.3 3.1 0 4.6-2.8 5.6-5.5 5.9.5.4.9 1.1.9 2.2v3.3c0 .3.1.7.8.6A12 12 0 0 0 12 .3"></path></svg></a></div></div></header><nav class="sidebar print:hidden astro-yntsjkba" aria-label="Main"><button popovertarget="starlight__sidebar" class="sl-menu-button sl-flex md:sl-hidden print:hidden astro-r2osgdlg"><svg aria-hidden="true" class="open-menu astro-r2osgdlg astro-hkc32dio" width="16" height="16" viewBox="0 0 24 24" fill="currentColor" style="--sl-icon-size: 1em;"><path d="M3 8h18a1 1 0 1 0 0-2H3a1 1 0 0 0 0 2Zm18 8H3a1 1 0 0 0 0 2h18a1 1 0 0 0 0-2Zm0-5H3a1 1 0 0 0 0 2h18a1 1 0 0 0 0-2Z"/></svg><svg aria-hidden="true" class="close-menu astro-r2osgdlg astro-hkc32dio" width="16" height="16" viewBox="0 0 24 24" fill="currentColor" style="--sl-icon-size: 1em;"><path d="m13.41 12 6.3-6.29a1.004 1.004 0 1 0-1.42-1.42L12 10.59l-6.29-6.3a1.004 1.004 0 0 0-1.42 1.42l6.3 6.29-6.3 6.29a1 1 0 0 0 0 1.42.998.998 0 0 0 1.42 0l6.29-6.3 6.29 6.3a.999.999 0 0 0 1.42 0 1 1 0 0 0 0-1.42L13.41 12Z"/></svg><span class="sr-only astro-r2osgdlg">Menu</span></button><script type="module">var e=class extends HTMLElement{constructor(){super();let e=matchMedia(`(min-width: 50em)`),t=()=>{this.popover=e.matches?null:`auto`};t(),e.addEventListener(`change`,()=>t()),this.addEventListener(`toggle`,({newState:e})=>this.trapFocus(e===`open`))}trapFocus(e){document.querySelectorAll(`.main-frame, .sl-skip-link`).forEach(t=>{t.toggleAttribute(`inert`,e)})}};customElements.define(`sl-sidebar-pane`,e);</script><script type="module">var e=class extends HTMLElement{constructor(){super();let e=this.querySelector(`select`);e&&(e.addEventListener(`change`,e=>{e.currentTarget instanceof HTMLSelectElement&&(window.location.pathname=e.currentTarget.value)}),window.addEventListener(`pageshow`,t=>{if(!t.persisted)return;let n=e.querySelector(`option[selected]`)?.index;n!==e.selectedIndex&&(e.selectedIndex=n??0)}))}};customElements.define(`starlight-lang-select`,e);</script><sl-sidebar-pane popover id="starlight__sidebar" class="sidebar-pane astro-yntsjkba"><div class="sidebar-content sl-flex astro-yntsjkba"><nav class="pyking-sidebar" aria-label="Libraries"><p class="pyking-sidebar-title">Libraries</p><ul><li><a href="/libraries/">Overview</a></li><li><a href="/libraries/array/">array</a></li><li><a href="/libraries/dynarray/" aria-current="page">dynarray</a><ul class="pyking-sidebar-headings"><li><a href="#boolequal">bool::equal</a></li><li><a href="#charequal">char::equal</a></li><li><a href="#charsort">char::sort</a></li><li><a href="#copy">copy</a></li><li><a href="#extend">extend</a></li><li><a href="#floatequal">float::equal</a></li><li><a href="#floatsort">float::sort</a></li><li><a href="#from_array">from_array</a></li><li><a href="#intequal">int::equal</a></li><li><a href="#intsort">int::sort</a></li><li><a href="#reverse">reverse</a></li><li><a href="#stringequal">string::equal</a></li><li><a href="#stringsort">string::sort</a></li><li><a href="#to_array">to_array</a></li><li><a href="#to_list">to_list</a></li></ul></li><li><a href="/libraries/fs/">fs</a></li><li><a href="/libraries/io/">io</a></li><li><a href="/libraries/math/">math</a></li><li><a href="/libraries/option/">option</a></li><li><a href="/libraries/random/">random</a></li><li><a href="/libraries/sys/">sys</a></li><li><a href="/libraries/text/">text</a></li><li><a href="/libraries/time/">time</a></li><li><a href="/libraries/tinyweb/">tinyweb</a></li></ul></nav><div class="md:sl-hidden"><div class="mobile-preferences sl-flex astro-p4azlveh"><div class="social-icons astro-p4azlveh"></div><starlight-theme-select><label style="--sl-select-width: 6.25em" class="astro-2z5xp7gb"><span class="sr-only astro-2z5xp7gb">Select theme</span><svg aria-hidden="true" class="icon label-icon astro-2z5xp7gb astro-hkc32dio" width="16" height="16" viewBox="0 0 24 24" fill="currentColor" style="--sl-icon-size: 1em;"><path d="M21 14h-1V7a3 3 0 0 0-3-3H7a3 3 0 0 0-3 3v7H3a1 1 0 0 0-1 1v2a3 3 0 0 0 3 3h14a3 3 0 0 0 3-3v-2a1 1 0 0 0-1-1ZM6 7a1 1 0 0 1 1-1h10a1 1 0 0 1 1 1v7H6V7Zm14 10a1 1 0 0 1-1 1H5a1 1 0 0 1-1-1v-1h16v1Z"/></svg><select autocomplete="off" class="astro-2z5xp7gb"><option value="dark" class="astro-2z5xp7gb">Dark</option><option value="light" class="astro-2z5xp7gb">Light</option><option value="auto" selected class="astro-2z5xp7gb">Auto</option></select><svg aria-hidden="true" class="icon caret astro-2z5xp7gb astro-hkc32dio" width="16" height="16" viewBox="0 0 24 24" fill="currentColor" style="--sl-icon-size: 1em;"><path d="M17 9.17a1 1 0 0 0-1.41 0L12 12.71 8.46 9.17a1 1 0 1 0-1.41 1.42l4.24 4.24a1.002 1.002 0 0 0 1.42 0L17 10.59a1.002 1.002 0 0 0 0-1.42Z"/></svg></label></starlight-theme-select><script>
+</script><script type="module">var e=`starlight-theme`,t=e=>e===`auto`||e===`dark`||e===`light`?e:`auto`,n=()=>t(typeof localStorage<`u`&&localStorage.getItem(e));function r(t){typeof localStorage<`u`&&localStorage.setItem(e,t===`light`||t===`dark`?t:``)}var i=()=>matchMedia(`(prefers-color-scheme: light)`).matches?`light`:`dark`;function a(e){StarlightThemeProvider.updatePickers(e),document.documentElement.dataset.theme=e===`auto`?i():e,r(e)}matchMedia(`(prefers-color-scheme: light)`).addEventListener(`change`,()=>{n()===`auto`&&a(`auto`)});var o=class extends HTMLElement{constructor(){super(),a(n()),this.querySelector(`select`)?.addEventListener(`change`,e=>{e.currentTarget instanceof HTMLSelectElement&&a(t(e.currentTarget.value))})}};customElements.define(`starlight-theme-select`,o);</script></div><a class="pyking-github" href="https://github.com/pyking-lang" title="Pyking on GitHub"><span class="sr-only">GitHub</span><svg aria-hidden="true" viewBox="0 0 24 24" width="22" height="22" fill="currentColor"><path d="M12 .3a12 12 0 0 0-3.8 23.4c.6.1.8-.3.8-.6v-2c-3.3.7-4-1.6-4-1.6-.6-1.4-1.4-1.8-1.4-1.8-1-.7.1-.7.1-.7 1.2.1 1.8 1.2 1.8 1.2 1 1.8 2.8 1.3 3.5 1 0-.8.4-1.3.7-1.6-2.7-.3-5.5-1.3-5.5-6 0-1.2.5-2.3 1.3-3.1-.2-.4-.6-1.6 0-3.2 0 0 1-.3 3.4 1.2a11.5 11.5 0 0 1 6 0c2.3-1.5 3.3-1.2 3.3-1.2.6 1.6.2 2.8.1 3.2.8.8 1.3 1.9 1.3 3.1 0 4.6-2.8 5.6-5.5 5.9.5.4.9 1.1.9 2.2v3.3c0 .3.1.7.8.6A12 12 0 0 0 12 .3"></path></svg></a></div></div></header><nav class="sidebar print:hidden astro-yntsjkba" aria-label="Main"><button popovertarget="starlight__sidebar" class="sl-menu-button sl-flex md:sl-hidden print:hidden astro-r2osgdlg"><svg aria-hidden="true" class="open-menu astro-r2osgdlg astro-hkc32dio" width="16" height="16" viewBox="0 0 24 24" fill="currentColor" style="--sl-icon-size: 1em;"><path d="M3 8h18a1 1 0 1 0 0-2H3a1 1 0 0 0 0 2Zm18 8H3a1 1 0 0 0 0 2h18a1 1 0 0 0 0-2Zm0-5H3a1 1 0 0 0 0 2h18a1 1 0 0 0 0-2Z"/></svg><svg aria-hidden="true" class="close-menu astro-r2osgdlg astro-hkc32dio" width="16" height="16" viewBox="0 0 24 24" fill="currentColor" style="--sl-icon-size: 1em;"><path d="m13.41 12 6.3-6.29a1.004 1.004 0 1 0-1.42-1.42L12 10.59l-6.29-6.3a1.004 1.004 0 0 0-1.42 1.42l6.3 6.29-6.3 6.29a1 1 0 0 0 0 1.42.998.998 0 0 0 1.42 0l6.29-6.3 6.29 6.3a.999.999 0 0 0 1.42 0 1 1 0 0 0 0-1.42L13.41 12Z"/></svg><span class="sr-only astro-r2osgdlg">Menu</span></button><script type="module">var e=class extends HTMLElement{constructor(){super();let e=matchMedia(`(min-width: 50em)`),t=()=>{this.popover=e.matches?null:`auto`};t(),e.addEventListener(`change`,()=>t()),this.addEventListener(`toggle`,({newState:e})=>this.trapFocus(e===`open`))}trapFocus(e){document.querySelectorAll(`.main-frame, .sl-skip-link`).forEach(t=>{t.toggleAttribute(`inert`,e)})}};customElements.define(`sl-sidebar-pane`,e);</script><script type="module">var e=class extends HTMLElement{constructor(){super();let e=this.querySelector(`select`);e&&(e.addEventListener(`change`,e=>{e.currentTarget instanceof HTMLSelectElement&&(window.location.pathname=e.currentTarget.value)}),window.addEventListener(`pageshow`,t=>{if(!t.persisted)return;let n=e.querySelector(`option[selected]`)?.index;n!==e.selectedIndex&&(e.selectedIndex=n??0)}))}};customElements.define(`starlight-lang-select`,e);</script><sl-sidebar-pane popover id="starlight__sidebar" class="sidebar-pane astro-yntsjkba"><div class="sidebar-content sl-flex astro-yntsjkba"><nav class="pyking-sidebar" aria-label="Libraries"><p class="pyking-sidebar-title">Libraries</p><ul><li><a href="/libraries/">Overview</a></li><li><a href="/libraries/array/">array</a></li><li><a href="/libraries/dynarray/" aria-current="page">dynarray</a><ul class="pyking-sidebar-headings"><li><a href="#append">append</a></li><li><a href="#boolcontains">bool::contains</a></li><li><a href="#boolequal">bool::equal</a></li><li><a href="#boolindex_of">bool::index_of</a></li><li><a href="#charcontains">char::contains</a></li><li><a href="#charequal">char::equal</a></li><li><a href="#charindex_of">char::index_of</a></li><li><a href="#charmaximum">char::maximum</a></li><li><a href="#charminimum">char::minimum</a></li><li><a href="#charsort">char::sort</a></li><li><a href="#charsort_on">char::sort_on</a></li><li><a href="#charsorted">char::sorted</a></li><li><a href="#contains_by">contains_by</a></li><li><a href="#copy">copy</a></li><li><a href="#count">count</a></li><li><a href="#enumerate">enumerate</a></li><li><a href="#equal_by">equal_by</a></li><li><a href="#extend">extend</a></li><li><a href="#find">find</a></li><li><a href="#find_index">find_index</a></li><li><a href="#first">first</a></li><li><a href="#flat_map">flat_map</a></li><li><a href="#floatcontains">float::contains</a></li><li><a href="#floatequal">float::equal</a></li><li><a href="#floatindex_of">float::index_of</a></li><li><a href="#floatmaximum">float::maximum</a></li><li><a href="#floatminimum">float::minimum</a></li><li><a href="#floatproduct">float::product</a></li><li><a href="#floatsort">float::sort</a></li><li><a href="#floatsort_on">float::sort_on</a></li><li><a href="#floatsorted">float::sorted</a></li><li><a href="#floatsum">float::sum</a></li><li><a href="#from_array">from_array</a></li><li><a href="#index_of_by">index_of_by</a></li><li><a href="#intcontains">int::contains</a></li><li><a href="#intequal">int::equal</a></li><li><a href="#intindex_of">int::index_of</a></li><li><a href="#intmaximum">int::maximum</a></li><li><a href="#intminimum">int::minimum</a></li><li><a href="#intproduct">int::product</a></li><li><a href="#intsort">int::sort</a></li><li><a href="#intsort_on">int::sort_on</a></li><li><a href="#intsorted">int::sorted</a></li><li><a href="#intsum">int::sum</a></li><li><a href="#is_empty">is_empty</a></li><li><a href="#last">last</a></li><li><a href="#map_in_place">map_in_place</a></li><li><a href="#maximum_by">maximum_by</a></li><li><a href="#minimum_by">minimum_by</a></li><li><a href="#nth">nth</a></li><li><a href="#reduce">reduce</a></li><li><a href="#retain">retain</a></li><li><a href="#reverse">reverse</a></li><li><a href="#reversed">reversed</a></li><li><a href="#sort_by">sort_by</a></li><li><a href="#stringcontains">string::contains</a></li><li><a href="#stringequal">string::equal</a></li><li><a href="#stringindex_of">string::index_of</a></li><li><a href="#stringmaximum">string::maximum</a></li><li><a href="#stringminimum">string::minimum</a></li><li><a href="#stringsort">string::sort</a></li><li><a href="#stringsort_on">string::sort_on</a></li><li><a href="#stringsorted">string::sorted</a></li><li><a href="#to_array">to_array</a></li><li><a href="#to_list">to_list</a></li><li><a href="#truncate">truncate</a></li><li><a href="#zip">zip</a></li></ul></li><li><a href="/libraries/fs/">fs</a></li><li><a href="/libraries/io/">io</a></li><li><a href="/libraries/list/">list</a></li><li><a href="/libraries/map/">map</a></li><li><a href="/libraries/math/">math</a></li><li><a href="/libraries/mutmap/">mutmap</a></li><li><a href="/libraries/option/">option</a></li><li><a href="/libraries/prelude/">prelude</a></li><li><a href="/libraries/random/">random</a></li><li><a href="/libraries/result/">result</a></li><li><a href="/libraries/sys/">sys</a></li><li><a href="/libraries/text/">text</a></li><li><a href="/libraries/time/">time</a></li><li><a href="/libraries/tinyweb/">tinyweb</a></li></ul></nav><div class="md:sl-hidden"><div class="mobile-preferences sl-flex astro-p4azlveh"><div class="social-icons astro-p4azlveh"></div><starlight-theme-select><label style="--sl-select-width: 6.25em" class="astro-2z5xp7gb"><span class="sr-only astro-2z5xp7gb">Select theme</span><svg aria-hidden="true" class="icon label-icon astro-2z5xp7gb astro-hkc32dio" width="16" height="16" viewBox="0 0 24 24" fill="currentColor" style="--sl-icon-size: 1em;"><path d="M21 14h-1V7a3 3 0 0 0-3-3H7a3 3 0 0 0-3 3v7H3a1 1 0 0 0-1 1v2a3 3 0 0 0 3 3h14a3 3 0 0 0 3-3v-2a1 1 0 0 0-1-1ZM6 7a1 1 0 0 1 1-1h10a1 1 0 0 1 1 1v7H6V7Zm14 10a1 1 0 0 1-1 1H5a1 1 0 0 1-1-1v-1h16v1Z"/></svg><select autocomplete="off" class="astro-2z5xp7gb"><option value="dark" class="astro-2z5xp7gb">Dark</option><option value="light" class="astro-2z5xp7gb">Light</option><option value="auto" selected class="astro-2z5xp7gb">Auto</option></select><svg aria-hidden="true" class="icon caret astro-2z5xp7gb astro-hkc32dio" width="16" height="16" viewBox="0 0 24 24" fill="currentColor" style="--sl-icon-size: 1em;"><path d="M17 9.17a1 1 0 0 0-1.41 0L12 12.71 8.46 9.17a1 1 0 1 0-1.41 1.42l4.24 4.24a1.002 1.002 0 0 0 1.42 0L17 10.59a1.002 1.002 0 0 0 0-1.42Z"/></svg></label></starlight-theme-select><script>
 	StarlightThemeProvider.updatePickers();
 </script></div></div></div></sl-sidebar-pane></nav><div class="main-frame astro-yntsjkba"><script type="module">var e=document.getElementById(`starlight__sidebar`),t=e?.querySelector(`sl-sidebar-state-persist`),n=`sl-sidebar-state`,r=()=>{let r=[],i=t?.dataset.hash||``;try{let e=sessionStorage.getItem(n),t=JSON.parse(e||`{}`);Array.isArray(t.open)&&t.hash===i&&(r=t.open)}catch{}return{hash:i,open:r,scroll:e?.scrollTop||0}},i=e=>{try{sessionStorage.setItem(n,JSON.stringify(e))}catch{}},a=()=>i(r()),o=(e,t)=>{let n=r();n.open[t]=e,i(n)};t?.addEventListener(`click`,e=>{if(!(e.target instanceof Element))return;let t=e.target.closest(`summary`)?.closest(`details`);if(!t)return;let n=t.querySelector(`sl-sidebar-restore`),r=parseInt(n?.dataset.index||``);isNaN(r)||o(!t.open,r)}),addEventListener(`visibilitychange`,()=>{document.visibilityState===`hidden`&&a()});</script><div class="lg:sl-flex astro-lrzkfocr"><div class="main-pane astro-lrzkfocr"><main data-pagefind-body class="astro-g5ptsecz" lang="en" dir="ltr"><div class="content-panel astro-a7po4psb"><div class="sl-container astro-a7po4psb"><h1 id="_top" class="astro-bebwqqxs">dynarray</h1></div></div><div class="content-panel astro-a7po4psb"><div class="sl-container astro-a7po4psb"><div class="sl-markdown-content"><p>DynArrays: copying, joining, comparing, reversing and sorting them.</p>
 <p>A DynArray is made by the builtin <code>dynarray()</code> or <code>dynarray(xs)</code>, read with <code>v[i]</code>
@@ -51,6 +51,52 @@ given, which everyone holding it sees. <code>push</code> and <code>pop</code> ta
 time on average, <code>insert</code> and <code>remove</code> time in proportion to the
 elements they move, and sorting <code>n log n</code>.</p>
 <div class="expressive-code"><link rel="stylesheet" href="/_astro/ec.w36nc.css"><script type="module" src="/_astro/ec.0vx5m.js"></script><figure class="frame not-content"><figcaption class="header"></figcaption><pre data-language="pyking"><code><div class="ec-line"><div class="code"><span style="--0:#C792EA;--1:#8844AE">import</span><span style="--0:#D6DEEB;--1:#403F53"> dynarray</span></div></div></code></pre><div class="copy"><div aria-live="polite"></div><button title="Copy to clipboard" data-copied="Copied!" data-code="import dynarray"><div></div></button></div></figure></div>
+<div class="pyk-api">
+<h2 id="append">append</h2>
+<pre class="pyk-sig"><code><span class="k">def</span> <span class="n">append</span>(<span class="p">v</span>: DynArray(t), <span class="p">w</span>: DynArray(t)) -> ()</code></pre>
+<p>Pushes every element of <code>w</code> onto <code>v</code>, in order; <code>w</code> is as it was, and
+<code>append(v, v)</code> doubles <code>v</code>.</p>
+<p class="pyk-api-label">Parameters</p>
+<ul>
+<li><code>v</code>: the DynArray that grows.</li>
+<li><code>w</code>: what is pushed.</li>
+</ul>
+<p class="pyk-api-label">Example</p>
+<div class="pkn-notebook pkn-embedded not-content"><div class="pkn-fragment" data-markdown="&#x60;&#x60;&#x60;pyking
+use mutation
+import dynarray
+v = dynarray([1, 2])
+dynarray.append(v, v)
+print(v)
+&#x60;&#x60;&#x60;
+
+&#x60;&#x60;&#x60;stdout visible = true
+dynarray([1, 2, 1, 2])
+&#x60;&#x60;&#x60;"></div></div>
+</div>
+<div class="pyk-api">
+<h2 id="boolcontains">bool::contains</h2>
+<pre class="pyk-sig"><code><span class="k">def</span> <span class="n">bool::contains</span>(<span class="p">x</span>: <span class="t">Bool</span>, <span class="p">v</span>: DynArray(<span class="t">Bool</span>)) -> <span class="t">Bool</span></code></pre>
+<p>Whether <code>x</code> is an element of a DynArray of Bools.</p>
+<p class="pyk-api-label">Parameters</p>
+<ul>
+<li><code>x</code>: what to look for.</li>
+<li><code>v</code>: a DynArray.</li>
+</ul>
+<p class="pyk-api-label">Returns</p>
+<p><code>true</code> where it is.</p>
+<p class="pyk-api-label">Example</p>
+<div class="pkn-notebook pkn-embedded not-content"><div class="pkn-fragment" data-markdown="&#x60;&#x60;&#x60;pyking
+use mutation
+import dynarray
+v = dynarray([true])
+print(dynarray.contains(true, v))
+&#x60;&#x60;&#x60;
+
+&#x60;&#x60;&#x60;stdout visible = true
+true
+&#x60;&#x60;&#x60;"></div></div>
+</div>
 <div class="pyk-api">
 <h2 id="boolequal">bool::equal</h2>
 <pre class="pyk-sig"><code><span class="k">def</span> <span class="n">bool::equal</span>(<span class="p">v</span>: DynArray(<span class="t">Bool</span>), <span class="p">w</span>: DynArray(<span class="t">Bool</span>)) -> <span class="t">Bool</span></code></pre>
@@ -67,6 +113,52 @@ elements they move, and sorting <code>n log n</code>.</p>
 use mutation
 import dynarray
 print(dynarray.equal(dynarray([true]), dynarray([true])))
+&#x60;&#x60;&#x60;
+
+&#x60;&#x60;&#x60;stdout visible = true
+true
+&#x60;&#x60;&#x60;"></div></div>
+</div>
+<div class="pyk-api">
+<h2 id="boolindex_of">bool::index_of</h2>
+<pre class="pyk-sig"><code><span class="k">def</span> <span class="n">bool::index_of</span>(<span class="p">x</span>: <span class="t">Bool</span>, <span class="p">v</span>: DynArray(<span class="t">Bool</span>)) -> Option(<span class="t">Int</span>)</code></pre>
+<p>The index of the first <code>x</code> in a DynArray of Bools.</p>
+<p class="pyk-api-label">Parameters</p>
+<ul>
+<li><code>x</code>: what to look for.</li>
+<li><code>v</code>: a DynArray.</li>
+</ul>
+<p class="pyk-api-label">Returns</p>
+<p><code>Some</code> of the index, or <code>None</code>.</p>
+<p class="pyk-api-label">Example</p>
+<div class="pkn-notebook pkn-embedded not-content"><div class="pkn-fragment" data-markdown="&#x60;&#x60;&#x60;pyking
+use mutation
+import dynarray
+v = dynarray([true])
+print(dynarray.index_of(true, v))
+&#x60;&#x60;&#x60;
+
+&#x60;&#x60;&#x60;stdout visible = true
+Some(0)
+&#x60;&#x60;&#x60;"></div></div>
+</div>
+<div class="pyk-api">
+<h2 id="charcontains">char::contains</h2>
+<pre class="pyk-sig"><code><span class="k">def</span> <span class="n">char::contains</span>(<span class="p">x</span>: Char, <span class="p">v</span>: DynArray(Char)) -> <span class="t">Bool</span></code></pre>
+<p>Whether <code>x</code> is an element of a DynArray of Chars.</p>
+<p class="pyk-api-label">Parameters</p>
+<ul>
+<li><code>x</code>: what to look for.</li>
+<li><code>v</code>: a DynArray.</li>
+</ul>
+<p class="pyk-api-label">Returns</p>
+<p><code>true</code> where it is.</p>
+<p class="pyk-api-label">Example</p>
+<div class="pkn-notebook pkn-embedded not-content"><div class="pkn-fragment" data-markdown="&#x60;&#x60;&#x60;pyking
+use mutation
+import dynarray
+v = dynarray([&#x27;a&#x27;])
+print(dynarray.contains(&#x27;a&#x27;, v))
 &#x60;&#x60;&#x60;
 
 &#x60;&#x60;&#x60;stdout visible = true
@@ -96,6 +188,73 @@ false
 &#x60;&#x60;&#x60;"></div></div>
 </div>
 <div class="pyk-api">
+<h2 id="charindex_of">char::index_of</h2>
+<pre class="pyk-sig"><code><span class="k">def</span> <span class="n">char::index_of</span>(<span class="p">x</span>: Char, <span class="p">v</span>: DynArray(Char)) -> Option(<span class="t">Int</span>)</code></pre>
+<p>The index of the first <code>x</code> in a DynArray of Chars.</p>
+<p class="pyk-api-label">Parameters</p>
+<ul>
+<li><code>x</code>: what to look for.</li>
+<li><code>v</code>: a DynArray.</li>
+</ul>
+<p class="pyk-api-label">Returns</p>
+<p><code>Some</code> of the index, or <code>None</code>.</p>
+<p class="pyk-api-label">Example</p>
+<div class="pkn-notebook pkn-embedded not-content"><div class="pkn-fragment" data-markdown="&#x60;&#x60;&#x60;pyking
+use mutation
+import dynarray
+v = dynarray([&#x27;a&#x27;])
+print(dynarray.index_of(&#x27;a&#x27;, v))
+&#x60;&#x60;&#x60;
+
+&#x60;&#x60;&#x60;stdout visible = true
+Some(0)
+&#x60;&#x60;&#x60;"></div></div>
+</div>
+<div class="pyk-api">
+<h2 id="charmaximum">char::maximum</h2>
+<pre class="pyk-sig"><code><span class="k">def</span> <span class="n">char::maximum</span>(<span class="p">v</span>: DynArray(Char)) -> Option(Char)</code></pre>
+<p>The greatest Char.</p>
+<p class="pyk-api-label">Parameters</p>
+<ul>
+<li><code>v</code>: a DynArray.</li>
+</ul>
+<p class="pyk-api-label">Returns</p>
+<p><code>Some</code> of it, or <code>None</code>.</p>
+<p class="pyk-api-label">Example</p>
+<div class="pkn-notebook pkn-embedded not-content"><div class="pkn-fragment" data-markdown="&#x60;&#x60;&#x60;pyking
+use mutation
+import dynarray
+v = dynarray([&#x27;b&#x27;, &#x27;a&#x27;])
+print(dynarray.maximum(v))
+&#x60;&#x60;&#x60;
+
+&#x60;&#x60;&#x60;stdout visible = true
+Some(&#x27;b&#x27;)
+&#x60;&#x60;&#x60;"></div></div>
+</div>
+<div class="pyk-api">
+<h2 id="charminimum">char::minimum</h2>
+<pre class="pyk-sig"><code><span class="k">def</span> <span class="n">char::minimum</span>(<span class="p">v</span>: DynArray(Char)) -> Option(Char)</code></pre>
+<p>The smallest Char.</p>
+<p class="pyk-api-label">Parameters</p>
+<ul>
+<li><code>v</code>: a DynArray.</li>
+</ul>
+<p class="pyk-api-label">Returns</p>
+<p><code>Some</code> of it, or <code>None</code>.</p>
+<p class="pyk-api-label">Example</p>
+<div class="pkn-notebook pkn-embedded not-content"><div class="pkn-fragment" data-markdown="&#x60;&#x60;&#x60;pyking
+use mutation
+import dynarray
+v = dynarray([&#x27;b&#x27;, &#x27;a&#x27;])
+print(dynarray.minimum(v))
+&#x60;&#x60;&#x60;
+
+&#x60;&#x60;&#x60;stdout visible = true
+Some(&#x27;a&#x27;)
+&#x60;&#x60;&#x60;"></div></div>
+</div>
+<div class="pyk-api">
 <h2 id="charsort">char::sort</h2>
 <pre class="pyk-sig"><code><span class="k">def</span> <span class="n">char::sort</span>(<span class="p">v</span>: DynArray(Char)) -> ()</code></pre>
 <p>Sorts a DynArray of Chars by code point, in place.</p>
@@ -114,6 +273,76 @@ print(v)
 
 &#x60;&#x60;&#x60;stdout visible = true
 dynarray([&#x27;a&#x27;, &#x27;b&#x27;, &#x27;c&#x27;])
+&#x60;&#x60;&#x60;"></div></div>
+</div>
+<div class="pyk-api">
+<h2 id="charsort_on">char::sort_on</h2>
+<pre class="pyk-sig"><code><span class="k">def</span> <span class="n">char::sort_on</span>(<span class="p">key</span>: (t) -> Char, <span class="p">v</span>: DynArray(t)) -> ()</code></pre>
+<p>Sorts in place by each element’s Char key, <code>key</code> called once per element;
+equal keys keep their order.</p>
+<p class="pyk-api-label">Parameters</p>
+<ul>
+<li><code>key</code>: the Char an element is sorted by.</li>
+<li><code>v</code>: a DynArray to sort.</li>
+</ul>
+<p class="pyk-api-label">Example</p>
+<div class="pkn-notebook pkn-embedded not-content"><div class="pkn-fragment" data-markdown="&#x60;&#x60;&#x60;pyking
+use mutation
+import dynarray
+v = dynarray([&#x22;b1&#x22;, &#x22;a2&#x22;])
+dynarray.sort_on(lam s. s[0], v)
+print(v)
+&#x60;&#x60;&#x60;
+
+&#x60;&#x60;&#x60;stdout visible = true
+dynarray([&#x22;a2&#x22;, &#x22;b1&#x22;])
+&#x60;&#x60;&#x60;"></div></div>
+</div>
+<div class="pyk-api">
+<h2 id="charsorted">char::sorted</h2>
+<pre class="pyk-sig"><code><span class="k">def</span> <span class="n">char::sorted</span>(<span class="p">v</span>: DynArray(Char)) -> DynArray(Char)</code></pre>
+<p>A new DynArray of the Chars from smallest to largest; <code>v</code> is as it was
+(<code>sort</code> sorts in place).</p>
+<p class="pyk-api-label">Parameters</p>
+<ul>
+<li><code>v</code>: a DynArray.</li>
+</ul>
+<p class="pyk-api-label">Returns</p>
+<p>A new DynArray.</p>
+<p class="pyk-api-label">Example</p>
+<div class="pkn-notebook pkn-embedded not-content"><div class="pkn-fragment" data-markdown="&#x60;&#x60;&#x60;pyking
+use mutation
+import dynarray
+v = dynarray([&#x27;b&#x27;, &#x27;a&#x27;])
+print(dynarray.sorted(v), v)
+&#x60;&#x60;&#x60;
+
+&#x60;&#x60;&#x60;stdout visible = true
+dynarray([&#x27;a&#x27;, &#x27;b&#x27;]) dynarray([&#x27;b&#x27;, &#x27;a&#x27;])
+&#x60;&#x60;&#x60;"></div></div>
+</div>
+<div class="pyk-api">
+<h2 id="contains_by">contains_by</h2>
+<pre class="pyk-sig"><code><span class="k">def</span> <span class="n">contains_by</span>(<span class="p">alike</span>: (t, t) -> <span class="t">Bool</span>, <span class="p">x</span>: t, <span class="p">v</span>: DynArray(t)) -> <span class="t">Bool</span></code></pre>
+<p>Whether some element is alike to <code>x</code>, by <code>alike</code>.</p>
+<p class="pyk-api-label">Parameters</p>
+<ul>
+<li><code>alike</code>: whether two elements count as the same.</li>
+<li><code>x</code>: what to look for.</li>
+<li><code>v</code>: a DynArray.</li>
+</ul>
+<p class="pyk-api-label">Returns</p>
+<p><code>true</code> where one is.</p>
+<p class="pyk-api-label">Example</p>
+<div class="pkn-notebook pkn-embedded not-content"><div class="pkn-fragment" data-markdown="&#x60;&#x60;&#x60;pyking
+use mutation
+import dynarray
+v = dynarray([10, 21])
+print(dynarray.contains_by(lam (p, q). p % 10 == q % 10, 1, v))
+&#x60;&#x60;&#x60;
+
+&#x60;&#x60;&#x60;stdout visible = true
+true
 &#x60;&#x60;&#x60;"></div></div>
 </div>
 <div class="pyk-api">
@@ -141,6 +370,78 @@ dynarray([1, 2]) dynarray([1, 2, 3])
 &#x60;&#x60;&#x60;"></div></div>
 </div>
 <div class="pyk-api">
+<h2 id="count">count</h2>
+<pre class="pyk-sig"><code><span class="k">def</span> <span class="n">count</span>(<span class="p">p</span>: (t) -> <span class="t">Bool</span>, <span class="p">v</span>: DynArray(t)) -> <span class="t">Int</span></code></pre>
+<p>How many elements <code>p</code> is true of.</p>
+<p class="pyk-api-label">Parameters</p>
+<ul>
+<li><code>p</code>: the test.</li>
+<li><code>v</code>: a DynArray.</li>
+</ul>
+<p class="pyk-api-label">Returns</p>
+<p>The count.</p>
+<p class="pyk-api-label">Example</p>
+<div class="pkn-notebook pkn-embedded not-content"><div class="pkn-fragment" data-markdown="&#x60;&#x60;&#x60;pyking
+use mutation
+import dynarray
+v = dynarray([1, 2, 3, 4])
+print(dynarray.count(lam x. x % 2 == 0, v))
+&#x60;&#x60;&#x60;
+
+&#x60;&#x60;&#x60;stdout visible = true
+2
+&#x60;&#x60;&#x60;"></div></div>
+</div>
+<div class="pyk-api">
+<h2 id="enumerate">enumerate</h2>
+<pre class="pyk-sig"><code><span class="k">def</span> <span class="n">enumerate</span>(<span class="p">v</span>: DynArray(t)) -> DynArray((<span class="t">Int</span>, t))</code></pre>
+<p>Each element with its index.</p>
+<p class="pyk-api-label">Parameters</p>
+<ul>
+<li><code>v</code>: a DynArray.</li>
+</ul>
+<p class="pyk-api-label">Returns</p>
+<p>A new DynArray of (index, element) pairs.</p>
+<p class="pyk-api-label">Example</p>
+<div class="pkn-notebook pkn-embedded not-content"><div class="pkn-fragment" data-markdown="&#x60;&#x60;&#x60;pyking
+use mutation
+import dynarray
+v = dynarray([&#x22;a&#x22;, &#x22;b&#x22;])
+print(dynarray.enumerate(v))
+&#x60;&#x60;&#x60;
+
+&#x60;&#x60;&#x60;stdout visible = true
+dynarray([(0, &#x22;a&#x22;), (1, &#x22;b&#x22;)])
+&#x60;&#x60;&#x60;"></div></div>
+</div>
+<div class="pyk-api">
+<h2 id="equal_by">equal_by</h2>
+<pre class="pyk-sig"><code><span class="k">def</span> <span class="n">equal_by</span>(
+    <span class="p">alike</span>: (t, t) -> <span class="t">Bool</span>,
+    <span class="p">v</span>: DynArray(t),
+    <span class="p">other</span>: DynArray(t),
+) -> <span class="t">Bool</span></code></pre>
+<p>Whether two DynArrays are as long and alike element by element, by <code>alike</code>.</p>
+<p class="pyk-api-label">Parameters</p>
+<ul>
+<li><code>alike</code>: whether two elements count as the same.</li>
+<li><code>v</code>: one DynArray.</li>
+<li><code>other</code>: the other.</li>
+</ul>
+<p class="pyk-api-label">Returns</p>
+<p><code>true</code> where they are.</p>
+<p class="pyk-api-label">Example</p>
+<div class="pkn-notebook pkn-embedded not-content"><div class="pkn-fragment" data-markdown="&#x60;&#x60;&#x60;pyking
+use mutation
+import dynarray
+print(dynarray.equal_by(lam (x, y). x % 2 == y % 2, dynarray([1, 2]), dynarray([3, 4])))
+&#x60;&#x60;&#x60;
+
+&#x60;&#x60;&#x60;stdout visible = true
+true
+&#x60;&#x60;&#x60;"></div></div>
+</div>
+<div class="pyk-api">
 <h2 id="extend">extend</h2>
 <pre class="pyk-sig"><code><span class="k">def</span> <span class="n">extend</span>(<span class="p">v</span>: DynArray(t), <span class="p">xs</span>: [t]) -> ()</code></pre>
 <p>Adds every element of a list to the end of <code>v</code>, in order.</p>
@@ -160,6 +461,120 @@ print(v)
 
 &#x60;&#x60;&#x60;stdout visible = true
 dynarray([1, 2, 3])
+&#x60;&#x60;&#x60;"></div></div>
+</div>
+<div class="pyk-api">
+<h2 id="find">find</h2>
+<pre class="pyk-sig"><code><span class="k">def</span> <span class="n">find</span>(<span class="p">p</span>: (t) -> <span class="t">Bool</span>, <span class="p">v</span>: DynArray(t)) -> Option(t)</code></pre>
+<p>The first element <code>p</code> is true of.</p>
+<p class="pyk-api-label">Parameters</p>
+<ul>
+<li><code>p</code>: the test.</li>
+<li><code>v</code>: a DynArray.</li>
+</ul>
+<p class="pyk-api-label">Returns</p>
+<p><code>Some</code> of it, or <code>None</code>.</p>
+<p class="pyk-api-label">Example</p>
+<div class="pkn-notebook pkn-embedded not-content"><div class="pkn-fragment" data-markdown="&#x60;&#x60;&#x60;pyking
+use mutation
+import dynarray
+v = dynarray([1, 2, 3])
+print(dynarray.find(lam x. x > 1, v))
+&#x60;&#x60;&#x60;
+
+&#x60;&#x60;&#x60;stdout visible = true
+Some(2)
+&#x60;&#x60;&#x60;"></div></div>
+</div>
+<div class="pyk-api">
+<h2 id="find_index">find_index</h2>
+<pre class="pyk-sig"><code><span class="k">def</span> <span class="n">find_index</span>(<span class="p">p</span>: (t) -> <span class="t">Bool</span>, <span class="p">v</span>: DynArray(t)) -> Option(<span class="t">Int</span>)</code></pre>
+<p>The index of the first element <code>p</code> is true of.</p>
+<p class="pyk-api-label">Parameters</p>
+<ul>
+<li><code>p</code>: the test.</li>
+<li><code>v</code>: a DynArray.</li>
+</ul>
+<p class="pyk-api-label">Returns</p>
+<p><code>Some</code> of the index, or <code>None</code>.</p>
+<p class="pyk-api-label">Example</p>
+<div class="pkn-notebook pkn-embedded not-content"><div class="pkn-fragment" data-markdown="&#x60;&#x60;&#x60;pyking
+use mutation
+import dynarray
+v = dynarray([1, 2, 3])
+print(dynarray.find_index(lam x. x > 1, v))
+&#x60;&#x60;&#x60;
+
+&#x60;&#x60;&#x60;stdout visible = true
+Some(1)
+&#x60;&#x60;&#x60;"></div></div>
+</div>
+<div class="pyk-api">
+<h2 id="first">first</h2>
+<pre class="pyk-sig"><code><span class="k">def</span> <span class="n">first</span>(<span class="p">v</span>: DynArray(t)) -> Option(t)</code></pre>
+<p>The first element of a DynArray, where there is one.</p>
+<p class="pyk-api-label">Parameters</p>
+<ul>
+<li><code>v</code>: a DynArray.</li>
+</ul>
+<p class="pyk-api-label">Returns</p>
+<p><code>Some</code> of it, or <code>None</code> where there are no elements.</p>
+<p class="pyk-api-label">Example</p>
+<div class="pkn-notebook pkn-embedded not-content"><div class="pkn-fragment" data-markdown="&#x60;&#x60;&#x60;pyking
+use mutation
+import dynarray
+v = dynarray([4, 5])
+print(dynarray.first(v))
+&#x60;&#x60;&#x60;
+
+&#x60;&#x60;&#x60;stdout visible = true
+Some(4)
+&#x60;&#x60;&#x60;"></div></div>
+</div>
+<div class="pyk-api">
+<h2 id="flat_map">flat_map</h2>
+<pre class="pyk-sig"><code><span class="k">def</span> <span class="n">flat_map</span>(<span class="p">f</span>: (t) -> [u], <span class="p">v</span>: DynArray(t)) -> DynArray(u)</code></pre>
+<p>The lists <code>f</code> makes of each element, joined.</p>
+<p class="pyk-api-label">Parameters</p>
+<ul>
+<li><code>f</code>: makes a list of one element.</li>
+<li><code>v</code>: a DynArray.</li>
+</ul>
+<p class="pyk-api-label">Returns</p>
+<p>A new DynArray.</p>
+<p class="pyk-api-label">Example</p>
+<div class="pkn-notebook pkn-embedded not-content"><div class="pkn-fragment" data-markdown="&#x60;&#x60;&#x60;pyking
+use mutation
+import dynarray
+v = dynarray([1, 2])
+print(dynarray.flat_map(lam x. [x, x], v))
+&#x60;&#x60;&#x60;
+
+&#x60;&#x60;&#x60;stdout visible = true
+dynarray([1, 1, 2, 2])
+&#x60;&#x60;&#x60;"></div></div>
+</div>
+<div class="pyk-api">
+<h2 id="floatcontains">float::contains</h2>
+<pre class="pyk-sig"><code><span class="k">def</span> <span class="n">float::contains</span>(<span class="p">x</span>: <span class="t">Float</span>, <span class="p">v</span>: DynArray(<span class="t">Float</span>)) -> <span class="t">Bool</span></code></pre>
+<p>Whether <code>x</code> is an element of a DynArray of Floats.</p>
+<p class="pyk-api-label">Parameters</p>
+<ul>
+<li><code>x</code>: what to look for.</li>
+<li><code>v</code>: a DynArray.</li>
+</ul>
+<p class="pyk-api-label">Returns</p>
+<p><code>true</code> where it is.</p>
+<p class="pyk-api-label">Example</p>
+<div class="pkn-notebook pkn-embedded not-content"><div class="pkn-fragment" data-markdown="&#x60;&#x60;&#x60;pyking
+use mutation
+import dynarray
+v = dynarray([1.5])
+print(dynarray.contains(1.5, v))
+&#x60;&#x60;&#x60;
+
+&#x60;&#x60;&#x60;stdout visible = true
+true
 &#x60;&#x60;&#x60;"></div></div>
 </div>
 <div class="pyk-api">
@@ -186,6 +601,95 @@ true
 &#x60;&#x60;&#x60;"></div></div>
 </div>
 <div class="pyk-api">
+<h2 id="floatindex_of">float::index_of</h2>
+<pre class="pyk-sig"><code><span class="k">def</span> <span class="n">float::index_of</span>(<span class="p">x</span>: <span class="t">Float</span>, <span class="p">v</span>: DynArray(<span class="t">Float</span>)) -> Option(<span class="t">Int</span>)</code></pre>
+<p>The index of the first <code>x</code> in a DynArray of Floats.</p>
+<p class="pyk-api-label">Parameters</p>
+<ul>
+<li><code>x</code>: what to look for.</li>
+<li><code>v</code>: a DynArray.</li>
+</ul>
+<p class="pyk-api-label">Returns</p>
+<p><code>Some</code> of the index, or <code>None</code>.</p>
+<p class="pyk-api-label">Example</p>
+<div class="pkn-notebook pkn-embedded not-content"><div class="pkn-fragment" data-markdown="&#x60;&#x60;&#x60;pyking
+use mutation
+import dynarray
+v = dynarray([1.5])
+print(dynarray.index_of(1.5, v))
+&#x60;&#x60;&#x60;
+
+&#x60;&#x60;&#x60;stdout visible = true
+Some(0)
+&#x60;&#x60;&#x60;"></div></div>
+</div>
+<div class="pyk-api">
+<h2 id="floatmaximum">float::maximum</h2>
+<pre class="pyk-sig"><code><span class="k">def</span> <span class="n">float::maximum</span>(<span class="p">v</span>: DynArray(<span class="t">Float</span>)) -> Option(<span class="t">Float</span>)</code></pre>
+<p>The greatest Float.</p>
+<p class="pyk-api-label">Parameters</p>
+<ul>
+<li><code>v</code>: a DynArray.</li>
+</ul>
+<p class="pyk-api-label">Returns</p>
+<p><code>Some</code> of it, or <code>None</code>.</p>
+<p class="pyk-api-label">Example</p>
+<div class="pkn-notebook pkn-embedded not-content"><div class="pkn-fragment" data-markdown="&#x60;&#x60;&#x60;pyking
+use mutation
+import dynarray
+v = dynarray([2.5, -1.0])
+print(dynarray.maximum(v))
+&#x60;&#x60;&#x60;
+
+&#x60;&#x60;&#x60;stdout visible = true
+Some(2.5)
+&#x60;&#x60;&#x60;"></div></div>
+</div>
+<div class="pyk-api">
+<h2 id="floatminimum">float::minimum</h2>
+<pre class="pyk-sig"><code><span class="k">def</span> <span class="n">float::minimum</span>(<span class="p">v</span>: DynArray(<span class="t">Float</span>)) -> Option(<span class="t">Float</span>)</code></pre>
+<p>The smallest Float.</p>
+<p class="pyk-api-label">Parameters</p>
+<ul>
+<li><code>v</code>: a DynArray.</li>
+</ul>
+<p class="pyk-api-label">Returns</p>
+<p><code>Some</code> of it, or <code>None</code>.</p>
+<p class="pyk-api-label">Example</p>
+<div class="pkn-notebook pkn-embedded not-content"><div class="pkn-fragment" data-markdown="&#x60;&#x60;&#x60;pyking
+use mutation
+import dynarray
+v = dynarray([2.5, -1.0])
+print(dynarray.minimum(v))
+&#x60;&#x60;&#x60;
+
+&#x60;&#x60;&#x60;stdout visible = true
+Some(-1.0)
+&#x60;&#x60;&#x60;"></div></div>
+</div>
+<div class="pyk-api">
+<h2 id="floatproduct">float::product</h2>
+<pre class="pyk-sig"><code><span class="k">def</span> <span class="n">float::product</span>(<span class="p">v</span>: DynArray(<span class="t">Float</span>)) -> <span class="t">Float</span></code></pre>
+<p>The Floats multiplied.</p>
+<p class="pyk-api-label">Parameters</p>
+<ul>
+<li><code>v</code>: a DynArray.</li>
+</ul>
+<p class="pyk-api-label">Returns</p>
+<p>The product.</p>
+<p class="pyk-api-label">Example</p>
+<div class="pkn-notebook pkn-embedded not-content"><div class="pkn-fragment" data-markdown="&#x60;&#x60;&#x60;pyking
+use mutation
+import dynarray
+v = dynarray([0.5, 1.5])
+print(dynarray.product(v))
+&#x60;&#x60;&#x60;
+
+&#x60;&#x60;&#x60;stdout visible = true
+0.75
+&#x60;&#x60;&#x60;"></div></div>
+</div>
+<div class="pyk-api">
 <h2 id="floatsort">float::sort</h2>
 <pre class="pyk-sig"><code><span class="k">def</span> <span class="n">float::sort</span>(<span class="p">v</span>: DynArray(<span class="t">Float</span>)) -> ()</code></pre>
 <p>Sorts a DynArray of Floats in place, as <code>array.sort</code> orders them: <code>-inf</code>
@@ -205,6 +709,74 @@ print(v)
 
 &#x60;&#x60;&#x60;stdout visible = true
 dynarray([-1.0, 2.5])
+&#x60;&#x60;&#x60;"></div></div>
+</div>
+<div class="pyk-api">
+<h2 id="floatsort_on">float::sort_on</h2>
+<pre class="pyk-sig"><code><span class="k">def</span> <span class="n">float::sort_on</span>(<span class="p">key</span>: (t) -> <span class="t">Float</span>, <span class="p">v</span>: DynArray(t)) -> ()</code></pre>
+<p>Sorts in place by each element’s Float key, <code>key</code> called once per element;
+equal keys keep their order.</p>
+<p class="pyk-api-label">Parameters</p>
+<ul>
+<li><code>key</code>: the Float an element is sorted by.</li>
+<li><code>v</code>: a DynArray to sort.</li>
+</ul>
+<p class="pyk-api-label">Example</p>
+<div class="pkn-notebook pkn-embedded not-content"><div class="pkn-fragment" data-markdown="&#x60;&#x60;&#x60;pyking
+use mutation
+import dynarray
+v = dynarray([1.0, 3.0])
+dynarray.sort_on(lam x. 0.0 - x, v)
+print(v)
+&#x60;&#x60;&#x60;
+
+&#x60;&#x60;&#x60;stdout visible = true
+dynarray([3.0, 1.0])
+&#x60;&#x60;&#x60;"></div></div>
+</div>
+<div class="pyk-api">
+<h2 id="floatsorted">float::sorted</h2>
+<pre class="pyk-sig"><code><span class="k">def</span> <span class="n">float::sorted</span>(<span class="p">v</span>: DynArray(<span class="t">Float</span>)) -> DynArray(<span class="t">Float</span>)</code></pre>
+<p>A new DynArray of the Floats from smallest to largest; <code>v</code> is as it was
+(<code>sort</code> sorts in place).</p>
+<p class="pyk-api-label">Parameters</p>
+<ul>
+<li><code>v</code>: a DynArray.</li>
+</ul>
+<p class="pyk-api-label">Returns</p>
+<p>A new DynArray.</p>
+<p class="pyk-api-label">Example</p>
+<div class="pkn-notebook pkn-embedded not-content"><div class="pkn-fragment" data-markdown="&#x60;&#x60;&#x60;pyking
+use mutation
+import dynarray
+v = dynarray([2.5, -1.0])
+print(dynarray.sorted(v), v)
+&#x60;&#x60;&#x60;
+
+&#x60;&#x60;&#x60;stdout visible = true
+dynarray([-1.0, 2.5]) dynarray([2.5, -1.0])
+&#x60;&#x60;&#x60;"></div></div>
+</div>
+<div class="pyk-api">
+<h2 id="floatsum">float::sum</h2>
+<pre class="pyk-sig"><code><span class="k">def</span> <span class="n">float::sum</span>(<span class="p">v</span>: DynArray(<span class="t">Float</span>)) -> <span class="t">Float</span></code></pre>
+<p>The Floats added up.</p>
+<p class="pyk-api-label">Parameters</p>
+<ul>
+<li><code>v</code>: a DynArray.</li>
+</ul>
+<p class="pyk-api-label">Returns</p>
+<p>The sum.</p>
+<p class="pyk-api-label">Example</p>
+<div class="pkn-notebook pkn-embedded not-content"><div class="pkn-fragment" data-markdown="&#x60;&#x60;&#x60;pyking
+use mutation
+import dynarray
+v = dynarray([0.5, 1.5])
+print(dynarray.sum(v))
+&#x60;&#x60;&#x60;
+
+&#x60;&#x60;&#x60;stdout visible = true
+2.0
 &#x60;&#x60;&#x60;"></div></div>
 </div>
 <div class="pyk-api">
@@ -231,6 +803,57 @@ dynarray([1, 2, 3])
 &#x60;&#x60;&#x60;"></div></div>
 </div>
 <div class="pyk-api">
+<h2 id="index_of_by">index_of_by</h2>
+<pre class="pyk-sig"><code><span class="k">def</span> <span class="n">index_of_by</span>(
+    <span class="p">alike</span>: (t, t) -> <span class="t">Bool</span>,
+    <span class="p">x</span>: t,
+    <span class="p">v</span>: DynArray(t),
+) -> Option(<span class="t">Int</span>)</code></pre>
+<p>The index of the first element alike to <code>x</code>, by <code>alike</code>.</p>
+<p class="pyk-api-label">Parameters</p>
+<ul>
+<li><code>alike</code>: whether two elements count as the same.</li>
+<li><code>x</code>: what to look for.</li>
+<li><code>v</code>: a DynArray.</li>
+</ul>
+<p class="pyk-api-label">Returns</p>
+<p><code>Some</code> of the index, or <code>None</code>.</p>
+<p class="pyk-api-label">Example</p>
+<div class="pkn-notebook pkn-embedded not-content"><div class="pkn-fragment" data-markdown="&#x60;&#x60;&#x60;pyking
+use mutation
+import dynarray
+v = dynarray([10, 21])
+print(dynarray.index_of_by(lam (p, q). p % 10 == q % 10, 1, v))
+&#x60;&#x60;&#x60;
+
+&#x60;&#x60;&#x60;stdout visible = true
+Some(1)
+&#x60;&#x60;&#x60;"></div></div>
+</div>
+<div class="pyk-api">
+<h2 id="intcontains">int::contains</h2>
+<pre class="pyk-sig"><code><span class="k">def</span> <span class="n">int::contains</span>(<span class="p">x</span>: <span class="t">Int</span>, <span class="p">v</span>: DynArray(<span class="t">Int</span>)) -> <span class="t">Bool</span></code></pre>
+<p>Whether <code>x</code> is an element of a DynArray of Ints.</p>
+<p class="pyk-api-label">Parameters</p>
+<ul>
+<li><code>x</code>: what to look for.</li>
+<li><code>v</code>: a DynArray.</li>
+</ul>
+<p class="pyk-api-label">Returns</p>
+<p><code>true</code> where it is.</p>
+<p class="pyk-api-label">Example</p>
+<div class="pkn-notebook pkn-embedded not-content"><div class="pkn-fragment" data-markdown="&#x60;&#x60;&#x60;pyking
+use mutation
+import dynarray
+v = dynarray([3, 1])
+print(dynarray.contains(1, v))
+&#x60;&#x60;&#x60;
+
+&#x60;&#x60;&#x60;stdout visible = true
+true
+&#x60;&#x60;&#x60;"></div></div>
+</div>
+<div class="pyk-api">
 <h2 id="intequal">int::equal</h2>
 <pre class="pyk-sig"><code><span class="k">def</span> <span class="n">int::equal</span>(<span class="p">v</span>: DynArray(<span class="t">Int</span>), <span class="p">w</span>: DynArray(<span class="t">Int</span>)) -> <span class="t">Bool</span></code></pre>
 <p>Whether two DynArrays of Ints hold the same elements in the same order.
@@ -251,6 +874,95 @@ print(dynarray.equal(dynarray([1, 2]), dynarray([1, 2])), dynarray.equal(dynarra
 
 &#x60;&#x60;&#x60;stdout visible = true
 true false
+&#x60;&#x60;&#x60;"></div></div>
+</div>
+<div class="pyk-api">
+<h2 id="intindex_of">int::index_of</h2>
+<pre class="pyk-sig"><code><span class="k">def</span> <span class="n">int::index_of</span>(<span class="p">x</span>: <span class="t">Int</span>, <span class="p">v</span>: DynArray(<span class="t">Int</span>)) -> Option(<span class="t">Int</span>)</code></pre>
+<p>The index of the first <code>x</code> in a DynArray of Ints.</p>
+<p class="pyk-api-label">Parameters</p>
+<ul>
+<li><code>x</code>: what to look for.</li>
+<li><code>v</code>: a DynArray.</li>
+</ul>
+<p class="pyk-api-label">Returns</p>
+<p><code>Some</code> of the index, or <code>None</code>.</p>
+<p class="pyk-api-label">Example</p>
+<div class="pkn-notebook pkn-embedded not-content"><div class="pkn-fragment" data-markdown="&#x60;&#x60;&#x60;pyking
+use mutation
+import dynarray
+v = dynarray([3, 1])
+print(dynarray.index_of(1, v))
+&#x60;&#x60;&#x60;
+
+&#x60;&#x60;&#x60;stdout visible = true
+Some(1)
+&#x60;&#x60;&#x60;"></div></div>
+</div>
+<div class="pyk-api">
+<h2 id="intmaximum">int::maximum</h2>
+<pre class="pyk-sig"><code><span class="k">def</span> <span class="n">int::maximum</span>(<span class="p">v</span>: DynArray(<span class="t">Int</span>)) -> Option(<span class="t">Int</span>)</code></pre>
+<p>The greatest Int.</p>
+<p class="pyk-api-label">Parameters</p>
+<ul>
+<li><code>v</code>: a DynArray.</li>
+</ul>
+<p class="pyk-api-label">Returns</p>
+<p><code>Some</code> of it, or <code>None</code>.</p>
+<p class="pyk-api-label">Example</p>
+<div class="pkn-notebook pkn-embedded not-content"><div class="pkn-fragment" data-markdown="&#x60;&#x60;&#x60;pyking
+use mutation
+import dynarray
+v = dynarray([3, 1, 2])
+print(dynarray.maximum(v))
+&#x60;&#x60;&#x60;
+
+&#x60;&#x60;&#x60;stdout visible = true
+Some(3)
+&#x60;&#x60;&#x60;"></div></div>
+</div>
+<div class="pyk-api">
+<h2 id="intminimum">int::minimum</h2>
+<pre class="pyk-sig"><code><span class="k">def</span> <span class="n">int::minimum</span>(<span class="p">v</span>: DynArray(<span class="t">Int</span>)) -> Option(<span class="t">Int</span>)</code></pre>
+<p>The smallest Int.</p>
+<p class="pyk-api-label">Parameters</p>
+<ul>
+<li><code>v</code>: a DynArray.</li>
+</ul>
+<p class="pyk-api-label">Returns</p>
+<p><code>Some</code> of it, or <code>None</code>.</p>
+<p class="pyk-api-label">Example</p>
+<div class="pkn-notebook pkn-embedded not-content"><div class="pkn-fragment" data-markdown="&#x60;&#x60;&#x60;pyking
+use mutation
+import dynarray
+v = dynarray([3, 1, 2])
+print(dynarray.minimum(v))
+&#x60;&#x60;&#x60;
+
+&#x60;&#x60;&#x60;stdout visible = true
+Some(1)
+&#x60;&#x60;&#x60;"></div></div>
+</div>
+<div class="pyk-api">
+<h2 id="intproduct">int::product</h2>
+<pre class="pyk-sig"><code><span class="k">def</span> <span class="n">int::product</span>(<span class="p">v</span>: DynArray(<span class="t">Int</span>)) -> <span class="t">Int</span></code></pre>
+<p>The Ints multiplied.</p>
+<p class="pyk-api-label">Parameters</p>
+<ul>
+<li><code>v</code>: a DynArray.</li>
+</ul>
+<p class="pyk-api-label">Returns</p>
+<p>The product.</p>
+<p class="pyk-api-label">Example</p>
+<div class="pkn-notebook pkn-embedded not-content"><div class="pkn-fragment" data-markdown="&#x60;&#x60;&#x60;pyking
+use mutation
+import dynarray
+v = dynarray([1, 2, 3])
+print(dynarray.product(v))
+&#x60;&#x60;&#x60;
+
+&#x60;&#x60;&#x60;stdout visible = true
+6
 &#x60;&#x60;&#x60;"></div></div>
 </div>
 <div class="pyk-api">
@@ -275,6 +987,258 @@ dynarray([1, 2, 3])
 &#x60;&#x60;&#x60;"></div></div>
 </div>
 <div class="pyk-api">
+<h2 id="intsort_on">int::sort_on</h2>
+<pre class="pyk-sig"><code><span class="k">def</span> <span class="n">int::sort_on</span>(<span class="p">key</span>: (t) -> <span class="t">Int</span>, <span class="p">v</span>: DynArray(t)) -> ()</code></pre>
+<p>Sorts in place by each element’s Int key, <code>key</code> called once per element;
+equal keys keep their order.</p>
+<p class="pyk-api-label">Parameters</p>
+<ul>
+<li><code>key</code>: the Int an element is sorted by.</li>
+<li><code>v</code>: a DynArray to sort.</li>
+</ul>
+<p class="pyk-api-label">Example</p>
+<div class="pkn-notebook pkn-embedded not-content"><div class="pkn-fragment" data-markdown="&#x60;&#x60;&#x60;pyking
+use mutation
+import dynarray
+v = dynarray([&#x22;ccc&#x22;, &#x22;a&#x22;, &#x22;bb&#x22;])
+dynarray.sort_on(lam s. len(s), v)
+print(v)
+&#x60;&#x60;&#x60;
+
+&#x60;&#x60;&#x60;stdout visible = true
+dynarray([&#x22;a&#x22;, &#x22;bb&#x22;, &#x22;ccc&#x22;])
+&#x60;&#x60;&#x60;"></div></div>
+</div>
+<div class="pyk-api">
+<h2 id="intsorted">int::sorted</h2>
+<pre class="pyk-sig"><code><span class="k">def</span> <span class="n">int::sorted</span>(<span class="p">v</span>: DynArray(<span class="t">Int</span>)) -> DynArray(<span class="t">Int</span>)</code></pre>
+<p>A new DynArray of the Ints from smallest to largest; <code>v</code> is as it was
+(<code>sort</code> sorts in place).</p>
+<p class="pyk-api-label">Parameters</p>
+<ul>
+<li><code>v</code>: a DynArray.</li>
+</ul>
+<p class="pyk-api-label">Returns</p>
+<p>A new DynArray.</p>
+<p class="pyk-api-label">Example</p>
+<div class="pkn-notebook pkn-embedded not-content"><div class="pkn-fragment" data-markdown="&#x60;&#x60;&#x60;pyking
+use mutation
+import dynarray
+v = dynarray([3, 1, 2])
+print(dynarray.sorted(v), v)
+&#x60;&#x60;&#x60;
+
+&#x60;&#x60;&#x60;stdout visible = true
+dynarray([1, 2, 3]) dynarray([3, 1, 2])
+&#x60;&#x60;&#x60;"></div></div>
+</div>
+<div class="pyk-api">
+<h2 id="intsum">int::sum</h2>
+<pre class="pyk-sig"><code><span class="k">def</span> <span class="n">int::sum</span>(<span class="p">v</span>: DynArray(<span class="t">Int</span>)) -> <span class="t">Int</span></code></pre>
+<p>The Ints added up.</p>
+<p class="pyk-api-label">Parameters</p>
+<ul>
+<li><code>v</code>: a DynArray.</li>
+</ul>
+<p class="pyk-api-label">Returns</p>
+<p>The sum.</p>
+<p class="pyk-api-label">Example</p>
+<div class="pkn-notebook pkn-embedded not-content"><div class="pkn-fragment" data-markdown="&#x60;&#x60;&#x60;pyking
+use mutation
+import dynarray
+v = dynarray([1, 2, 3])
+print(dynarray.sum(v))
+&#x60;&#x60;&#x60;
+
+&#x60;&#x60;&#x60;stdout visible = true
+6
+&#x60;&#x60;&#x60;"></div></div>
+</div>
+<div class="pyk-api">
+<h2 id="is_empty">is_empty</h2>
+<pre class="pyk-sig"><code><span class="k">def</span> <span class="n">is_empty</span>(<span class="p">v</span>: DynArray(t)) -> <span class="t">Bool</span></code></pre>
+<p>Whether a DynArray has no elements.</p>
+<p class="pyk-api-label">Parameters</p>
+<ul>
+<li><code>v</code>: a DynArray.</li>
+</ul>
+<p class="pyk-api-label">Returns</p>
+<p><code>true</code> where it has none.</p>
+<p class="pyk-api-label">Example</p>
+<div class="pkn-notebook pkn-embedded not-content"><div class="pkn-fragment" data-markdown="&#x60;&#x60;&#x60;pyking
+use mutation
+import dynarray
+v = dynarray([0])
+print(dynarray.is_empty(v))
+&#x60;&#x60;&#x60;
+
+&#x60;&#x60;&#x60;stdout visible = true
+false
+&#x60;&#x60;&#x60;"></div></div>
+</div>
+<div class="pyk-api">
+<h2 id="last">last</h2>
+<pre class="pyk-sig"><code><span class="k">def</span> <span class="n">last</span>(<span class="p">v</span>: DynArray(t)) -> Option(t)</code></pre>
+<p>The last element of a DynArray, where there is one.</p>
+<p class="pyk-api-label">Parameters</p>
+<ul>
+<li><code>v</code>: a DynArray.</li>
+</ul>
+<p class="pyk-api-label">Returns</p>
+<p><code>Some</code> of it, or <code>None</code> where there are no elements.</p>
+<p class="pyk-api-label">Example</p>
+<div class="pkn-notebook pkn-embedded not-content"><div class="pkn-fragment" data-markdown="&#x60;&#x60;&#x60;pyking
+use mutation
+import dynarray
+v = dynarray([4, 5])
+print(dynarray.last(v))
+&#x60;&#x60;&#x60;
+
+&#x60;&#x60;&#x60;stdout visible = true
+Some(5)
+&#x60;&#x60;&#x60;"></div></div>
+</div>
+<div class="pyk-api">
+<h2 id="map_in_place">map_in_place</h2>
+<pre class="pyk-sig"><code><span class="k">def</span> <span class="n">map_in_place</span>(<span class="p">f</span>: (t) -> t, <span class="p">v</span>: DynArray(t)) -> ()</code></pre>
+<p>Replaces each element <code>x</code> by <code>f(x)</code>, in place, in index order: <code>fmap</code>
+without a copy.</p>
+<p class="pyk-api-label">Parameters</p>
+<ul>
+<li><code>f</code>: makes the new element from the old.</li>
+<li><code>v</code>: a DynArray.</li>
+</ul>
+<p class="pyk-api-label">Example</p>
+<div class="pkn-notebook pkn-embedded not-content"><div class="pkn-fragment" data-markdown="&#x60;&#x60;&#x60;pyking
+use mutation
+import dynarray
+v = dynarray([1, 2, 3])
+dynarray.map_in_place(lam x. x * x, v)
+print(v)
+&#x60;&#x60;&#x60;
+
+&#x60;&#x60;&#x60;stdout visible = true
+dynarray([1, 4, 9])
+&#x60;&#x60;&#x60;"></div></div>
+</div>
+<div class="pyk-api">
+<h2 id="maximum_by">maximum_by</h2>
+<pre class="pyk-sig"><code><span class="k">def</span> <span class="n">maximum_by</span>(<span class="p">before</span>: (t, t) -> <span class="t">Bool</span>, <span class="p">v</span>: DynArray(t)) -> Option(t)</code></pre>
+<p>The greatest element, <code>before(x, y)</code> saying <code>x</code> is smaller; the first of
+several equal ones.</p>
+<p class="pyk-api-label">Parameters</p>
+<ul>
+<li><code>before</code>: whether its first argument is smaller.</li>
+<li><code>v</code>: a DynArray.</li>
+</ul>
+<p class="pyk-api-label">Returns</p>
+<p><code>Some</code> of it, or <code>None</code>.</p>
+<p class="pyk-api-label">Example</p>
+<div class="pkn-notebook pkn-embedded not-content"><div class="pkn-fragment" data-markdown="&#x60;&#x60;&#x60;pyking
+use mutation
+import dynarray
+v = dynarray([&#x22;ab&#x22;, &#x22;c&#x22;])
+print(dynarray.maximum_by(lam (x, y). len(x) < len(y), v))
+&#x60;&#x60;&#x60;
+
+&#x60;&#x60;&#x60;stdout visible = true
+Some(&#x22;ab&#x22;)
+&#x60;&#x60;&#x60;"></div></div>
+</div>
+<div class="pyk-api">
+<h2 id="minimum_by">minimum_by</h2>
+<pre class="pyk-sig"><code><span class="k">def</span> <span class="n">minimum_by</span>(<span class="p">before</span>: (t, t) -> <span class="t">Bool</span>, <span class="p">v</span>: DynArray(t)) -> Option(t)</code></pre>
+<p>The smallest element, <code>before(x, y)</code> saying <code>x</code> is smaller; the first of
+several equal ones.</p>
+<p class="pyk-api-label">Parameters</p>
+<ul>
+<li><code>before</code>: whether its first argument is smaller.</li>
+<li><code>v</code>: a DynArray.</li>
+</ul>
+<p class="pyk-api-label">Returns</p>
+<p><code>Some</code> of it, or <code>None</code>.</p>
+<p class="pyk-api-label">Example</p>
+<div class="pkn-notebook pkn-embedded not-content"><div class="pkn-fragment" data-markdown="&#x60;&#x60;&#x60;pyking
+use mutation
+import dynarray
+v = dynarray([&#x22;ab&#x22;, &#x22;c&#x22;])
+print(dynarray.minimum_by(lam (x, y). len(x) < len(y), v))
+&#x60;&#x60;&#x60;
+
+&#x60;&#x60;&#x60;stdout visible = true
+Some(&#x22;c&#x22;)
+&#x60;&#x60;&#x60;"></div></div>
+</div>
+<div class="pyk-api">
+<h2 id="nth">nth</h2>
+<pre class="pyk-sig"><code><span class="k">def</span> <span class="n">nth</span>(<span class="p">v</span>: DynArray(t), <span class="p">i</span>: <span class="t">Int</span>) -> Option(t)</code></pre>
+<p>Element <code>i</code>, where there is one: <code>v[i]</code> that does not fail.</p>
+<p class="pyk-api-label">Parameters</p>
+<ul>
+<li><code>v</code>: a DynArray.</li>
+<li><code>i</code>: the index.</li>
+</ul>
+<p class="pyk-api-label">Returns</p>
+<p><code>Some</code> of it, or <code>None</code> where <code>i</code> is outside.</p>
+<p class="pyk-api-label">Example</p>
+<div class="pkn-notebook pkn-embedded not-content"><div class="pkn-fragment" data-markdown="&#x60;&#x60;&#x60;pyking
+use mutation
+import dynarray
+v = dynarray([4, 5])
+print(dynarray.nth(v, 1), dynarray.nth(v, 2))
+&#x60;&#x60;&#x60;
+
+&#x60;&#x60;&#x60;stdout visible = true
+Some(5) None
+&#x60;&#x60;&#x60;"></div></div>
+</div>
+<div class="pyk-api">
+<h2 id="reduce">reduce</h2>
+<pre class="pyk-sig"><code><span class="k">def</span> <span class="n">reduce</span>(<span class="p">f</span>: (t, t) -> t, <span class="p">v</span>: DynArray(t)) -> Option(t)</code></pre>
+<p>The elements gathered by <code>f</code> from the first, with no starting value.</p>
+<p class="pyk-api-label">Parameters</p>
+<ul>
+<li><code>f</code>: combines what is gathered with the next element.</li>
+<li><code>v</code>: a DynArray.</li>
+</ul>
+<p class="pyk-api-label">Returns</p>
+<p><code>Some</code> of the result, or <code>None</code> where there are no elements.</p>
+<p class="pyk-api-label">Example</p>
+<div class="pkn-notebook pkn-embedded not-content"><div class="pkn-fragment" data-markdown="&#x60;&#x60;&#x60;pyking
+use mutation
+import dynarray
+v = dynarray([2, 3, 4])
+print(dynarray.reduce(lam (x, y). x * y, v))
+&#x60;&#x60;&#x60;
+
+&#x60;&#x60;&#x60;stdout visible = true
+Some(24)
+&#x60;&#x60;&#x60;"></div></div>
+</div>
+<div class="pyk-api">
+<h2 id="retain">retain</h2>
+<pre class="pyk-sig"><code><span class="k">def</span> <span class="n">retain</span>(<span class="p">p</span>: (t) -> <span class="t">Bool</span>, <span class="p">v</span>: DynArray(t)) -> ()</code></pre>
+<p>Keeps only the elements <code>p</code> is true of, in place and in order: <code>filter</code>
+without a copy (Rust’s <code>retain</code>).</p>
+<p class="pyk-api-label">Parameters</p>
+<ul>
+<li><code>p</code>: the test.</li>
+<li><code>v</code>: the DynArray.</li>
+</ul>
+<p class="pyk-api-label">Example</p>
+<div class="pkn-notebook pkn-embedded not-content"><div class="pkn-fragment" data-markdown="&#x60;&#x60;&#x60;pyking
+use mutation
+import dynarray
+v = dynarray([1, 2, 3, 4])
+dynarray.retain(lam x. x % 2 == 0, v)
+print(v)
+&#x60;&#x60;&#x60;
+
+&#x60;&#x60;&#x60;stdout visible = true
+dynarray([2, 4])
+&#x60;&#x60;&#x60;"></div></div>
+</div>
+<div class="pyk-api">
 <h2 id="reverse">reverse</h2>
 <pre class="pyk-sig"><code><span class="k">def</span> <span class="n">reverse</span>(<span class="p">v</span>: DynArray(t)) -> ()</code></pre>
 <p>Puts the elements of <code>v</code> in the opposite order, in place.</p>
@@ -293,6 +1257,74 @@ print(v)
 
 &#x60;&#x60;&#x60;stdout visible = true
 dynarray([3, 2, 1])
+&#x60;&#x60;&#x60;"></div></div>
+</div>
+<div class="pyk-api">
+<h2 id="reversed">reversed</h2>
+<pre class="pyk-sig"><code><span class="k">def</span> <span class="n">reversed</span>(<span class="p">v</span>: DynArray(t)) -> DynArray(t)</code></pre>
+<p>A new DynArray of the elements in the other order; <code>v</code> is as it was.</p>
+<p class="pyk-api-label">Parameters</p>
+<ul>
+<li><code>v</code>: a DynArray.</li>
+</ul>
+<p class="pyk-api-label">Returns</p>
+<p>A new DynArray.</p>
+<p class="pyk-api-label">Example</p>
+<div class="pkn-notebook pkn-embedded not-content"><div class="pkn-fragment" data-markdown="&#x60;&#x60;&#x60;pyking
+use mutation
+import dynarray
+v = dynarray([1, 2, 3])
+print(dynarray.reversed(v), v)
+&#x60;&#x60;&#x60;
+
+&#x60;&#x60;&#x60;stdout visible = true
+dynarray([3, 2, 1]) dynarray([1, 2, 3])
+&#x60;&#x60;&#x60;"></div></div>
+</div>
+<div class="pyk-api">
+<h2 id="sort_by">sort_by</h2>
+<pre class="pyk-sig"><code><span class="k">def</span> <span class="n">sort_by</span>(<span class="p">before</span>: (t, t) -> <span class="t">Bool</span>, <span class="p">v</span>: DynArray(t)) -> ()</code></pre>
+<p>Sorts in place, <code>before(x, y)</code> saying <code>x</code> goes before <code>y</code>; equal ones
+keep their order (one merge sort, the same on every target).</p>
+<p class="pyk-api-label">Parameters</p>
+<ul>
+<li><code>before</code>: whether its first argument goes first.</li>
+<li><code>v</code>: a DynArray to sort.</li>
+</ul>
+<p class="pyk-api-label">Example</p>
+<div class="pkn-notebook pkn-embedded not-content"><div class="pkn-fragment" data-markdown="&#x60;&#x60;&#x60;pyking
+use mutation
+import dynarray
+v = dynarray([&#x22;ccc&#x22;, &#x22;a&#x22;, &#x22;bb&#x22;])
+dynarray.sort_by(lam (x, y). len(x) < len(y), v)
+print(v)
+&#x60;&#x60;&#x60;
+
+&#x60;&#x60;&#x60;stdout visible = true
+dynarray([&#x22;a&#x22;, &#x22;bb&#x22;, &#x22;ccc&#x22;])
+&#x60;&#x60;&#x60;"></div></div>
+</div>
+<div class="pyk-api">
+<h2 id="stringcontains">string::contains</h2>
+<pre class="pyk-sig"><code><span class="k">def</span> <span class="n">string::contains</span>(<span class="p">x</span>: <span class="t">String</span>, <span class="p">v</span>: DynArray(<span class="t">String</span>)) -> <span class="t">Bool</span></code></pre>
+<p>Whether <code>x</code> is an element of a DynArray of Strings.</p>
+<p class="pyk-api-label">Parameters</p>
+<ul>
+<li><code>x</code>: what to look for.</li>
+<li><code>v</code>: a DynArray.</li>
+</ul>
+<p class="pyk-api-label">Returns</p>
+<p><code>true</code> where it is.</p>
+<p class="pyk-api-label">Example</p>
+<div class="pkn-notebook pkn-embedded not-content"><div class="pkn-fragment" data-markdown="&#x60;&#x60;&#x60;pyking
+use mutation
+import dynarray
+v = dynarray([&#x22;a&#x22;])
+print(dynarray.contains(&#x22;b&#x22;, v))
+&#x60;&#x60;&#x60;
+
+&#x60;&#x60;&#x60;stdout visible = true
+false
 &#x60;&#x60;&#x60;"></div></div>
 </div>
 <div class="pyk-api">
@@ -318,6 +1350,73 @@ true
 &#x60;&#x60;&#x60;"></div></div>
 </div>
 <div class="pyk-api">
+<h2 id="stringindex_of">string::index_of</h2>
+<pre class="pyk-sig"><code><span class="k">def</span> <span class="n">string::index_of</span>(<span class="p">x</span>: <span class="t">String</span>, <span class="p">v</span>: DynArray(<span class="t">String</span>)) -> Option(<span class="t">Int</span>)</code></pre>
+<p>The index of the first <code>x</code> in a DynArray of Strings.</p>
+<p class="pyk-api-label">Parameters</p>
+<ul>
+<li><code>x</code>: what to look for.</li>
+<li><code>v</code>: a DynArray.</li>
+</ul>
+<p class="pyk-api-label">Returns</p>
+<p><code>Some</code> of the index, or <code>None</code>.</p>
+<p class="pyk-api-label">Example</p>
+<div class="pkn-notebook pkn-embedded not-content"><div class="pkn-fragment" data-markdown="&#x60;&#x60;&#x60;pyking
+use mutation
+import dynarray
+v = dynarray([&#x22;a&#x22;])
+print(dynarray.index_of(&#x22;b&#x22;, v))
+&#x60;&#x60;&#x60;
+
+&#x60;&#x60;&#x60;stdout visible = true
+None
+&#x60;&#x60;&#x60;"></div></div>
+</div>
+<div class="pyk-api">
+<h2 id="stringmaximum">string::maximum</h2>
+<pre class="pyk-sig"><code><span class="k">def</span> <span class="n">string::maximum</span>(<span class="p">v</span>: DynArray(<span class="t">String</span>)) -> Option(<span class="t">String</span>)</code></pre>
+<p>The greatest String.</p>
+<p class="pyk-api-label">Parameters</p>
+<ul>
+<li><code>v</code>: a DynArray.</li>
+</ul>
+<p class="pyk-api-label">Returns</p>
+<p><code>Some</code> of it, or <code>None</code>.</p>
+<p class="pyk-api-label">Example</p>
+<div class="pkn-notebook pkn-embedded not-content"><div class="pkn-fragment" data-markdown="&#x60;&#x60;&#x60;pyking
+use mutation
+import dynarray
+v = dynarray([&#x22;b&#x22;, &#x22;a&#x22;])
+print(dynarray.maximum(v))
+&#x60;&#x60;&#x60;
+
+&#x60;&#x60;&#x60;stdout visible = true
+Some(&#x22;b&#x22;)
+&#x60;&#x60;&#x60;"></div></div>
+</div>
+<div class="pyk-api">
+<h2 id="stringminimum">string::minimum</h2>
+<pre class="pyk-sig"><code><span class="k">def</span> <span class="n">string::minimum</span>(<span class="p">v</span>: DynArray(<span class="t">String</span>)) -> Option(<span class="t">String</span>)</code></pre>
+<p>The smallest String.</p>
+<p class="pyk-api-label">Parameters</p>
+<ul>
+<li><code>v</code>: a DynArray.</li>
+</ul>
+<p class="pyk-api-label">Returns</p>
+<p><code>Some</code> of it, or <code>None</code>.</p>
+<p class="pyk-api-label">Example</p>
+<div class="pkn-notebook pkn-embedded not-content"><div class="pkn-fragment" data-markdown="&#x60;&#x60;&#x60;pyking
+use mutation
+import dynarray
+v = dynarray([&#x22;b&#x22;, &#x22;a&#x22;])
+print(dynarray.minimum(v))
+&#x60;&#x60;&#x60;
+
+&#x60;&#x60;&#x60;stdout visible = true
+Some(&#x22;a&#x22;)
+&#x60;&#x60;&#x60;"></div></div>
+</div>
+<div class="pyk-api">
 <h2 id="stringsort">string::sort</h2>
 <pre class="pyk-sig"><code><span class="k">def</span> <span class="n">string::sort</span>(<span class="p">v</span>: DynArray(<span class="t">String</span>)) -> ()</code></pre>
 <p>Sorts a DynArray of Strings in place, by code point.</p>
@@ -336,6 +1435,52 @@ print(v)
 
 &#x60;&#x60;&#x60;stdout visible = true
 dynarray([&#x22;Fig&#x22;, &#x22;apple&#x22;, &#x22;pear&#x22;])
+&#x60;&#x60;&#x60;"></div></div>
+</div>
+<div class="pyk-api">
+<h2 id="stringsort_on">string::sort_on</h2>
+<pre class="pyk-sig"><code><span class="k">def</span> <span class="n">string::sort_on</span>(<span class="p">key</span>: (t) -> <span class="t">String</span>, <span class="p">v</span>: DynArray(t)) -> ()</code></pre>
+<p>Sorts in place by each element’s String key, <code>key</code> called once per element;
+equal keys keep their order.</p>
+<p class="pyk-api-label">Parameters</p>
+<ul>
+<li><code>key</code>: the String an element is sorted by.</li>
+<li><code>v</code>: a DynArray to sort.</li>
+</ul>
+<p class="pyk-api-label">Example</p>
+<div class="pkn-notebook pkn-embedded not-content"><div class="pkn-fragment" data-markdown="&#x60;&#x60;&#x60;pyking
+use mutation
+import dynarray
+v = dynarray([(2, &#x22;b&#x22;), (1, &#x22;a&#x22;)])
+dynarray.sort_on(lam p. let (_, s) = p in s, v)
+print(v)
+&#x60;&#x60;&#x60;
+
+&#x60;&#x60;&#x60;stdout visible = true
+dynarray([(1, &#x22;a&#x22;), (2, &#x22;b&#x22;)])
+&#x60;&#x60;&#x60;"></div></div>
+</div>
+<div class="pyk-api">
+<h2 id="stringsorted">string::sorted</h2>
+<pre class="pyk-sig"><code><span class="k">def</span> <span class="n">string::sorted</span>(<span class="p">v</span>: DynArray(<span class="t">String</span>)) -> DynArray(<span class="t">String</span>)</code></pre>
+<p>A new DynArray of the Strings from smallest to largest; <code>v</code> is as it was
+(<code>sort</code> sorts in place).</p>
+<p class="pyk-api-label">Parameters</p>
+<ul>
+<li><code>v</code>: a DynArray.</li>
+</ul>
+<p class="pyk-api-label">Returns</p>
+<p>A new DynArray.</p>
+<p class="pyk-api-label">Example</p>
+<div class="pkn-notebook pkn-embedded not-content"><div class="pkn-fragment" data-markdown="&#x60;&#x60;&#x60;pyking
+use mutation
+import dynarray
+v = dynarray([&#x22;b&#x22;, &#x22;a&#x22;])
+print(dynarray.sorted(v), v)
+&#x60;&#x60;&#x60;
+
+&#x60;&#x60;&#x60;stdout visible = true
+dynarray([&#x22;a&#x22;, &#x22;b&#x22;]) dynarray([&#x22;b&#x22;, &#x22;a&#x22;])
 &#x60;&#x60;&#x60;"></div></div>
 </div>
 <div class="pyk-api">
@@ -380,5 +1525,50 @@ print(dynarray.to_list(v))
 
 &#x60;&#x60;&#x60;stdout visible = true
 [3, 4, 5]
+&#x60;&#x60;&#x60;"></div></div>
+</div>
+<div class="pyk-api">
+<h2 id="truncate">truncate</h2>
+<pre class="pyk-sig"><code><span class="k">def</span> <span class="n">truncate</span>(<span class="p">v</span>: DynArray(t), <span class="p">n</span>: <span class="t">Int</span>) -> ()</code></pre>
+<p>Takes elements off the end until at most <code>n</code> are left (Rust’s
+<code>truncate</code>).</p>
+<p class="pyk-api-label">Parameters</p>
+<ul>
+<li><code>v</code>: the DynArray.</li>
+<li><code>n</code>: how many to keep.</li>
+</ul>
+<p class="pyk-api-label">Example</p>
+<div class="pkn-notebook pkn-embedded not-content"><div class="pkn-fragment" data-markdown="&#x60;&#x60;&#x60;pyking
+use mutation
+import dynarray
+v = dynarray([1, 2, 3])
+dynarray.truncate(v, 1)
+print(v)
+&#x60;&#x60;&#x60;
+
+&#x60;&#x60;&#x60;stdout visible = true
+dynarray([1])
+&#x60;&#x60;&#x60;"></div></div>
+</div>
+<div class="pyk-api">
+<h2 id="zip">zip</h2>
+<pre class="pyk-sig"><code><span class="k">def</span> <span class="n">zip</span>(<span class="p">v</span>: DynArray(t), <span class="p">other</span>: DynArray(u)) -> DynArray((t, u))</code></pre>
+<p>The elements of two DynArrays in pairs, as long as the shorter one.</p>
+<p class="pyk-api-label">Parameters</p>
+<ul>
+<li><code>v</code>: the first DynArray.</li>
+<li><code>other</code>: the second.</li>
+</ul>
+<p class="pyk-api-label">Returns</p>
+<p>A new DynArray of pairs.</p>
+<p class="pyk-api-label">Example</p>
+<div class="pkn-notebook pkn-embedded not-content"><div class="pkn-fragment" data-markdown="&#x60;&#x60;&#x60;pyking
+use mutation
+import dynarray
+print(dynarray.zip(dynarray([1, 2]), dynarray([&#x22;a&#x22;, &#x22;b&#x22;, &#x22;c&#x22;])))
+&#x60;&#x60;&#x60;
+
+&#x60;&#x60;&#x60;stdout visible = true
+dynarray([(1, &#x22;a&#x22;), (2, &#x22;b&#x22;)])
 &#x60;&#x60;&#x60;"></div></div>
 </div></div><footer class="sl-flex astro-ddtxxk7k"><div class="meta sl-flex astro-ddtxxk7k"></div><div class="pagination-links print:hidden astro-b5raizh3" dir="ltr"></div></footer></div></div></main></div></div></div></div></body></html>

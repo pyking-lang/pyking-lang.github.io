@@ -4,18 +4,18 @@
 
 let pyk_char_length s =
   let rec go k n =
-    if k >= String.length s then n
-    else go (k + Uchar.utf_decode_length (String.get_utf_8_uchar s k)) (n + 1)
+    if k >= Stdlib.String.length s then n
+    else go (k + Stdlib.Uchar.utf_decode_length (Stdlib.String.get_utf_8_uchar s k)) (n + 1)
   in
   go 0 0
 
 let pyk_char_at s i =
   let rec go k j =
-    if i < 0 || k >= String.length s then invalid_arg "index out of range"
+    if i < 0 || k >= Stdlib.String.length s then invalid_arg "index out of range"
     else
-      let d = String.get_utf_8_uchar s k in
-      if j = i then Uchar.to_int (Uchar.utf_decode_uchar d)
-      else go (k + Uchar.utf_decode_length d) (j + 1)
+      let d = Stdlib.String.get_utf_8_uchar s k in
+      if j = i then Stdlib.Uchar.to_int (Stdlib.Uchar.utf_decode_uchar d)
+      else go (k + Stdlib.Uchar.utf_decode_length d) (j + 1)
   in
   go 0 0
 
@@ -24,17 +24,17 @@ let pyk_char_of_int n =
 
 let pyk_chars s =
   let rec go k out =
-    if k >= String.length s then List.rev out
+    if k >= Stdlib.String.length s then Stdlib.List.rev out
     else
-      let d = String.get_utf_8_uchar s k in
-      go (k + Uchar.utf_decode_length d) (Uchar.to_int (Uchar.utf_decode_uchar d) :: out)
+      let d = Stdlib.String.get_utf_8_uchar s k in
+      go (k + Stdlib.Uchar.utf_decode_length d) (Stdlib.Uchar.to_int (Stdlib.Uchar.utf_decode_uchar d) :: out)
   in
   go 0 []
 
 let pyk_char_text c =
-  let out = Buffer.create 4 in
-  Buffer.add_utf_8_uchar out (Uchar.of_int c);
-  Buffer.contents out
+  let out = Stdlib.Buffer.create 4 in
+  Stdlib.Buffer.add_utf_8_uchar out (Stdlib.Uchar.of_int c);
+  Stdlib.Buffer.contents out
 
 let within k top = if k < 0 then 0 else if k > top then top else k
 
@@ -62,7 +62,7 @@ let code c = c
 
 let from_code n = pyk_char_of_int n
 
-let chars s = List.concat_map (function | c -> [c]) (pyk_chars s)
+let chars s = Stdlib.List.concat_map (function | c -> [c]) (pyk_chars s)
 
 let find s part start =
   let n = Text_external.host_length s in
@@ -131,11 +131,9 @@ let split s by =
 let words s =
   let spaced =
     Text_external.host_replace (Text_external.host_replace (Text_external.host_replace s "\t" " ") "\n" " ") "\r" " " in
-  List.concat_map (function | w -> if filled w then [w] else []) (split spaced " ")
+  Stdlib.List.concat_map (function | w -> if filled w then [w] else []) (split spaced " ")
 
-let rec from_chars cs =
-  join (List.concat_map (function | c -> [pyk_char_text c]) cs) ""
-and join parts between =
+let join parts between =
   let whole = ref "" in
   let chunk = ref "" in
   let count = ref 0 in
@@ -153,6 +151,9 @@ and join parts between =
   if !count = 0 then !whole
   else if !chunks = 0 then !chunk
   else !whole ^ between ^ !chunk
+
+let from_chars cs =
+  join (Stdlib.List.concat_map (function | c -> [pyk_char_text c]) cs) ""
 
 let lines s =
   if s = "" then []

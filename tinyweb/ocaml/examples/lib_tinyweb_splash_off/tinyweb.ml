@@ -5,21 +5,21 @@
 [@@@warning "-fragile-match"]
 
 let pyk_quote text =
-  let out = Buffer.create (String.length text + 2) in
-  Buffer.add_char out '"';
-  String.iter
+  let out = Stdlib.Buffer.create (Stdlib.String.length text + 2) in
+  Stdlib.Buffer.add_char out '"';
+  Stdlib.String.iter
     (fun c ->
       match c with
-      | '\\' -> Buffer.add_string out "\\\\"
-      | '"' -> Buffer.add_string out "\\\""
-      | '\n' -> Buffer.add_string out "\\n"
-      | '\t' -> Buffer.add_string out "\\t"
-      | '\r' -> Buffer.add_string out "\\r"
-      | '\000' -> Buffer.add_string out "\\0"
-      | c -> Buffer.add_char out c)
+      | '\\' -> Stdlib.Buffer.add_string out "\\\\"
+      | '"' -> Stdlib.Buffer.add_string out "\\\""
+      | '\n' -> Stdlib.Buffer.add_string out "\\n"
+      | '\t' -> Stdlib.Buffer.add_string out "\\t"
+      | '\r' -> Stdlib.Buffer.add_string out "\\r"
+      | '\000' -> Stdlib.Buffer.add_string out "\\0"
+      | c -> Stdlib.Buffer.add_char out c)
     text;
-  Buffer.add_char out '"';
-  Buffer.contents out
+  Stdlib.Buffer.add_char out '"';
+  Stdlib.Buffer.contents out
 
 let pyk_float_str x =
   if x <> x then "nan"
@@ -32,44 +32,44 @@ let pyk_float_str x =
     if a = 0.0 then sign ^ "0.0"
     else
       let rec shortest p =
-        let s = Printf.sprintf "%.*e" p a in
+        let s = Stdlib.Printf.sprintf "%.*e" p a in
         if p >= 16 || float_of_string s = a then s else shortest (p + 1)
       in
       let s = shortest 0 in
-      let at = String.index s 'e' in
+      let at = Stdlib.String.index s 'e' in
       let digits =
-        String.concat "" (String.split_on_char '.' (String.sub s 0 at))
+        Stdlib.String.concat "" (Stdlib.String.split_on_char '.' (Stdlib.String.sub s 0 at))
       in
       let rec trim n =
         if n > 1 && digits.[n - 1] = '0' then trim (n - 1) else n
       in
-      let digits = String.sub digits 0 (trim (String.length digits)) in
-      let len = String.length digits in
+      let digits = Stdlib.String.sub digits 0 (trim (Stdlib.String.length digits)) in
+      let len = Stdlib.String.length digits in
       let decpt =
-        int_of_string (String.sub s (at + 1) (String.length s - at - 1))
+        int_of_string (Stdlib.String.sub s (at + 1) (Stdlib.String.length s - at - 1))
         + 1
       in
-      let zeros n = String.make (max 0 n) '0' in
+      let zeros n = Stdlib.String.make (max 0 n) '0' in
       if decpt <= -4 || decpt > 16 then
         let mantissa =
           if len = 1 then digits
-          else String.sub digits 0 1 ^ "." ^ String.sub digits 1 (len - 1)
+          else Stdlib.String.sub digits 0 1 ^ "." ^ Stdlib.String.sub digits 1 (len - 1)
         in
         sign ^ mantissa ^ "e" ^ string_of_int (decpt - 1)
       else if decpt <= 0 then sign ^ "0." ^ zeros (-decpt) ^ digits
       else if decpt >= len then sign ^ digits ^ zeros (decpt - len) ^ ".0"
       else
-        sign ^ String.sub digits 0 decpt ^ "."
-        ^ String.sub digits decpt (len - decpt)
+        sign ^ Stdlib.String.sub digits 0 decpt ^ "."
+        ^ Stdlib.String.sub digits decpt (len - decpt)
 
 let pyk_truncate x =
-  if Float.is_nan x then 0
+  if Stdlib.Float.is_nan x then 0
   else
-    let t = Float.trunc x in
+    let t = Stdlib.Float.trunc x in
     if t < -2147483648.0 || t > 2147483647.0 then 0 else int_of_float t
 
 let pyk_int_of_string s =
-  let n = String.length s in
+  let n = Stdlib.String.length s in
   let start = if n > 0 && (s.[0] = '-' || s.[0] = '+') then 1 else 0 in
   let rec digits i = i = n || (s.[i] >= '0' && s.[i] <= '9' && digits (i + 1)) in
   if start = n || not (digits start) then 0
@@ -153,10 +153,10 @@ let joined_by words between =
 let joined words = joined_by words " "
 
 let points_text points =
-  joined (List.concat_map (function | p -> [numbers2 (let Point (tmp5, _) = p in tmp5) (let Point (_, tmp6) = p in tmp6)]) points)
+  joined (Stdlib.List.concat_map (function | p -> [numbers2 (let Point (tmp5, _) = p in tmp5) (let Point (_, tmp6) = p in tmp6)]) points)
 
 let segments_text segments =
-  joined (List.concat_map (function | (a, b) -> [numbers4 (let Point (tmp7, _) = a in tmp7) (let Point (_, tmp8) = a in tmp8) (let Point (tmp9, _) = b in tmp9) (let Point (_, tmp10) = b in tmp10)]) segments)
+  joined (Stdlib.List.concat_map (function | (a, b) -> [numbers4 (let Point (tmp7, _) = a in tmp7) (let Point (_, tmp8) = a in tmp8) (let Point (tmp9, _) = b in tmp9) (let Point (_, tmp10) = b in tmp10)]) segments)
 
 let floats2 a b = pyk_float_str a ^ " " ^ pyk_float_str b
 
@@ -165,7 +165,7 @@ let floats3 a b c = floats2 a b ^ " " ^ pyk_float_str c
 let floats4 a b c d = floats2 a b ^ " " ^ floats2 c d
 
 let float_points_text points =
-  joined (List.concat_map (function | p -> [floats2 (let Smooth__Point (tmp11, _) = p in tmp11) (let Smooth__Point (_, tmp12) = p in tmp12)]) points)
+  joined (Stdlib.List.concat_map (function | p -> [floats2 (let Smooth__Point (tmp11, _) = p in tmp11) (let Smooth__Point (_, tmp12) = p in tmp12)]) points)
 
 let bit on = if on then "1" else "0"
 
@@ -227,10 +227,7 @@ let color__wrap x m =
 
 let color__between a b t = float_of_int a +. float_of_int (b - a) *. t
 
-let rec color__hex2 n =
-  let clamped = color__part n in
-  color__hex_digit (clamped / 16) ^ color__hex_digit (clamped - clamped / 16 * 16)
-and color__hex_digit d =
+let color__hex_digit d =
   match d with
       | 0 -> "0"
       | 1 -> "1"
@@ -248,6 +245,10 @@ and color__hex_digit d =
       | 13 -> "d"
       | 14 -> "e"
       | _ -> "f"
+
+let color__hex2 n =
+  let clamped = color__part n in
+  color__hex_digit (clamped / 16) ^ color__hex_digit (clamped - clamped / 16 * 16)
 
 let color__css c =
   if (let Color__Color (_, _, _, tmp13) = c in tmp13) >= 1.0 then
@@ -338,14 +339,15 @@ let field__default__Style__stroke () = color__none
 
 let field__default__Style__paint () = Color__Plain color__none
 
-let rec fill_of fill paint style =
+let not_default_fill fill =
+  if color__same fill color__black then false else true
+
+let fill_of fill paint style =
   if color__painted paint then color__paint_text paint
   else if not_default_fill fill then color__drawn fill
   else if color__painted (let Style (_, _, _, _, tmp47) = style in tmp47) then
     color__paint_text (let Style (_, _, _, _, tmp48) = style in tmp48)
   else color__drawn (let Style (tmp49, _, _, _, _) = style in tmp49)
-and not_default_fill fill =
-  if color__same fill color__black then false else true
 
 let stroke_of stroke style =
   color__drawn (if color__same stroke color__none then
@@ -706,9 +708,9 @@ let set_style id background foreground border border_width radius font size padd
     style_text id "element" "weight" (string_of_int weight);
   style_pixels id "element" "height" height
 
-let button title on_click = Tinyweb_external.make_button title on_click
-
 let on_click c f = Tinyweb_external.on_mouse c f
+
+let button title on_click = Tinyweb_external.make_button title on_click
 
 let on_press c f = Tinyweb_external.watch_pointer c "press" f
 
@@ -723,8 +725,9 @@ let mouse c =
   let tmp58 = Tinyweb_external.pointer c "y" in
   Pointer (tmp57, tmp58, Tinyweb_external.pointer c "down" = 1)
 
-let rec track_mouse c = Tinyweb_external.watch_pointer c "move" ignore2
-and ignore2 _x _y = ()
+let ignore2 _x _y = ()
+
+let track_mouse c = Tinyweb_external.watch_pointer c "move" ignore2
 
 let after seconds f =
   let id = Tinyweb_external.fresh_id "timer" in
@@ -790,17 +793,7 @@ let sound__master_volume volume =
 let sound__tone frequency at duration wave volume pan channel =
   Tinyweb_external.command "tone" "" wave (floats4 frequency at duration volume ^ " " ^ pyk_float_str pan ^ " " ^ string_of_int channel) 2
 
-let rec sound__note name =
-  let semitones = sound__semitones name in
-  if semitones < -1000 then 0.0
-  else 440.0 *. Math.pow 2.0 (float_of_int (semitones - 57) /. 12.0)
-and sound__rate_of name base =
-  let origin = sound__semitones base in
-  let target = sound__semitones name in
-  if origin < -1000 then 1.0
-  else if target < -1000 then 1.0
-  else Math.pow 2.0 (float_of_int (target - origin) /. 12.0)
-and sound__semitones name =
+let sound__semitones name =
   let base =
     match Text.char_at name 0 with
         | (67 | 99) -> 0
@@ -824,6 +817,18 @@ and sound__semitones name =
     else if rest = "" then true
     else string_of_int octave = rest in
   if valid then base + shift + octave * 12 else -10000
+
+let sound__note name =
+  let semitones = sound__semitones name in
+  if semitones < -1000 then 0.0
+  else 440.0 *. Math.pow 2.0 (float_of_int (semitones - 57) /. 12.0)
+
+let sound__rate_of name base =
+  let origin = sound__semitones base in
+  let target = sound__semitones name in
+  if origin < -1000 then 1.0
+  else if target < -1000 then 1.0
+  else Math.pow 2.0 (float_of_int (target - origin) /. 12.0)
 
 let sound__tempo bpm =
   Tinyweb_external.command "tempo" "" "" (pyk_float_str bpm) 1
@@ -865,9 +870,9 @@ let sound__render_wav seconds f name on_rendered =
   Tinyweb_external.command "render" id name (pyk_float_str seconds) 2;
   f (); Tinyweb_external.command "render_end" id "" "" 2
 
-let rec sound__render_wav__default__on_rendered () =
-  sound__ignore_rendered
-and sound__ignore_rendered _took _peak = ()
+let sound__ignore_rendered _took _peak = ()
+
+let sound__render_wav__default__on_rendered () = sound__ignore_rendered
 
 let bitmap__bitmap__default__background () = color__white
 
@@ -931,7 +936,7 @@ let smooth__stroked c kind numbers stroke width alpha style =
   Tinyweb_external.draw_shape c kind numbers "" (line_of stroke style) (smooth__width_of width style) (alpha_of alpha style)
 
 let smooth__pairs points =
-  List.concat_map (function | p -> [((let Smooth__Point (tmp67, _) = p in tmp67), (let Smooth__Point (_, tmp68) = p in tmp68))]) points
+  Stdlib.List.concat_map (function | p -> [((let Smooth__Point (tmp67, _) = p in tmp67), (let Smooth__Point (_, tmp68) = p in tmp68))]) points
 
 let smooth__circle__default__fill () = color__black
 
@@ -1015,7 +1020,7 @@ let smooth__lines__default__style () =
   Style (field__default__Style__fill (), field__default__Style__stroke (), 1, 1.0, field__default__Style__paint ())
 
 let smooth__lines c segments stroke width alpha style =
-  Tinyweb_external.draw_quads c "lines" (List.concat_map (function | (a, b) -> [((let Smooth__Point (tmp69, _) = a in tmp69), (let Smooth__Point (_, tmp70) = a in tmp70), (let Smooth__Point (tmp71, _) = b in tmp71), (let Smooth__Point (_, tmp72) = b in tmp72))]) segments) "" (line_of stroke style) (smooth__width_of width style) (alpha_of alpha style)
+  Tinyweb_external.draw_quads c "lines" (Stdlib.List.concat_map (function | (a, b) -> [((let Smooth__Point (tmp69, _) = a in tmp69), (let Smooth__Point (_, tmp70) = a in tmp70), (let Smooth__Point (tmp71, _) = b in tmp71), (let Smooth__Point (_, tmp72) = b in tmp72))]) segments) "" (line_of stroke style) (smooth__width_of width style) (alpha_of alpha style)
 
 let smooth__path__default__stroke () = color__black
 

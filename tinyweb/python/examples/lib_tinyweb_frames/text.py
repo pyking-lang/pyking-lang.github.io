@@ -43,7 +43,7 @@ def filled(s):
 def length(s):
     return text_external.host_length(s)
 
-def slice(s, start, stop):
+def slice_(s, start, stop):
     n = text_external.host_length(s)
     a = within(start, n)
     b = within(stop, n)
@@ -82,7 +82,7 @@ def contains(s, part):
     return find(s, part, 0) >= 0
 
 def starts_with(s, prefix):
-    return slice(s, 0, text_external.host_length(prefix)) == prefix
+    return slice_(s, 0, text_external.host_length(prefix)) == prefix
 
 def ends_with(s, suffix):
     n = text_external.host_length(s)

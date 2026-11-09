@@ -6,7 +6,7 @@ let pyk_range start stop step =
   if step = 0 then failwith "'range' step must not be zero";
   let rec go n out =
     if (step > 0 && n >= stop) || (step < 0 && n <= stop) then
-      List.rev out
+      Stdlib.List.rev out
     else go (n + step) (n :: out)
   in
   go start []
@@ -20,13 +20,13 @@ let () =
   Tinyweb.smooth__path c [Tinyweb.Smooth__Point (10.0, 110.0); Tinyweb.Smooth__Point (60.5, 20.5); Tinyweb.Smooth__Point (110.25, 70.0); Tinyweb.Smooth__Point (190.0, 10.0)] Tinyweb.color__teal 2.5 1.0 (Tinyweb.smooth__path__default__style ())
 
 let rays =
-  List.concat_map (function | i -> [(Tinyweb.Smooth__Point (100.0, 60.0), Tinyweb.Smooth__Point (100.0 +. 45.0 *. float_of_int (i - i / 3 * 3), 5.0 *. float_of_int i))]) (List.init (max 0 8) Fun.id)
+  Stdlib.List.concat_map (function | i -> [(Tinyweb.Smooth__Point (100.0, 60.0), Tinyweb.Smooth__Point (100.0 +. 45.0 *. float_of_int (i - i / 3 * 3), 5.0 *. float_of_int i))]) (Stdlib.List.init (max 0 8) Stdlib.Fun.id)
 
 let () =
   let tmp1 = Tinyweb.color__hex 14423100 in
   Tinyweb.smooth__lines c rays tmp1 0.8 0.5 (Tinyweb.smooth__lines__default__style ());
   let tmp2 = Tinyweb.color__hex 13421772 in
-  Tinyweb.lines c (List.concat_map (function | x -> [(Tinyweb.Point (x, 0), Tinyweb.Point (x, 120))]) (pyk_range 0 200 40)) tmp2 1 1.0 (Tinyweb.lines__default__style ());
+  Tinyweb.lines c (Stdlib.List.concat_map (function | x -> [(Tinyweb.Point (x, 0), Tinyweb.Point (x, 120))]) (pyk_range 0 200 40)) tmp2 1 1.0 (Tinyweb.lines__default__style ());
   let tmp3 = Tinyweb.smooth__circles__default__stroke () in
   Tinyweb.smooth__circles c [(10.5, 10.5, 3.0); (20.0, 10.0, 2.5)] Tinyweb.color__navy tmp3 1.0 1.0 (Tinyweb.smooth__circles__default__style ());
   Tinyweb.push c;
@@ -44,8 +44,8 @@ let () =
   Tinyweb.pop c
 
 let many =
-  List.concat_map (function | i -> [(Tinyweb.Smooth__Point (float_of_int i, 0.0), Tinyweb.Smooth__Point (float_of_int i +. 0.5, 120.0))]) (List.init (max 0 300) Fun.id)
+  Stdlib.List.concat_map (function | i -> [(Tinyweb.Smooth__Point (float_of_int i, 0.0), Tinyweb.Smooth__Point (float_of_int i +. 0.5, 120.0))]) (Stdlib.List.init (max 0 300) Stdlib.Fun.id)
 
 let () =
   Tinyweb.smooth__lines c many Tinyweb.color__black 0.25 0.1 (Tinyweb.smooth__lines__default__style ());
-  print_endline ("drew" ^ " " ^ string_of_int (List.length many) ^ " " ^ "lines in one go")
+  print_endline ("drew" ^ " " ^ string_of_int (Stdlib.List.length many) ^ " " ^ "lines in one go")

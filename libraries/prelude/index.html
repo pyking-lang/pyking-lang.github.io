@@ -1,0 +1,1527 @@
+<!DOCTYPE html><html lang="en" dir="ltr" data-theme="dark" data-has-sidebar class="astro-g5ptsecz"><head><meta charset="utf-8"/><meta name="viewport" content="width=device-width, initial-scale=1"/><title>prelude | Pyking</title><link rel="canonical" href="https://pyking.org/libraries/prelude/"/><link rel="sitemap" href="/sitemap-index.xml"/><script src="/v/42683900f13c/site/shell.js" data-base data-build="42683900f13c" data-sections="[{&quot;key&quot;:&quot;install&quot;,&quot;label&quot;:&quot;Install&quot;,&quot;prefix&quot;:&quot;/install/&quot;},{&quot;key&quot;:&quot;getstarted&quot;,&quot;label&quot;:&quot;Getting started&quot;,&quot;prefix&quot;:&quot;/getstarted/&quot;},{&quot;key&quot;:&quot;documentation&quot;,&quot;label&quot;:&quot;Documentation&quot;,&quot;prefix&quot;:&quot;/documentation/&quot;},{&quot;key&quot;:&quot;libraries&quot;,&quot;label&quot;:&quot;Libraries&quot;,&quot;prefix&quot;:&quot;/libraries/&quot;},{&quot;key&quot;:&quot;playground&quot;,&quot;label&quot;:&quot;Playground&quot;,&quot;prefix&quot;:&quot;/playground/&quot;}]"></script><script type="module" src="/v/42683900f13c/site/cells.js"></script><script>try { if (localStorage.getItem('starlight-theme') === null) localStorage.setItem('starlight-theme', 'dark'); } catch (e) {}</script><link rel="shortcut icon" href="/v/42683900f13c/site/favicon.svg" type="image/svg+xml"/><meta name="generator" content="Astro v7.3.5"/><meta name="generator" content="Starlight v0.42.5"/><meta property="og:title" content="prelude"/><meta property="og:type" content="article"/><meta property="og:url" content="https://pyking.org/libraries/prelude/"/><meta property="og:locale" content="en"/><meta property="og:description" content="The builtins written in Pyking: `fmap`, `filter`, `foldl`, `foldr`, `any` and `all` over every collection, and the forms of `list`, `list_init`, `dynarray`, `dynarray_init`, `map_init` and `mutmap_init` that make one by calling a function or convert another."/><meta property="og:site_name" content="Pyking"/><meta name="twitter:card" content="summary_large_image"/><meta name="description" content="The builtins written in Pyking: `fmap`, `filter`, `foldl`, `foldr`, `any` and `all` over every collection, and the forms of `list`, `list_init`, `dynarray`, `dynarray_init`, `map_init` and `mutmap_init` that make one by calling a function or convert another."/><script>
+	window.StarlightThemeProvider = (() => {
+		const storedTheme =
+			typeof localStorage !== 'undefined' && localStorage.getItem('starlight-theme');
+		const theme =
+			storedTheme ||
+			(window.matchMedia('(prefers-color-scheme: light)').matches ? 'light' : 'dark');
+		document.documentElement.dataset.theme = theme === 'light' ? 'light' : 'dark';
+		return {
+			updatePickers(theme = storedTheme || 'auto') {
+				document.querySelectorAll('starlight-theme-select').forEach((picker) => {
+					const select = picker.querySelector('select');
+					if (select) select.value = theme;
+					/** @type {HTMLTemplateElement | null} */
+					const tmpl = document.querySelector(`#theme-icons`);
+					const newIcon = tmpl && tmpl.content.querySelector('.' + theme);
+					if (newIcon) {
+						const oldIcon = picker.querySelector('svg.label-icon');
+						if (oldIcon) {
+							oldIcon.replaceChildren(...newIcon.cloneNode(true).childNodes);
+						}
+					}
+				});
+			},
+		};
+	})();
+</script><template id="theme-icons"><svg aria-hidden="true" class="light astro-hkc32dio" width="16" height="16" viewBox="0 0 24 24" fill="currentColor" style="--sl-icon-size: 1em;"><path d="M5 12a1 1 0 0 0-1-1H3a1 1 0 0 0 0 2h1a1 1 0 0 0 1-1Zm.64 5-.71.71a1 1 0 0 0 0 1.41 1 1 0 0 0 1.41 0l.71-.71A1 1 0 0 0 5.64 17ZM12 5a1 1 0 0 0 1-1V3a1 1 0 0 0-2 0v1a1 1 0 0 0 1 1Zm5.66 2.34a1 1 0 0 0 .7-.29l.71-.71a1 1 0 1 0-1.41-1.41l-.66.71a1 1 0 0 0 0 1.41 1 1 0 0 0 .66.29Zm-12-.29a1 1 0 0 0 1.41 0 1 1 0 0 0 0-1.41l-.71-.71a1.004 1.004 0 1 0-1.43 1.41l.73.71ZM21 11h-1a1 1 0 0 0 0 2h1a1 1 0 0 0 0-2Zm-2.64 6A1 1 0 0 0 17 18.36l.71.71a1 1 0 0 0 1.41 0 1 1 0 0 0 0-1.41l-.76-.66ZM12 6.5a5.5 5.5 0 1 0 5.5 5.5A5.51 5.51 0 0 0 12 6.5Zm0 9a3.5 3.5 0 1 1 0-7 3.5 3.5 0 0 1 0 7Zm0 3.5a1 1 0 0 0-1 1v1a1 1 0 0 0 2 0v-1a1 1 0 0 0-1-1Z"/></svg><svg aria-hidden="true" class="dark astro-hkc32dio" width="16" height="16" viewBox="0 0 24 24" fill="currentColor" style="--sl-icon-size: 1em;"><path d="M21.64 13a1 1 0 0 0-1.05-.14 8.049 8.049 0 0 1-3.37.73 8.15 8.15 0 0 1-8.14-8.1 8.59 8.59 0 0 1 .25-2A1 1 0 0 0 8 2.36a10.14 10.14 0 1 0 14 11.69 1 1 0 0 0-.36-1.05Zm-9.5 6.69A8.14 8.14 0 0 1 7.08 5.22v.27a10.15 10.15 0 0 0 10.14 10.14 9.784 9.784 0 0 0 2.1-.22 8.11 8.11 0 0 1-7.18 4.32v-.04Z"/></svg><svg aria-hidden="true" class="auto astro-hkc32dio" width="16" height="16" viewBox="0 0 24 24" fill="currentColor" style="--sl-icon-size: 1em;"><path d="M21 14h-1V7a3 3 0 0 0-3-3H7a3 3 0 0 0-3 3v7H3a1 1 0 0 0-1 1v2a3 3 0 0 0 3 3h14a3 3 0 0 0 3-3v-2a1 1 0 0 0-1-1ZM6 7a1 1 0 0 1 1-1h10a1 1 0 0 1 1 1v7H6V7Zm14 10a1 1 0 0 1-1 1H5a1 1 0 0 1-1-1v-1h16v1Z"/></svg></template><link rel="stylesheet" href="/_astro/print.ehPL0gv-.css" media="print"><link rel="stylesheet" href="/_astro/middleware.CytdhB19.css"><script type="module" src="/_astro/page.Dwipeu-R.js"></script></head><body class="astro-g5ptsecz"><a class="sl-skip-link astro-qb7clj6f" href="#_top">Skip to content</a><div class="page sl-flex astro-yntsjkba"><header class="header astro-yntsjkba"><div class="pyking-header"><div class="pyking-header-left"><a href="/" class="site-title sl-flex astro-6rvad3va"><img class="astro-6rvad3va" alt="Pyking" src="/_astro/logo.C9hvHOpV.svg" width="64" height="64"><span class="astro-6rvad3va" translate="no">Pyking</span></a><nav class="pyking-nav" aria-label="Sections"><a href="/install/">Install</a><a href="/getstarted/overview/">Getting started</a><a href="/documentation/language/">Documentation</a><a href="/libraries/" aria-current="page">Libraries</a><a href="/playground/">Playground</a></nav></div><div class="pyking-header-right print:hidden"><site-search class=" astro-b5kgnn7o" data-translations="{&quot;placeholder&quot;:&quot;Search&quot;}"><button data-open-modal disabled aria-label="Search" aria-keyshortcuts="Control+K" class="astro-b5kgnn7o"><svg aria-hidden="true" class="astro-b5kgnn7o astro-hkc32dio" width="16" height="16" viewBox="0 0 24 24" fill="currentColor" style="--sl-icon-size: 1em;"><path d="M21.71 20.29 18 16.61A9 9 0 1 0 16.61 18l3.68 3.68a.999.999 0 0 0 1.42 0 1 1 0 0 0 0-1.39ZM11 18a7 7 0 1 1 0-14 7 7 0 0 1 0 14Z"/></svg><span class="sl-hidden md:sl-block astro-b5kgnn7o" aria-hidden="true">Search</span><kbd class="sl-hidden md:sl-flex astro-b5kgnn7o" style="display: none;"><kbd class="astro-b5kgnn7o">Ctrl</kbd><kbd class="astro-b5kgnn7o">K</kbd></kbd></button><dialog style="padding:0" aria-label="Search" class="astro-b5kgnn7o"><div class="dialog-frame sl-flex astro-b5kgnn7o"><button data-close-modal class="sl-flex md:sl-hidden astro-b5kgnn7o">Cancel</button><div class="search-container astro-b5kgnn7o"><div id="starlight__search" class="astro-b5kgnn7o"></div></div></div></dialog></site-search><script>
+	(() => {
+		const openBtn = document.querySelector('button[data-open-modal]');
+		const shortcut = openBtn?.querySelector('kbd');
+		if (!openBtn || !(shortcut instanceof HTMLElement)) return;
+		const platformKey = shortcut.querySelector('kbd');
+		if (platformKey && /(Mac|iPhone|iPod|iPad)/i.test(navigator.platform)) {
+			platformKey.textContent = '⌘';
+			openBtn.setAttribute('aria-keyshortcuts', 'Meta+K');
+		}
+		shortcut.style.display = '';
+	})();
+</script><script type="module" src="/_astro/Search.astro_astro_type_script_index_0_lang.Bumivpjo.js"></script><div class="sl-hidden md:sl-flex"><starlight-theme-select><label style="--sl-select-width: 6.25em" class="astro-2z5xp7gb"><span class="sr-only astro-2z5xp7gb">Select theme</span><svg aria-hidden="true" class="icon label-icon astro-2z5xp7gb astro-hkc32dio" width="16" height="16" viewBox="0 0 24 24" fill="currentColor" style="--sl-icon-size: 1em;"><path d="M21 14h-1V7a3 3 0 0 0-3-3H7a3 3 0 0 0-3 3v7H3a1 1 0 0 0-1 1v2a3 3 0 0 0 3 3h14a3 3 0 0 0 3-3v-2a1 1 0 0 0-1-1ZM6 7a1 1 0 0 1 1-1h10a1 1 0 0 1 1 1v7H6V7Zm14 10a1 1 0 0 1-1 1H5a1 1 0 0 1-1-1v-1h16v1Z"/></svg><select autocomplete="off" class="astro-2z5xp7gb"><option value="dark" class="astro-2z5xp7gb">Dark</option><option value="light" class="astro-2z5xp7gb">Light</option><option value="auto" selected class="astro-2z5xp7gb">Auto</option></select><svg aria-hidden="true" class="icon caret astro-2z5xp7gb astro-hkc32dio" width="16" height="16" viewBox="0 0 24 24" fill="currentColor" style="--sl-icon-size: 1em;"><path d="M17 9.17a1 1 0 0 0-1.41 0L12 12.71 8.46 9.17a1 1 0 1 0-1.41 1.42l4.24 4.24a1.002 1.002 0 0 0 1.42 0L17 10.59a1.002 1.002 0 0 0 0-1.42Z"/></svg></label></starlight-theme-select><script>
+	StarlightThemeProvider.updatePickers();
+</script><script type="module">var e=`starlight-theme`,t=e=>e===`auto`||e===`dark`||e===`light`?e:`auto`,n=()=>t(typeof localStorage<`u`&&localStorage.getItem(e));function r(t){typeof localStorage<`u`&&localStorage.setItem(e,t===`light`||t===`dark`?t:``)}var i=()=>matchMedia(`(prefers-color-scheme: light)`).matches?`light`:`dark`;function a(e){StarlightThemeProvider.updatePickers(e),document.documentElement.dataset.theme=e===`auto`?i():e,r(e)}matchMedia(`(prefers-color-scheme: light)`).addEventListener(`change`,()=>{n()===`auto`&&a(`auto`)});var o=class extends HTMLElement{constructor(){super(),a(n()),this.querySelector(`select`)?.addEventListener(`change`,e=>{e.currentTarget instanceof HTMLSelectElement&&a(t(e.currentTarget.value))})}};customElements.define(`starlight-theme-select`,o);</script></div><a class="pyking-github" href="https://github.com/pyking-lang" title="Pyking on GitHub"><span class="sr-only">GitHub</span><svg aria-hidden="true" viewBox="0 0 24 24" width="22" height="22" fill="currentColor"><path d="M12 .3a12 12 0 0 0-3.8 23.4c.6.1.8-.3.8-.6v-2c-3.3.7-4-1.6-4-1.6-.6-1.4-1.4-1.8-1.4-1.8-1-.7.1-.7.1-.7 1.2.1 1.8 1.2 1.8 1.2 1 1.8 2.8 1.3 3.5 1 0-.8.4-1.3.7-1.6-2.7-.3-5.5-1.3-5.5-6 0-1.2.5-2.3 1.3-3.1-.2-.4-.6-1.6 0-3.2 0 0 1-.3 3.4 1.2a11.5 11.5 0 0 1 6 0c2.3-1.5 3.3-1.2 3.3-1.2.6 1.6.2 2.8.1 3.2.8.8 1.3 1.9 1.3 3.1 0 4.6-2.8 5.6-5.5 5.9.5.4.9 1.1.9 2.2v3.3c0 .3.1.7.8.6A12 12 0 0 0 12 .3"></path></svg></a></div></div></header><nav class="sidebar print:hidden astro-yntsjkba" aria-label="Main"><button popovertarget="starlight__sidebar" class="sl-menu-button sl-flex md:sl-hidden print:hidden astro-r2osgdlg"><svg aria-hidden="true" class="open-menu astro-r2osgdlg astro-hkc32dio" width="16" height="16" viewBox="0 0 24 24" fill="currentColor" style="--sl-icon-size: 1em;"><path d="M3 8h18a1 1 0 1 0 0-2H3a1 1 0 0 0 0 2Zm18 8H3a1 1 0 0 0 0 2h18a1 1 0 0 0 0-2Zm0-5H3a1 1 0 0 0 0 2h18a1 1 0 0 0 0-2Z"/></svg><svg aria-hidden="true" class="close-menu astro-r2osgdlg astro-hkc32dio" width="16" height="16" viewBox="0 0 24 24" fill="currentColor" style="--sl-icon-size: 1em;"><path d="m13.41 12 6.3-6.29a1.004 1.004 0 1 0-1.42-1.42L12 10.59l-6.29-6.3a1.004 1.004 0 0 0-1.42 1.42l6.3 6.29-6.3 6.29a1 1 0 0 0 0 1.42.998.998 0 0 0 1.42 0l6.29-6.3 6.29 6.3a.999.999 0 0 0 1.42 0 1 1 0 0 0 0-1.42L13.41 12Z"/></svg><span class="sr-only astro-r2osgdlg">Menu</span></button><script type="module">var e=class extends HTMLElement{constructor(){super();let e=matchMedia(`(min-width: 50em)`),t=()=>{this.popover=e.matches?null:`auto`};t(),e.addEventListener(`change`,()=>t()),this.addEventListener(`toggle`,({newState:e})=>this.trapFocus(e===`open`))}trapFocus(e){document.querySelectorAll(`.main-frame, .sl-skip-link`).forEach(t=>{t.toggleAttribute(`inert`,e)})}};customElements.define(`sl-sidebar-pane`,e);</script><script type="module">var e=class extends HTMLElement{constructor(){super();let e=this.querySelector(`select`);e&&(e.addEventListener(`change`,e=>{e.currentTarget instanceof HTMLSelectElement&&(window.location.pathname=e.currentTarget.value)}),window.addEventListener(`pageshow`,t=>{if(!t.persisted)return;let n=e.querySelector(`option[selected]`)?.index;n!==e.selectedIndex&&(e.selectedIndex=n??0)}))}};customElements.define(`starlight-lang-select`,e);</script><sl-sidebar-pane popover id="starlight__sidebar" class="sidebar-pane astro-yntsjkba"><div class="sidebar-content sl-flex astro-yntsjkba"><nav class="pyking-sidebar" aria-label="Libraries"><p class="pyking-sidebar-title">Libraries</p><ul><li><a href="/libraries/">Overview</a></li><li><a href="/libraries/array/">array</a></li><li><a href="/libraries/dynarray/">dynarray</a></li><li><a href="/libraries/fs/">fs</a></li><li><a href="/libraries/io/">io</a></li><li><a href="/libraries/list/">list</a></li><li><a href="/libraries/map/">map</a></li><li><a href="/libraries/math/">math</a></li><li><a href="/libraries/mutmap/">mutmap</a></li><li><a href="/libraries/option/">option</a></li><li><a href="/libraries/prelude/" aria-current="page">prelude</a><ul class="pyking-sidebar-headings"><li><a href="#arrayall">array::all</a></li><li><a href="#arrayany">array::any</a></li><li><a href="#arrayfilter">array::filter</a></li><li><a href="#arrayfmap">array::fmap</a></li><li><a href="#arrayfoldl">array::foldl</a></li><li><a href="#arrayfoldr">array::foldr</a></li><li><a href="#arraylist">array::list</a></li><li><a href="#dynarrayall">dynarray::all</a></li><li><a href="#dynarrayany">dynarray::any</a></li><li><a href="#dynarrayfilter">dynarray::filter</a></li><li><a href="#dynarrayfmap">dynarray::fmap</a></li><li><a href="#dynarrayfoldl">dynarray::foldl</a></li><li><a href="#dynarrayfoldr">dynarray::foldr</a></li><li><a href="#dynarraylist">dynarray::list</a></li><li><a href="#filldynarray">fill::dynarray</a></li><li><a href="#filllist">fill::list</a></li><li><a href="#initdynarray_init">init::dynarray_init</a></li><li><a href="#initlist_init">init::list_init</a></li><li><a href="#keysmap_init">keys::map_init</a></li><li><a href="#keysmutmap_init">keys::mutmap_init</a></li><li><a href="#listall">list::all</a></li><li><a href="#listany">list::any</a></li><li><a href="#listfilter">list::filter</a></li><li><a href="#listfmap">list::fmap</a></li><li><a href="#listfoldl">list::foldl</a></li><li><a href="#listfoldr">list::foldr</a></li><li><a href="#listlist">list::list</a></li><li><a href="#mapall">map::all</a></li><li><a href="#mapany">map::any</a></li><li><a href="#mapfilter">map::filter</a></li><li><a href="#mapfmap">map::fmap</a></li><li><a href="#mapfoldl">map::foldl</a></li><li><a href="#mapfoldr">map::foldr</a></li><li><a href="#maplist">map::list</a></li><li><a href="#mutmapall">mutmap::all</a></li><li><a href="#mutmapany">mutmap::any</a></li><li><a href="#mutmapfilter">mutmap::filter</a></li><li><a href="#mutmapfmap">mutmap::fmap</a></li><li><a href="#mutmapfoldl">mutmap::foldl</a></li><li><a href="#mutmapfoldr">mutmap::foldr</a></li><li><a href="#mutmaplist">mutmap::list</a></li><li><a href="#optionall">option::all</a></li><li><a href="#optionany">option::any</a></li><li><a href="#optionfilter">option::filter</a></li><li><a href="#optionfmap">option::fmap</a></li><li><a href="#optionfoldl">option::foldl</a></li><li><a href="#optionfoldr">option::foldr</a></li><li><a href="#optionlist">option::list</a></li><li><a href="#resultall">result::all</a></li><li><a href="#resultany">result::any</a></li><li><a href="#resultfmap">result::fmap</a></li><li><a href="#resultfoldl">result::foldl</a></li><li><a href="#resultfoldr">result::foldr</a></li><li><a href="#sliceall">slice::all</a></li><li><a href="#sliceany">slice::any</a></li><li><a href="#slicefilter">slice::filter</a></li><li><a href="#slicefmap">slice::fmap</a></li><li><a href="#slicefoldl">slice::foldl</a></li><li><a href="#slicefoldr">slice::foldr</a></li><li><a href="#slicelist">slice::list</a></li><li><a href="#stringlist">string::list</a></li><li><a href="#unfolddynarray_init">unfold::dynarray_init</a></li><li><a href="#unfoldlist_init">unfold::list_init</a></li><li><a href="#unfoldmap_init">unfold::map_init</a></li><li><a href="#unfoldmutmap_init">unfold::mutmap_init</a></li></ul></li><li><a href="/libraries/random/">random</a></li><li><a href="/libraries/result/">result</a></li><li><a href="/libraries/sys/">sys</a></li><li><a href="/libraries/text/">text</a></li><li><a href="/libraries/time/">time</a></li><li><a href="/libraries/tinyweb/">tinyweb</a></li></ul></nav><div class="md:sl-hidden"><div class="mobile-preferences sl-flex astro-p4azlveh"><div class="social-icons astro-p4azlveh"></div><starlight-theme-select><label style="--sl-select-width: 6.25em" class="astro-2z5xp7gb"><span class="sr-only astro-2z5xp7gb">Select theme</span><svg aria-hidden="true" class="icon label-icon astro-2z5xp7gb astro-hkc32dio" width="16" height="16" viewBox="0 0 24 24" fill="currentColor" style="--sl-icon-size: 1em;"><path d="M21 14h-1V7a3 3 0 0 0-3-3H7a3 3 0 0 0-3 3v7H3a1 1 0 0 0-1 1v2a3 3 0 0 0 3 3h14a3 3 0 0 0 3-3v-2a1 1 0 0 0-1-1ZM6 7a1 1 0 0 1 1-1h10a1 1 0 0 1 1 1v7H6V7Zm14 10a1 1 0 0 1-1 1H5a1 1 0 0 1-1-1v-1h16v1Z"/></svg><select autocomplete="off" class="astro-2z5xp7gb"><option value="dark" class="astro-2z5xp7gb">Dark</option><option value="light" class="astro-2z5xp7gb">Light</option><option value="auto" selected class="astro-2z5xp7gb">Auto</option></select><svg aria-hidden="true" class="icon caret astro-2z5xp7gb astro-hkc32dio" width="16" height="16" viewBox="0 0 24 24" fill="currentColor" style="--sl-icon-size: 1em;"><path d="M17 9.17a1 1 0 0 0-1.41 0L12 12.71 8.46 9.17a1 1 0 1 0-1.41 1.42l4.24 4.24a1.002 1.002 0 0 0 1.42 0L17 10.59a1.002 1.002 0 0 0 0-1.42Z"/></svg></label></starlight-theme-select><script>
+	StarlightThemeProvider.updatePickers();
+</script></div></div></div></sl-sidebar-pane></nav><div class="main-frame astro-yntsjkba"><script type="module">var e=document.getElementById(`starlight__sidebar`),t=e?.querySelector(`sl-sidebar-state-persist`),n=`sl-sidebar-state`,r=()=>{let r=[],i=t?.dataset.hash||``;try{let e=sessionStorage.getItem(n),t=JSON.parse(e||`{}`);Array.isArray(t.open)&&t.hash===i&&(r=t.open)}catch{}return{hash:i,open:r,scroll:e?.scrollTop||0}},i=e=>{try{sessionStorage.setItem(n,JSON.stringify(e))}catch{}},a=()=>i(r()),o=(e,t)=>{let n=r();n.open[t]=e,i(n)};t?.addEventListener(`click`,e=>{if(!(e.target instanceof Element))return;let t=e.target.closest(`summary`)?.closest(`details`);if(!t)return;let n=t.querySelector(`sl-sidebar-restore`),r=parseInt(n?.dataset.index||``);isNaN(r)||o(!t.open,r)}),addEventListener(`visibilitychange`,()=>{document.visibilityState===`hidden`&&a()});</script><div class="lg:sl-flex astro-lrzkfocr"><div class="main-pane astro-lrzkfocr"><main data-pagefind-body class="astro-g5ptsecz" lang="en" dir="ltr"><div class="content-panel astro-a7po4psb"><div class="sl-container astro-a7po4psb"><h1 id="_top" class="astro-bebwqqxs">prelude</h1></div></div><div class="content-panel astro-a7po4psb"><div class="sl-container astro-a7po4psb"><div class="sl-markdown-content"><p>The builtins written in Pyking: <code>fmap</code>, <code>filter</code>, <code>foldl</code>, <code>foldr</code>,
+<code>any</code> and <code>all</code> over every collection, and the forms of <code>list</code>,
+<code>list_init</code>, <code>dynarray</code>, <code>dynarray_init</code>, <code>map_init</code> and <code>mutmap_init</code>
+that make one by calling a function or convert another.</p>
+<p>Nothing imports this module: a module calling one of those names, and
+binding none of them itself, has every one of the definitions below
+under its <code>::</code> name, as if it began <code>from prelude import list::fmap, ...</code> (PYKING.md, “fmap and the folds”). Each name is an overload set,
+and a call is resolved by the kind of collection it is given — which
+has to be known where the call is, written or worked out. A module’s
+own <code>filter</code> or <code>list</code> means itself.</p>
+<p>Each function answers a <strong>new</strong> collection of the kind it was given,
+and making an array, a DynArray or a MutMap needs <code>use mutation</code> in
+the calling module. A Map’s and a MutMap’s elements here are its
+values. The functions call <code>f</code> once per element, in order: <code>foldr</code>
+from the last, and <code>any</code> and <code>all</code> stopping at the first answer that
+decides.</p>
+<div class="expressive-code"><link rel="stylesheet" href="/_astro/ec.w36nc.css"><script type="module" src="/_astro/ec.0vx5m.js"></script><figure class="frame not-content"><figcaption class="header"></figcaption><pre data-language="pyking"><code><div class="ec-line"><div class="code"><span style="--0:#C792EA;--1:#8844AE">import</span><span style="--0:#D6DEEB;--1:#403F53"> prelude</span></div></div></code></pre><div class="copy"><div aria-live="polite"></div><button title="Copy to clipboard" data-copied="Copied!" data-code="import prelude"><div></div></button></div></figure></div>
+<div class="pyk-api">
+<h2 id="arrayall">array::all</h2>
+<pre class="pyk-sig"><code><span class="k">def</span> <span class="n">array::all</span>(<span class="p">p</span>: (a) -> <span class="t">Bool</span>, <span class="p">xs</span>: Array(a)) -> <span class="t">Bool</span></code></pre>
+<p><code>all(p, xs)</code> on an array: whether <code>p</code> is true of every element,
+stopping at the first that it is not.</p>
+<p class="pyk-api-label">Parameters</p>
+<ul>
+<li><code>p</code>: the test.</li>
+<li><code>xs</code>: an array.</li>
+</ul>
+<p class="pyk-api-label">Returns</p>
+<p><code>false</code> where <code>p</code> is false of one, <code>true</code> where there is none.</p>
+<p class="pyk-api-label">Example</p>
+<div class="pkn-notebook pkn-embedded not-content"><div class="pkn-fragment" data-markdown="&#x60;&#x60;&#x60;pyking
+use mutation
+xs = array([1, 2, 3])
+print(all(lam x. x > 0, xs), all(lam x. x > 1, xs))
+&#x60;&#x60;&#x60;
+
+&#x60;&#x60;&#x60;stdout visible = true
+true false
+&#x60;&#x60;&#x60;"></div></div>
+</div>
+<div class="pyk-api">
+<h2 id="arrayany">array::any</h2>
+<pre class="pyk-sig"><code><span class="k">def</span> <span class="n">array::any</span>(<span class="p">p</span>: (a) -> <span class="t">Bool</span>, <span class="p">xs</span>: Array(a)) -> <span class="t">Bool</span></code></pre>
+<p><code>any(p, xs)</code> on an array: whether <code>p</code> is true of some element,
+stopping at the first that it is.</p>
+<p class="pyk-api-label">Parameters</p>
+<ul>
+<li><code>p</code>: the test.</li>
+<li><code>xs</code>: an array.</li>
+</ul>
+<p class="pyk-api-label">Returns</p>
+<p><code>true</code> where <code>p</code> is true of one, <code>false</code> where there is none.</p>
+<p class="pyk-api-label">Example</p>
+<div class="pkn-notebook pkn-embedded not-content"><div class="pkn-fragment" data-markdown="&#x60;&#x60;&#x60;pyking
+use mutation
+xs = array([1, 2, 3])
+print(any(lam x. x > 2, xs), any(lam x. x > 5, xs))
+&#x60;&#x60;&#x60;
+
+&#x60;&#x60;&#x60;stdout visible = true
+true false
+&#x60;&#x60;&#x60;"></div></div>
+</div>
+<div class="pyk-api">
+<h2 id="arrayfilter">array::filter</h2>
+<pre class="pyk-sig"><code><span class="k">def</span> <span class="n">array::filter</span>(<span class="p">p</span>: (a) -> <span class="t">Bool</span>, <span class="p">xs</span>: Array(a)) -> Array(a)</code></pre>
+<p><code>filter(p, xs)</code> on an array: what <code>p</code> is true of.</p>
+<p class="pyk-api-label">Parameters</p>
+<ul>
+<li><code>p</code>: the test, called once per element, in order.</li>
+<li><code>xs</code>: an array.</li>
+</ul>
+<p class="pyk-api-label">Returns</p>
+<p>A new array of the elements <code>p</code> is true of, in order.</p>
+<p class="pyk-api-label">Example</p>
+<div class="pkn-notebook pkn-embedded not-content"><div class="pkn-fragment" data-markdown="&#x60;&#x60;&#x60;pyking
+use mutation
+xs = array([1, 2, 3])
+print(filter(lam x. x % 2 == 1, xs))
+&#x60;&#x60;&#x60;
+
+&#x60;&#x60;&#x60;stdout visible = true
+array([1, 3])
+&#x60;&#x60;&#x60;"></div></div>
+</div>
+<div class="pyk-api">
+<h2 id="arrayfmap">array::fmap</h2>
+<pre class="pyk-sig"><code><span class="k">def</span> <span class="n">array::fmap</span>(<span class="p">f</span>: (a) -> b, <span class="p">xs</span>: Array(a)) -> Array(b)</code></pre>
+<p><code>fmap(f, xs)</code> on an array: <code>f</code> applied to each element, as Haskell’s
+<code>fmap</code> and Rust’s <code>map</code> are.</p>
+<p class="pyk-api-label">Parameters</p>
+<ul>
+<li><code>f</code>: the function, called once per element, in order.</li>
+<li><code>xs</code>: an array.</li>
+</ul>
+<p class="pyk-api-label">Returns</p>
+<p>A new array of <code>f(x)</code> for each element <code>x</code>, in order.</p>
+<p class="pyk-api-label">Example</p>
+<div class="pkn-notebook pkn-embedded not-content"><div class="pkn-fragment" data-markdown="&#x60;&#x60;&#x60;pyking
+use mutation
+xs = array([1, 2, 3])
+print(fmap(lam x. x * 10, xs))
+&#x60;&#x60;&#x60;
+
+&#x60;&#x60;&#x60;stdout visible = true
+array([10, 20, 30])
+&#x60;&#x60;&#x60;"></div></div>
+</div>
+<div class="pyk-api">
+<h2 id="arrayfoldl">array::foldl</h2>
+<pre class="pyk-sig"><code><span class="k">def</span> <span class="n">array::foldl</span>(<span class="p">f</span>: (b, a) -> b, <span class="p">init</span>: b, <span class="p">xs</span>: Array(a)) -> b</code></pre>
+<p><code>foldl(f, init, xs)</code> on an array: <code>f(...f(f(init, x1), x2)..., xn)</code>, the
+elements from the first.</p>
+<p class="pyk-api-label">Parameters</p>
+<ul>
+<li><code>f</code>: takes what is gathered so far and the next element.</li>
+<li><code>init</code>: what is gathered before any element.</li>
+<li><code>xs</code>: an array.</li>
+</ul>
+<p class="pyk-api-label">Returns</p>
+<p>What <code>f</code> gathered, or <code>init</code> where there are no elements.</p>
+<p class="pyk-api-label">Example</p>
+<div class="pkn-notebook pkn-embedded not-content"><div class="pkn-fragment" data-markdown="&#x60;&#x60;&#x60;pyking
+use mutation
+xs = array([1, 2, 3])
+print(foldl(lam (acc, x). acc * 10 + x, 0, xs))
+&#x60;&#x60;&#x60;
+
+&#x60;&#x60;&#x60;stdout visible = true
+123
+&#x60;&#x60;&#x60;"></div></div>
+</div>
+<div class="pyk-api">
+<h2 id="arrayfoldr">array::foldr</h2>
+<pre class="pyk-sig"><code><span class="k">def</span> <span class="n">array::foldr</span>(<span class="p">f</span>: (a, b) -> b, <span class="p">init</span>: b, <span class="p">xs</span>: Array(a)) -> b</code></pre>
+<p><code>foldr(f, init, xs)</code> on an array: <code>f(x1, f(x2, ...f(xn, init)))</code>, the
+elements from the last.</p>
+<p class="pyk-api-label">Parameters</p>
+<ul>
+<li><code>f</code>: takes the next element, from the end, and what is gathered so far.</li>
+<li><code>init</code>: what is gathered before any element.</li>
+<li><code>xs</code>: an array.</li>
+</ul>
+<p class="pyk-api-label">Returns</p>
+<p>What <code>f</code> gathered, or <code>init</code> where there are no elements.</p>
+<p class="pyk-api-label">Example</p>
+<div class="pkn-notebook pkn-embedded not-content"><div class="pkn-fragment" data-markdown="&#x60;&#x60;&#x60;pyking
+use mutation
+xs = array([1, 2, 3])
+print(foldr(lam (x, acc). acc * 10 + x, 0, xs))
+&#x60;&#x60;&#x60;
+
+&#x60;&#x60;&#x60;stdout visible = true
+321
+&#x60;&#x60;&#x60;"></div></div>
+</div>
+<div class="pyk-api">
+<h2 id="arraylist">array::list</h2>
+<pre class="pyk-sig"><code><span class="k">def</span> <span class="n">array::list</span>(<span class="p">xs</span>: Array(a)) -> [a]</code></pre>
+<p><code>list(xs)</code> of an array: its elements as they are now.</p>
+<p class="pyk-api-label">Parameters</p>
+<ul>
+<li><code>xs</code>: an array.</li>
+</ul>
+<p class="pyk-api-label">Returns</p>
+<p>A new list.</p>
+<p class="pyk-api-label">Example</p>
+<div class="pkn-notebook pkn-embedded not-content"><div class="pkn-fragment" data-markdown="&#x60;&#x60;&#x60;pyking
+use mutation
+print(list(array(3, &#x27;a&#x27;)))
+&#x60;&#x60;&#x60;
+
+&#x60;&#x60;&#x60;stdout visible = true
+[&#x27;a&#x27;, &#x27;a&#x27;, &#x27;a&#x27;]
+&#x60;&#x60;&#x60;"></div></div>
+</div>
+<div class="pyk-api">
+<h2 id="dynarrayall">dynarray::all</h2>
+<pre class="pyk-sig"><code><span class="k">def</span> <span class="n">dynarray::all</span>(<span class="p">p</span>: (a) -> <span class="t">Bool</span>, <span class="p">xs</span>: DynArray(a)) -> <span class="t">Bool</span></code></pre>
+<p><code>all(p, xs)</code> on a DynArray: whether <code>p</code> is true of every element,
+stopping at the first that it is not.</p>
+<p class="pyk-api-label">Parameters</p>
+<ul>
+<li><code>p</code>: the test.</li>
+<li><code>xs</code>: a DynArray.</li>
+</ul>
+<p class="pyk-api-label">Returns</p>
+<p><code>false</code> where <code>p</code> is false of one, <code>true</code> where there is none.</p>
+<p class="pyk-api-label">Example</p>
+<div class="pkn-notebook pkn-embedded not-content"><div class="pkn-fragment" data-markdown="&#x60;&#x60;&#x60;pyking
+use mutation
+xs = dynarray([1, 2, 3])
+print(all(lam x. x > 0, xs), all(lam x. x > 1, xs))
+&#x60;&#x60;&#x60;
+
+&#x60;&#x60;&#x60;stdout visible = true
+true false
+&#x60;&#x60;&#x60;"></div></div>
+</div>
+<div class="pyk-api">
+<h2 id="dynarrayany">dynarray::any</h2>
+<pre class="pyk-sig"><code><span class="k">def</span> <span class="n">dynarray::any</span>(<span class="p">p</span>: (a) -> <span class="t">Bool</span>, <span class="p">xs</span>: DynArray(a)) -> <span class="t">Bool</span></code></pre>
+<p><code>any(p, xs)</code> on a DynArray: whether <code>p</code> is true of some element,
+stopping at the first that it is.</p>
+<p class="pyk-api-label">Parameters</p>
+<ul>
+<li><code>p</code>: the test.</li>
+<li><code>xs</code>: a DynArray.</li>
+</ul>
+<p class="pyk-api-label">Returns</p>
+<p><code>true</code> where <code>p</code> is true of one, <code>false</code> where there is none.</p>
+<p class="pyk-api-label">Example</p>
+<div class="pkn-notebook pkn-embedded not-content"><div class="pkn-fragment" data-markdown="&#x60;&#x60;&#x60;pyking
+use mutation
+xs = dynarray([1, 2, 3])
+print(any(lam x. x > 2, xs), any(lam x. x > 5, xs))
+&#x60;&#x60;&#x60;
+
+&#x60;&#x60;&#x60;stdout visible = true
+true false
+&#x60;&#x60;&#x60;"></div></div>
+</div>
+<div class="pyk-api">
+<h2 id="dynarrayfilter">dynarray::filter</h2>
+<pre class="pyk-sig"><code><span class="k">def</span> <span class="n">dynarray::filter</span>(<span class="p">p</span>: (a) -> <span class="t">Bool</span>, <span class="p">xs</span>: DynArray(a)) -> DynArray(a)</code></pre>
+<p><code>filter(p, xs)</code> on a DynArray: what <code>p</code> is true of.</p>
+<p class="pyk-api-label">Parameters</p>
+<ul>
+<li><code>p</code>: the test, called once per element, in order.</li>
+<li><code>xs</code>: a DynArray.</li>
+</ul>
+<p class="pyk-api-label">Returns</p>
+<p>A new DynArray of the elements <code>p</code> is true of, in order.</p>
+<p class="pyk-api-label">Example</p>
+<div class="pkn-notebook pkn-embedded not-content"><div class="pkn-fragment" data-markdown="&#x60;&#x60;&#x60;pyking
+use mutation
+xs = dynarray([1, 2, 3])
+print(filter(lam x. x % 2 == 1, xs))
+&#x60;&#x60;&#x60;
+
+&#x60;&#x60;&#x60;stdout visible = true
+dynarray([1, 3])
+&#x60;&#x60;&#x60;"></div></div>
+</div>
+<div class="pyk-api">
+<h2 id="dynarrayfmap">dynarray::fmap</h2>
+<pre class="pyk-sig"><code><span class="k">def</span> <span class="n">dynarray::fmap</span>(<span class="p">f</span>: (a) -> b, <span class="p">xs</span>: DynArray(a)) -> DynArray(b)</code></pre>
+<p><code>fmap(f, xs)</code> on a DynArray: <code>f</code> applied to each element, as Haskell’s
+<code>fmap</code> and Rust’s <code>map</code> are.</p>
+<p class="pyk-api-label">Parameters</p>
+<ul>
+<li><code>f</code>: the function, called once per element, in order.</li>
+<li><code>xs</code>: a DynArray.</li>
+</ul>
+<p class="pyk-api-label">Returns</p>
+<p>A new DynArray of <code>f(x)</code> for each element <code>x</code>, in order.</p>
+<p class="pyk-api-label">Example</p>
+<div class="pkn-notebook pkn-embedded not-content"><div class="pkn-fragment" data-markdown="&#x60;&#x60;&#x60;pyking
+use mutation
+xs = dynarray([1, 2, 3])
+print(fmap(lam x. x * 10, xs))
+&#x60;&#x60;&#x60;
+
+&#x60;&#x60;&#x60;stdout visible = true
+dynarray([10, 20, 30])
+&#x60;&#x60;&#x60;"></div></div>
+</div>
+<div class="pyk-api">
+<h2 id="dynarrayfoldl">dynarray::foldl</h2>
+<pre class="pyk-sig"><code><span class="k">def</span> <span class="n">dynarray::foldl</span>(<span class="p">f</span>: (b, a) -> b, <span class="p">init</span>: b, <span class="p">xs</span>: DynArray(a)) -> b</code></pre>
+<p><code>foldl(f, init, xs)</code> on a DynArray: <code>f(...f(f(init, x1), x2)..., xn)</code>, the
+elements from the first.</p>
+<p class="pyk-api-label">Parameters</p>
+<ul>
+<li><code>f</code>: takes what is gathered so far and the next element.</li>
+<li><code>init</code>: what is gathered before any element.</li>
+<li><code>xs</code>: a DynArray.</li>
+</ul>
+<p class="pyk-api-label">Returns</p>
+<p>What <code>f</code> gathered, or <code>init</code> where there are no elements.</p>
+<p class="pyk-api-label">Example</p>
+<div class="pkn-notebook pkn-embedded not-content"><div class="pkn-fragment" data-markdown="&#x60;&#x60;&#x60;pyking
+use mutation
+xs = dynarray([1, 2, 3])
+print(foldl(lam (acc, x). acc * 10 + x, 0, xs))
+&#x60;&#x60;&#x60;
+
+&#x60;&#x60;&#x60;stdout visible = true
+123
+&#x60;&#x60;&#x60;"></div></div>
+</div>
+<div class="pyk-api">
+<h2 id="dynarrayfoldr">dynarray::foldr</h2>
+<pre class="pyk-sig"><code><span class="k">def</span> <span class="n">dynarray::foldr</span>(<span class="p">f</span>: (a, b) -> b, <span class="p">init</span>: b, <span class="p">xs</span>: DynArray(a)) -> b</code></pre>
+<p><code>foldr(f, init, xs)</code> on a DynArray: <code>f(x1, f(x2, ...f(xn, init)))</code>, the
+elements from the last.</p>
+<p class="pyk-api-label">Parameters</p>
+<ul>
+<li><code>f</code>: takes the next element, from the end, and what is gathered so far.</li>
+<li><code>init</code>: what is gathered before any element.</li>
+<li><code>xs</code>: a DynArray.</li>
+</ul>
+<p class="pyk-api-label">Returns</p>
+<p>What <code>f</code> gathered, or <code>init</code> where there are no elements.</p>
+<p class="pyk-api-label">Example</p>
+<div class="pkn-notebook pkn-embedded not-content"><div class="pkn-fragment" data-markdown="&#x60;&#x60;&#x60;pyking
+use mutation
+xs = dynarray([1, 2, 3])
+print(foldr(lam (x, acc). acc * 10 + x, 0, xs))
+&#x60;&#x60;&#x60;
+
+&#x60;&#x60;&#x60;stdout visible = true
+321
+&#x60;&#x60;&#x60;"></div></div>
+</div>
+<div class="pyk-api">
+<h2 id="dynarraylist">dynarray::list</h2>
+<pre class="pyk-sig"><code><span class="k">def</span> <span class="n">dynarray::list</span>(<span class="p">xs</span>: DynArray(a)) -> [a]</code></pre>
+<p><code>list(xs)</code> of a DynArray: its elements as they are now.</p>
+<p class="pyk-api-label">Parameters</p>
+<ul>
+<li><code>xs</code>: a DynArray.</li>
+</ul>
+<p class="pyk-api-label">Returns</p>
+<p>A new list.</p>
+<p class="pyk-api-label">Example</p>
+<div class="pkn-notebook pkn-embedded not-content"><div class="pkn-fragment" data-markdown="&#x60;&#x60;&#x60;pyking
+use mutation
+print(list(dynarray([1, 2])))
+&#x60;&#x60;&#x60;
+
+&#x60;&#x60;&#x60;stdout visible = true
+[1, 2]
+&#x60;&#x60;&#x60;"></div></div>
+</div>
+<div class="pyk-api">
+<h2 id="filldynarray">fill::dynarray</h2>
+<pre class="pyk-sig"><code><span class="k">def</span> <span class="n">fill::dynarray</span>(<span class="p">n</span>: <span class="t">Int</span>, <span class="p">v</span>: a) -> DynArray(a)</code></pre>
+<p><code>dynarray(n, v)</code>: a DynArray of <code>n</code> copies of <code>v</code>. Needs <code>use mutation</code>.
+A negative <code>n</code> is a runtime error.</p>
+<p class="pyk-api-label">Parameters</p>
+<ul>
+<li><code>n</code>: how many.</li>
+<li><code>v</code>: the value, worked out once.</li>
+</ul>
+<p class="pyk-api-label">Returns</p>
+<p>A new DynArray of <code>n</code> elements.</p>
+<p class="pyk-api-label">Example</p>
+<div class="pkn-notebook pkn-embedded not-content"><div class="pkn-fragment" data-markdown="&#x60;&#x60;&#x60;pyking
+use mutation
+v = dynarray(2, 0)
+push(v, 7)
+print(v)
+&#x60;&#x60;&#x60;
+
+&#x60;&#x60;&#x60;stdout visible = true
+dynarray([0, 0, 7])
+&#x60;&#x60;&#x60;"></div></div>
+</div>
+<div class="pyk-api">
+<h2 id="filllist">fill::list</h2>
+<pre class="pyk-sig"><code><span class="k">def</span> <span class="n">fill::list</span>(<span class="p">n</span>: <span class="t">Int</span>, <span class="p">v</span>: a) -> [a]</code></pre>
+<p><code>list(n, v)</code>: <code>n</code> copies of <code>v</code> (Haskell’s <code>replicate</code>). A negative <code>n</code> is
+a runtime error.</p>
+<p class="pyk-api-label">Parameters</p>
+<ul>
+<li><code>n</code>: how many.</li>
+<li><code>v</code>: the value, worked out once.</li>
+</ul>
+<p class="pyk-api-label">Returns</p>
+<p>A list of <code>n</code> elements.</p>
+<p class="pyk-api-label">Example</p>
+<div class="pkn-notebook pkn-embedded not-content"><div class="pkn-fragment" data-markdown="&#x60;&#x60;&#x60;pyking
+print(list(3, &#x27;a&#x27;), list(0, 1))
+&#x60;&#x60;&#x60;
+
+&#x60;&#x60;&#x60;stdout visible = true
+[&#x27;a&#x27;, &#x27;a&#x27;, &#x27;a&#x27;] []
+&#x60;&#x60;&#x60;"></div></div>
+</div>
+<div class="pyk-api">
+<h2 id="initdynarray_init">init::dynarray_init</h2>
+<pre class="pyk-sig"><code><span class="k">def</span> <span class="n">init::dynarray_init</span>(<span class="p">n</span>: <span class="t">Int</span>, <span class="p">f</span>: (<span class="t">Int</span>) -> a) -> DynArray(a)</code></pre>
+<p><code>dynarray_init(n, f)</code>: element <code>i</code> is <code>f(i)</code>, as <code>array_init</code>. Needs <code>use mutation</code>. A negative <code>n</code> is a runtime error.</p>
+<p class="pyk-api-label">Parameters</p>
+<ul>
+<li><code>n</code>: how many.</li>
+<li><code>f</code>: makes element <code>i</code>.</li>
+</ul>
+<p class="pyk-api-label">Returns</p>
+<p>A new DynArray of <code>n</code> elements.</p>
+<p class="pyk-api-label">Example</p>
+<div class="pkn-notebook pkn-embedded not-content"><div class="pkn-fragment" data-markdown="&#x60;&#x60;&#x60;pyking
+use mutation
+print(dynarray_init(4, lam i. i * 2))
+&#x60;&#x60;&#x60;
+
+&#x60;&#x60;&#x60;stdout visible = true
+dynarray([0, 2, 4, 6])
+&#x60;&#x60;&#x60;"></div></div>
+</div>
+<div class="pyk-api">
+<h2 id="initlist_init">init::list_init</h2>
+<pre class="pyk-sig"><code><span class="k">def</span> <span class="n">init::list_init</span>(<span class="p">n</span>: <span class="t">Int</span>, <span class="p">f</span>: (<span class="t">Int</span>) -> a) -> [a]</code></pre>
+<p><code>list_init(n, f)</code>: element <code>i</code> is <code>f(i)</code>, called in index order (OCaml’s
+<code>List.init</code>). A negative <code>n</code> is a runtime error.</p>
+<p class="pyk-api-label">Parameters</p>
+<ul>
+<li><code>n</code>: how many.</li>
+<li><code>f</code>: makes element <code>i</code>.</li>
+</ul>
+<p class="pyk-api-label">Returns</p>
+<p>A list of <code>n</code> elements.</p>
+<p class="pyk-api-label">Example</p>
+<div class="pkn-notebook pkn-embedded not-content"><div class="pkn-fragment" data-markdown="&#x60;&#x60;&#x60;pyking
+print(list_init(5, lam i. i * i))
+&#x60;&#x60;&#x60;
+
+&#x60;&#x60;&#x60;stdout visible = true
+[0, 1, 4, 9, 16]
+&#x60;&#x60;&#x60;"></div></div>
+</div>
+<div class="pyk-api">
+<h2 id="keysmap_init">keys::map_init</h2>
+<pre class="pyk-sig"><code><span class="k">def</span> <span class="n">keys::map_init</span>(<span class="p">keys</span>: [k], <span class="p">f</span>: (k) -> v) -> Map(k, v)</code></pre>
+<p><code>map_init(keys, f)</code>: each key <code>k</code> maps to <code>f(k)</code>, in the order of <code>keys</code>;
+a key written twice keeps its first place (Haskell’s <code>Map.fromSet</code>).</p>
+<p class="pyk-api-label">Parameters</p>
+<ul>
+<li><code>keys</code>: the keys.</li>
+<li><code>f</code>: makes a key’s value.</li>
+</ul>
+<p class="pyk-api-label">Returns</p>
+<p>A new Map.</p>
+<p class="pyk-api-label">Example</p>
+<div class="pkn-notebook pkn-embedded not-content"><div class="pkn-fragment" data-markdown="&#x60;&#x60;&#x60;pyking
+print(map_init([&#x22;ann&#x22;, &#x22;bo&#x22;], lam name. len(name)))
+&#x60;&#x60;&#x60;
+
+&#x60;&#x60;&#x60;stdout visible = true
+map([(&#x22;ann&#x22;, 3), (&#x22;bo&#x22;, 2)])
+&#x60;&#x60;&#x60;"></div></div>
+</div>
+<div class="pyk-api">
+<h2 id="keysmutmap_init">keys::mutmap_init</h2>
+<pre class="pyk-sig"><code><span class="k">def</span> <span class="n">keys::mutmap_init</span>(<span class="p">keys</span>: [k], <span class="p">f</span>: (k) -> v) -> MutMap(k, v)</code></pre>
+<p><code>mutmap_init(keys, f)</code>: as <code>map_init</code>, a MutMap. Needs <code>use mutation</code>.</p>
+<p class="pyk-api-label">Parameters</p>
+<ul>
+<li><code>keys</code>: the keys.</li>
+<li><code>f</code>: makes a key’s value.</li>
+</ul>
+<p class="pyk-api-label">Returns</p>
+<p>A new MutMap.</p>
+<p class="pyk-api-label">Example</p>
+<div class="pkn-notebook pkn-embedded not-content"><div class="pkn-fragment" data-markdown="&#x60;&#x60;&#x60;pyking
+use mutation
+counts = mutmap_init([&#x22;a&#x22;, &#x22;b&#x22;], lam _. 0)
+counts[&#x22;a&#x22;] += 1
+print(counts)
+&#x60;&#x60;&#x60;
+
+&#x60;&#x60;&#x60;stdout visible = true
+mutmap([(&#x22;a&#x22;, 1), (&#x22;b&#x22;, 0)])
+&#x60;&#x60;&#x60;"></div></div>
+</div>
+<div class="pyk-api">
+<h2 id="listall">list::all</h2>
+<pre class="pyk-sig"><code><span class="k">def</span> <span class="n">list::all</span>(<span class="p">p</span>: (a) -> <span class="t">Bool</span>, <span class="p">xs</span>: [a]) -> <span class="t">Bool</span></code></pre>
+<p><code>all(p, xs)</code> on a list: whether <code>p</code> is true of every element,
+stopping at the first that it is not.</p>
+<p class="pyk-api-label">Parameters</p>
+<ul>
+<li><code>p</code>: the test.</li>
+<li><code>xs</code>: a list.</li>
+</ul>
+<p class="pyk-api-label">Returns</p>
+<p><code>false</code> where <code>p</code> is false of one, <code>true</code> where there is none.</p>
+<p class="pyk-api-label">Example</p>
+<div class="pkn-notebook pkn-embedded not-content"><div class="pkn-fragment" data-markdown="&#x60;&#x60;&#x60;pyking
+xs = [1, 2, 3]
+print(all(lam x. x > 0, xs), all(lam x. x > 1, xs))
+&#x60;&#x60;&#x60;
+
+&#x60;&#x60;&#x60;stdout visible = true
+true false
+&#x60;&#x60;&#x60;"></div></div>
+</div>
+<div class="pyk-api">
+<h2 id="listany">list::any</h2>
+<pre class="pyk-sig"><code><span class="k">def</span> <span class="n">list::any</span>(<span class="p">p</span>: (a) -> <span class="t">Bool</span>, <span class="p">xs</span>: [a]) -> <span class="t">Bool</span></code></pre>
+<p><code>any(p, xs)</code> on a list: whether <code>p</code> is true of some element,
+stopping at the first that it is.</p>
+<p class="pyk-api-label">Parameters</p>
+<ul>
+<li><code>p</code>: the test.</li>
+<li><code>xs</code>: a list.</li>
+</ul>
+<p class="pyk-api-label">Returns</p>
+<p><code>true</code> where <code>p</code> is true of one, <code>false</code> where there is none.</p>
+<p class="pyk-api-label">Example</p>
+<div class="pkn-notebook pkn-embedded not-content"><div class="pkn-fragment" data-markdown="&#x60;&#x60;&#x60;pyking
+xs = [1, 2, 3]
+print(any(lam x. x > 2, xs), any(lam x. x > 5, xs))
+&#x60;&#x60;&#x60;
+
+&#x60;&#x60;&#x60;stdout visible = true
+true false
+&#x60;&#x60;&#x60;"></div></div>
+</div>
+<div class="pyk-api">
+<h2 id="listfilter">list::filter</h2>
+<pre class="pyk-sig"><code><span class="k">def</span> <span class="n">list::filter</span>(<span class="p">p</span>: (a) -> <span class="t">Bool</span>, <span class="p">xs</span>: [a]) -> [a]</code></pre>
+<p><code>filter(p, xs)</code> on a list: what <code>p</code> is true of.</p>
+<p class="pyk-api-label">Parameters</p>
+<ul>
+<li><code>p</code>: the test, called once per element, in order.</li>
+<li><code>xs</code>: a list.</li>
+</ul>
+<p class="pyk-api-label">Returns</p>
+<p>A new list of the elements <code>p</code> is true of, in order.</p>
+<p class="pyk-api-label">Example</p>
+<div class="pkn-notebook pkn-embedded not-content"><div class="pkn-fragment" data-markdown="&#x60;&#x60;&#x60;pyking
+xs = [1, 2, 3]
+print(filter(lam x. x % 2 == 1, xs))
+&#x60;&#x60;&#x60;
+
+&#x60;&#x60;&#x60;stdout visible = true
+[1, 3]
+&#x60;&#x60;&#x60;"></div></div>
+</div>
+<div class="pyk-api">
+<h2 id="listfmap">list::fmap</h2>
+<pre class="pyk-sig"><code><span class="k">def</span> <span class="n">list::fmap</span>(<span class="p">f</span>: (a) -> b, <span class="p">xs</span>: [a]) -> [b]</code></pre>
+<p><code>fmap(f, xs)</code> on a list: <code>f</code> applied to each element, as Haskell’s
+<code>fmap</code> and Rust’s <code>map</code> are.</p>
+<p class="pyk-api-label">Parameters</p>
+<ul>
+<li><code>f</code>: the function, called once per element, in order.</li>
+<li><code>xs</code>: a list.</li>
+</ul>
+<p class="pyk-api-label">Returns</p>
+<p>A new list of <code>f(x)</code> for each element <code>x</code>, in order.</p>
+<p class="pyk-api-label">Example</p>
+<div class="pkn-notebook pkn-embedded not-content"><div class="pkn-fragment" data-markdown="&#x60;&#x60;&#x60;pyking
+xs = [1, 2, 3]
+print(fmap(lam x. x * 10, xs))
+&#x60;&#x60;&#x60;
+
+&#x60;&#x60;&#x60;stdout visible = true
+[10, 20, 30]
+&#x60;&#x60;&#x60;"></div></div>
+</div>
+<div class="pyk-api">
+<h2 id="listfoldl">list::foldl</h2>
+<pre class="pyk-sig"><code><span class="k">def</span> <span class="n">list::foldl</span>(<span class="p">f</span>: (b, a) -> b, <span class="p">init</span>: b, <span class="p">xs</span>: [a]) -> b</code></pre>
+<p><code>foldl(f, init, xs)</code> on a list: <code>f(...f(f(init, x1), x2)..., xn)</code>, the
+elements from the first.</p>
+<p class="pyk-api-label">Parameters</p>
+<ul>
+<li><code>f</code>: takes what is gathered so far and the next element.</li>
+<li><code>init</code>: what is gathered before any element.</li>
+<li><code>xs</code>: a list.</li>
+</ul>
+<p class="pyk-api-label">Returns</p>
+<p>What <code>f</code> gathered, or <code>init</code> where there are no elements.</p>
+<p class="pyk-api-label">Example</p>
+<div class="pkn-notebook pkn-embedded not-content"><div class="pkn-fragment" data-markdown="&#x60;&#x60;&#x60;pyking
+xs = [1, 2, 3]
+print(foldl(lam (acc, x). acc * 10 + x, 0, xs))
+&#x60;&#x60;&#x60;
+
+&#x60;&#x60;&#x60;stdout visible = true
+123
+&#x60;&#x60;&#x60;"></div></div>
+</div>
+<div class="pyk-api">
+<h2 id="listfoldr">list::foldr</h2>
+<pre class="pyk-sig"><code><span class="k">def</span> <span class="n">list::foldr</span>(<span class="p">f</span>: (a, b) -> b, <span class="p">init</span>: b, <span class="p">xs</span>: [a]) -> b</code></pre>
+<p><code>foldr(f, init, xs)</code> on a list: <code>f(x1, f(x2, ...f(xn, init)))</code>, the
+elements from the last.</p>
+<p class="pyk-api-label">Parameters</p>
+<ul>
+<li><code>f</code>: takes the next element, from the end, and what is gathered so far.</li>
+<li><code>init</code>: what is gathered before any element.</li>
+<li><code>xs</code>: a list.</li>
+</ul>
+<p class="pyk-api-label">Returns</p>
+<p>What <code>f</code> gathered, or <code>init</code> where there are no elements.</p>
+<p class="pyk-api-label">Example</p>
+<div class="pkn-notebook pkn-embedded not-content"><div class="pkn-fragment" data-markdown="&#x60;&#x60;&#x60;pyking
+xs = [1, 2, 3]
+print(foldr(lam (x, acc). acc * 10 + x, 0, xs))
+&#x60;&#x60;&#x60;
+
+&#x60;&#x60;&#x60;stdout visible = true
+321
+&#x60;&#x60;&#x60;"></div></div>
+</div>
+<div class="pyk-api">
+<h2 id="listlist">list::list</h2>
+<pre class="pyk-sig"><code><span class="k">def</span> <span class="n">list::list</span>(<span class="p">xs</span>: [a]) -> [a]</code></pre>
+<p><code>list(xs)</code> of a list: itself, which is never changed.</p>
+<p class="pyk-api-label">Parameters</p>
+<ul>
+<li><code>xs</code>: a list.</li>
+</ul>
+<p class="pyk-api-label">Returns</p>
+<p>A new list.</p>
+<p class="pyk-api-label">Example</p>
+<div class="pkn-notebook pkn-embedded not-content"><div class="pkn-fragment" data-markdown="&#x60;&#x60;&#x60;pyking
+print(list([1, 2]))
+&#x60;&#x60;&#x60;
+
+&#x60;&#x60;&#x60;stdout visible = true
+[1, 2]
+&#x60;&#x60;&#x60;"></div></div>
+</div>
+<div class="pyk-api">
+<h2 id="mapall">map::all</h2>
+<pre class="pyk-sig"><code><span class="k">def</span> <span class="n">map::all</span>(<span class="p">p</span>: (a) -> <span class="t">Bool</span>, <span class="p">m</span>: Map(k, a)) -> <span class="t">Bool</span></code></pre>
+<p><code>all(p, m)</code> on a Map: whether <code>p</code> is true of every value,
+stopping at the first that it is not.</p>
+<p class="pyk-api-label">Parameters</p>
+<ul>
+<li><code>p</code>: the test.</li>
+<li><code>m</code>: a Map.</li>
+</ul>
+<p class="pyk-api-label">Returns</p>
+<p><code>false</code> where <code>p</code> is false of one, <code>true</code> where there is none.</p>
+<p class="pyk-api-label">Example</p>
+<div class="pkn-notebook pkn-embedded not-content"><div class="pkn-fragment" data-markdown="&#x60;&#x60;&#x60;pyking
+m = map([(&#x22;a&#x22;, 1), (&#x22;b&#x22;, 2), (&#x22;c&#x22;, 3)])
+print(all(lam x. x > 0, m), all(lam x. x > 1, m))
+&#x60;&#x60;&#x60;
+
+&#x60;&#x60;&#x60;stdout visible = true
+true false
+&#x60;&#x60;&#x60;"></div></div>
+</div>
+<div class="pyk-api">
+<h2 id="mapany">map::any</h2>
+<pre class="pyk-sig"><code><span class="k">def</span> <span class="n">map::any</span>(<span class="p">p</span>: (a) -> <span class="t">Bool</span>, <span class="p">m</span>: Map(k, a)) -> <span class="t">Bool</span></code></pre>
+<p><code>any(p, m)</code> on a Map: whether <code>p</code> is true of some value,
+stopping at the first that it is.</p>
+<p class="pyk-api-label">Parameters</p>
+<ul>
+<li><code>p</code>: the test.</li>
+<li><code>m</code>: a Map.</li>
+</ul>
+<p class="pyk-api-label">Returns</p>
+<p><code>true</code> where <code>p</code> is true of one, <code>false</code> where there is none.</p>
+<p class="pyk-api-label">Example</p>
+<div class="pkn-notebook pkn-embedded not-content"><div class="pkn-fragment" data-markdown="&#x60;&#x60;&#x60;pyking
+m = map([(&#x22;a&#x22;, 1), (&#x22;b&#x22;, 2), (&#x22;c&#x22;, 3)])
+print(any(lam x. x > 2, m), any(lam x. x > 5, m))
+&#x60;&#x60;&#x60;
+
+&#x60;&#x60;&#x60;stdout visible = true
+true false
+&#x60;&#x60;&#x60;"></div></div>
+</div>
+<div class="pyk-api">
+<h2 id="mapfilter">map::filter</h2>
+<pre class="pyk-sig"><code><span class="k">def</span> <span class="n">map::filter</span>(<span class="p">p</span>: (a) -> <span class="t">Bool</span>, <span class="p">m</span>: Map(k, a)) -> Map(k, a)</code></pre>
+<p><code>filter(p, m)</code> on a Map: what <code>p</code> is true of, by value.</p>
+<p class="pyk-api-label">Parameters</p>
+<ul>
+<li><code>p</code>: the test, called once per element, in order.</li>
+<li><code>m</code>: a Map.</li>
+</ul>
+<p class="pyk-api-label">Returns</p>
+<p>A new Map of the entries whose value <code>p</code> is true of, in order.</p>
+<p class="pyk-api-label">Example</p>
+<div class="pkn-notebook pkn-embedded not-content"><div class="pkn-fragment" data-markdown="&#x60;&#x60;&#x60;pyking
+m = map([(&#x22;a&#x22;, 1), (&#x22;b&#x22;, 2), (&#x22;c&#x22;, 3)])
+print(filter(lam x. x % 2 == 1, m))
+&#x60;&#x60;&#x60;
+
+&#x60;&#x60;&#x60;stdout visible = true
+map([(&#x22;a&#x22;, 1), (&#x22;c&#x22;, 3)])
+&#x60;&#x60;&#x60;"></div></div>
+</div>
+<div class="pyk-api">
+<h2 id="mapfmap">map::fmap</h2>
+<pre class="pyk-sig"><code><span class="k">def</span> <span class="n">map::fmap</span>(<span class="p">f</span>: (a) -> b, <span class="p">m</span>: Map(k, a)) -> Map(k, b)</code></pre>
+<p><code>fmap(f, m)</code> on a Map: <code>f</code> applied to each value, as Haskell’s
+<code>fmap</code> and Rust’s <code>map</code> are.</p>
+<p class="pyk-api-label">Parameters</p>
+<ul>
+<li><code>f</code>: the function, called once per element, in order.</li>
+<li><code>m</code>: a Map.</li>
+</ul>
+<p class="pyk-api-label">Returns</p>
+<p>A new Map of the same keys, in the same order, each value <code>v</code> replaced by <code>f(v)</code>.</p>
+<p class="pyk-api-label">Example</p>
+<div class="pkn-notebook pkn-embedded not-content"><div class="pkn-fragment" data-markdown="&#x60;&#x60;&#x60;pyking
+m = map([(&#x22;a&#x22;, 1), (&#x22;b&#x22;, 2), (&#x22;c&#x22;, 3)])
+print(fmap(lam x. x * 10, m))
+&#x60;&#x60;&#x60;
+
+&#x60;&#x60;&#x60;stdout visible = true
+map([(&#x22;a&#x22;, 10), (&#x22;b&#x22;, 20), (&#x22;c&#x22;, 30)])
+&#x60;&#x60;&#x60;"></div></div>
+</div>
+<div class="pyk-api">
+<h2 id="mapfoldl">map::foldl</h2>
+<pre class="pyk-sig"><code><span class="k">def</span> <span class="n">map::foldl</span>(<span class="p">f</span>: (b, a) -> b, <span class="p">init</span>: b, <span class="p">m</span>: Map(k, a)) -> b</code></pre>
+<p><code>foldl(f, init, m)</code> on a Map: <code>f(...f(f(init, x1), x2)..., xn)</code>, the
+values from the first.</p>
+<p class="pyk-api-label">Parameters</p>
+<ul>
+<li><code>f</code>: takes what is gathered so far and the next element.</li>
+<li><code>init</code>: what is gathered before any element.</li>
+<li><code>m</code>: a Map.</li>
+</ul>
+<p class="pyk-api-label">Returns</p>
+<p>What <code>f</code> gathered, or <code>init</code> where there are no elements.</p>
+<p class="pyk-api-label">Example</p>
+<div class="pkn-notebook pkn-embedded not-content"><div class="pkn-fragment" data-markdown="&#x60;&#x60;&#x60;pyking
+m = map([(&#x22;a&#x22;, 1), (&#x22;b&#x22;, 2), (&#x22;c&#x22;, 3)])
+print(foldl(lam (acc, x). acc * 10 + x, 0, m))
+&#x60;&#x60;&#x60;
+
+&#x60;&#x60;&#x60;stdout visible = true
+123
+&#x60;&#x60;&#x60;"></div></div>
+</div>
+<div class="pyk-api">
+<h2 id="mapfoldr">map::foldr</h2>
+<pre class="pyk-sig"><code><span class="k">def</span> <span class="n">map::foldr</span>(<span class="p">f</span>: (a, b) -> b, <span class="p">init</span>: b, <span class="p">m</span>: Map(k, a)) -> b</code></pre>
+<p><code>foldr(f, init, m)</code> on a Map: <code>f(x1, f(x2, ...f(xn, init)))</code>, the
+values from the last.</p>
+<p class="pyk-api-label">Parameters</p>
+<ul>
+<li><code>f</code>: takes the next element, from the end, and what is gathered so far.</li>
+<li><code>init</code>: what is gathered before any element.</li>
+<li><code>m</code>: a Map.</li>
+</ul>
+<p class="pyk-api-label">Returns</p>
+<p>What <code>f</code> gathered, or <code>init</code> where there are no elements.</p>
+<p class="pyk-api-label">Example</p>
+<div class="pkn-notebook pkn-embedded not-content"><div class="pkn-fragment" data-markdown="&#x60;&#x60;&#x60;pyking
+m = map([(&#x22;a&#x22;, 1), (&#x22;b&#x22;, 2), (&#x22;c&#x22;, 3)])
+print(foldr(lam (x, acc). acc * 10 + x, 0, m))
+&#x60;&#x60;&#x60;
+
+&#x60;&#x60;&#x60;stdout visible = true
+321
+&#x60;&#x60;&#x60;"></div></div>
+</div>
+<div class="pyk-api">
+<h2 id="maplist">map::list</h2>
+<pre class="pyk-sig"><code><span class="k">def</span> <span class="n">map::list</span>(<span class="p">m</span>: Map(k, v)) -> [(k, v)]</code></pre>
+<p><code>list(m)</code> of a Map: its (key, value) pairs, in order.</p>
+<p class="pyk-api-label">Parameters</p>
+<ul>
+<li><code>m</code>: a Map.</li>
+</ul>
+<p class="pyk-api-label">Returns</p>
+<p>A new list.</p>
+<p class="pyk-api-label">Example</p>
+<div class="pkn-notebook pkn-embedded not-content"><div class="pkn-fragment" data-markdown="&#x60;&#x60;&#x60;pyking
+print(list(map([(&#x22;a&#x22;, 1), (&#x22;b&#x22;, 2)])))
+&#x60;&#x60;&#x60;
+
+&#x60;&#x60;&#x60;stdout visible = true
+[(&#x22;a&#x22;, 1), (&#x22;b&#x22;, 2)]
+&#x60;&#x60;&#x60;"></div></div>
+</div>
+<div class="pyk-api">
+<h2 id="mutmapall">mutmap::all</h2>
+<pre class="pyk-sig"><code><span class="k">def</span> <span class="n">mutmap::all</span>(<span class="p">p</span>: (a) -> <span class="t">Bool</span>, <span class="p">m</span>: MutMap(k, a)) -> <span class="t">Bool</span></code></pre>
+<p><code>all(p, m)</code> on a MutMap: whether <code>p</code> is true of every value,
+stopping at the first that it is not.</p>
+<p class="pyk-api-label">Parameters</p>
+<ul>
+<li><code>p</code>: the test.</li>
+<li><code>m</code>: a MutMap.</li>
+</ul>
+<p class="pyk-api-label">Returns</p>
+<p><code>false</code> where <code>p</code> is false of one, <code>true</code> where there is none.</p>
+<p class="pyk-api-label">Example</p>
+<div class="pkn-notebook pkn-embedded not-content"><div class="pkn-fragment" data-markdown="&#x60;&#x60;&#x60;pyking
+use mutation
+m = mutmap([(&#x22;a&#x22;, 1), (&#x22;b&#x22;, 2), (&#x22;c&#x22;, 3)])
+print(all(lam x. x > 0, m), all(lam x. x > 1, m))
+&#x60;&#x60;&#x60;
+
+&#x60;&#x60;&#x60;stdout visible = true
+true false
+&#x60;&#x60;&#x60;"></div></div>
+</div>
+<div class="pyk-api">
+<h2 id="mutmapany">mutmap::any</h2>
+<pre class="pyk-sig"><code><span class="k">def</span> <span class="n">mutmap::any</span>(<span class="p">p</span>: (a) -> <span class="t">Bool</span>, <span class="p">m</span>: MutMap(k, a)) -> <span class="t">Bool</span></code></pre>
+<p><code>any(p, m)</code> on a MutMap: whether <code>p</code> is true of some value,
+stopping at the first that it is.</p>
+<p class="pyk-api-label">Parameters</p>
+<ul>
+<li><code>p</code>: the test.</li>
+<li><code>m</code>: a MutMap.</li>
+</ul>
+<p class="pyk-api-label">Returns</p>
+<p><code>true</code> where <code>p</code> is true of one, <code>false</code> where there is none.</p>
+<p class="pyk-api-label">Example</p>
+<div class="pkn-notebook pkn-embedded not-content"><div class="pkn-fragment" data-markdown="&#x60;&#x60;&#x60;pyking
+use mutation
+m = mutmap([(&#x22;a&#x22;, 1), (&#x22;b&#x22;, 2), (&#x22;c&#x22;, 3)])
+print(any(lam x. x > 2, m), any(lam x. x > 5, m))
+&#x60;&#x60;&#x60;
+
+&#x60;&#x60;&#x60;stdout visible = true
+true false
+&#x60;&#x60;&#x60;"></div></div>
+</div>
+<div class="pyk-api">
+<h2 id="mutmapfilter">mutmap::filter</h2>
+<pre class="pyk-sig"><code><span class="k">def</span> <span class="n">mutmap::filter</span>(<span class="p">p</span>: (a) -> <span class="t">Bool</span>, <span class="p">m</span>: MutMap(k, a)) -> MutMap(k, a)</code></pre>
+<p><code>filter(p, m)</code> on a MutMap: what <code>p</code> is true of, by value.</p>
+<p class="pyk-api-label">Parameters</p>
+<ul>
+<li><code>p</code>: the test, called once per element, in order.</li>
+<li><code>m</code>: a MutMap.</li>
+</ul>
+<p class="pyk-api-label">Returns</p>
+<p>A new MutMap of the entries whose value <code>p</code> is true of, in order.</p>
+<p class="pyk-api-label">Example</p>
+<div class="pkn-notebook pkn-embedded not-content"><div class="pkn-fragment" data-markdown="&#x60;&#x60;&#x60;pyking
+use mutation
+m = mutmap([(&#x22;a&#x22;, 1), (&#x22;b&#x22;, 2), (&#x22;c&#x22;, 3)])
+print(filter(lam x. x % 2 == 1, m))
+&#x60;&#x60;&#x60;
+
+&#x60;&#x60;&#x60;stdout visible = true
+mutmap([(&#x22;a&#x22;, 1), (&#x22;c&#x22;, 3)])
+&#x60;&#x60;&#x60;"></div></div>
+</div>
+<div class="pyk-api">
+<h2 id="mutmapfmap">mutmap::fmap</h2>
+<pre class="pyk-sig"><code><span class="k">def</span> <span class="n">mutmap::fmap</span>(<span class="p">f</span>: (a) -> b, <span class="p">m</span>: MutMap(k, a)) -> MutMap(k, b)</code></pre>
+<p><code>fmap(f, m)</code> on a MutMap: <code>f</code> applied to each value, as Haskell’s
+<code>fmap</code> and Rust’s <code>map</code> are.</p>
+<p class="pyk-api-label">Parameters</p>
+<ul>
+<li><code>f</code>: the function, called once per element, in order.</li>
+<li><code>m</code>: a MutMap.</li>
+</ul>
+<p class="pyk-api-label">Returns</p>
+<p>A new MutMap of the same keys, in the same order, each value <code>v</code> replaced by <code>f(v)</code>.</p>
+<p class="pyk-api-label">Example</p>
+<div class="pkn-notebook pkn-embedded not-content"><div class="pkn-fragment" data-markdown="&#x60;&#x60;&#x60;pyking
+use mutation
+m = mutmap([(&#x22;a&#x22;, 1), (&#x22;b&#x22;, 2), (&#x22;c&#x22;, 3)])
+print(fmap(lam x. x * 10, m))
+&#x60;&#x60;&#x60;
+
+&#x60;&#x60;&#x60;stdout visible = true
+mutmap([(&#x22;a&#x22;, 10), (&#x22;b&#x22;, 20), (&#x22;c&#x22;, 30)])
+&#x60;&#x60;&#x60;"></div></div>
+</div>
+<div class="pyk-api">
+<h2 id="mutmapfoldl">mutmap::foldl</h2>
+<pre class="pyk-sig"><code><span class="k">def</span> <span class="n">mutmap::foldl</span>(<span class="p">f</span>: (b, a) -> b, <span class="p">init</span>: b, <span class="p">m</span>: MutMap(k, a)) -> b</code></pre>
+<p><code>foldl(f, init, m)</code> on a MutMap: <code>f(...f(f(init, x1), x2)..., xn)</code>, the
+values from the first.</p>
+<p class="pyk-api-label">Parameters</p>
+<ul>
+<li><code>f</code>: takes what is gathered so far and the next element.</li>
+<li><code>init</code>: what is gathered before any element.</li>
+<li><code>m</code>: a MutMap.</li>
+</ul>
+<p class="pyk-api-label">Returns</p>
+<p>What <code>f</code> gathered, or <code>init</code> where there are no elements.</p>
+<p class="pyk-api-label">Example</p>
+<div class="pkn-notebook pkn-embedded not-content"><div class="pkn-fragment" data-markdown="&#x60;&#x60;&#x60;pyking
+use mutation
+m = mutmap([(&#x22;a&#x22;, 1), (&#x22;b&#x22;, 2), (&#x22;c&#x22;, 3)])
+print(foldl(lam (acc, x). acc * 10 + x, 0, m))
+&#x60;&#x60;&#x60;
+
+&#x60;&#x60;&#x60;stdout visible = true
+123
+&#x60;&#x60;&#x60;"></div></div>
+</div>
+<div class="pyk-api">
+<h2 id="mutmapfoldr">mutmap::foldr</h2>
+<pre class="pyk-sig"><code><span class="k">def</span> <span class="n">mutmap::foldr</span>(<span class="p">f</span>: (a, b) -> b, <span class="p">init</span>: b, <span class="p">m</span>: MutMap(k, a)) -> b</code></pre>
+<p><code>foldr(f, init, m)</code> on a MutMap: <code>f(x1, f(x2, ...f(xn, init)))</code>, the
+values from the last.</p>
+<p class="pyk-api-label">Parameters</p>
+<ul>
+<li><code>f</code>: takes the next element, from the end, and what is gathered so far.</li>
+<li><code>init</code>: what is gathered before any element.</li>
+<li><code>m</code>: a MutMap.</li>
+</ul>
+<p class="pyk-api-label">Returns</p>
+<p>What <code>f</code> gathered, or <code>init</code> where there are no elements.</p>
+<p class="pyk-api-label">Example</p>
+<div class="pkn-notebook pkn-embedded not-content"><div class="pkn-fragment" data-markdown="&#x60;&#x60;&#x60;pyking
+use mutation
+m = mutmap([(&#x22;a&#x22;, 1), (&#x22;b&#x22;, 2), (&#x22;c&#x22;, 3)])
+print(foldr(lam (x, acc). acc * 10 + x, 0, m))
+&#x60;&#x60;&#x60;
+
+&#x60;&#x60;&#x60;stdout visible = true
+321
+&#x60;&#x60;&#x60;"></div></div>
+</div>
+<div class="pyk-api">
+<h2 id="mutmaplist">mutmap::list</h2>
+<pre class="pyk-sig"><code><span class="k">def</span> <span class="n">mutmap::list</span>(<span class="p">m</span>: MutMap(k, v)) -> [(k, v)]</code></pre>
+<p><code>list(m)</code> of a MutMap: its (key, value) pairs, in order.</p>
+<p class="pyk-api-label">Parameters</p>
+<ul>
+<li><code>m</code>: a MutMap.</li>
+</ul>
+<p class="pyk-api-label">Returns</p>
+<p>A new list.</p>
+<p class="pyk-api-label">Example</p>
+<div class="pkn-notebook pkn-embedded not-content"><div class="pkn-fragment" data-markdown="&#x60;&#x60;&#x60;pyking
+use mutation
+print(list(mutmap([(&#x22;a&#x22;, 1)])))
+&#x60;&#x60;&#x60;
+
+&#x60;&#x60;&#x60;stdout visible = true
+[(&#x22;a&#x22;, 1)]
+&#x60;&#x60;&#x60;"></div></div>
+</div>
+<div class="pyk-api">
+<h2 id="optionall">option::all</h2>
+<pre class="pyk-sig"><code><span class="k">def</span> <span class="n">option::all</span>(<span class="p">p</span>: (a) -> <span class="t">Bool</span>, <span class="p">o</span>: Option(a)) -> <span class="t">Bool</span></code></pre>
+<p><code>all(p, o)</code> on an Option: whether <code>p</code> is true of every value it holds,
+stopping at the first that it is not.</p>
+<p class="pyk-api-label">Parameters</p>
+<ul>
+<li><code>p</code>: the test.</li>
+<li><code>o</code>: an Option.</li>
+</ul>
+<p class="pyk-api-label">Returns</p>
+<p><code>false</code> where <code>p</code> is false of one, <code>true</code> where there is none, as for an empty collection.</p>
+<p class="pyk-api-label">Example</p>
+<div class="pkn-notebook pkn-embedded not-content"><div class="pkn-fragment" data-markdown="&#x60;&#x60;&#x60;pyking
+o = Some(3)
+none: Option(Int) = None
+print(all(lam x. x > 2, o), all(lam x. x > 2, none))
+&#x60;&#x60;&#x60;
+
+&#x60;&#x60;&#x60;stdout visible = true
+true true
+&#x60;&#x60;&#x60;"></div></div>
+</div>
+<div class="pyk-api">
+<h2 id="optionany">option::any</h2>
+<pre class="pyk-sig"><code><span class="k">def</span> <span class="n">option::any</span>(<span class="p">p</span>: (a) -> <span class="t">Bool</span>, <span class="p">o</span>: Option(a)) -> <span class="t">Bool</span></code></pre>
+<p><code>any(p, o)</code> on an Option: whether <code>p</code> is true of some value it holds,
+stopping at the first that it is.</p>
+<p class="pyk-api-label">Parameters</p>
+<ul>
+<li><code>p</code>: the test.</li>
+<li><code>o</code>: an Option.</li>
+</ul>
+<p class="pyk-api-label">Returns</p>
+<p><code>true</code> where <code>p</code> is true of one, <code>false</code> where there is none, as for an empty collection.</p>
+<p class="pyk-api-label">Example</p>
+<div class="pkn-notebook pkn-embedded not-content"><div class="pkn-fragment" data-markdown="&#x60;&#x60;&#x60;pyking
+o = Some(3)
+none: Option(Int) = None
+print(any(lam x. x > 2, o), any(lam x. x > 2, none))
+&#x60;&#x60;&#x60;
+
+&#x60;&#x60;&#x60;stdout visible = true
+true false
+&#x60;&#x60;&#x60;"></div></div>
+</div>
+<div class="pyk-api">
+<h2 id="optionfilter">option::filter</h2>
+<pre class="pyk-sig"><code><span class="k">def</span> <span class="n">option::filter</span>(<span class="p">p</span>: (a) -> <span class="t">Bool</span>, <span class="p">o</span>: Option(a)) -> Option(a)</code></pre>
+<p><code>filter(p, o)</code> on an Option: what <code>p</code> is true of.</p>
+<p class="pyk-api-label">Parameters</p>
+<ul>
+<li><code>p</code>: the test, called once per element, in order.</li>
+<li><code>o</code>: an Option.</li>
+</ul>
+<p class="pyk-api-label">Returns</p>
+<p><code>o</code> where it holds a value <code>p</code> is true of, and otherwise <code>None</code>.</p>
+<p class="pyk-api-label">Example</p>
+<div class="pkn-notebook pkn-embedded not-content"><div class="pkn-fragment" data-markdown="&#x60;&#x60;&#x60;pyking
+o = Some(3)
+none: Option(Int) = None
+print(filter(lam x. x % 2 == 1, o), filter(lam x. x % 2 == 1, none))
+&#x60;&#x60;&#x60;
+
+&#x60;&#x60;&#x60;stdout visible = true
+Some(3) None
+&#x60;&#x60;&#x60;"></div></div>
+</div>
+<div class="pyk-api">
+<h2 id="optionfmap">option::fmap</h2>
+<pre class="pyk-sig"><code><span class="k">def</span> <span class="n">option::fmap</span>(<span class="p">f</span>: (a) -> b, <span class="p">o</span>: Option(a)) -> Option(b)</code></pre>
+<p><code>fmap(f, o)</code> on an Option: <code>f</code> applied to each value it holds, as Haskell’s
+<code>fmap</code> and Rust’s <code>map</code> are.</p>
+<p class="pyk-api-label">Parameters</p>
+<ul>
+<li><code>f</code>: the function, called once per element, in order.</li>
+<li><code>o</code>: an Option.</li>
+</ul>
+<p class="pyk-api-label">Returns</p>
+<p><code>Some(f(v))</code> for <code>Some(v)</code>, and <code>None</code> for <code>None</code>.</p>
+<p class="pyk-api-label">Example</p>
+<div class="pkn-notebook pkn-embedded not-content"><div class="pkn-fragment" data-markdown="&#x60;&#x60;&#x60;pyking
+o = Some(3)
+none: Option(Int) = None
+print(fmap(lam x. x * 10, o), fmap(lam x. x * 10, none))
+&#x60;&#x60;&#x60;
+
+&#x60;&#x60;&#x60;stdout visible = true
+Some(30) None
+&#x60;&#x60;&#x60;"></div></div>
+</div>
+<div class="pyk-api">
+<h2 id="optionfoldl">option::foldl</h2>
+<pre class="pyk-sig"><code><span class="k">def</span> <span class="n">option::foldl</span>(<span class="p">f</span>: (b, a) -> b, <span class="p">init</span>: b, <span class="p">o</span>: Option(a)) -> b</code></pre>
+<p><code>foldl(f, init, o)</code> on an Option: <code>f(...f(f(init, x1), x2)..., xn)</code>, the
+value it holds, if any from the first.</p>
+<p class="pyk-api-label">Parameters</p>
+<ul>
+<li><code>f</code>: takes what is gathered so far and the next element.</li>
+<li><code>init</code>: what is gathered before any element.</li>
+<li><code>o</code>: an Option.</li>
+</ul>
+<p class="pyk-api-label">Returns</p>
+<p>What <code>f</code> gathered, or <code>init</code> where there are no elements.</p>
+<p class="pyk-api-label">Example</p>
+<div class="pkn-notebook pkn-embedded not-content"><div class="pkn-fragment" data-markdown="&#x60;&#x60;&#x60;pyking
+o = Some(3)
+none: Option(Int) = None
+print(foldl(lam (acc, x). acc * 10 + x, 0, o), foldl(lam (acc, x). acc * 10 + x, 0, none))
+&#x60;&#x60;&#x60;
+
+&#x60;&#x60;&#x60;stdout visible = true
+3 0
+&#x60;&#x60;&#x60;"></div></div>
+</div>
+<div class="pyk-api">
+<h2 id="optionfoldr">option::foldr</h2>
+<pre class="pyk-sig"><code><span class="k">def</span> <span class="n">option::foldr</span>(<span class="p">f</span>: (a, b) -> b, <span class="p">init</span>: b, <span class="p">o</span>: Option(a)) -> b</code></pre>
+<p><code>foldr(f, init, o)</code> on an Option: <code>f(x1, f(x2, ...f(xn, init)))</code>, the
+value it holds, if any from the last.</p>
+<p class="pyk-api-label">Parameters</p>
+<ul>
+<li><code>f</code>: takes the next element, from the end, and what is gathered so far.</li>
+<li><code>init</code>: what is gathered before any element.</li>
+<li><code>o</code>: an Option.</li>
+</ul>
+<p class="pyk-api-label">Returns</p>
+<p>What <code>f</code> gathered, or <code>init</code> where there are no elements.</p>
+<p class="pyk-api-label">Example</p>
+<div class="pkn-notebook pkn-embedded not-content"><div class="pkn-fragment" data-markdown="&#x60;&#x60;&#x60;pyking
+o = Some(3)
+none: Option(Int) = None
+print(foldr(lam (x, acc). acc * 10 + x, 0, o), foldr(lam (x, acc). acc * 10 + x, 0, none))
+&#x60;&#x60;&#x60;
+
+&#x60;&#x60;&#x60;stdout visible = true
+3 0
+&#x60;&#x60;&#x60;"></div></div>
+</div>
+<div class="pyk-api">
+<h2 id="optionlist">option::list</h2>
+<pre class="pyk-sig"><code><span class="k">def</span> <span class="n">option::list</span>(<span class="p">o</span>: Option(a)) -> [a]</code></pre>
+<p><code>list(o)</code> of an Option: its value, or nothing.</p>
+<p class="pyk-api-label">Parameters</p>
+<ul>
+<li><code>o</code>: an Option.</li>
+</ul>
+<p class="pyk-api-label">Returns</p>
+<p>A new list.</p>
+<p class="pyk-api-label">Example</p>
+<div class="pkn-notebook pkn-embedded not-content"><div class="pkn-fragment" data-markdown="&#x60;&#x60;&#x60;pyking
+none: Option(Int) = None
+print(list(Some(1)), list(none))
+&#x60;&#x60;&#x60;
+
+&#x60;&#x60;&#x60;stdout visible = true
+[1] []
+&#x60;&#x60;&#x60;"></div></div>
+</div>
+<div class="pyk-api">
+<h2 id="resultall">result::all</h2>
+<pre class="pyk-sig"><code><span class="k">def</span> <span class="n">result::all</span>(<span class="p">p</span>: (a) -> <span class="t">Bool</span>, <span class="p">r</span>: Result(a, e)) -> <span class="t">Bool</span></code></pre>
+<p><code>all(p, r)</code> on a Result: whether <code>p</code> is true of every value it holds,
+stopping at the first that it is not.</p>
+<p class="pyk-api-label">Parameters</p>
+<ul>
+<li><code>p</code>: the test.</li>
+<li><code>r</code>: a Result.</li>
+</ul>
+<p class="pyk-api-label">Returns</p>
+<p><code>false</code> where <code>p</code> is false of one, <code>true</code> where there is none, as for an empty collection.</p>
+<p class="pyk-api-label">Example</p>
+<div class="pkn-notebook pkn-embedded not-content"><div class="pkn-fragment" data-markdown="&#x60;&#x60;&#x60;pyking
+r: Result(Int, String) = Ok(3)
+bad: Result(Int, String) = Error(&#x22;no&#x22;)
+print(all(lam x. x > 2, r), all(lam x. x > 2, bad))
+&#x60;&#x60;&#x60;
+
+&#x60;&#x60;&#x60;stdout visible = true
+true true
+&#x60;&#x60;&#x60;"></div></div>
+</div>
+<div class="pyk-api">
+<h2 id="resultany">result::any</h2>
+<pre class="pyk-sig"><code><span class="k">def</span> <span class="n">result::any</span>(<span class="p">p</span>: (a) -> <span class="t">Bool</span>, <span class="p">r</span>: Result(a, e)) -> <span class="t">Bool</span></code></pre>
+<p><code>any(p, r)</code> on a Result: whether <code>p</code> is true of some value it holds,
+stopping at the first that it is.</p>
+<p class="pyk-api-label">Parameters</p>
+<ul>
+<li><code>p</code>: the test.</li>
+<li><code>r</code>: a Result.</li>
+</ul>
+<p class="pyk-api-label">Returns</p>
+<p><code>true</code> where <code>p</code> is true of one, <code>false</code> where there is none, as for an empty collection.</p>
+<p class="pyk-api-label">Example</p>
+<div class="pkn-notebook pkn-embedded not-content"><div class="pkn-fragment" data-markdown="&#x60;&#x60;&#x60;pyking
+r: Result(Int, String) = Ok(3)
+bad: Result(Int, String) = Error(&#x22;no&#x22;)
+print(any(lam x. x > 2, r), any(lam x. x > 2, bad))
+&#x60;&#x60;&#x60;
+
+&#x60;&#x60;&#x60;stdout visible = true
+true false
+&#x60;&#x60;&#x60;"></div></div>
+</div>
+<div class="pyk-api">
+<h2 id="resultfmap">result::fmap</h2>
+<pre class="pyk-sig"><code><span class="k">def</span> <span class="n">result::fmap</span>(<span class="p">f</span>: (a) -> b, <span class="p">r</span>: Result(a, e)) -> Result(b, e)</code></pre>
+<p><code>fmap(f, r)</code> on a Result: <code>f</code> applied to each value it holds, as Haskell’s
+<code>fmap</code> and Rust’s <code>map</code> are.</p>
+<p class="pyk-api-label">Parameters</p>
+<ul>
+<li><code>f</code>: the function, called once per element, in order.</li>
+<li><code>r</code>: a Result.</li>
+</ul>
+<p class="pyk-api-label">Returns</p>
+<p><code>Ok(f(v))</code> for <code>Ok(v)</code>, and the same <code>Error</code> for an <code>Error</code>.</p>
+<p class="pyk-api-label">Example</p>
+<div class="pkn-notebook pkn-embedded not-content"><div class="pkn-fragment" data-markdown="&#x60;&#x60;&#x60;pyking
+r: Result(Int, String) = Ok(3)
+bad: Result(Int, String) = Error(&#x22;no&#x22;)
+print(fmap(lam x. x * 10, r), fmap(lam x. x * 10, bad))
+&#x60;&#x60;&#x60;
+
+&#x60;&#x60;&#x60;stdout visible = true
+Ok(30) Error(&#x22;no&#x22;)
+&#x60;&#x60;&#x60;"></div></div>
+</div>
+<div class="pyk-api">
+<h2 id="resultfoldl">result::foldl</h2>
+<pre class="pyk-sig"><code><span class="k">def</span> <span class="n">result::foldl</span>(<span class="p">f</span>: (b, a) -> b, <span class="p">init</span>: b, <span class="p">r</span>: Result(a, e)) -> b</code></pre>
+<p><code>foldl(f, init, r)</code> on a Result: <code>f(...f(f(init, x1), x2)..., xn)</code>, the
+value it holds, if any from the first.</p>
+<p class="pyk-api-label">Parameters</p>
+<ul>
+<li><code>f</code>: takes what is gathered so far and the next element.</li>
+<li><code>init</code>: what is gathered before any element.</li>
+<li><code>r</code>: a Result.</li>
+</ul>
+<p class="pyk-api-label">Returns</p>
+<p>What <code>f</code> gathered, or <code>init</code> where there are no elements.</p>
+<p class="pyk-api-label">Example</p>
+<div class="pkn-notebook pkn-embedded not-content"><div class="pkn-fragment" data-markdown="&#x60;&#x60;&#x60;pyking
+r: Result(Int, String) = Ok(3)
+bad: Result(Int, String) = Error(&#x22;no&#x22;)
+print(foldl(lam (acc, x). acc * 10 + x, 0, r), foldl(lam (acc, x). acc * 10 + x, 0, bad))
+&#x60;&#x60;&#x60;
+
+&#x60;&#x60;&#x60;stdout visible = true
+3 0
+&#x60;&#x60;&#x60;"></div></div>
+</div>
+<div class="pyk-api">
+<h2 id="resultfoldr">result::foldr</h2>
+<pre class="pyk-sig"><code><span class="k">def</span> <span class="n">result::foldr</span>(<span class="p">f</span>: (a, b) -> b, <span class="p">init</span>: b, <span class="p">r</span>: Result(a, e)) -> b</code></pre>
+<p><code>foldr(f, init, r)</code> on a Result: <code>f(x1, f(x2, ...f(xn, init)))</code>, the
+value it holds, if any from the last.</p>
+<p class="pyk-api-label">Parameters</p>
+<ul>
+<li><code>f</code>: takes the next element, from the end, and what is gathered so far.</li>
+<li><code>init</code>: what is gathered before any element.</li>
+<li><code>r</code>: a Result.</li>
+</ul>
+<p class="pyk-api-label">Returns</p>
+<p>What <code>f</code> gathered, or <code>init</code> where there are no elements.</p>
+<p class="pyk-api-label">Example</p>
+<div class="pkn-notebook pkn-embedded not-content"><div class="pkn-fragment" data-markdown="&#x60;&#x60;&#x60;pyking
+r: Result(Int, String) = Ok(3)
+bad: Result(Int, String) = Error(&#x22;no&#x22;)
+print(foldr(lam (x, acc). acc * 10 + x, 0, r), foldr(lam (x, acc). acc * 10 + x, 0, bad))
+&#x60;&#x60;&#x60;
+
+&#x60;&#x60;&#x60;stdout visible = true
+3 0
+&#x60;&#x60;&#x60;"></div></div>
+</div>
+<div class="pyk-api">
+<h2 id="sliceall">slice::all</h2>
+<pre class="pyk-sig"><code><span class="k">def</span> <span class="n">slice::all</span>(<span class="p">p</span>: (a) -> <span class="t">Bool</span>, <span class="p">xs</span>: Slice(a)) -> <span class="t">Bool</span></code></pre>
+<p><code>all(p, xs)</code> on a view: whether <code>p</code> is true of every element,
+stopping at the first that it is not.</p>
+<p class="pyk-api-label">Parameters</p>
+<ul>
+<li><code>p</code>: the test.</li>
+<li><code>xs</code>: a view.</li>
+</ul>
+<p class="pyk-api-label">Returns</p>
+<p><code>false</code> where <code>p</code> is false of one, <code>true</code> where there is none.</p>
+<p class="pyk-api-label">Example</p>
+<div class="pkn-notebook pkn-embedded not-content"><div class="pkn-fragment" data-markdown="&#x60;&#x60;&#x60;pyking
+use mutation
+xs = view(array([0, 1, 2, 3]), 1, 4)
+print(all(lam x. x > 0, xs), all(lam x. x > 1, xs))
+&#x60;&#x60;&#x60;
+
+&#x60;&#x60;&#x60;stdout visible = true
+true false
+&#x60;&#x60;&#x60;"></div></div>
+</div>
+<div class="pyk-api">
+<h2 id="sliceany">slice::any</h2>
+<pre class="pyk-sig"><code><span class="k">def</span> <span class="n">slice::any</span>(<span class="p">p</span>: (a) -> <span class="t">Bool</span>, <span class="p">xs</span>: Slice(a)) -> <span class="t">Bool</span></code></pre>
+<p><code>any(p, xs)</code> on a view: whether <code>p</code> is true of some element,
+stopping at the first that it is.</p>
+<p class="pyk-api-label">Parameters</p>
+<ul>
+<li><code>p</code>: the test.</li>
+<li><code>xs</code>: a view.</li>
+</ul>
+<p class="pyk-api-label">Returns</p>
+<p><code>true</code> where <code>p</code> is true of one, <code>false</code> where there is none.</p>
+<p class="pyk-api-label">Example</p>
+<div class="pkn-notebook pkn-embedded not-content"><div class="pkn-fragment" data-markdown="&#x60;&#x60;&#x60;pyking
+use mutation
+xs = view(array([0, 1, 2, 3]), 1, 4)
+print(any(lam x. x > 2, xs), any(lam x. x > 5, xs))
+&#x60;&#x60;&#x60;
+
+&#x60;&#x60;&#x60;stdout visible = true
+true false
+&#x60;&#x60;&#x60;"></div></div>
+</div>
+<div class="pyk-api">
+<h2 id="slicefilter">slice::filter</h2>
+<pre class="pyk-sig"><code><span class="k">def</span> <span class="n">slice::filter</span>(<span class="p">p</span>: (a) -> <span class="t">Bool</span>, <span class="p">xs</span>: Slice(a)) -> Array(a)</code></pre>
+<p><code>filter(p, xs)</code> on a view: what <code>p</code> is true of.</p>
+<p class="pyk-api-label">Parameters</p>
+<ul>
+<li><code>p</code>: the test, called once per element, in order.</li>
+<li><code>xs</code>: a view.</li>
+</ul>
+<p class="pyk-api-label">Returns</p>
+<p>A new array of the elements <code>p</code> is true of, in order.</p>
+<p class="pyk-api-label">Example</p>
+<div class="pkn-notebook pkn-embedded not-content"><div class="pkn-fragment" data-markdown="&#x60;&#x60;&#x60;pyking
+use mutation
+xs = view(array([0, 1, 2, 3]), 1, 4)
+print(filter(lam x. x % 2 == 1, xs))
+&#x60;&#x60;&#x60;
+
+&#x60;&#x60;&#x60;stdout visible = true
+array([1, 3])
+&#x60;&#x60;&#x60;"></div></div>
+</div>
+<div class="pyk-api">
+<h2 id="slicefmap">slice::fmap</h2>
+<pre class="pyk-sig"><code><span class="k">def</span> <span class="n">slice::fmap</span>(<span class="p">f</span>: (a) -> b, <span class="p">xs</span>: Slice(a)) -> Array(b)</code></pre>
+<p><code>fmap(f, xs)</code> on a view: <code>f</code> applied to each element, as Haskell’s
+<code>fmap</code> and Rust’s <code>map</code> are.</p>
+<p class="pyk-api-label">Parameters</p>
+<ul>
+<li><code>f</code>: the function, called once per element, in order.</li>
+<li><code>xs</code>: a view.</li>
+</ul>
+<p class="pyk-api-label">Returns</p>
+<p>A new array of <code>f(x)</code> for each element of the view.</p>
+<p class="pyk-api-label">Example</p>
+<div class="pkn-notebook pkn-embedded not-content"><div class="pkn-fragment" data-markdown="&#x60;&#x60;&#x60;pyking
+use mutation
+xs = view(array([0, 1, 2, 3]), 1, 4)
+print(fmap(lam x. x * 10, xs))
+&#x60;&#x60;&#x60;
+
+&#x60;&#x60;&#x60;stdout visible = true
+array([10, 20, 30])
+&#x60;&#x60;&#x60;"></div></div>
+</div>
+<div class="pyk-api">
+<h2 id="slicefoldl">slice::foldl</h2>
+<pre class="pyk-sig"><code><span class="k">def</span> <span class="n">slice::foldl</span>(<span class="p">f</span>: (b, a) -> b, <span class="p">init</span>: b, <span class="p">xs</span>: Slice(a)) -> b</code></pre>
+<p><code>foldl(f, init, xs)</code> on a view: <code>f(...f(f(init, x1), x2)..., xn)</code>, the
+elements from the first.</p>
+<p class="pyk-api-label">Parameters</p>
+<ul>
+<li><code>f</code>: takes what is gathered so far and the next element.</li>
+<li><code>init</code>: what is gathered before any element.</li>
+<li><code>xs</code>: a view.</li>
+</ul>
+<p class="pyk-api-label">Returns</p>
+<p>What <code>f</code> gathered, or <code>init</code> where there are no elements.</p>
+<p class="pyk-api-label">Example</p>
+<div class="pkn-notebook pkn-embedded not-content"><div class="pkn-fragment" data-markdown="&#x60;&#x60;&#x60;pyking
+use mutation
+xs = view(array([0, 1, 2, 3]), 1, 4)
+print(foldl(lam (acc, x). acc * 10 + x, 0, xs))
+&#x60;&#x60;&#x60;
+
+&#x60;&#x60;&#x60;stdout visible = true
+123
+&#x60;&#x60;&#x60;"></div></div>
+</div>
+<div class="pyk-api">
+<h2 id="slicefoldr">slice::foldr</h2>
+<pre class="pyk-sig"><code><span class="k">def</span> <span class="n">slice::foldr</span>(<span class="p">f</span>: (a, b) -> b, <span class="p">init</span>: b, <span class="p">xs</span>: Slice(a)) -> b</code></pre>
+<p><code>foldr(f, init, xs)</code> on a view: <code>f(x1, f(x2, ...f(xn, init)))</code>, the
+elements from the last.</p>
+<p class="pyk-api-label">Parameters</p>
+<ul>
+<li><code>f</code>: takes the next element, from the end, and what is gathered so far.</li>
+<li><code>init</code>: what is gathered before any element.</li>
+<li><code>xs</code>: a view.</li>
+</ul>
+<p class="pyk-api-label">Returns</p>
+<p>What <code>f</code> gathered, or <code>init</code> where there are no elements.</p>
+<p class="pyk-api-label">Example</p>
+<div class="pkn-notebook pkn-embedded not-content"><div class="pkn-fragment" data-markdown="&#x60;&#x60;&#x60;pyking
+use mutation
+xs = view(array([0, 1, 2, 3]), 1, 4)
+print(foldr(lam (x, acc). acc * 10 + x, 0, xs))
+&#x60;&#x60;&#x60;
+
+&#x60;&#x60;&#x60;stdout visible = true
+321
+&#x60;&#x60;&#x60;"></div></div>
+</div>
+<div class="pyk-api">
+<h2 id="slicelist">slice::list</h2>
+<pre class="pyk-sig"><code><span class="k">def</span> <span class="n">slice::list</span>(<span class="p">xs</span>: Slice(a)) -> [a]</code></pre>
+<p><code>list(xs)</code> of a view: the elements it shows now.</p>
+<p class="pyk-api-label">Parameters</p>
+<ul>
+<li><code>xs</code>: a view.</li>
+</ul>
+<p class="pyk-api-label">Returns</p>
+<p>A new list.</p>
+<p class="pyk-api-label">Example</p>
+<div class="pkn-notebook pkn-embedded not-content"><div class="pkn-fragment" data-markdown="&#x60;&#x60;&#x60;pyking
+use mutation
+print(list(view(array([1, 2, 3]), 1, 3)))
+&#x60;&#x60;&#x60;
+
+&#x60;&#x60;&#x60;stdout visible = true
+[2, 3]
+&#x60;&#x60;&#x60;"></div></div>
+</div>
+<div class="pyk-api">
+<h2 id="stringlist">string::list</h2>
+<pre class="pyk-sig"><code><span class="k">def</span> <span class="n">string::list</span>(<span class="p">s</span>: <span class="t">String</span>) -> [Char]</code></pre>
+<p><code>list(s)</code> of a String: its Chars.</p>
+<p class="pyk-api-label">Parameters</p>
+<ul>
+<li><code>s</code>: a String.</li>
+</ul>
+<p class="pyk-api-label">Returns</p>
+<p>A new list.</p>
+<p class="pyk-api-label">Example</p>
+<div class="pkn-notebook pkn-embedded not-content"><div class="pkn-fragment" data-markdown="&#x60;&#x60;&#x60;pyking
+print(list(&#x22;héllo&#x22;))
+&#x60;&#x60;&#x60;
+
+&#x60;&#x60;&#x60;stdout visible = true
+[&#x27;h&#x27;, &#x27;é&#x27;, &#x27;l&#x27;, &#x27;l&#x27;, &#x27;o&#x27;]
+&#x60;&#x60;&#x60;"></div></div>
+</div>
+<div class="pyk-api">
+<h2 id="unfolddynarray_init">unfold::dynarray_init</h2>
+<pre class="pyk-sig"><code><span class="k">def</span> <span class="n">unfold::dynarray_init</span>(
+    <span class="p">n</span>: <span class="t">Int</span>,
+    <span class="p">seed</span>: s,
+    <span class="p">f</span>: (s) -> (a, s),
+) -> DynArray(a)</code></pre>
+<p><code>dynarray_init(n, seed, f)</code>: <code>n</code> elements unfolded from <code>seed</code>, as
+<code>array_init</code>’s unfolding form. Needs <code>use mutation</code>.</p>
+<p class="pyk-api-label">Parameters</p>
+<ul>
+<li><code>n</code>: how many.</li>
+<li><code>seed</code>: what the first element is made from.</li>
+<li><code>f</code>: answers an element and the next seed.</li>
+</ul>
+<p class="pyk-api-label">Returns</p>
+<p>A new DynArray of <code>n</code> elements.</p>
+<p class="pyk-api-label">Example</p>
+<div class="pkn-notebook pkn-embedded not-content"><div class="pkn-fragment" data-markdown="&#x60;&#x60;&#x60;pyking
+use mutation
+print(dynarray_init(4, 1, lam x. (x, x * 3)))
+&#x60;&#x60;&#x60;
+
+&#x60;&#x60;&#x60;stdout visible = true
+dynarray([1, 3, 9, 27])
+&#x60;&#x60;&#x60;"></div></div>
+</div>
+<div class="pyk-api">
+<h2 id="unfoldlist_init">unfold::list_init</h2>
+<pre class="pyk-sig"><code><span class="k">def</span> <span class="n">unfold::list_init</span>(<span class="p">n</span>: <span class="t">Int</span>, <span class="p">seed</span>: s, <span class="p">f</span>: (s) -> (a, s)) -> [a]</code></pre>
+<p><code>list_init(n, seed, f)</code>: <code>n</code> elements unfolded from <code>seed</code>, <code>f</code> answering
+each element and the next seed. A negative <code>n</code> is a runtime error.</p>
+<p class="pyk-api-label">Parameters</p>
+<ul>
+<li><code>n</code>: how many.</li>
+<li><code>seed</code>: what the first element is made from.</li>
+<li><code>f</code>: answers an element and the next seed.</li>
+</ul>
+<p class="pyk-api-label">Returns</p>
+<p>A list of <code>n</code> elements.</p>
+<p class="pyk-api-label">Example</p>
+<div class="pkn-notebook pkn-embedded not-content"><div class="pkn-fragment" data-markdown="&#x60;&#x60;&#x60;pyking
+print(list_init(8, (0, 1), lam p. let (a, b) = p in (a, (b, a + b))))
+&#x60;&#x60;&#x60;
+
+&#x60;&#x60;&#x60;stdout visible = true
+[0, 1, 1, 2, 3, 5, 8, 13]
+&#x60;&#x60;&#x60;"></div></div>
+</div>
+<div class="pyk-api">
+<h2 id="unfoldmap_init">unfold::map_init</h2>
+<pre class="pyk-sig"><code><span class="k">def</span> <span class="n">unfold::map_init</span>(
+    <span class="p">n</span>: <span class="t">Int</span>,
+    <span class="p">seed</span>: s,
+    <span class="p">f</span>: (s) -> ((k, v), s),
+) -> Map(k, v)</code></pre>
+<p><code>map_init(n, seed, f)</code>: <code>n</code> (key, value) entries unfolded from <code>seed</code>, a
+later one with a key already there replacing its value.</p>
+<p class="pyk-api-label">Parameters</p>
+<ul>
+<li><code>n</code>: how many entries to unfold.</li>
+<li><code>seed</code>: what the first is made from.</li>
+<li><code>f</code>: answers an entry and the next seed.</li>
+</ul>
+<p class="pyk-api-label">Returns</p>
+<p>A new Map.</p>
+<p class="pyk-api-label">Example</p>
+<div class="pkn-notebook pkn-embedded not-content"><div class="pkn-fragment" data-markdown="&#x60;&#x60;&#x60;pyking
+print(map_init(3, 1, lam x. ((x, x * x), x + 1)))
+&#x60;&#x60;&#x60;
+
+&#x60;&#x60;&#x60;stdout visible = true
+map([(1, 1), (2, 4), (3, 9)])
+&#x60;&#x60;&#x60;"></div></div>
+</div>
+<div class="pyk-api">
+<h2 id="unfoldmutmap_init">unfold::mutmap_init</h2>
+<pre class="pyk-sig"><code><span class="k">def</span> <span class="n">unfold::mutmap_init</span>(
+    <span class="p">n</span>: <span class="t">Int</span>,
+    <span class="p">seed</span>: s,
+    <span class="p">f</span>: (s) -> ((k, v), s),
+) -> MutMap(k, v)</code></pre>
+<p><code>mutmap_init(n, seed, f)</code>: as <code>map_init</code>’s unfolding form, a MutMap. Needs
+<code>use mutation</code>.</p>
+<p class="pyk-api-label">Parameters</p>
+<ul>
+<li><code>n</code>: how many entries to unfold.</li>
+<li><code>seed</code>: what the first is made from.</li>
+<li><code>f</code>: answers an entry and the next seed.</li>
+</ul>
+<p class="pyk-api-label">Returns</p>
+<p>A new MutMap.</p>
+<p class="pyk-api-label">Example</p>
+<div class="pkn-notebook pkn-embedded not-content"><div class="pkn-fragment" data-markdown="&#x60;&#x60;&#x60;pyking
+use mutation
+print(mutmap_init(2, 0, lam x. ((x, string(x)), x + 1)))
+&#x60;&#x60;&#x60;
+
+&#x60;&#x60;&#x60;stdout visible = true
+mutmap([(0, &#x22;0&#x22;), (1, &#x22;1&#x22;)])
+&#x60;&#x60;&#x60;"></div></div>
+</div></div><footer class="sl-flex astro-ddtxxk7k"><div class="meta sl-flex astro-ddtxxk7k"></div><div class="pagination-links print:hidden astro-b5raizh3" dir="ltr"></div></footer></div></div></main></div></div></div></div></body></html>

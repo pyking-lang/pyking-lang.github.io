@@ -710,26 +710,26 @@ def number_input__default__on_change():
 def number_input(low, high, value, on_change):
     return tinyweb_external.make_number_input(low, high, value, on_change)
 
-def set_text(id, words):
-    return tinyweb_external.command('set_text', id, words, '', 1)
+def set_text(id_, words):
+    return tinyweb_external.command('set_text', id_, words, '', 1)
 
-def show(id):
-    return tinyweb_external.command('visible', id, '', '1', 1)
+def show(id_):
+    return tinyweb_external.command('visible', id_, '', '1', 1)
 
-def hide(id):
-    return tinyweb_external.command('visible', id, '', '0', 1)
+def hide(id_):
+    return tinyweb_external.command('visible', id_, '', '0', 1)
 
-def enable(id):
-    return tinyweb_external.command('enabled', id, '', '1', 1)
+def enable(id_):
+    return tinyweb_external.command('enabled', id_, '', '1', 1)
 
-def disable(id):
-    return tinyweb_external.command('enabled', id, '', '0', 1)
+def disable(id_):
+    return tinyweb_external.command('enabled', id_, '', '0', 1)
 
-def remove(id):
-    return tinyweb_external.command('remove', id, '', '', 0)
+def remove(id_):
+    return tinyweb_external.command('remove', id_, '', '', 0)
 
-def value_of(id):
-    return tinyweb_external.report_text('value.' + id)
+def value_of(id_):
+    return tinyweb_external.report_text('value.' + id_)
 
 def known_theme(name):
     match name:
@@ -738,22 +738,22 @@ def known_theme(name):
         case _:
             return False
 
-def style_text(id, kind, property, value):
-    return () if value == '' else tinyweb_external.apply_style(id, kind, property, value)
+def style_text(id_, kind, property, value):
+    return () if value == '' else tinyweb_external.apply_style(id_, kind, property, value)
 
-def style_color(id, kind, property, c):
-    return () if color__is_theme(c) else tinyweb_external.apply_style(id, kind, property, color__css(c))
+def style_color(id_, kind, property, c):
+    return () if color__is_theme(c) else tinyweb_external.apply_style(id_, kind, property, color__css(c))
 
-def style_border(id, kind, border, width):
+def style_border(id_, kind, border, width):
     if color__is_theme(border):
-        return tinyweb_external.apply_style(id, kind, 'border', str(width) + 'px solid currentColor') if width >= 0 else ()
+        return tinyweb_external.apply_style(id_, kind, 'border', str(width) + 'px solid currentColor') if width >= 0 else ()
     elif border.a <= 0.0:
-        return tinyweb_external.apply_style(id, kind, 'border', 'none')
+        return tinyweb_external.apply_style(id_, kind, 'border', 'none')
     else:
-        return tinyweb_external.apply_style(id, kind, 'border', str(width if width >= 0 else 1) + 'px solid ' + color__css(border))
+        return tinyweb_external.apply_style(id_, kind, 'border', str(width if width >= 0 else 1) + 'px solid ' + color__css(border))
 
-def style_pixels(id, kind, property, value):
-    return () if value < 0 else tinyweb_external.apply_style(id, kind, property, str(value) + 'px')
+def style_pixels(id_, kind, property, value):
+    return () if value < 0 else tinyweb_external.apply_style(id_, kind, property, str(value) + 'px')
 
 def theme(name):
     if known_theme(name):
@@ -845,19 +845,19 @@ def set_style__default__border():
 def set_style__default__accent():
     return color__theme
 
-def set_style(id, background, foreground, border, border_width, radius, font, size, padding, accent, width, weight, height):
-    style_color(id, 'element', 'background', background)
-    style_color(id, 'element', 'color', foreground)
-    style_border(id, 'element', border, border_width)
-    style_pixels(id, 'element', 'radius', radius)
-    style_text(id, 'element', 'font', font)
-    style_pixels(id, 'element', 'size', size)
-    style_pixels(id, 'element', 'padding', padding)
-    style_color(id, 'element', 'accent', accent)
-    style_pixels(id, 'element', 'width', width)
+def set_style(id_, background, foreground, border, border_width, radius, font, size, padding, accent, width, weight, height):
+    style_color(id_, 'element', 'background', background)
+    style_color(id_, 'element', 'color', foreground)
+    style_border(id_, 'element', border, border_width)
+    style_pixels(id_, 'element', 'radius', radius)
+    style_text(id_, 'element', 'font', font)
+    style_pixels(id_, 'element', 'size', size)
+    style_pixels(id_, 'element', 'padding', padding)
+    style_color(id_, 'element', 'accent', accent)
+    style_pixels(id_, 'element', 'width', width)
     if weight >= 0:
-        style_text(id, 'element', 'weight', str(weight))
-    return style_pixels(id, 'element', 'height', height)
+        style_text(id_, 'element', 'weight', str(weight))
+    return style_pixels(id_, 'element', 'height', height)
 
 def on_click(c, f):
     return tinyweb_external.on_mouse(c, f)
@@ -884,16 +884,16 @@ def ignore2(x, y):
     return ()
 
 def after(seconds, f):
-    id = tinyweb_external.fresh_id('timer')
-    tinyweb_external.watch(id, 'timer', f)
-    tinyweb_external.command('after', id, '', str(__pyk_float(seconds)), 0)
-    return id
+    id_ = tinyweb_external.fresh_id('timer')
+    tinyweb_external.watch(id_, 'timer', f)
+    tinyweb_external.command('after', id_, '', str(__pyk_float(seconds)), 0)
+    return id_
 
 def every(seconds, f):
-    id = tinyweb_external.fresh_id('timer')
-    tinyweb_external.watch(id, 'timer', f)
-    tinyweb_external.command('every', id, '', str(__pyk_float(seconds)), 0)
-    return id
+    id_ = tinyweb_external.fresh_id('timer')
+    tinyweb_external.watch(id_, 'timer', f)
+    tinyweb_external.command('every', id_, '', str(__pyk_float(seconds)), 0)
+    return id_
 
 def cancel(timer):
     return tinyweb_external.command('cancel', timer, '', '', 0)
@@ -917,10 +917,10 @@ def sound__start__default__voice():
     return Sound__Voice(1.0, 1.0, 0.0, 0, False, False)
 
 def sound__start(sample, at, volume, rate, pan, looping, voice):
-    id = tinyweb_external.fresh_id('voice')
+    id_ = tinyweb_external.fresh_id('voice')
     looped = True if looping else voice.looping
-    tinyweb_external.command('start', id, sample, sound__settings(at, volume, rate, pan, voice) + ' ' + bit(looped), 2)
-    return id
+    tinyweb_external.command('start', id_, sample, sound__settings(at, volume, rate, pan, voice) + ' ' + bit(looped), 2)
+    return id_
 
 def sound__stop(voice, at):
     return tinyweb_external.command('stop', voice, '', str(__pyk_float(at)), 2)
@@ -939,12 +939,12 @@ def sound__tone(frequency, at, duration, wave, volume, pan, channel):
 
 def sound__note(name):
     semitones = sound__semitones(name)
-    return 0.0 if semitones < -1000 else 440.0 * math.pow(2.0, __pyk_fdiv(float(semitones - 57), 12.0))
+    return 0.0 if semitones < -1000 else 440.0 * math.pow_(2.0, __pyk_fdiv(float(semitones - 57), 12.0))
 
 def sound__rate_of(name, base):
     origin = sound__semitones(base)
     target = sound__semitones(name)
-    return 1.0 if origin < -1000 else 1.0 if target < -1000 else math.pow(2.0, __pyk_fdiv(float(target - origin), 12.0))
+    return 1.0 if origin < -1000 else 1.0 if target < -1000 else math.pow_(2.0, __pyk_fdiv(float(target - origin), 12.0))
 
 def sound__semitones(name):
     match strings.char_at(name, 0):
@@ -971,7 +971,7 @@ def sound__semitones(name):
             shift = -1
         case _:
             shift = 0
-    rest = strings.slice(name, 1 if shift == 0 else 2, strings.length(name))
+    rest = strings.slice_(name, 1 if shift == 0 else 2, strings.length(name))
     octave = 4 if rest == '' else __pyk_int(rest)
     valid = False if base < 0 else True if rest == '' else str(octave) == rest
     return base + shift + octave * 12 if valid else -10000
@@ -983,10 +983,10 @@ def sound__swing(amount):
     return tinyweb_external.command('swing', '', '', str(__pyk_float(amount)), 1)
 
 def sound__on_beat(f, steps):
-    id = tinyweb_external.fresh_id('beat')
-    tinyweb_external.watch_step(id, 'beat', f)
-    tinyweb_external.command('beat', id, '', str(steps), 0)
-    return id
+    id_ = tinyweb_external.fresh_id('beat')
+    tinyweb_external.watch_step(id_, 'beat', f)
+    tinyweb_external.command('beat', id_, '', str(steps), 0)
+    return id_
 
 def sound__beat():
     return tinyweb_external.report_number('clock', 0)
@@ -1022,11 +1022,11 @@ def sound__render_wav__default__on_rendered():
     return sound__ignore_rendered
 
 def sound__render_wav(seconds, f, name, on_rendered):
-    id = tinyweb_external.fresh_id('render')
-    tinyweb_external.watch_pair(id, 'rendered', on_rendered)
-    tinyweb_external.command('render', id, name, str(__pyk_float(seconds)), 2)
+    id_ = tinyweb_external.fresh_id('render')
+    tinyweb_external.watch_pair(id_, 'rendered', on_rendered)
+    tinyweb_external.command('render', id_, name, str(__pyk_float(seconds)), 2)
     f()
-    return tinyweb_external.command('render_end', id, '', '', 2)
+    return tinyweb_external.command('render_end', id_, '', '', 2)
 
 def sound__ignore_rendered(took, peak):
     return ()
@@ -1055,8 +1055,8 @@ def layout__row():
 def layout__column():
     return tinyweb_external.column()
 
-def layout__inside(id):
-    return tinyweb_external.inside(id)
+def layout__inside(id_):
+    return tinyweb_external.inside(id_)
 
 def layout__outside():
     return tinyweb_external.outside()
@@ -1065,10 +1065,10 @@ def layout__text_area__default__on_change():
     return ignore_text
 
 def layout__text_area(words, rows, columns, on_change):
-    id = tinyweb_external.fresh_id('text')
-    tinyweb_external.watch_text(id, 'change', 'value.' + id, on_change)
-    tinyweb_external.command('text_area', id, words, numbers2(rows, columns), 0)
-    return id
+    id_ = tinyweb_external.fresh_id('text')
+    tinyweb_external.watch_text(id_, 'change', 'value.' + id_, on_change)
+    tinyweb_external.command('text_area', id_, words, numbers2(rows, columns), 0)
+    return id_
 
 def net__save_canvas(c, name):
     return tinyweb_external.command('save_canvas', c, name, '', 2)
@@ -1080,10 +1080,10 @@ def net__file_button__default__on_load():
     return ignore_text
 
 def net__file_button(title, on_load):
-    id = tinyweb_external.fresh_id(title)
-    tinyweb_external.watch_text(id, 'loaded', 'file', on_load)
-    tinyweb_external.command('file_button', id, title, '', 0)
-    return id
+    id_ = tinyweb_external.fresh_id(title)
+    tinyweb_external.watch_text(id_, 'loaded', 'file', on_load)
+    tinyweb_external.command('file_button', id_, title, '', 0)
+    return id_
 
 def net__file_text():
     return tinyweb_external.report_text('file.text')

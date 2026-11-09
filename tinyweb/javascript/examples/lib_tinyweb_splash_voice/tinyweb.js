@@ -20,8 +20,10 @@ function pykConcat(a, b) {
 
 // A value of a datatype: its constructor's name and its fields, in
 // order, with each field that has a name also a property by it.
-function pykData(tag, values, names) {
-  const value = { pykTag: tag, pykValues: values, pykShape: null };
+// `fields` says how its fields print by its type's arguments, where
+// one can hold a Float or a Char (a `d(...)` descriptor reads it).
+function pykData(tag, values, names, fields = null) {
+  const value = { pykTag: tag, pykValues: values, pykShape: null, pykFields: fields };
   names.forEach((name, i) => { if (name !== null) value[name] = values[i]; });
   return value;
 }
@@ -132,7 +134,7 @@ function bit(on) {
 }
 
 function Color__Color(v0, v1, v2, v3) {
-  return pykData('Color__Color', [v0, v1, v2, v3], ['r', 'g', 'b', 'a']);
+  return pykData('Color__Color', [v0, v1, v2, v3], ['r', 'g', 'b', 'a'], '(.,.,.,f)');
 }
 
 const color__black = pykWithShape(Color__Color(0, 0, 0, 1.0), '(.,.,.,f)');
@@ -364,15 +366,15 @@ function Color__Plain(v0) {
 }
 
 function Color__Linear(v0, v1, v2, v3, v4, v5, v6) {
-  return pykData('Color__Linear', [v0, v1, v2, v3, v4, v5, v6], ['x1', 'y1', 'x2', 'y2', 'start', 'end', 'stops']);
+  return pykData('Color__Linear', [v0, v1, v2, v3, v4, v5, v6], ['x1', 'y1', 'x2', 'y2', 'start', 'end', 'stops'], '(f,f,f,f,.,.,.)');
 }
 
 function Color__Radial(v0, v1, v2, v3, v4, v5, v6, v7, v8) {
-  return pykData('Color__Radial', [v0, v1, v2, v3, v4, v5, v6, v7, v8], ['x1', 'y1', 'r1', 'x2', 'y2', 'r2', 'start', 'end', 'stops']);
+  return pykData('Color__Radial', [v0, v1, v2, v3, v4, v5, v6, v7, v8], ['x1', 'y1', 'r1', 'x2', 'y2', 'r2', 'start', 'end', 'stops'], '(f,f,f,f,f,f,.,.,.)');
 }
 
 function Color__Conic(v0, v1, v2, v3, v4, v5) {
-  return pykData('Color__Conic', [v0, v1, v2, v3, v4, v5], ['x', 'y', 'angle', 'start', 'end', 'stops']);
+  return pykData('Color__Conic', [v0, v1, v2, v3, v4, v5], ['x', 'y', 'angle', 'start', 'end', 'stops'], '(f,f,f,.,.,.)');
 }
 
 function color__stop(paint, at, c) {
@@ -432,7 +434,7 @@ function field__default__Style__paint() {
 }
 
 function Style(v0, v1, v2, v3, v4) {
-  return pykData('Style', [v0, v1, v2, v3, v4], ['fill', 'stroke', 'width', 'alpha', 'paint']);
+  return pykData('Style', [v0, v1, v2, v3, v4], ['fill', 'stroke', 'width', 'alpha', 'paint'], '(.,.,.,f,.)');
 }
 
 function Pointer(v0, v1, v2) {
@@ -1056,7 +1058,7 @@ function play_file(name) {
 }
 
 function Sound__Voice(v0, v1, v2, v3, v4, v5) {
-  return pykData('Sound__Voice', [v0, v1, v2, v3, v4, v5], ['volume', 'rate', 'pan', 'channel', 'looping', 'reverse']);
+  return pykData('Sound__Voice', [v0, v1, v2, v3, v4, v5], ['volume', 'rate', 'pan', 'channel', 'looping', 'reverse'], '(f,f,f,.,.,.)');
 }
 
 function sound__start__default__voice() {
@@ -1288,7 +1290,7 @@ function game__cursor(c, name) {
 }
 
 function Smooth__Point(v0, v1) {
-  return pykData('Smooth__Point', [v0, v1], ['x', 'y']);
+  return pykData('Smooth__Point', [v0, v1], ['x', 'y'], '(f,f)');
 }
 
 function smooth__width_of(width, style) {

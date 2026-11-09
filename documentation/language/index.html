@@ -1,4 +1,4 @@
-<!DOCTYPE html><html lang="en" dir="ltr" data-theme="dark" data-has-sidebar class="astro-g5ptsecz"><head><meta charset="utf-8"/><meta name="viewport" content="width=device-width, initial-scale=1"/><title>Language reference | Pyking</title><link rel="canonical" href="https://pyking.org/documentation/language/"/><link rel="sitemap" href="/sitemap-index.xml"/><script src="/v/2428fde398f0/site/shell.js" data-base data-build="2428fde398f0" data-sections="[{&quot;key&quot;:&quot;install&quot;,&quot;label&quot;:&quot;Install&quot;,&quot;prefix&quot;:&quot;/install/&quot;},{&quot;key&quot;:&quot;getstarted&quot;,&quot;label&quot;:&quot;Getting started&quot;,&quot;prefix&quot;:&quot;/getstarted/&quot;},{&quot;key&quot;:&quot;documentation&quot;,&quot;label&quot;:&quot;Documentation&quot;,&quot;prefix&quot;:&quot;/documentation/&quot;},{&quot;key&quot;:&quot;libraries&quot;,&quot;label&quot;:&quot;Libraries&quot;,&quot;prefix&quot;:&quot;/libraries/&quot;},{&quot;key&quot;:&quot;playground&quot;,&quot;label&quot;:&quot;Playground&quot;,&quot;prefix&quot;:&quot;/playground/&quot;}]"></script><script type="module" src="/v/2428fde398f0/site/cells.js"></script><script>try { if (localStorage.getItem('starlight-theme') === null) localStorage.setItem('starlight-theme', 'dark'); } catch (e) {}</script><link rel="shortcut icon" href="/v/2428fde398f0/site/favicon.svg" type="image/svg+xml"/><meta name="generator" content="Astro v7.3.5"/><meta name="generator" content="Starlight v0.42.5"/><meta property="og:title" content="Language reference"/><meta property="og:type" content="article"/><meta property="og:url" content="https://pyking.org/documentation/language/"/><meta property="og:locale" content="en"/><meta property="og:description" content="The Pyking language, construct by construct, with its grammar."/><meta property="og:site_name" content="Pyking"/><meta name="twitter:card" content="summary_large_image"/><meta name="description" content="The Pyking language, construct by construct, with its grammar."/><script>
+<!DOCTYPE html><html lang="en" dir="ltr" data-theme="dark" data-has-sidebar class="astro-g5ptsecz"><head><meta charset="utf-8"/><meta name="viewport" content="width=device-width, initial-scale=1"/><title>Language reference | Pyking</title><link rel="canonical" href="https://pyking.org/documentation/language/"/><link rel="sitemap" href="/sitemap-index.xml"/><script src="/v/42683900f13c/site/shell.js" data-base data-build="42683900f13c" data-sections="[{&quot;key&quot;:&quot;install&quot;,&quot;label&quot;:&quot;Install&quot;,&quot;prefix&quot;:&quot;/install/&quot;},{&quot;key&quot;:&quot;getstarted&quot;,&quot;label&quot;:&quot;Getting started&quot;,&quot;prefix&quot;:&quot;/getstarted/&quot;},{&quot;key&quot;:&quot;documentation&quot;,&quot;label&quot;:&quot;Documentation&quot;,&quot;prefix&quot;:&quot;/documentation/&quot;},{&quot;key&quot;:&quot;libraries&quot;,&quot;label&quot;:&quot;Libraries&quot;,&quot;prefix&quot;:&quot;/libraries/&quot;},{&quot;key&quot;:&quot;playground&quot;,&quot;label&quot;:&quot;Playground&quot;,&quot;prefix&quot;:&quot;/playground/&quot;}]"></script><script type="module" src="/v/42683900f13c/site/cells.js"></script><script>try { if (localStorage.getItem('starlight-theme') === null) localStorage.setItem('starlight-theme', 'dark'); } catch (e) {}</script><link rel="shortcut icon" href="/v/42683900f13c/site/favicon.svg" type="image/svg+xml"/><meta name="generator" content="Astro v7.3.5"/><meta name="generator" content="Starlight v0.42.5"/><meta property="og:title" content="Language reference"/><meta property="og:type" content="article"/><meta property="og:url" content="https://pyking.org/documentation/language/"/><meta property="og:locale" content="en"/><meta property="og:description" content="The Pyking language, construct by construct, with its grammar."/><meta property="og:site_name" content="Pyking"/><meta name="twitter:card" content="summary_large_image"/><meta name="description" content="The Pyking language, construct by construct, with its grammar."/><script>
 	window.StarlightThemeProvider = (() => {
 		const storedTheme =
 			typeof localStorage !== 'undefined' && localStorage.getItem('starlight-theme');
@@ -51,8 +51,8 @@ with <code>:=</code>, which a module turns on with <code>use mutation</code>; an
 a scope, so a name bound inside one is gone after it.</p>
 <p>A module is <strong>functional and immutable</strong> unless it says otherwise. Parts
 of the language beyond that core are turned on per module by a <code>use</code>
-line at its top — <code>use mutation</code> today, <code>use objects</code> reserved for
-later — and every module is read by the same parser: a construct of a
+line at its top — <code>use mutation</code> and <code>use objects</code> — and every module
+is read by the same parser: a construct of a
 feature the module has not turned on is parsed as usual and refused as a
 syntax error naming the <code>use</code> line that would allow it. See “Features
 turned on with <code>use</code>”.</p>
@@ -206,6 +206,13 @@ changed. Python’s nearest is a frozen dataclass and
 <code>dataclasses.replace</code>. See “Structs”. Under <code>use mutation</code>, a <code>var struct</code> is one whose fields are written in place (<code>p.x := 1</code>), shared
 by every name that holds it, as a Python object is. See “Mutable
 structs”.</li>
+<li><strong>Classes and interfaces</strong>: under <code>use objects</code>, <code>class Rect(width: Float, height: Float) implements Shape:</code> declares a class whose header
+is its constructor’s parameters and its fields, with methods taking an
+explicit <code>self</code> and saying their types; an <code>interface</code> declares
+signatures and defaults, and a class <code>extends</code> one parent and
+<code>implements</code> any number of interfaces. Java’s semantics in Python’s
+spelling: objects are shared, dispatch is dynamic, <code>override</code> is
+written, and <code>==</code> calls a class’s <code>eq</code>. See “Classes and interfaces”.</li>
 <li><strong>Uppercase is for types and constructors</strong>: every name a program
 binds starts with a lowercase letter or <code>_</code>, so a constant is
 <code>pi = 3.14</code> rather than Python’s <code>PI = 3.14</code>, and an uppercase name is
@@ -353,15 +360,32 @@ constructor, and updates (<code>Point(x = 5, ..p)</code>) — Pyking extension (
 <code>remove</code> and <code>clear</code> — Pyking extension (see “DynArrays”)</li>
 <li><strong>MutMaps</strong> (<code>MutMap(K, V)</code>), maps that keep their keys’ order, read with
 <code>d[k]</code> and written with <code>d[k] := v</code> — Pyking extension (see “MutMaps”)</li>
+<li><strong>Maps</strong> (<code>Map(K, V)</code>), immutable maps that keep their keys’ order,
+made by <code>map(...)</code>; lib/map’s changes answer a new one — Pyking
+extension (see “Maps”)</li>
+<li><strong>One way to make and convert every collection</strong>: <code>list(...)</code>,
+<code>array(...)</code>, <code>dynarray(...)</code>, <code>map(...)</code> and <code>mutmap(...)</code> of a list,
+of one value repeated, or of another collection, and <code>list_init</code>,
+<code>array_init</code>, <code>dynarray_init</code>, <code>map_init</code> and <code>mutmap_init</code> calling a
+function — Pyking extension (see “Making and converting collections”)</li>
+<li><strong><code>fmap</code>, <code>filter</code>, <code>foldl</code>, <code>foldr</code>, <code>any</code> and <code>all</code></strong> on every
+collection, an Option and a Result — Pyking extension (see “fmap and
+the folds”)</li>
 <li><strong>Slices</strong> (<code>xs[i:j]</code>, a copy) and <strong>views</strong> (<code>view(a, i, j)</code>, sharing
 an array’s elements) — Pyking extension (see “Slices and views”)</li>
 <li><strong>Option</strong> (<code>Some(x)</code>, <code>None</code>), builtin from lib/option — Pyking
 extension (see “Option”)</li>
+<li><strong>Result</strong> (<code>Ok(x)</code>, <code>Error(e)</code>), builtin from lib/result, as Rust’s
+with <code>Error</code> for <code>Err</code> — Pyking extension (see “Result”)</li>
 <li><strong>Pointers</strong> (<code>&#x26;x</code>, <code>*p</code>, <code>*p := v</code>, <code>Ptr(T)</code>) under <code>use mutation, pointers</code> — Pyking extension (see “Pointers”)</li>
 <li><strong>Mutable structs</strong> (<code>var struct Point(x: Int, y: Int)</code>), whose fields
 are written with <code>:=</code> and the compound operators and whose values are
 shared; <code>same(p, q)</code> asks whether two are one — Pyking extension (see
 “Mutable structs”)</li>
+<li><strong>Classes and interfaces</strong> under <code>use objects</code>: <code>class</code>, <code>abstract class</code> and <code>interface</code>, header and body fields (<code>var</code> ones with <code>use mutation</code>), methods with <code>self</code>, <code>private</code>, <code>extends</code>, <code>implements</code>,
+<code>override</code>, <code>super</code>, <code>eq</code> and <code>show</code>, upcasts where a type is written,
+and class patterns (<code>case Square(side):</code>, <code>case c: Circle:</code>) — Pyking
+extension (see “Classes and interfaces”)</li>
 <li>Patterns of every kind may be combined with <code>|</code> (<code>case 1 | 2:</code>), bind
 the whole value as well with <code>as</code> (<code>case Node(l, r) as whole:</code>), and
 carry a guard (<code>case n if n > 0:</code>); every <code>match</code> matches every
@@ -411,10 +435,11 @@ each running its own top level before anything that imports it (see
 <code>INDENT</code>/<code>DEDENT</code> are not literal characters — they are synthesized by the
 lexer from 4-space indentation changes (see “Indentation-based blocks”
 below). Comments are stripped by the lexer and don’t appear here.</p>
-<div class="expressive-code"><link rel="stylesheet" href="/_astro/ec.w36nc.css"><script type="module" src="/_astro/ec.0vx5m.js"></script><figure class="frame not-content"><figcaption class="header"></figcaption><pre data-language="ebnf"><code><div class="ec-line"><div class="code"><span style="--0:#d6deeb;--1:#403f53">(* An import and a `public` belong to a module's top level, so they are</span></div></div><div class="ec-line"><div class="code"><span class="indent"><span style="--0:#d6deeb;--1:#403f53">   </span></span><span style="--0:#d6deeb;--1:#403f53">here rather than in `statement`, which is what a block holds. The</span></div></div><div class="ec-line"><div class="code"><span class="indent"><span style="--0:#d6deeb;--1:#403f53">   </span></span><span style="--0:#d6deeb;--1:#403f53">`use` lines come before everything else. *)</span></div></div><div class="ec-line"><div class="code"><span style="--0:#d6deeb;--1:#403f53">program     = { use_stmt } , { top_statement } ;</span></div></div><div class="ec-line"><div class="code"><span style="--0:#d6deeb;--1:#403f53">use_stmt    = "use" , feature , { "," , feature } ;</span></div></div><div class="ec-line"><div class="code"><span style="--0:#d6deeb;--1:#403f53">feature     = "mutation" | "objects" ;</span></div></div><div class="ec-line"><div class="code"><span style="--0:#d6deeb;--1:#403f53">top_statement = import_stmt</span></div></div><div class="ec-line"><div class="code"><span class="indent"><span style="--0:#d6deeb;--1:#403f53">            </span></span><span style="--0:#d6deeb;--1:#403f53">| from_stmt</span></div></div><div class="ec-line"><div class="code"><span class="indent"><span style="--0:#d6deeb;--1:#403f53">            </span></span><span style="--0:#d6deeb;--1:#403f53">| public_stmt</span></div></div><div class="ec-line"><div class="code"><span class="indent"><span style="--0:#d6deeb;--1:#403f53">            </span></span><span style="--0:#d6deeb;--1:#403f53">| datatype_stmt</span></div></div><div class="ec-line"><div class="code"><span class="indent"><span style="--0:#d6deeb;--1:#403f53">            </span></span><span style="--0:#d6deeb;--1:#403f53">| struct_stmt</span></div></div><div class="ec-line"><div class="code"><span class="indent"><span style="--0:#d6deeb;--1:#403f53">            </span></span><span style="--0:#d6deeb;--1:#403f53">| statement ;</span></div></div><div class="ec-line"><div class="code">
+<div class="expressive-code"><link rel="stylesheet" href="/_astro/ec.w36nc.css"><script type="module" src="/_astro/ec.0vx5m.js"></script><figure class="frame not-content"><figcaption class="header"></figcaption><pre data-language="ebnf"><code><div class="ec-line"><div class="code"><span style="--0:#d6deeb;--1:#403f53">(* An import and a `public` belong to a module's top level, so they are</span></div></div><div class="ec-line"><div class="code"><span class="indent"><span style="--0:#d6deeb;--1:#403f53">   </span></span><span style="--0:#d6deeb;--1:#403f53">here rather than in `statement`, which is what a block holds. The</span></div></div><div class="ec-line"><div class="code"><span class="indent"><span style="--0:#d6deeb;--1:#403f53">   </span></span><span style="--0:#d6deeb;--1:#403f53">`use` lines come before everything else. *)</span></div></div><div class="ec-line"><div class="code"><span style="--0:#d6deeb;--1:#403f53">program     = { use_stmt } , { top_statement } ;</span></div></div><div class="ec-line"><div class="code"><span style="--0:#d6deeb;--1:#403f53">use_stmt    = "use" , feature , { "," , feature } ;</span></div></div><div class="ec-line"><div class="code"><span style="--0:#d6deeb;--1:#403f53">feature     = "mutation" | "objects" ;</span></div></div><div class="ec-line"><div class="code"><span style="--0:#d6deeb;--1:#403f53">top_statement = import_stmt</span></div></div><div class="ec-line"><div class="code"><span class="indent"><span style="--0:#d6deeb;--1:#403f53">            </span></span><span style="--0:#d6deeb;--1:#403f53">| from_stmt</span></div></div><div class="ec-line"><div class="code"><span class="indent"><span style="--0:#d6deeb;--1:#403f53">            </span></span><span style="--0:#d6deeb;--1:#403f53">| public_stmt</span></div></div><div class="ec-line"><div class="code"><span class="indent"><span style="--0:#d6deeb;--1:#403f53">            </span></span><span style="--0:#d6deeb;--1:#403f53">| datatype_stmt</span></div></div><div class="ec-line"><div class="code"><span class="indent"><span style="--0:#d6deeb;--1:#403f53">            </span></span><span style="--0:#d6deeb;--1:#403f53">| struct_stmt</span></div></div><div class="ec-line"><div class="code"><span class="indent"><span style="--0:#d6deeb;--1:#403f53">            </span></span><span style="--0:#d6deeb;--1:#403f53">| class_stmt</span></div></div><div class="ec-line"><div class="code"><span class="indent"><span style="--0:#d6deeb;--1:#403f53">            </span></span><span style="--0:#d6deeb;--1:#403f53">| statement ;</span></div></div><div class="ec-line"><div class="code">
 </div></div><div class="ec-line"><div class="code"><span style="--0:#d6deeb;--1:#403f53">import_stmt = "import" , module_item , { "," , module_item } ;</span></div></div><div class="ec-line"><div class="code"><span style="--0:#d6deeb;--1:#403f53">module_item = module_path , [ "as" , ident ] ;</span></div></div><div class="ec-line"><div class="code"><span style="--0:#d6deeb;--1:#403f53">from_stmt   = "from" , module_path , "import" , field_item , { "," , field_item } ;</span></div></div><div class="ec-line"><div class="code"><span style="--0:#d6deeb;--1:#403f53">(* A module, or a submodule of one: `hello`, `hello.mymod`. *)</span></div></div><div class="ec-line"><div class="code"><span style="--0:#d6deeb;--1:#403f53">module_path = ident , { "." , ident } ;</span></div></div><div class="ec-line"><div class="code"><span style="--0:#d6deeb;--1:#403f53">field_item  = ident , [ "as" , ident ] ;</span></div></div><div class="ec-line"><div class="code"><span style="--0:#d6deeb;--1:#403f53">public_stmt = "public" , ( function_def | function_sig | datatype_stmt</span></div></div><div class="ec-line"><div class="code"><span class="indent"><span style="--0:#d6deeb;--1:#403f53">                          </span></span><span style="--0:#d6deeb;--1:#403f53">| struct_stmt | assignment ) ;</span></div></div><div class="ec-line"><div class="code">
 </div></div><div class="ec-line"><div class="code"><span style="--0:#d6deeb;--1:#403f53">(* A datatype belongs to a module's top level. Its name and every</span></div></div><div class="ec-line"><div class="code"><span class="indent"><span style="--0:#d6deeb;--1:#403f53">   </span></span><span style="--0:#d6deeb;--1:#403f53">constructor's start with an uppercase letter; its parameters are type</span></div></div><div class="ec-line"><div class="code"><span class="indent"><span style="--0:#d6deeb;--1:#403f53">   </span></span><span style="--0:#d6deeb;--1:#403f53">variables. Its constructors follow the ':' on its own line, or on</span></div></div><div class="ec-line"><div class="code"><span class="indent"><span style="--0:#d6deeb;--1:#403f53">   </span></span><span style="--0:#d6deeb;--1:#403f53">indented lines under it, or both; a line holds one or more,</span></div></div><div class="ec-line"><div class="code"><span class="indent"><span style="--0:#d6deeb;--1:#403f53">   </span></span><span style="--0:#d6deeb;--1:#403f53">separated by commas. *)</span></div></div><div class="ec-line"><div class="code"><span style="--0:#d6deeb;--1:#403f53">datatype_stmt = "datatype" , [ sub_path , "." ] , upper_ident , [ "(" , type_var , { "," , type_var } , ")" ] ,</span></div></div><div class="ec-line"><div class="code"><span class="indent"><span style="--0:#d6deeb;--1:#403f53">                </span></span><span style="--0:#d6deeb;--1:#403f53">":" , ( constructor_line , [ INDENT , { constructor_line } , DEDENT ]</span></div></div><div class="ec-line"><div class="code"><span class="indent"><span style="--0:#d6deeb;--1:#403f53">                      </span></span><span style="--0:#d6deeb;--1:#403f53">| INDENT , constructor_line , { constructor_line } , DEDENT ) ;</span></div></div><div class="ec-line"><div class="code"><span style="--0:#d6deeb;--1:#403f53">constructor_line = constructor , { "," , constructor } ;</span></div></div><div class="ec-line"><div class="code"><span style="--0:#d6deeb;--1:#403f53">constructor = upper_ident , [ "(" , [ field , { "," , field } ] , ")" ] ;</span></div></div><div class="ec-line"><div class="code"><span style="--0:#d6deeb;--1:#403f53">(* A field is a type alone (positional only), or named; a named field's</span></div></div><div class="ec-line"><div class="code"><span class="indent"><span style="--0:#d6deeb;--1:#403f53">   </span></span><span style="--0:#d6deeb;--1:#403f53">type may be left to its default. Unnamed fields come first, and every</span></div></div><div class="ec-line"><div class="code"><span class="indent"><span style="--0:#d6deeb;--1:#403f53">   </span></span><span style="--0:#d6deeb;--1:#403f53">field after one with a default has one too. *)</span></div></div><div class="ec-line"><div class="code"><span style="--0:#d6deeb;--1:#403f53">field       = type</span></div></div><div class="ec-line"><div class="code"><span class="indent"><span style="--0:#d6deeb;--1:#403f53">            </span></span><span style="--0:#d6deeb;--1:#403f53">| ident , ":" , type , [ "=" , expr ]</span></div></div><div class="ec-line"><div class="code"><span class="indent"><span style="--0:#d6deeb;--1:#403f53">            </span></span><span style="--0:#d6deeb;--1:#403f53">| ident , "=" , expr ;</span></div></div><div class="ec-line"><div class="code"><span style="--0:#d6deeb;--1:#403f53">upper_ident = ? an ident beginning with an uppercase letter ? ;</span></div></div><div class="ec-line"><div class="code">
 </div></div><div class="ec-line"><div class="code"><span style="--0:#d6deeb;--1:#403f53">(* A struct is a datatype of one constructor, named as the type is. Its</span></div></div><div class="ec-line"><div class="code"><span class="indent"><span style="--0:#d6deeb;--1:#403f53">   </span></span><span style="--0:#d6deeb;--1:#403f53">fields are in parentheses on its own line -- every type variable they</span></div></div><div class="ec-line"><div class="code"><span class="indent"><span style="--0:#d6deeb;--1:#403f53">   </span></span><span style="--0:#d6deeb;--1:#403f53">name is then a parameter -- or on indented lines under its ':', a</span></div></div><div class="ec-line"><div class="code"><span class="indent"><span style="--0:#d6deeb;--1:#403f53">   </span></span><span style="--0:#d6deeb;--1:#403f53">line holding one or more separated by commas, after the parameters</span></div></div><div class="ec-line"><div class="code"><span class="indent"><span style="--0:#d6deeb;--1:#403f53">   </span></span><span style="--0:#d6deeb;--1:#403f53">written in parentheses. With neither it has no fields. "var" makes</span></div></div><div class="ec-line"><div class="code"><span class="indent"><span style="--0:#d6deeb;--1:#403f53">   </span></span><span style="--0:#d6deeb;--1:#403f53">it a var struct, whose fields are written in place: it has at least</span></div></div><div class="ec-line"><div class="code"><span class="indent"><span style="--0:#d6deeb;--1:#403f53">   </span></span><span style="--0:#d6deeb;--1:#403f53">one field, and needs `use mutation`. *)</span></div></div><div class="ec-line"><div class="code"><span style="--0:#d6deeb;--1:#403f53">struct_stmt = [ "var" ] , "struct" , [ sub_path , "." ] , upper_ident ,</span></div></div><div class="ec-line"><div class="code"><span class="indent"><span style="--0:#d6deeb;--1:#403f53">              </span></span><span style="--0:#d6deeb;--1:#403f53">[ "(" , [ field , { "," , field } ] , ")"</span></div></div><div class="ec-line"><div class="code"><span class="indent"><span style="--0:#d6deeb;--1:#403f53">              </span></span><span style="--0:#d6deeb;--1:#403f53">| [ "(" , type_var , { "," , type_var } , ")" ] , ":" ,</span></div></div><div class="ec-line"><div class="code"><span class="indent"><span style="--0:#d6deeb;--1:#403f53">                </span></span><span style="--0:#d6deeb;--1:#403f53">INDENT , field_line , { field_line } , DEDENT ] ;</span></div></div><div class="ec-line"><div class="code"><span style="--0:#d6deeb;--1:#403f53">field_line  = field , { "," , field } ;</span></div></div><div class="ec-line"><div class="code">
+</div></div><div class="ec-line"><div class="code"><span style="--0:#d6deeb;--1:#403f53">(* A class, an abstract class or an interface belongs to a module's top</span></div></div><div class="ec-line"><div class="code"><span class="indent"><span style="--0:#d6deeb;--1:#403f53">   </span></span><span style="--0:#d6deeb;--1:#403f53">level and needs `use objects` (see "Classes and interfaces"). A</span></div></div><div class="ec-line"><div class="code"><span class="indent"><span style="--0:#d6deeb;--1:#403f53">   </span></span><span style="--0:#d6deeb;--1:#403f53">class's header holds its type parameters (bare lowercase names) and</span></div></div><div class="ec-line"><div class="code"><span class="indent"><span style="--0:#d6deeb;--1:#403f53">   </span></span><span style="--0:#d6deeb;--1:#403f53">its fields, which are its constructor's parameters; a parent class is</span></div></div><div class="ec-line"><div class="code"><span class="indent"><span style="--0:#d6deeb;--1:#403f53">   </span></span><span style="--0:#d6deeb;--1:#403f53">written with its constructor's arguments, an interface with its type</span></div></div><div class="ec-line"><div class="code"><span class="indent"><span style="--0:#d6deeb;--1:#403f53">   </span></span><span style="--0:#d6deeb;--1:#403f53">arguments. Its members are on indented lines under its ':'. *)</span></div></div><div class="ec-line"><div class="code"><span style="--0:#d6deeb;--1:#403f53">class_stmt  = ( [ "abstract" ] , "class" , upper_ident ,</span></div></div><div class="ec-line"><div class="code"><span class="indent"><span style="--0:#d6deeb;--1:#403f53">                </span></span><span style="--0:#d6deeb;--1:#403f53">"(" , [ header_item , { "," , header_item } ] , ")" ,</span></div></div><div class="ec-line"><div class="code"><span class="indent"><span style="--0:#d6deeb;--1:#403f53">                </span></span><span style="--0:#d6deeb;--1:#403f53">[ "extends" , class_name , "(" , [ args ] , ")" ] ,</span></div></div><div class="ec-line"><div class="code"><span class="indent"><span style="--0:#d6deeb;--1:#403f53">                </span></span><span style="--0:#d6deeb;--1:#403f53">[ "implements" , iface , { "," , iface } ]</span></div></div><div class="ec-line"><div class="code"><span class="indent"><span style="--0:#d6deeb;--1:#403f53">              </span></span><span style="--0:#d6deeb;--1:#403f53">| "interface" , upper_ident , [ "(" , type_var , { "," , type_var } , ")" ] ,</span></div></div><div class="ec-line"><div class="code"><span class="indent"><span style="--0:#d6deeb;--1:#403f53">                </span></span><span style="--0:#d6deeb;--1:#403f53">[ "extends" , iface , { "," , iface } ] ) ,</span></div></div><div class="ec-line"><div class="code"><span class="indent"><span style="--0:#d6deeb;--1:#403f53">              </span></span><span style="--0:#d6deeb;--1:#403f53">[ ":" , INDENT , member , { member } , DEDENT ] ;</span></div></div><div class="ec-line"><div class="code"><span style="--0:#d6deeb;--1:#403f53">header_item = type_var | member_field ;</span></div></div><div class="ec-line"><div class="code"><span style="--0:#d6deeb;--1:#403f53">class_name  = [ sub_path , "." ] , upper_ident ;</span></div></div><div class="ec-line"><div class="code"><span style="--0:#d6deeb;--1:#403f53">iface       = class_name , [ "(" , type , { "," , type } , ")" ] ;</span></div></div><div class="ec-line"><div class="code"><span style="--0:#d6deeb;--1:#403f53">member      = member_field | method ;</span></div></div><div class="ec-line"><div class="code"><span style="--0:#d6deeb;--1:#403f53">(* A header field has a default only where every one after it has; a</span></div></div><div class="ec-line"><div class="code"><span class="indent"><span style="--0:#d6deeb;--1:#403f53">   </span></span><span style="--0:#d6deeb;--1:#403f53">body field always has its first value. *)</span></div></div><div class="ec-line"><div class="code"><span style="--0:#d6deeb;--1:#403f53">member_field = [ "private" ] , [ "var" ] , ident , ( ":" , type , [ "=" , expr ] | "=" , literal ) ;</span></div></div><div class="ec-line"><div class="code"><span style="--0:#d6deeb;--1:#403f53">(* A method's parameters after `self` all say their types; one with no</span></div></div><div class="ec-line"><div class="code"><span class="indent"><span style="--0:#d6deeb;--1:#403f53">   </span></span><span style="--0:#d6deeb;--1:#403f53">body is abstract (in an abstract class) or an interface's. *)</span></div></div><div class="ec-line"><div class="code"><span style="--0:#d6deeb;--1:#403f53">method      = [ "private" ] , [ "override" ] , [ "abstract" ] ,</span></div></div><div class="ec-line"><div class="code"><span class="indent"><span style="--0:#d6deeb;--1:#403f53">              </span></span><span style="--0:#d6deeb;--1:#403f53">"def" , ident , "(" , "self" , { "," , param } , ")" , [ "->" , type ] ,</span></div></div><div class="ec-line"><div class="code"><span class="indent"><span style="--0:#d6deeb;--1:#403f53">              </span></span><span style="--0:#d6deeb;--1:#403f53">[ ":" , block ] ;</span></div></div><div class="ec-line"><div class="code">
 </div></div><div class="ec-line"><div class="code"><span style="--0:#d6deeb;--1:#403f53">(* A block is indented under its header, or is the single expression</span></div></div><div class="ec-line"><div class="code"><span class="indent"><span style="--0:#d6deeb;--1:#403f53">   </span></span><span style="--0:#d6deeb;--1:#403f53">written on the header's own line -- which the EBNF cannot say, since</span></div></div><div class="ec-line"><div class="code"><span class="indent"><span style="--0:#d6deeb;--1:#403f53">   </span></span><span style="--0:#d6deeb;--1:#403f53">it cannot see where a line ends; see the notes below. *)</span></div></div><div class="ec-line"><div class="code"><span style="--0:#d6deeb;--1:#403f53">block       = INDENT , { statement } , DEDENT</span></div></div><div class="ec-line"><div class="code"><span class="indent"><span style="--0:#d6deeb;--1:#403f53">            </span></span><span style="--0:#d6deeb;--1:#403f53">| expr_stmt ;</span></div></div><div class="ec-line"><div class="code">
 </div></div><div class="ec-line"><div class="code"><span style="--0:#d6deeb;--1:#403f53">statement   = function_def</span></div></div><div class="ec-line"><div class="code"><span class="indent"><span style="--0:#d6deeb;--1:#403f53">            </span></span><span style="--0:#d6deeb;--1:#403f53">| function_sig</span></div></div><div class="ec-line"><div class="code"><span class="indent"><span style="--0:#d6deeb;--1:#403f53">            </span></span><span style="--0:#d6deeb;--1:#403f53">| return_stmt</span></div></div><div class="ec-line"><div class="code"><span class="indent"><span style="--0:#d6deeb;--1:#403f53">            </span></span><span style="--0:#d6deeb;--1:#403f53">| loop_stmt</span></div></div><div class="ec-line"><div class="code"><span class="indent"><span style="--0:#d6deeb;--1:#403f53">            </span></span><span style="--0:#d6deeb;--1:#403f53">| break_stmt</span></div></div><div class="ec-line"><div class="code"><span class="indent"><span style="--0:#d6deeb;--1:#403f53">            </span></span><span style="--0:#d6deeb;--1:#403f53">| continue_stmt</span></div></div><div class="ec-line"><div class="code"><span class="indent"><span style="--0:#d6deeb;--1:#403f53">            </span></span><span style="--0:#d6deeb;--1:#403f53">| if_stmt</span></div></div><div class="ec-line"><div class="code"><span class="indent"><span style="--0:#d6deeb;--1:#403f53">            </span></span><span style="--0:#d6deeb;--1:#403f53">| match_stmt</span></div></div><div class="ec-line"><div class="code"><span class="indent"><span style="--0:#d6deeb;--1:#403f53">            </span></span><span style="--0:#d6deeb;--1:#403f53">| var_decl</span></div></div><div class="ec-line"><div class="code"><span class="indent"><span style="--0:#d6deeb;--1:#403f53">            </span></span><span style="--0:#d6deeb;--1:#403f53">| assignment</span></div></div><div class="ec-line"><div class="code"><span class="indent"><span style="--0:#d6deeb;--1:#403f53">            </span></span><span style="--0:#d6deeb;--1:#403f53">| mutation</span></div></div><div class="ec-line"><div class="code"><span class="indent"><span style="--0:#d6deeb;--1:#403f53">            </span></span><span style="--0:#d6deeb;--1:#403f53">| expr_stmt ;</span></div></div><div class="ec-line"><div class="code">
 </div></div><div class="ec-line"><div class="code"><span style="--0:#d6deeb;--1:#403f53">(* `implicit` marks a definition an implicit argument may be resolved</span></div></div><div class="ec-line"><div class="code"><span class="indent"><span style="--0:#d6deeb;--1:#403f53">   </span></span><span style="--0:#d6deeb;--1:#403f53">to; a definition's own name may carry a `::` qualifier, which is what</span></div></div><div class="ec-line"><div class="code"><span class="indent"><span style="--0:#d6deeb;--1:#403f53">   </span></span><span style="--0:#d6deeb;--1:#403f53">makes two definitions of one base name distinct. *)</span></div></div><div class="ec-line"><div class="code"><span style="--0:#d6deeb;--1:#403f53">function_def = [ "implicit" ] , "def" , def_name ,</span></div></div><div class="ec-line"><div class="code"><span class="indent"><span style="--0:#d6deeb;--1:#403f53">               </span></span><span style="--0:#d6deeb;--1:#403f53">"(" , [ params ] , ")" , [ "->" , type ] , ":" , block ;</span></div></div><div class="ec-line"><div class="code"><span style="--0:#d6deeb;--1:#403f53">(* The second form names its parameters; it ends its line, every</span></div></div><div class="ec-line"><div class="code"><span class="indent"><span style="--0:#d6deeb;--1:#403f53">   </span></span><span style="--0:#d6deeb;--1:#403f53">parameter has a type and none a default, and it means the first form</span></div></div><div class="ec-line"><div class="code"><span class="indent"><span style="--0:#d6deeb;--1:#403f53">   </span></span><span style="--0:#d6deeb;--1:#403f53">with the parameter types in order. *)</span></div></div><div class="ec-line"><div class="code"><span style="--0:#d6deeb;--1:#403f53">function_sig = "def" , def_name , ":" , type</span></div></div><div class="ec-line"><div class="code"><span class="indent"><span style="--0:#d6deeb;--1:#403f53">             </span></span><span style="--0:#d6deeb;--1:#403f53">| "def" , def_name , "(" , [ named_type , { "," , named_type } ] ,</span></div></div><div class="ec-line"><div class="code"><span class="indent"><span style="--0:#d6deeb;--1:#403f53">               </span></span><span style="--0:#d6deeb;--1:#403f53">")" , "->" , type ;</span></div></div><div class="ec-line"><div class="code"><span style="--0:#d6deeb;--1:#403f53">named_type   = ident , ":" , type ;</span></div></div><div class="ec-line"><div class="code"><span style="--0:#d6deeb;--1:#403f53">(* A dotted name defines in a submodule: `mymod.foo`, `mymod.deep.foo`. *)</span></div></div><div class="ec-line"><div class="code"><span style="--0:#d6deeb;--1:#403f53">def_name     = [ sub_path , "." ] , ( ident | qualified_name ) ;</span></div></div><div class="ec-line"><div class="code"><span style="--0:#d6deeb;--1:#403f53">sub_path     = ident , { "." , ident } ;</span></div></div><div class="ec-line"><div class="code"><span style="--0:#d6deeb;--1:#403f53">(* No whitespace is permitted on either side of the "::", and neither</span></div></div><div class="ec-line"><div class="code"><span class="indent"><span style="--0:#d6deeb;--1:#403f53">   </span></span><span style="--0:#d6deeb;--1:#403f53">half may be a keyword. *)</span></div></div><div class="ec-line"><div class="code"><span style="--0:#d6deeb;--1:#403f53">qualified_name = ident , "::" , ident ;</span></div></div><div class="ec-line"><div class="code"><span style="--0:#d6deeb;--1:#403f53">(* Every parameter after the first one with a default has one too, and</span></div></div><div class="ec-line"><div class="code"><span class="indent"><span style="--0:#d6deeb;--1:#403f53">   </span></span><span style="--0:#d6deeb;--1:#403f53">every implicit parameter comes after every ordinary one. *)</span></div></div><div class="ec-line"><div class="code"><span style="--0:#d6deeb;--1:#403f53">params       = param , { "," , param } , { "," , implicit_param }</span></div></div><div class="ec-line"><div class="code"><span class="indent"><span style="--0:#d6deeb;--1:#403f53">             </span></span><span style="--0:#d6deeb;--1:#403f53">| implicit_param , { "," , implicit_param } ;</span></div></div><div class="ec-line"><div class="code"><span style="--0:#d6deeb;--1:#403f53">param        = ident , [ ":" , type ] , [ "=" , expr ] ;</span></div></div><div class="ec-line"><div class="code"><span style="--0:#d6deeb;--1:#403f53">implicit_param = "implicit" , ident , ":" , type ;</span></div></div><div class="ec-line"><div class="code">
@@ -442,7 +467,7 @@ below). Comments are stripped by the lexer and don’t appear here.</p>
 </div></div><div class="ec-line"><div class="code"><span style="--0:#d6deeb;--1:#403f53">list_lit    = "[" , [ args ] , "]" ;</span></div></div><div class="ec-line"><div class="code">
 </div></div><div class="ec-line"><div class="code"><span style="--0:#d6deeb;--1:#403f53">list_comp   = "[" , expr , comp_for , { comp_for | comp_if } , "]" ;</span></div></div><div class="ec-line"><div class="code"><span style="--0:#d6deeb;--1:#403f53">comp_for    = "for" , pattern , "in" , expr ;</span></div></div><div class="ec-line"><div class="code"><span style="--0:#d6deeb;--1:#403f53">comp_if     = "if" , expr ;</span></div></div><div class="ec-line"><div class="code">
 </div></div><div class="ec-line"><div class="code"><span style="--0:#d6deeb;--1:#403f53">tuple_lit   = "(" , ")"</span></div></div><div class="ec-line"><div class="code"><span class="indent"><span style="--0:#d6deeb;--1:#403f53">            </span></span><span style="--0:#d6deeb;--1:#403f53">| "(" , expr , "," , ")"</span></div></div><div class="ec-line"><div class="code"><span class="indent"><span style="--0:#d6deeb;--1:#403f53">            </span></span><span style="--0:#d6deeb;--1:#403f53">| "(" , expr , ( "," , expr )+ , [ "," ] , ")" ;</span></div></div><div class="ec-line"><div class="code">
-</div></div><div class="ec-line"><div class="code"><span style="--0:#d6deeb;--1:#403f53">ident       = letter , { letter | digit } ;</span></div></div><div class="ec-line"><div class="code"><span style="--0:#d6deeb;--1:#403f53">int         = digit , { digit }</span></div></div><div class="ec-line"><div class="code"><span class="indent"><span style="--0:#d6deeb;--1:#403f53">            </span></span><span style="--0:#d6deeb;--1:#403f53">| "0" , ( "x" | "X" ) , hex_digit , { [ "_" ] , hex_digit }</span></div></div><div class="ec-line"><div class="code"><span class="indent"><span style="--0:#d6deeb;--1:#403f53">            </span></span><span style="--0:#d6deeb;--1:#403f53">| "0" , ( "b" | "B" ) , bin_digit , { [ "_" ] , bin_digit } ;</span></div></div><div class="ec-line"><div class="code"><span style="--0:#d6deeb;--1:#403f53">hex_digit   = digit | "a" | "b" | "c" | "d" | "e" | "f"</span></div></div><div class="ec-line"><div class="code"><span class="indent"><span style="--0:#d6deeb;--1:#403f53">            </span></span><span style="--0:#d6deeb;--1:#403f53">| "A" | "B" | "C" | "D" | "E" | "F" ;</span></div></div><div class="ec-line"><div class="code"><span style="--0:#d6deeb;--1:#403f53">bin_digit   = "0" | "1" ;</span></div></div><div class="ec-line"><div class="code"><span style="--0:#d6deeb;--1:#403f53">(* A point needs a digit on each side, so `1.` and `.5` are not floats.</span></div></div><div class="ec-line"><div class="code"><span class="indent"><span style="--0:#d6deeb;--1:#403f53">   </span></span><span style="--0:#d6deeb;--1:#403f53">An exponent alone makes one: `1e9` is a Float. *)</span></div></div><div class="ec-line"><div class="code"><span style="--0:#d6deeb;--1:#403f53">float       = digits , "." , digits , [ exponent ]</span></div></div><div class="ec-line"><div class="code"><span class="indent"><span style="--0:#d6deeb;--1:#403f53">            </span></span><span style="--0:#d6deeb;--1:#403f53">| digits , exponent ;</span></div></div><div class="ec-line"><div class="code"><span style="--0:#d6deeb;--1:#403f53">digits      = digit , { digit } ;</span></div></div><div class="ec-line"><div class="code"><span style="--0:#d6deeb;--1:#403f53">exponent    = ( "e" | "E" ) , [ "+" | "-" ] , digits ;</span></div></div><div class="ec-line"><div class="code"><span style="--0:#d6deeb;--1:#403f53">bool        = "true" | "false" ;</span></div></div><div class="ec-line"><div class="code"><span style="--0:#d6deeb;--1:#403f53">(* A String is in double quotes; a Char is exactly one character -- one</span></div></div><div class="ec-line"><div class="code"><span class="indent"><span style="--0:#d6deeb;--1:#403f53">   </span></span><span style="--0:#d6deeb;--1:#403f53">Unicode code point, or one escape -- in single quotes. *)</span></div></div><div class="ec-line"><div class="code"><span style="--0:#d6deeb;--1:#403f53">string      = '"' , { string_char } , '"' ;</span></div></div><div class="ec-line"><div class="code"><span style="--0:#d6deeb;--1:#403f53">char        = "'" , char_char , "'" ;</span></div></div><div class="ec-line"><div class="code"><span style="--0:#d6deeb;--1:#403f53">string_char = any_char_except_double_quote_or_backslash</span></div></div><div class="ec-line"><div class="code"><span class="indent"><span style="--0:#d6deeb;--1:#403f53">            </span></span><span style="--0:#d6deeb;--1:#403f53">| "\" , escape ;</span></div></div><div class="ec-line"><div class="code"><span style="--0:#d6deeb;--1:#403f53">char_char   = any_char_except_single_quote_or_backslash</span></div></div><div class="ec-line"><div class="code"><span class="indent"><span style="--0:#d6deeb;--1:#403f53">            </span></span><span style="--0:#d6deeb;--1:#403f53">| "\" , escape ;</span></div></div><div class="ec-line"><div class="code"><span style="--0:#d6deeb;--1:#403f53">escape      = "n" | "t" | "r" | "0" | "\" | "'" | '"' ;</span></div></div></code></pre><div class="copy"><div aria-live="polite"></div><button title="Copy to clipboard" data-copied="Copied!" data-code="(* An import and a &#x60;public&#x60; belong to a module&#x27;s top level, so they are   here rather than in &#x60;statement&#x60;, which is what a block holds. The   &#x60;use&#x60; lines come before everything else. *)program     = { use_stmt } , { top_statement } ;use_stmt    = &#x22;use&#x22; , feature , { &#x22;,&#x22; , feature } ;feature     = &#x22;mutation&#x22; | &#x22;objects&#x22; ;top_statement = import_stmt            | from_stmt            | public_stmt            | datatype_stmt            | struct_stmt            | statement ;import_stmt = &#x22;import&#x22; , module_item , { &#x22;,&#x22; , module_item } ;module_item = module_path , [ &#x22;as&#x22; , ident ] ;from_stmt   = &#x22;from&#x22; , module_path , &#x22;import&#x22; , field_item , { &#x22;,&#x22; , field_item } ;(* A module, or a submodule of one: &#x60;hello&#x60;, &#x60;hello.mymod&#x60;. *)module_path = ident , { &#x22;.&#x22; , ident } ;field_item  = ident , [ &#x22;as&#x22; , ident ] ;public_stmt = &#x22;public&#x22; , ( function_def | function_sig | datatype_stmt                          | struct_stmt | assignment ) ;(* A datatype belongs to a module&#x27;s top level. Its name and every   constructor&#x27;s start with an uppercase letter; its parameters are type   variables. Its constructors follow the &#x27;:&#x27; on its own line, or on   indented lines under it, or both; a line holds one or more,   separated by commas. *)datatype_stmt = &#x22;datatype&#x22; , [ sub_path , &#x22;.&#x22; ] , upper_ident , [ &#x22;(&#x22; , type_var , { &#x22;,&#x22; , type_var } , &#x22;)&#x22; ] ,                &#x22;:&#x22; , ( constructor_line , [ INDENT , { constructor_line } , DEDENT ]                      | INDENT , constructor_line , { constructor_line } , DEDENT ) ;constructor_line = constructor , { &#x22;,&#x22; , constructor } ;constructor = upper_ident , [ &#x22;(&#x22; , [ field , { &#x22;,&#x22; , field } ] , &#x22;)&#x22; ] ;(* A field is a type alone (positional only), or named; a named field&#x27;s   type may be left to its default. Unnamed fields come first, and every   field after one with a default has one too. *)field       = type            | ident , &#x22;:&#x22; , type , [ &#x22;=&#x22; , expr ]            | ident , &#x22;=&#x22; , expr ;upper_ident = ? an ident beginning with an uppercase letter ? ;(* A struct is a datatype of one constructor, named as the type is. Its   fields are in parentheses on its own line -- every type variable they   name is then a parameter -- or on indented lines under its &#x27;:&#x27;, a   line holding one or more separated by commas, after the parameters   written in parentheses. With neither it has no fields. &#x22;var&#x22; makes   it a var struct, whose fields are written in place: it has at least   one field, and needs &#x60;use mutation&#x60;. *)struct_stmt = [ &#x22;var&#x22; ] , &#x22;struct&#x22; , [ sub_path , &#x22;.&#x22; ] , upper_ident ,              [ &#x22;(&#x22; , [ field , { &#x22;,&#x22; , field } ] , &#x22;)&#x22;              | [ &#x22;(&#x22; , type_var , { &#x22;,&#x22; , type_var } , &#x22;)&#x22; ] , &#x22;:&#x22; ,                INDENT , field_line , { field_line } , DEDENT ] ;field_line  = field , { &#x22;,&#x22; , field } ;(* A block is indented under its header, or is the single expression   written on the header&#x27;s own line -- which the EBNF cannot say, since   it cannot see where a line ends; see the notes below. *)block       = INDENT , { statement } , DEDENT            | expr_stmt ;statement   = function_def            | function_sig            | return_stmt            | loop_stmt            | break_stmt            | continue_stmt            | if_stmt            | match_stmt            | var_decl            | assignment            | mutation            | expr_stmt ;(* &#x60;implicit&#x60; marks a definition an implicit argument may be resolved   to; a definition&#x27;s own name may carry a &#x60;::&#x60; qualifier, which is what   makes two definitions of one base name distinct. *)function_def = [ &#x22;implicit&#x22; ] , &#x22;def&#x22; , def_name ,               &#x22;(&#x22; , [ params ] , &#x22;)&#x22; , [ &#x22;->&#x22; , type ] , &#x22;:&#x22; , block ;(* The second form names its parameters; it ends its line, every   parameter has a type and none a default, and it means the first form   with the parameter types in order. *)function_sig = &#x22;def&#x22; , def_name , &#x22;:&#x22; , type             | &#x22;def&#x22; , def_name , &#x22;(&#x22; , [ named_type , { &#x22;,&#x22; , named_type } ] ,               &#x22;)&#x22; , &#x22;->&#x22; , type ;named_type   = ident , &#x22;:&#x22; , type ;(* A dotted name defines in a submodule: &#x60;mymod.foo&#x60;, &#x60;mymod.deep.foo&#x60;. *)def_name     = [ sub_path , &#x22;.&#x22; ] , ( ident | qualified_name ) ;sub_path     = ident , { &#x22;.&#x22; , ident } ;(* No whitespace is permitted on either side of the &#x22;::&#x22;, and neither   half may be a keyword. *)qualified_name = ident , &#x22;::&#x22; , ident ;(* Every parameter after the first one with a default has one too, and   every implicit parameter comes after every ordinary one. *)params       = param , { &#x22;,&#x22; , param } , { &#x22;,&#x22; , implicit_param }             | implicit_param , { &#x22;,&#x22; , implicit_param } ;param        = ident , [ &#x22;:&#x22; , type ] , [ &#x22;=&#x22; , expr ] ;implicit_param = &#x22;implicit&#x22; , ident , &#x22;:&#x22; , type ;type         = type_atom , [ &#x22;->&#x22; , type ] ;type_atom    = &#x22;Int&#x22; | &#x22;Float&#x22; | &#x22;String&#x22; | &#x22;Char&#x22; | &#x22;Bool&#x22;             | type_var             | [ sub_path , &#x22;.&#x22; ] , upper_ident , [ &#x22;(&#x22; , type , { &#x22;,&#x22; , type } , &#x22;)&#x22; ]             | &#x22;all&#x22; , type_var , { type_var } , &#x22;.&#x22; , type             | &#x22;[&#x22; , type , &#x22;]&#x22;             | type_paren ;(* One parenthesized list, three readings, decided by the token after   &#x22;)&#x22; and by whether a comma is written -- exactly as &#x60;tuple_lit&#x60; and a   parenthesized expression are told apart among values. *)type_paren   = &#x22;(&#x22; , [ type , { &#x22;,&#x22; , type } ,                       { &#x22;,&#x22; , implicit_param } , [ &#x22;,&#x22; ] ] , &#x22;)&#x22; ,               &#x22;->&#x22; , type             | &#x22;(&#x22; , implicit_param , { &#x22;,&#x22; , implicit_param } , &#x22;)&#x22; ,               &#x22;->&#x22; , type             | &#x22;(&#x22; , type , &#x22;)&#x22;             | &#x22;(&#x22; , &#x22;)&#x22;             | &#x22;(&#x22; , type , &#x22;,&#x22; , &#x22;)&#x22;             | &#x22;(&#x22; , type , ( &#x22;,&#x22; , type )+ , [ &#x22;,&#x22; ] , &#x22;)&#x22; ;type_var     = ? an ident beginning with a lowercase letter ? ;return_stmt = &#x22;return&#x22; , bound_value ;(* &#x60;for&#x60;, &#x60;while&#x60; and the accumulator loop are one construct with   different halves written; every combination of them is a loop_stmt. *)loop_stmt   = ( &#x22;loop&#x22; , accumulator , [ iteration ]              | iteration ) , &#x22;:&#x22; , block ;accumulator = target , [ &#x22;:&#x22; , type ] , &#x22;=&#x22; , tuple_or_expr ;iteration   = &#x22;for&#x22; , ident , &#x22;in&#x22; , expr | &#x22;while&#x22; , expr ;(* The value, written on the &#x60;break&#x60;/&#x60;continue&#x60; line itself, is the   accumulator the jump leaves with. *)break_stmt    = &#x22;break&#x22; , [ tuple_or_expr ] ;continue_stmt = &#x22;continue&#x22; , [ tuple_or_expr ] ;if_stmt     = &#x22;if&#x22; , expr , &#x22;:&#x22; , block ,              { &#x22;else&#x22; , &#x22;if&#x22; , expr , &#x22;:&#x22; , block } ,              [ &#x22;else&#x22; , &#x22;:&#x22; , block ] ;(* Always indented: a &#x60;match&#x60; opens a list of clauses rather than a   block of statements, and a &#x60;case&#x60; clause is not an expression, so   there is nothing its header&#x27;s line could carry. *)match_stmt  = &#x22;match&#x22; , expr , &#x22;:&#x22; , INDENT , case_clause , { case_clause } , DEDENT ;case_clause = &#x22;case&#x22; , pattern , [ &#x22;if&#x22; , expr ] , &#x22;:&#x22; , block ;pattern     = pattern_as , { &#x22;,&#x22; , pattern_as } ;pattern_as  = pattern_or , [ &#x22;as&#x22; , ident ] ;pattern_or  = pattern_join , { &#x22;|&#x22; , pattern_join } ;pattern_join = pattern_atom , { &#x22;+&#x22; , pattern_atom } ;pattern_atom = int | &#x22;-&#x22; , int | string | char | bool | &#x22;_&#x22; | ident             | constructor_pattern             | &#x22;(&#x22; , &#x22;)&#x22;             | &#x22;(&#x22; , pattern_as , &#x22;)&#x22;             | &#x22;(&#x22; , pattern_as , &#x22;,&#x22; , &#x22;)&#x22;             | &#x22;(&#x22; , pattern_as , ( &#x22;,&#x22; , pattern_as )+ , [ &#x22;,&#x22; ] , &#x22;)&#x22;             | list_pattern ;(* Positional sub-patterns first, then named ones in any order; a field   not mentioned matches anything. *)constructor_pattern = [ sub_path , &#x22;.&#x22; ] , upper_ident ,                      [ &#x22;(&#x22; , [ field_pattern , { &#x22;,&#x22; , field_pattern } ] , &#x22;)&#x22; ] ;field_pattern = pattern_as | ident , &#x22;=&#x22; , pattern_as ;list_pattern = &#x22;[&#x22; , [ list_pattern_items ] , &#x22;]&#x22; ;list_pattern_items = list_pattern_item , { &#x22;,&#x22; , list_pattern_item } ;list_pattern_item  = pattern_as | rest_marker ;rest_marker        = &#x22;..&#x22; , [ ident ] ;var_decl    = &#x22;var&#x22; , ident , &#x22;=&#x22; , bound_expr ;assignment  = [ &#x22;implicit&#x22; ] , target , [ &#x22;:&#x22; , type ] , &#x22;=&#x22; , bound_value ;mutation    = ident , &#x22;:=&#x22; , bound_expr            | target , &#x22;:=&#x22; , bound_expr            (* a tuple of names *)            | ident , compound_op , bound_expr            | atom , ( &#x22;:=&#x22; | compound_op ) , bound_expr                       (* an array&#x27;s element, an atom ending in an                          index_tail, or a var struct&#x27;s field, an atom                          ending in &#x22;.&#x22; ident *)            | &#x22;*&#x22; , unary , ( &#x22;:=&#x22; | compound_op ) , bound_expr ;                       (* what a pointer points at *)compound_op = &#x22;+=&#x22; | &#x22;-=&#x22; | &#x22;*=&#x22; | &#x22;/=&#x22; | &#x22;%=&#x22; | &#x22;^=&#x22;            | &#x22;&#x26;=&#x22; | &#x22;|=&#x22; | &#x22;<<=&#x22; | &#x22;>>=&#x22; | &#x22;xor&#x22; &#x22;=&#x22; ;   (* no space in &#x22;xor=&#x22; *)(* A bound value may start on the line after its &#x22;=&#x22;, indented -- the   lexer wraps it in the same INDENT/DEDENT any other block gets. *)bound_value = tuple_or_expr | value_stmt | INDENT , bound_value , DEDENT ;bound_expr  = tuple_or_expr | INDENT , bound_expr , DEDENT ;value_stmt  = value_if | match_stmt | loop_stmt ;value_if    = &#x22;if&#x22; , expr , &#x22;:&#x22; , block ,              { &#x22;else&#x22; , &#x22;if&#x22; , expr , &#x22;:&#x22; , block } ,              &#x22;else&#x22; , &#x22;:&#x22; , block ;target      = target_atom , { &#x22;,&#x22; , target_atom } ;target_atom = ident            | sub_path , &#x22;.&#x22; , ident            | &#x22;(&#x22; , &#x22;)&#x22;            | &#x22;(&#x22; , target_atom , &#x22;,&#x22; , &#x22;)&#x22;            | &#x22;(&#x22; , target_atom , ( &#x22;,&#x22; , target_atom )+ , [ &#x22;,&#x22; ] , &#x22;)&#x22; ;expr_stmt   = tuple_or_expr ;tuple_or_expr = expr , { &#x22;,&#x22; , expr } ;expr        = lambda | if_expr | let_expr | disjunction ;(* A lambda takes everything to its right that one expression can hold,   so it associates to the right and binds looser than every operator;   a comma ends it, since &#x60;lam x. a, b&#x60; is a pair. A parameter with a   type, and more than one, are written in parentheses. *)lambda      = &#x22;lam&#x22; , lambda_params , &#x22;.&#x22; , expr ;lambda_params = ident            | &#x22;(&#x22; , [ param , { &#x22;,&#x22; , param } ] , &#x22;)&#x22; ;if_expr     = &#x22;if&#x22; , expr , &#x22;then&#x22; , expr , &#x22;else&#x22; , expr ;(* Like a lambda, the body takes everything to its right that one   expression can hold. *)let_expr    = &#x22;let&#x22; , target , [ &#x22;:&#x22; , type ] , &#x22;=&#x22; , expr , &#x22;in&#x22; , expr ;(* &#x60;and&#x60;/&#x60;or&#x60;/&#x60;not&#x60; and their symbol spellings bind looser than a   comparison; the bitwise operators bind tighter, as Python&#x27;s do. *)disjunction = conjunction , { ( &#x22;or&#x22; | &#x22;||&#x22; ) , conjunction } ;conjunction = negation , { ( &#x22;and&#x22; | &#x22;&#x26;&#x26;&#x22; ) , negation } ;negation    = &#x22;not&#x22; , negation | comparison ;comparison  = bit_or , [ comp_op , bit_or ] ;comp_op     = &#x22;<&#x22; | &#x22;<=&#x22; | &#x22;>&#x22; | &#x22;>=&#x22; | &#x22;==&#x22; | &#x22;!=&#x22; ;bit_or      = bit_xor , { &#x22;|&#x22; , bit_xor } ;bit_xor     = bit_and , { &#x22;xor&#x22; , bit_and } ;bit_and     = shift , { &#x22;&#x26;&#x22; , shift } ;shift       = additive , { ( &#x22;<<&#x22; | &#x22;>>&#x22; ) , additive } ;additive    = multiplicative , { ( &#x22;+&#x22; | &#x22;-&#x22; ) , multiplicative } ;multiplicative = unary , { ( &#x22;*&#x22; | &#x22;/&#x22; | &#x22;%&#x22; ) , unary } ;unary       = ( &#x22;-&#x22; | &#x22;!&#x22; | &#x22;~&#x22; | &#x22;&#x26;&#x22; | &#x22;*&#x22; ) , unary | power ;                       (* &#x22;&#x26;&#x22; and &#x22;*&#x22; are a pointer&#x27;s, under                          &#x60;use pointers&#x60;: an address and what a pointer                          points at *)(* &#x60;^&#x60; associates to the right, and its right operand may be negated:   &#x60;2 ^ -1&#x60;. It binds tighter than unary minus: &#x60;-2 ^ 2&#x60; is &#x60;-(2 ^ 2)&#x60;. *)power       = atom , [ &#x22;^&#x22; , unary ] ;atom        = ( float | int | string | char | bool | ident | list_lit | list_comp              | tuple_lit | construct              | &#x22;(&#x22; , expr , &#x22;)&#x22; ) ,              { call_tail | field_tail | index_tail } ;(* &#x60;xs[i]&#x60;: the &#x60;[&#x60; on the row the indexed expression ends on. *)index_tail  = &#x22;[&#x22; , expr , &#x22;]&#x22;            | &#x22;[&#x22; , [ expr ] , &#x22;:&#x22; , [ expr ] , &#x22;]&#x22; ;   (* a slice: a copy *)(* A constructor applied to its fields, with a call&#x27;s arguments; one with   no fields is written bare. *)construct   = [ sub_path , &#x22;.&#x22; ] , upper_ident , [ call_tail ] ;field_tail  = &#x22;.&#x22; , ident ;(* Every named argument comes after every positional one; the named   ones may be written in any order. A constructor&#x27;s arguments may end   in &#x60;..expr&#x60;, which gives every field not written before it. *)call_tail   = &#x22;(&#x22; , [ call_args ] , &#x22;)&#x22; ;call_args   = expr , { &#x22;,&#x22; , expr } , { &#x22;,&#x22; , named_arg } , [ &#x22;,&#x22; , update ]            | named_arg , { &#x22;,&#x22; , named_arg } , [ &#x22;,&#x22; , update ]            | update ;named_arg   = ident , &#x22;=&#x22; , expr ;update      = &#x22;..&#x22; , expr ;args        = expr , { &#x22;,&#x22; , expr } ;list_lit    = &#x22;[&#x22; , [ args ] , &#x22;]&#x22; ;list_comp   = &#x22;[&#x22; , expr , comp_for , { comp_for | comp_if } , &#x22;]&#x22; ;comp_for    = &#x22;for&#x22; , pattern , &#x22;in&#x22; , expr ;comp_if     = &#x22;if&#x22; , expr ;tuple_lit   = &#x22;(&#x22; , &#x22;)&#x22;            | &#x22;(&#x22; , expr , &#x22;,&#x22; , &#x22;)&#x22;            | &#x22;(&#x22; , expr , ( &#x22;,&#x22; , expr )+ , [ &#x22;,&#x22; ] , &#x22;)&#x22; ;ident       = letter , { letter | digit } ;int         = digit , { digit }            | &#x22;0&#x22; , ( &#x22;x&#x22; | &#x22;X&#x22; ) , hex_digit , { [ &#x22;_&#x22; ] , hex_digit }            | &#x22;0&#x22; , ( &#x22;b&#x22; | &#x22;B&#x22; ) , bin_digit , { [ &#x22;_&#x22; ] , bin_digit } ;hex_digit   = digit | &#x22;a&#x22; | &#x22;b&#x22; | &#x22;c&#x22; | &#x22;d&#x22; | &#x22;e&#x22; | &#x22;f&#x22;            | &#x22;A&#x22; | &#x22;B&#x22; | &#x22;C&#x22; | &#x22;D&#x22; | &#x22;E&#x22; | &#x22;F&#x22; ;bin_digit   = &#x22;0&#x22; | &#x22;1&#x22; ;(* A point needs a digit on each side, so &#x60;1.&#x60; and &#x60;.5&#x60; are not floats.   An exponent alone makes one: &#x60;1e9&#x60; is a Float. *)float       = digits , &#x22;.&#x22; , digits , [ exponent ]            | digits , exponent ;digits      = digit , { digit } ;exponent    = ( &#x22;e&#x22; | &#x22;E&#x22; ) , [ &#x22;+&#x22; | &#x22;-&#x22; ] , digits ;bool        = &#x22;true&#x22; | &#x22;false&#x22; ;(* A String is in double quotes; a Char is exactly one character -- one   Unicode code point, or one escape -- in single quotes. *)string      = &#x27;&#x22;&#x27; , { string_char } , &#x27;&#x22;&#x27; ;char        = &#x22;&#x27;&#x22; , char_char , &#x22;&#x27;&#x22; ;string_char = any_char_except_double_quote_or_backslash            | &#x22;\&#x22; , escape ;char_char   = any_char_except_single_quote_or_backslash            | &#x22;\&#x22; , escape ;escape      = &#x22;n&#x22; | &#x22;t&#x22; | &#x22;r&#x22; | &#x22;0&#x22; | &#x22;\&#x22; | &#x22;&#x27;&#x22; | &#x27;&#x22;&#x27; ;"><div></div></button></div></figure></div>
+</div></div><div class="ec-line"><div class="code"><span style="--0:#d6deeb;--1:#403f53">ident       = letter , { letter | digit } ;</span></div></div><div class="ec-line"><div class="code"><span style="--0:#d6deeb;--1:#403f53">int         = digit , { digit }</span></div></div><div class="ec-line"><div class="code"><span class="indent"><span style="--0:#d6deeb;--1:#403f53">            </span></span><span style="--0:#d6deeb;--1:#403f53">| "0" , ( "x" | "X" ) , hex_digit , { [ "_" ] , hex_digit }</span></div></div><div class="ec-line"><div class="code"><span class="indent"><span style="--0:#d6deeb;--1:#403f53">            </span></span><span style="--0:#d6deeb;--1:#403f53">| "0" , ( "b" | "B" ) , bin_digit , { [ "_" ] , bin_digit } ;</span></div></div><div class="ec-line"><div class="code"><span style="--0:#d6deeb;--1:#403f53">hex_digit   = digit | "a" | "b" | "c" | "d" | "e" | "f"</span></div></div><div class="ec-line"><div class="code"><span class="indent"><span style="--0:#d6deeb;--1:#403f53">            </span></span><span style="--0:#d6deeb;--1:#403f53">| "A" | "B" | "C" | "D" | "E" | "F" ;</span></div></div><div class="ec-line"><div class="code"><span style="--0:#d6deeb;--1:#403f53">bin_digit   = "0" | "1" ;</span></div></div><div class="ec-line"><div class="code"><span style="--0:#d6deeb;--1:#403f53">(* A point needs a digit on each side, so `1.` and `.5` are not floats.</span></div></div><div class="ec-line"><div class="code"><span class="indent"><span style="--0:#d6deeb;--1:#403f53">   </span></span><span style="--0:#d6deeb;--1:#403f53">An exponent alone makes one: `1e9` is a Float. *)</span></div></div><div class="ec-line"><div class="code"><span style="--0:#d6deeb;--1:#403f53">float       = digits , "." , digits , [ exponent ]</span></div></div><div class="ec-line"><div class="code"><span class="indent"><span style="--0:#d6deeb;--1:#403f53">            </span></span><span style="--0:#d6deeb;--1:#403f53">| digits , exponent ;</span></div></div><div class="ec-line"><div class="code"><span style="--0:#d6deeb;--1:#403f53">digits      = digit , { digit } ;</span></div></div><div class="ec-line"><div class="code"><span style="--0:#d6deeb;--1:#403f53">exponent    = ( "e" | "E" ) , [ "+" | "-" ] , digits ;</span></div></div><div class="ec-line"><div class="code"><span style="--0:#d6deeb;--1:#403f53">bool        = "true" | "false" ;</span></div></div><div class="ec-line"><div class="code"><span style="--0:#d6deeb;--1:#403f53">(* A String is in double quotes; a Char is exactly one character -- one</span></div></div><div class="ec-line"><div class="code"><span class="indent"><span style="--0:#d6deeb;--1:#403f53">   </span></span><span style="--0:#d6deeb;--1:#403f53">Unicode code point, or one escape -- in single quotes. *)</span></div></div><div class="ec-line"><div class="code"><span style="--0:#d6deeb;--1:#403f53">string      = '"' , { string_char } , '"' ;</span></div></div><div class="ec-line"><div class="code"><span style="--0:#d6deeb;--1:#403f53">char        = "'" , char_char , "'" ;</span></div></div><div class="ec-line"><div class="code"><span style="--0:#d6deeb;--1:#403f53">string_char = any_char_except_double_quote_or_backslash</span></div></div><div class="ec-line"><div class="code"><span class="indent"><span style="--0:#d6deeb;--1:#403f53">            </span></span><span style="--0:#d6deeb;--1:#403f53">| "\" , escape ;</span></div></div><div class="ec-line"><div class="code"><span style="--0:#d6deeb;--1:#403f53">char_char   = any_char_except_single_quote_or_backslash</span></div></div><div class="ec-line"><div class="code"><span class="indent"><span style="--0:#d6deeb;--1:#403f53">            </span></span><span style="--0:#d6deeb;--1:#403f53">| "\" , escape ;</span></div></div><div class="ec-line"><div class="code"><span style="--0:#d6deeb;--1:#403f53">escape      = "n" | "t" | "r" | "0" | "\" | "'" | '"' ;</span></div></div></code></pre><div class="copy"><div aria-live="polite"></div><button title="Copy to clipboard" data-copied="Copied!" data-code="(* An import and a &#x60;public&#x60; belong to a module&#x27;s top level, so they are   here rather than in &#x60;statement&#x60;, which is what a block holds. The   &#x60;use&#x60; lines come before everything else. *)program     = { use_stmt } , { top_statement } ;use_stmt    = &#x22;use&#x22; , feature , { &#x22;,&#x22; , feature } ;feature     = &#x22;mutation&#x22; | &#x22;objects&#x22; ;top_statement = import_stmt            | from_stmt            | public_stmt            | datatype_stmt            | struct_stmt            | class_stmt            | statement ;import_stmt = &#x22;import&#x22; , module_item , { &#x22;,&#x22; , module_item } ;module_item = module_path , [ &#x22;as&#x22; , ident ] ;from_stmt   = &#x22;from&#x22; , module_path , &#x22;import&#x22; , field_item , { &#x22;,&#x22; , field_item } ;(* A module, or a submodule of one: &#x60;hello&#x60;, &#x60;hello.mymod&#x60;. *)module_path = ident , { &#x22;.&#x22; , ident } ;field_item  = ident , [ &#x22;as&#x22; , ident ] ;public_stmt = &#x22;public&#x22; , ( function_def | function_sig | datatype_stmt                          | struct_stmt | assignment ) ;(* A datatype belongs to a module&#x27;s top level. Its name and every   constructor&#x27;s start with an uppercase letter; its parameters are type   variables. Its constructors follow the &#x27;:&#x27; on its own line, or on   indented lines under it, or both; a line holds one or more,   separated by commas. *)datatype_stmt = &#x22;datatype&#x22; , [ sub_path , &#x22;.&#x22; ] , upper_ident , [ &#x22;(&#x22; , type_var , { &#x22;,&#x22; , type_var } , &#x22;)&#x22; ] ,                &#x22;:&#x22; , ( constructor_line , [ INDENT , { constructor_line } , DEDENT ]                      | INDENT , constructor_line , { constructor_line } , DEDENT ) ;constructor_line = constructor , { &#x22;,&#x22; , constructor } ;constructor = upper_ident , [ &#x22;(&#x22; , [ field , { &#x22;,&#x22; , field } ] , &#x22;)&#x22; ] ;(* A field is a type alone (positional only), or named; a named field&#x27;s   type may be left to its default. Unnamed fields come first, and every   field after one with a default has one too. *)field       = type            | ident , &#x22;:&#x22; , type , [ &#x22;=&#x22; , expr ]            | ident , &#x22;=&#x22; , expr ;upper_ident = ? an ident beginning with an uppercase letter ? ;(* A struct is a datatype of one constructor, named as the type is. Its   fields are in parentheses on its own line -- every type variable they   name is then a parameter -- or on indented lines under its &#x27;:&#x27;, a   line holding one or more separated by commas, after the parameters   written in parentheses. With neither it has no fields. &#x22;var&#x22; makes   it a var struct, whose fields are written in place: it has at least   one field, and needs &#x60;use mutation&#x60;. *)struct_stmt = [ &#x22;var&#x22; ] , &#x22;struct&#x22; , [ sub_path , &#x22;.&#x22; ] , upper_ident ,              [ &#x22;(&#x22; , [ field , { &#x22;,&#x22; , field } ] , &#x22;)&#x22;              | [ &#x22;(&#x22; , type_var , { &#x22;,&#x22; , type_var } , &#x22;)&#x22; ] , &#x22;:&#x22; ,                INDENT , field_line , { field_line } , DEDENT ] ;field_line  = field , { &#x22;,&#x22; , field } ;(* A class, an abstract class or an interface belongs to a module&#x27;s top   level and needs &#x60;use objects&#x60; (see &#x22;Classes and interfaces&#x22;). A   class&#x27;s header holds its type parameters (bare lowercase names) and   its fields, which are its constructor&#x27;s parameters; a parent class is   written with its constructor&#x27;s arguments, an interface with its type   arguments. Its members are on indented lines under its &#x27;:&#x27;. *)class_stmt  = ( [ &#x22;abstract&#x22; ] , &#x22;class&#x22; , upper_ident ,                &#x22;(&#x22; , [ header_item , { &#x22;,&#x22; , header_item } ] , &#x22;)&#x22; ,                [ &#x22;extends&#x22; , class_name , &#x22;(&#x22; , [ args ] , &#x22;)&#x22; ] ,                [ &#x22;implements&#x22; , iface , { &#x22;,&#x22; , iface } ]              | &#x22;interface&#x22; , upper_ident , [ &#x22;(&#x22; , type_var , { &#x22;,&#x22; , type_var } , &#x22;)&#x22; ] ,                [ &#x22;extends&#x22; , iface , { &#x22;,&#x22; , iface } ] ) ,              [ &#x22;:&#x22; , INDENT , member , { member } , DEDENT ] ;header_item = type_var | member_field ;class_name  = [ sub_path , &#x22;.&#x22; ] , upper_ident ;iface       = class_name , [ &#x22;(&#x22; , type , { &#x22;,&#x22; , type } , &#x22;)&#x22; ] ;member      = member_field | method ;(* A header field has a default only where every one after it has; a   body field always has its first value. *)member_field = [ &#x22;private&#x22; ] , [ &#x22;var&#x22; ] , ident , ( &#x22;:&#x22; , type , [ &#x22;=&#x22; , expr ] | &#x22;=&#x22; , literal ) ;(* A method&#x27;s parameters after &#x60;self&#x60; all say their types; one with no   body is abstract (in an abstract class) or an interface&#x27;s. *)method      = [ &#x22;private&#x22; ] , [ &#x22;override&#x22; ] , [ &#x22;abstract&#x22; ] ,              &#x22;def&#x22; , ident , &#x22;(&#x22; , &#x22;self&#x22; , { &#x22;,&#x22; , param } , &#x22;)&#x22; , [ &#x22;->&#x22; , type ] ,              [ &#x22;:&#x22; , block ] ;(* A block is indented under its header, or is the single expression   written on the header&#x27;s own line -- which the EBNF cannot say, since   it cannot see where a line ends; see the notes below. *)block       = INDENT , { statement } , DEDENT            | expr_stmt ;statement   = function_def            | function_sig            | return_stmt            | loop_stmt            | break_stmt            | continue_stmt            | if_stmt            | match_stmt            | var_decl            | assignment            | mutation            | expr_stmt ;(* &#x60;implicit&#x60; marks a definition an implicit argument may be resolved   to; a definition&#x27;s own name may carry a &#x60;::&#x60; qualifier, which is what   makes two definitions of one base name distinct. *)function_def = [ &#x22;implicit&#x22; ] , &#x22;def&#x22; , def_name ,               &#x22;(&#x22; , [ params ] , &#x22;)&#x22; , [ &#x22;->&#x22; , type ] , &#x22;:&#x22; , block ;(* The second form names its parameters; it ends its line, every   parameter has a type and none a default, and it means the first form   with the parameter types in order. *)function_sig = &#x22;def&#x22; , def_name , &#x22;:&#x22; , type             | &#x22;def&#x22; , def_name , &#x22;(&#x22; , [ named_type , { &#x22;,&#x22; , named_type } ] ,               &#x22;)&#x22; , &#x22;->&#x22; , type ;named_type   = ident , &#x22;:&#x22; , type ;(* A dotted name defines in a submodule: &#x60;mymod.foo&#x60;, &#x60;mymod.deep.foo&#x60;. *)def_name     = [ sub_path , &#x22;.&#x22; ] , ( ident | qualified_name ) ;sub_path     = ident , { &#x22;.&#x22; , ident } ;(* No whitespace is permitted on either side of the &#x22;::&#x22;, and neither   half may be a keyword. *)qualified_name = ident , &#x22;::&#x22; , ident ;(* Every parameter after the first one with a default has one too, and   every implicit parameter comes after every ordinary one. *)params       = param , { &#x22;,&#x22; , param } , { &#x22;,&#x22; , implicit_param }             | implicit_param , { &#x22;,&#x22; , implicit_param } ;param        = ident , [ &#x22;:&#x22; , type ] , [ &#x22;=&#x22; , expr ] ;implicit_param = &#x22;implicit&#x22; , ident , &#x22;:&#x22; , type ;type         = type_atom , [ &#x22;->&#x22; , type ] ;type_atom    = &#x22;Int&#x22; | &#x22;Float&#x22; | &#x22;String&#x22; | &#x22;Char&#x22; | &#x22;Bool&#x22;             | type_var             | [ sub_path , &#x22;.&#x22; ] , upper_ident , [ &#x22;(&#x22; , type , { &#x22;,&#x22; , type } , &#x22;)&#x22; ]             | &#x22;all&#x22; , type_var , { type_var } , &#x22;.&#x22; , type             | &#x22;[&#x22; , type , &#x22;]&#x22;             | type_paren ;(* One parenthesized list, three readings, decided by the token after   &#x22;)&#x22; and by whether a comma is written -- exactly as &#x60;tuple_lit&#x60; and a   parenthesized expression are told apart among values. *)type_paren   = &#x22;(&#x22; , [ type , { &#x22;,&#x22; , type } ,                       { &#x22;,&#x22; , implicit_param } , [ &#x22;,&#x22; ] ] , &#x22;)&#x22; ,               &#x22;->&#x22; , type             | &#x22;(&#x22; , implicit_param , { &#x22;,&#x22; , implicit_param } , &#x22;)&#x22; ,               &#x22;->&#x22; , type             | &#x22;(&#x22; , type , &#x22;)&#x22;             | &#x22;(&#x22; , &#x22;)&#x22;             | &#x22;(&#x22; , type , &#x22;,&#x22; , &#x22;)&#x22;             | &#x22;(&#x22; , type , ( &#x22;,&#x22; , type )+ , [ &#x22;,&#x22; ] , &#x22;)&#x22; ;type_var     = ? an ident beginning with a lowercase letter ? ;return_stmt = &#x22;return&#x22; , bound_value ;(* &#x60;for&#x60;, &#x60;while&#x60; and the accumulator loop are one construct with   different halves written; every combination of them is a loop_stmt. *)loop_stmt   = ( &#x22;loop&#x22; , accumulator , [ iteration ]              | iteration ) , &#x22;:&#x22; , block ;accumulator = target , [ &#x22;:&#x22; , type ] , &#x22;=&#x22; , tuple_or_expr ;iteration   = &#x22;for&#x22; , ident , &#x22;in&#x22; , expr | &#x22;while&#x22; , expr ;(* The value, written on the &#x60;break&#x60;/&#x60;continue&#x60; line itself, is the   accumulator the jump leaves with. *)break_stmt    = &#x22;break&#x22; , [ tuple_or_expr ] ;continue_stmt = &#x22;continue&#x22; , [ tuple_or_expr ] ;if_stmt     = &#x22;if&#x22; , expr , &#x22;:&#x22; , block ,              { &#x22;else&#x22; , &#x22;if&#x22; , expr , &#x22;:&#x22; , block } ,              [ &#x22;else&#x22; , &#x22;:&#x22; , block ] ;(* Always indented: a &#x60;match&#x60; opens a list of clauses rather than a   block of statements, and a &#x60;case&#x60; clause is not an expression, so   there is nothing its header&#x27;s line could carry. *)match_stmt  = &#x22;match&#x22; , expr , &#x22;:&#x22; , INDENT , case_clause , { case_clause } , DEDENT ;case_clause = &#x22;case&#x22; , pattern , [ &#x22;if&#x22; , expr ] , &#x22;:&#x22; , block ;pattern     = pattern_as , { &#x22;,&#x22; , pattern_as } ;pattern_as  = pattern_or , [ &#x22;as&#x22; , ident ] ;pattern_or  = pattern_join , { &#x22;|&#x22; , pattern_join } ;pattern_join = pattern_atom , { &#x22;+&#x22; , pattern_atom } ;pattern_atom = int | &#x22;-&#x22; , int | string | char | bool | &#x22;_&#x22; | ident             | constructor_pattern             | &#x22;(&#x22; , &#x22;)&#x22;             | &#x22;(&#x22; , pattern_as , &#x22;)&#x22;             | &#x22;(&#x22; , pattern_as , &#x22;,&#x22; , &#x22;)&#x22;             | &#x22;(&#x22; , pattern_as , ( &#x22;,&#x22; , pattern_as )+ , [ &#x22;,&#x22; ] , &#x22;)&#x22;             | list_pattern ;(* Positional sub-patterns first, then named ones in any order; a field   not mentioned matches anything. *)constructor_pattern = [ sub_path , &#x22;.&#x22; ] , upper_ident ,                      [ &#x22;(&#x22; , [ field_pattern , { &#x22;,&#x22; , field_pattern } ] , &#x22;)&#x22; ] ;field_pattern = pattern_as | ident , &#x22;=&#x22; , pattern_as ;list_pattern = &#x22;[&#x22; , [ list_pattern_items ] , &#x22;]&#x22; ;list_pattern_items = list_pattern_item , { &#x22;,&#x22; , list_pattern_item } ;list_pattern_item  = pattern_as | rest_marker ;rest_marker        = &#x22;..&#x22; , [ ident ] ;var_decl    = &#x22;var&#x22; , ident , &#x22;=&#x22; , bound_expr ;assignment  = [ &#x22;implicit&#x22; ] , target , [ &#x22;:&#x22; , type ] , &#x22;=&#x22; , bound_value ;mutation    = ident , &#x22;:=&#x22; , bound_expr            | target , &#x22;:=&#x22; , bound_expr            (* a tuple of names *)            | ident , compound_op , bound_expr            | atom , ( &#x22;:=&#x22; | compound_op ) , bound_expr                       (* an array&#x27;s element, an atom ending in an                          index_tail, or a var struct&#x27;s field, an atom                          ending in &#x22;.&#x22; ident *)            | &#x22;*&#x22; , unary , ( &#x22;:=&#x22; | compound_op ) , bound_expr ;                       (* what a pointer points at *)compound_op = &#x22;+=&#x22; | &#x22;-=&#x22; | &#x22;*=&#x22; | &#x22;/=&#x22; | &#x22;%=&#x22; | &#x22;^=&#x22;            | &#x22;&#x26;=&#x22; | &#x22;|=&#x22; | &#x22;<<=&#x22; | &#x22;>>=&#x22; | &#x22;xor&#x22; &#x22;=&#x22; ;   (* no space in &#x22;xor=&#x22; *)(* A bound value may start on the line after its &#x22;=&#x22;, indented -- the   lexer wraps it in the same INDENT/DEDENT any other block gets. *)bound_value = tuple_or_expr | value_stmt | INDENT , bound_value , DEDENT ;bound_expr  = tuple_or_expr | INDENT , bound_expr , DEDENT ;value_stmt  = value_if | match_stmt | loop_stmt ;value_if    = &#x22;if&#x22; , expr , &#x22;:&#x22; , block ,              { &#x22;else&#x22; , &#x22;if&#x22; , expr , &#x22;:&#x22; , block } ,              &#x22;else&#x22; , &#x22;:&#x22; , block ;target      = target_atom , { &#x22;,&#x22; , target_atom } ;target_atom = ident            | sub_path , &#x22;.&#x22; , ident            | &#x22;(&#x22; , &#x22;)&#x22;            | &#x22;(&#x22; , target_atom , &#x22;,&#x22; , &#x22;)&#x22;            | &#x22;(&#x22; , target_atom , ( &#x22;,&#x22; , target_atom )+ , [ &#x22;,&#x22; ] , &#x22;)&#x22; ;expr_stmt   = tuple_or_expr ;tuple_or_expr = expr , { &#x22;,&#x22; , expr } ;expr        = lambda | if_expr | let_expr | disjunction ;(* A lambda takes everything to its right that one expression can hold,   so it associates to the right and binds looser than every operator;   a comma ends it, since &#x60;lam x. a, b&#x60; is a pair. A parameter with a   type, and more than one, are written in parentheses. *)lambda      = &#x22;lam&#x22; , lambda_params , &#x22;.&#x22; , expr ;lambda_params = ident            | &#x22;(&#x22; , [ param , { &#x22;,&#x22; , param } ] , &#x22;)&#x22; ;if_expr     = &#x22;if&#x22; , expr , &#x22;then&#x22; , expr , &#x22;else&#x22; , expr ;(* Like a lambda, the body takes everything to its right that one   expression can hold. *)let_expr    = &#x22;let&#x22; , target , [ &#x22;:&#x22; , type ] , &#x22;=&#x22; , expr , &#x22;in&#x22; , expr ;(* &#x60;and&#x60;/&#x60;or&#x60;/&#x60;not&#x60; and their symbol spellings bind looser than a   comparison; the bitwise operators bind tighter, as Python&#x27;s do. *)disjunction = conjunction , { ( &#x22;or&#x22; | &#x22;||&#x22; ) , conjunction } ;conjunction = negation , { ( &#x22;and&#x22; | &#x22;&#x26;&#x26;&#x22; ) , negation } ;negation    = &#x22;not&#x22; , negation | comparison ;comparison  = bit_or , [ comp_op , bit_or ] ;comp_op     = &#x22;<&#x22; | &#x22;<=&#x22; | &#x22;>&#x22; | &#x22;>=&#x22; | &#x22;==&#x22; | &#x22;!=&#x22; ;bit_or      = bit_xor , { &#x22;|&#x22; , bit_xor } ;bit_xor     = bit_and , { &#x22;xor&#x22; , bit_and } ;bit_and     = shift , { &#x22;&#x26;&#x22; , shift } ;shift       = additive , { ( &#x22;<<&#x22; | &#x22;>>&#x22; ) , additive } ;additive    = multiplicative , { ( &#x22;+&#x22; | &#x22;-&#x22; ) , multiplicative } ;multiplicative = unary , { ( &#x22;*&#x22; | &#x22;/&#x22; | &#x22;%&#x22; ) , unary } ;unary       = ( &#x22;-&#x22; | &#x22;!&#x22; | &#x22;~&#x22; | &#x22;&#x26;&#x22; | &#x22;*&#x22; ) , unary | power ;                       (* &#x22;&#x26;&#x22; and &#x22;*&#x22; are a pointer&#x27;s, under                          &#x60;use pointers&#x60;: an address and what a pointer                          points at *)(* &#x60;^&#x60; associates to the right, and its right operand may be negated:   &#x60;2 ^ -1&#x60;. It binds tighter than unary minus: &#x60;-2 ^ 2&#x60; is &#x60;-(2 ^ 2)&#x60;. *)power       = atom , [ &#x22;^&#x22; , unary ] ;atom        = ( float | int | string | char | bool | ident | list_lit | list_comp              | tuple_lit | construct              | &#x22;(&#x22; , expr , &#x22;)&#x22; ) ,              { call_tail | field_tail | index_tail } ;(* &#x60;xs[i]&#x60;: the &#x60;[&#x60; on the row the indexed expression ends on. *)index_tail  = &#x22;[&#x22; , expr , &#x22;]&#x22;            | &#x22;[&#x22; , [ expr ] , &#x22;:&#x22; , [ expr ] , &#x22;]&#x22; ;   (* a slice: a copy *)(* A constructor applied to its fields, with a call&#x27;s arguments; one with   no fields is written bare. *)construct   = [ sub_path , &#x22;.&#x22; ] , upper_ident , [ call_tail ] ;field_tail  = &#x22;.&#x22; , ident ;(* Every named argument comes after every positional one; the named   ones may be written in any order. A constructor&#x27;s arguments may end   in &#x60;..expr&#x60;, which gives every field not written before it. *)call_tail   = &#x22;(&#x22; , [ call_args ] , &#x22;)&#x22; ;call_args   = expr , { &#x22;,&#x22; , expr } , { &#x22;,&#x22; , named_arg } , [ &#x22;,&#x22; , update ]            | named_arg , { &#x22;,&#x22; , named_arg } , [ &#x22;,&#x22; , update ]            | update ;named_arg   = ident , &#x22;=&#x22; , expr ;update      = &#x22;..&#x22; , expr ;args        = expr , { &#x22;,&#x22; , expr } ;list_lit    = &#x22;[&#x22; , [ args ] , &#x22;]&#x22; ;list_comp   = &#x22;[&#x22; , expr , comp_for , { comp_for | comp_if } , &#x22;]&#x22; ;comp_for    = &#x22;for&#x22; , pattern , &#x22;in&#x22; , expr ;comp_if     = &#x22;if&#x22; , expr ;tuple_lit   = &#x22;(&#x22; , &#x22;)&#x22;            | &#x22;(&#x22; , expr , &#x22;,&#x22; , &#x22;)&#x22;            | &#x22;(&#x22; , expr , ( &#x22;,&#x22; , expr )+ , [ &#x22;,&#x22; ] , &#x22;)&#x22; ;ident       = letter , { letter | digit } ;int         = digit , { digit }            | &#x22;0&#x22; , ( &#x22;x&#x22; | &#x22;X&#x22; ) , hex_digit , { [ &#x22;_&#x22; ] , hex_digit }            | &#x22;0&#x22; , ( &#x22;b&#x22; | &#x22;B&#x22; ) , bin_digit , { [ &#x22;_&#x22; ] , bin_digit } ;hex_digit   = digit | &#x22;a&#x22; | &#x22;b&#x22; | &#x22;c&#x22; | &#x22;d&#x22; | &#x22;e&#x22; | &#x22;f&#x22;            | &#x22;A&#x22; | &#x22;B&#x22; | &#x22;C&#x22; | &#x22;D&#x22; | &#x22;E&#x22; | &#x22;F&#x22; ;bin_digit   = &#x22;0&#x22; | &#x22;1&#x22; ;(* A point needs a digit on each side, so &#x60;1.&#x60; and &#x60;.5&#x60; are not floats.   An exponent alone makes one: &#x60;1e9&#x60; is a Float. *)float       = digits , &#x22;.&#x22; , digits , [ exponent ]            | digits , exponent ;digits      = digit , { digit } ;exponent    = ( &#x22;e&#x22; | &#x22;E&#x22; ) , [ &#x22;+&#x22; | &#x22;-&#x22; ] , digits ;bool        = &#x22;true&#x22; | &#x22;false&#x22; ;(* A String is in double quotes; a Char is exactly one character -- one   Unicode code point, or one escape -- in single quotes. *)string      = &#x27;&#x22;&#x27; , { string_char } , &#x27;&#x22;&#x27; ;char        = &#x22;&#x27;&#x22; , char_char , &#x22;&#x27;&#x22; ;string_char = any_char_except_double_quote_or_backslash            | &#x22;\&#x22; , escape ;char_char   = any_char_except_single_quote_or_backslash            | &#x22;\&#x22; , escape ;escape      = &#x22;n&#x22; | &#x22;t&#x22; | &#x22;r&#x22; | &#x22;0&#x22; | &#x22;\&#x22; | &#x22;&#x27;&#x22; | &#x27;&#x22;&#x27; ;"><div></div></button></div></figure></div>
 <p>Notes that don’t fall out of the grammar alone:</p>
 <ul>
 <li>
@@ -1452,7 +1477,7 @@ print(count)</code></pre></div></div>
 
 
 
-<table><thead><tr><th>Feature</th><th>Turns on</th></tr></thead><tbody><tr><td><code>mutation</code></td><td><code>var</code>, <code>:=</code> and compound assignment such as <code>+=</code> (see “Mutable variables”), making and writing arrays (see “Arrays”), DynArrays (see “DynArrays”), MutMaps (see “MutMaps”) and views (see “Slices and views”), and declaring, making and writing <code>var struct</code>s (see “Mutable structs”)</td></tr><tr><td><code>pointers</code></td><td><code>&#x26;</code>, <code>*</code> and <code>*p := v</code> (see “Pointers”); needs <code>mutation</code> too</td></tr><tr><td><code>objects</code></td><td>nothing yet: the name is reserved for classes and methods</td></tr></tbody></table>
+<table><thead><tr><th>Feature</th><th>Turns on</th></tr></thead><tbody><tr><td><code>mutation</code></td><td><code>var</code>, <code>:=</code> and compound assignment such as <code>+=</code> (see “Mutable variables”), making and writing arrays (see “Arrays”), DynArrays (see “DynArrays”), MutMaps (see “MutMaps”) and views (see “Slices and views”), and declaring, making and writing <code>var struct</code>s (see “Mutable structs”)</td></tr><tr><td><code>pointers</code></td><td><code>&#x26;</code>, <code>*</code> and <code>*p := v</code> (see “Pointers”); needs <code>mutation</code> too</td></tr><tr><td><code>objects</code></td><td>declaring classes, abstract classes and interfaces (see “Classes and interfaces”)</td></tr></tbody></table>
 <p>Several are written on one line, <code>use mutation, objects</code>, or on lines
 of their own.</p>
 <p><strong>One parser reads every module.</strong> A <code>use</code> changes nothing about how
@@ -1592,7 +1617,12 @@ apart by how many arguments they take:</p>
 
 
 
-<table><thead><tr><th>call</th><th>form</th><th>makes</th></tr></thead><tbody><tr><td><code>array(xs)</code></td><td><code>list::array</code></td><td>the elements of the list <code>xs</code></td></tr><tr><td><code>array(n, v)</code></td><td><code>fill::array</code></td><td><code>n</code> elements, each the one value <code>v</code>, worked out once</td></tr><tr><td><code>array_init(n, f)</code>, <code>f: (Int) -> T</code></td><td><code>init::array_init</code></td><td>element <code>i</code> is <code>f(i)</code></td></tr><tr><td><code>array_init(n, seed, f)</code>, <code>f: (S) -> (T, S)</code></td><td><code>unfold::array_init</code></td><td>each element and the next <code>seed</code> from <code>f</code></td></tr></tbody></table>
+
+
+
+
+
+<table><thead><tr><th>call</th><th>form</th><th>makes</th></tr></thead><tbody><tr><td><code>array(xs)</code></td><td><code>list::array</code></td><td>the elements of the list <code>xs</code></td></tr><tr><td><code>array(c)</code></td><td><code>dynarray::array</code>, …</td><td>the elements of another collection: an array, a DynArray, a view, a String’s Chars, a Map’s or a MutMap’s (key, value) pairs (see “Making and converting collections”)</td></tr><tr><td><code>array(n, v)</code></td><td><code>fill::array</code></td><td><code>n</code> elements, each the one value <code>v</code>, worked out once</td></tr><tr><td><code>array_init(n, f)</code>, <code>f: (Int) -> T</code></td><td><code>init::array_init</code></td><td>element <code>i</code> is <code>f(i)</code></td></tr><tr><td><code>array_init(n, seed, f)</code>, <code>f: (S) -> (T, S)</code></td><td><code>unfold::array_init</code></td><td>each element and the next <code>seed</code> from <code>f</code></td></tr></tbody></table>
 <div class="pkn-notebook pkn-embedded not-content"><div class="pkn-cell"><pre class="pkn-cell-fallback"><code>use mutation
 
 primes = array([2, 3, 5])
@@ -1691,7 +1721,10 @@ every element type, while a binding’s array has one.</p>
 library <code>lib/array</code> (see “Modules”, and its help page): <code>copy</code>,
 <code>to_list</code>, <code>fill</code>, <code>swap</code>, <code>reverse</code>, <code>concat</code>, <code>resize</code>, <code>equal</code> and
 <code>sort</code>, which is stable and orders Floats with NaN last and Strings by
-code point, alike on every target.</p>
+code point, alike on every target; <code>sort_by</code>, <code>sort_on</code> and
+<code>map_in_place</code>, which change the array too; and lib/list’s searching
+and counting functions over an array (<code>first</code>, <code>find</code>, <code>count</code>,
+<code>contains</code>, <code>maximum</code>, <code>sum</code>, <code>sorted</code>, <code>reversed</code>, …).</p>
 <h3 id="dynarrays-dynarrayt--pyking-extension">DynArrays (<code>DynArray(T)</code>) — Pyking extension</h3>
 <p>A <strong>DynArray</strong> is an array that grows: its elements are read and written by
 index as an array’s are, and it is shared by every name that holds it,
@@ -1705,9 +1738,11 @@ for i in range(5):
     push(squares, i * i)
 print(squares, len(squares), squares[4])      # dynarray([0, 1, 4, 9, 16]) 5 16</code></pre></div></div>
 <p><strong>Making one.</strong> <code>dynarray()</code> makes one with no elements, whose element type
-its use or an annotation decides, and <code>dynarray(xs)</code> one holding a list’s
-elements; <code>dynarray</code> is a builtin overload set of the two (<code>empty::dynarray</code>,
-<code>list::dynarray</code>).</p>
+its use or an annotation decides, <code>dynarray(xs)</code> one holding a list’s
+elements — or another collection’s (see “Making and converting
+collections”) — and <code>dynarray(n, v)</code> one of <code>n</code> copies of <code>v</code>;
+<code>dynarray_init(n, f)</code> and <code>dynarray_init(n, seed, f)</code> generate one as
+<code>array_init</code> does.</p>
 <p><strong>Growing and shrinking.</strong> Five builtins change a DynArray:</p>
 
 
@@ -1771,7 +1806,8 @@ those names wins there: a module defining <code>insert</code> for a tree, or
 importing tinyweb’s <code>push</code>, means its own.</p>
 <p>The rest is the library <code>lib/dynarray</code>: <code>copy</code>, <code>to_list</code>, <code>to_array</code>,
 <code>from_array</code>, <code>extend</code>, <code>reverse</code>, <code>equal</code> and <code>sort</code> (lib/array’s, the
-same on every target).</p>
+same on every target), <code>truncate</code>, <code>retain</code> and <code>append</code>, and the
+functions lib/array has too.</p>
 <h3 id="mutmaps-mutmapk-v--pyking-extension">MutMaps (<code>MutMap(K, V)</code>) — Pyking extension</h3>
 <p>A <strong>MutMap</strong> maps keys to values, and remembers the order its keys were
 put in. It is written in place and shared by every name that holds one.
@@ -1786,7 +1822,9 @@ print(counts, counts["the"], len(counts))
 # mutmap([("the", 2), ("cat", 1), ("hat", 1)]) 2 3</code></pre></div></div>
 <p><strong>Making one.</strong> <code>mutmap()</code> makes one with no entries, whose types its use
 or an annotation decides, and <code>mutmap(pairs)</code> one from a list of <code>(key, value)</code> pairs; a key written twice keeps its first place and its last
-value. There is no literal syntax.</p>
+value. <code>mutmap(m)</code> copies a Map or another MutMap, and
+<code>mutmap_init(keys, f)</code> maps each key to <code>f(key)</code> (see “Making and
+converting collections”). There is no literal syntax.</p>
 <p><strong>Reading and writing.</strong> <code>d[k]</code> reads the value of the key <code>k</code> — one
 the MutMap has no entry for is a runtime error, <code>the MutMap has no key "zed"</code> — and <code>d[k] := v</code> writes one: an entry for a new key goes at the
 end, and a key already there keeps its place and gets the new value.
@@ -1854,6 +1892,45 @@ as what makes one, <code>mutmap([(1, "a")])</code>.</p>
 <p><strong>Names.</strong> <code>get</code>, <code>has</code>, <code>keys</code>, <code>values</code>, <code>items</code>, <code>discard</code>, <code>remove</code>
 and <code>clear</code> are builtins, but a module’s own definition or import of
 one of those names wins there.</p>
+<p>The rest is the library <code>lib/mutmap</code>: <code>update</code>, <code>insert_with</code> (for a
+count), <code>extend</code> and <code>retain</code>, which change the MutMap, and <code>lookup</code>,
+<code>fold_with_key</code>, <code>find_key</code>, <code>is_empty</code>, <code>equal_by</code> and <code>copy</code>.</p>
+<h3 id="maps-mapk-v--pyking-extension">Maps (<code>Map(K, V)</code>) — Pyking extension</h3>
+<p>A <strong>Map</strong> maps keys to values as a MutMap does, and remembers the order
+its keys were put in, but it is a value that never changes, like a list:
+making one needs no <code>use mutation</code>, and a change answers a new Map,
+leaving the old one as it was. Its type is <code>Map(K, V)</code>.</p>
+<div class="pkn-notebook pkn-embedded not-content"><div class="pkn-cell"><pre class="pkn-cell-fallback"><code>import map
+
+ages = map([("ann", 31), ("bo", 5)])
+older = map.insert(ages, "cy", 40)
+print(ages, older["cy"], get(ages, "zed", 0), len(older))
+# map([("ann", 31), ("bo", 5)]) 40 0 3</code></pre></div></div>
+<p><strong>Making one.</strong> <code>map()</code> makes one with no entries, whose types its use
+or an annotation decides, <code>map(pairs)</code> one from a list of <code>(key, value)</code> pairs — a key written twice keeps its first place and its last
+value — and <code>map(d)</code> one holding a MutMap’s entries as they are now
+(see “Making and converting collections”).</p>
+<p><strong>Reading</strong> is a MutMap’s: <code>m[k]</code> (a runtime error, <code>the Map has no key "zed"</code>, where there is none), <code>get(m, k, default)</code>, <code>has(m, k)</code>,
+<code>keys(m)</code>, <code>values(m)</code>, <code>items(m)</code> and <code>len(m)</code>, and <code>for k in m</code> and a
+comprehension walk the keys in order. A Map is never written: <code>m[k] := v</code>, <code>remove</code>, <code>discard</code> and <code>clear</code> are refused, each saying what makes
+a new Map instead.</p>
+<p><strong>Changing one</strong> is lib/map’s: <code>map.insert(m, k, v)</code>, <code>map.remove(m, k)</code>,
+<code>map.insert_with(f, m, k, v)</code>, <code>map.adjust(f, m, k)</code> and <code>map.alter(f, m, k)</code>, and <code>union</code>, <code>intersection</code>, <code>difference</code>, <code>map_with_key</code>,
+<code>filter_with_key</code>, <code>partition</code>, <code>lookup</code> and <code>fold_with_key</code>. A new key
+goes at the end, a key already there keeps its place, and one taken out
+and put back goes to the end, as in a MutMap. Each change copies the
+Map, so it takes time in proportion to its size: a Map built one entry
+at a time is better built as a list of pairs, or as a MutMap, and made
+a Map at the end.</p>
+<p><strong>Keys</strong> are a MutMap’s: Int, Char, String, Bool, (), and tuples, lists,
+structs and datatypes of those — not a Float, a function, anything that
+changes, or a Map.</p>
+<p><strong>Equality and printing.</strong> <code>==</code> and <code>!=</code> compare two Maps by their
+entries, in whatever order: the same keys, each with an equal value,
+which is Python’s rule for a dict. A Map prints as what makes one,
+<code>map([("ann", 31)])</code>, in its order — so two equal Maps may print
+differently. A Map has no identity for <code>same</code> to ask about, and no
+order for <code>&#x3C;</code>.</p>
 <h3 id="slices-and-views--pyking-extension">Slices and views — Pyking extension</h3>
 <p><strong>A slice copies.</strong> <code>s[i:j]</code> is a new value holding elements <code>i</code> up to
 <code>j</code> of a list, a String (by character), an array or a DynArray — of the
@@ -1886,12 +1963,177 @@ where the two share elements. <code>src</code> is no longer than <code>dst</code
 b = array([1, 2, 3, 4, 5, 6])
 copy_into(view(b, 2, 6), view(b, 0, 4))
 print(b)             # array([1, 2, 1, 2, 3, 4])</code></pre></div></div>
+<h3 id="making-and-converting-collections--pyking-extension">Making and converting collections — Pyking extension</h3>
+<p>Every collection is made the same way: by a call named for its kind of
+a list, of one value repeated, or of another collection, and by a call
+named with <code>_init</code> that calls a function for each element.</p>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<table><thead><tr><th>collection</th><th>of a list</th><th>of one value</th><th>of another collection</th><th>calling a function</th></tr></thead><tbody><tr><td>list</td><td><code>list(xs)</code> (itself)</td><td><code>list(n, v)</code></td><td><code>list(c)</code></td><td><code>list_init(n, f)</code>, <code>list_init(n, seed, f)</code></td></tr><tr><td>array</td><td><code>array(xs)</code></td><td><code>array(n, v)</code></td><td><code>array(c)</code></td><td><code>array_init(n, f)</code>, <code>array_init(n, seed, f)</code></td></tr><tr><td>DynArray</td><td><code>dynarray(xs)</code></td><td><code>dynarray(n, v)</code></td><td><code>dynarray(c)</code></td><td><code>dynarray_init(n, f)</code>, <code>dynarray_init(n, seed, f)</code></td></tr><tr><td>Map</td><td><code>map(pairs)</code></td><td>—</td><td><code>map(m)</code>, <code>map(d)</code></td><td><code>map_init(keys, f)</code>, <code>map_init(n, seed, f)</code></td></tr><tr><td>MutMap</td><td><code>mutmap(pairs)</code></td><td>—</td><td><code>mutmap(m)</code>, <code>mutmap(d)</code></td><td><code>mutmap_init(keys, f)</code>, <code>mutmap_init(n, seed, f)</code></td></tr></tbody></table>
+<div class="pkn-notebook pkn-embedded not-content"><div class="pkn-cell"><pre class="pkn-cell-fallback"><code>use mutation
+
+print(list(3, 'a'), list_init(4, lam i. i * i), dynarray(2, 0))
+print(list(array(3, "x")), array("abc"), map_init(["ann", "bo"], lam name. len(name)))
+# ['a', 'a', 'a'] [0, 1, 4, 9] dynarray([0, 0])
+# ["x", "x", "x"] array(['a', 'b', 'c']) map([("ann", 3), ("bo", 2)])</code></pre></div></div>
+<ul>
+<li><strong>Converting copies.</strong> <code>list(c)</code>, <code>array(c)</code> and <code>dynarray(c)</code> take the
+elements of a list, an array, a DynArray or a view, a String’s Chars,
+or a Map’s or a MutMap’s <code>(key, value)</code> pairs in order, and <code>list</code> an
+Option’s value, if any; <code>map(c)</code> and <code>mutmap(c)</code> take a Map or a
+MutMap. What comes back shares nothing with what went in, so <code>array(a)</code>
+is a new array.</li>
+<li><strong>Making a store needs <code>use mutation</code></strong>: an array, a DynArray or a
+MutMap, by any of these calls. A list and a Map need none.</li>
+<li><strong><code>_init</code> calls <code>f</code> in order</strong>, once per element, and the unfolding
+form drops the last seed; <code>map_init(keys, f)</code> maps each key to <code>f(key)</code>
+in the order of <code>keys</code>. The one-value forms work <code>v</code> out once, so
+<code>list(3, f())</code> calls <code>f</code> once and <code>list_init(3, lam i. f())</code> three
+times. A negative <code>n</code> is a runtime error.</li>
+<li><strong>The kind of collection is the argument’s type</strong>, which has to be
+known where the call is, written or worked out: <code>list(c)</code> of a
+parameter nothing has said anything about is refused with the
+annotation to write.</li>
+</ul>
+<h3 id="fmap-and-the-folds--pyking-extension">fmap and the folds — Pyking extension</h3>
+<p>Six builtins work on every collection, an Option and a Result, each by
+one name — Haskell’s for the first four:</p>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<table><thead><tr><th>call</th><th>gives</th></tr></thead><tbody><tr><td><code>fmap(f, c)</code></td><td>a new collection of the same kind, <code>f(x)</code> for each element <code>x</code></td></tr><tr><td><code>filter(p, c)</code></td><td>a new collection of the same kind, of the elements <code>p</code> is true of</td></tr><tr><td><code>foldl(f, init, c)</code></td><td><code>f(...f(f(init, x1), x2)..., xn)</code>, from the first element</td></tr><tr><td><code>foldr(f, init, c)</code></td><td><code>f(x1, f(x2, ...f(xn, init)))</code>, from the last</td></tr><tr><td><code>any(p, c)</code></td><td>whether <code>p</code> is true of some element</td></tr><tr><td><code>all(p, c)</code></td><td>whether <code>p</code> is true of every element</td></tr></tbody></table>
+<div class="pkn-notebook pkn-embedded not-content"><div class="pkn-cell"><pre class="pkn-cell-fallback"><code>struct Person(name: String, age: Int)
+
+people = [Person("ann", 31), Person("bo", 5)]
+print(fmap(lam p. p.name, people), filter(lam p. p.age > 18, people))
+print(foldl(lam (total, p). total + p.age, 0, people), any(lam p. p.age &#x3C; 10, people))
+print(fmap(lam n. n * 2, Some(21)), foldr(lam (x, acc). acc + string(x), "", [1, 2, 3]))
+# ["ann", "bo"] [Person("ann", 31)]
+# 36 true
+# Some(42) 321</code></pre></div></div>
+<ul>
+<li><strong>Each answers a new collection of the kind it was given</strong>: a list
+for a list, an array for an array or a view, a DynArray for a
+DynArray, a Map or a MutMap for one. Making an array, a DynArray or a
+MutMap this way needs <code>use mutation</code>, as every making of one does.</li>
+<li><strong>A Map’s and a MutMap’s elements are its values.</strong> <code>fmap</code> keeps the
+keys, in their order, and <code>filter</code> keeps the entries whose value
+passes; <code>for k in m</code> walks the keys, as Python’s does. lib/map’s
+<code>map_with_key</code>, <code>filter_with_key</code> and <code>fold_with_key</code> see the keys too.</li>
+<li><strong>An Option and a Result hold none or one value.</strong> <code>fmap(f, Some(x))</code>
+is <code>Some(f(x))</code> and <code>fmap(f, Ok(x))</code> is <code>Ok(f(x))</code>, an <code>Error</code> staying
+as it is. A Result has no <code>filter</code>: where the test is false there is
+no error to give.</li>
+<li><strong>A String is not one of them</strong>: <code>fmap</code> and the folds refuse it, and
+<code>list(s)</code> makes its Chars a list they take.</li>
+<li><strong>The calls run in order.</strong> <code>f</code> and <code>p</code> are called once per element,
+from the first — <code>foldr</code> from the last — and <code>any</code> and <code>all</code> stop at
+the first element that decides. <code>foldr</code> walks the elements without
+recursing, so a long list does not overflow the stack.</li>
+<li><strong>The function comes first, the collection last</strong>, and the collection
+says what the function’s parameters are: in <code>fmap(lam p. p.name, people)</code> the list says <code>p</code> is a Person. A lambda argument is checked
+after the other arguments of any call for this reason — the arguments
+still run in the order written.</li>
+<li><strong>The kind of collection is known where the call is.</strong> A parameter
+nothing has said anything about is refused with the annotation to
+write (<code>'c: [Int]'</code>): one definition serves one kind of collection,
+of any element type.</li>
+<li><strong>The names are yours to take.</strong> These builtins are written in Pyking,
+in lib/prelude, and a module calling one of them, and binding none of
+them itself, has them all, as Option arrives. A module that defines
+its own <code>map</code>, <code>filter</code> or <code>list</code> means its own.</li>
+</ul>
+<p>lib/list is the rest of what a list is asked — <code>first</code>, <code>nth</code>, <code>take</code>,
+<code>drop</code>, <code>zip</code>, <code>enumerate</code>, <code>chunks</code>, <code>find</code>, <code>count</code>, <code>partition</code>,
+<code>unique</code>, <code>group</code>, <code>sum</code>, <code>maximum</code>, <code>sort</code>, <code>sort_by</code>, <code>sort_on</code>, … —
+named as Haskell names them where Haskell, OCaml and Rust differ, with a
+function first and the list last. A function comparing elements is
+written once per scalar type and once more as <code>..._by</code>, taking the
+comparison.</p>
 <h3 id="option--pyking-extension">Option — Pyking extension</h3>
 <p><code>Option(a)</code> is a value or none: <code>Some(value)</code> or <code>None</code>. It is builtin
 in the way a library is: a module that uses <code>Option</code>, <code>Some</code> or <code>None</code>,
 and declares and imports none of them, has lib/option’s — as if it
 began <code>from option import Option</code> — and <code>import option</code> reaches its
-functions, <code>is_some</code>, <code>is_none</code> and <code>or_else</code>.</p>
+functions, named as Rust’s are: <code>is_some</code>, <code>is_none</code>, <code>unwrap_or</code>,
+<code>unwrap_or_else</code>, <code>and_then</code>, <code>or_else</code>, <code>zip</code>, <code>flatten</code>, <code>unwrap</code>,
+<code>expect</code>, <code>all_some</code> and <code>values</code>. <code>fmap</code>, <code>filter</code>, the folds and
+<code>list(o)</code> take an Option too (see “fmap and the folds”).</p>
 <div class="pkn-notebook pkn-embedded not-content"><div class="pkn-cell"><pre class="pkn-cell-fallback"><code>import option
 
 def first_even(xs: [Int]) -> Option(Int):
@@ -1899,12 +2141,38 @@ def first_even(xs: [Int]) -> Option(Int):
         case []: None
         case [x, ..rest]: if x % 2 == 0 then Some(x) else first_even(rest)
 
-print(first_even([1, 4, 5]), first_even([1]), option.or_else(first_even([3]), 0))
+print(first_even([1, 4, 5]), first_even([1]), option.unwrap_or(first_even([3]), 0))
 # Some(4) None 0</code></pre></div></div>
 <p>A module declaring a datatype <code>Option</code>, or one with a constructor <code>Some</code>
 or <code>None</code>, means its own, as programs written before Option was builtin
 do. A pointer that may point nowhere is an <code>Option(Ptr(T))</code> (see
 “Pointers”): Pyking has no null.</p>
+<p><code>option.or_else(o, f)</code> takes a function answering an Option, as Rust’s
+does; until November 2026 it took the default value, which is now
+<code>option.unwrap_or(o, value)</code>, and an old call is refused with that
+named.</p>
+<h3 id="result--pyking-extension">Result — Pyking extension</h3>
+<p><code>Result(t, e)</code> is a value or the error that stopped it: <code>Ok(value)</code> or
+<code>Error(error)</code>, as Rust’s is, with <code>Error</code> for Rust’s <code>Err</code>. It is
+builtin as Option is: a module that uses <code>Result</code>, <code>Ok</code> or <code>Error</code>, and
+declares and imports none of them, has lib/result’s, and <code>import result</code> reaches its functions.</p>
+<div class="pkn-notebook pkn-embedded not-content"><div class="pkn-cell"><pre class="pkn-cell-fallback"><code>import result
+
+def parse_age(s: String) -> Result(Int, String):
+    n = int(s)
+    if string(n) == s and n >= 0 then Ok(n) else Error("not an age: " + s)
+
+print(parse_age("31"), parse_age("x"), fmap(lam n. n + 1, parse_age("31")))
+print(result.unwrap_or(parse_age("x"), 0), result.and_then(parse_age("31"), lam n. if n &#x3C; 150 then Ok(n) else Error("too old")))
+# Ok(31) Error("not an age: x") Ok(32)
+# 0 Ok(31)</code></pre></div></div>
+<p>lib/result has <code>is_ok</code>, <code>is_error</code>, <code>ok</code>, <code>error</code>, <code>unwrap_or</code>,
+<code>unwrap_or_else</code>, <code>and_then</code> (the next step, which stops at the first
+error), <code>or_else</code>, <code>map_error</code>, <code>unwrap</code>, <code>expect</code>, <code>unwrap_error</code>,
+<code>flatten</code>, <code>all_ok</code>, <code>partition_results</code>, and <code>ok_or</code>, which makes an
+Option a Result. <code>unwrap</code> of an <code>Error</code> stops the program with a runtime
+error, as <code>panic</code> does. A module declaring its own <code>Result</code>, <code>Ok</code> or
+<code>Error</code> means its own.</p>
 <h3 id="pointers--pyking-extension">Pointers — Pyking extension</h3>
 <p><code>use pointers</code> adds C’s pointers — without null, arithmetic or freeing
 — for teaching how memory is addressed. It needs <code>use mutation</code> in the
@@ -2701,6 +2969,12 @@ print(id(1))
 definition. A lambda parameter may not have a default value, since a
 default belongs to the scope a definition is written in. And a lambda
 parameter is a binding like any other, so it may not shadow a <code>var</code>.</p>
+<p><strong>A lambda argument is checked last.</strong> In a call, every other argument
+is checked first, and a lambda’s parameters with no type written take
+the ones its parameter has by then: in <code>apply(lam p. p.x, points)</code> the
+list says <code>p</code> is a Point, although the lambda is written first. Only the
+checking waits; the arguments still run in the order written (see
+“Evaluation order”).</p>
 <h3 id="let-expressions--pyking-extension">Let expressions — Pyking extension</h3>
 <p><code>let target = value in body</code> is an expression: <code>value</code> is evaluated
 once, bound to <code>target</code>, and the whole is worth <code>body</code>. The target is
@@ -2749,11 +3023,15 @@ a <code>def</code> with no parameters — there would be nothing to resolve it b
 <code>twice</code> with no qualifier, <code>twice(...)</code> means that one and is a type
 error if it does not fit.</li>
 <li><strong>A builtin’s name is never part of a set.</strong> <code>string(1)</code> is the builtin
-whatever <code>q::string</code> definitions are in scope. The two exceptions are
-<code>array</code>, which <em>is</em> a set — <code>list::array</code> and <code>fill::array</code> — and
-<code>array_init</code>, another — <code>init::array_init</code> and <code>unfold::array_init</code>
-(see “Arrays”). Each set’s members take different numbers of
-arguments, so a call to one is never ambiguous.</li>
+whatever <code>q::string</code> definitions are in scope. The exceptions are the
+collection builtins, which <em>are</em> sets: <code>array</code> (<code>list::array</code>,
+<code>fill::array</code>, and a conversion per collection, <code>dynarray::array</code>,
+…), <code>array_init</code>, <code>dynarray</code>, <code>mutmap</code> and <code>map</code> (see “Making and
+converting collections”), and the ones written in lib/prelude,
+<code>fmap</code>, <code>filter</code>, <code>foldl</code>, <code>foldr</code>, <code>any</code>, <code>all</code>, <code>list</code>, <code>list_init</code>,
+<code>dynarray_init</code>, <code>map_init</code> and <code>mutmap_init</code> (see “fmap and the
+folds”), whose members a module calling one has under their <code>::</code>
+names. Members of one arity are told apart by their arguments’ types.</li>
 </ul>
 <p>Resolution needs the argument types to be decided. Inside a function
 whose parameter could be anything, they are not, and the call is
@@ -2762,7 +3040,10 @@ refused with the way out named:</p>
 #   -- error: nothing here decides which 'twice' is meant. Annotate it,
 #      or take the definition as an implicit parameter</code></pre></div></div>
 <p>Two definitions that both fit is an error too. There is no ordering
-between them: write the one that is meant.</p>
+between them: write the one that is meant. Where a lambda is among the
+arguments, its body may decide: <code>list.sort_on(lam p. p.age, people)</code>
+fits every key type until the body says it gives an Int, so a
+definition the lambda’s body does not check against is set aside.</p>
 <p><strong>A default parameter counts.</strong> It lets a definition take fewer
 arguments, so it is part of what says whether a call could mean that
 definition — and two definitions taking one call, where one of them
@@ -3262,6 +3543,173 @@ needs a use or an annotation saying what the list holds.</p>
 written on Python and JavaScript, a final class on Java, a record with
 <code>mutable</code> fields on OCaml, and on C a pointer to a struct, which plain C
 mallocs and never frees and <code>c23-gc</code> takes from the collector.</p>
+<h3 id="classes-and-interfaces--pyking-extension">Classes and interfaces — Pyking extension</h3>
+<p>Under <code>use objects</code>, a module declares <strong>classes</strong>, <strong>abstract classes</strong>
+and <strong>interfaces</strong>. They follow Java’s semantics — objects are shared,
+a class extends one parent and implements any number of interfaces,
+dispatch is dynamic — in Python’s spelling, with <code>self</code> written. The
+design, with the choices it made and the ones it did not, is
+<code>design/plan-objects.md</code>.</p>
+<div class="pkn-notebook pkn-embedded not-content"><div class="pkn-cell"><pre class="pkn-cell-fallback"><code>use objects
+
+interface Shape:
+    def area(self) -> Float
+    def name(self) -> String
+    def describe(self) -> String:
+        self.name() + " of area " + string(self.area())
+
+class Rect(width: Float, height: Float) implements Shape:
+    override def area(self) -> Float:
+        self.width * self.height
+    override def name(self) -> String:
+        "rectangle"
+
+class Square(side: Float) extends Rect(side, side):
+    override def name(self) -> String:
+        "square"
+
+shapes: [Shape] = [Rect(2.0, 3.0), Square(2.0)]
+for s in shapes:
+    print(s.describe())
+print(Square(2.0))</code></pre></div></div>
+<p>prints <code>rectangle of area 6.0</code>, <code>square of area 4.0</code> and <code>Square(2.0)</code>.</p>
+<p><strong>The gate.</strong> Declaring a class or an interface needs <code>use objects</code>; a
+module without it may still make objects of another module’s classes,
+call their methods and match them. A <code>var</code> field needs <code>use mutation</code> in
+the module declaring it, and writing one (<code>o.f := v</code>) in the module
+writing it.</p>
+<p><strong>Fields and the constructor.</strong> A class’s header lists its fields, as a
+struct’s does, and they are its constructor’s parameters, with defaults
+and named arguments: <code>Account("ada", limit = 100.0)</code>. Every field says
+its type, unless a literal default says it. Fields declared in the body,
+<code>name: T = value</code> or <code>var name: T = value</code>, are set up from that value,
+which may use the header’s parameters by name — not <code>self</code>, so nothing
+calls a method on a half-made object. An object is set up in a fixed
+order: its parent’s part first, then its own header fields, then its
+body fields in the order written. A class with nothing to declare under
+its header has no <code>:</code>: <code>class Tag(name: String)</code>. A field never shares a
+name with a method, nor with a field of a class above it.</p>
+<p><strong>Methods.</strong> A method is a <code>def</code> in the class body whose first parameter
+is <code>self</code>, written without a type; every other parameter says its type,
+and its result is written after <code>-></code>, or is <code>()</code> where nothing is
+written. A method reaches its object’s fields and methods only through
+<code>self</code> (<code>self.width</code>, <code>self.area()</code>). It is called with <code>obj.m(args)</code>,
+named and default arguments as for any <code>def</code>; defaults are written where
+a method is first declared, never on an override. <code>obj.m</code> without a call
+is a function closed over the object, worked out once. A body ending in
+a value it does not return is fine in a method answering <code>()</code>.</p>
+<p><strong>Objects are references.</strong> Every object is shared by each name, element
+and field holding it, as in Java and Python; <code>same(a, b)</code> asks whether
+two names hold one object. An object with no <code>var</code> field never changes.</p>
+<p><strong>Equality and printing.</strong> <code>a == b</code> and <code>a != b</code> call the class’s <code>eq</code>,
+written <code>def eq(self, other: C) -> Bool</code>, and are refused where it has
+none — <code>same</code> is the identity test. An object prints as its class’s
+name and its header’s fields, <code>Square(2.0)</code>, or as its <code>show</code> says,
+written <code>def show(self) -> String</code>: in <code>print</code> and <code>string</code>, inside a
+printed list included. The REPL’s echo of a value and the debugger’s
+Variables view show the header form, since neither runs a method to show
+one. Objects have no order: <code>&#x3C;</code> is refused.</p>
+<p><strong><code>private</code>.</strong> A field or method written <code>private</code> is reached only from
+the methods of the class declaring it, on any object of that class;
+classes below it do not see it, and none of them may declare a member of
+its name.</p>
+<p><strong>Interfaces.</strong> An interface declares method signatures and, where it
+gives one, a default body; it has no fields, may <code>extends</code> other
+interfaces and may have type parameters (<code>interface Source(a):</code>, which a
+class implements as <code>implements Source(Int)</code>). An interface is a type —
+a parameter, an element, a field — and is never made.</p>
+<p><strong>Inheritance.</strong> <code>extends P(args)</code> names one parent class and what its
+constructor is given; the arguments may use the header’s parameters. A
+header parameter with the name and type of an inherited field only
+passes it on. A method replacing one a class or interface above has is
+written <code>override def</code>, with the same parameters, by name and type, and
+the same result; <code>override</code> where nothing is replaced is refused, and so
+is replacing without it. <code>super.m(args)</code> calls the body the class
+inherited: its parent chain’s first, then an interface’s default. A class
+inheriting defaults of one name from two interfaces overrides it.</p>
+<p><strong>Abstract classes.</strong> An <code>abstract class</code> may declare <code>abstract def</code>s,
+which have no body, and is never made; a class that can be made gives
+every method a body, its own or one it inherits.</p>
+<p><strong>Where an object is seen as a supertype.</strong> A <code>Square</code> stands where a
+<code>Shape</code> is written — an annotated binding, a declared parameter or
+result, a field, a <code>var</code> of a declared type — and inside a list, a tuple
+or an <code>if</code> written there, each part on its own. Nowhere else is a type
+guessed: <code>[Rect(1.0, 1.0), Circle(1.0)]</code> with nothing written is refused,
+with where to write the type. Lists do not take subtypes: a <code>[Square]</code>
+is not a <code>[Shape]</code>.</p>
+<p><strong>A method call needs the class.</strong> <code>x.m()</code> and <code>x.f</code> are checked where
+the type of <code>x</code> is known there; a parameter with no type a body calls a
+method on is refused with “annotate it”, as a struct’s field is.</p>
+<p><strong>Class patterns.</strong> <code>case Square(side):</code> matches an object of that class
+or one below it, its header’s fields matched as a struct’s are; <code>case c: Circle:</code> binds the object at its class or interface. A <code>match</code> on an
+interface or a class others extend needs a <code>case _</code> (or a case for the
+type itself), since there may be other classes:</p>
+<div class="pkn-notebook pkn-embedded not-content"><div class="pkn-cell"><pre class="pkn-cell-fallback"><code>use objects
+
+interface Pet:
+    def name(self) -> String
+
+class Dog(called: String, age: Int) implements Pet:
+    override def name(self) -> String:
+        self.called
+
+class Cat(called: String) implements Pet:
+    override def name(self) -> String:
+        self.called
+
+def describe(p: Pet) -> String:
+    match p:
+        case Dog(n, age) if age > 10:
+            "an old dog, " + n
+        case c: Cat:
+            "a cat called " + c.name()
+        case _:
+            p.name()
+
+print(describe(Dog("Rex", 12)))   # an old dog, Rex
+print(describe(Dog("Fido", 3)))   # Fido
+print(describe(Cat("Tom")))       # a cat called Tom</code></pre></div></div>
+<p><strong>Targets.</strong> Every target compiles them, each in its own idiom:</p>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<table><thead><tr><th>Target</th><th>A class is</th></tr></thead><tbody><tr><td>Python</td><td>a class (an <code>abc.ABC</code> for an interface or abstract class), its methods defs named for it at the top level and given as attributes</td></tr><tr><td>JavaScript, web</td><td>an ES class, an interface’s defaults copied into the classes without them</td></tr><tr><td>Java</td><td>a nested class, an interface a Java interface with <code>default</code> methods</td></tr><tr><td>OCaml</td><td>a class type, objects immediate objects built by a function, each method a function taking <code>self</code></td></tr><tr><td>C</td><td>a struct starting with its class descriptor, a method table per class, one slot per method name</td></tr><tr><td>interpreter</td><td>a value with its class’s name and fields; methods kept by name</td></tr></tbody></table>
+<p>A class is used in the module declaring it: <code>public class</code> is refused
+for now, since what another module would need of one is not written yet.</p>
+<p>A generic class is not compiled to C, which would need one copy of it per
+type, and OCaml cannot write a generic class whose method gives the class
+at other type arguments than its own (<code>swap</code> answering <code>Pair(b, a)</code>):
+both are refused with a message saying so.</p>
 <h3 id="ifmatch-statements-as-bound-values"><code>if</code>/<code>match</code> statements as bound values</h3>
 <p>An <code>=</code> binding may take a block-form <code>if</code> or <code>match</code> on its right-hand
 side instead of an expression. The construct stays a statement — it is
@@ -3780,14 +4228,16 @@ under Pyking’s ordinary lexical scoping.</p>
 
 
 
-<table><thead><tr><th>operator</th><th>accepts</th><th>gives</th></tr></thead><tbody><tr><td><code>+</code></td><td>two <code>Int</code>s, two <code>Float</code>s, two <code>String</code>s, or two lists of one type</td><td>what the operands are</td></tr><tr><td><code>-</code>, <code>*</code>, <code>/</code>, <code>%</code>, <code>^</code></td><td>two <code>Int</code>s or two <code>Float</code>s</td><td>what the operands are</td></tr><tr><td><code>-</code> (unary)</td><td>an <code>Int</code> or a <code>Float</code></td><td>what the operand is</td></tr><tr><td><code>&#x3C;</code>, <code>&#x3C;=</code>, <code>></code>, <code>>=</code></td><td>two <code>Int</code>s or two <code>Float</code>s</td><td><code>Bool</code></td></tr><tr><td><code>==</code>, <code>!=</code></td><td>two <code>Int</code>s, <code>Float</code>s, <code>String</code>s or <code>Bool</code>s</td><td><code>Bool</code></td></tr><tr><td><code>and</code>, <code>or</code>, <code>xor</code></td><td>two <code>Bool</code>s (logic), or two <code>Int</code>s (bitwise)</td><td>what the operands are</td></tr><tr><td><code>not</code></td><td>a <code>Bool</code>, or an <code>Int</code></td><td>what the operand is</td></tr><tr><td><code>&#x26;&#x26;</code>, <code>!</code> and or-or</td><td><code>Bool</code>s</td><td><code>Bool</code></td></tr><tr><td><code>&#x26;</code>, <code>&#x3C;&#x3C;</code>, <code>>></code>, bitwise or</td><td>two <code>Int</code>s</td><td><code>Int</code></td></tr><tr><td><code>~</code></td><td>an <code>Int</code></td><td><code>Int</code></td></tr><tr><td><code>xs[i]</code></td><td>a list <code>[a]</code> and an <code>Int</code></td><td><code>a</code></td></tr></tbody></table>
+<table><thead><tr><th>operator</th><th>accepts</th><th>gives</th></tr></thead><tbody><tr><td><code>+</code></td><td>two <code>Int</code>s, two <code>Float</code>s, two <code>String</code>s, or two lists of one type</td><td>what the operands are</td></tr><tr><td><code>-</code>, <code>*</code>, <code>/</code>, <code>%</code>, <code>^</code></td><td>two <code>Int</code>s or two <code>Float</code>s</td><td>what the operands are</td></tr><tr><td><code>-</code> (unary)</td><td>an <code>Int</code> or a <code>Float</code></td><td>what the operand is</td></tr><tr><td><code>&#x3C;</code>, <code>&#x3C;=</code>, <code>></code>, <code>>=</code></td><td>two <code>Int</code>s or two <code>Float</code>s</td><td><code>Bool</code></td></tr><tr><td><code>==</code>, <code>!=</code></td><td>two <code>Int</code>s, <code>Float</code>s, <code>String</code>s or <code>Bool</code>s</td><td><code>Bool</code></td></tr><tr><td><code>and</code>, <code>or</code>, <code>xor</code></td><td>two <code>Bool</code>s (logic), or two <code>Int</code>s (bitwise)</td><td>what the operands are</td></tr><tr><td><code>not</code></td><td>a <code>Bool</code>, or an <code>Int</code></td><td>what the operand is</td></tr><tr><td><code>&#x26;&#x26;</code>, <code>!</code> and or-or</td><td><code>Bool</code>s</td><td><code>Bool</code></td></tr><tr><td><code>&#x26;</code>, <code>&#x3C;&#x3C;</code>, <code>>></code>, bitwise or</td><td>two <code>Int</code>s</td><td><code>Int</code></td></tr><tr><td><code>~</code></td><td>an <code>Int</code></td><td><code>Int</code></td></tr><tr><td><code>xs[i]</code></td><td>a list <code>[a]</code>, an array, a DynArray, a view or a <code>String</code>, and an <code>Int</code></td><td>the element (a <code>Char</code> for a <code>String</code>)</td></tr></tbody></table>
 <p>(Bitwise or is <code>|</code> and the Bool or is <code>||</code>; a <code>|</code> cannot be written
 inside a Markdown table cell.)</p>
 <p>So <code>1 + 'a'</code> is an error — <code>+</code> converts nothing — and so is
 <code>1 == 'a'</code>: a comparison of two different types is refused rather than
 answered <code>false</code>. Where nothing has decided its operands, <code>and</code>, <code>or</code>
-and <code>not</code> are Bool logic, and <code>+</code> waits for a use to decide it and adds
-two Ints if nothing does.</p>
+and <code>not</code> are Bool logic, <code>+</code> waits for a use to decide it and adds
+two Ints if nothing does, and <code>xs[i]</code> leaves the kind of <code>xs</code> to the
+first call and indexes a list if nothing decides it (“Functions without
+annotations”).</p>
 <p><strong>Bindings and expression statements.</strong> An <code>=</code> binding takes the type of
 its right-hand side, and that is what its name means to the statements
 that follow. An expression statement has its expression’s type, which is
@@ -3976,7 +4426,7 @@ def is_odd(n:Int) -> Bool:
 <em>against</em>, and a body that does not honour it is refused. The same
 applies to nested functions, per block.</p>
 <p><strong>Builtins.</strong> <code>print</code>, <code>debug</code>, <code>range</code>, <code>string</code>, <code>len</code>, <code>int</code>,
-<code>float</code>, <code>bool</code> and <code>char</code> are checked at the call, each by its own rule,
+<code>float</code>, <code>bool</code>, <code>char</code> and <code>panic</code> are checked at the call, each by its own rule,
 because none of them is a function <em>value</em>: a builtin is a host operation (see “Names
 and scoping”), it has no type that can be written down, and it may be
 called and nothing else.</p>
@@ -4035,7 +4485,12 @@ called and nothing else.</p>
 
 
 
-<table><thead><tr><th>call</th><th>accepts</th><th>gives</th></tr></thead><tbody><tr><td><code>print(…)</code></td><td>any number of arguments, of any type</td><td><code>()</code></td></tr><tr><td><code>debug(…)</code></td><td>any number of arguments, of any type</td><td><code>()</code></td></tr><tr><td><code>string(x)</code></td><td>one <code>Int</code>, <code>Float</code>, <code>String</code>, <code>Char</code>, <code>Bool</code>, list or tuple</td><td><code>String</code></td></tr><tr><td><code>len(x)</code></td><td>one list or <code>String</code> (counted in characters)</td><td><code>Int</code></td></tr><tr><td><code>range(n)</code></td><td>one to three <code>Int</code>s</td><td><code>[Int]</code></td></tr><tr><td><code>int(x)</code></td><td>one <code>Int</code>, <code>Float</code>, <code>String</code>, <code>Char</code> or <code>Bool</code></td><td><code>Int</code></td></tr><tr><td><code>float(x)</code></td><td>one <code>Int</code>, <code>Float</code>, <code>String</code>, <code>Char</code> or <code>Bool</code></td><td><code>Float</code></td></tr><tr><td><code>bool(x)</code></td><td>one <code>Int</code>, <code>Float</code>, <code>String</code>, <code>Char</code> or <code>Bool</code></td><td><code>Bool</code></td></tr><tr><td><code>char(x)</code></td><td>one <code>Int</code>, <code>String</code> or <code>Char</code></td><td><code>Char</code></td></tr></tbody></table>
+
+
+
+
+
+<table><thead><tr><th>call</th><th>accepts</th><th>gives</th></tr></thead><tbody><tr><td><code>print(…)</code></td><td>any number of arguments, of any type</td><td><code>()</code></td></tr><tr><td><code>debug(…)</code></td><td>any number of arguments, of any type</td><td><code>()</code></td></tr><tr><td><code>string(x)</code></td><td>one <code>Int</code>, <code>Float</code>, <code>String</code>, <code>Char</code>, <code>Bool</code>, list or tuple</td><td><code>String</code></td></tr><tr><td><code>len(x)</code></td><td>one list, array, DynArray, view, Map, MutMap or <code>String</code> (counted in characters)</td><td><code>Int</code></td></tr><tr><td><code>panic(m)</code></td><td>one <code>String</code>: stops the program with it as a runtime error</td><td>any type, since it never answers</td></tr><tr><td><code>range(n)</code></td><td>one to three <code>Int</code>s</td><td><code>[Int]</code></td></tr><tr><td><code>int(x)</code></td><td>one <code>Int</code>, <code>Float</code>, <code>String</code>, <code>Char</code> or <code>Bool</code></td><td><code>Int</code></td></tr><tr><td><code>float(x)</code></td><td>one <code>Int</code>, <code>Float</code>, <code>String</code>, <code>Char</code> or <code>Bool</code></td><td><code>Float</code></td></tr><tr><td><code>bool(x)</code></td><td>one <code>Int</code>, <code>Float</code>, <code>String</code>, <code>Char</code> or <code>Bool</code></td><td><code>Bool</code></td></tr><tr><td><code>char(x)</code></td><td>one <code>Int</code>, <code>String</code> or <code>Char</code></td><td><code>Char</code></td></tr></tbody></table>
 <div class="pkn-notebook pkn-embedded not-content"><div class="pkn-cell"><pre class="pkn-cell-fallback"><code>count = len("hello")          # Int
 label = "n = " + string(count)   # String
 numbers = range(4)            # [Int]
@@ -4147,6 +4602,11 @@ ones are refused. And a variable is <strong>rigid inside the body that
 declares it</strong> — the body knows nothing about <code>a</code> beyond its being some
 type, so <code>x + 1</code> on an <code>a</code> is an error where it is written rather than
 at whichever call turned out to be wrong.</p>
+<p><strong>Inside that body, an annotation’s <code>a</code> is the definition’s <code>a</code>.</strong> A
+binding annotated with one of the type variables the enclosing
+definition’s own types hold means that one, not a new one: in <code>def f(xs: [a]) -> [a]</code>, <code>out: DynArray(a) = dynarray()</code> is a DynArray of
+whatever <code>xs</code> holds. This is how <code>-t pyking</code> writes the types it worked
+out back into a generic body.</p>
 <p><strong>A type may be written on a line of its own.</strong> <code>def name : type</code> gives
 the type of the <code>def name(...)</code> in the same block; the two need not be
 adjacent, and the definition then writes no annotations of its own,
@@ -4346,6 +4806,37 @@ print(announce(1))           # announce : (Int) -> String
                              #        was expected</code></pre></div></div>
 <p>That is a real limit rather than an oversight, and a written annotation
 would not help either, because there is none to write.</p>
+<p><strong>A parameter that is indexed takes its kind from the first call.</strong>
+<code>xs[i]</code>, <code>xs[i] := v</code>, <code>xs[i:j]</code>, <code>for x in xs</code> and a comprehension over
+<code>xs</code> work on several kinds of store — a list, an array, a DynArray, a
+view and a String — so a body that only does those leaves the <em>kind</em>
+open, and the first call settles it. The <em>element</em> type is not fixed:
+it is generalised as any other type is, so one definition serves lists
+of Ints and lists of Strings once its first call has said “a list”:</p>
+<div class="pkn-notebook pkn-embedded not-content"><div class="pkn-cell"><pre class="pkn-cell-fallback"><code>use mutation
+
+def vec_add(v1, v2):
+    res = array(len(v1), 0)
+    for i in range(len(v1)):
+        res[i] := v1[i] + v2[i]
+    return res
+
+
+def first(xs):
+    xs[0]
+
+
+print(vec_add(array([2, 5]), array([3, 4])))    # array([5, 9])
+print(first([1, 2]), first(["a", "b"]))         # 1 a
+# print(first(array([1])))   # error: argument 1 has type Array(Int), but
+                             #   [a] was expected: first's parameter xs was
+                             #   fixed to a list by its first call, at line 15</code></pre></div></div>
+<p>A body narrows what its first call may pass: one that writes <code>xs[i]</code>
+allows an array, a DynArray or a view, and one that slices <code>xs</code> allows
+anything but a view (whose slice is an array). Until a call decides
+it, such a parameter shows as <code>Indexed(a)</code>; one nothing ever decides —
+a definition never called, or only handed on — is a list, or an array
+where the body writes it.</p>
 <p><strong>A parameter is not generalised.</strong> A parameter used at <em>two</em> types
 inside one body would have to be polymorphic itself, and inference does
 not invent that — a <code>def</code> gets a type variable, a parameter gets a type:</p>

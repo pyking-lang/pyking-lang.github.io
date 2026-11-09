@@ -37,9 +37,10 @@ function pykFormatHolder(value, path) {
     return 'array([' + value.map((element) => pykFormat(element, true, path)).join(', ') + '])';
   }
   // A MutMap is a Map of [key, value] entries (`pykMutMap` in the compiled
-  // program), each printed as the tuple it is.
+  // program), each printed as the tuple it is; a Pyking Map is one
+  // marked `pykMap` too.
   if (value.pykMutMap === true) {
-    return 'mutmap([' + Array.from(value.values(), (entry) => pykFormat(entry, true, path)).join(', ') + '])';
+    return (value.pykMap === true ? 'map([' : 'mutmap([') + Array.from(value.values(), (entry) => pykFormat(entry, true, path)).join(', ') + '])';
   }
   // A pointer prints as what it points at now.
   if (value.pykPtr === true) return 'Ptr(' + pykFormat(value.get(), true, path) + ')';
@@ -57,6 +58,8 @@ function pykFormatHolder(value, path) {
     const parts = value.map((element) => pykFormat(element, true, path));
     return parts.length === 1 ? '(' + parts[0] + ',)' : '(' + parts.join(', ') + ')';
   }
+  // An object whose class has `show` prints what it says.
+  if (value.pykShow === true) return value.show();
   // A datatype's value, or a `var struct`'s: its constructor and its
   // fields by position, each Float one written as a Float where the
   // compiler said so.
@@ -146,9 +149,11 @@ function pykShapeParts(body) {
 // `f` is a Float, `c` a Char (a code point), `.` anything pykFormat
 // already prints right, `[s]` a list of s, `{s}` an array of s, `<s>`
 // a DynArray of s, `v{s}` a view of s, `p(s)` a pointer to s, `@(k,v)` a
-// MutMap whose entries are (k, v), and `(s,s)` a tuple. `path` is pykFormat's: a value can only reach
-// itself through a datatype's value, which is a `.` here, so the
-// guard is pykFormat's alone and this passes the path on.
+// MutMap or Map whose entries are (k, v), `(s,s)` a tuple, and `d(s,s)` a
+// datatype's value whose type arguments are s, s -- its fields read
+// through its constructor's template (`pykFields`), where `$i` is the
+// i-th argument. `path` is pykFormat's: a value can only reach itself
+// through a datatype's value, which guards it as pykFormat does.
 function pykShaped(value, shape, inner, path = []) {
   if (shape === 'f') return pykFloatStr(value);
   if (shape === 'c') return inner ? pykQuoteChar(value) : String.fromCodePoint(value);
@@ -158,9 +163,23 @@ function pykShaped(value, shape, inner, path = []) {
     const items = value.owner.slice(value.offset, value.offset + value.length);
     return 'view([' + items.map((e) => pykShaped(e, shape.slice(2, -1), true, path)).join(', ') + '])';
   }
+  if (shape[0] === 'd') {
+    const fields = value !== null && typeof value === 'object' ? value.pykFields : undefined;
+    if (fields === undefined || fields === null) return pykFormat(value, inner, path);
+    const values = value.pykValues;
+    if (values.length === 0) return value.pykTag;
+    if (path.includes(value)) return '...';
+    const args = pykShapeParts(shape.slice(2, -1));
+    const shapes = pykShapeParts(fields.slice(1, -1))
+      .map((s) => s.replace(/\$(\d+)/g, (_, i) => args[Number(i)] ?? '.'));
+    path.push(value);
+    const parts = values.map((e, i) => pykShaped(e, shapes[i], true, path));
+    path.pop();
+    return value.pykTag + '(' + parts.join(', ') + ')';
+  }
   if (shape[0] === '@') {
     const entry = shape.slice(1);
-    return 'mutmap([' + Array.from(value.values(), (e) => pykShaped(e, entry, true, path)).join(', ') + '])';
+    return (value.pykMap === true ? 'map([' : 'mutmap([') + Array.from(value.values(), (e) => pykShaped(e, entry, true, path)).join(', ') + '])';
   }
   const body = shape.slice(1, -1);
   if (shape[0] === '[') {

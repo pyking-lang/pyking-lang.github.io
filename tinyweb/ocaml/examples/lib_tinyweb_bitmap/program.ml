@@ -13,40 +13,40 @@ let pyk_float_str x =
     if a = 0.0 then sign ^ "0.0"
     else
       let rec shortest p =
-        let s = Printf.sprintf "%.*e" p a in
+        let s = Stdlib.Printf.sprintf "%.*e" p a in
         if p >= 16 || float_of_string s = a then s else shortest (p + 1)
       in
       let s = shortest 0 in
-      let at = String.index s 'e' in
+      let at = Stdlib.String.index s 'e' in
       let digits =
-        String.concat "" (String.split_on_char '.' (String.sub s 0 at))
+        Stdlib.String.concat "" (Stdlib.String.split_on_char '.' (Stdlib.String.sub s 0 at))
       in
       let rec trim n =
         if n > 1 && digits.[n - 1] = '0' then trim (n - 1) else n
       in
-      let digits = String.sub digits 0 (trim (String.length digits)) in
-      let len = String.length digits in
+      let digits = Stdlib.String.sub digits 0 (trim (Stdlib.String.length digits)) in
+      let len = Stdlib.String.length digits in
       let decpt =
-        int_of_string (String.sub s (at + 1) (String.length s - at - 1))
+        int_of_string (Stdlib.String.sub s (at + 1) (Stdlib.String.length s - at - 1))
         + 1
       in
-      let zeros n = String.make (max 0 n) '0' in
+      let zeros n = Stdlib.String.make (max 0 n) '0' in
       if decpt <= -4 || decpt > 16 then
         let mantissa =
           if len = 1 then digits
-          else String.sub digits 0 1 ^ "." ^ String.sub digits 1 (len - 1)
+          else Stdlib.String.sub digits 0 1 ^ "." ^ Stdlib.String.sub digits 1 (len - 1)
         in
         sign ^ mantissa ^ "e" ^ string_of_int (decpt - 1)
       else if decpt <= 0 then sign ^ "0." ^ zeros (-decpt) ^ digits
       else if decpt >= len then sign ^ digits ^ zeros (decpt - len) ^ ".0"
       else
-        sign ^ String.sub digits 0 decpt ^ "."
-        ^ String.sub digits decpt (len - decpt)
+        sign ^ Stdlib.String.sub digits 0 decpt ^ "."
+        ^ Stdlib.String.sub digits decpt (len - decpt)
 
 let pyk_truncate x =
-  if Float.is_nan x then 0
+  if Stdlib.Float.is_nan x then 0
   else
-    let t = Float.trunc x in
+    let t = Stdlib.Float.trunc x in
     if t < -2147483648.0 || t > 2147483647.0 then 0 else int_of_float t
 
 let () = Tinyweb.web_init 0
@@ -70,8 +70,8 @@ let () =
           | [] -> ()
           | x :: tmp9 -> (Tinyweb.bitmap__set_pixel b x y (Tinyweb.color__rgb (x * 16) (y * 25) 128);
       tmp7 () tmp9) in
-    tmp7 () (List.init (max 0 16) Fun.id)) tmp6 in
-  tmp4 () (List.init (max 0 10) Fun.id);
+    tmp7 () (Stdlib.List.init (max 0 16) Stdlib.Fun.id)) tmp6 in
+  tmp4 () (Stdlib.List.init (max 0 10) Stdlib.Fun.id);
   Tinyweb.bitmap__show_bitmap c b 0 0 10.0
 
 let orange = Tinyweb.color__rgb 255 136 0

@@ -1,0 +1,1667 @@
+<!DOCTYPE html><html lang="en" dir="ltr" data-theme="dark" data-has-sidebar class="astro-g5ptsecz"><head><meta charset="utf-8"/><meta name="viewport" content="width=device-width, initial-scale=1"/><title>list | Pyking</title><link rel="canonical" href="https://pyking.org/libraries/list/"/><link rel="sitemap" href="/sitemap-index.xml"/><script src="/v/42683900f13c/site/shell.js" data-base data-build="42683900f13c" data-sections="[{&quot;key&quot;:&quot;install&quot;,&quot;label&quot;:&quot;Install&quot;,&quot;prefix&quot;:&quot;/install/&quot;},{&quot;key&quot;:&quot;getstarted&quot;,&quot;label&quot;:&quot;Getting started&quot;,&quot;prefix&quot;:&quot;/getstarted/&quot;},{&quot;key&quot;:&quot;documentation&quot;,&quot;label&quot;:&quot;Documentation&quot;,&quot;prefix&quot;:&quot;/documentation/&quot;},{&quot;key&quot;:&quot;libraries&quot;,&quot;label&quot;:&quot;Libraries&quot;,&quot;prefix&quot;:&quot;/libraries/&quot;},{&quot;key&quot;:&quot;playground&quot;,&quot;label&quot;:&quot;Playground&quot;,&quot;prefix&quot;:&quot;/playground/&quot;}]"></script><script type="module" src="/v/42683900f13c/site/cells.js"></script><script>try { if (localStorage.getItem('starlight-theme') === null) localStorage.setItem('starlight-theme', 'dark'); } catch (e) {}</script><link rel="shortcut icon" href="/v/42683900f13c/site/favicon.svg" type="image/svg+xml"/><meta name="generator" content="Astro v7.3.5"/><meta name="generator" content="Starlight v0.42.5"/><meta property="og:title" content="list"/><meta property="og:type" content="article"/><meta property="og:url" content="https://pyking.org/libraries/list/"/><meta property="og:locale" content="en"/><meta property="og:description" content="Lists: taking parts, searching, combining, counting and sorting them."/><meta property="og:site_name" content="Pyking"/><meta name="twitter:card" content="summary_large_image"/><meta name="description" content="Lists: taking parts, searching, combining, counting and sorting them."/><script>
+	window.StarlightThemeProvider = (() => {
+		const storedTheme =
+			typeof localStorage !== 'undefined' && localStorage.getItem('starlight-theme');
+		const theme =
+			storedTheme ||
+			(window.matchMedia('(prefers-color-scheme: light)').matches ? 'light' : 'dark');
+		document.documentElement.dataset.theme = theme === 'light' ? 'light' : 'dark';
+		return {
+			updatePickers(theme = storedTheme || 'auto') {
+				document.querySelectorAll('starlight-theme-select').forEach((picker) => {
+					const select = picker.querySelector('select');
+					if (select) select.value = theme;
+					/** @type {HTMLTemplateElement | null} */
+					const tmpl = document.querySelector(`#theme-icons`);
+					const newIcon = tmpl && tmpl.content.querySelector('.' + theme);
+					if (newIcon) {
+						const oldIcon = picker.querySelector('svg.label-icon');
+						if (oldIcon) {
+							oldIcon.replaceChildren(...newIcon.cloneNode(true).childNodes);
+						}
+					}
+				});
+			},
+		};
+	})();
+</script><template id="theme-icons"><svg aria-hidden="true" class="light astro-hkc32dio" width="16" height="16" viewBox="0 0 24 24" fill="currentColor" style="--sl-icon-size: 1em;"><path d="M5 12a1 1 0 0 0-1-1H3a1 1 0 0 0 0 2h1a1 1 0 0 0 1-1Zm.64 5-.71.71a1 1 0 0 0 0 1.41 1 1 0 0 0 1.41 0l.71-.71A1 1 0 0 0 5.64 17ZM12 5a1 1 0 0 0 1-1V3a1 1 0 0 0-2 0v1a1 1 0 0 0 1 1Zm5.66 2.34a1 1 0 0 0 .7-.29l.71-.71a1 1 0 1 0-1.41-1.41l-.66.71a1 1 0 0 0 0 1.41 1 1 0 0 0 .66.29Zm-12-.29a1 1 0 0 0 1.41 0 1 1 0 0 0 0-1.41l-.71-.71a1.004 1.004 0 1 0-1.43 1.41l.73.71ZM21 11h-1a1 1 0 0 0 0 2h1a1 1 0 0 0 0-2Zm-2.64 6A1 1 0 0 0 17 18.36l.71.71a1 1 0 0 0 1.41 0 1 1 0 0 0 0-1.41l-.76-.66ZM12 6.5a5.5 5.5 0 1 0 5.5 5.5A5.51 5.51 0 0 0 12 6.5Zm0 9a3.5 3.5 0 1 1 0-7 3.5 3.5 0 0 1 0 7Zm0 3.5a1 1 0 0 0-1 1v1a1 1 0 0 0 2 0v-1a1 1 0 0 0-1-1Z"/></svg><svg aria-hidden="true" class="dark astro-hkc32dio" width="16" height="16" viewBox="0 0 24 24" fill="currentColor" style="--sl-icon-size: 1em;"><path d="M21.64 13a1 1 0 0 0-1.05-.14 8.049 8.049 0 0 1-3.37.73 8.15 8.15 0 0 1-8.14-8.1 8.59 8.59 0 0 1 .25-2A1 1 0 0 0 8 2.36a10.14 10.14 0 1 0 14 11.69 1 1 0 0 0-.36-1.05Zm-9.5 6.69A8.14 8.14 0 0 1 7.08 5.22v.27a10.15 10.15 0 0 0 10.14 10.14 9.784 9.784 0 0 0 2.1-.22 8.11 8.11 0 0 1-7.18 4.32v-.04Z"/></svg><svg aria-hidden="true" class="auto astro-hkc32dio" width="16" height="16" viewBox="0 0 24 24" fill="currentColor" style="--sl-icon-size: 1em;"><path d="M21 14h-1V7a3 3 0 0 0-3-3H7a3 3 0 0 0-3 3v7H3a1 1 0 0 0-1 1v2a3 3 0 0 0 3 3h14a3 3 0 0 0 3-3v-2a1 1 0 0 0-1-1ZM6 7a1 1 0 0 1 1-1h10a1 1 0 0 1 1 1v7H6V7Zm14 10a1 1 0 0 1-1 1H5a1 1 0 0 1-1-1v-1h16v1Z"/></svg></template><link rel="stylesheet" href="/_astro/print.ehPL0gv-.css" media="print"><link rel="stylesheet" href="/_astro/middleware.CytdhB19.css"><script type="module" src="/_astro/page.Dwipeu-R.js"></script></head><body class="astro-g5ptsecz"><a class="sl-skip-link astro-qb7clj6f" href="#_top">Skip to content</a><div class="page sl-flex astro-yntsjkba"><header class="header astro-yntsjkba"><div class="pyking-header"><div class="pyking-header-left"><a href="/" class="site-title sl-flex astro-6rvad3va"><img class="astro-6rvad3va" alt="Pyking" src="/_astro/logo.C9hvHOpV.svg" width="64" height="64"><span class="astro-6rvad3va" translate="no">Pyking</span></a><nav class="pyking-nav" aria-label="Sections"><a href="/install/">Install</a><a href="/getstarted/overview/">Getting started</a><a href="/documentation/language/">Documentation</a><a href="/libraries/" aria-current="page">Libraries</a><a href="/playground/">Playground</a></nav></div><div class="pyking-header-right print:hidden"><site-search class=" astro-b5kgnn7o" data-translations="{&quot;placeholder&quot;:&quot;Search&quot;}"><button data-open-modal disabled aria-label="Search" aria-keyshortcuts="Control+K" class="astro-b5kgnn7o"><svg aria-hidden="true" class="astro-b5kgnn7o astro-hkc32dio" width="16" height="16" viewBox="0 0 24 24" fill="currentColor" style="--sl-icon-size: 1em;"><path d="M21.71 20.29 18 16.61A9 9 0 1 0 16.61 18l3.68 3.68a.999.999 0 0 0 1.42 0 1 1 0 0 0 0-1.39ZM11 18a7 7 0 1 1 0-14 7 7 0 0 1 0 14Z"/></svg><span class="sl-hidden md:sl-block astro-b5kgnn7o" aria-hidden="true">Search</span><kbd class="sl-hidden md:sl-flex astro-b5kgnn7o" style="display: none;"><kbd class="astro-b5kgnn7o">Ctrl</kbd><kbd class="astro-b5kgnn7o">K</kbd></kbd></button><dialog style="padding:0" aria-label="Search" class="astro-b5kgnn7o"><div class="dialog-frame sl-flex astro-b5kgnn7o"><button data-close-modal class="sl-flex md:sl-hidden astro-b5kgnn7o">Cancel</button><div class="search-container astro-b5kgnn7o"><div id="starlight__search" class="astro-b5kgnn7o"></div></div></div></dialog></site-search><script>
+	(() => {
+		const openBtn = document.querySelector('button[data-open-modal]');
+		const shortcut = openBtn?.querySelector('kbd');
+		if (!openBtn || !(shortcut instanceof HTMLElement)) return;
+		const platformKey = shortcut.querySelector('kbd');
+		if (platformKey && /(Mac|iPhone|iPod|iPad)/i.test(navigator.platform)) {
+			platformKey.textContent = '⌘';
+			openBtn.setAttribute('aria-keyshortcuts', 'Meta+K');
+		}
+		shortcut.style.display = '';
+	})();
+</script><script type="module" src="/_astro/Search.astro_astro_type_script_index_0_lang.Bumivpjo.js"></script><div class="sl-hidden md:sl-flex"><starlight-theme-select><label style="--sl-select-width: 6.25em" class="astro-2z5xp7gb"><span class="sr-only astro-2z5xp7gb">Select theme</span><svg aria-hidden="true" class="icon label-icon astro-2z5xp7gb astro-hkc32dio" width="16" height="16" viewBox="0 0 24 24" fill="currentColor" style="--sl-icon-size: 1em;"><path d="M21 14h-1V7a3 3 0 0 0-3-3H7a3 3 0 0 0-3 3v7H3a1 1 0 0 0-1 1v2a3 3 0 0 0 3 3h14a3 3 0 0 0 3-3v-2a1 1 0 0 0-1-1ZM6 7a1 1 0 0 1 1-1h10a1 1 0 0 1 1 1v7H6V7Zm14 10a1 1 0 0 1-1 1H5a1 1 0 0 1-1-1v-1h16v1Z"/></svg><select autocomplete="off" class="astro-2z5xp7gb"><option value="dark" class="astro-2z5xp7gb">Dark</option><option value="light" class="astro-2z5xp7gb">Light</option><option value="auto" selected class="astro-2z5xp7gb">Auto</option></select><svg aria-hidden="true" class="icon caret astro-2z5xp7gb astro-hkc32dio" width="16" height="16" viewBox="0 0 24 24" fill="currentColor" style="--sl-icon-size: 1em;"><path d="M17 9.17a1 1 0 0 0-1.41 0L12 12.71 8.46 9.17a1 1 0 1 0-1.41 1.42l4.24 4.24a1.002 1.002 0 0 0 1.42 0L17 10.59a1.002 1.002 0 0 0 0-1.42Z"/></svg></label></starlight-theme-select><script>
+	StarlightThemeProvider.updatePickers();
+</script><script type="module">var e=`starlight-theme`,t=e=>e===`auto`||e===`dark`||e===`light`?e:`auto`,n=()=>t(typeof localStorage<`u`&&localStorage.getItem(e));function r(t){typeof localStorage<`u`&&localStorage.setItem(e,t===`light`||t===`dark`?t:``)}var i=()=>matchMedia(`(prefers-color-scheme: light)`).matches?`light`:`dark`;function a(e){StarlightThemeProvider.updatePickers(e),document.documentElement.dataset.theme=e===`auto`?i():e,r(e)}matchMedia(`(prefers-color-scheme: light)`).addEventListener(`change`,()=>{n()===`auto`&&a(`auto`)});var o=class extends HTMLElement{constructor(){super(),a(n()),this.querySelector(`select`)?.addEventListener(`change`,e=>{e.currentTarget instanceof HTMLSelectElement&&a(t(e.currentTarget.value))})}};customElements.define(`starlight-theme-select`,o);</script></div><a class="pyking-github" href="https://github.com/pyking-lang" title="Pyking on GitHub"><span class="sr-only">GitHub</span><svg aria-hidden="true" viewBox="0 0 24 24" width="22" height="22" fill="currentColor"><path d="M12 .3a12 12 0 0 0-3.8 23.4c.6.1.8-.3.8-.6v-2c-3.3.7-4-1.6-4-1.6-.6-1.4-1.4-1.8-1.4-1.8-1-.7.1-.7.1-.7 1.2.1 1.8 1.2 1.8 1.2 1 1.8 2.8 1.3 3.5 1 0-.8.4-1.3.7-1.6-2.7-.3-5.5-1.3-5.5-6 0-1.2.5-2.3 1.3-3.1-.2-.4-.6-1.6 0-3.2 0 0 1-.3 3.4 1.2a11.5 11.5 0 0 1 6 0c2.3-1.5 3.3-1.2 3.3-1.2.6 1.6.2 2.8.1 3.2.8.8 1.3 1.9 1.3 3.1 0 4.6-2.8 5.6-5.5 5.9.5.4.9 1.1.9 2.2v3.3c0 .3.1.7.8.6A12 12 0 0 0 12 .3"></path></svg></a></div></div></header><nav class="sidebar print:hidden astro-yntsjkba" aria-label="Main"><button popovertarget="starlight__sidebar" class="sl-menu-button sl-flex md:sl-hidden print:hidden astro-r2osgdlg"><svg aria-hidden="true" class="open-menu astro-r2osgdlg astro-hkc32dio" width="16" height="16" viewBox="0 0 24 24" fill="currentColor" style="--sl-icon-size: 1em;"><path d="M3 8h18a1 1 0 1 0 0-2H3a1 1 0 0 0 0 2Zm18 8H3a1 1 0 0 0 0 2h18a1 1 0 0 0 0-2Zm0-5H3a1 1 0 0 0 0 2h18a1 1 0 0 0 0-2Z"/></svg><svg aria-hidden="true" class="close-menu astro-r2osgdlg astro-hkc32dio" width="16" height="16" viewBox="0 0 24 24" fill="currentColor" style="--sl-icon-size: 1em;"><path d="m13.41 12 6.3-6.29a1.004 1.004 0 1 0-1.42-1.42L12 10.59l-6.29-6.3a1.004 1.004 0 0 0-1.42 1.42l6.3 6.29-6.3 6.29a1 1 0 0 0 0 1.42.998.998 0 0 0 1.42 0l6.29-6.3 6.29 6.3a.999.999 0 0 0 1.42 0 1 1 0 0 0 0-1.42L13.41 12Z"/></svg><span class="sr-only astro-r2osgdlg">Menu</span></button><script type="module">var e=class extends HTMLElement{constructor(){super();let e=matchMedia(`(min-width: 50em)`),t=()=>{this.popover=e.matches?null:`auto`};t(),e.addEventListener(`change`,()=>t()),this.addEventListener(`toggle`,({newState:e})=>this.trapFocus(e===`open`))}trapFocus(e){document.querySelectorAll(`.main-frame, .sl-skip-link`).forEach(t=>{t.toggleAttribute(`inert`,e)})}};customElements.define(`sl-sidebar-pane`,e);</script><script type="module">var e=class extends HTMLElement{constructor(){super();let e=this.querySelector(`select`);e&&(e.addEventListener(`change`,e=>{e.currentTarget instanceof HTMLSelectElement&&(window.location.pathname=e.currentTarget.value)}),window.addEventListener(`pageshow`,t=>{if(!t.persisted)return;let n=e.querySelector(`option[selected]`)?.index;n!==e.selectedIndex&&(e.selectedIndex=n??0)}))}};customElements.define(`starlight-lang-select`,e);</script><sl-sidebar-pane popover id="starlight__sidebar" class="sidebar-pane astro-yntsjkba"><div class="sidebar-content sl-flex astro-yntsjkba"><nav class="pyking-sidebar" aria-label="Libraries"><p class="pyking-sidebar-title">Libraries</p><ul><li><a href="/libraries/">Overview</a></li><li><a href="/libraries/array/">array</a></li><li><a href="/libraries/dynarray/">dynarray</a></li><li><a href="/libraries/fs/">fs</a></li><li><a href="/libraries/io/">io</a></li><li><a href="/libraries/list/" aria-current="page">list</a><ul class="pyking-sidebar-headings"><li><a href="#boolcontains">bool::contains</a></li><li><a href="#boolgroup">bool::group</a></li><li><a href="#boolindex_of">bool::index_of</a></li><li><a href="#boolunique">bool::unique</a></li><li><a href="#charcontains">char::contains</a></li><li><a href="#chargroup">char::group</a></li><li><a href="#charindex_of">char::index_of</a></li><li><a href="#charmaximum">char::maximum</a></li><li><a href="#charminimum">char::minimum</a></li><li><a href="#charsort">char::sort</a></li><li><a href="#charsort_on">char::sort_on</a></li><li><a href="#charunique">char::unique</a></li><li><a href="#chunks">chunks</a></li><li><a href="#contains_by">contains_by</a></li><li><a href="#count">count</a></li><li><a href="#drop">drop</a></li><li><a href="#drop_while">drop_while</a></li><li><a href="#enumerate">enumerate</a></li><li><a href="#equal_by">equal_by</a></li><li><a href="#find">find</a></li><li><a href="#find_index">find_index</a></li><li><a href="#first">first</a></li><li><a href="#flat_map">flat_map</a></li><li><a href="#flatten">flatten</a></li><li><a href="#floatcontains">float::contains</a></li><li><a href="#floatgroup">float::group</a></li><li><a href="#floatindex_of">float::index_of</a></li><li><a href="#floatmaximum">float::maximum</a></li><li><a href="#floatminimum">float::minimum</a></li><li><a href="#floatproduct">float::product</a></li><li><a href="#floatsort">float::sort</a></li><li><a href="#floatsort_on">float::sort_on</a></li><li><a href="#floatsum">float::sum</a></li><li><a href="#floatunique">float::unique</a></li><li><a href="#group_by">group_by</a></li><li><a href="#index_of_by">index_of_by</a></li><li><a href="#intcontains">int::contains</a></li><li><a href="#intgroup">int::group</a></li><li><a href="#intindex_of">int::index_of</a></li><li><a href="#intmaximum">int::maximum</a></li><li><a href="#intminimum">int::minimum</a></li><li><a href="#intproduct">int::product</a></li><li><a href="#intsort">int::sort</a></li><li><a href="#intsort_on">int::sort_on</a></li><li><a href="#intsum">int::sum</a></li><li><a href="#intunique">int::unique</a></li><li><a href="#intersperse">intersperse</a></li><li><a href="#is_empty">is_empty</a></li><li><a href="#last">last</a></li><li><a href="#maximum_by">maximum_by</a></li><li><a href="#minimum_by">minimum_by</a></li><li><a href="#nth">nth</a></li><li><a href="#partition">partition</a></li><li><a href="#reduce">reduce</a></li><li><a href="#rest">rest</a></li><li><a href="#reverse">reverse</a></li><li><a href="#scanl">scanl</a></li><li><a href="#scanr">scanr</a></li><li><a href="#sort_by">sort_by</a></li><li><a href="#span">span</a></li><li><a href="#split_at">split_at</a></li><li><a href="#stringcontains">string::contains</a></li><li><a href="#stringgroup">string::group</a></li><li><a href="#stringindex_of">string::index_of</a></li><li><a href="#stringmaximum">string::maximum</a></li><li><a href="#stringminimum">string::minimum</a></li><li><a href="#stringsort">string::sort</a></li><li><a href="#stringsort_on">string::sort_on</a></li><li><a href="#stringunique">string::unique</a></li><li><a href="#take">take</a></li><li><a href="#take_while">take_while</a></li><li><a href="#unfold">unfold</a></li><li><a href="#unique_by">unique_by</a></li><li><a href="#unzip">unzip</a></li><li><a href="#windows">windows</a></li><li><a href="#zip">zip</a></li><li><a href="#zip_with">zip_with</a></li></ul></li><li><a href="/libraries/map/">map</a></li><li><a href="/libraries/math/">math</a></li><li><a href="/libraries/mutmap/">mutmap</a></li><li><a href="/libraries/option/">option</a></li><li><a href="/libraries/prelude/">prelude</a></li><li><a href="/libraries/random/">random</a></li><li><a href="/libraries/result/">result</a></li><li><a href="/libraries/sys/">sys</a></li><li><a href="/libraries/text/">text</a></li><li><a href="/libraries/time/">time</a></li><li><a href="/libraries/tinyweb/">tinyweb</a></li></ul></nav><div class="md:sl-hidden"><div class="mobile-preferences sl-flex astro-p4azlveh"><div class="social-icons astro-p4azlveh"></div><starlight-theme-select><label style="--sl-select-width: 6.25em" class="astro-2z5xp7gb"><span class="sr-only astro-2z5xp7gb">Select theme</span><svg aria-hidden="true" class="icon label-icon astro-2z5xp7gb astro-hkc32dio" width="16" height="16" viewBox="0 0 24 24" fill="currentColor" style="--sl-icon-size: 1em;"><path d="M21 14h-1V7a3 3 0 0 0-3-3H7a3 3 0 0 0-3 3v7H3a1 1 0 0 0-1 1v2a3 3 0 0 0 3 3h14a3 3 0 0 0 3-3v-2a1 1 0 0 0-1-1ZM6 7a1 1 0 0 1 1-1h10a1 1 0 0 1 1 1v7H6V7Zm14 10a1 1 0 0 1-1 1H5a1 1 0 0 1-1-1v-1h16v1Z"/></svg><select autocomplete="off" class="astro-2z5xp7gb"><option value="dark" class="astro-2z5xp7gb">Dark</option><option value="light" class="astro-2z5xp7gb">Light</option><option value="auto" selected class="astro-2z5xp7gb">Auto</option></select><svg aria-hidden="true" class="icon caret astro-2z5xp7gb astro-hkc32dio" width="16" height="16" viewBox="0 0 24 24" fill="currentColor" style="--sl-icon-size: 1em;"><path d="M17 9.17a1 1 0 0 0-1.41 0L12 12.71 8.46 9.17a1 1 0 1 0-1.41 1.42l4.24 4.24a1.002 1.002 0 0 0 1.42 0L17 10.59a1.002 1.002 0 0 0 0-1.42Z"/></svg></label></starlight-theme-select><script>
+	StarlightThemeProvider.updatePickers();
+</script></div></div></div></sl-sidebar-pane></nav><div class="main-frame astro-yntsjkba"><script type="module">var e=document.getElementById(`starlight__sidebar`),t=e?.querySelector(`sl-sidebar-state-persist`),n=`sl-sidebar-state`,r=()=>{let r=[],i=t?.dataset.hash||``;try{let e=sessionStorage.getItem(n),t=JSON.parse(e||`{}`);Array.isArray(t.open)&&t.hash===i&&(r=t.open)}catch{}return{hash:i,open:r,scroll:e?.scrollTop||0}},i=e=>{try{sessionStorage.setItem(n,JSON.stringify(e))}catch{}},a=()=>i(r()),o=(e,t)=>{let n=r();n.open[t]=e,i(n)};t?.addEventListener(`click`,e=>{if(!(e.target instanceof Element))return;let t=e.target.closest(`summary`)?.closest(`details`);if(!t)return;let n=t.querySelector(`sl-sidebar-restore`),r=parseInt(n?.dataset.index||``);isNaN(r)||o(!t.open,r)}),addEventListener(`visibilitychange`,()=>{document.visibilityState===`hidden`&&a()});</script><div class="lg:sl-flex astro-lrzkfocr"><div class="main-pane astro-lrzkfocr"><main data-pagefind-body class="astro-g5ptsecz" lang="en" dir="ltr"><div class="content-panel astro-a7po4psb"><div class="sl-container astro-a7po4psb"><h1 id="_top" class="astro-bebwqqxs">list</h1></div></div><div class="content-panel astro-a7po4psb"><div class="sl-container astro-a7po4psb"><div class="sl-markdown-content"><p>Lists: taking parts, searching, combining, counting and sorting them.</p>
+<p>A list is made by a literal, a comprehension, <code>list(...)</code> or
+<code>list_init(...)</code>, and <code>len</code>, <code>fmap</code>, <code>filter</code>, <code>foldl</code>, <code>foldr</code>, <code>any</code>
+and <code>all</code> are builtins (PYKING.md, “Lists”, “fmap and the folds”).
+This module is the rest, named as Haskell names them where Haskell,
+OCaml and Rust differ. A list is never changed: every function
+answers a new one. Where a function is given a function, it comes
+first, and the list comes last.</p>
+<p>A function that compares elements — <code>contains</code>, <code>unique</code>, <code>sort</code>,
+<code>maximum</code> — is written once for each of Int, Float, String, Char and
+Bool where it can be, and once more as <code>..._by</code>, taking the comparison
+as a function, for every other element type. Floats sort with every
+NaN last, and Strings by code point, the same on every target.</p>
+<div class="expressive-code"><link rel="stylesheet" href="/_astro/ec.w36nc.css"><script type="module" src="/_astro/ec.0vx5m.js"></script><figure class="frame not-content"><figcaption class="header"></figcaption><pre data-language="pyking"><code><div class="ec-line"><div class="code"><span style="--0:#C792EA;--1:#8844AE">import</span><span style="--0:#D6DEEB;--1:#403F53"> list</span></div></div></code></pre><div class="copy"><div aria-live="polite"></div><button title="Copy to clipboard" data-copied="Copied!" data-code="import list"><div></div></button></div></figure></div>
+<div class="pyk-api">
+<h2 id="boolcontains">bool::contains</h2>
+<pre class="pyk-sig"><code><span class="k">def</span> <span class="n">bool::contains</span>(<span class="p">x</span>: <span class="t">Bool</span>, <span class="p">xs</span>: [<span class="t">Bool</span>]) -> <span class="t">Bool</span></code></pre>
+<p>Whether <code>x</code> is an element of a list of Bools (Haskell’s <code>elem</code>).</p>
+<p class="pyk-api-label">Parameters</p>
+<ul>
+<li><code>x</code>: what to look for.</li>
+<li><code>xs</code>: the list.</li>
+</ul>
+<p class="pyk-api-label">Returns</p>
+<p><code>true</code> where it is.</p>
+<p class="pyk-api-label">Example</p>
+<div class="pkn-notebook pkn-embedded not-content"><div class="pkn-fragment" data-markdown="&#x60;&#x60;&#x60;pyking
+import list
+print(list.contains(false, [true, true]))
+&#x60;&#x60;&#x60;
+
+&#x60;&#x60;&#x60;stdout visible = true
+false
+&#x60;&#x60;&#x60;"></div></div>
+</div>
+<div class="pyk-api">
+<h2 id="boolgroup">bool::group</h2>
+<pre class="pyk-sig"><code><span class="k">def</span> <span class="n">bool::group</span>(<span class="p">xs</span>: [<span class="t">Bool</span>]) -> [[<span class="t">Bool</span>]]</code></pre>
+<p>The list cut into runs of equal Bools next to each other (Haskell’s
+<code>group</code>).</p>
+<p class="pyk-api-label">Parameters</p>
+<ul>
+<li><code>xs</code>: the list.</li>
+</ul>
+<p class="pyk-api-label">Returns</p>
+<p>A list of the runs, in order.</p>
+<p class="pyk-api-label">Example</p>
+<div class="pkn-notebook pkn-embedded not-content"><div class="pkn-fragment" data-markdown="&#x60;&#x60;&#x60;pyking
+import list
+print(list.group([true, false, false]))
+&#x60;&#x60;&#x60;
+
+&#x60;&#x60;&#x60;stdout visible = true
+[[true], [false, false]]
+&#x60;&#x60;&#x60;"></div></div>
+</div>
+<div class="pyk-api">
+<h2 id="boolindex_of">bool::index_of</h2>
+<pre class="pyk-sig"><code><span class="k">def</span> <span class="n">bool::index_of</span>(<span class="p">x</span>: <span class="t">Bool</span>, <span class="p">xs</span>: [<span class="t">Bool</span>]) -> Option(<span class="t">Int</span>)</code></pre>
+<p>The index of the first <code>x</code> in a list of Bools (Haskell’s <code>elemIndex</code>).</p>
+<p class="pyk-api-label">Parameters</p>
+<ul>
+<li><code>x</code>: what to look for.</li>
+<li><code>xs</code>: the list.</li>
+</ul>
+<p class="pyk-api-label">Returns</p>
+<p><code>Some</code> of the index, or <code>None</code>.</p>
+<p class="pyk-api-label">Example</p>
+<div class="pkn-notebook pkn-embedded not-content"><div class="pkn-fragment" data-markdown="&#x60;&#x60;&#x60;pyking
+import list
+print(list.index_of(false, [true, true]))
+&#x60;&#x60;&#x60;
+
+&#x60;&#x60;&#x60;stdout visible = true
+None
+&#x60;&#x60;&#x60;"></div></div>
+</div>
+<div class="pyk-api">
+<h2 id="boolunique">bool::unique</h2>
+<pre class="pyk-sig"><code><span class="k">def</span> <span class="n">bool::unique</span>(<span class="p">xs</span>: [<span class="t">Bool</span>]) -> [<span class="t">Bool</span>]</code></pre>
+<p>Each Bool once, the first of each, in order (Haskell’s <code>nub</code>).</p>
+<p class="pyk-api-label">Parameters</p>
+<ul>
+<li><code>xs</code>: the list.</li>
+</ul>
+<p class="pyk-api-label">Returns</p>
+<p>A new list with no element twice.</p>
+<p class="pyk-api-label">Example</p>
+<div class="pkn-notebook pkn-embedded not-content"><div class="pkn-fragment" data-markdown="&#x60;&#x60;&#x60;pyking
+import list
+print(list.unique([true, false, true]))
+&#x60;&#x60;&#x60;
+
+&#x60;&#x60;&#x60;stdout visible = true
+[true, false]
+&#x60;&#x60;&#x60;"></div></div>
+</div>
+<div class="pyk-api">
+<h2 id="charcontains">char::contains</h2>
+<pre class="pyk-sig"><code><span class="k">def</span> <span class="n">char::contains</span>(<span class="p">x</span>: Char, <span class="p">xs</span>: [Char]) -> <span class="t">Bool</span></code></pre>
+<p>Whether <code>x</code> is an element of a list of Chars (Haskell’s <code>elem</code>).</p>
+<p class="pyk-api-label">Parameters</p>
+<ul>
+<li><code>x</code>: what to look for.</li>
+<li><code>xs</code>: the list.</li>
+</ul>
+<p class="pyk-api-label">Returns</p>
+<p><code>true</code> where it is.</p>
+<p class="pyk-api-label">Example</p>
+<div class="pkn-notebook pkn-embedded not-content"><div class="pkn-fragment" data-markdown="&#x60;&#x60;&#x60;pyking
+import list
+print(list.contains(&#x27;a&#x27;, [&#x27;b&#x27;, &#x27;a&#x27;]))
+&#x60;&#x60;&#x60;
+
+&#x60;&#x60;&#x60;stdout visible = true
+true
+&#x60;&#x60;&#x60;"></div></div>
+</div>
+<div class="pyk-api">
+<h2 id="chargroup">char::group</h2>
+<pre class="pyk-sig"><code><span class="k">def</span> <span class="n">char::group</span>(<span class="p">xs</span>: [Char]) -> [[Char]]</code></pre>
+<p>The list cut into runs of equal Chars next to each other (Haskell’s
+<code>group</code>).</p>
+<p class="pyk-api-label">Parameters</p>
+<ul>
+<li><code>xs</code>: the list.</li>
+</ul>
+<p class="pyk-api-label">Returns</p>
+<p>A list of the runs, in order.</p>
+<p class="pyk-api-label">Example</p>
+<div class="pkn-notebook pkn-embedded not-content"><div class="pkn-fragment" data-markdown="&#x60;&#x60;&#x60;pyking
+import list
+print(list.group([&#x27;x&#x27;, &#x27;x&#x27;, &#x27;y&#x27;]))
+&#x60;&#x60;&#x60;
+
+&#x60;&#x60;&#x60;stdout visible = true
+[[&#x27;x&#x27;, &#x27;x&#x27;], [&#x27;y&#x27;]]
+&#x60;&#x60;&#x60;"></div></div>
+</div>
+<div class="pyk-api">
+<h2 id="charindex_of">char::index_of</h2>
+<pre class="pyk-sig"><code><span class="k">def</span> <span class="n">char::index_of</span>(<span class="p">x</span>: Char, <span class="p">xs</span>: [Char]) -> Option(<span class="t">Int</span>)</code></pre>
+<p>The index of the first <code>x</code> in a list of Chars (Haskell’s <code>elemIndex</code>).</p>
+<p class="pyk-api-label">Parameters</p>
+<ul>
+<li><code>x</code>: what to look for.</li>
+<li><code>xs</code>: the list.</li>
+</ul>
+<p class="pyk-api-label">Returns</p>
+<p><code>Some</code> of the index, or <code>None</code>.</p>
+<p class="pyk-api-label">Example</p>
+<div class="pkn-notebook pkn-embedded not-content"><div class="pkn-fragment" data-markdown="&#x60;&#x60;&#x60;pyking
+import list
+print(list.index_of(&#x27;a&#x27;, [&#x27;b&#x27;, &#x27;a&#x27;]))
+&#x60;&#x60;&#x60;
+
+&#x60;&#x60;&#x60;stdout visible = true
+Some(1)
+&#x60;&#x60;&#x60;"></div></div>
+</div>
+<div class="pyk-api">
+<h2 id="charmaximum">char::maximum</h2>
+<pre class="pyk-sig"><code><span class="k">def</span> <span class="n">char::maximum</span>(<span class="p">xs</span>: [Char]) -> Option(Char)</code></pre>
+<p>The greatest Char.</p>
+<p class="pyk-api-label">Parameters</p>
+<ul>
+<li><code>xs</code>: the list.</li>
+</ul>
+<p class="pyk-api-label">Returns</p>
+<p><code>Some</code> of it, or <code>None</code> for <code>[]</code>.</p>
+<p class="pyk-api-label">Example</p>
+<div class="pkn-notebook pkn-embedded not-content"><div class="pkn-fragment" data-markdown="&#x60;&#x60;&#x60;pyking
+import list
+print(list.maximum([&#x27;c&#x27;, &#x27;a&#x27;]))
+&#x60;&#x60;&#x60;
+
+&#x60;&#x60;&#x60;stdout visible = true
+Some(&#x27;c&#x27;)
+&#x60;&#x60;&#x60;"></div></div>
+</div>
+<div class="pyk-api">
+<h2 id="charminimum">char::minimum</h2>
+<pre class="pyk-sig"><code><span class="k">def</span> <span class="n">char::minimum</span>(<span class="p">xs</span>: [Char]) -> Option(Char)</code></pre>
+<p>The smallest Char.</p>
+<p class="pyk-api-label">Parameters</p>
+<ul>
+<li><code>xs</code>: the list.</li>
+</ul>
+<p class="pyk-api-label">Returns</p>
+<p><code>Some</code> of it, or <code>None</code> for <code>[]</code>.</p>
+<p class="pyk-api-label">Example</p>
+<div class="pkn-notebook pkn-embedded not-content"><div class="pkn-fragment" data-markdown="&#x60;&#x60;&#x60;pyking
+import list
+print(list.minimum([&#x27;c&#x27;, &#x27;a&#x27;]))
+&#x60;&#x60;&#x60;
+
+&#x60;&#x60;&#x60;stdout visible = true
+Some(&#x27;a&#x27;)
+&#x60;&#x60;&#x60;"></div></div>
+</div>
+<div class="pyk-api">
+<h2 id="charsort">char::sort</h2>
+<pre class="pyk-sig"><code><span class="k">def</span> <span class="n">char::sort</span>(<span class="p">xs</span>: [Char]) -> [Char]</code></pre>
+<p>The Chars from smallest to largest.</p>
+<p class="pyk-api-label">Parameters</p>
+<ul>
+<li><code>xs</code>: the list.</li>
+</ul>
+<p class="pyk-api-label">Returns</p>
+<p>A new list, sorted.</p>
+<p class="pyk-api-label">Example</p>
+<div class="pkn-notebook pkn-embedded not-content"><div class="pkn-fragment" data-markdown="&#x60;&#x60;&#x60;pyking
+import list
+print(list.sort([&#x27;c&#x27;, &#x27;a&#x27;]))
+&#x60;&#x60;&#x60;
+
+&#x60;&#x60;&#x60;stdout visible = true
+[&#x27;a&#x27;, &#x27;c&#x27;]
+&#x60;&#x60;&#x60;"></div></div>
+</div>
+<div class="pyk-api">
+<h2 id="charsort_on">char::sort_on</h2>
+<pre class="pyk-sig"><code><span class="k">def</span> <span class="n">char::sort_on</span>(<span class="p">key</span>: (a) -> Char, <span class="p">xs</span>: [a]) -> [a]</code></pre>
+<p>The elements in the order of their Char keys, <code>key</code> called once per
+element; equal keys keep their order (Haskell’s <code>sortOn</code>).</p>
+<p class="pyk-api-label">Parameters</p>
+<ul>
+<li><code>key</code>: the Char an element is sorted by.</li>
+<li><code>xs</code>: the list.</li>
+</ul>
+<p class="pyk-api-label">Returns</p>
+<p>A new list, sorted.</p>
+<p class="pyk-api-label">Example</p>
+<div class="pkn-notebook pkn-embedded not-content"><div class="pkn-fragment" data-markdown="&#x60;&#x60;&#x60;pyking
+import list
+print(list.sort_on(lam s. s[0], [&#x22;b1&#x22;, &#x22;a2&#x22;]))
+&#x60;&#x60;&#x60;
+
+&#x60;&#x60;&#x60;stdout visible = true
+[&#x22;a2&#x22;, &#x22;b1&#x22;]
+&#x60;&#x60;&#x60;"></div></div>
+</div>
+<div class="pyk-api">
+<h2 id="charunique">char::unique</h2>
+<pre class="pyk-sig"><code><span class="k">def</span> <span class="n">char::unique</span>(<span class="p">xs</span>: [Char]) -> [Char]</code></pre>
+<p>Each Char once, the first of each, in order (Haskell’s <code>nub</code>).</p>
+<p class="pyk-api-label">Parameters</p>
+<ul>
+<li><code>xs</code>: the list.</li>
+</ul>
+<p class="pyk-api-label">Returns</p>
+<p>A new list with no element twice.</p>
+<p class="pyk-api-label">Example</p>
+<div class="pkn-notebook pkn-embedded not-content"><div class="pkn-fragment" data-markdown="&#x60;&#x60;&#x60;pyking
+import list
+print(list.unique([&#x27;x&#x27;, &#x27;x&#x27;]))
+&#x60;&#x60;&#x60;
+
+&#x60;&#x60;&#x60;stdout visible = true
+[&#x27;x&#x27;]
+&#x60;&#x60;&#x60;"></div></div>
+</div>
+<div class="pyk-api">
+<h2 id="chunks">chunks</h2>
+<pre class="pyk-sig"><code><span class="k">def</span> <span class="n">chunks</span>(<span class="p">n</span>: <span class="t">Int</span>, <span class="p">xs</span>: [a]) -> [[a]]</code></pre>
+<p>The list cut into pieces of <code>n</code> elements, the last perhaps shorter
+(Rust’s <code>chunks</code>). <code>n</code> must be above 0.</p>
+<p class="pyk-api-label">Parameters</p>
+<ul>
+<li><code>n</code>: how long each piece is.</li>
+<li><code>xs</code>: the list.</li>
+</ul>
+<p class="pyk-api-label">Returns</p>
+<p>A list of the pieces, in order.</p>
+<p class="pyk-api-label">Example</p>
+<div class="pkn-notebook pkn-embedded not-content"><div class="pkn-fragment" data-markdown="&#x60;&#x60;&#x60;pyking
+import list
+print(list.chunks(2, [1, 2, 3, 4, 5]))
+&#x60;&#x60;&#x60;
+
+&#x60;&#x60;&#x60;stdout visible = true
+[[1, 2], [3, 4], [5]]
+&#x60;&#x60;&#x60;"></div></div>
+</div>
+<div class="pyk-api">
+<h2 id="contains_by">contains_by</h2>
+<pre class="pyk-sig"><code><span class="k">def</span> <span class="n">contains_by</span>(<span class="p">alike</span>: (a, a) -> <span class="t">Bool</span>, <span class="p">x</span>: a, <span class="p">xs</span>: [a]) -> <span class="t">Bool</span></code></pre>
+<p>Whether some element is alike to <code>x</code>, by <code>alike</code>.</p>
+<p class="pyk-api-label">Parameters</p>
+<ul>
+<li><code>alike</code>: whether two elements count as the same.</li>
+<li><code>x</code>: what to look for.</li>
+<li><code>xs</code>: the list.</li>
+</ul>
+<p class="pyk-api-label">Returns</p>
+<p><code>true</code> where one is.</p>
+<p class="pyk-api-label">Example</p>
+<div class="pkn-notebook pkn-embedded not-content"><div class="pkn-fragment" data-markdown="&#x60;&#x60;&#x60;pyking
+import list
+print(list.contains_by(lam (a, b). len(a) == len(b), &#x22;xyz&#x22;, [&#x22;ab&#x22;, &#x22;abc&#x22;]))
+&#x60;&#x60;&#x60;
+
+&#x60;&#x60;&#x60;stdout visible = true
+true
+&#x60;&#x60;&#x60;"></div></div>
+</div>
+<div class="pyk-api">
+<h2 id="count">count</h2>
+<pre class="pyk-sig"><code><span class="k">def</span> <span class="n">count</span>(<span class="p">p</span>: (a) -> <span class="t">Bool</span>, <span class="p">xs</span>: [a]) -> <span class="t">Int</span></code></pre>
+<p>How many elements <code>p</code> is true of.</p>
+<p class="pyk-api-label">Parameters</p>
+<ul>
+<li><code>p</code>: the test.</li>
+<li><code>xs</code>: the list.</li>
+</ul>
+<p class="pyk-api-label">Returns</p>
+<p>The count.</p>
+<p class="pyk-api-label">Example</p>
+<div class="pkn-notebook pkn-embedded not-content"><div class="pkn-fragment" data-markdown="&#x60;&#x60;&#x60;pyking
+import list
+print(list.count(lam x. x % 2 == 0, [1, 2, 3, 4]))
+&#x60;&#x60;&#x60;
+
+&#x60;&#x60;&#x60;stdout visible = true
+2
+&#x60;&#x60;&#x60;"></div></div>
+</div>
+<div class="pyk-api">
+<h2 id="drop">drop</h2>
+<pre class="pyk-sig"><code><span class="k">def</span> <span class="n">drop</span>(<span class="p">n</span>: <span class="t">Int</span>, <span class="p">xs</span>: [a]) -> [a]</code></pre>
+<p>Every element after the first <code>n</code>.</p>
+<p class="pyk-api-label">Parameters</p>
+<ul>
+<li><code>n</code>: how many to leave out.</li>
+<li><code>xs</code>: the list.</li>
+</ul>
+<p class="pyk-api-label">Returns</p>
+<p>The rest of the list.</p>
+<p class="pyk-api-label">Example</p>
+<div class="pkn-notebook pkn-embedded not-content"><div class="pkn-fragment" data-markdown="&#x60;&#x60;&#x60;pyking
+import list
+print(list.drop(2, [1, 2, 3]), list.drop(5, [1]))
+&#x60;&#x60;&#x60;
+
+&#x60;&#x60;&#x60;stdout visible = true
+[3] []
+&#x60;&#x60;&#x60;"></div></div>
+</div>
+<div class="pyk-api">
+<h2 id="drop_while">drop_while</h2>
+<pre class="pyk-sig"><code><span class="k">def</span> <span class="n">drop_while</span>(<span class="p">p</span>: (a) -> <span class="t">Bool</span>, <span class="p">xs</span>: [a]) -> [a]</code></pre>
+<p>The list from the first element <code>p</code> is false of.</p>
+<p class="pyk-api-label">Parameters</p>
+<ul>
+<li><code>p</code>: the test.</li>
+<li><code>xs</code>: the list.</li>
+</ul>
+<p class="pyk-api-label">Returns</p>
+<p>What <code>take_while</code> leaves.</p>
+<p class="pyk-api-label">Example</p>
+<div class="pkn-notebook pkn-embedded not-content"><div class="pkn-fragment" data-markdown="&#x60;&#x60;&#x60;pyking
+import list
+print(list.drop_while(lam x. x < 3, [1, 2, 3, 1]))
+&#x60;&#x60;&#x60;
+
+&#x60;&#x60;&#x60;stdout visible = true
+[3, 1]
+&#x60;&#x60;&#x60;"></div></div>
+</div>
+<div class="pyk-api">
+<h2 id="enumerate">enumerate</h2>
+<pre class="pyk-sig"><code><span class="k">def</span> <span class="n">enumerate</span>(<span class="p">xs</span>: [a]) -> [(<span class="t">Int</span>, a)]</code></pre>
+<p>Each element with its index (Rust’s <code>enumerate</code>).</p>
+<p class="pyk-api-label">Parameters</p>
+<ul>
+<li><code>xs</code>: the list.</li>
+</ul>
+<p class="pyk-api-label">Returns</p>
+<p>A list of (index, element) pairs.</p>
+<p class="pyk-api-label">Example</p>
+<div class="pkn-notebook pkn-embedded not-content"><div class="pkn-fragment" data-markdown="&#x60;&#x60;&#x60;pyking
+import list
+print(list.enumerate([&#x22;a&#x22;, &#x22;b&#x22;]))
+&#x60;&#x60;&#x60;
+
+&#x60;&#x60;&#x60;stdout visible = true
+[(0, &#x22;a&#x22;), (1, &#x22;b&#x22;)]
+&#x60;&#x60;&#x60;"></div></div>
+</div>
+<div class="pyk-api">
+<h2 id="equal_by">equal_by</h2>
+<pre class="pyk-sig"><code><span class="k">def</span> <span class="n">equal_by</span>(<span class="p">alike</span>: (a, a) -> <span class="t">Bool</span>, <span class="p">xs</span>: [a], <span class="p">ys</span>: [a]) -> <span class="t">Bool</span></code></pre>
+<p>Whether two lists are as long and alike element by element, by <code>alike</code>.</p>
+<p class="pyk-api-label">Parameters</p>
+<ul>
+<li><code>alike</code>: whether two elements count as the same.</li>
+<li><code>xs</code>: the first list.</li>
+<li><code>ys</code>: the second.</li>
+</ul>
+<p class="pyk-api-label">Returns</p>
+<p><code>true</code> where they are.</p>
+<p class="pyk-api-label">Example</p>
+<div class="pkn-notebook pkn-embedded not-content"><div class="pkn-fragment" data-markdown="&#x60;&#x60;&#x60;pyking
+import list
+print(list.equal_by(lam (a, b). a % 2 == b % 2, [1, 2], [3, 4]))
+&#x60;&#x60;&#x60;
+
+&#x60;&#x60;&#x60;stdout visible = true
+true
+&#x60;&#x60;&#x60;"></div></div>
+</div>
+<div class="pyk-api">
+<h2 id="find">find</h2>
+<pre class="pyk-sig"><code><span class="k">def</span> <span class="n">find</span>(<span class="p">p</span>: (a) -> <span class="t">Bool</span>, <span class="p">xs</span>: [a]) -> Option(a)</code></pre>
+<p>The first element <code>p</code> is true of.</p>
+<p class="pyk-api-label">Parameters</p>
+<ul>
+<li><code>p</code>: the test.</li>
+<li><code>xs</code>: the list.</li>
+</ul>
+<p class="pyk-api-label">Returns</p>
+<p><code>Some</code> of it, or <code>None</code>.</p>
+<p class="pyk-api-label">Example</p>
+<div class="pkn-notebook pkn-embedded not-content"><div class="pkn-fragment" data-markdown="&#x60;&#x60;&#x60;pyking
+import list
+print(list.find(lam x. x > 1, [1, 2, 3]), list.find(lam x. x > 5, [1]))
+&#x60;&#x60;&#x60;
+
+&#x60;&#x60;&#x60;stdout visible = true
+Some(2) None
+&#x60;&#x60;&#x60;"></div></div>
+</div>
+<div class="pyk-api">
+<h2 id="find_index">find_index</h2>
+<pre class="pyk-sig"><code><span class="k">def</span> <span class="n">find_index</span>(<span class="p">p</span>: (a) -> <span class="t">Bool</span>, <span class="p">xs</span>: [a]) -> Option(<span class="t">Int</span>)</code></pre>
+<p>The index of the first element <code>p</code> is true of (Rust’s <code>position</code>).</p>
+<p class="pyk-api-label">Parameters</p>
+<ul>
+<li><code>p</code>: the test.</li>
+<li><code>xs</code>: the list.</li>
+</ul>
+<p class="pyk-api-label">Returns</p>
+<p><code>Some</code> of the index, or <code>None</code>.</p>
+<p class="pyk-api-label">Example</p>
+<div class="pkn-notebook pkn-embedded not-content"><div class="pkn-fragment" data-markdown="&#x60;&#x60;&#x60;pyking
+import list
+print(list.find_index(lam x. x > 1, [1, 2, 3]))
+&#x60;&#x60;&#x60;
+
+&#x60;&#x60;&#x60;stdout visible = true
+Some(1)
+&#x60;&#x60;&#x60;"></div></div>
+</div>
+<div class="pyk-api">
+<h2 id="first">first</h2>
+<pre class="pyk-sig"><code><span class="k">def</span> <span class="n">first</span>(<span class="p">xs</span>: [a]) -> Option(a)</code></pre>
+<p>The first element, where there is one (Rust’s <code>first</code>; Haskell’s <code>head</code>
+fails on <code>[]</code>, and this does not).</p>
+<p class="pyk-api-label">Parameters</p>
+<ul>
+<li><code>xs</code>: the list.</li>
+</ul>
+<p class="pyk-api-label">Returns</p>
+<p><code>Some</code> of the first element, or <code>None</code> for <code>[]</code>.</p>
+<p class="pyk-api-label">Example</p>
+<div class="pkn-notebook pkn-embedded not-content"><div class="pkn-fragment" data-markdown="&#x60;&#x60;&#x60;pyking
+import list
+print(list.first([3, 4]), list.first([]))
+&#x60;&#x60;&#x60;
+
+&#x60;&#x60;&#x60;stdout visible = true
+Some(3) None
+&#x60;&#x60;&#x60;"></div></div>
+</div>
+<div class="pyk-api">
+<h2 id="flat_map">flat_map</h2>
+<pre class="pyk-sig"><code><span class="k">def</span> <span class="n">flat_map</span>(<span class="p">f</span>: (a) -> [b], <span class="p">xs</span>: [a]) -> [b]</code></pre>
+<p>The lists <code>f</code> makes of each element, joined (Haskell’s <code>concatMap</code>).</p>
+<p class="pyk-api-label">Parameters</p>
+<ul>
+<li><code>f</code>: makes a list of one element.</li>
+<li><code>xs</code>: the list.</li>
+</ul>
+<p class="pyk-api-label">Returns</p>
+<p>One list of everything <code>f</code> made, in order.</p>
+<p class="pyk-api-label">Example</p>
+<div class="pkn-notebook pkn-embedded not-content"><div class="pkn-fragment" data-markdown="&#x60;&#x60;&#x60;pyking
+import list
+print(list.flat_map(lam x. [x, x * 10], [1, 2]))
+&#x60;&#x60;&#x60;
+
+&#x60;&#x60;&#x60;stdout visible = true
+[1, 10, 2, 20]
+&#x60;&#x60;&#x60;"></div></div>
+</div>
+<div class="pyk-api">
+<h2 id="flatten">flatten</h2>
+<pre class="pyk-sig"><code><span class="k">def</span> <span class="n">flatten</span>(<span class="p">xss</span>: [[a]]) -> [a]</code></pre>
+<p>The lists of a list joined into one, in order (Haskell’s <code>concat</code>).</p>
+<p class="pyk-api-label">Parameters</p>
+<ul>
+<li><code>xss</code>: the lists.</li>
+</ul>
+<p class="pyk-api-label">Returns</p>
+<p>One list of every element.</p>
+<p class="pyk-api-label">Example</p>
+<div class="pkn-notebook pkn-embedded not-content"><div class="pkn-fragment" data-markdown="&#x60;&#x60;&#x60;pyking
+import list
+print(list.flatten([[1, 2], [], [3]]))
+&#x60;&#x60;&#x60;
+
+&#x60;&#x60;&#x60;stdout visible = true
+[1, 2, 3]
+&#x60;&#x60;&#x60;"></div></div>
+</div>
+<div class="pyk-api">
+<h2 id="floatcontains">float::contains</h2>
+<pre class="pyk-sig"><code><span class="k">def</span> <span class="n">float::contains</span>(<span class="p">x</span>: <span class="t">Float</span>, <span class="p">xs</span>: [<span class="t">Float</span>]) -> <span class="t">Bool</span></code></pre>
+<p>Whether <code>x</code> is an element of a list of Floats (Haskell’s <code>elem</code>).</p>
+<p class="pyk-api-label">Parameters</p>
+<ul>
+<li><code>x</code>: what to look for.</li>
+<li><code>xs</code>: the list.</li>
+</ul>
+<p class="pyk-api-label">Returns</p>
+<p><code>true</code> where it is.</p>
+<p class="pyk-api-label">Example</p>
+<div class="pkn-notebook pkn-embedded not-content"><div class="pkn-fragment" data-markdown="&#x60;&#x60;&#x60;pyking
+import list
+print(list.contains(0.5, [1.5, 0.5]))
+&#x60;&#x60;&#x60;
+
+&#x60;&#x60;&#x60;stdout visible = true
+true
+&#x60;&#x60;&#x60;"></div></div>
+</div>
+<div class="pyk-api">
+<h2 id="floatgroup">float::group</h2>
+<pre class="pyk-sig"><code><span class="k">def</span> <span class="n">float::group</span>(<span class="p">xs</span>: [<span class="t">Float</span>]) -> [[<span class="t">Float</span>]]</code></pre>
+<p>The list cut into runs of equal Floats next to each other (Haskell’s
+<code>group</code>).</p>
+<p class="pyk-api-label">Parameters</p>
+<ul>
+<li><code>xs</code>: the list.</li>
+</ul>
+<p class="pyk-api-label">Returns</p>
+<p>A list of the runs, in order.</p>
+<p class="pyk-api-label">Example</p>
+<div class="pkn-notebook pkn-embedded not-content"><div class="pkn-fragment" data-markdown="&#x60;&#x60;&#x60;pyking
+import list
+print(list.group([0.5, 0.5, 1.0]))
+&#x60;&#x60;&#x60;
+
+&#x60;&#x60;&#x60;stdout visible = true
+[[0.5, 0.5], [1.0]]
+&#x60;&#x60;&#x60;"></div></div>
+</div>
+<div class="pyk-api">
+<h2 id="floatindex_of">float::index_of</h2>
+<pre class="pyk-sig"><code><span class="k">def</span> <span class="n">float::index_of</span>(<span class="p">x</span>: <span class="t">Float</span>, <span class="p">xs</span>: [<span class="t">Float</span>]) -> Option(<span class="t">Int</span>)</code></pre>
+<p>The index of the first <code>x</code> in a list of Floats (Haskell’s <code>elemIndex</code>).</p>
+<p class="pyk-api-label">Parameters</p>
+<ul>
+<li><code>x</code>: what to look for.</li>
+<li><code>xs</code>: the list.</li>
+</ul>
+<p class="pyk-api-label">Returns</p>
+<p><code>Some</code> of the index, or <code>None</code>.</p>
+<p class="pyk-api-label">Example</p>
+<div class="pkn-notebook pkn-embedded not-content"><div class="pkn-fragment" data-markdown="&#x60;&#x60;&#x60;pyking
+import list
+print(list.index_of(0.5, [1.5, 0.5]))
+&#x60;&#x60;&#x60;
+
+&#x60;&#x60;&#x60;stdout visible = true
+Some(1)
+&#x60;&#x60;&#x60;"></div></div>
+</div>
+<div class="pyk-api">
+<h2 id="floatmaximum">float::maximum</h2>
+<pre class="pyk-sig"><code><span class="k">def</span> <span class="n">float::maximum</span>(<span class="p">xs</span>: [<span class="t">Float</span>]) -> Option(<span class="t">Float</span>)</code></pre>
+<p>The greatest Float, NaN counting as greater than every other Float.</p>
+<p class="pyk-api-label">Parameters</p>
+<ul>
+<li><code>xs</code>: the list.</li>
+</ul>
+<p class="pyk-api-label">Returns</p>
+<p><code>Some</code> of it, or <code>None</code> for <code>[]</code>.</p>
+<p class="pyk-api-label">Example</p>
+<div class="pkn-notebook pkn-embedded not-content"><div class="pkn-fragment" data-markdown="&#x60;&#x60;&#x60;pyking
+import list
+print(list.maximum([2.5, float(&#x22;nan&#x22;), -1.0]))
+&#x60;&#x60;&#x60;
+
+&#x60;&#x60;&#x60;stdout visible = true
+Some(nan)
+&#x60;&#x60;&#x60;"></div></div>
+</div>
+<div class="pyk-api">
+<h2 id="floatminimum">float::minimum</h2>
+<pre class="pyk-sig"><code><span class="k">def</span> <span class="n">float::minimum</span>(<span class="p">xs</span>: [<span class="t">Float</span>]) -> Option(<span class="t">Float</span>)</code></pre>
+<p>The smallest Float.</p>
+<p class="pyk-api-label">Parameters</p>
+<ul>
+<li><code>xs</code>: the list.</li>
+</ul>
+<p class="pyk-api-label">Returns</p>
+<p><code>Some</code> of it, or <code>None</code> for <code>[]</code>.</p>
+<p class="pyk-api-label">Example</p>
+<div class="pkn-notebook pkn-embedded not-content"><div class="pkn-fragment" data-markdown="&#x60;&#x60;&#x60;pyking
+import list
+print(list.minimum([2.5, float(&#x22;nan&#x22;), -1.0]))
+&#x60;&#x60;&#x60;
+
+&#x60;&#x60;&#x60;stdout visible = true
+Some(-1.0)
+&#x60;&#x60;&#x60;"></div></div>
+</div>
+<div class="pyk-api">
+<h2 id="floatproduct">float::product</h2>
+<pre class="pyk-sig"><code><span class="k">def</span> <span class="n">float::product</span>(<span class="p">xs</span>: [<span class="t">Float</span>]) -> <span class="t">Float</span></code></pre>
+<p>The Floats multiplied; 1.0 for <code>[]</code>.</p>
+<p class="pyk-api-label">Parameters</p>
+<ul>
+<li><code>xs</code>: the list.</li>
+</ul>
+<p class="pyk-api-label">Returns</p>
+<p>The product.</p>
+<p class="pyk-api-label">Example</p>
+<div class="pkn-notebook pkn-embedded not-content"><div class="pkn-fragment" data-markdown="&#x60;&#x60;&#x60;pyking
+import list
+print(list.product([0.5, 1.5, 2.0]))
+&#x60;&#x60;&#x60;
+
+&#x60;&#x60;&#x60;stdout visible = true
+1.5
+&#x60;&#x60;&#x60;"></div></div>
+</div>
+<div class="pyk-api">
+<h2 id="floatsort">float::sort</h2>
+<pre class="pyk-sig"><code><span class="k">def</span> <span class="n">float::sort</span>(<span class="p">xs</span>: [<span class="t">Float</span>]) -> [<span class="t">Float</span>]</code></pre>
+<p>The Floats from smallest to largest, every NaN last.</p>
+<p class="pyk-api-label">Parameters</p>
+<ul>
+<li><code>xs</code>: the list.</li>
+</ul>
+<p class="pyk-api-label">Returns</p>
+<p>A new list, sorted.</p>
+<p class="pyk-api-label">Example</p>
+<div class="pkn-notebook pkn-embedded not-content"><div class="pkn-fragment" data-markdown="&#x60;&#x60;&#x60;pyking
+import list
+print(list.sort([2.5, float(&#x22;nan&#x22;), -1.0]))
+&#x60;&#x60;&#x60;
+
+&#x60;&#x60;&#x60;stdout visible = true
+[-1.0, 2.5, nan]
+&#x60;&#x60;&#x60;"></div></div>
+</div>
+<div class="pyk-api">
+<h2 id="floatsort_on">float::sort_on</h2>
+<pre class="pyk-sig"><code><span class="k">def</span> <span class="n">float::sort_on</span>(<span class="p">key</span>: (a) -> <span class="t">Float</span>, <span class="p">xs</span>: [a]) -> [a]</code></pre>
+<p>The elements in the order of their Float keys, <code>key</code> called once per
+element; equal keys keep their order (Haskell’s <code>sortOn</code>).</p>
+<p class="pyk-api-label">Parameters</p>
+<ul>
+<li><code>key</code>: the Float an element is sorted by.</li>
+<li><code>xs</code>: the list.</li>
+</ul>
+<p class="pyk-api-label">Returns</p>
+<p>A new list, sorted.</p>
+<p class="pyk-api-label">Example</p>
+<div class="pkn-notebook pkn-embedded not-content"><div class="pkn-fragment" data-markdown="&#x60;&#x60;&#x60;pyking
+import list
+print(list.sort_on(lam x. 0.0 - x, [1.0, 3.0, 2.0]))
+&#x60;&#x60;&#x60;
+
+&#x60;&#x60;&#x60;stdout visible = true
+[3.0, 2.0, 1.0]
+&#x60;&#x60;&#x60;"></div></div>
+</div>
+<div class="pyk-api">
+<h2 id="floatsum">float::sum</h2>
+<pre class="pyk-sig"><code><span class="k">def</span> <span class="n">float::sum</span>(<span class="p">xs</span>: [<span class="t">Float</span>]) -> <span class="t">Float</span></code></pre>
+<p>The Floats added up; 0.0 for <code>[]</code>.</p>
+<p class="pyk-api-label">Parameters</p>
+<ul>
+<li><code>xs</code>: the list.</li>
+</ul>
+<p class="pyk-api-label">Returns</p>
+<p>The sum.</p>
+<p class="pyk-api-label">Example</p>
+<div class="pkn-notebook pkn-embedded not-content"><div class="pkn-fragment" data-markdown="&#x60;&#x60;&#x60;pyking
+import list
+print(list.sum([0.5, 1.5, 2.0]), list.sum(list_init(0, lam i. 0.0)))
+&#x60;&#x60;&#x60;
+
+&#x60;&#x60;&#x60;stdout visible = true
+4.0 0.0
+&#x60;&#x60;&#x60;"></div></div>
+</div>
+<div class="pyk-api">
+<h2 id="floatunique">float::unique</h2>
+<pre class="pyk-sig"><code><span class="k">def</span> <span class="n">float::unique</span>(<span class="p">xs</span>: [<span class="t">Float</span>]) -> [<span class="t">Float</span>]</code></pre>
+<p>Each Float once, the first of each, in order (Haskell’s <code>nub</code>).</p>
+<p class="pyk-api-label">Parameters</p>
+<ul>
+<li><code>xs</code>: the list.</li>
+</ul>
+<p class="pyk-api-label">Returns</p>
+<p>A new list with no element twice.</p>
+<p class="pyk-api-label">Example</p>
+<div class="pkn-notebook pkn-embedded not-content"><div class="pkn-fragment" data-markdown="&#x60;&#x60;&#x60;pyking
+import list
+print(list.unique([0.5, 0.5, 1.0]))
+&#x60;&#x60;&#x60;
+
+&#x60;&#x60;&#x60;stdout visible = true
+[0.5, 1.0]
+&#x60;&#x60;&#x60;"></div></div>
+</div>
+<div class="pyk-api">
+<h2 id="group_by">group_by</h2>
+<pre class="pyk-sig"><code><span class="k">def</span> <span class="n">group_by</span>(<span class="p">alike</span>: (a, a) -> <span class="t">Bool</span>, <span class="p">xs</span>: [a]) -> [[a]]</code></pre>
+<p>The list cut into runs of elements next to each other that are alike, by
+<code>alike</code> (Haskell’s <code>groupBy</code>).</p>
+<p class="pyk-api-label">Parameters</p>
+<ul>
+<li><code>alike</code>: whether two neighbours belong to one run.</li>
+<li><code>xs</code>: the list.</li>
+</ul>
+<p class="pyk-api-label">Returns</p>
+<p>A list of the runs, in order.</p>
+<p class="pyk-api-label">Example</p>
+<div class="pkn-notebook pkn-embedded not-content"><div class="pkn-fragment" data-markdown="&#x60;&#x60;&#x60;pyking
+import list
+print(list.group_by(lam (a, b). a < b, [1, 2, 3, 2, 5]))
+&#x60;&#x60;&#x60;
+
+&#x60;&#x60;&#x60;stdout visible = true
+[[1, 2, 3], [2, 5]]
+&#x60;&#x60;&#x60;"></div></div>
+</div>
+<div class="pyk-api">
+<h2 id="index_of_by">index_of_by</h2>
+<pre class="pyk-sig"><code><span class="k">def</span> <span class="n">index_of_by</span>(<span class="p">alike</span>: (a, a) -> <span class="t">Bool</span>, <span class="p">x</span>: a, <span class="p">xs</span>: [a]) -> Option(<span class="t">Int</span>)</code></pre>
+<p>The index of the first element alike to <code>x</code>, by <code>alike</code>.</p>
+<p class="pyk-api-label">Parameters</p>
+<ul>
+<li><code>alike</code>: whether two elements count as the same.</li>
+<li><code>x</code>: what to look for.</li>
+<li><code>xs</code>: the list.</li>
+</ul>
+<p class="pyk-api-label">Returns</p>
+<p><code>Some</code> of the index, or <code>None</code>.</p>
+<p class="pyk-api-label">Example</p>
+<div class="pkn-notebook pkn-embedded not-content"><div class="pkn-fragment" data-markdown="&#x60;&#x60;&#x60;pyking
+import list
+print(list.index_of_by(lam (a, b). a % 10 == b % 10, 3, [21, 13]))
+&#x60;&#x60;&#x60;
+
+&#x60;&#x60;&#x60;stdout visible = true
+Some(1)
+&#x60;&#x60;&#x60;"></div></div>
+</div>
+<div class="pyk-api">
+<h2 id="intcontains">int::contains</h2>
+<pre class="pyk-sig"><code><span class="k">def</span> <span class="n">int::contains</span>(<span class="p">x</span>: <span class="t">Int</span>, <span class="p">xs</span>: [<span class="t">Int</span>]) -> <span class="t">Bool</span></code></pre>
+<p>Whether <code>x</code> is an element of a list of Ints (Haskell’s <code>elem</code>).</p>
+<p class="pyk-api-label">Parameters</p>
+<ul>
+<li><code>x</code>: what to look for.</li>
+<li><code>xs</code>: the list.</li>
+</ul>
+<p class="pyk-api-label">Returns</p>
+<p><code>true</code> where it is.</p>
+<p class="pyk-api-label">Example</p>
+<div class="pkn-notebook pkn-embedded not-content"><div class="pkn-fragment" data-markdown="&#x60;&#x60;&#x60;pyking
+import list
+print(list.contains(2, [3, 1, 2]))
+&#x60;&#x60;&#x60;
+
+&#x60;&#x60;&#x60;stdout visible = true
+true
+&#x60;&#x60;&#x60;"></div></div>
+</div>
+<div class="pyk-api">
+<h2 id="intgroup">int::group</h2>
+<pre class="pyk-sig"><code><span class="k">def</span> <span class="n">int::group</span>(<span class="p">xs</span>: [<span class="t">Int</span>]) -> [[<span class="t">Int</span>]]</code></pre>
+<p>The list cut into runs of equal Ints next to each other (Haskell’s
+<code>group</code>).</p>
+<p class="pyk-api-label">Parameters</p>
+<ul>
+<li><code>xs</code>: the list.</li>
+</ul>
+<p class="pyk-api-label">Returns</p>
+<p>A list of the runs, in order.</p>
+<p class="pyk-api-label">Example</p>
+<div class="pkn-notebook pkn-embedded not-content"><div class="pkn-fragment" data-markdown="&#x60;&#x60;&#x60;pyking
+import list
+print(list.group([1, 1, 2, 1]))
+&#x60;&#x60;&#x60;
+
+&#x60;&#x60;&#x60;stdout visible = true
+[[1, 1], [2], [1]]
+&#x60;&#x60;&#x60;"></div></div>
+</div>
+<div class="pyk-api">
+<h2 id="intindex_of">int::index_of</h2>
+<pre class="pyk-sig"><code><span class="k">def</span> <span class="n">int::index_of</span>(<span class="p">x</span>: <span class="t">Int</span>, <span class="p">xs</span>: [<span class="t">Int</span>]) -> Option(<span class="t">Int</span>)</code></pre>
+<p>The index of the first <code>x</code> in a list of Ints (Haskell’s <code>elemIndex</code>).</p>
+<p class="pyk-api-label">Parameters</p>
+<ul>
+<li><code>x</code>: what to look for.</li>
+<li><code>xs</code>: the list.</li>
+</ul>
+<p class="pyk-api-label">Returns</p>
+<p><code>Some</code> of the index, or <code>None</code>.</p>
+<p class="pyk-api-label">Example</p>
+<div class="pkn-notebook pkn-embedded not-content"><div class="pkn-fragment" data-markdown="&#x60;&#x60;&#x60;pyking
+import list
+print(list.index_of(2, [3, 1, 2]))
+&#x60;&#x60;&#x60;
+
+&#x60;&#x60;&#x60;stdout visible = true
+Some(2)
+&#x60;&#x60;&#x60;"></div></div>
+</div>
+<div class="pyk-api">
+<h2 id="intmaximum">int::maximum</h2>
+<pre class="pyk-sig"><code><span class="k">def</span> <span class="n">int::maximum</span>(<span class="p">xs</span>: [<span class="t">Int</span>]) -> Option(<span class="t">Int</span>)</code></pre>
+<p>The greatest Int.</p>
+<p class="pyk-api-label">Parameters</p>
+<ul>
+<li><code>xs</code>: the list.</li>
+</ul>
+<p class="pyk-api-label">Returns</p>
+<p><code>Some</code> of it, or <code>None</code> for <code>[]</code>.</p>
+<p class="pyk-api-label">Example</p>
+<div class="pkn-notebook pkn-embedded not-content"><div class="pkn-fragment" data-markdown="&#x60;&#x60;&#x60;pyking
+import list
+print(list.maximum([3, 1, 2]))
+&#x60;&#x60;&#x60;
+
+&#x60;&#x60;&#x60;stdout visible = true
+Some(3)
+&#x60;&#x60;&#x60;"></div></div>
+</div>
+<div class="pyk-api">
+<h2 id="intminimum">int::minimum</h2>
+<pre class="pyk-sig"><code><span class="k">def</span> <span class="n">int::minimum</span>(<span class="p">xs</span>: [<span class="t">Int</span>]) -> Option(<span class="t">Int</span>)</code></pre>
+<p>The smallest Int.</p>
+<p class="pyk-api-label">Parameters</p>
+<ul>
+<li><code>xs</code>: the list.</li>
+</ul>
+<p class="pyk-api-label">Returns</p>
+<p><code>Some</code> of it, or <code>None</code> for <code>[]</code>.</p>
+<p class="pyk-api-label">Example</p>
+<div class="pkn-notebook pkn-embedded not-content"><div class="pkn-fragment" data-markdown="&#x60;&#x60;&#x60;pyking
+import list
+print(list.minimum([3, 1, 2]))
+&#x60;&#x60;&#x60;
+
+&#x60;&#x60;&#x60;stdout visible = true
+Some(1)
+&#x60;&#x60;&#x60;"></div></div>
+</div>
+<div class="pyk-api">
+<h2 id="intproduct">int::product</h2>
+<pre class="pyk-sig"><code><span class="k">def</span> <span class="n">int::product</span>(<span class="p">xs</span>: [<span class="t">Int</span>]) -> <span class="t">Int</span></code></pre>
+<p>The Ints multiplied; 1 for <code>[]</code>.</p>
+<p class="pyk-api-label">Parameters</p>
+<ul>
+<li><code>xs</code>: the list.</li>
+</ul>
+<p class="pyk-api-label">Returns</p>
+<p>The product.</p>
+<p class="pyk-api-label">Example</p>
+<div class="pkn-notebook pkn-embedded not-content"><div class="pkn-fragment" data-markdown="&#x60;&#x60;&#x60;pyking
+import list
+print(list.product([1, 2, 3, 4]))
+&#x60;&#x60;&#x60;
+
+&#x60;&#x60;&#x60;stdout visible = true
+24
+&#x60;&#x60;&#x60;"></div></div>
+</div>
+<div class="pyk-api">
+<h2 id="intsort">int::sort</h2>
+<pre class="pyk-sig"><code><span class="k">def</span> <span class="n">int::sort</span>(<span class="p">xs</span>: [<span class="t">Int</span>]) -> [<span class="t">Int</span>]</code></pre>
+<p>The Ints from smallest to largest.</p>
+<p class="pyk-api-label">Parameters</p>
+<ul>
+<li><code>xs</code>: the list.</li>
+</ul>
+<p class="pyk-api-label">Returns</p>
+<p>A new list, sorted.</p>
+<p class="pyk-api-label">Example</p>
+<div class="pkn-notebook pkn-embedded not-content"><div class="pkn-fragment" data-markdown="&#x60;&#x60;&#x60;pyking
+import list
+print(list.sort([3, 1, 2]))
+&#x60;&#x60;&#x60;
+
+&#x60;&#x60;&#x60;stdout visible = true
+[1, 2, 3]
+&#x60;&#x60;&#x60;"></div></div>
+</div>
+<div class="pyk-api">
+<h2 id="intsort_on">int::sort_on</h2>
+<pre class="pyk-sig"><code><span class="k">def</span> <span class="n">int::sort_on</span>(<span class="p">key</span>: (a) -> <span class="t">Int</span>, <span class="p">xs</span>: [a]) -> [a]</code></pre>
+<p>The elements in the order of their Int keys, <code>key</code> called once per
+element; equal keys keep their order (Haskell’s <code>sortOn</code>).</p>
+<p class="pyk-api-label">Parameters</p>
+<ul>
+<li><code>key</code>: the Int an element is sorted by.</li>
+<li><code>xs</code>: the list.</li>
+</ul>
+<p class="pyk-api-label">Returns</p>
+<p>A new list, sorted.</p>
+<p class="pyk-api-label">Example</p>
+<div class="pkn-notebook pkn-embedded not-content"><div class="pkn-fragment" data-markdown="&#x60;&#x60;&#x60;pyking
+import list
+print(list.sort_on(lam s. len(s), [&#x22;ccc&#x22;, &#x22;a&#x22;, &#x22;bb&#x22;]))
+&#x60;&#x60;&#x60;
+
+&#x60;&#x60;&#x60;stdout visible = true
+[&#x22;a&#x22;, &#x22;bb&#x22;, &#x22;ccc&#x22;]
+&#x60;&#x60;&#x60;"></div></div>
+</div>
+<div class="pyk-api">
+<h2 id="intsum">int::sum</h2>
+<pre class="pyk-sig"><code><span class="k">def</span> <span class="n">int::sum</span>(<span class="p">xs</span>: [<span class="t">Int</span>]) -> <span class="t">Int</span></code></pre>
+<p>The Ints added up; 0 for <code>[]</code>.</p>
+<p class="pyk-api-label">Parameters</p>
+<ul>
+<li><code>xs</code>: the list.</li>
+</ul>
+<p class="pyk-api-label">Returns</p>
+<p>The sum.</p>
+<p class="pyk-api-label">Example</p>
+<div class="pkn-notebook pkn-embedded not-content"><div class="pkn-fragment" data-markdown="&#x60;&#x60;&#x60;pyking
+import list
+print(list.sum([1, 2, 3, 4]), list.sum(list_init(0, lam i. 0)))
+&#x60;&#x60;&#x60;
+
+&#x60;&#x60;&#x60;stdout visible = true
+10 0
+&#x60;&#x60;&#x60;"></div></div>
+</div>
+<div class="pyk-api">
+<h2 id="intunique">int::unique</h2>
+<pre class="pyk-sig"><code><span class="k">def</span> <span class="n">int::unique</span>(<span class="p">xs</span>: [<span class="t">Int</span>]) -> [<span class="t">Int</span>]</code></pre>
+<p>Each Int once, the first of each, in order (Haskell’s <code>nub</code>).</p>
+<p class="pyk-api-label">Parameters</p>
+<ul>
+<li><code>xs</code>: the list.</li>
+</ul>
+<p class="pyk-api-label">Returns</p>
+<p>A new list with no element twice.</p>
+<p class="pyk-api-label">Example</p>
+<div class="pkn-notebook pkn-embedded not-content"><div class="pkn-fragment" data-markdown="&#x60;&#x60;&#x60;pyking
+import list
+print(list.unique([1, 2, 1, 3, 2]))
+&#x60;&#x60;&#x60;
+
+&#x60;&#x60;&#x60;stdout visible = true
+[1, 2, 3]
+&#x60;&#x60;&#x60;"></div></div>
+</div>
+<div class="pyk-api">
+<h2 id="intersperse">intersperse</h2>
+<pre class="pyk-sig"><code><span class="k">def</span> <span class="n">intersperse</span>(<span class="p">x</span>: a, <span class="p">xs</span>: [a]) -> [a]</code></pre>
+<p><code>x</code> put between every two elements.</p>
+<p class="pyk-api-label">Parameters</p>
+<ul>
+<li><code>x</code>: what goes between.</li>
+<li><code>xs</code>: the list.</li>
+</ul>
+<p class="pyk-api-label">Returns</p>
+<p>A new list.</p>
+<p class="pyk-api-label">Example</p>
+<div class="pkn-notebook pkn-embedded not-content"><div class="pkn-fragment" data-markdown="&#x60;&#x60;&#x60;pyking
+import list
+print(list.intersperse(0, [1, 2, 3]))
+&#x60;&#x60;&#x60;
+
+&#x60;&#x60;&#x60;stdout visible = true
+[1, 0, 2, 0, 3]
+&#x60;&#x60;&#x60;"></div></div>
+</div>
+<div class="pyk-api">
+<h2 id="is_empty">is_empty</h2>
+<pre class="pyk-sig"><code><span class="k">def</span> <span class="n">is_empty</span>(<span class="p">xs</span>: [a]) -> <span class="t">Bool</span></code></pre>
+<p>Whether the list has no elements (Haskell’s <code>null</code>).</p>
+<p class="pyk-api-label">Parameters</p>
+<ul>
+<li><code>xs</code>: the list.</li>
+</ul>
+<p class="pyk-api-label">Returns</p>
+<p><code>true</code> for <code>[]</code>.</p>
+<p class="pyk-api-label">Example</p>
+<div class="pkn-notebook pkn-embedded not-content"><div class="pkn-fragment" data-markdown="&#x60;&#x60;&#x60;pyking
+import list
+print(list.is_empty([]), list.is_empty([0]))
+&#x60;&#x60;&#x60;
+
+&#x60;&#x60;&#x60;stdout visible = true
+true false
+&#x60;&#x60;&#x60;"></div></div>
+</div>
+<div class="pyk-api">
+<h2 id="last">last</h2>
+<pre class="pyk-sig"><code><span class="k">def</span> <span class="n">last</span>(<span class="p">xs</span>: [a]) -> Option(a)</code></pre>
+<p>The last element, where there is one.</p>
+<p class="pyk-api-label">Parameters</p>
+<ul>
+<li><code>xs</code>: the list.</li>
+</ul>
+<p class="pyk-api-label">Returns</p>
+<p><code>Some</code> of the last element, or <code>None</code> for <code>[]</code>.</p>
+<p class="pyk-api-label">Example</p>
+<div class="pkn-notebook pkn-embedded not-content"><div class="pkn-fragment" data-markdown="&#x60;&#x60;&#x60;pyking
+import list
+print(list.last([3, 4]), list.last([]))
+&#x60;&#x60;&#x60;
+
+&#x60;&#x60;&#x60;stdout visible = true
+Some(4) None
+&#x60;&#x60;&#x60;"></div></div>
+</div>
+<div class="pyk-api">
+<h2 id="maximum_by">maximum_by</h2>
+<pre class="pyk-sig"><code><span class="k">def</span> <span class="n">maximum_by</span>(<span class="p">before</span>: (a, a) -> <span class="t">Bool</span>, <span class="p">xs</span>: [a]) -> Option(a)</code></pre>
+<p>The greatest element, <code>before(x, y)</code> saying <code>x</code> is smaller than <code>y</code>; the
+first of several equal ones.</p>
+<p class="pyk-api-label">Parameters</p>
+<ul>
+<li><code>before</code>: whether its first argument is smaller.</li>
+<li><code>xs</code>: the list.</li>
+</ul>
+<p class="pyk-api-label">Returns</p>
+<p><code>Some</code> of it, or <code>None</code> for <code>[]</code>.</p>
+<p class="pyk-api-label">Example</p>
+<div class="pkn-notebook pkn-embedded not-content"><div class="pkn-fragment" data-markdown="&#x60;&#x60;&#x60;pyking
+import list
+print(list.maximum_by(lam (a, b). len(a) < len(b), [&#x22;ab&#x22;, &#x22;abcd&#x22;, &#x22;efgh&#x22;]))
+&#x60;&#x60;&#x60;
+
+&#x60;&#x60;&#x60;stdout visible = true
+Some(&#x22;abcd&#x22;)
+&#x60;&#x60;&#x60;"></div></div>
+</div>
+<div class="pyk-api">
+<h2 id="minimum_by">minimum_by</h2>
+<pre class="pyk-sig"><code><span class="k">def</span> <span class="n">minimum_by</span>(<span class="p">before</span>: (a, a) -> <span class="t">Bool</span>, <span class="p">xs</span>: [a]) -> Option(a)</code></pre>
+<p>The smallest element, <code>before(x, y)</code> saying <code>x</code> is smaller than <code>y</code>; the
+first of several equal ones.</p>
+<p class="pyk-api-label">Parameters</p>
+<ul>
+<li><code>before</code>: whether its first argument is smaller.</li>
+<li><code>xs</code>: the list.</li>
+</ul>
+<p class="pyk-api-label">Returns</p>
+<p><code>Some</code> of it, or <code>None</code> for <code>[]</code>.</p>
+<p class="pyk-api-label">Example</p>
+<div class="pkn-notebook pkn-embedded not-content"><div class="pkn-fragment" data-markdown="&#x60;&#x60;&#x60;pyking
+import list
+print(list.minimum_by(lam (a, b). len(a) < len(b), [&#x22;abc&#x22;, &#x22;d&#x22;, &#x22;e&#x22;]))
+&#x60;&#x60;&#x60;
+
+&#x60;&#x60;&#x60;stdout visible = true
+Some(&#x22;d&#x22;)
+&#x60;&#x60;&#x60;"></div></div>
+</div>
+<div class="pyk-api">
+<h2 id="nth">nth</h2>
+<pre class="pyk-sig"><code><span class="k">def</span> <span class="n">nth</span>(<span class="p">xs</span>: [a], <span class="p">i</span>: <span class="t">Int</span>) -> Option(a)</code></pre>
+<p>Element <code>i</code>, counting from 0, where there is one: <code>xs[i]</code> that does not
+fail (Rust’s <code>get</code>).</p>
+<p class="pyk-api-label">Parameters</p>
+<ul>
+<li><code>xs</code>: the list.</li>
+<li><code>i</code>: the index.</li>
+</ul>
+<p class="pyk-api-label">Returns</p>
+<p><code>Some(xs[i])</code>, or <code>None</code> where <code>i</code> is outside the list.</p>
+<p class="pyk-api-label">Example</p>
+<div class="pkn-notebook pkn-embedded not-content"><div class="pkn-fragment" data-markdown="&#x60;&#x60;&#x60;pyking
+import list
+print(list.nth([5, 6, 7], 1), list.nth([5, 6, 7], 3))
+&#x60;&#x60;&#x60;
+
+&#x60;&#x60;&#x60;stdout visible = true
+Some(6) None
+&#x60;&#x60;&#x60;"></div></div>
+</div>
+<div class="pyk-api">
+<h2 id="partition">partition</h2>
+<pre class="pyk-sig"><code><span class="k">def</span> <span class="n">partition</span>(<span class="p">p</span>: (a) -> <span class="t">Bool</span>, <span class="p">xs</span>: [a]) -> ([a], [a])</code></pre>
+<p>The elements <code>p</code> is true of, and the ones it is false of, each in order;
+<code>p</code> is called once per element.</p>
+<p class="pyk-api-label">Parameters</p>
+<ul>
+<li><code>p</code>: the test.</li>
+<li><code>xs</code>: the list.</li>
+</ul>
+<p class="pyk-api-label">Returns</p>
+<p>A pair of lists.</p>
+<p class="pyk-api-label">Example</p>
+<div class="pkn-notebook pkn-embedded not-content"><div class="pkn-fragment" data-markdown="&#x60;&#x60;&#x60;pyking
+import list
+print(list.partition(lam x. x > 1, [3, 1, 2, 0]))
+&#x60;&#x60;&#x60;
+
+&#x60;&#x60;&#x60;stdout visible = true
+([3, 2], [1, 0])
+&#x60;&#x60;&#x60;"></div></div>
+</div>
+<div class="pyk-api">
+<h2 id="reduce">reduce</h2>
+<pre class="pyk-sig"><code><span class="k">def</span> <span class="n">reduce</span>(<span class="p">f</span>: (a, a) -> a, <span class="p">xs</span>: [a]) -> Option(a)</code></pre>
+<p>The elements gathered by <code>f</code> from the first, with no starting value
+(Rust’s <code>reduce</code>, Haskell’s <code>foldl1</code>).</p>
+<p class="pyk-api-label">Parameters</p>
+<ul>
+<li><code>f</code>: combines what is gathered with the next element.</li>
+<li><code>xs</code>: the list.</li>
+</ul>
+<p class="pyk-api-label">Returns</p>
+<p><code>Some</code> of the result, or <code>None</code> for <code>[]</code>.</p>
+<p class="pyk-api-label">Example</p>
+<div class="pkn-notebook pkn-embedded not-content"><div class="pkn-fragment" data-markdown="&#x60;&#x60;&#x60;pyking
+import list
+print(list.reduce(lam (a, b). a * b, [2, 3, 4]), list.reduce(lam (a, b). a + b, []))
+&#x60;&#x60;&#x60;
+
+&#x60;&#x60;&#x60;stdout visible = true
+Some(24) None
+&#x60;&#x60;&#x60;"></div></div>
+</div>
+<div class="pyk-api">
+<h2 id="rest">rest</h2>
+<pre class="pyk-sig"><code><span class="k">def</span> <span class="n">rest</span>(<span class="p">xs</span>: [a]) -> [a]</code></pre>
+<p>Every element but the first; <code>[]</code> for <code>[]</code> (Haskell’s <code>tail</code> fails there).</p>
+<p class="pyk-api-label">Parameters</p>
+<ul>
+<li><code>xs</code>: the list.</li>
+</ul>
+<p class="pyk-api-label">Returns</p>
+<p>The list without its first element.</p>
+<p class="pyk-api-label">Example</p>
+<div class="pkn-notebook pkn-embedded not-content"><div class="pkn-fragment" data-markdown="&#x60;&#x60;&#x60;pyking
+import list
+print(list.rest([1, 2, 3]), list.rest([]))
+&#x60;&#x60;&#x60;
+
+&#x60;&#x60;&#x60;stdout visible = true
+[2, 3] []
+&#x60;&#x60;&#x60;"></div></div>
+</div>
+<div class="pyk-api">
+<h2 id="reverse">reverse</h2>
+<pre class="pyk-sig"><code><span class="k">def</span> <span class="n">reverse</span>(<span class="p">xs</span>: [a]) -> [a]</code></pre>
+<p>The elements in the other order.</p>
+<p class="pyk-api-label">Parameters</p>
+<ul>
+<li><code>xs</code>: the list.</li>
+</ul>
+<p class="pyk-api-label">Returns</p>
+<p>A new list, last element first.</p>
+<p class="pyk-api-label">Example</p>
+<div class="pkn-notebook pkn-embedded not-content"><div class="pkn-fragment" data-markdown="&#x60;&#x60;&#x60;pyking
+import list
+print(list.reverse([1, 2, 3]))
+&#x60;&#x60;&#x60;
+
+&#x60;&#x60;&#x60;stdout visible = true
+[3, 2, 1]
+&#x60;&#x60;&#x60;"></div></div>
+</div>
+<div class="pyk-api">
+<h2 id="scanl">scanl</h2>
+<pre class="pyk-sig"><code><span class="k">def</span> <span class="n">scanl</span>(<span class="p">f</span>: (b, a) -> b, <span class="p">init</span>: b, <span class="p">xs</span>: [a]) -> [b]</code></pre>
+<p>Every value <code>foldl</code> gathers on the way, <code>init</code> first (Haskell’s <code>scanl</code>).</p>
+<p class="pyk-api-label">Parameters</p>
+<ul>
+<li><code>f</code>: as <code>foldl</code>’s.</li>
+<li><code>init</code>: the first value.</li>
+<li><code>xs</code>: the list.</li>
+</ul>
+<p class="pyk-api-label">Returns</p>
+<p>A list one longer than <code>xs</code>.</p>
+<p class="pyk-api-label">Example</p>
+<div class="pkn-notebook pkn-embedded not-content"><div class="pkn-fragment" data-markdown="&#x60;&#x60;&#x60;pyking
+import list
+print(list.scanl(lam (acc, x). acc + x, 0, [1, 2, 3]))
+&#x60;&#x60;&#x60;
+
+&#x60;&#x60;&#x60;stdout visible = true
+[0, 1, 3, 6]
+&#x60;&#x60;&#x60;"></div></div>
+</div>
+<div class="pyk-api">
+<h2 id="scanr">scanr</h2>
+<pre class="pyk-sig"><code><span class="k">def</span> <span class="n">scanr</span>(<span class="p">f</span>: (a, b) -> b, <span class="p">init</span>: b, <span class="p">xs</span>: [a]) -> [b]</code></pre>
+<p>Every value <code>foldr</code> gathers on the way, <code>init</code> last (Haskell’s <code>scanr</code>).</p>
+<p class="pyk-api-label">Parameters</p>
+<ul>
+<li><code>f</code>: as <code>foldr</code>’s.</li>
+<li><code>init</code>: the last value.</li>
+<li><code>xs</code>: the list.</li>
+</ul>
+<p class="pyk-api-label">Returns</p>
+<p>A list one longer than <code>xs</code>.</p>
+<p class="pyk-api-label">Example</p>
+<div class="pkn-notebook pkn-embedded not-content"><div class="pkn-fragment" data-markdown="&#x60;&#x60;&#x60;pyking
+import list
+print(list.scanr(lam (x, acc). x + acc, 0, [1, 2, 3]))
+&#x60;&#x60;&#x60;
+
+&#x60;&#x60;&#x60;stdout visible = true
+[6, 5, 3, 0]
+&#x60;&#x60;&#x60;"></div></div>
+</div>
+<div class="pyk-api">
+<h2 id="sort_by">sort_by</h2>
+<pre class="pyk-sig"><code><span class="k">def</span> <span class="n">sort_by</span>(<span class="p">before</span>: (a, a) -> <span class="t">Bool</span>, <span class="p">xs</span>: [a]) -> [a]</code></pre>
+<p>The elements in order, <code>before(x, y)</code> saying <code>x</code> goes before <code>y</code>; equal
+ones keep their order (a stable merge sort, the same on every target).</p>
+<p class="pyk-api-label">Parameters</p>
+<ul>
+<li><code>before</code>: whether its first argument goes first.</li>
+<li><code>xs</code>: the list.</li>
+</ul>
+<p class="pyk-api-label">Returns</p>
+<p>A new list, sorted.</p>
+<p class="pyk-api-label">Example</p>
+<div class="pkn-notebook pkn-embedded not-content"><div class="pkn-fragment" data-markdown="&#x60;&#x60;&#x60;pyking
+import list
+print(list.sort_by(lam (a, b). len(a) < len(b), [&#x22;ccc&#x22;, &#x22;a&#x22;, &#x22;bb&#x22;, &#x22;d&#x22;]))
+&#x60;&#x60;&#x60;
+
+&#x60;&#x60;&#x60;stdout visible = true
+[&#x22;a&#x22;, &#x22;d&#x22;, &#x22;bb&#x22;, &#x22;ccc&#x22;]
+&#x60;&#x60;&#x60;"></div></div>
+</div>
+<div class="pyk-api">
+<h2 id="span">span</h2>
+<pre class="pyk-sig"><code><span class="k">def</span> <span class="n">span</span>(<span class="p">p</span>: (a) -> <span class="t">Bool</span>, <span class="p">xs</span>: [a]) -> ([a], [a])</code></pre>
+<p><code>take_while</code> and <code>drop_while</code> at once, <code>p</code> called once per element it
+looks at.</p>
+<p class="pyk-api-label">Parameters</p>
+<ul>
+<li><code>p</code>: the test.</li>
+<li><code>xs</code>: the list.</li>
+</ul>
+<p class="pyk-api-label">Returns</p>
+<p>A pair of lists.</p>
+<p class="pyk-api-label">Example</p>
+<div class="pkn-notebook pkn-embedded not-content"><div class="pkn-fragment" data-markdown="&#x60;&#x60;&#x60;pyking
+import list
+print(list.span(lam x. x % 2 == 1, [1, 3, 4, 5]))
+&#x60;&#x60;&#x60;
+
+&#x60;&#x60;&#x60;stdout visible = true
+([1, 3], [4, 5])
+&#x60;&#x60;&#x60;"></div></div>
+</div>
+<div class="pyk-api">
+<h2 id="split_at">split_at</h2>
+<pre class="pyk-sig"><code><span class="k">def</span> <span class="n">split_at</span>(<span class="p">n</span>: <span class="t">Int</span>, <span class="p">xs</span>: [a]) -> ([a], [a])</code></pre>
+<p>The first <code>n</code> elements, and the rest.</p>
+<p class="pyk-api-label">Parameters</p>
+<ul>
+<li><code>n</code>: where to split.</li>
+<li><code>xs</code>: the list.</li>
+</ul>
+<p class="pyk-api-label">Returns</p>
+<p>A pair of lists.</p>
+<p class="pyk-api-label">Example</p>
+<div class="pkn-notebook pkn-embedded not-content"><div class="pkn-fragment" data-markdown="&#x60;&#x60;&#x60;pyking
+import list
+print(list.split_at(1, [1, 2, 3]))
+&#x60;&#x60;&#x60;
+
+&#x60;&#x60;&#x60;stdout visible = true
+([1], [2, 3])
+&#x60;&#x60;&#x60;"></div></div>
+</div>
+<div class="pyk-api">
+<h2 id="stringcontains">string::contains</h2>
+<pre class="pyk-sig"><code><span class="k">def</span> <span class="n">string::contains</span>(<span class="p">x</span>: <span class="t">String</span>, <span class="p">xs</span>: [<span class="t">String</span>]) -> <span class="t">Bool</span></code></pre>
+<p>Whether <code>x</code> is an element of a list of Strings (Haskell’s <code>elem</code>).</p>
+<p class="pyk-api-label">Parameters</p>
+<ul>
+<li><code>x</code>: what to look for.</li>
+<li><code>xs</code>: the list.</li>
+</ul>
+<p class="pyk-api-label">Returns</p>
+<p><code>true</code> where it is.</p>
+<p class="pyk-api-label">Example</p>
+<div class="pkn-notebook pkn-embedded not-content"><div class="pkn-fragment" data-markdown="&#x60;&#x60;&#x60;pyking
+import list
+print(list.contains(&#x22;a&#x22;, [&#x22;b&#x22;, &#x22;a&#x22;]))
+&#x60;&#x60;&#x60;
+
+&#x60;&#x60;&#x60;stdout visible = true
+true
+&#x60;&#x60;&#x60;"></div></div>
+</div>
+<div class="pyk-api">
+<h2 id="stringgroup">string::group</h2>
+<pre class="pyk-sig"><code><span class="k">def</span> <span class="n">string::group</span>(<span class="p">xs</span>: [<span class="t">String</span>]) -> [[<span class="t">String</span>]]</code></pre>
+<p>The list cut into runs of equal Strings next to each other (Haskell’s
+<code>group</code>).</p>
+<p class="pyk-api-label">Parameters</p>
+<ul>
+<li><code>xs</code>: the list.</li>
+</ul>
+<p class="pyk-api-label">Returns</p>
+<p>A list of the runs, in order.</p>
+<p class="pyk-api-label">Example</p>
+<div class="pkn-notebook pkn-embedded not-content"><div class="pkn-fragment" data-markdown="&#x60;&#x60;&#x60;pyking
+import list
+print(list.group([&#x22;a&#x22;, &#x22;a&#x22;, &#x22;b&#x22;]))
+&#x60;&#x60;&#x60;
+
+&#x60;&#x60;&#x60;stdout visible = true
+[[&#x22;a&#x22;, &#x22;a&#x22;], [&#x22;b&#x22;]]
+&#x60;&#x60;&#x60;"></div></div>
+</div>
+<div class="pyk-api">
+<h2 id="stringindex_of">string::index_of</h2>
+<pre class="pyk-sig"><code><span class="k">def</span> <span class="n">string::index_of</span>(<span class="p">x</span>: <span class="t">String</span>, <span class="p">xs</span>: [<span class="t">String</span>]) -> Option(<span class="t">Int</span>)</code></pre>
+<p>The index of the first <code>x</code> in a list of Strings (Haskell’s <code>elemIndex</code>).</p>
+<p class="pyk-api-label">Parameters</p>
+<ul>
+<li><code>x</code>: what to look for.</li>
+<li><code>xs</code>: the list.</li>
+</ul>
+<p class="pyk-api-label">Returns</p>
+<p><code>Some</code> of the index, or <code>None</code>.</p>
+<p class="pyk-api-label">Example</p>
+<div class="pkn-notebook pkn-embedded not-content"><div class="pkn-fragment" data-markdown="&#x60;&#x60;&#x60;pyking
+import list
+print(list.index_of(&#x22;a&#x22;, [&#x22;b&#x22;, &#x22;a&#x22;]))
+&#x60;&#x60;&#x60;
+
+&#x60;&#x60;&#x60;stdout visible = true
+Some(1)
+&#x60;&#x60;&#x60;"></div></div>
+</div>
+<div class="pyk-api">
+<h2 id="stringmaximum">string::maximum</h2>
+<pre class="pyk-sig"><code><span class="k">def</span> <span class="n">string::maximum</span>(<span class="p">xs</span>: [<span class="t">String</span>]) -> Option(<span class="t">String</span>)</code></pre>
+<p>The greatest String.</p>
+<p class="pyk-api-label">Parameters</p>
+<ul>
+<li><code>xs</code>: the list.</li>
+</ul>
+<p class="pyk-api-label">Returns</p>
+<p><code>Some</code> of it, or <code>None</code> for <code>[]</code>.</p>
+<p class="pyk-api-label">Example</p>
+<div class="pkn-notebook pkn-embedded not-content"><div class="pkn-fragment" data-markdown="&#x60;&#x60;&#x60;pyking
+import list
+print(list.maximum([&#x22;b&#x22;, &#x22;ab&#x22;, &#x22;a&#x22;]))
+&#x60;&#x60;&#x60;
+
+&#x60;&#x60;&#x60;stdout visible = true
+Some(&#x22;b&#x22;)
+&#x60;&#x60;&#x60;"></div></div>
+</div>
+<div class="pyk-api">
+<h2 id="stringminimum">string::minimum</h2>
+<pre class="pyk-sig"><code><span class="k">def</span> <span class="n">string::minimum</span>(<span class="p">xs</span>: [<span class="t">String</span>]) -> Option(<span class="t">String</span>)</code></pre>
+<p>The smallest String.</p>
+<p class="pyk-api-label">Parameters</p>
+<ul>
+<li><code>xs</code>: the list.</li>
+</ul>
+<p class="pyk-api-label">Returns</p>
+<p><code>Some</code> of it, or <code>None</code> for <code>[]</code>.</p>
+<p class="pyk-api-label">Example</p>
+<div class="pkn-notebook pkn-embedded not-content"><div class="pkn-fragment" data-markdown="&#x60;&#x60;&#x60;pyking
+import list
+print(list.minimum([&#x22;b&#x22;, &#x22;ab&#x22;, &#x22;a&#x22;]))
+&#x60;&#x60;&#x60;
+
+&#x60;&#x60;&#x60;stdout visible = true
+Some(&#x22;a&#x22;)
+&#x60;&#x60;&#x60;"></div></div>
+</div>
+<div class="pyk-api">
+<h2 id="stringsort">string::sort</h2>
+<pre class="pyk-sig"><code><span class="k">def</span> <span class="n">string::sort</span>(<span class="p">xs</span>: [<span class="t">String</span>]) -> [<span class="t">String</span>]</code></pre>
+<p>The Strings from smallest to largest, by code point.</p>
+<p class="pyk-api-label">Parameters</p>
+<ul>
+<li><code>xs</code>: the list.</li>
+</ul>
+<p class="pyk-api-label">Returns</p>
+<p>A new list, sorted.</p>
+<p class="pyk-api-label">Example</p>
+<div class="pkn-notebook pkn-embedded not-content"><div class="pkn-fragment" data-markdown="&#x60;&#x60;&#x60;pyking
+import list
+print(list.sort([&#x22;b&#x22;, &#x22;ab&#x22;, &#x22;a&#x22;]))
+&#x60;&#x60;&#x60;
+
+&#x60;&#x60;&#x60;stdout visible = true
+[&#x22;a&#x22;, &#x22;ab&#x22;, &#x22;b&#x22;]
+&#x60;&#x60;&#x60;"></div></div>
+</div>
+<div class="pyk-api">
+<h2 id="stringsort_on">string::sort_on</h2>
+<pre class="pyk-sig"><code><span class="k">def</span> <span class="n">string::sort_on</span>(<span class="p">key</span>: (a) -> <span class="t">String</span>, <span class="p">xs</span>: [a]) -> [a]</code></pre>
+<p>The elements in the order of their String keys, <code>key</code> called once per
+element; equal keys keep their order (Haskell’s <code>sortOn</code>).</p>
+<p class="pyk-api-label">Parameters</p>
+<ul>
+<li><code>key</code>: the String an element is sorted by.</li>
+<li><code>xs</code>: the list.</li>
+</ul>
+<p class="pyk-api-label">Returns</p>
+<p>A new list, sorted.</p>
+<p class="pyk-api-label">Example</p>
+<div class="pkn-notebook pkn-embedded not-content"><div class="pkn-fragment" data-markdown="&#x60;&#x60;&#x60;pyking
+import list
+print(list.sort_on(lam p. let (name, _) = p in name, [(&#x22;bo&#x22;, 1), (&#x22;ann&#x22;, 2)]))
+&#x60;&#x60;&#x60;
+
+&#x60;&#x60;&#x60;stdout visible = true
+[(&#x22;ann&#x22;, 2), (&#x22;bo&#x22;, 1)]
+&#x60;&#x60;&#x60;"></div></div>
+</div>
+<div class="pyk-api">
+<h2 id="stringunique">string::unique</h2>
+<pre class="pyk-sig"><code><span class="k">def</span> <span class="n">string::unique</span>(<span class="p">xs</span>: [<span class="t">String</span>]) -> [<span class="t">String</span>]</code></pre>
+<p>Each String once, the first of each, in order (Haskell’s <code>nub</code>).</p>
+<p class="pyk-api-label">Parameters</p>
+<ul>
+<li><code>xs</code>: the list.</li>
+</ul>
+<p class="pyk-api-label">Returns</p>
+<p>A new list with no element twice.</p>
+<p class="pyk-api-label">Example</p>
+<div class="pkn-notebook pkn-embedded not-content"><div class="pkn-fragment" data-markdown="&#x60;&#x60;&#x60;pyking
+import list
+print(list.unique([&#x22;a&#x22;, &#x22;b&#x22;, &#x22;a&#x22;]))
+&#x60;&#x60;&#x60;
+
+&#x60;&#x60;&#x60;stdout visible = true
+[&#x22;a&#x22;, &#x22;b&#x22;]
+&#x60;&#x60;&#x60;"></div></div>
+</div>
+<div class="pyk-api">
+<h2 id="take">take</h2>
+<pre class="pyk-sig"><code><span class="k">def</span> <span class="n">take</span>(<span class="p">n</span>: <span class="t">Int</span>, <span class="p">xs</span>: [a]) -> [a]</code></pre>
+<p>The first <code>n</code> elements, or all of them where there are fewer.</p>
+<p class="pyk-api-label">Parameters</p>
+<ul>
+<li><code>n</code>: how many.</li>
+<li><code>xs</code>: the list.</li>
+</ul>
+<p class="pyk-api-label">Returns</p>
+<p>A list of at most <code>n</code> elements.</p>
+<p class="pyk-api-label">Example</p>
+<div class="pkn-notebook pkn-embedded not-content"><div class="pkn-fragment" data-markdown="&#x60;&#x60;&#x60;pyking
+import list
+print(list.take(2, [1, 2, 3]), list.take(5, [1]))
+&#x60;&#x60;&#x60;
+
+&#x60;&#x60;&#x60;stdout visible = true
+[1, 2] [1]
+&#x60;&#x60;&#x60;"></div></div>
+</div>
+<div class="pyk-api">
+<h2 id="take_while">take_while</h2>
+<pre class="pyk-sig"><code><span class="k">def</span> <span class="n">take_while</span>(<span class="p">p</span>: (a) -> <span class="t">Bool</span>, <span class="p">xs</span>: [a]) -> [a]</code></pre>
+<p>The elements from the start for as long as <code>p</code> is true of them.</p>
+<p class="pyk-api-label">Parameters</p>
+<ul>
+<li><code>p</code>: the test.</li>
+<li><code>xs</code>: the list.</li>
+</ul>
+<p class="pyk-api-label">Returns</p>
+<p>The longest start of <code>xs</code> that <code>p</code> is true of.</p>
+<p class="pyk-api-label">Example</p>
+<div class="pkn-notebook pkn-embedded not-content"><div class="pkn-fragment" data-markdown="&#x60;&#x60;&#x60;pyking
+import list
+print(list.take_while(lam x. x < 3, [1, 2, 3, 1]))
+&#x60;&#x60;&#x60;
+
+&#x60;&#x60;&#x60;stdout visible = true
+[1, 2]
+&#x60;&#x60;&#x60;"></div></div>
+</div>
+<div class="pyk-api">
+<h2 id="unfold">unfold</h2>
+<pre class="pyk-sig"><code><span class="k">def</span> <span class="n">unfold</span>(<span class="p">seed</span>: s, <span class="p">f</span>: (s) -> Option((a, s))) -> [a]</code></pre>
+<p>The elements <code>f</code> makes from <code>seed</code>, one after another, until it answers
+<code>None</code> (Haskell’s <code>unfoldr</code>).</p>
+<p class="pyk-api-label">Parameters</p>
+<ul>
+<li><code>seed</code>: what the first element is made from.</li>
+<li><code>f</code>: answers an element and the next seed, or <code>None</code> to stop.</li>
+</ul>
+<p class="pyk-api-label">Returns</p>
+<p>A list of what <code>f</code> made.</p>
+<p class="pyk-api-label">Example</p>
+<div class="pkn-notebook pkn-embedded not-content"><div class="pkn-fragment" data-markdown="&#x60;&#x60;&#x60;pyking
+import list
+print(list.unfold(1, lam n. if n > 100 then None else Some((n, n * 3))))
+&#x60;&#x60;&#x60;
+
+&#x60;&#x60;&#x60;stdout visible = true
+[1, 3, 9, 27, 81]
+&#x60;&#x60;&#x60;"></div></div>
+</div>
+<div class="pyk-api">
+<h2 id="unique_by">unique_by</h2>
+<pre class="pyk-sig"><code><span class="k">def</span> <span class="n">unique_by</span>(<span class="p">alike</span>: (a, a) -> <span class="t">Bool</span>, <span class="p">xs</span>: [a]) -> [a]</code></pre>
+<p>Each element once, by <code>alike</code>: the first of each, in order.</p>
+<p class="pyk-api-label">Parameters</p>
+<ul>
+<li><code>alike</code>: whether two elements count as the same.</li>
+<li><code>xs</code>: the list.</li>
+</ul>
+<p class="pyk-api-label">Returns</p>
+<p>A new list with no two alike.</p>
+<p class="pyk-api-label">Example</p>
+<div class="pkn-notebook pkn-embedded not-content"><div class="pkn-fragment" data-markdown="&#x60;&#x60;&#x60;pyking
+import list
+print(list.unique_by(lam (a, b). a % 3 == b % 3, [1, 2, 4, 3, 5]))
+&#x60;&#x60;&#x60;
+
+&#x60;&#x60;&#x60;stdout visible = true
+[1, 2, 3]
+&#x60;&#x60;&#x60;"></div></div>
+</div>
+<div class="pyk-api">
+<h2 id="unzip">unzip</h2>
+<pre class="pyk-sig"><code><span class="k">def</span> <span class="n">unzip</span>(<span class="p">ps</span>: [(a, b)]) -> ([a], [b])</code></pre>
+<p>A list of pairs as a pair of lists.</p>
+<p class="pyk-api-label">Parameters</p>
+<ul>
+<li><code>ps</code>: the pairs.</li>
+</ul>
+<p class="pyk-api-label">Returns</p>
+<p>The first parts, and the second parts.</p>
+<p class="pyk-api-label">Example</p>
+<div class="pkn-notebook pkn-embedded not-content"><div class="pkn-fragment" data-markdown="&#x60;&#x60;&#x60;pyking
+import list
+print(list.unzip([(1, &#x22;a&#x22;), (2, &#x22;b&#x22;)]))
+&#x60;&#x60;&#x60;
+
+&#x60;&#x60;&#x60;stdout visible = true
+([1, 2], [&#x22;a&#x22;, &#x22;b&#x22;])
+&#x60;&#x60;&#x60;"></div></div>
+</div>
+<div class="pyk-api">
+<h2 id="windows">windows</h2>
+<pre class="pyk-sig"><code><span class="k">def</span> <span class="n">windows</span>(<span class="p">n</span>: <span class="t">Int</span>, <span class="p">xs</span>: [a]) -> [[a]]</code></pre>
+<p>Every run of <code>n</code> elements in a row, in order (Rust’s <code>windows</code>). <code>n</code>
+must be above 0.</p>
+<p class="pyk-api-label">Parameters</p>
+<ul>
+<li><code>n</code>: how long each run is.</li>
+<li><code>xs</code>: the list.</li>
+</ul>
+<p class="pyk-api-label">Returns</p>
+<p>A list of the runs; none where the list is shorter than <code>n</code>.</p>
+<p class="pyk-api-label">Example</p>
+<div class="pkn-notebook pkn-embedded not-content"><div class="pkn-fragment" data-markdown="&#x60;&#x60;&#x60;pyking
+import list
+print(list.windows(2, [1, 2, 3]))
+&#x60;&#x60;&#x60;
+
+&#x60;&#x60;&#x60;stdout visible = true
+[[1, 2], [2, 3]]
+&#x60;&#x60;&#x60;"></div></div>
+</div>
+<div class="pyk-api">
+<h2 id="zip">zip</h2>
+<pre class="pyk-sig"><code><span class="k">def</span> <span class="n">zip</span>(<span class="p">xs</span>: [a], <span class="p">ys</span>: [b]) -> [(a, b)]</code></pre>
+<p>The elements of two lists in pairs, as long as the shorter list.</p>
+<p class="pyk-api-label">Parameters</p>
+<ul>
+<li><code>xs</code>: the first list.</li>
+<li><code>ys</code>: the second.</li>
+</ul>
+<p class="pyk-api-label">Returns</p>
+<p>A list of pairs.</p>
+<p class="pyk-api-label">Example</p>
+<div class="pkn-notebook pkn-embedded not-content"><div class="pkn-fragment" data-markdown="&#x60;&#x60;&#x60;pyking
+import list
+print(list.zip([1, 2, 3], [&#x22;a&#x22;, &#x22;b&#x22;]))
+&#x60;&#x60;&#x60;
+
+&#x60;&#x60;&#x60;stdout visible = true
+[(1, &#x22;a&#x22;), (2, &#x22;b&#x22;)]
+&#x60;&#x60;&#x60;"></div></div>
+</div>
+<div class="pyk-api">
+<h2 id="zip_with">zip_with</h2>
+<pre class="pyk-sig"><code><span class="k">def</span> <span class="n">zip_with</span>(<span class="p">f</span>: (a, b) -> c, <span class="p">xs</span>: [a], <span class="p">ys</span>: [b]) -> [c]</code></pre>
+<p><code>f</code> of the elements of two lists, in pairs, as long as the shorter list
+(Haskell’s <code>zipWith</code>).</p>
+<p class="pyk-api-label">Parameters</p>
+<ul>
+<li><code>f</code>: combines one element of each.</li>
+<li><code>xs</code>: the first list.</li>
+<li><code>ys</code>: the second.</li>
+</ul>
+<p class="pyk-api-label">Returns</p>
+<p>A list of what <code>f</code> answered.</p>
+<p class="pyk-api-label">Example</p>
+<div class="pkn-notebook pkn-embedded not-content"><div class="pkn-fragment" data-markdown="&#x60;&#x60;&#x60;pyking
+import list
+print(list.zip_with(lam (x, y). x * y, [1, 2, 3], [4, 5, 6]))
+&#x60;&#x60;&#x60;
+
+&#x60;&#x60;&#x60;stdout visible = true
+[4, 10, 18]
+&#x60;&#x60;&#x60;"></div></div>
+</div></div><footer class="sl-flex astro-ddtxxk7k"><div class="meta sl-flex astro-ddtxxk7k"></div><div class="pagination-links print:hidden astro-b5raizh3" dir="ltr"></div></footer></div></div></main></div></div></div></div></body></html>

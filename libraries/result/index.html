@@ -1,0 +1,419 @@
+<!DOCTYPE html><html lang="en" dir="ltr" data-theme="dark" data-has-sidebar class="astro-g5ptsecz"><head><meta charset="utf-8"/><meta name="viewport" content="width=device-width, initial-scale=1"/><title>result | Pyking</title><link rel="canonical" href="https://pyking.org/libraries/result/"/><link rel="sitemap" href="/sitemap-index.xml"/><script src="/v/42683900f13c/site/shell.js" data-base data-build="42683900f13c" data-sections="[{&quot;key&quot;:&quot;install&quot;,&quot;label&quot;:&quot;Install&quot;,&quot;prefix&quot;:&quot;/install/&quot;},{&quot;key&quot;:&quot;getstarted&quot;,&quot;label&quot;:&quot;Getting started&quot;,&quot;prefix&quot;:&quot;/getstarted/&quot;},{&quot;key&quot;:&quot;documentation&quot;,&quot;label&quot;:&quot;Documentation&quot;,&quot;prefix&quot;:&quot;/documentation/&quot;},{&quot;key&quot;:&quot;libraries&quot;,&quot;label&quot;:&quot;Libraries&quot;,&quot;prefix&quot;:&quot;/libraries/&quot;},{&quot;key&quot;:&quot;playground&quot;,&quot;label&quot;:&quot;Playground&quot;,&quot;prefix&quot;:&quot;/playground/&quot;}]"></script><script type="module" src="/v/42683900f13c/site/cells.js"></script><script>try { if (localStorage.getItem('starlight-theme') === null) localStorage.setItem('starlight-theme', 'dark'); } catch (e) {}</script><link rel="shortcut icon" href="/v/42683900f13c/site/favicon.svg" type="image/svg+xml"/><meta name="generator" content="Astro v7.3.5"/><meta name="generator" content="Starlight v0.42.5"/><meta property="og:title" content="result"/><meta property="og:type" content="article"/><meta property="og:url" content="https://pyking.org/libraries/result/"/><meta property="og:locale" content="en"/><meta property="og:description" content="Result: a value, or the error that stopped it."/><meta property="og:site_name" content="Pyking"/><meta name="twitter:card" content="summary_large_image"/><meta name="description" content="Result: a value, or the error that stopped it."/><script>
+	window.StarlightThemeProvider = (() => {
+		const storedTheme =
+			typeof localStorage !== 'undefined' && localStorage.getItem('starlight-theme');
+		const theme =
+			storedTheme ||
+			(window.matchMedia('(prefers-color-scheme: light)').matches ? 'light' : 'dark');
+		document.documentElement.dataset.theme = theme === 'light' ? 'light' : 'dark';
+		return {
+			updatePickers(theme = storedTheme || 'auto') {
+				document.querySelectorAll('starlight-theme-select').forEach((picker) => {
+					const select = picker.querySelector('select');
+					if (select) select.value = theme;
+					/** @type {HTMLTemplateElement | null} */
+					const tmpl = document.querySelector(`#theme-icons`);
+					const newIcon = tmpl && tmpl.content.querySelector('.' + theme);
+					if (newIcon) {
+						const oldIcon = picker.querySelector('svg.label-icon');
+						if (oldIcon) {
+							oldIcon.replaceChildren(...newIcon.cloneNode(true).childNodes);
+						}
+					}
+				});
+			},
+		};
+	})();
+</script><template id="theme-icons"><svg aria-hidden="true" class="light astro-hkc32dio" width="16" height="16" viewBox="0 0 24 24" fill="currentColor" style="--sl-icon-size: 1em;"><path d="M5 12a1 1 0 0 0-1-1H3a1 1 0 0 0 0 2h1a1 1 0 0 0 1-1Zm.64 5-.71.71a1 1 0 0 0 0 1.41 1 1 0 0 0 1.41 0l.71-.71A1 1 0 0 0 5.64 17ZM12 5a1 1 0 0 0 1-1V3a1 1 0 0 0-2 0v1a1 1 0 0 0 1 1Zm5.66 2.34a1 1 0 0 0 .7-.29l.71-.71a1 1 0 1 0-1.41-1.41l-.66.71a1 1 0 0 0 0 1.41 1 1 0 0 0 .66.29Zm-12-.29a1 1 0 0 0 1.41 0 1 1 0 0 0 0-1.41l-.71-.71a1.004 1.004 0 1 0-1.43 1.41l.73.71ZM21 11h-1a1 1 0 0 0 0 2h1a1 1 0 0 0 0-2Zm-2.64 6A1 1 0 0 0 17 18.36l.71.71a1 1 0 0 0 1.41 0 1 1 0 0 0 0-1.41l-.76-.66ZM12 6.5a5.5 5.5 0 1 0 5.5 5.5A5.51 5.51 0 0 0 12 6.5Zm0 9a3.5 3.5 0 1 1 0-7 3.5 3.5 0 0 1 0 7Zm0 3.5a1 1 0 0 0-1 1v1a1 1 0 0 0 2 0v-1a1 1 0 0 0-1-1Z"/></svg><svg aria-hidden="true" class="dark astro-hkc32dio" width="16" height="16" viewBox="0 0 24 24" fill="currentColor" style="--sl-icon-size: 1em;"><path d="M21.64 13a1 1 0 0 0-1.05-.14 8.049 8.049 0 0 1-3.37.73 8.15 8.15 0 0 1-8.14-8.1 8.59 8.59 0 0 1 .25-2A1 1 0 0 0 8 2.36a10.14 10.14 0 1 0 14 11.69 1 1 0 0 0-.36-1.05Zm-9.5 6.69A8.14 8.14 0 0 1 7.08 5.22v.27a10.15 10.15 0 0 0 10.14 10.14 9.784 9.784 0 0 0 2.1-.22 8.11 8.11 0 0 1-7.18 4.32v-.04Z"/></svg><svg aria-hidden="true" class="auto astro-hkc32dio" width="16" height="16" viewBox="0 0 24 24" fill="currentColor" style="--sl-icon-size: 1em;"><path d="M21 14h-1V7a3 3 0 0 0-3-3H7a3 3 0 0 0-3 3v7H3a1 1 0 0 0-1 1v2a3 3 0 0 0 3 3h14a3 3 0 0 0 3-3v-2a1 1 0 0 0-1-1ZM6 7a1 1 0 0 1 1-1h10a1 1 0 0 1 1 1v7H6V7Zm14 10a1 1 0 0 1-1 1H5a1 1 0 0 1-1-1v-1h16v1Z"/></svg></template><link rel="stylesheet" href="/_astro/print.ehPL0gv-.css" media="print"><link rel="stylesheet" href="/_astro/middleware.CytdhB19.css"><script type="module" src="/_astro/page.Dwipeu-R.js"></script></head><body class="astro-g5ptsecz"><a class="sl-skip-link astro-qb7clj6f" href="#_top">Skip to content</a><div class="page sl-flex astro-yntsjkba"><header class="header astro-yntsjkba"><div class="pyking-header"><div class="pyking-header-left"><a href="/" class="site-title sl-flex astro-6rvad3va"><img class="astro-6rvad3va" alt="Pyking" src="/_astro/logo.C9hvHOpV.svg" width="64" height="64"><span class="astro-6rvad3va" translate="no">Pyking</span></a><nav class="pyking-nav" aria-label="Sections"><a href="/install/">Install</a><a href="/getstarted/overview/">Getting started</a><a href="/documentation/language/">Documentation</a><a href="/libraries/" aria-current="page">Libraries</a><a href="/playground/">Playground</a></nav></div><div class="pyking-header-right print:hidden"><site-search class=" astro-b5kgnn7o" data-translations="{&quot;placeholder&quot;:&quot;Search&quot;}"><button data-open-modal disabled aria-label="Search" aria-keyshortcuts="Control+K" class="astro-b5kgnn7o"><svg aria-hidden="true" class="astro-b5kgnn7o astro-hkc32dio" width="16" height="16" viewBox="0 0 24 24" fill="currentColor" style="--sl-icon-size: 1em;"><path d="M21.71 20.29 18 16.61A9 9 0 1 0 16.61 18l3.68 3.68a.999.999 0 0 0 1.42 0 1 1 0 0 0 0-1.39ZM11 18a7 7 0 1 1 0-14 7 7 0 0 1 0 14Z"/></svg><span class="sl-hidden md:sl-block astro-b5kgnn7o" aria-hidden="true">Search</span><kbd class="sl-hidden md:sl-flex astro-b5kgnn7o" style="display: none;"><kbd class="astro-b5kgnn7o">Ctrl</kbd><kbd class="astro-b5kgnn7o">K</kbd></kbd></button><dialog style="padding:0" aria-label="Search" class="astro-b5kgnn7o"><div class="dialog-frame sl-flex astro-b5kgnn7o"><button data-close-modal class="sl-flex md:sl-hidden astro-b5kgnn7o">Cancel</button><div class="search-container astro-b5kgnn7o"><div id="starlight__search" class="astro-b5kgnn7o"></div></div></div></dialog></site-search><script>
+	(() => {
+		const openBtn = document.querySelector('button[data-open-modal]');
+		const shortcut = openBtn?.querySelector('kbd');
+		if (!openBtn || !(shortcut instanceof HTMLElement)) return;
+		const platformKey = shortcut.querySelector('kbd');
+		if (platformKey && /(Mac|iPhone|iPod|iPad)/i.test(navigator.platform)) {
+			platformKey.textContent = '⌘';
+			openBtn.setAttribute('aria-keyshortcuts', 'Meta+K');
+		}
+		shortcut.style.display = '';
+	})();
+</script><script type="module" src="/_astro/Search.astro_astro_type_script_index_0_lang.Bumivpjo.js"></script><div class="sl-hidden md:sl-flex"><starlight-theme-select><label style="--sl-select-width: 6.25em" class="astro-2z5xp7gb"><span class="sr-only astro-2z5xp7gb">Select theme</span><svg aria-hidden="true" class="icon label-icon astro-2z5xp7gb astro-hkc32dio" width="16" height="16" viewBox="0 0 24 24" fill="currentColor" style="--sl-icon-size: 1em;"><path d="M21 14h-1V7a3 3 0 0 0-3-3H7a3 3 0 0 0-3 3v7H3a1 1 0 0 0-1 1v2a3 3 0 0 0 3 3h14a3 3 0 0 0 3-3v-2a1 1 0 0 0-1-1ZM6 7a1 1 0 0 1 1-1h10a1 1 0 0 1 1 1v7H6V7Zm14 10a1 1 0 0 1-1 1H5a1 1 0 0 1-1-1v-1h16v1Z"/></svg><select autocomplete="off" class="astro-2z5xp7gb"><option value="dark" class="astro-2z5xp7gb">Dark</option><option value="light" class="astro-2z5xp7gb">Light</option><option value="auto" selected class="astro-2z5xp7gb">Auto</option></select><svg aria-hidden="true" class="icon caret astro-2z5xp7gb astro-hkc32dio" width="16" height="16" viewBox="0 0 24 24" fill="currentColor" style="--sl-icon-size: 1em;"><path d="M17 9.17a1 1 0 0 0-1.41 0L12 12.71 8.46 9.17a1 1 0 1 0-1.41 1.42l4.24 4.24a1.002 1.002 0 0 0 1.42 0L17 10.59a1.002 1.002 0 0 0 0-1.42Z"/></svg></label></starlight-theme-select><script>
+	StarlightThemeProvider.updatePickers();
+</script><script type="module">var e=`starlight-theme`,t=e=>e===`auto`||e===`dark`||e===`light`?e:`auto`,n=()=>t(typeof localStorage<`u`&&localStorage.getItem(e));function r(t){typeof localStorage<`u`&&localStorage.setItem(e,t===`light`||t===`dark`?t:``)}var i=()=>matchMedia(`(prefers-color-scheme: light)`).matches?`light`:`dark`;function a(e){StarlightThemeProvider.updatePickers(e),document.documentElement.dataset.theme=e===`auto`?i():e,r(e)}matchMedia(`(prefers-color-scheme: light)`).addEventListener(`change`,()=>{n()===`auto`&&a(`auto`)});var o=class extends HTMLElement{constructor(){super(),a(n()),this.querySelector(`select`)?.addEventListener(`change`,e=>{e.currentTarget instanceof HTMLSelectElement&&a(t(e.currentTarget.value))})}};customElements.define(`starlight-theme-select`,o);</script></div><a class="pyking-github" href="https://github.com/pyking-lang" title="Pyking on GitHub"><span class="sr-only">GitHub</span><svg aria-hidden="true" viewBox="0 0 24 24" width="22" height="22" fill="currentColor"><path d="M12 .3a12 12 0 0 0-3.8 23.4c.6.1.8-.3.8-.6v-2c-3.3.7-4-1.6-4-1.6-.6-1.4-1.4-1.8-1.4-1.8-1-.7.1-.7.1-.7 1.2.1 1.8 1.2 1.8 1.2 1 1.8 2.8 1.3 3.5 1 0-.8.4-1.3.7-1.6-2.7-.3-5.5-1.3-5.5-6 0-1.2.5-2.3 1.3-3.1-.2-.4-.6-1.6 0-3.2 0 0 1-.3 3.4 1.2a11.5 11.5 0 0 1 6 0c2.3-1.5 3.3-1.2 3.3-1.2.6 1.6.2 2.8.1 3.2.8.8 1.3 1.9 1.3 3.1 0 4.6-2.8 5.6-5.5 5.9.5.4.9 1.1.9 2.2v3.3c0 .3.1.7.8.6A12 12 0 0 0 12 .3"></path></svg></a></div></div></header><nav class="sidebar print:hidden astro-yntsjkba" aria-label="Main"><button popovertarget="starlight__sidebar" class="sl-menu-button sl-flex md:sl-hidden print:hidden astro-r2osgdlg"><svg aria-hidden="true" class="open-menu astro-r2osgdlg astro-hkc32dio" width="16" height="16" viewBox="0 0 24 24" fill="currentColor" style="--sl-icon-size: 1em;"><path d="M3 8h18a1 1 0 1 0 0-2H3a1 1 0 0 0 0 2Zm18 8H3a1 1 0 0 0 0 2h18a1 1 0 0 0 0-2Zm0-5H3a1 1 0 0 0 0 2h18a1 1 0 0 0 0-2Z"/></svg><svg aria-hidden="true" class="close-menu astro-r2osgdlg astro-hkc32dio" width="16" height="16" viewBox="0 0 24 24" fill="currentColor" style="--sl-icon-size: 1em;"><path d="m13.41 12 6.3-6.29a1.004 1.004 0 1 0-1.42-1.42L12 10.59l-6.29-6.3a1.004 1.004 0 0 0-1.42 1.42l6.3 6.29-6.3 6.29a1 1 0 0 0 0 1.42.998.998 0 0 0 1.42 0l6.29-6.3 6.29 6.3a.999.999 0 0 0 1.42 0 1 1 0 0 0 0-1.42L13.41 12Z"/></svg><span class="sr-only astro-r2osgdlg">Menu</span></button><script type="module">var e=class extends HTMLElement{constructor(){super();let e=matchMedia(`(min-width: 50em)`),t=()=>{this.popover=e.matches?null:`auto`};t(),e.addEventListener(`change`,()=>t()),this.addEventListener(`toggle`,({newState:e})=>this.trapFocus(e===`open`))}trapFocus(e){document.querySelectorAll(`.main-frame, .sl-skip-link`).forEach(t=>{t.toggleAttribute(`inert`,e)})}};customElements.define(`sl-sidebar-pane`,e);</script><script type="module">var e=class extends HTMLElement{constructor(){super();let e=this.querySelector(`select`);e&&(e.addEventListener(`change`,e=>{e.currentTarget instanceof HTMLSelectElement&&(window.location.pathname=e.currentTarget.value)}),window.addEventListener(`pageshow`,t=>{if(!t.persisted)return;let n=e.querySelector(`option[selected]`)?.index;n!==e.selectedIndex&&(e.selectedIndex=n??0)}))}};customElements.define(`starlight-lang-select`,e);</script><sl-sidebar-pane popover id="starlight__sidebar" class="sidebar-pane astro-yntsjkba"><div class="sidebar-content sl-flex astro-yntsjkba"><nav class="pyking-sidebar" aria-label="Libraries"><p class="pyking-sidebar-title">Libraries</p><ul><li><a href="/libraries/">Overview</a></li><li><a href="/libraries/array/">array</a></li><li><a href="/libraries/dynarray/">dynarray</a></li><li><a href="/libraries/fs/">fs</a></li><li><a href="/libraries/io/">io</a></li><li><a href="/libraries/list/">list</a></li><li><a href="/libraries/map/">map</a></li><li><a href="/libraries/math/">math</a></li><li><a href="/libraries/mutmap/">mutmap</a></li><li><a href="/libraries/option/">option</a></li><li><a href="/libraries/prelude/">prelude</a></li><li><a href="/libraries/random/">random</a></li><li><a href="/libraries/result/" aria-current="page">result</a><ul class="pyking-sidebar-headings"><li><a href="#result">Result</a></li><li><a href="#all_ok">all_ok</a></li><li><a href="#and_then">and_then</a></li><li><a href="#error">error</a></li><li><a href="#expect">expect</a></li><li><a href="#flatten">flatten</a></li><li><a href="#is_error">is_error</a></li><li><a href="#is_ok">is_ok</a></li><li><a href="#map_error">map_error</a></li><li><a href="#ok">ok</a></li><li><a href="#ok_or">ok_or</a></li><li><a href="#or_else">or_else</a></li><li><a href="#partition_results">partition_results</a></li><li><a href="#unwrap">unwrap</a></li><li><a href="#unwrap_error">unwrap_error</a></li><li><a href="#unwrap_or">unwrap_or</a></li><li><a href="#unwrap_or_else">unwrap_or_else</a></li></ul></li><li><a href="/libraries/sys/">sys</a></li><li><a href="/libraries/text/">text</a></li><li><a href="/libraries/time/">time</a></li><li><a href="/libraries/tinyweb/">tinyweb</a></li></ul></nav><div class="md:sl-hidden"><div class="mobile-preferences sl-flex astro-p4azlveh"><div class="social-icons astro-p4azlveh"></div><starlight-theme-select><label style="--sl-select-width: 6.25em" class="astro-2z5xp7gb"><span class="sr-only astro-2z5xp7gb">Select theme</span><svg aria-hidden="true" class="icon label-icon astro-2z5xp7gb astro-hkc32dio" width="16" height="16" viewBox="0 0 24 24" fill="currentColor" style="--sl-icon-size: 1em;"><path d="M21 14h-1V7a3 3 0 0 0-3-3H7a3 3 0 0 0-3 3v7H3a1 1 0 0 0-1 1v2a3 3 0 0 0 3 3h14a3 3 0 0 0 3-3v-2a1 1 0 0 0-1-1ZM6 7a1 1 0 0 1 1-1h10a1 1 0 0 1 1 1v7H6V7Zm14 10a1 1 0 0 1-1 1H5a1 1 0 0 1-1-1v-1h16v1Z"/></svg><select autocomplete="off" class="astro-2z5xp7gb"><option value="dark" class="astro-2z5xp7gb">Dark</option><option value="light" class="astro-2z5xp7gb">Light</option><option value="auto" selected class="astro-2z5xp7gb">Auto</option></select><svg aria-hidden="true" class="icon caret astro-2z5xp7gb astro-hkc32dio" width="16" height="16" viewBox="0 0 24 24" fill="currentColor" style="--sl-icon-size: 1em;"><path d="M17 9.17a1 1 0 0 0-1.41 0L12 12.71 8.46 9.17a1 1 0 1 0-1.41 1.42l4.24 4.24a1.002 1.002 0 0 0 1.42 0L17 10.59a1.002 1.002 0 0 0 0-1.42Z"/></svg></label></starlight-theme-select><script>
+	StarlightThemeProvider.updatePickers();
+</script></div></div></div></sl-sidebar-pane></nav><div class="main-frame astro-yntsjkba"><script type="module">var e=document.getElementById(`starlight__sidebar`),t=e?.querySelector(`sl-sidebar-state-persist`),n=`sl-sidebar-state`,r=()=>{let r=[],i=t?.dataset.hash||``;try{let e=sessionStorage.getItem(n),t=JSON.parse(e||`{}`);Array.isArray(t.open)&&t.hash===i&&(r=t.open)}catch{}return{hash:i,open:r,scroll:e?.scrollTop||0}},i=e=>{try{sessionStorage.setItem(n,JSON.stringify(e))}catch{}},a=()=>i(r()),o=(e,t)=>{let n=r();n.open[t]=e,i(n)};t?.addEventListener(`click`,e=>{if(!(e.target instanceof Element))return;let t=e.target.closest(`summary`)?.closest(`details`);if(!t)return;let n=t.querySelector(`sl-sidebar-restore`),r=parseInt(n?.dataset.index||``);isNaN(r)||o(!t.open,r)}),addEventListener(`visibilitychange`,()=>{document.visibilityState===`hidden`&&a()});</script><div class="lg:sl-flex astro-lrzkfocr"><div class="main-pane astro-lrzkfocr"><main data-pagefind-body class="astro-g5ptsecz" lang="en" dir="ltr"><div class="content-panel astro-a7po4psb"><div class="sl-container astro-a7po4psb"><h1 id="_top" class="astro-bebwqqxs">result</h1></div></div><div class="content-panel astro-a7po4psb"><div class="sl-container astro-a7po4psb"><div class="sl-markdown-content"><p>Result: a value, or the error that stopped it. <code>Result(t, e)</code> is
+<code>Ok(value)</code> or <code>Error(error)</code>, as Rust’s is (with <code>Error</code> for Rust’s
+<code>Err</code>).</p>
+<p>Every module that uses <code>Result</code>, <code>Ok</code> or <code>Error</code> without declaring
+its own has them as if it began <code>from result import Result</code>
+(PYKING.md, “Result”); a module declaring its own Result, or its own
+<code>Ok</code> or <code>Error</code>, means its own. <code>import result</code> reaches the functions
+below. <code>fmap</code>, <code>foldl</code>, <code>foldr</code>, <code>any</code> and <code>all</code> take a Result too,
+acting on its <code>Ok</code> value.</p>
+<div class="expressive-code"><link rel="stylesheet" href="/_astro/ec.w36nc.css"><script type="module" src="/_astro/ec.0vx5m.js"></script><figure class="frame not-content"><figcaption class="header"></figcaption><pre data-language="pyking"><code><div class="ec-line"><div class="code"><span style="--0:#C792EA;--1:#8844AE">import</span><span style="--0:#D6DEEB;--1:#403F53"> result</span></div></div></code></pre><div class="copy"><div aria-live="polite"></div><button title="Copy to clipboard" data-copied="Copied!" data-code="import result"><div></div></button></div></figure></div>
+<div class="pyk-api">
+<h2 id="result">Result</h2>
+<pre class="pyk-sig"><code><span class="k">datatype</span> <span class="n">Result</span>(t, e):
+    Ok(value: t)
+    Error(error: e)</code></pre>
+<p>A value, or the error that stopped it: what a function answers when
+it may fail and should say why.</p>
+<p class="pyk-api-label">Parameters</p>
+<ul>
+<li><code>value</code>: what an <code>Ok</code> holds.</li>
+<li><code>error</code>: what an <code>Error</code> holds — a String saying what went wrong, or a datatype of the ways it can.</li>
+</ul>
+<p class="pyk-api-label">Example</p>
+<div class="pkn-notebook pkn-embedded not-content"><div class="pkn-fragment" data-markdown="&#x60;&#x60;&#x60;pyking
+def half(n: Int) -> Result(Int, String):
+    if n % 2 == 0 then Ok(n / 2) else Error(string(n) + &#x22; is odd&#x22;)
+print(half(10), half(7))
+match half(8):
+    case Ok(n): print(&#x22;half is&#x22;, n)
+    case Error(e): print(e)
+&#x60;&#x60;&#x60;
+
+&#x60;&#x60;&#x60;stdout visible = true
+Ok(5) Error(&#x22;7 is odd&#x22;)
+half is 4
+&#x60;&#x60;&#x60;"></div></div>
+</div>
+<div class="pyk-api">
+<h2 id="all_ok">all_ok</h2>
+<pre class="pyk-sig"><code><span class="k">def</span> <span class="n">all_ok</span>(<span class="p">rs</span>: [Result(t, e)]) -> Result([t], e)</code></pre>
+<p>Every value, where every result is an <code>Ok</code>; otherwise the first error
+(Rust’s <code>collect</code> into a Result, Haskell’s <code>sequence</code>).</p>
+<p class="pyk-api-label">Parameters</p>
+<ul>
+<li><code>rs</code>: the results.</li>
+</ul>
+<p class="pyk-api-label">Returns</p>
+<p><code>Ok</code> of every value in order, or the first <code>Error</code>.</p>
+<p class="pyk-api-label">Example</p>
+<div class="pkn-notebook pkn-embedded not-content"><div class="pkn-fragment" data-markdown="&#x60;&#x60;&#x60;pyking
+import result
+print(result.all_ok([Ok(1), Ok(2)]), result.all_ok([Ok(1), Error(&#x22;two&#x22;), Error(&#x22;three&#x22;)]))
+&#x60;&#x60;&#x60;
+
+&#x60;&#x60;&#x60;stdout visible = true
+Ok([1, 2]) Error(&#x22;two&#x22;)
+&#x60;&#x60;&#x60;"></div></div>
+</div>
+<div class="pyk-api">
+<h2 id="and_then">and_then</h2>
+<pre class="pyk-sig"><code><span class="k">def</span> <span class="n">and_then</span>(<span class="p">r</span>: Result(t, e), <span class="p">f</span>: (t) -> Result(u, e)) -> Result(u, e)</code></pre>
+<p>Goes on with <code>f</code> where <code>r</code> is an <code>Ok</code>: the next step of a computation
+that stops at the first error (Haskell’s <code>>>=</code>, OCaml’s <code>bind</code>).</p>
+<p class="pyk-api-label">Parameters</p>
+<ul>
+<li><code>r</code>: the result so far.</li>
+<li><code>f</code>: the next step, given the <code>Ok</code> value.</li>
+</ul>
+<p class="pyk-api-label">Returns</p>
+<p>What <code>f</code> answers, or the same <code>Error</code>.</p>
+<p class="pyk-api-label">Example</p>
+<div class="pkn-notebook pkn-embedded not-content"><div class="pkn-fragment" data-markdown="&#x60;&#x60;&#x60;pyking
+import result
+def positive(n: Int) -> Result(Int, String):
+    if n > 0 then Ok(n) else Error(&#x22;not positive&#x22;)
+print(result.and_then(Ok(5), positive), result.and_then(Ok(-1), positive))
+print(result.and_then(Error(&#x22;earlier&#x22;), positive))
+&#x60;&#x60;&#x60;
+
+&#x60;&#x60;&#x60;stdout visible = true
+Ok(5) Error(&#x22;not positive&#x22;)
+Error(&#x22;earlier&#x22;)
+&#x60;&#x60;&#x60;"></div></div>
+</div>
+<div class="pyk-api">
+<h2 id="error">error</h2>
+<pre class="pyk-sig"><code><span class="k">def</span> <span class="n">error</span>(<span class="p">r</span>: Result(t, e)) -> Option(e)</code></pre>
+<p>The error of an <code>Error</code> as an Option.</p>
+<p class="pyk-api-label">Parameters</p>
+<ul>
+<li><code>r</code>: the result.</li>
+</ul>
+<p class="pyk-api-label">Returns</p>
+<p><code>Some(error)</code> for an <code>Error</code>, <code>None</code> for an <code>Ok</code>.</p>
+<p class="pyk-api-label">Example</p>
+<div class="pkn-notebook pkn-embedded not-content"><div class="pkn-fragment" data-markdown="&#x60;&#x60;&#x60;pyking
+import result
+print(result.error(Ok(1)), result.error(Error(&#x22;no&#x22;)))
+&#x60;&#x60;&#x60;
+
+&#x60;&#x60;&#x60;stdout visible = true
+None Some(&#x22;no&#x22;)
+&#x60;&#x60;&#x60;"></div></div>
+</div>
+<div class="pyk-api">
+<h2 id="expect">expect</h2>
+<pre class="pyk-sig"><code><span class="k">def</span> <span class="n">expect</span>(<span class="p">r</span>: Result(t, e), <span class="p">message</span>: <span class="t">String</span>) -> t</code></pre>
+<p>The value of an <code>Ok</code>; for an <code>Error</code> the program stops with the runtime
+error <code>message</code>.</p>
+<p class="pyk-api-label">Parameters</p>
+<ul>
+<li><code>r</code>: the result, which should be an <code>Ok</code>.</li>
+<li><code>message</code>: what the runtime error says.</li>
+</ul>
+<p class="pyk-api-label">Returns</p>
+<p>The <code>Ok</code> value.</p>
+<p class="pyk-api-label">Example</p>
+<div class="pkn-notebook pkn-embedded not-content"><div class="pkn-fragment" data-markdown="&#x60;&#x60;&#x60;pyking
+import result
+print(result.expect(Ok(&#x22;ready&#x22;), &#x22;the file should open&#x22;))
+&#x60;&#x60;&#x60;
+
+&#x60;&#x60;&#x60;stdout visible = true
+ready
+&#x60;&#x60;&#x60;"></div></div>
+</div>
+<div class="pyk-api">
+<h2 id="flatten">flatten</h2>
+<pre class="pyk-sig"><code><span class="k">def</span> <span class="n">flatten</span>(<span class="p">rr</span>: Result(Result(t, e), e)) -> Result(t, e)</code></pre>
+<p>A result holding a result, as one.</p>
+<p class="pyk-api-label">Parameters</p>
+<ul>
+<li><code>rr</code>: the result of a result.</li>
+</ul>
+<p class="pyk-api-label">Returns</p>
+<p>The inner result, or the outer <code>Error</code>.</p>
+<p class="pyk-api-label">Example</p>
+<div class="pkn-notebook pkn-embedded not-content"><div class="pkn-fragment" data-markdown="&#x60;&#x60;&#x60;pyking
+import result
+ok: Result(Result(Int, String), String) = Ok(Ok(1))
+print(result.flatten(ok))
+&#x60;&#x60;&#x60;
+
+&#x60;&#x60;&#x60;stdout visible = true
+Ok(1)
+&#x60;&#x60;&#x60;"></div></div>
+</div>
+<div class="pyk-api">
+<h2 id="is_error">is_error</h2>
+<pre class="pyk-sig"><code><span class="k">def</span> <span class="n">is_error</span>(<span class="p">r</span>: Result(t, e)) -> <span class="t">Bool</span></code></pre>
+<p>Whether <code>r</code> is an <code>Error</code>.</p>
+<p class="pyk-api-label">Parameters</p>
+<ul>
+<li><code>r</code>: the result.</li>
+</ul>
+<p class="pyk-api-label">Returns</p>
+<p><code>true</code> for an <code>Error</code>, <code>false</code> for an <code>Ok</code>.</p>
+<p class="pyk-api-label">Example</p>
+<div class="pkn-notebook pkn-embedded not-content"><div class="pkn-fragment" data-markdown="&#x60;&#x60;&#x60;pyking
+import result
+print(result.is_error(Ok(1)), result.is_error(Error(&#x22;no&#x22;)))
+&#x60;&#x60;&#x60;
+
+&#x60;&#x60;&#x60;stdout visible = true
+false true
+&#x60;&#x60;&#x60;"></div></div>
+</div>
+<div class="pyk-api">
+<h2 id="is_ok">is_ok</h2>
+<pre class="pyk-sig"><code><span class="k">def</span> <span class="n">is_ok</span>(<span class="p">r</span>: Result(t, e)) -> <span class="t">Bool</span></code></pre>
+<p>Whether <code>r</code> is an <code>Ok</code>.</p>
+<p class="pyk-api-label">Parameters</p>
+<ul>
+<li><code>r</code>: the result.</li>
+</ul>
+<p class="pyk-api-label">Returns</p>
+<p><code>true</code> for an <code>Ok</code>, <code>false</code> for an <code>Error</code>.</p>
+<p class="pyk-api-label">Example</p>
+<div class="pkn-notebook pkn-embedded not-content"><div class="pkn-fragment" data-markdown="&#x60;&#x60;&#x60;pyking
+import result
+print(result.is_ok(Ok(1)), result.is_ok(Error(&#x22;no&#x22;)))
+&#x60;&#x60;&#x60;
+
+&#x60;&#x60;&#x60;stdout visible = true
+true false
+&#x60;&#x60;&#x60;"></div></div>
+</div>
+<div class="pyk-api">
+<h2 id="map_error">map_error</h2>
+<pre class="pyk-sig"><code><span class="k">def</span> <span class="n">map_error</span>(<span class="p">f</span>: (e) -> g, <span class="p">r</span>: Result(t, e)) -> Result(t, g)</code></pre>
+<p><code>r</code> with <code>f</code> applied to its error: what <code>fmap</code> is to the <code>Ok</code> value
+(Rust’s <code>map_err</code>). The function comes first, as <code>fmap</code>’s does.</p>
+<p class="pyk-api-label">Parameters</p>
+<ul>
+<li><code>f</code>: applied to the error.</li>
+<li><code>r</code>: the result.</li>
+</ul>
+<p class="pyk-api-label">Returns</p>
+<p>The same <code>Ok</code>, or <code>Error(f(error))</code>.</p>
+<p class="pyk-api-label">Example</p>
+<div class="pkn-notebook pkn-embedded not-content"><div class="pkn-fragment" data-markdown="&#x60;&#x60;&#x60;pyking
+import result
+print(result.map_error(lam e. &#x22;bad: &#x22; + e, Error(&#x22;input&#x22;)), result.map_error(lam e. e + &#x22;!&#x22;, Ok(2)))
+&#x60;&#x60;&#x60;
+
+&#x60;&#x60;&#x60;stdout visible = true
+Error(&#x22;bad: input&#x22;) Ok(2)
+&#x60;&#x60;&#x60;"></div></div>
+</div>
+<div class="pyk-api">
+<h2 id="ok">ok</h2>
+<pre class="pyk-sig"><code><span class="k">def</span> <span class="n">ok</span>(<span class="p">r</span>: Result(t, e)) -> Option(t)</code></pre>
+<p>The value of an <code>Ok</code> as an Option, the error dropped.</p>
+<p class="pyk-api-label">Parameters</p>
+<ul>
+<li><code>r</code>: the result.</li>
+</ul>
+<p class="pyk-api-label">Returns</p>
+<p><code>Some(value)</code> for an <code>Ok</code>, <code>None</code> for an <code>Error</code>.</p>
+<p class="pyk-api-label">Example</p>
+<div class="pkn-notebook pkn-embedded not-content"><div class="pkn-fragment" data-markdown="&#x60;&#x60;&#x60;pyking
+import result
+print(result.ok(Ok(1)), result.ok(Error(&#x22;no&#x22;)))
+&#x60;&#x60;&#x60;
+
+&#x60;&#x60;&#x60;stdout visible = true
+Some(1) None
+&#x60;&#x60;&#x60;"></div></div>
+</div>
+<div class="pyk-api">
+<h2 id="ok_or">ok_or</h2>
+<pre class="pyk-sig"><code><span class="k">def</span> <span class="n">ok_or</span>(<span class="p">o</span>: Option(t), <span class="p">problem</span>: e) -> Result(t, e)</code></pre>
+<p>An Option as a Result: <code>None</code> becomes <code>Error(problem)</code> (Rust’s
+<code>Option::ok_or</code>; it lives here so that lib/option needs no Result).</p>
+<p class="pyk-api-label">Parameters</p>
+<ul>
+<li><code>o</code>: the option.</li>
+<li><code>problem</code>: the error to give for <code>None</code>.</li>
+</ul>
+<p class="pyk-api-label">Returns</p>
+<p><code>Ok(value)</code> for a <code>Some</code>, <code>Error(problem)</code> for <code>None</code>.</p>
+<p class="pyk-api-label">Example</p>
+<div class="pkn-notebook pkn-embedded not-content"><div class="pkn-fragment" data-markdown="&#x60;&#x60;&#x60;pyking
+import result
+print(result.ok_or(Some(1), &#x22;missing&#x22;), result.ok_or(None, &#x22;missing&#x22;))
+&#x60;&#x60;&#x60;
+
+&#x60;&#x60;&#x60;stdout visible = true
+Ok(1) Error(&#x22;missing&#x22;)
+&#x60;&#x60;&#x60;"></div></div>
+</div>
+<div class="pyk-api">
+<h2 id="or_else">or_else</h2>
+<pre class="pyk-sig"><code><span class="k">def</span> <span class="n">or_else</span>(<span class="p">r</span>: Result(t, e), <span class="p">f</span>: (e) -> Result(t, g)) -> Result(t, g)</code></pre>
+<p>Tries <code>f</code> where <code>r</code> is an <code>Error</code>: a way to recover from one.</p>
+<p class="pyk-api-label">Parameters</p>
+<ul>
+<li><code>r</code>: the result.</li>
+<li><code>f</code>: given the error, answers another result.</li>
+</ul>
+<p class="pyk-api-label">Returns</p>
+<p>The same <code>Ok</code>, or what <code>f</code> answers.</p>
+<p class="pyk-api-label">Example</p>
+<div class="pkn-notebook pkn-embedded not-content"><div class="pkn-fragment" data-markdown="&#x60;&#x60;&#x60;pyking
+import result
+print(result.or_else(Error(&#x22;no&#x22;), lam e. Ok(len(e))), result.or_else(Ok(1), lam e. Ok(0)))
+&#x60;&#x60;&#x60;
+
+&#x60;&#x60;&#x60;stdout visible = true
+Ok(2) Ok(1)
+&#x60;&#x60;&#x60;"></div></div>
+</div>
+<div class="pyk-api">
+<h2 id="partition_results">partition_results</h2>
+<pre class="pyk-sig"><code><span class="k">def</span> <span class="n">partition_results</span>(<span class="p">rs</span>: [Result(t, e)]) -> ([t], [e])</code></pre>
+<p>The values of the <code>Ok</code>s and the errors of the <code>Error</code>s, each in order
+(Haskell’s <code>partitionEithers</code>).</p>
+<p class="pyk-api-label">Parameters</p>
+<ul>
+<li><code>rs</code>: the results.</li>
+</ul>
+<p class="pyk-api-label">Returns</p>
+<p>A pair: every value, and every error.</p>
+<p class="pyk-api-label">Example</p>
+<div class="pkn-notebook pkn-embedded not-content"><div class="pkn-fragment" data-markdown="&#x60;&#x60;&#x60;pyking
+import result
+print(result.partition_results([Ok(1), Error(&#x22;b&#x22;), Ok(3)]))
+&#x60;&#x60;&#x60;
+
+&#x60;&#x60;&#x60;stdout visible = true
+([1, 3], [&#x22;b&#x22;])
+&#x60;&#x60;&#x60;"></div></div>
+</div>
+<div class="pyk-api">
+<h2 id="unwrap">unwrap</h2>
+<pre class="pyk-sig"><code><span class="k">def</span> <span class="n">unwrap</span>(<span class="p">r</span>: Result(t, e)) -> t</code></pre>
+<p>The value of an <code>Ok</code>; for an <code>Error</code> the program stops with a runtime
+error.</p>
+<p class="pyk-api-label">Parameters</p>
+<ul>
+<li><code>r</code>: the result, which should be an <code>Ok</code>.</li>
+</ul>
+<p class="pyk-api-label">Returns</p>
+<p>The <code>Ok</code> value.</p>
+<p class="pyk-api-label">Example</p>
+<div class="pkn-notebook pkn-embedded not-content"><div class="pkn-fragment" data-markdown="&#x60;&#x60;&#x60;pyking
+import result
+print(result.unwrap(Ok(42)))
+&#x60;&#x60;&#x60;
+
+&#x60;&#x60;&#x60;stdout visible = true
+42
+&#x60;&#x60;&#x60;"></div></div>
+</div>
+<div class="pyk-api">
+<h2 id="unwrap_error">unwrap_error</h2>
+<pre class="pyk-sig"><code><span class="k">def</span> <span class="n">unwrap_error</span>(<span class="p">r</span>: Result(t, e)) -> e</code></pre>
+<p>The error of an <code>Error</code>; for an <code>Ok</code> the program stops with a runtime
+error.</p>
+<p class="pyk-api-label">Parameters</p>
+<ul>
+<li><code>r</code>: the result, which should be an <code>Error</code>.</li>
+</ul>
+<p class="pyk-api-label">Returns</p>
+<p>The error.</p>
+<p class="pyk-api-label">Example</p>
+<div class="pkn-notebook pkn-embedded not-content"><div class="pkn-fragment" data-markdown="&#x60;&#x60;&#x60;pyking
+import result
+print(result.unwrap_error(Error(&#x22;too big&#x22;)))
+&#x60;&#x60;&#x60;
+
+&#x60;&#x60;&#x60;stdout visible = true
+too big
+&#x60;&#x60;&#x60;"></div></div>
+</div>
+<div class="pyk-api">
+<h2 id="unwrap_or">unwrap_or</h2>
+<pre class="pyk-sig"><code><span class="k">def</span> <span class="n">unwrap_or</span>(<span class="p">r</span>: Result(t, e), <span class="p">default</span>: t) -> t</code></pre>
+<p>The value of an <code>Ok</code>, or <code>default</code> for an <code>Error</code>.</p>
+<p class="pyk-api-label">Parameters</p>
+<ul>
+<li><code>r</code>: the result.</li>
+<li><code>default</code>: what to answer for an <code>Error</code>.</li>
+</ul>
+<p class="pyk-api-label">Returns</p>
+<p>The <code>Ok</code> value, or <code>default</code>.</p>
+<p class="pyk-api-label">Example</p>
+<div class="pkn-notebook pkn-embedded not-content"><div class="pkn-fragment" data-markdown="&#x60;&#x60;&#x60;pyking
+import result
+print(result.unwrap_or(Ok(3), 0), result.unwrap_or(Error(&#x22;no&#x22;), 0))
+&#x60;&#x60;&#x60;
+
+&#x60;&#x60;&#x60;stdout visible = true
+3 0
+&#x60;&#x60;&#x60;"></div></div>
+</div>
+<div class="pyk-api">
+<h2 id="unwrap_or_else">unwrap_or_else</h2>
+<pre class="pyk-sig"><code><span class="k">def</span> <span class="n">unwrap_or_else</span>(<span class="p">r</span>: Result(t, e), <span class="p">f</span>: (e) -> t) -> t</code></pre>
+<p>The value of an <code>Ok</code>, or what <code>f</code> makes of the error.</p>
+<p class="pyk-api-label">Parameters</p>
+<ul>
+<li><code>r</code>: the result.</li>
+<li><code>f</code>: called with the error of an <code>Error</code> only.</li>
+</ul>
+<p class="pyk-api-label">Returns</p>
+<p>The <code>Ok</code> value, or <code>f(error)</code>.</p>
+<p class="pyk-api-label">Example</p>
+<div class="pkn-notebook pkn-embedded not-content"><div class="pkn-fragment" data-markdown="&#x60;&#x60;&#x60;pyking
+import result
+print(result.unwrap_or_else(Error(&#x22;four&#x22;), lam e. len(e)))
+&#x60;&#x60;&#x60;
+
+&#x60;&#x60;&#x60;stdout visible = true
+4
+&#x60;&#x60;&#x60;"></div></div>
+</div></div><footer class="sl-flex astro-ddtxxk7k"><div class="meta sl-flex astro-ddtxxk7k"></div><div class="pagination-links print:hidden astro-b5raizh3" dir="ltr"></div></footer></div></div></main></div></div></div></div></body></html>

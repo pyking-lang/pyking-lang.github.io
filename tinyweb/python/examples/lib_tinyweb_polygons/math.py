@@ -216,7 +216,7 @@ def cbrt(x):
     nearest = math_external.host_floor(root + 0.5)
     return nearest if nearest * nearest * nearest == x else root
 
-def pow(x, y):
+def pow_(x, y):
     return math_external.host_pow(x, y)
 
 def hypot(x, y):

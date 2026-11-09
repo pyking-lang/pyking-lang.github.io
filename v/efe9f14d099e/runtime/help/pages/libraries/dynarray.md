@@ -1,0 +1,2114 @@
+---
+title: dynarray
+description: "DynArrays: copying, joining, comparing, reversing and sorting them."
+---
+
+DynArrays: copying, joining, comparing, reversing and sorting them.
+
+A DynArray is made by the builtin `dynarray()` or `dynarray(xs)`, read with `v[i]`
+and written with `v[i] := x`, and grown and shrunk by the builtins
+`push`, `pop`, `insert`, `remove` and `clear`; `len(v)` and
+`same(v, w)` are builtins too (PYKING.md, "DynArrays"). This module is the
+rest. `copy`, `to_list` and `to_array` make a **new** value and copy
+**shallowly**; `extend`, `reverse` and `sort` change the DynArray they are
+given, which everyone holding it sees. `push` and `pop` take constant
+time on average, `insert` and `remove` time in proportion to the
+elements they move, and sorting `n log n`.
+
+```pyking norun
+import dynarray
+```
+
+<div class="pyk-api">
+
+## append
+
+<pre class="pyk-sig"><code><span class="k">def</span> <span class="n">append</span>(<span class="p">v</span>: DynArray(t), <span class="p">w</span>: DynArray(t)) -&gt; ()</code></pre>
+
+Pushes every element of `w` onto `v`, in order; `w` is as it was, and
+`append(v, v)` doubles `v`.
+
+<p class="pyk-api-label">Parameters</p>
+
+- `v`: the DynArray that grows.
+- `w`: what is pushed.
+
+<p class="pyk-api-label">Example</p>
+
+```pyking
+use mutation
+import dynarray
+v = dynarray([1, 2])
+dynarray.append(v, v)
+print(v)
+```
+
+```stdout visible = true
+dynarray([1, 2, 1, 2])
+```
+
+</div>
+
+<div class="pyk-api">
+
+## bool::contains
+
+<pre class="pyk-sig"><code><span class="k">def</span> <span class="n">bool::contains</span>(<span class="p">x</span>: <span class="t">Bool</span>, <span class="p">v</span>: DynArray(<span class="t">Bool</span>)) -&gt; <span class="t">Bool</span></code></pre>
+
+Whether `x` is an element of a DynArray of Bools.
+
+<p class="pyk-api-label">Parameters</p>
+
+- `x`: what to look for.
+- `v`: a DynArray.
+
+<p class="pyk-api-label">Returns</p>
+
+`true` where it is.
+
+<p class="pyk-api-label">Example</p>
+
+```pyking
+use mutation
+import dynarray
+v = dynarray([true])
+print(dynarray.contains(true, v))
+```
+
+```stdout visible = true
+true
+```
+
+</div>
+
+<div class="pyk-api">
+
+## bool::equal
+
+<pre class="pyk-sig"><code><span class="k">def</span> <span class="n">bool::equal</span>(<span class="p">v</span>: DynArray(<span class="t">Bool</span>), <span class="p">w</span>: DynArray(<span class="t">Bool</span>)) -&gt; <span class="t">Bool</span></code></pre>
+
+Whether two DynArrays of Bools hold the same elements in the same order.
+
+<p class="pyk-api-label">Parameters</p>
+
+- `v`: one DynArray.
+- `w`: the other.
+
+<p class="pyk-api-label">Returns</p>
+
+`true` when they have the same length and equal elements.
+
+<p class="pyk-api-label">Example</p>
+
+```pyking
+use mutation
+import dynarray
+print(dynarray.equal(dynarray([true]), dynarray([true])))
+```
+
+```stdout visible = true
+true
+```
+
+</div>
+
+<div class="pyk-api">
+
+## bool::index_of
+
+<pre class="pyk-sig"><code><span class="k">def</span> <span class="n">bool::index_of</span>(<span class="p">x</span>: <span class="t">Bool</span>, <span class="p">v</span>: DynArray(<span class="t">Bool</span>)) -&gt; Option(<span class="t">Int</span>)</code></pre>
+
+The index of the first `x` in a DynArray of Bools.
+
+<p class="pyk-api-label">Parameters</p>
+
+- `x`: what to look for.
+- `v`: a DynArray.
+
+<p class="pyk-api-label">Returns</p>
+
+`Some` of the index, or `None`.
+
+<p class="pyk-api-label">Example</p>
+
+```pyking
+use mutation
+import dynarray
+v = dynarray([true])
+print(dynarray.index_of(true, v))
+```
+
+```stdout visible = true
+Some(0)
+```
+
+</div>
+
+<div class="pyk-api">
+
+## char::contains
+
+<pre class="pyk-sig"><code><span class="k">def</span> <span class="n">char::contains</span>(<span class="p">x</span>: Char, <span class="p">v</span>: DynArray(Char)) -&gt; <span class="t">Bool</span></code></pre>
+
+Whether `x` is an element of a DynArray of Chars.
+
+<p class="pyk-api-label">Parameters</p>
+
+- `x`: what to look for.
+- `v`: a DynArray.
+
+<p class="pyk-api-label">Returns</p>
+
+`true` where it is.
+
+<p class="pyk-api-label">Example</p>
+
+```pyking
+use mutation
+import dynarray
+v = dynarray(['a'])
+print(dynarray.contains('a', v))
+```
+
+```stdout visible = true
+true
+```
+
+</div>
+
+<div class="pyk-api">
+
+## char::equal
+
+<pre class="pyk-sig"><code><span class="k">def</span> <span class="n">char::equal</span>(<span class="p">v</span>: DynArray(Char), <span class="p">w</span>: DynArray(Char)) -&gt; <span class="t">Bool</span></code></pre>
+
+Whether two DynArrays of Chars hold the same elements in the same order.
+
+<p class="pyk-api-label">Parameters</p>
+
+- `v`: one DynArray.
+- `w`: the other.
+
+<p class="pyk-api-label">Returns</p>
+
+`true` when they have the same length and equal elements.
+
+<p class="pyk-api-label">Example</p>
+
+```pyking
+use mutation
+import dynarray
+print(dynarray.equal(dynarray(['a']), dynarray(['b'])))
+```
+
+```stdout visible = true
+false
+```
+
+</div>
+
+<div class="pyk-api">
+
+## char::index_of
+
+<pre class="pyk-sig"><code><span class="k">def</span> <span class="n">char::index_of</span>(<span class="p">x</span>: Char, <span class="p">v</span>: DynArray(Char)) -&gt; Option(<span class="t">Int</span>)</code></pre>
+
+The index of the first `x` in a DynArray of Chars.
+
+<p class="pyk-api-label">Parameters</p>
+
+- `x`: what to look for.
+- `v`: a DynArray.
+
+<p class="pyk-api-label">Returns</p>
+
+`Some` of the index, or `None`.
+
+<p class="pyk-api-label">Example</p>
+
+```pyking
+use mutation
+import dynarray
+v = dynarray(['a'])
+print(dynarray.index_of('a', v))
+```
+
+```stdout visible = true
+Some(0)
+```
+
+</div>
+
+<div class="pyk-api">
+
+## char::maximum
+
+<pre class="pyk-sig"><code><span class="k">def</span> <span class="n">char::maximum</span>(<span class="p">v</span>: DynArray(Char)) -&gt; Option(Char)</code></pre>
+
+The greatest Char.
+
+<p class="pyk-api-label">Parameters</p>
+
+- `v`: a DynArray.
+
+<p class="pyk-api-label">Returns</p>
+
+`Some` of it, or `None`.
+
+<p class="pyk-api-label">Example</p>
+
+```pyking
+use mutation
+import dynarray
+v = dynarray(['b', 'a'])
+print(dynarray.maximum(v))
+```
+
+```stdout visible = true
+Some('b')
+```
+
+</div>
+
+<div class="pyk-api">
+
+## char::minimum
+
+<pre class="pyk-sig"><code><span class="k">def</span> <span class="n">char::minimum</span>(<span class="p">v</span>: DynArray(Char)) -&gt; Option(Char)</code></pre>
+
+The smallest Char.
+
+<p class="pyk-api-label">Parameters</p>
+
+- `v`: a DynArray.
+
+<p class="pyk-api-label">Returns</p>
+
+`Some` of it, or `None`.
+
+<p class="pyk-api-label">Example</p>
+
+```pyking
+use mutation
+import dynarray
+v = dynarray(['b', 'a'])
+print(dynarray.minimum(v))
+```
+
+```stdout visible = true
+Some('a')
+```
+
+</div>
+
+<div class="pyk-api">
+
+## char::sort
+
+<pre class="pyk-sig"><code><span class="k">def</span> <span class="n">char::sort</span>(<span class="p">v</span>: DynArray(Char)) -&gt; ()</code></pre>
+
+Sorts a DynArray of Chars by code point, in place.
+
+<p class="pyk-api-label">Parameters</p>
+
+- `v`: the DynArray to sort.
+
+<p class="pyk-api-label">Example</p>
+
+```pyking
+use mutation
+import dynarray
+v = dynarray(['c', 'a', 'b'])
+dynarray.sort(v)
+print(v)
+```
+
+```stdout visible = true
+dynarray(['a', 'b', 'c'])
+```
+
+</div>
+
+<div class="pyk-api">
+
+## char::sort_on
+
+<pre class="pyk-sig"><code><span class="k">def</span> <span class="n">char::sort_on</span>(<span class="p">key</span>: (t) -&gt; Char, <span class="p">v</span>: DynArray(t)) -&gt; ()</code></pre>
+
+Sorts in place by each element's Char key, `key` called once per element;
+equal keys keep their order.
+
+<p class="pyk-api-label">Parameters</p>
+
+- `key`: the Char an element is sorted by.
+- `v`: a DynArray to sort.
+
+<p class="pyk-api-label">Example</p>
+
+```pyking
+use mutation
+import dynarray
+v = dynarray(["b1", "a2"])
+dynarray.sort_on(lam s. s[0], v)
+print(v)
+```
+
+```stdout visible = true
+dynarray(["a2", "b1"])
+```
+
+</div>
+
+<div class="pyk-api">
+
+## char::sorted
+
+<pre class="pyk-sig"><code><span class="k">def</span> <span class="n">char::sorted</span>(<span class="p">v</span>: DynArray(Char)) -&gt; DynArray(Char)</code></pre>
+
+A new DynArray of the Chars from smallest to largest; `v` is as it was
+(`sort` sorts in place).
+
+<p class="pyk-api-label">Parameters</p>
+
+- `v`: a DynArray.
+
+<p class="pyk-api-label">Returns</p>
+
+A new DynArray.
+
+<p class="pyk-api-label">Example</p>
+
+```pyking
+use mutation
+import dynarray
+v = dynarray(['b', 'a'])
+print(dynarray.sorted(v), v)
+```
+
+```stdout visible = true
+dynarray(['a', 'b']) dynarray(['b', 'a'])
+```
+
+</div>
+
+<div class="pyk-api">
+
+## contains_by
+
+<pre class="pyk-sig"><code><span class="k">def</span> <span class="n">contains_by</span>(<span class="p">alike</span>: (t, t) -&gt; <span class="t">Bool</span>, <span class="p">x</span>: t, <span class="p">v</span>: DynArray(t)) -&gt; <span class="t">Bool</span></code></pre>
+
+Whether some element is alike to `x`, by `alike`.
+
+<p class="pyk-api-label">Parameters</p>
+
+- `alike`: whether two elements count as the same.
+- `x`: what to look for.
+- `v`: a DynArray.
+
+<p class="pyk-api-label">Returns</p>
+
+`true` where one is.
+
+<p class="pyk-api-label">Example</p>
+
+```pyking
+use mutation
+import dynarray
+v = dynarray([10, 21])
+print(dynarray.contains_by(lam (p, q). p % 10 == q % 10, 1, v))
+```
+
+```stdout visible = true
+true
+```
+
+</div>
+
+<div class="pyk-api">
+
+## copy
+
+<pre class="pyk-sig"><code><span class="k">def</span> <span class="n">copy</span>(<span class="p">v</span>: DynArray(t)) -&gt; DynArray(t)</code></pre>
+
+A new DynArray holding the same elements as `v`, in the same order.
+
+<p class="pyk-api-label">Parameters</p>
+
+- `v`: the DynArray to copy.
+
+<p class="pyk-api-label">Returns</p>
+
+A new DynArray of `len(v)` elements; changing one does not change the other.
+
+<p class="pyk-api-label">Example</p>
+
+```pyking
+use mutation
+import dynarray
+v = dynarray([1, 2])
+w = dynarray.copy(v)
+push(w, 3)
+print(v, w)
+```
+
+```stdout visible = true
+dynarray([1, 2]) dynarray([1, 2, 3])
+```
+
+</div>
+
+<div class="pyk-api">
+
+## count
+
+<pre class="pyk-sig"><code><span class="k">def</span> <span class="n">count</span>(<span class="p">p</span>: (t) -&gt; <span class="t">Bool</span>, <span class="p">v</span>: DynArray(t)) -&gt; <span class="t">Int</span></code></pre>
+
+How many elements `p` is true of.
+
+<p class="pyk-api-label">Parameters</p>
+
+- `p`: the test.
+- `v`: a DynArray.
+
+<p class="pyk-api-label">Returns</p>
+
+The count.
+
+<p class="pyk-api-label">Example</p>
+
+```pyking
+use mutation
+import dynarray
+v = dynarray([1, 2, 3, 4])
+print(dynarray.count(lam x. x % 2 == 0, v))
+```
+
+```stdout visible = true
+2
+```
+
+</div>
+
+<div class="pyk-api">
+
+## enumerate
+
+<pre class="pyk-sig"><code><span class="k">def</span> <span class="n">enumerate</span>(<span class="p">v</span>: DynArray(t)) -&gt; DynArray((<span class="t">Int</span>, t))</code></pre>
+
+Each element with its index.
+
+<p class="pyk-api-label">Parameters</p>
+
+- `v`: a DynArray.
+
+<p class="pyk-api-label">Returns</p>
+
+A new DynArray of (index, element) pairs.
+
+<p class="pyk-api-label">Example</p>
+
+```pyking
+use mutation
+import dynarray
+v = dynarray(["a", "b"])
+print(dynarray.enumerate(v))
+```
+
+```stdout visible = true
+dynarray([(0, "a"), (1, "b")])
+```
+
+</div>
+
+<div class="pyk-api">
+
+## equal_by
+
+<pre class="pyk-sig"><code><span class="k">def</span> <span class="n">equal_by</span>(
+    <span class="p">alike</span>: (t, t) -&gt; <span class="t">Bool</span>,
+    <span class="p">v</span>: DynArray(t),
+    <span class="p">other</span>: DynArray(t),
+) -&gt; <span class="t">Bool</span></code></pre>
+
+Whether two DynArrays are as long and alike element by element, by `alike`.
+
+<p class="pyk-api-label">Parameters</p>
+
+- `alike`: whether two elements count as the same.
+- `v`: one DynArray.
+- `other`: the other.
+
+<p class="pyk-api-label">Returns</p>
+
+`true` where they are.
+
+<p class="pyk-api-label">Example</p>
+
+```pyking
+use mutation
+import dynarray
+print(dynarray.equal_by(lam (x, y). x % 2 == y % 2, dynarray([1, 2]), dynarray([3, 4])))
+```
+
+```stdout visible = true
+true
+```
+
+</div>
+
+<div class="pyk-api">
+
+## extend
+
+<pre class="pyk-sig"><code><span class="k">def</span> <span class="n">extend</span>(<span class="p">v</span>: DynArray(t), <span class="p">xs</span>: [t]) -&gt; ()</code></pre>
+
+Adds every element of a list to the end of `v`, in order.
+
+<p class="pyk-api-label">Parameters</p>
+
+- `v`: the DynArray to grow.
+- `xs`: what to add.
+
+<p class="pyk-api-label">Example</p>
+
+```pyking
+use mutation
+import dynarray
+v = dynarray([1])
+dynarray.extend(v, [2, 3])
+print(v)
+```
+
+```stdout visible = true
+dynarray([1, 2, 3])
+```
+
+</div>
+
+<div class="pyk-api">
+
+## find
+
+<pre class="pyk-sig"><code><span class="k">def</span> <span class="n">find</span>(<span class="p">p</span>: (t) -&gt; <span class="t">Bool</span>, <span class="p">v</span>: DynArray(t)) -&gt; Option(t)</code></pre>
+
+The first element `p` is true of.
+
+<p class="pyk-api-label">Parameters</p>
+
+- `p`: the test.
+- `v`: a DynArray.
+
+<p class="pyk-api-label">Returns</p>
+
+`Some` of it, or `None`.
+
+<p class="pyk-api-label">Example</p>
+
+```pyking
+use mutation
+import dynarray
+v = dynarray([1, 2, 3])
+print(dynarray.find(lam x. x > 1, v))
+```
+
+```stdout visible = true
+Some(2)
+```
+
+</div>
+
+<div class="pyk-api">
+
+## find_index
+
+<pre class="pyk-sig"><code><span class="k">def</span> <span class="n">find_index</span>(<span class="p">p</span>: (t) -&gt; <span class="t">Bool</span>, <span class="p">v</span>: DynArray(t)) -&gt; Option(<span class="t">Int</span>)</code></pre>
+
+The index of the first element `p` is true of.
+
+<p class="pyk-api-label">Parameters</p>
+
+- `p`: the test.
+- `v`: a DynArray.
+
+<p class="pyk-api-label">Returns</p>
+
+`Some` of the index, or `None`.
+
+<p class="pyk-api-label">Example</p>
+
+```pyking
+use mutation
+import dynarray
+v = dynarray([1, 2, 3])
+print(dynarray.find_index(lam x. x > 1, v))
+```
+
+```stdout visible = true
+Some(1)
+```
+
+</div>
+
+<div class="pyk-api">
+
+## first
+
+<pre class="pyk-sig"><code><span class="k">def</span> <span class="n">first</span>(<span class="p">v</span>: DynArray(t)) -&gt; Option(t)</code></pre>
+
+The first element of a DynArray, where there is one.
+
+<p class="pyk-api-label">Parameters</p>
+
+- `v`: a DynArray.
+
+<p class="pyk-api-label">Returns</p>
+
+`Some` of it, or `None` where there are no elements.
+
+<p class="pyk-api-label">Example</p>
+
+```pyking
+use mutation
+import dynarray
+v = dynarray([4, 5])
+print(dynarray.first(v))
+```
+
+```stdout visible = true
+Some(4)
+```
+
+</div>
+
+<div class="pyk-api">
+
+## flat_map
+
+<pre class="pyk-sig"><code><span class="k">def</span> <span class="n">flat_map</span>(<span class="p">f</span>: (t) -&gt; [u], <span class="p">v</span>: DynArray(t)) -&gt; DynArray(u)</code></pre>
+
+The lists `f` makes of each element, joined.
+
+<p class="pyk-api-label">Parameters</p>
+
+- `f`: makes a list of one element.
+- `v`: a DynArray.
+
+<p class="pyk-api-label">Returns</p>
+
+A new DynArray.
+
+<p class="pyk-api-label">Example</p>
+
+```pyking
+use mutation
+import dynarray
+v = dynarray([1, 2])
+print(dynarray.flat_map(lam x. [x, x], v))
+```
+
+```stdout visible = true
+dynarray([1, 1, 2, 2])
+```
+
+</div>
+
+<div class="pyk-api">
+
+## float::contains
+
+<pre class="pyk-sig"><code><span class="k">def</span> <span class="n">float::contains</span>(<span class="p">x</span>: <span class="t">Float</span>, <span class="p">v</span>: DynArray(<span class="t">Float</span>)) -&gt; <span class="t">Bool</span></code></pre>
+
+Whether `x` is an element of a DynArray of Floats.
+
+<p class="pyk-api-label">Parameters</p>
+
+- `x`: what to look for.
+- `v`: a DynArray.
+
+<p class="pyk-api-label">Returns</p>
+
+`true` where it is.
+
+<p class="pyk-api-label">Example</p>
+
+```pyking
+use mutation
+import dynarray
+v = dynarray([1.5])
+print(dynarray.contains(1.5, v))
+```
+
+```stdout visible = true
+true
+```
+
+</div>
+
+<div class="pyk-api">
+
+## float::equal
+
+<pre class="pyk-sig"><code><span class="k">def</span> <span class="n">float::equal</span>(<span class="p">v</span>: DynArray(<span class="t">Float</span>), <span class="p">w</span>: DynArray(<span class="t">Float</span>)) -&gt; <span class="t">Bool</span></code></pre>
+
+Whether two DynArrays of Floats hold the same elements in the same order,
+compared with `==` -- so a DynArray holding NaN equals no DynArray.
+
+<p class="pyk-api-label">Parameters</p>
+
+- `v`: one DynArray.
+- `w`: the other.
+
+<p class="pyk-api-label">Returns</p>
+
+`true` when they have the same length and equal elements.
+
+<p class="pyk-api-label">Example</p>
+
+```pyking
+use mutation
+import dynarray
+print(dynarray.equal(dynarray([0.5]), dynarray([0.5])))
+```
+
+```stdout visible = true
+true
+```
+
+</div>
+
+<div class="pyk-api">
+
+## float::index_of
+
+<pre class="pyk-sig"><code><span class="k">def</span> <span class="n">float::index_of</span>(<span class="p">x</span>: <span class="t">Float</span>, <span class="p">v</span>: DynArray(<span class="t">Float</span>)) -&gt; Option(<span class="t">Int</span>)</code></pre>
+
+The index of the first `x` in a DynArray of Floats.
+
+<p class="pyk-api-label">Parameters</p>
+
+- `x`: what to look for.
+- `v`: a DynArray.
+
+<p class="pyk-api-label">Returns</p>
+
+`Some` of the index, or `None`.
+
+<p class="pyk-api-label">Example</p>
+
+```pyking
+use mutation
+import dynarray
+v = dynarray([1.5])
+print(dynarray.index_of(1.5, v))
+```
+
+```stdout visible = true
+Some(0)
+```
+
+</div>
+
+<div class="pyk-api">
+
+## float::maximum
+
+<pre class="pyk-sig"><code><span class="k">def</span> <span class="n">float::maximum</span>(<span class="p">v</span>: DynArray(<span class="t">Float</span>)) -&gt; Option(<span class="t">Float</span>)</code></pre>
+
+The greatest Float.
+
+<p class="pyk-api-label">Parameters</p>
+
+- `v`: a DynArray.
+
+<p class="pyk-api-label">Returns</p>
+
+`Some` of it, or `None`.
+
+<p class="pyk-api-label">Example</p>
+
+```pyking
+use mutation
+import dynarray
+v = dynarray([2.5, -1.0])
+print(dynarray.maximum(v))
+```
+
+```stdout visible = true
+Some(2.5)
+```
+
+</div>
+
+<div class="pyk-api">
+
+## float::minimum
+
+<pre class="pyk-sig"><code><span class="k">def</span> <span class="n">float::minimum</span>(<span class="p">v</span>: DynArray(<span class="t">Float</span>)) -&gt; Option(<span class="t">Float</span>)</code></pre>
+
+The smallest Float.
+
+<p class="pyk-api-label">Parameters</p>
+
+- `v`: a DynArray.
+
+<p class="pyk-api-label">Returns</p>
+
+`Some` of it, or `None`.
+
+<p class="pyk-api-label">Example</p>
+
+```pyking
+use mutation
+import dynarray
+v = dynarray([2.5, -1.0])
+print(dynarray.minimum(v))
+```
+
+```stdout visible = true
+Some(-1.0)
+```
+
+</div>
+
+<div class="pyk-api">
+
+## float::product
+
+<pre class="pyk-sig"><code><span class="k">def</span> <span class="n">float::product</span>(<span class="p">v</span>: DynArray(<span class="t">Float</span>)) -&gt; <span class="t">Float</span></code></pre>
+
+The Floats multiplied.
+
+<p class="pyk-api-label">Parameters</p>
+
+- `v`: a DynArray.
+
+<p class="pyk-api-label">Returns</p>
+
+The product.
+
+<p class="pyk-api-label">Example</p>
+
+```pyking
+use mutation
+import dynarray
+v = dynarray([0.5, 1.5])
+print(dynarray.product(v))
+```
+
+```stdout visible = true
+0.75
+```
+
+</div>
+
+<div class="pyk-api">
+
+## float::sort
+
+<pre class="pyk-sig"><code><span class="k">def</span> <span class="n">float::sort</span>(<span class="p">v</span>: DynArray(<span class="t">Float</span>)) -&gt; ()</code></pre>
+
+Sorts a DynArray of Floats in place, as `array.sort` orders them: `-inf`
+first, `-0.0` and `0.0` as equal, then `inf`, and every NaN last.
+
+<p class="pyk-api-label">Parameters</p>
+
+- `v`: the DynArray to sort.
+
+<p class="pyk-api-label">Example</p>
+
+```pyking
+use mutation
+import dynarray
+v = dynarray([2.5, -1.0])
+dynarray.sort(v)
+print(v)
+```
+
+```stdout visible = true
+dynarray([-1.0, 2.5])
+```
+
+</div>
+
+<div class="pyk-api">
+
+## float::sort_on
+
+<pre class="pyk-sig"><code><span class="k">def</span> <span class="n">float::sort_on</span>(<span class="p">key</span>: (t) -&gt; <span class="t">Float</span>, <span class="p">v</span>: DynArray(t)) -&gt; ()</code></pre>
+
+Sorts in place by each element's Float key, `key` called once per element;
+equal keys keep their order.
+
+<p class="pyk-api-label">Parameters</p>
+
+- `key`: the Float an element is sorted by.
+- `v`: a DynArray to sort.
+
+<p class="pyk-api-label">Example</p>
+
+```pyking
+use mutation
+import dynarray
+v = dynarray([1.0, 3.0])
+dynarray.sort_on(lam x. 0.0 - x, v)
+print(v)
+```
+
+```stdout visible = true
+dynarray([3.0, 1.0])
+```
+
+</div>
+
+<div class="pyk-api">
+
+## float::sorted
+
+<pre class="pyk-sig"><code><span class="k">def</span> <span class="n">float::sorted</span>(<span class="p">v</span>: DynArray(<span class="t">Float</span>)) -&gt; DynArray(<span class="t">Float</span>)</code></pre>
+
+A new DynArray of the Floats from smallest to largest; `v` is as it was
+(`sort` sorts in place).
+
+<p class="pyk-api-label">Parameters</p>
+
+- `v`: a DynArray.
+
+<p class="pyk-api-label">Returns</p>
+
+A new DynArray.
+
+<p class="pyk-api-label">Example</p>
+
+```pyking
+use mutation
+import dynarray
+v = dynarray([2.5, -1.0])
+print(dynarray.sorted(v), v)
+```
+
+```stdout visible = true
+dynarray([-1.0, 2.5]) dynarray([2.5, -1.0])
+```
+
+</div>
+
+<div class="pyk-api">
+
+## float::sum
+
+<pre class="pyk-sig"><code><span class="k">def</span> <span class="n">float::sum</span>(<span class="p">v</span>: DynArray(<span class="t">Float</span>)) -&gt; <span class="t">Float</span></code></pre>
+
+The Floats added up.
+
+<p class="pyk-api-label">Parameters</p>
+
+- `v`: a DynArray.
+
+<p class="pyk-api-label">Returns</p>
+
+The sum.
+
+<p class="pyk-api-label">Example</p>
+
+```pyking
+use mutation
+import dynarray
+v = dynarray([0.5, 1.5])
+print(dynarray.sum(v))
+```
+
+```stdout visible = true
+2.0
+```
+
+</div>
+
+<div class="pyk-api">
+
+## from_array
+
+<pre class="pyk-sig"><code><span class="k">def</span> <span class="n">from_array</span>(<span class="p">a</span>: Array(t)) -&gt; DynArray(t)</code></pre>
+
+A new DynArray holding the elements of an array.
+
+<p class="pyk-api-label">Parameters</p>
+
+- `a`: the array.
+
+<p class="pyk-api-label">Returns</p>
+
+A new DynArray of `len(a)` elements.
+
+<p class="pyk-api-label">Example</p>
+
+```pyking
+use mutation
+import dynarray
+v = dynarray.from_array(array([1, 2]))
+push(v, 3)
+print(v)
+```
+
+```stdout visible = true
+dynarray([1, 2, 3])
+```
+
+</div>
+
+<div class="pyk-api">
+
+## index_of_by
+
+<pre class="pyk-sig"><code><span class="k">def</span> <span class="n">index_of_by</span>(
+    <span class="p">alike</span>: (t, t) -&gt; <span class="t">Bool</span>,
+    <span class="p">x</span>: t,
+    <span class="p">v</span>: DynArray(t),
+) -&gt; Option(<span class="t">Int</span>)</code></pre>
+
+The index of the first element alike to `x`, by `alike`.
+
+<p class="pyk-api-label">Parameters</p>
+
+- `alike`: whether two elements count as the same.
+- `x`: what to look for.
+- `v`: a DynArray.
+
+<p class="pyk-api-label">Returns</p>
+
+`Some` of the index, or `None`.
+
+<p class="pyk-api-label">Example</p>
+
+```pyking
+use mutation
+import dynarray
+v = dynarray([10, 21])
+print(dynarray.index_of_by(lam (p, q). p % 10 == q % 10, 1, v))
+```
+
+```stdout visible = true
+Some(1)
+```
+
+</div>
+
+<div class="pyk-api">
+
+## int::contains
+
+<pre class="pyk-sig"><code><span class="k">def</span> <span class="n">int::contains</span>(<span class="p">x</span>: <span class="t">Int</span>, <span class="p">v</span>: DynArray(<span class="t">Int</span>)) -&gt; <span class="t">Bool</span></code></pre>
+
+Whether `x` is an element of a DynArray of Ints.
+
+<p class="pyk-api-label">Parameters</p>
+
+- `x`: what to look for.
+- `v`: a DynArray.
+
+<p class="pyk-api-label">Returns</p>
+
+`true` where it is.
+
+<p class="pyk-api-label">Example</p>
+
+```pyking
+use mutation
+import dynarray
+v = dynarray([3, 1])
+print(dynarray.contains(1, v))
+```
+
+```stdout visible = true
+true
+```
+
+</div>
+
+<div class="pyk-api">
+
+## int::equal
+
+<pre class="pyk-sig"><code><span class="k">def</span> <span class="n">int::equal</span>(<span class="p">v</span>: DynArray(<span class="t">Int</span>), <span class="p">w</span>: DynArray(<span class="t">Int</span>)) -&gt; <span class="t">Bool</span></code></pre>
+
+Whether two DynArrays of Ints hold the same elements in the same order.
+`same(v, w)` asks instead whether they are one DynArray.
+
+<p class="pyk-api-label">Parameters</p>
+
+- `v`: one DynArray.
+- `w`: the other.
+
+<p class="pyk-api-label">Returns</p>
+
+`true` when they have the same length and equal elements.
+
+<p class="pyk-api-label">Example</p>
+
+```pyking
+use mutation
+import dynarray
+print(dynarray.equal(dynarray([1, 2]), dynarray([1, 2])), dynarray.equal(dynarray([1]), dynarray([2])))
+```
+
+```stdout visible = true
+true false
+```
+
+</div>
+
+<div class="pyk-api">
+
+## int::index_of
+
+<pre class="pyk-sig"><code><span class="k">def</span> <span class="n">int::index_of</span>(<span class="p">x</span>: <span class="t">Int</span>, <span class="p">v</span>: DynArray(<span class="t">Int</span>)) -&gt; Option(<span class="t">Int</span>)</code></pre>
+
+The index of the first `x` in a DynArray of Ints.
+
+<p class="pyk-api-label">Parameters</p>
+
+- `x`: what to look for.
+- `v`: a DynArray.
+
+<p class="pyk-api-label">Returns</p>
+
+`Some` of the index, or `None`.
+
+<p class="pyk-api-label">Example</p>
+
+```pyking
+use mutation
+import dynarray
+v = dynarray([3, 1])
+print(dynarray.index_of(1, v))
+```
+
+```stdout visible = true
+Some(1)
+```
+
+</div>
+
+<div class="pyk-api">
+
+## int::maximum
+
+<pre class="pyk-sig"><code><span class="k">def</span> <span class="n">int::maximum</span>(<span class="p">v</span>: DynArray(<span class="t">Int</span>)) -&gt; Option(<span class="t">Int</span>)</code></pre>
+
+The greatest Int.
+
+<p class="pyk-api-label">Parameters</p>
+
+- `v`: a DynArray.
+
+<p class="pyk-api-label">Returns</p>
+
+`Some` of it, or `None`.
+
+<p class="pyk-api-label">Example</p>
+
+```pyking
+use mutation
+import dynarray
+v = dynarray([3, 1, 2])
+print(dynarray.maximum(v))
+```
+
+```stdout visible = true
+Some(3)
+```
+
+</div>
+
+<div class="pyk-api">
+
+## int::minimum
+
+<pre class="pyk-sig"><code><span class="k">def</span> <span class="n">int::minimum</span>(<span class="p">v</span>: DynArray(<span class="t">Int</span>)) -&gt; Option(<span class="t">Int</span>)</code></pre>
+
+The smallest Int.
+
+<p class="pyk-api-label">Parameters</p>
+
+- `v`: a DynArray.
+
+<p class="pyk-api-label">Returns</p>
+
+`Some` of it, or `None`.
+
+<p class="pyk-api-label">Example</p>
+
+```pyking
+use mutation
+import dynarray
+v = dynarray([3, 1, 2])
+print(dynarray.minimum(v))
+```
+
+```stdout visible = true
+Some(1)
+```
+
+</div>
+
+<div class="pyk-api">
+
+## int::product
+
+<pre class="pyk-sig"><code><span class="k">def</span> <span class="n">int::product</span>(<span class="p">v</span>: DynArray(<span class="t">Int</span>)) -&gt; <span class="t">Int</span></code></pre>
+
+The Ints multiplied.
+
+<p class="pyk-api-label">Parameters</p>
+
+- `v`: a DynArray.
+
+<p class="pyk-api-label">Returns</p>
+
+The product.
+
+<p class="pyk-api-label">Example</p>
+
+```pyking
+use mutation
+import dynarray
+v = dynarray([1, 2, 3])
+print(dynarray.product(v))
+```
+
+```stdout visible = true
+6
+```
+
+</div>
+
+<div class="pyk-api">
+
+## int::sort
+
+<pre class="pyk-sig"><code><span class="k">def</span> <span class="n">int::sort</span>(<span class="p">v</span>: DynArray(<span class="t">Int</span>)) -&gt; ()</code></pre>
+
+Sorts a DynArray of Ints from smallest to largest, in place, stably.
+
+<p class="pyk-api-label">Parameters</p>
+
+- `v`: the DynArray to sort.
+
+<p class="pyk-api-label">Example</p>
+
+```pyking
+use mutation
+import dynarray
+v = dynarray([3, 1, 2])
+dynarray.sort(v)
+print(v)
+```
+
+```stdout visible = true
+dynarray([1, 2, 3])
+```
+
+</div>
+
+<div class="pyk-api">
+
+## int::sort_on
+
+<pre class="pyk-sig"><code><span class="k">def</span> <span class="n">int::sort_on</span>(<span class="p">key</span>: (t) -&gt; <span class="t">Int</span>, <span class="p">v</span>: DynArray(t)) -&gt; ()</code></pre>
+
+Sorts in place by each element's Int key, `key` called once per element;
+equal keys keep their order.
+
+<p class="pyk-api-label">Parameters</p>
+
+- `key`: the Int an element is sorted by.
+- `v`: a DynArray to sort.
+
+<p class="pyk-api-label">Example</p>
+
+```pyking
+use mutation
+import dynarray
+v = dynarray(["ccc", "a", "bb"])
+dynarray.sort_on(lam s. len(s), v)
+print(v)
+```
+
+```stdout visible = true
+dynarray(["a", "bb", "ccc"])
+```
+
+</div>
+
+<div class="pyk-api">
+
+## int::sorted
+
+<pre class="pyk-sig"><code><span class="k">def</span> <span class="n">int::sorted</span>(<span class="p">v</span>: DynArray(<span class="t">Int</span>)) -&gt; DynArray(<span class="t">Int</span>)</code></pre>
+
+A new DynArray of the Ints from smallest to largest; `v` is as it was
+(`sort` sorts in place).
+
+<p class="pyk-api-label">Parameters</p>
+
+- `v`: a DynArray.
+
+<p class="pyk-api-label">Returns</p>
+
+A new DynArray.
+
+<p class="pyk-api-label">Example</p>
+
+```pyking
+use mutation
+import dynarray
+v = dynarray([3, 1, 2])
+print(dynarray.sorted(v), v)
+```
+
+```stdout visible = true
+dynarray([1, 2, 3]) dynarray([3, 1, 2])
+```
+
+</div>
+
+<div class="pyk-api">
+
+## int::sum
+
+<pre class="pyk-sig"><code><span class="k">def</span> <span class="n">int::sum</span>(<span class="p">v</span>: DynArray(<span class="t">Int</span>)) -&gt; <span class="t">Int</span></code></pre>
+
+The Ints added up.
+
+<p class="pyk-api-label">Parameters</p>
+
+- `v`: a DynArray.
+
+<p class="pyk-api-label">Returns</p>
+
+The sum.
+
+<p class="pyk-api-label">Example</p>
+
+```pyking
+use mutation
+import dynarray
+v = dynarray([1, 2, 3])
+print(dynarray.sum(v))
+```
+
+```stdout visible = true
+6
+```
+
+</div>
+
+<div class="pyk-api">
+
+## is_empty
+
+<pre class="pyk-sig"><code><span class="k">def</span> <span class="n">is_empty</span>(<span class="p">v</span>: DynArray(t)) -&gt; <span class="t">Bool</span></code></pre>
+
+Whether a DynArray has no elements.
+
+<p class="pyk-api-label">Parameters</p>
+
+- `v`: a DynArray.
+
+<p class="pyk-api-label">Returns</p>
+
+`true` where it has none.
+
+<p class="pyk-api-label">Example</p>
+
+```pyking
+use mutation
+import dynarray
+v = dynarray([0])
+print(dynarray.is_empty(v))
+```
+
+```stdout visible = true
+false
+```
+
+</div>
+
+<div class="pyk-api">
+
+## last
+
+<pre class="pyk-sig"><code><span class="k">def</span> <span class="n">last</span>(<span class="p">v</span>: DynArray(t)) -&gt; Option(t)</code></pre>
+
+The last element of a DynArray, where there is one.
+
+<p class="pyk-api-label">Parameters</p>
+
+- `v`: a DynArray.
+
+<p class="pyk-api-label">Returns</p>
+
+`Some` of it, or `None` where there are no elements.
+
+<p class="pyk-api-label">Example</p>
+
+```pyking
+use mutation
+import dynarray
+v = dynarray([4, 5])
+print(dynarray.last(v))
+```
+
+```stdout visible = true
+Some(5)
+```
+
+</div>
+
+<div class="pyk-api">
+
+## map_in_place
+
+<pre class="pyk-sig"><code><span class="k">def</span> <span class="n">map_in_place</span>(<span class="p">f</span>: (t) -&gt; t, <span class="p">v</span>: DynArray(t)) -&gt; ()</code></pre>
+
+Replaces each element `x` by `f(x)`, in place, in index order: `fmap`
+without a copy.
+
+<p class="pyk-api-label">Parameters</p>
+
+- `f`: makes the new element from the old.
+- `v`: a DynArray.
+
+<p class="pyk-api-label">Example</p>
+
+```pyking
+use mutation
+import dynarray
+v = dynarray([1, 2, 3])
+dynarray.map_in_place(lam x. x * x, v)
+print(v)
+```
+
+```stdout visible = true
+dynarray([1, 4, 9])
+```
+
+</div>
+
+<div class="pyk-api">
+
+## maximum_by
+
+<pre class="pyk-sig"><code><span class="k">def</span> <span class="n">maximum_by</span>(<span class="p">before</span>: (t, t) -&gt; <span class="t">Bool</span>, <span class="p">v</span>: DynArray(t)) -&gt; Option(t)</code></pre>
+
+The greatest element, `before(x, y)` saying `x` is smaller; the first of
+several equal ones.
+
+<p class="pyk-api-label">Parameters</p>
+
+- `before`: whether its first argument is smaller.
+- `v`: a DynArray.
+
+<p class="pyk-api-label">Returns</p>
+
+`Some` of it, or `None`.
+
+<p class="pyk-api-label">Example</p>
+
+```pyking
+use mutation
+import dynarray
+v = dynarray(["ab", "c"])
+print(dynarray.maximum_by(lam (x, y). len(x) < len(y), v))
+```
+
+```stdout visible = true
+Some("ab")
+```
+
+</div>
+
+<div class="pyk-api">
+
+## minimum_by
+
+<pre class="pyk-sig"><code><span class="k">def</span> <span class="n">minimum_by</span>(<span class="p">before</span>: (t, t) -&gt; <span class="t">Bool</span>, <span class="p">v</span>: DynArray(t)) -&gt; Option(t)</code></pre>
+
+The smallest element, `before(x, y)` saying `x` is smaller; the first of
+several equal ones.
+
+<p class="pyk-api-label">Parameters</p>
+
+- `before`: whether its first argument is smaller.
+- `v`: a DynArray.
+
+<p class="pyk-api-label">Returns</p>
+
+`Some` of it, or `None`.
+
+<p class="pyk-api-label">Example</p>
+
+```pyking
+use mutation
+import dynarray
+v = dynarray(["ab", "c"])
+print(dynarray.minimum_by(lam (x, y). len(x) < len(y), v))
+```
+
+```stdout visible = true
+Some("c")
+```
+
+</div>
+
+<div class="pyk-api">
+
+## nth
+
+<pre class="pyk-sig"><code><span class="k">def</span> <span class="n">nth</span>(<span class="p">v</span>: DynArray(t), <span class="p">i</span>: <span class="t">Int</span>) -&gt; Option(t)</code></pre>
+
+Element `i`, where there is one: `v[i]` that does not fail.
+
+<p class="pyk-api-label">Parameters</p>
+
+- `v`: a DynArray.
+- `i`: the index.
+
+<p class="pyk-api-label">Returns</p>
+
+`Some` of it, or `None` where `i` is outside.
+
+<p class="pyk-api-label">Example</p>
+
+```pyking
+use mutation
+import dynarray
+v = dynarray([4, 5])
+print(dynarray.nth(v, 1), dynarray.nth(v, 2))
+```
+
+```stdout visible = true
+Some(5) None
+```
+
+</div>
+
+<div class="pyk-api">
+
+## reduce
+
+<pre class="pyk-sig"><code><span class="k">def</span> <span class="n">reduce</span>(<span class="p">f</span>: (t, t) -&gt; t, <span class="p">v</span>: DynArray(t)) -&gt; Option(t)</code></pre>
+
+The elements gathered by `f` from the first, with no starting value.
+
+<p class="pyk-api-label">Parameters</p>
+
+- `f`: combines what is gathered with the next element.
+- `v`: a DynArray.
+
+<p class="pyk-api-label">Returns</p>
+
+`Some` of the result, or `None` where there are no elements.
+
+<p class="pyk-api-label">Example</p>
+
+```pyking
+use mutation
+import dynarray
+v = dynarray([2, 3, 4])
+print(dynarray.reduce(lam (x, y). x * y, v))
+```
+
+```stdout visible = true
+Some(24)
+```
+
+</div>
+
+<div class="pyk-api">
+
+## retain
+
+<pre class="pyk-sig"><code><span class="k">def</span> <span class="n">retain</span>(<span class="p">p</span>: (t) -&gt; <span class="t">Bool</span>, <span class="p">v</span>: DynArray(t)) -&gt; ()</code></pre>
+
+Keeps only the elements `p` is true of, in place and in order: `filter`
+without a copy (Rust's `retain`).
+
+<p class="pyk-api-label">Parameters</p>
+
+- `p`: the test.
+- `v`: the DynArray.
+
+<p class="pyk-api-label">Example</p>
+
+```pyking
+use mutation
+import dynarray
+v = dynarray([1, 2, 3, 4])
+dynarray.retain(lam x. x % 2 == 0, v)
+print(v)
+```
+
+```stdout visible = true
+dynarray([2, 4])
+```
+
+</div>
+
+<div class="pyk-api">
+
+## reverse
+
+<pre class="pyk-sig"><code><span class="k">def</span> <span class="n">reverse</span>(<span class="p">v</span>: DynArray(t)) -&gt; ()</code></pre>
+
+Puts the elements of `v` in the opposite order, in place.
+
+<p class="pyk-api-label">Parameters</p>
+
+- `v`: the DynArray to reverse.
+
+<p class="pyk-api-label">Example</p>
+
+```pyking
+use mutation
+import dynarray
+v = dynarray([1, 2, 3])
+dynarray.reverse(v)
+print(v)
+```
+
+```stdout visible = true
+dynarray([3, 2, 1])
+```
+
+</div>
+
+<div class="pyk-api">
+
+## reversed
+
+<pre class="pyk-sig"><code><span class="k">def</span> <span class="n">reversed</span>(<span class="p">v</span>: DynArray(t)) -&gt; DynArray(t)</code></pre>
+
+A new DynArray of the elements in the other order; `v` is as it was.
+
+<p class="pyk-api-label">Parameters</p>
+
+- `v`: a DynArray.
+
+<p class="pyk-api-label">Returns</p>
+
+A new DynArray.
+
+<p class="pyk-api-label">Example</p>
+
+```pyking
+use mutation
+import dynarray
+v = dynarray([1, 2, 3])
+print(dynarray.reversed(v), v)
+```
+
+```stdout visible = true
+dynarray([3, 2, 1]) dynarray([1, 2, 3])
+```
+
+</div>
+
+<div class="pyk-api">
+
+## sort_by
+
+<pre class="pyk-sig"><code><span class="k">def</span> <span class="n">sort_by</span>(<span class="p">before</span>: (t, t) -&gt; <span class="t">Bool</span>, <span class="p">v</span>: DynArray(t)) -&gt; ()</code></pre>
+
+Sorts in place, `before(x, y)` saying `x` goes before `y`; equal ones
+keep their order (one merge sort, the same on every target).
+
+<p class="pyk-api-label">Parameters</p>
+
+- `before`: whether its first argument goes first.
+- `v`: a DynArray to sort.
+
+<p class="pyk-api-label">Example</p>
+
+```pyking
+use mutation
+import dynarray
+v = dynarray(["ccc", "a", "bb"])
+dynarray.sort_by(lam (x, y). len(x) < len(y), v)
+print(v)
+```
+
+```stdout visible = true
+dynarray(["a", "bb", "ccc"])
+```
+
+</div>
+
+<div class="pyk-api">
+
+## string::contains
+
+<pre class="pyk-sig"><code><span class="k">def</span> <span class="n">string::contains</span>(<span class="p">x</span>: <span class="t">String</span>, <span class="p">v</span>: DynArray(<span class="t">String</span>)) -&gt; <span class="t">Bool</span></code></pre>
+
+Whether `x` is an element of a DynArray of Strings.
+
+<p class="pyk-api-label">Parameters</p>
+
+- `x`: what to look for.
+- `v`: a DynArray.
+
+<p class="pyk-api-label">Returns</p>
+
+`true` where it is.
+
+<p class="pyk-api-label">Example</p>
+
+```pyking
+use mutation
+import dynarray
+v = dynarray(["a"])
+print(dynarray.contains("b", v))
+```
+
+```stdout visible = true
+false
+```
+
+</div>
+
+<div class="pyk-api">
+
+## string::equal
+
+<pre class="pyk-sig"><code><span class="k">def</span> <span class="n">string::equal</span>(<span class="p">v</span>: DynArray(<span class="t">String</span>), <span class="p">w</span>: DynArray(<span class="t">String</span>)) -&gt; <span class="t">Bool</span></code></pre>
+
+Whether two DynArrays of Strings hold the same elements in the same order.
+
+<p class="pyk-api-label">Parameters</p>
+
+- `v`: one DynArray.
+- `w`: the other.
+
+<p class="pyk-api-label">Returns</p>
+
+`true` when they have the same length and equal elements.
+
+<p class="pyk-api-label">Example</p>
+
+```pyking
+use mutation
+import dynarray
+print(dynarray.equal(dynarray(["a"]), dynarray(["a"])))
+```
+
+```stdout visible = true
+true
+```
+
+</div>
+
+<div class="pyk-api">
+
+## string::index_of
+
+<pre class="pyk-sig"><code><span class="k">def</span> <span class="n">string::index_of</span>(<span class="p">x</span>: <span class="t">String</span>, <span class="p">v</span>: DynArray(<span class="t">String</span>)) -&gt; Option(<span class="t">Int</span>)</code></pre>
+
+The index of the first `x` in a DynArray of Strings.
+
+<p class="pyk-api-label">Parameters</p>
+
+- `x`: what to look for.
+- `v`: a DynArray.
+
+<p class="pyk-api-label">Returns</p>
+
+`Some` of the index, or `None`.
+
+<p class="pyk-api-label">Example</p>
+
+```pyking
+use mutation
+import dynarray
+v = dynarray(["a"])
+print(dynarray.index_of("b", v))
+```
+
+```stdout visible = true
+None
+```
+
+</div>
+
+<div class="pyk-api">
+
+## string::maximum
+
+<pre class="pyk-sig"><code><span class="k">def</span> <span class="n">string::maximum</span>(<span class="p">v</span>: DynArray(<span class="t">String</span>)) -&gt; Option(<span class="t">String</span>)</code></pre>
+
+The greatest String.
+
+<p class="pyk-api-label">Parameters</p>
+
+- `v`: a DynArray.
+
+<p class="pyk-api-label">Returns</p>
+
+`Some` of it, or `None`.
+
+<p class="pyk-api-label">Example</p>
+
+```pyking
+use mutation
+import dynarray
+v = dynarray(["b", "a"])
+print(dynarray.maximum(v))
+```
+
+```stdout visible = true
+Some("b")
+```
+
+</div>
+
+<div class="pyk-api">
+
+## string::minimum
+
+<pre class="pyk-sig"><code><span class="k">def</span> <span class="n">string::minimum</span>(<span class="p">v</span>: DynArray(<span class="t">String</span>)) -&gt; Option(<span class="t">String</span>)</code></pre>
+
+The smallest String.
+
+<p class="pyk-api-label">Parameters</p>
+
+- `v`: a DynArray.
+
+<p class="pyk-api-label">Returns</p>
+
+`Some` of it, or `None`.
+
+<p class="pyk-api-label">Example</p>
+
+```pyking
+use mutation
+import dynarray
+v = dynarray(["b", "a"])
+print(dynarray.minimum(v))
+```
+
+```stdout visible = true
+Some("a")
+```
+
+</div>
+
+<div class="pyk-api">
+
+## string::sort
+
+<pre class="pyk-sig"><code><span class="k">def</span> <span class="n">string::sort</span>(<span class="p">v</span>: DynArray(<span class="t">String</span>)) -&gt; ()</code></pre>
+
+Sorts a DynArray of Strings in place, by code point.
+
+<p class="pyk-api-label">Parameters</p>
+
+- `v`: the DynArray to sort.
+
+<p class="pyk-api-label">Example</p>
+
+```pyking
+use mutation
+import dynarray
+v = dynarray(["pear", "Fig", "apple"])
+dynarray.sort(v)
+print(v)
+```
+
+```stdout visible = true
+dynarray(["Fig", "apple", "pear"])
+```
+
+</div>
+
+<div class="pyk-api">
+
+## string::sort_on
+
+<pre class="pyk-sig"><code><span class="k">def</span> <span class="n">string::sort_on</span>(<span class="p">key</span>: (t) -&gt; <span class="t">String</span>, <span class="p">v</span>: DynArray(t)) -&gt; ()</code></pre>
+
+Sorts in place by each element's String key, `key` called once per element;
+equal keys keep their order.
+
+<p class="pyk-api-label">Parameters</p>
+
+- `key`: the String an element is sorted by.
+- `v`: a DynArray to sort.
+
+<p class="pyk-api-label">Example</p>
+
+```pyking
+use mutation
+import dynarray
+v = dynarray([(2, "b"), (1, "a")])
+dynarray.sort_on(lam p. let (_, s) = p in s, v)
+print(v)
+```
+
+```stdout visible = true
+dynarray([(1, "a"), (2, "b")])
+```
+
+</div>
+
+<div class="pyk-api">
+
+## string::sorted
+
+<pre class="pyk-sig"><code><span class="k">def</span> <span class="n">string::sorted</span>(<span class="p">v</span>: DynArray(<span class="t">String</span>)) -&gt; DynArray(<span class="t">String</span>)</code></pre>
+
+A new DynArray of the Strings from smallest to largest; `v` is as it was
+(`sort` sorts in place).
+
+<p class="pyk-api-label">Parameters</p>
+
+- `v`: a DynArray.
+
+<p class="pyk-api-label">Returns</p>
+
+A new DynArray.
+
+<p class="pyk-api-label">Example</p>
+
+```pyking
+use mutation
+import dynarray
+v = dynarray(["b", "a"])
+print(dynarray.sorted(v), v)
+```
+
+```stdout visible = true
+dynarray(["a", "b"]) dynarray(["b", "a"])
+```
+
+</div>
+
+<div class="pyk-api">
+
+## to_array
+
+<pre class="pyk-sig"><code><span class="k">def</span> <span class="n">to_array</span>(<span class="p">v</span>: DynArray(t)) -&gt; Array(t)</code></pre>
+
+The elements of `v` as they are now, as a new array.
+
+<p class="pyk-api-label">Parameters</p>
+
+- `v`: the DynArray.
+
+<p class="pyk-api-label">Returns</p>
+
+A new array of `len(v)` elements.
+
+<p class="pyk-api-label">Example</p>
+
+```pyking
+use mutation
+import dynarray
+print(dynarray.to_array(dynarray(["a", "b"])))
+```
+
+```stdout visible = true
+array(["a", "b"])
+```
+
+</div>
+
+<div class="pyk-api">
+
+## to_list
+
+<pre class="pyk-sig"><code><span class="k">def</span> <span class="n">to_list</span>(<span class="p">v</span>: DynArray(t)) -&gt; [t]</code></pre>
+
+The elements of `v` as they are now, as a list.
+
+<p class="pyk-api-label">Parameters</p>
+
+- `v`: the DynArray.
+
+<p class="pyk-api-label">Returns</p>
+
+A list of `len(v)` elements.
+
+<p class="pyk-api-label">Example</p>
+
+```pyking
+use mutation
+import dynarray
+v = dynarray([3, 4])
+push(v, 5)
+print(dynarray.to_list(v))
+```
+
+```stdout visible = true
+[3, 4, 5]
+```
+
+</div>
+
+<div class="pyk-api">
+
+## truncate
+
+<pre class="pyk-sig"><code><span class="k">def</span> <span class="n">truncate</span>(<span class="p">v</span>: DynArray(t), <span class="p">n</span>: <span class="t">Int</span>) -&gt; ()</code></pre>
+
+Takes elements off the end until at most `n` are left (Rust's
+`truncate`).
+
+<p class="pyk-api-label">Parameters</p>
+
+- `v`: the DynArray.
+- `n`: how many to keep.
+
+<p class="pyk-api-label">Example</p>
+
+```pyking
+use mutation
+import dynarray
+v = dynarray([1, 2, 3])
+dynarray.truncate(v, 1)
+print(v)
+```
+
+```stdout visible = true
+dynarray([1])
+```
+
+</div>
+
+<div class="pyk-api">
+
+## zip
+
+<pre class="pyk-sig"><code><span class="k">def</span> <span class="n">zip</span>(<span class="p">v</span>: DynArray(t), <span class="p">other</span>: DynArray(u)) -&gt; DynArray((t, u))</code></pre>
+
+The elements of two DynArrays in pairs, as long as the shorter one.
+
+<p class="pyk-api-label">Parameters</p>
+
+- `v`: the first DynArray.
+- `other`: the second.
+
+<p class="pyk-api-label">Returns</p>
+
+A new DynArray of pairs.
+
+<p class="pyk-api-label">Example</p>
+
+```pyking
+use mutation
+import dynarray
+print(dynarray.zip(dynarray([1, 2]), dynarray(["a", "b", "c"])))
+```
+
+```stdout visible = true
+dynarray([(1, "a"), (2, "b")])
+```
+
+</div>

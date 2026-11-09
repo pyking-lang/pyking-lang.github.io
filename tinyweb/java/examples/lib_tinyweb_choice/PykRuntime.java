@@ -16,7 +16,7 @@ public final class PykRuntime {
         default String pykShow() { return null; }
     }
 
-    // A var struct, whose field i a pointer reads and writes.
+    // A mutable struct, whose field i a pointer reads and writes.
     public interface Struct extends Data {
         void pykSet(int i, Object value);
     }
@@ -382,7 +382,7 @@ public final class PykRuntime {
     }
 
     // A pointer: a place -- slot 0 of a `var`'s cell, an element of an
-    // array, a field of a var struct -- read and written where it is. Two
+    // array, a field of a mutable struct -- read and written where it is. Two
     // are equal when they name one place: the same store, the same slot.
     public static final class PykPtr<T> {
         final Object store;
@@ -423,7 +423,7 @@ public final class PykRuntime {
         return new PykPtr<T>(cell, slot);
     }
 
-    // &s.f: field `slot` of a var struct.
+    // &s.f: field `slot` of a mutable struct.
     public static <T> PykPtr<T> pointer(Struct struct, int slot) {
         return new PykPtr<T>(struct, slot);
     }
@@ -825,7 +825,7 @@ public final class PykRuntime {
 
     // path: the stores, MutMaps and datatype values writing is inside
     // of. One met again inside itself -- a cycle, which only a store, a
-    // MutMap or a var struct can make -- is written `...`; one that is
+    // MutMap or a mutable struct can make -- is written `...`; one that is
     // only shared is written in full wherever it is.
     private static void write(StringBuilder out, Object value, java.util.Set<Object> path) {
         if (value == null) {

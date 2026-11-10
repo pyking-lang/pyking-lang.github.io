@@ -116,6 +116,18 @@ void tinyweb_fill_bitmap(const char *b, int color);
    changed since it was last drawn is sent to the page. */
 void tinyweb_draw_bitmap(const char *c, const char *b, int x, int y, double scale);
 
+/* Asks the page for the pixels of the picture name -- any format the
+   browser reads -- and calls on_load with a new bitmap holding them
+   once they have arrived, as make_bitmap names one. Called once,
+   though a page connecting later reads the picture again. */
+void tinyweb_read_bitmap(const char *name, void (*on_load)(const char *));
+
+/* The width of the bitmap b in pixels; 0 where it is not one. */
+int tinyweb_bitmap_width(const char *b);
+
+/* The height of the bitmap b in pixels; 0 where it is not one. */
+int tinyweb_bitmap_height(const char *b);
+
 /* Starts loading the picture name, looked for as a sample is, and
    answers the string that names it to draw_image. */
 const char *tinyweb_load_image(const char *name);
@@ -228,14 +240,16 @@ const char *tinyweb_fresh_id(const char *name);
    resume), "render" and "render_end". Timers: "after" and "every"
    (seconds; reports "timer"), "cancel". The page: "set_text",
    "visible" and "enabled" (1 or 0), "remove", "text_area" (rows
-   columns), "file_button", "cursor", "save_canvas", "download". mode
-   says what a page connecting later is sent again: 0 kept, 1 the
-   last of its kind and id, 2 like a sound, 3 nothing. */
+   columns), "file_button", "load_bitmap" (text the picture's file;
+   reports "loaded" for id with its pixels as pixels.<id>), "cursor",
+   "save_canvas", "download". mode says what a page connecting later
+   is sent again: 0 kept, 1 the last of its kind and id, 2 like a
+   sound, 3 nothing. */
 void tinyweb_command(const char *kind, const char *id, const char *text, const char *numbers, int mode);
 
 /* Calls f each time the page reports kind for the element id: a
    timer's "timer", a beat's "beat", a text area's "change", a file
-   button's "loaded", a rendering's "rendered". */
+   button's and a picture's "loaded", a rendering's "rendered". */
 void tinyweb_watch(const char *id, const char *kind, void (*f)(void));
 
 /* The kth number the page last reported under name: "clock" (the

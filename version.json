@@ -1,6 +1,6 @@
 {
-  "build": "d1a7873ba5a8",
-  "commit": "01d23fa",
+  "build": "f3eb2824303e",
+  "commit": "3b40c53",
   "date": "2026-11-10",
-  "pyking": "0.1.10"
+  "pyking": "0.1.11-dev"
 }

@@ -114,6 +114,13 @@ void tinyweb_set_pixel(const char *, int, int, int);
 int tinyweb_get_pixel(const char *, int, int);
 void tinyweb_fill_bitmap(const char *, int);
 void tinyweb_draw_bitmap(const char *, const char *, int, int, double);
+#ifndef PYK_FN_S_V
+#define PYK_FN_S_V
+typedef void (*pyk_fn_s_v)(const char *);
+#endif
+void tinyweb_read_bitmap(const char *, pyk_fn_s_v);
+int tinyweb_bitmap_width(const char *);
+int tinyweb_bitmap_height(const char *);
 const char *tinyweb_load_image(const char *);
 #ifndef PYK_FN__V
 #define PYK_FN__V

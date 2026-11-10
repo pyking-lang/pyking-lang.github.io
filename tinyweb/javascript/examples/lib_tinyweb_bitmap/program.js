@@ -29,7 +29,7 @@ function pykConcat(a, b) {
 
 import * as tw from './tinyweb.js';
 import * as tw_external from './tinyweb_external.js';
-import { bitmap__bitmap, bitmap__set_pixel, bitmap__get_pixel, bitmap__fill_bitmap, bitmap__show_bitmap, bitmap__bitmap__default__background } from './tinyweb.js';
+import { bitmap__bitmap, bitmap__set_pixel, bitmap__get_pixel, bitmap__fill_bitmap, bitmap__show_bitmap, bitmap__load_bitmap, bitmap__size, bitmap__bitmap__default__background } from './tinyweb.js';
 import { Color__Color, color__black, color__white, color__gray, color__red, color__green, color__blue, color__yellow, color__orange, color__purple, color__pink, color__navy, color__teal, color__brown, color__cyan, color__magenta, color__none, color__theme, color__rgb, color__rgba, color__hsl, color__hex, color__to_hex, color__with_alpha, color__mix, color__same, color__palette, Color__Paint, Color__Plain, Color__Linear, Color__Radial, Color__Conic, color__stop } from './tinyweb.js';
 tw.web_init(0);
 const c = tw_external.canvas(160, 100);

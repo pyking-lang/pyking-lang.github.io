@@ -1049,6 +1049,12 @@ def bitmap__fill_bitmap(b, fill):
 def bitmap__show_bitmap(c, b, x, y, scale):
     return tinyweb_external.draw_bitmap(c, b, x, y, scale)
 
+def bitmap__load_bitmap(name, on_load):
+    return tinyweb_external.read_bitmap(name, on_load)
+
+def bitmap__size(b):
+    return (tinyweb_external.bitmap_width(b), tinyweb_external.bitmap_height(b))
+
 def layout__row():
     return tinyweb_external.row()
 

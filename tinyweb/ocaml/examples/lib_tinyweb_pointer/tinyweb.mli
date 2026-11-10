@@ -392,6 +392,10 @@ val bitmap__fill_bitmap : string -> color__Color -> unit
 
 val bitmap__show_bitmap : string -> string -> int -> int -> float -> unit
 
+val bitmap__load_bitmap : string -> (string -> unit) -> unit
+
+val bitmap__size : string -> int * int
+
 val layout__row : unit -> string
 
 val layout__column : unit -> string

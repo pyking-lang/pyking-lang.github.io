@@ -120,6 +120,18 @@ val fill_bitmap : string -> int -> unit
     changed since it was last drawn is sent to the page. *)
 val draw_bitmap : string -> string -> int -> int -> float -> unit
 
+(** Asks the page for the pixels of the picture name -- any format
+    the browser reads -- and calls on_load with a new bitmap holding
+    them once they have arrived, as make_bitmap names one. Called
+    once, though a page connecting later reads the picture again. *)
+val read_bitmap : string -> (string -> unit) -> unit
+
+(** The width of the bitmap b in pixels; 0 where it is not one. *)
+val bitmap_width : string -> int
+
+(** The height of the bitmap b in pixels; 0 where it is not one. *)
+val bitmap_height : string -> int
+
 (** Starts loading the picture name, looked for as a sample is, and
     answers the string that names it to draw_image. *)
 val load_image : string -> string
@@ -232,15 +244,16 @@ val fresh_id : string -> string
     (text pause or resume), "render" and "render_end". Timers:
     "after" and "every" (seconds; reports "timer"), "cancel". The
     page: "set_text", "visible" and "enabled" (1 or 0), "remove",
-    "text_area" (rows columns), "file_button", "cursor",
-    "save_canvas", "download". mode says what a page connecting later
-    is sent again: 0 kept, 1 the last of its kind and id, 2 like a
-    sound, 3 nothing. *)
+    "text_area" (rows columns), "file_button", "load_bitmap" (text
+    the picture's file; reports "loaded" for id with its pixels as
+    pixels.<id>), "cursor", "save_canvas", "download". mode says what
+    a page connecting later is sent again: 0 kept, 1 the last of its
+    kind and id, 2 like a sound, 3 nothing. *)
 val command : string -> string -> string -> string -> int -> unit
 
 (** Calls f each time the page reports kind for the element id: a
     timer's "timer", a beat's "beat", a text area's "change", a file
-    button's "loaded", a rendering's "rendered". *)
+    button's and a picture's "loaded", a rendering's "rendered". *)
 val watch : string -> string -> (unit -> unit) -> unit
 
 (** The kth number the page last reported under name: "clock" (the

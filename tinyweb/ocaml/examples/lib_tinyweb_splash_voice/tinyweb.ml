@@ -891,6 +891,13 @@ let bitmap__fill_bitmap b fill =
 let bitmap__show_bitmap c b x y scale =
   Tinyweb_external.draw_bitmap c b x y scale
 
+let bitmap__load_bitmap name on_load =
+  Tinyweb_external.read_bitmap name on_load
+
+let bitmap__size b =
+  let tmp66 = Tinyweb_external.bitmap_width b in
+  (tmp66, Tinyweb_external.bitmap_height b)
+
 let layout__row () = Tinyweb_external.row ()
 
 let layout__column () = Tinyweb_external.column ()
@@ -926,7 +933,7 @@ let game__cursor c name = Tinyweb_external.command "cursor" c name "" 1
 
 let smooth__width_of width style =
   if width = 1.0 then
-    float_of_int (let Style (_, _, tmp66, _, _) = style in tmp66)
+    float_of_int (let Style (_, _, tmp67, _, _) = style in tmp67)
   else width
 
 let smooth__shape c kind numbers fill stroke width alpha paint style =
@@ -936,7 +943,7 @@ let smooth__stroked c kind numbers stroke width alpha style =
   Tinyweb_external.draw_shape c kind numbers "" (line_of stroke style) (smooth__width_of width style) (alpha_of alpha style)
 
 let smooth__pairs points =
-  Stdlib.List.concat_map (function | p -> [((let Smooth__Point (tmp67, _) = p in tmp67), (let Smooth__Point (_, tmp68) = p in tmp68))]) points
+  Stdlib.List.concat_map (function | p -> [((let Smooth__Point (tmp68, _) = p in tmp68), (let Smooth__Point (_, tmp69) = p in tmp69))]) points
 
 let smooth__circle__default__fill () = color__black
 
@@ -1020,7 +1027,7 @@ let smooth__lines__default__style () =
   Style (field__default__Style__fill (), field__default__Style__stroke (), 1, 1.0, field__default__Style__paint ())
 
 let smooth__lines c segments stroke width alpha style =
-  Tinyweb_external.draw_quads c "lines" (Stdlib.List.concat_map (function | (a, b) -> [((let Smooth__Point (tmp69, _) = a in tmp69), (let Smooth__Point (_, tmp70) = a in tmp70), (let Smooth__Point (tmp71, _) = b in tmp71), (let Smooth__Point (_, tmp72) = b in tmp72))]) segments) "" (line_of stroke style) (smooth__width_of width style) (alpha_of alpha style)
+  Tinyweb_external.draw_quads c "lines" (Stdlib.List.concat_map (function | (a, b) -> [((let Smooth__Point (tmp70, _) = a in tmp70), (let Smooth__Point (_, tmp71) = a in tmp71), (let Smooth__Point (tmp72, _) = b in tmp72), (let Smooth__Point (_, tmp73) = b in tmp73))]) segments) "" (line_of stroke style) (smooth__width_of width style) (alpha_of alpha style)
 
 let smooth__path__default__stroke () = color__black
 

@@ -14,6 +14,9 @@ public final class PykRuntime {
     // and otherwise as a datatype's value with its header's fields.
     public interface Obj extends Data {
         default String pykShow() { return null; }
+
+        // The places of its header's private fields, printed `_`.
+        default int[] pykPrivate() { return null; }
     }
 
     // A mutable struct, whose field i a pointer reads and writes.
@@ -28,30 +31,37 @@ public final class PykRuntime {
 
     public record T2<A0, A1>(A0 a0, A1 a1) implements Tuple {
         public Object[] pykItems() { return new Object[] { a0, a1 }; }
+
     }
 
     public record T3<A0, A1, A2>(A0 a0, A1 a1, A2 a2) implements Tuple {
         public Object[] pykItems() { return new Object[] { a0, a1, a2 }; }
+
     }
 
     public record T4<A0, A1, A2, A3>(A0 a0, A1 a1, A2 a2, A3 a3) implements Tuple {
         public Object[] pykItems() { return new Object[] { a0, a1, a2, a3 }; }
+
     }
 
     public record T5<A0, A1, A2, A3, A4>(A0 a0, A1 a1, A2 a2, A3 a3, A4 a4) implements Tuple {
         public Object[] pykItems() { return new Object[] { a0, a1, a2, a3, a4 }; }
+
     }
 
     public record T6<A0, A1, A2, A3, A4, A5>(A0 a0, A1 a1, A2 a2, A3 a3, A4 a4, A5 a5) implements Tuple {
         public Object[] pykItems() { return new Object[] { a0, a1, a2, a3, a4, a5 }; }
+
     }
 
     public record T7<A0, A1, A2, A3, A4, A5, A6>(A0 a0, A1 a1, A2 a2, A3 a3, A4 a4, A5 a5, A6 a6) implements Tuple {
         public Object[] pykItems() { return new Object[] { a0, a1, a2, a3, a4, a5, a6 }; }
+
     }
 
     public record T8<A0, A1, A2, A3, A4, A5, A6, A7>(A0 a0, A1 a1, A2 a2, A3 a3, A4 a4, A5 a5, A6 a6, A7 a7) implements Tuple {
         public Object[] pykItems() { return new Object[] { a0, a1, a2, a3, a4, a5, a6, a7 }; }
+
     }
 
     public interface Fn3<A0, A1, A2, R> {
@@ -85,6 +95,16 @@ public final class PykRuntime {
 
     public static Void debugLine(String line) {
         System.err.println(line);
+        return null;
+    }
+
+    public static Void printSame(String text) {
+        System.out.print(text);
+        return null;
+    }
+
+    public static Void errorSame(String text) {
+        System.err.print(text);
         return null;
     }
 
@@ -904,9 +924,11 @@ public final class PykRuntime {
                 return;
             }
             out.append(data.pykTag()).append('(');
+            int[] hidden = value instanceof Obj ? ((Obj) value).pykPrivate() : null;
             for (int i = 0; i < fields.length; i++) {
                 if (i > 0) out.append(", ");
-                write(out, fields[i], path);
+                if (hidden != null && java.util.Arrays.binarySearch(hidden, i) >= 0) out.append('_');
+                else write(out, fields[i], path);
             }
             out.append(')');
             path.remove(value);

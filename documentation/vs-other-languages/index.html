@@ -1,0 +1,1535 @@
+<!DOCTYPE html><html lang="en" dir="ltr" data-theme="dark" data-has-sidebar class="astro-g5ptsecz"><head><meta charset="utf-8"/><meta name="viewport" content="width=device-width, initial-scale=1"/><title>Pyking vs. other languages | Pyking</title><link rel="canonical" href="https://pyking.org/documentation/vs-other-languages/"/><link rel="sitemap" href="/sitemap-index.xml"/><script src="/v/8e74ca34b133/site/shell.js" data-base data-build="8e74ca34b133" data-sections="[{&quot;key&quot;:&quot;install&quot;,&quot;label&quot;:&quot;Install&quot;,&quot;prefix&quot;:&quot;/install/&quot;},{&quot;key&quot;:&quot;getstarted&quot;,&quot;label&quot;:&quot;Getting started&quot;,&quot;prefix&quot;:&quot;/getstarted/&quot;},{&quot;key&quot;:&quot;documentation&quot;,&quot;label&quot;:&quot;Documentation&quot;,&quot;prefix&quot;:&quot;/documentation/&quot;},{&quot;key&quot;:&quot;libraries&quot;,&quot;label&quot;:&quot;Libraries&quot;,&quot;prefix&quot;:&quot;/libraries/&quot;},{&quot;key&quot;:&quot;playground&quot;,&quot;label&quot;:&quot;Playground&quot;,&quot;prefix&quot;:&quot;/playground/&quot;}]"></script><script type="module" src="/v/8e74ca34b133/site/cells.js"></script><script>try { if (localStorage.getItem('starlight-theme') === null) localStorage.setItem('starlight-theme', 'dark'); } catch (e) {}</script><link rel="shortcut icon" href="/v/8e74ca34b133/site/favicon.svg" type="image/svg+xml"/><meta name="generator" content="Astro v7.3.5"/><meta name="generator" content="Starlight v0.42.5"/><meta property="og:title" content="Pyking vs. other languages"/><meta property="og:type" content="article"/><meta property="og:url" content="https://pyking.org/documentation/vs-other-languages/"/><meta property="og:locale" content="en"/><meta property="og:description" content="Pyking compared with Python, JavaScript, C, Java and OCaml -- syntax, semantics, and what the compiler writes for each."/><meta property="og:site_name" content="Pyking"/><meta name="twitter:card" content="summary_large_image"/><meta name="description" content="Pyking compared with Python, JavaScript, C, Java and OCaml -- syntax, semantics, and what the compiler writes for each."/><script>
+	window.StarlightThemeProvider = (() => {
+		const storedTheme =
+			typeof localStorage !== 'undefined' && localStorage.getItem('starlight-theme');
+		const theme =
+			storedTheme ||
+			(window.matchMedia('(prefers-color-scheme: light)').matches ? 'light' : 'dark');
+		document.documentElement.dataset.theme = theme === 'light' ? 'light' : 'dark';
+		return {
+			updatePickers(theme = storedTheme || 'auto') {
+				document.querySelectorAll('starlight-theme-select').forEach((picker) => {
+					const select = picker.querySelector('select');
+					if (select) select.value = theme;
+					/** @type {HTMLTemplateElement | null} */
+					const tmpl = document.querySelector(`#theme-icons`);
+					const newIcon = tmpl && tmpl.content.querySelector('.' + theme);
+					if (newIcon) {
+						const oldIcon = picker.querySelector('svg.label-icon');
+						if (oldIcon) {
+							oldIcon.replaceChildren(...newIcon.cloneNode(true).childNodes);
+						}
+					}
+				});
+			},
+		};
+	})();
+</script><template id="theme-icons"><svg aria-hidden="true" class="light astro-hkc32dio" width="16" height="16" viewBox="0 0 24 24" fill="currentColor" style="--sl-icon-size: 1em;"><path d="M5 12a1 1 0 0 0-1-1H3a1 1 0 0 0 0 2h1a1 1 0 0 0 1-1Zm.64 5-.71.71a1 1 0 0 0 0 1.41 1 1 0 0 0 1.41 0l.71-.71A1 1 0 0 0 5.64 17ZM12 5a1 1 0 0 0 1-1V3a1 1 0 0 0-2 0v1a1 1 0 0 0 1 1Zm5.66 2.34a1 1 0 0 0 .7-.29l.71-.71a1 1 0 1 0-1.41-1.41l-.66.71a1 1 0 0 0 0 1.41 1 1 0 0 0 .66.29Zm-12-.29a1 1 0 0 0 1.41 0 1 1 0 0 0 0-1.41l-.71-.71a1.004 1.004 0 1 0-1.43 1.41l.73.71ZM21 11h-1a1 1 0 0 0 0 2h1a1 1 0 0 0 0-2Zm-2.64 6A1 1 0 0 0 17 18.36l.71.71a1 1 0 0 0 1.41 0 1 1 0 0 0 0-1.41l-.76-.66ZM12 6.5a5.5 5.5 0 1 0 5.5 5.5A5.51 5.51 0 0 0 12 6.5Zm0 9a3.5 3.5 0 1 1 0-7 3.5 3.5 0 0 1 0 7Zm0 3.5a1 1 0 0 0-1 1v1a1 1 0 0 0 2 0v-1a1 1 0 0 0-1-1Z"/></svg><svg aria-hidden="true" class="dark astro-hkc32dio" width="16" height="16" viewBox="0 0 24 24" fill="currentColor" style="--sl-icon-size: 1em;"><path d="M21.64 13a1 1 0 0 0-1.05-.14 8.049 8.049 0 0 1-3.37.73 8.15 8.15 0 0 1-8.14-8.1 8.59 8.59 0 0 1 .25-2A1 1 0 0 0 8 2.36a10.14 10.14 0 1 0 14 11.69 1 1 0 0 0-.36-1.05Zm-9.5 6.69A8.14 8.14 0 0 1 7.08 5.22v.27a10.15 10.15 0 0 0 10.14 10.14 9.784 9.784 0 0 0 2.1-.22 8.11 8.11 0 0 1-7.18 4.32v-.04Z"/></svg><svg aria-hidden="true" class="auto astro-hkc32dio" width="16" height="16" viewBox="0 0 24 24" fill="currentColor" style="--sl-icon-size: 1em;"><path d="M21 14h-1V7a3 3 0 0 0-3-3H7a3 3 0 0 0-3 3v7H3a1 1 0 0 0-1 1v2a3 3 0 0 0 3 3h14a3 3 0 0 0 3-3v-2a1 1 0 0 0-1-1ZM6 7a1 1 0 0 1 1-1h10a1 1 0 0 1 1 1v7H6V7Zm14 10a1 1 0 0 1-1 1H5a1 1 0 0 1-1-1v-1h16v1Z"/></svg></template><link rel="stylesheet" href="/_astro/print.ehPL0gv-.css" media="print"><link rel="stylesheet" href="/_astro/middleware.DYJDcmyo.css"><script type="module" src="/_astro/page.Dwipeu-R.js"></script></head><body class="astro-g5ptsecz"><a class="sl-skip-link astro-qb7clj6f" href="#_top">Skip to content</a><div class="page sl-flex astro-yntsjkba"><header class="header astro-yntsjkba"><div class="pyking-header"><div class="pyking-header-left"><a href="/" class="site-title sl-flex astro-6rvad3va"><img class="astro-6rvad3va" alt="Pyking" src="/_astro/logo.C9hvHOpV.svg" width="64" height="64"><span class="astro-6rvad3va" translate="no">Pyking</span></a><nav class="pyking-nav" aria-label="Sections"><a href="/install/">Install</a><a href="/getstarted/pyking-in-20-minutes/">Getting started</a><a href="/documentation/language/" aria-current="page">Documentation</a><a href="/libraries/">Libraries</a><a href="/playground/">Playground</a></nav></div><div class="pyking-header-right print:hidden"><site-search class=" astro-b5kgnn7o" data-translations="{&quot;placeholder&quot;:&quot;Search&quot;}"><button data-open-modal disabled aria-label="Search" aria-keyshortcuts="Control+K" class="astro-b5kgnn7o"><svg aria-hidden="true" class="astro-b5kgnn7o astro-hkc32dio" width="16" height="16" viewBox="0 0 24 24" fill="currentColor" style="--sl-icon-size: 1em;"><path d="M21.71 20.29 18 16.61A9 9 0 1 0 16.61 18l3.68 3.68a.999.999 0 0 0 1.42 0 1 1 0 0 0 0-1.39ZM11 18a7 7 0 1 1 0-14 7 7 0 0 1 0 14Z"/></svg><span class="sl-hidden md:sl-block astro-b5kgnn7o" aria-hidden="true">Search</span><kbd class="sl-hidden md:sl-flex astro-b5kgnn7o" style="display: none;"><kbd class="astro-b5kgnn7o">Ctrl</kbd><kbd class="astro-b5kgnn7o">K</kbd></kbd></button><dialog style="padding:0" aria-label="Search" class="astro-b5kgnn7o"><div class="dialog-frame sl-flex astro-b5kgnn7o"><button data-close-modal class="sl-flex md:sl-hidden astro-b5kgnn7o">Cancel</button><div class="search-container astro-b5kgnn7o"><div id="starlight__search" class="astro-b5kgnn7o"></div></div></div></dialog></site-search><script>
+	(() => {
+		const openBtn = document.querySelector('button[data-open-modal]');
+		const shortcut = openBtn?.querySelector('kbd');
+		if (!openBtn || !(shortcut instanceof HTMLElement)) return;
+		const platformKey = shortcut.querySelector('kbd');
+		if (platformKey && /(Mac|iPhone|iPod|iPad)/i.test(navigator.platform)) {
+			platformKey.textContent = '⌘';
+			openBtn.setAttribute('aria-keyshortcuts', 'Meta+K');
+		}
+		shortcut.style.display = '';
+	})();
+</script><script type="module" src="/_astro/Search.astro_astro_type_script_index_0_lang.Bumivpjo.js"></script><div class="sl-hidden md:sl-flex"><starlight-theme-select><label style="--sl-select-width: 6.25em" class="astro-2z5xp7gb"><span class="sr-only astro-2z5xp7gb">Select theme</span><svg aria-hidden="true" class="icon label-icon astro-2z5xp7gb astro-hkc32dio" width="16" height="16" viewBox="0 0 24 24" fill="currentColor" style="--sl-icon-size: 1em;"><path d="M21 14h-1V7a3 3 0 0 0-3-3H7a3 3 0 0 0-3 3v7H3a1 1 0 0 0-1 1v2a3 3 0 0 0 3 3h14a3 3 0 0 0 3-3v-2a1 1 0 0 0-1-1ZM6 7a1 1 0 0 1 1-1h10a1 1 0 0 1 1 1v7H6V7Zm14 10a1 1 0 0 1-1 1H5a1 1 0 0 1-1-1v-1h16v1Z"/></svg><select autocomplete="off" class="astro-2z5xp7gb"><option value="dark" class="astro-2z5xp7gb">Dark</option><option value="light" class="astro-2z5xp7gb">Light</option><option value="auto" selected class="astro-2z5xp7gb">Auto</option></select><svg aria-hidden="true" class="icon caret astro-2z5xp7gb astro-hkc32dio" width="16" height="16" viewBox="0 0 24 24" fill="currentColor" style="--sl-icon-size: 1em;"><path d="M17 9.17a1 1 0 0 0-1.41 0L12 12.71 8.46 9.17a1 1 0 1 0-1.41 1.42l4.24 4.24a1.002 1.002 0 0 0 1.42 0L17 10.59a1.002 1.002 0 0 0 0-1.42Z"/></svg></label></starlight-theme-select><script>
+	StarlightThemeProvider.updatePickers();
+</script><script type="module">var e=`starlight-theme`,t=e=>e===`auto`||e===`dark`||e===`light`?e:`auto`,n=()=>t(typeof localStorage<`u`&&localStorage.getItem(e));function r(t){typeof localStorage<`u`&&localStorage.setItem(e,t===`light`||t===`dark`?t:``)}var i=()=>matchMedia(`(prefers-color-scheme: light)`).matches?`light`:`dark`;function a(e){StarlightThemeProvider.updatePickers(e),document.documentElement.dataset.theme=e===`auto`?i():e,r(e)}matchMedia(`(prefers-color-scheme: light)`).addEventListener(`change`,()=>{n()===`auto`&&a(`auto`)});var o=class extends HTMLElement{constructor(){super(),a(n()),this.querySelector(`select`)?.addEventListener(`change`,e=>{e.currentTarget instanceof HTMLSelectElement&&a(t(e.currentTarget.value))})}};customElements.define(`starlight-theme-select`,o);</script></div><a class="pyking-github" href="https://github.com/pyking-lang" title="Pyking on GitHub"><span class="sr-only">GitHub</span><svg aria-hidden="true" viewBox="0 0 24 24" width="22" height="22" fill="currentColor"><path d="M12 .3a12 12 0 0 0-3.8 23.4c.6.1.8-.3.8-.6v-2c-3.3.7-4-1.6-4-1.6-.6-1.4-1.4-1.8-1.4-1.8-1-.7.1-.7.1-.7 1.2.1 1.8 1.2 1.8 1.2 1 1.8 2.8 1.3 3.5 1 0-.8.4-1.3.7-1.6-2.7-.3-5.5-1.3-5.5-6 0-1.2.5-2.3 1.3-3.1-.2-.4-.6-1.6 0-3.2 0 0 1-.3 3.4 1.2a11.5 11.5 0 0 1 6 0c2.3-1.5 3.3-1.2 3.3-1.2.6 1.6.2 2.8.1 3.2.8.8 1.3 1.9 1.3 3.1 0 4.6-2.8 5.6-5.5 5.9.5.4.9 1.1.9 2.2v3.3c0 .3.1.7.8.6A12 12 0 0 0 12 .3"></path></svg></a></div></div></header><nav class="sidebar print:hidden astro-yntsjkba" aria-label="Main"><button popovertarget="starlight__sidebar" class="sl-menu-button sl-flex md:sl-hidden print:hidden astro-r2osgdlg"><svg aria-hidden="true" class="open-menu astro-r2osgdlg astro-hkc32dio" width="16" height="16" viewBox="0 0 24 24" fill="currentColor" style="--sl-icon-size: 1em;"><path d="M3 8h18a1 1 0 1 0 0-2H3a1 1 0 0 0 0 2Zm18 8H3a1 1 0 0 0 0 2h18a1 1 0 0 0 0-2Zm0-5H3a1 1 0 0 0 0 2h18a1 1 0 0 0 0-2Z"/></svg><svg aria-hidden="true" class="close-menu astro-r2osgdlg astro-hkc32dio" width="16" height="16" viewBox="0 0 24 24" fill="currentColor" style="--sl-icon-size: 1em;"><path d="m13.41 12 6.3-6.29a1.004 1.004 0 1 0-1.42-1.42L12 10.59l-6.29-6.3a1.004 1.004 0 0 0-1.42 1.42l6.3 6.29-6.3 6.29a1 1 0 0 0 0 1.42.998.998 0 0 0 1.42 0l6.29-6.3 6.29 6.3a.999.999 0 0 0 1.42 0 1 1 0 0 0 0-1.42L13.41 12Z"/></svg><span class="sr-only astro-r2osgdlg">Menu</span></button><script type="module">var e=class extends HTMLElement{constructor(){super();let e=matchMedia(`(min-width: 50em)`),t=()=>{this.popover=e.matches?null:`auto`};t(),e.addEventListener(`change`,()=>t()),this.addEventListener(`toggle`,({newState:e})=>this.trapFocus(e===`open`))}trapFocus(e){document.querySelectorAll(`.main-frame, .sl-skip-link`).forEach(t=>{t.toggleAttribute(`inert`,e)})}};customElements.define(`sl-sidebar-pane`,e);</script><script type="module">var e=class extends HTMLElement{constructor(){super();let e=this.querySelector(`select`);e&&(e.addEventListener(`change`,e=>{e.currentTarget instanceof HTMLSelectElement&&(window.location.pathname=e.currentTarget.value)}),window.addEventListener(`pageshow`,t=>{if(!t.persisted)return;let n=e.querySelector(`option[selected]`)?.index;n!==e.selectedIndex&&(e.selectedIndex=n??0)}))}};customElements.define(`starlight-lang-select`,e);</script><sl-sidebar-pane popover id="starlight__sidebar" class="sidebar-pane astro-yntsjkba"><div class="sidebar-content sl-flex astro-yntsjkba"><nav class="pyking-sidebar" aria-label="Documentation"><p class="pyking-sidebar-title">Documentation</p><ul class="pyking-sidebar-main"><li><a href="/documentation/editors/">Editors</a></li><li><a href="/documentation/playground/">Playground</a></li><li><a href="/documentation/notebook/">Notebook</a></li><li><a href="/documentation/command-line/">Command line</a></li><li><a href="/documentation/repl/">REPL</a></li><li><a href="/documentation/targets/">Compiler targets</a></li><li><a href="/documentation/slides/">Code on slides</a></li><li class="pyking-sidebar-parent"><a href="/documentation/language/">Language reference</a></li><li class="pyking-sidebar-open"><a href="/documentation/vs-other-languages/" aria-current="page">Pyking vs. other languages</a><ul class="pyking-sidebar-sub"><li><a href="#across-languages">Across languages</a></li><li><a href="#string-interpolation-everywhere">String interpolation, everywhere</a></li><li><a href="#seeing-the-generated-code-yourself">Seeing the generated code yourself</a></li><li><a href="#compared-to-python">Compared to Python</a></li><li><a href="#compared-to-javascript">Compared to JavaScript</a></li><li><a href="#compared-to-c">Compared to C</a></li><li><a href="#compared-to-java">Compared to Java</a></li><li><a href="#compared-to-ocaml">Compared to OCaml</a></li></ul></li><li><a href="/documentation/grammar/">Grammar</a></li><li class="pyking-sidebar-parent"><a href="/documentation/tinyweb/">Tinyweb without Pyking</a></li><li><a href="/documentation/tinyweb-styles/">Styling tinyweb</a></li></ul></nav><div class="md:sl-hidden"><div class="mobile-preferences sl-flex astro-p4azlveh"><div class="social-icons astro-p4azlveh"></div><starlight-theme-select><label style="--sl-select-width: 6.25em" class="astro-2z5xp7gb"><span class="sr-only astro-2z5xp7gb">Select theme</span><svg aria-hidden="true" class="icon label-icon astro-2z5xp7gb astro-hkc32dio" width="16" height="16" viewBox="0 0 24 24" fill="currentColor" style="--sl-icon-size: 1em;"><path d="M21 14h-1V7a3 3 0 0 0-3-3H7a3 3 0 0 0-3 3v7H3a1 1 0 0 0-1 1v2a3 3 0 0 0 3 3h14a3 3 0 0 0 3-3v-2a1 1 0 0 0-1-1ZM6 7a1 1 0 0 1 1-1h10a1 1 0 0 1 1 1v7H6V7Zm14 10a1 1 0 0 1-1 1H5a1 1 0 0 1-1-1v-1h16v1Z"/></svg><select autocomplete="off" class="astro-2z5xp7gb"><option value="dark" class="astro-2z5xp7gb">Dark</option><option value="light" class="astro-2z5xp7gb">Light</option><option value="auto" selected class="astro-2z5xp7gb">Auto</option></select><svg aria-hidden="true" class="icon caret astro-2z5xp7gb astro-hkc32dio" width="16" height="16" viewBox="0 0 24 24" fill="currentColor" style="--sl-icon-size: 1em;"><path d="M17 9.17a1 1 0 0 0-1.41 0L12 12.71 8.46 9.17a1 1 0 1 0-1.41 1.42l4.24 4.24a1.002 1.002 0 0 0 1.42 0L17 10.59a1.002 1.002 0 0 0 0-1.42Z"/></svg></label></starlight-theme-select><script>
+	StarlightThemeProvider.updatePickers();
+</script></div></div></div></sl-sidebar-pane></nav><div class="main-frame astro-yntsjkba"><script type="module">var e=document.getElementById(`starlight__sidebar`),t=e?.querySelector(`sl-sidebar-state-persist`),n=`sl-sidebar-state`,r=()=>{let r=[],i=t?.dataset.hash||``;try{let e=sessionStorage.getItem(n),t=JSON.parse(e||`{}`);Array.isArray(t.open)&&t.hash===i&&(r=t.open)}catch{}return{hash:i,open:r,scroll:e?.scrollTop||0}},i=e=>{try{sessionStorage.setItem(n,JSON.stringify(e))}catch{}},a=()=>i(r()),o=(e,t)=>{let n=r();n.open[t]=e,i(n)};t?.addEventListener(`click`,e=>{if(!(e.target instanceof Element))return;let t=e.target.closest(`summary`)?.closest(`details`);if(!t)return;let n=t.querySelector(`sl-sidebar-restore`),r=parseInt(n?.dataset.index||``);isNaN(r)||o(!t.open,r)}),addEventListener(`visibilitychange`,()=>{document.visibilityState===`hidden`&&a()});</script><div class="lg:sl-flex astro-lrzkfocr"><div class="main-pane astro-lrzkfocr"><main data-pagefind-body class="astro-g5ptsecz" lang="en" dir="ltr"><div class="content-panel astro-a7po4psb"><div class="sl-container astro-a7po4psb"><h1 id="_top" class="astro-bebwqqxs">Pyking vs. other languages</h1></div></div><div class="content-panel astro-a7po4psb"><div class="sl-container astro-a7po4psb"><div class="sl-markdown-content"><p>Pyking has Python’s syntax and ML’s semantics. Programs are indented,
+use <code>def</code>, <code>if</code>, <code>for</code>, <code>while</code> and <code>match</code>, and look like Python.
+But a name bound with <code>=</code> never changes, every block is a scope,
+types are static and inferred, and data is built from datatypes and
+taken apart with an exhaustive <code>match</code>. A <code>use</code> line at the top of a
+module adds more: <code>use mutation</code> adds variables, arrays and mutable
+structs, <code>use pointers</code> adds C-style pointers, and <code>use objects</code> adds
+Java-style classes and interfaces.</p>
+<p>This page is for readers who know one of the languages Pyking compiles
+to. Each part says what carries over, what does not, and what the
+compiler writes for that language. The full list of targets is on
+<a href="/documentation/targets/">Compiler targets</a>, and the language itself
+is in the <a href="/documentation/language/">language reference</a>.</p>
+<h2 id="across-languages">Across languages</h2>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<table><thead><tr><th></th><th>Pyking</th><th>Python</th><th>JavaScript</th><th>C</th><th>Java</th><th>OCaml</th></tr></thead><tbody><tr><td>Typing</td><td>static, inferred; annotations optional</td><td>dynamic; hints are not checked</td><td>dynamic</td><td>static, declared</td><td>static, declared (<code>var</code> for locals)</td><td>static, inferred</td></tr><tr><td>Bindings by default</td><td>immutable; <code>var</code> under <code>use mutation</code></td><td>mutable</td><td><code>const</code> or <code>let</code>, your choice</td><td>mutable</td><td>mutable (<code>final</code> to fix)</td><td>immutable; <code>ref</code> for a cell</td></tr><tr><td>Block scope</td><td>every block</td><td>function only</td><td><code>let</code>/<code>const</code>: block</td><td>block</td><td>block</td><td><code>let ... in</code></td></tr><tr><td>Integer</td><td><code>Int</code>, at least 32 bits; overflow undefined</td><td>arbitrary size</td><td>double, exact to 2^53</td><td><code>int</code>, 32 bits in practice; overflow undefined</td><td><code>int</code>, 32 bits, wraps</td><td><code>int</code>, 63 bits, wraps</td></tr><tr><td><code>7 / 2</code> on integers</td><td><code>3</code>, truncates toward zero</td><td><code>3.5</code> (<code>//</code> floors)</td><td><code>3.5</code></td><td><code>3</code>, truncates</td><td><code>3</code>, truncates</td><td><code>3</code>, truncates</td></tr><tr><td>No value</td><td><code>Option</code>: <code>None</code>, <code>Some(x)</code></td><td><code>None</code></td><td><code>null</code>, <code>undefined</code></td><td><code>NULL</code></td><td><code>null</code></td><td><code>option</code></td></tr><tr><td>Errors</td><td><code>Option</code>, <code>Result</code>, <code>panic</code>; no exceptions</td><td>exceptions</td><td>exceptions</td><td>return codes</td><td>exceptions</td><td>exceptions, <code>result</code></td></tr><tr><td>Sum types</td><td><code>datatype</code></td><td>classes by hand</td><td>objects by hand</td><td>tagged unions by hand</td><td>sealed interfaces and records</td><td>variants</td></tr><tr><td>Pattern matching</td><td><code>match</code>, checked exhaustive</td><td><code>match</code>, not checked</td><td>none (<code>switch</code> on values)</td><td><code>switch</code> on integers</td><td>pattern <code>switch</code> (Java 21)</td><td><code>match</code>, exhaustiveness warned</td></tr><tr><td>Closures</td><td>yes</td><td>yes</td><td>yes</td><td>no</td><td>lambdas (captures effectively final)</td><td>yes</td></tr><tr><td>Tail calls</td><td>self and mutual tail calls run in constant stack, on every target</td><td>no</td><td>not in node</td><td>up to the C compiler</td><td>no</td><td>yes</td></tr><tr><td>Objects</td><td><code>use objects</code>: classes, interfaces, one parent</td><td>classes, many parents</td><td>prototypes and classes</td><td>none</td><td>classes, interfaces, one parent</td><td>objects and classes, structural</td></tr><tr><td>Controlled construction</td><td>a <code>private</code> header field: only the class’s methods give it, others make <code>C()</code></td><td>by convention (<code>_name</code>)</td><td><code>#private</code> fields and a static factory</td><td>by convention</td><td>a <code>private</code> constructor beside a public one</td><td>a module signature hiding the type</td></tr><tr><td>Copying a value</td><td><code>copy(x)</code>, <code>deepcopy(x)</code>, builtins</td><td><code>copy.copy</code>, <code>copy.deepcopy</code></td><td><code>structuredClone</code> (deep)</td><td><code>memcpy</code>, by hand</td><td><code>clone()</code> (shallow), by hand</td><td><code>Array.copy</code>, <code>Oo.copy</code>, by hand</td></tr><tr><td>Generics</td><td>type variables, inferred</td><td>hints only</td><td>none</td><td>none</td><td>generics</td><td>type variables, inferred</td></tr><tr><td>Memory</td><td>managed</td><td>managed</td><td>managed</td><td><code>malloc</code> and <code>free</code></td><td>managed</td><td>managed</td></tr><tr><td>Values in a string</td><td><code>"n = $n, ${n + 1}"</code></td><td><code>f"n = {n}, {n + 1}"</code></td><td><code>`n = ${n}, ${n + 1}`</code></td><td><code>printf("%d", n)</code></td><td><code>"n = " + n</code></td><td><code>Printf.sprintf "%d" n</code></td></tr></tbody></table>
+<h2 id="string-interpolation-everywhere">String interpolation, everywhere</h2>
+<p>Every Pyking string may hold <code>$name</code> or <code>${expression}</code>. The parser
+rewrites it before anything is checked: <code>"n = $n, next ${n + 1}"</code> is
+<code>"n = " + string(n) + ", next " + string(n + 1)</code>, so each target
+compiles a plain concatenation, and a value is shown as <code>print</code> shows
+it on every target. For Python:</p>
+<div class="pkn-notebook pkn-embedded not-content"><div class="pkn-cell"><pre class="pkn-cell-fallback"><code>n = 5
+print("n = $n, next ${n + 1}")</code></pre></div></div>
+<div class="expressive-code"><link rel="stylesheet" href="/_astro/ec.w36nc.css"><script type="module" src="/_astro/ec.0vx5m.js"></script><figure class="frame not-content"><figcaption class="header"></figcaption><pre data-language="python"><code><div class="ec-line"><div class="code"><span style="--0:#82AAFF;--1:#3B61B0">...</span></div></div><div class="ec-line"><div class="code"><span style="--0:#C5E478;--1:#3B61B0">print</span><span style="--0:#D6DEEB;--1:#403F53">(</span><span style="--0:#D9F5DD;--1:#111111">'</span><span style="--0:#ECC48D;--1:#984E4D">n = </span><span style="--0:#D9F5DD;--1:#111111">'</span><span style="--0:#82AAFF;--1:#3B61B0"> </span><span style="--0:#C792EA;--1:#8844AE">+</span><span style="--1:#3B61B0"><span style="--0:#82AAFF"> </span><span style="--0:#C5E478">str</span></span><span style="--0:#D6DEEB;--1:#403F53">(</span><span style="--0:#82AAFF;--1:#3B61B0">n</span><span style="--0:#D6DEEB;--1:#403F53">)</span><span style="--0:#82AAFF;--1:#3B61B0"> </span><span style="--0:#C792EA;--1:#8844AE">+</span><span style="--0:#82AAFF;--1:#3B61B0"> </span><span style="--0:#D9F5DD;--1:#111111">'</span><span style="--0:#ECC48D;--1:#984E4D">, next </span><span style="--0:#D9F5DD;--1:#111111">'</span><span style="--0:#82AAFF;--1:#3B61B0"> </span><span style="--0:#C792EA;--1:#8844AE">+</span><span style="--1:#3B61B0"><span style="--0:#82AAFF"> </span><span style="--0:#C5E478">str</span></span><span style="--0:#D6DEEB;--1:#403F53">(</span><span style="--0:#82AAFF;--1:#3B61B0">n </span><span style="--0:#C792EA;--1:#8844AE">+</span><span style="--0:#82AAFF;--1:#3B61B0"> </span><span style="--0:#F78C6C;--1:#AA0982">1</span><span style="--0:#D6DEEB;--1:#403F53">))</span></div></div></code></pre><div class="copy"><div aria-live="polite"></div><button title="Copy to clipboard" data-copied="Copied!" data-code="...print(&#x27;n = &#x27; + str(n) + &#x27;, next &#x27; + str(n + 1))"><div></div></button></div></figure></div>
+<p>and for Java:</p>
+<div class="expressive-code"><figure class="frame not-content"><figcaption class="header"></figcaption><pre data-language="java"><code><div class="ec-line"><div class="code"><span style="--0:#D6DEEB;--1:#403F53">...</span></div></div><div class="ec-line"><div class="code"><span class="indent">        </span><span style="--0:#C5E478;--1:#3B61B0">System</span><span style="--0:#D6DEEB;--1:#403F53">.</span><span style="--0:#FAF39F;--1:#111111">out</span><span style="--0:#D6DEEB;--1:#403F53">.</span><span style="--0:#82AAFF;--1:#3B61B0">println</span><span style="--0:#D9F5DD;--1:#111111">(</span><span style="--0:#D9F5DD;--1:#111111">"</span><span style="--0:#ECC48D;--1:#984E4D">n = </span><span style="--0:#D9F5DD;--1:#111111">"</span><span style="--0:#D6DEEB;--1:#403F53"> </span><span style="--0:#C792EA;--1:#8844AE">+</span><span style="--0:#D6DEEB;--1:#403F53"> </span><span style="--0:#C5E478;--1:#3B61B0">String</span><span style="--0:#D6DEEB;--1:#403F53">.</span><span style="--0:#82AAFF;--1:#3B61B0">valueOf</span><span style="--0:#D9F5DD;--1:#111111">(</span><span style="--0:#D6DEEB;--1:#403F53">n</span><span style="--0:#D9F5DD;--1:#111111">)</span><span style="--0:#D6DEEB;--1:#403F53"> </span><span style="--0:#C792EA;--1:#8844AE">+</span><span style="--0:#D6DEEB;--1:#403F53"> </span><span style="--0:#D9F5DD;--1:#111111">"</span><span style="--0:#ECC48D;--1:#984E4D">, next </span><span style="--0:#D9F5DD;--1:#111111">"</span><span style="--0:#D6DEEB;--1:#403F53"> </span><span style="--0:#C792EA;--1:#8844AE">+</span><span style="--0:#D6DEEB;--1:#403F53"> </span><span style="--0:#C5E478;--1:#3B61B0">String</span><span style="--0:#D6DEEB;--1:#403F53">.</span><span style="--0:#82AAFF;--1:#3B61B0">valueOf</span><span style="--0:#D9F5DD;--1:#111111">(</span><span style="--0:#D6DEEB;--1:#403F53">n </span><span style="--0:#C792EA;--1:#8844AE">+</span><span style="--0:#D6DEEB;--1:#403F53"> </span><span style="--0:#F78C6C;--1:#AA0982">1</span><span style="--0:#D9F5DD;--1:#111111">))</span><span style="--0:#D6DEEB;--1:#403F53">;</span></div></div><div class="ec-line"><div class="code"><span style="--0:#D6DEEB;--1:#403F53">...</span></div></div></code></pre><div class="copy"><div aria-live="polite"></div><button title="Copy to clipboard" data-copied="Copied!" data-code="...        System.out.println(&#x22;n = &#x22; + String.valueOf(n) + &#x22;, next &#x22; + String.valueOf(n + 1));..."><div></div></button></div></figure></div>
+<h2 id="seeing-the-generated-code-yourself">Seeing the generated code yourself</h2>
+<p>Every example on this page can be compiled for any target.</p>
+<ul>
+<li>In the <a href="/playground/">playground</a>, open the <strong>Compiled code</strong> tab,
+pick a target from the list and press <strong>Compile</strong>. The generated code
+appears above, and <strong>Run</strong> builds and runs it.</li>
+<li>On the command line, <code>pyk compile -t &#x3C;target> --stdout prog.pyk</code>
+prints the generated code instead of writing it to <code>build/</code>, and
+<code>--run</code> builds and runs it with the target’s own tools. See
+<a href="/documentation/command-line/">Command line</a>.</li>
+</ul>
+<div class="expressive-code"><figure class="frame is-terminal not-content"><figcaption class="header"><span class="title"></span><span class="sr-only">Terminal window</span></figcaption><pre data-language="sh"><code><div class="ec-line"><div class="code"><span style="--0:#82AAFF;--1:#3B61B0">pyk</span><span style="--0:#D6DEEB;--1:#403F53"> </span><span style="--0:#ECC48D;--1:#3B61B0">compile</span><span style="--0:#D6DEEB;--1:#403F53"> </span><span style="--0:#82AAFF;--1:#3B61B0">-t</span><span style="--0:#D6DEEB;--1:#403F53"> </span><span style="--0:#ECC48D;--1:#3B61B0">java</span><span style="--0:#D6DEEB;--1:#403F53"> </span><span style="--0:#82AAFF;--1:#3B61B0">--stdout</span><span style="--0:#D6DEEB;--1:#403F53"> </span><span style="--0:#ECC48D;--1:#3B61B0">prog.pyk</span><span style="--0:#D6DEEB;--1:#403F53">     </span><span style="--0:#919F9F;--1:#5F636F"># print the Java</span></div></div><div class="ec-line"><div class="code"><span style="--0:#82AAFF;--1:#3B61B0">pyk</span><span style="--0:#D6DEEB;--1:#403F53"> </span><span style="--0:#ECC48D;--1:#3B61B0">compile</span><span style="--0:#D6DEEB;--1:#403F53"> </span><span style="--0:#82AAFF;--1:#3B61B0">-t</span><span style="--0:#D6DEEB;--1:#403F53"> </span><span style="--0:#ECC48D;--1:#3B61B0">ocaml</span><span style="--0:#D6DEEB;--1:#403F53"> </span><span style="--0:#82AAFF;--1:#3B61B0">--run</span><span style="--0:#D6DEEB;--1:#403F53"> </span><span style="--0:#ECC48D;--1:#3B61B0">prog.pyk</span><span style="--0:#D6DEEB;--1:#403F53">       </span><span style="--0:#919F9F;--1:#5F636F"># build with ocamlopt and run</span></div></div><div class="ec-line"><div class="code"><span style="--0:#82AAFF;--1:#3B61B0">pyk</span><span style="--0:#D6DEEB;--1:#403F53"> </span><span style="--0:#ECC48D;--1:#3B61B0">prog.pyk</span><span style="--0:#D6DEEB;--1:#403F53">                              </span><span style="--0:#919F9F;--1:#5F636F"># run it with the interpreter</span></div></div></code></pre><div class="copy"><div aria-live="polite"></div><button title="Copy to clipboard" data-copied="Copied!" data-code="pyk compile -t java --stdout prog.pyk     # print the Javapyk compile -t ocaml --run prog.pyk       # build with ocamlopt and runpyk prog.pyk                              # run it with the interpreter"><div></div></button></div></figure></div>
+<p>The generated-code excerpts below come from the compiler, and the site’s
+tests check that it still writes them.</p>
+<h2 id="compared-to-python">Compared to Python</h2>
+<p>Targets: <code>python12</code> (also called <code>python</code>, the default) and <code>python14</code>.</p>
+<h3 id="syntax">Syntax</h3>
+<p>Much is the same as in Python: indentation, <code>def</code>, <code>if</code>, <code>for</code>,
+<code>while</code>, <code>return</code>, list comprehensions, <code>match</code>/<code>case</code>, slicing
+(<code>xs[1:3]</code>), <code>import m</code>, <code>import m as n</code>, <code>from m import a as b</code>, <code>#</code>
+comments, and most operators, including <code>and</code>, <code>or</code> and <code>not</code>.</p>
+<p>What differs:</p>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<table><thead><tr><th>Pyking</th><th>Python</th></tr></thead><tbody><tr><td><code>true</code>, <code>false</code></td><td><code>True</code>, <code>False</code></td></tr><tr><td><code>else if n == 0:</code></td><td><code>elif n == 0:</code></td></tr><tr><td><code>2 ^ 10</code></td><td><code>2 ** 10</code></td></tr><tr><td><code>5 xor 3</code></td><td><code>5 ^ 3</code></td></tr><tr><td><code>lam x. x + 1</code></td><td><code>lambda x: x + 1</code></td></tr><tr><td><code>if n > 0 then "pos" else "neg"</code></td><td><code>"pos" if n > 0 else "neg"</code></td></tr><tr><td><code>'a'</code> is a Char; strings use <code>"..."</code> only</td><td><code>'a'</code> and <code>"a"</code> are both strings</td></tr><tr><td><code>var n = 0</code>, then <code>n := n + 1</code> or <code>n += 1</code></td><td><code>n = 0</code>, then <code>n = n + 1</code> or <code>n += 1</code></td></tr><tr><td><code>0 &#x3C; x and x &#x3C; 10</code></td><td><code>0 &#x3C; x &#x3C; 10</code></td></tr><tr><td><code>case [first, ..rest]:</code></td><td><code>case [first, *rest]:</code></td></tr><tr><td><code>"n = $n"</code> or <code>"n = ${n + 1}"</code></td><td><code>f"n = {n}"</code> or <code>f"n = {n + 1}"</code></td></tr><tr><td><code>printsl(x)</code>, <code>eprint(x)</code></td><td><code>print(x, end="")</code>, <code>print(x, file=sys.stderr)</code></td></tr><tr><td><code>public def area(s: Shape) -> Float:</code></td><td>every top-level name is exported</td></tr><tr><td><code>datatype</code>, <code>struct</code>, <code>let</code>, <code>loop</code>, <code>use</code></td><td>no counterpart</td></tr></tbody></table>
+<p>Some Python features are not in Pyking at all:</p>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<table><thead><tr><th>Python</th><th>In Pyking</th></tr></thead><tbody><tr><td><code>try</code>, <code>except</code>, <code>raise</code></td><td>return an <code>Option</code> or a <code>Result</code>; <code>panic("...")</code> stops the program</td></tr><tr><td><code>with</code></td><td>none</td></tr><tr><td>decorators (<code>@cache</code>)</td><td>none; call the wrapping function yourself</td></tr><tr><td><code>*args</code>, <code>**kwargs</code></td><td>a list parameter; default parameters and named arguments exist</td></tr><tr><td><code>yield</code>, generators</td><td>build a list, or use <code>loop</code></td></tr><tr><td><code>async</code>, <code>await</code></td><td>none</td></tr><tr><td><code>global</code>, <code>nonlocal</code></td><td>a <code>var</code> can be written with <code>:=</code> from any <code>def</code> inside its scope</td></tr><tr><td>format specifications, <code>f"{x:.2f}"</code></td><td>none yet; <code>"$x"</code> shows a value as <code>print</code> does</td></tr><tr><td><code>{"a": 1}</code> dict literals</td><td><code>map([("a", 1)])</code>, or <code>mutmap()</code> under <code>use mutation</code></td></tr><tr><td><code>{1, 2}</code> set literals, sets</td><td>none; a list or a map</td></tr><tr><td><code>x in xs</code></td><td><code>list.contains(x, xs)</code></td></tr><tr><td><code>None</code> as “nothing” for any type</td><td><code>None</code> is a value of <code>Option(a)</code></td></tr></tbody></table>
+<h3 id="semantics">Semantics</h3>
+<p>The same as Python: values and evaluation order (left to right), lists,
+strings, closures and first-class functions, recursion, and, under
+<code>use objects</code>, classes whose objects are shared by reference.</p>
+<p>Different:</p>
+<ul>
+<li>
+<p><strong>Types are static and inferred.</strong> <code>"n = " + 5</code> and <code>1 + 2.0</code> are
+errors before the program runs, not at the line that reaches them.
+<code>if xs:</code> is an error too: a condition must be a <code>Bool</code>.</p>
+</li>
+<li>
+<p><strong>Every block is a scope.</strong> A name bound inside an <code>if</code> is gone after
+it:</p>
+<div class="pkn-notebook pkn-embedded not-content"><div class="pkn-cell" data-error=""><pre class="pkn-cell-fallback"><code>n = 3
+if n > 0:
+    sign = "positive"
+print(sign)</code></pre></div></div>
+<p>Bind the <code>if</code> itself instead:</p>
+<div class="pkn-notebook pkn-embedded not-content"><div class="pkn-cell"><pre class="pkn-cell-fallback"><code>n = 3
+sign = if n > 0 then "positive" else "not positive"
+print(sign)</code></pre></div></div>
+</li>
+<li>
+<p><strong><code>=</code> never changes a variable.</strong> It makes a new binding, and a
+function written before it keeps the old one:</p>
+<div class="pkn-notebook pkn-embedded not-content"><div class="pkn-cell"><pre class="pkn-cell-fallback"><code>x = 1
+def show(): x
+x = 2
+print(x, show())</code></pre></div></div>
+<p>This prints <code>2 1</code>. Python would print <code>2 2</code>.</p>
+</li>
+<li>
+<p><strong><code>Int</code> division truncates, and <code>Int</code> and <code>Float</code> never mix.</strong> <code>-7 / 2</code>
+is <code>-3</code> and <code>-7 % 2</code> is <code>-1</code>, as in C. Python gives <code>-4</code> and <code>1</code>.
+<code>float(n)</code> and <code>int(x)</code> convert:</p>
+<div class="pkn-notebook pkn-embedded not-content"><div class="pkn-cell"><pre class="pkn-cell-fallback"><code>print(-7 / 2, -7 % 2, 7.0 / 2.0, float(7) / 2.0)</code></pre></div></div>
+</li>
+<li>
+<p><strong>No exceptions and no <code>None</code> for every type.</strong> A function that may
+have no answer returns an <code>Option</code>:</p>
+<div class="pkn-notebook pkn-embedded not-content"><div class="pkn-cell"><pre class="pkn-cell-fallback"><code>def find(xs: [Int], target: Int) -> Option(Int):
+    loop i = 0 for x in xs:
+        if x == target:
+            return Some(i)
+        i + 1
+    None
+
+print(find([4, 5, 6], 5), find([4, 5, 6], 9))</code></pre></div></div>
+</li>
+<li>
+<p><strong><code>match</code> must cover every value.</strong> A <code>match</code> that misses a case is
+refused, naming the value it misses. Python’s <code>match</code> does nothing.</p>
+</li>
+<li>
+<p><strong>A negative index is an error.</strong> <code>xs[-1]</code> stops the program in the
+interpreter. On the Python target it is Python’s own behaviour, so
+it counts from the end there.</p>
+</li>
+<li>
+<p><strong>Nothing is exported without <code>public</code></strong>, and a public function
+annotates all its parameters and its result.</p>
+</li>
+<li>
+<p><strong><code>Map</code> never changes</strong>; a change returns a new map. <code>MutMap</code>, under
+<code>use mutation</code>, is the one that is written in place, like a <code>dict</code>.</p>
+</li>
+</ul>
+<h3 id="how-pyking-compiles-to-it">How Pyking compiles to it</h3>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<table><thead><tr><th>Pyking</th><th>Python</th></tr></thead><tbody><tr><td><code>=</code>, <code>var</code>, <code>:=</code></td><td>plain assignment</td></tr><tr><td>a block binding that shadows an outer name</td><td>renamed: <code>x</code>, <code>x2</code>, <code>x3</code></td></tr><tr><td>a <code>var</code> written from inside a <code>def</code></td><td><code>global x</code> or <code>nonlocal x</code></td></tr><tr><td><code>true</code>, <code>false</code></td><td><code>True</code>, <code>False</code>, printed as <code>true</code>, <code>false</code> by a helper</td></tr><tr><td>a Char <code>'z'</code></td><td><code>__PykChar('z')</code>, a one-character <code>str</code> subclass</td></tr><tr><td><code>a / b</code> and <code>a % b</code> on Ints</td><td><code>__pyk_div(a, b)</code> and <code>__pyk_mod(a, b)</code></td></tr><tr><td><code>lam x. x + 1</code></td><td><code>lambda x: x + 1</code></td></tr><tr><td><code>if c then a else b</code></td><td><code>a if c else b</code></td></tr><tr><td><code>"n = $n"</code></td><td><code>'n = ' + str(n)</code></td></tr><tr><td><code>printsl(x)</code>, <code>eprint(x)</code></td><td><code>print(x, end='')</code>, <code>print(x, file=sys.stderr)</code></td></tr><tr><td>a datatype</td><td>a <code>@dataclass(frozen=True, slots=True)</code> per constructor, and a <code>type</code> alias for the union</td></tr><tr><td><code>match</code></td><td>Python’s <code>match</code>, with class patterns</td></tr><tr><td>a function that calls itself in tail position</td><td>a <code>while True:</code> loop</td></tr><tr><td><code>loop</code>, <code>break</code>, <code>continue</code></td><td><code>while True:</code>, <code>break</code>, <code>continue</code></td></tr><tr><td>a value in tail position</td><td><code>return</code></td></tr><tr><td>a tuple, a list</td><td>a tuple, a list</td></tr><tr><td><code>Some(3)</code>, <code>None</code></td><td><code>Some(3)</code>, <code>None_</code> from the compiled <code>option</code> module</td></tr></tbody></table>
+<p>The same small program is compiled in every part of this page. It has
+one datatype, one <code>match</code> and one <code>var</code>, which a function writes:</p>
+<div class="pkn-notebook pkn-embedded not-content"><div class="pkn-cell"><pre class="pkn-cell-fallback"><code>use mutation
+
+datatype Shape:
+    Circle(r: Int)
+    Rect(w: Int, h: Int)
+
+def area(s: Shape) -> Int:
+    match s:
+        case Circle(r): 3 * r * r
+        case Rect(w, h): w * h
+
+var total = 0
+
+def add(s: Shape):
+    total := total + area(s)
+
+for s in [Circle(1), Rect(2, 3)]:
+    add(s)
+print(total, total / 4)</code></pre></div></div>
+<div class="expressive-code"><figure class="frame not-content"><figcaption class="header"></figcaption><pre data-language="python"><code><div class="ec-line"><div class="code"><span style="--0:#C792EA;--1:#8844AE">from</span><span style="--0:#D6DEEB;--1:#403F53"> dataclasses </span><span style="--0:#C792EA;--1:#8844AE">import</span><span style="--0:#D6DEEB;--1:#403F53"> dataclass</span></div></div><div class="ec-line"><div class="code"><span style="--0:#919F9F;--1:#5F636F"># ...</span></div></div><div class="ec-line"><div class="code"><span style="--0:#C792EA;--1:#8844AE">def</span><span style="--0:#D6DEEB;--1:#403F53"> </span><span style="--0:#82AAFF;--1:#3B61B0">__pyk_div</span><span style="--0:#D9F5DD;--1:#111111">(</span><span style="--0:#7FDBCA;--1:#096E72">a</span><span style="--0:#D6DEEB;--1:#403F53">, </span><span style="--0:#7FDBCA;--1:#096E72">b</span><span style="--0:#D9F5DD;--1:#111111">)</span><span style="--0:#D6DEEB;--1:#403F53">:</span></div></div><div class="ec-line"><div class="code"><span class="indent"><span style="--0:#D6DEEB;--1:#403F53">    </span></span><span style="--0:#D6DEEB;--1:#403F53">q </span><span style="--0:#C792EA;--1:#8844AE">=</span><span style="--0:#D6DEEB;--1:#403F53"> </span><span style="--0:#C5E478;--1:#3B61B0">abs</span><span style="--0:#D6DEEB;--1:#403F53">(</span><span style="--0:#82AAFF;--1:#3B61B0">a</span><span style="--0:#D6DEEB;--1:#403F53">) </span><span style="--0:#C792EA;--1:#8844AE">//</span><span style="--0:#D6DEEB;--1:#403F53"> </span><span style="--0:#C5E478;--1:#3B61B0">abs</span><span style="--0:#D6DEEB;--1:#403F53">(</span><span style="--0:#82AAFF;--1:#3B61B0">b</span><span style="--0:#D6DEEB;--1:#403F53">)</span></div></div><div class="ec-line"><div class="code"><span class="indent">    </span><span style="--0:#C792EA;--1:#8844AE">return</span><span style="--0:#D6DEEB;--1:#403F53"> q </span><span style="--0:#C792EA;--1:#8844AE">if</span><span style="--0:#D6DEEB;--1:#403F53"> (a </span><span style="--0:#C792EA;--1:#8844AE">&#x3C;</span><span style="--0:#D6DEEB;--1:#403F53"> </span><span style="--0:#F78C6C;--1:#AA0982">0</span><span style="--0:#D6DEEB;--1:#403F53">) </span><span style="--0:#C792EA;--1:#8844AE">==</span><span style="--0:#D6DEEB;--1:#403F53"> (b </span><span style="--0:#C792EA;--1:#8844AE">&#x3C;</span><span style="--0:#D6DEEB;--1:#403F53"> </span><span style="--0:#F78C6C;--1:#AA0982">0</span><span style="--0:#D6DEEB;--1:#403F53">) </span><span style="--0:#C792EA;--1:#8844AE">else</span><span style="--0:#D6DEEB;--1:#403F53"> </span><span style="--0:#C792EA;--1:#8844AE">-</span><span style="--0:#D6DEEB;--1:#403F53">q</span></div></div><div class="ec-line"><div class="code"><span style="--0:#919F9F;--1:#5F636F"># ...</span></div></div><div class="ec-line"><div class="code"><span style="--0:#C5E478;--1:#3B61B0">@dataclass</span><span style="--1:#403F53"><span style="--0:#D6DEEB">(</span><span style="--0:#D7DBE0">frozen</span></span><span style="--0:#C792EA;--1:#8844AE">=</span><span style="--0:#FF6A83;--1:#A24848">True</span><span style="--0:#D9F5DD;--1:#111111">,</span><span style="--0:#82AAFF;--1:#3B61B0"> </span><span style="--0:#D7DBE0;--1:#403F53">slots</span><span style="--0:#C792EA;--1:#8844AE">=</span><span style="--0:#FF6A83;--1:#A24848">True</span><span style="--0:#D6DEEB;--1:#403F53">)</span></div></div><div class="ec-line"><div class="code"><span style="--0:#C792EA;--1:#8844AE">class</span><span style="--0:#D6DEEB;--1:#403F53"> </span><span style="--0:#FFCB8B;--1:#111111">Circle</span><span style="--0:#D6DEEB;--1:#403F53">:</span></div></div><div class="ec-line"><div class="code"><span class="indent"><span style="--0:#D6DEEB;--1:#403F53">    </span></span><span style="--0:#D6DEEB;--1:#403F53">r: </span><span style="--0:#C5E478;--1:#3B61B0">int</span></div></div><div class="ec-line"><div class="code">
+</div></div><div class="ec-line"><div class="code"><span style="--0:#C5E478;--1:#3B61B0">@dataclass</span><span style="--1:#403F53"><span style="--0:#D6DEEB">(</span><span style="--0:#D7DBE0">frozen</span></span><span style="--0:#C792EA;--1:#8844AE">=</span><span style="--0:#FF6A83;--1:#A24848">True</span><span style="--0:#D9F5DD;--1:#111111">,</span><span style="--0:#82AAFF;--1:#3B61B0"> </span><span style="--0:#D7DBE0;--1:#403F53">slots</span><span style="--0:#C792EA;--1:#8844AE">=</span><span style="--0:#FF6A83;--1:#A24848">True</span><span style="--0:#D6DEEB;--1:#403F53">)</span></div></div><div class="ec-line"><div class="code"><span style="--0:#C792EA;--1:#8844AE">class</span><span style="--0:#D6DEEB;--1:#403F53"> </span><span style="--0:#FFCB8B;--1:#111111">Rect</span><span style="--0:#D6DEEB;--1:#403F53">:</span></div></div><div class="ec-line"><div class="code"><span class="indent"><span style="--0:#D6DEEB;--1:#403F53">    </span></span><span style="--0:#D6DEEB;--1:#403F53">w: </span><span style="--0:#C5E478;--1:#3B61B0">int</span></div></div><div class="ec-line"><div class="code"><span class="indent"><span style="--0:#D6DEEB;--1:#403F53">    </span></span><span style="--0:#D6DEEB;--1:#403F53">h: </span><span style="--0:#C5E478;--1:#3B61B0">int</span></div></div><div class="ec-line"><div class="code">
+</div></div><div class="ec-line"><div class="code"><span style="--0:#C5E478;--1:#3B61B0">type</span><span style="--0:#D6DEEB;--1:#403F53"> Shape </span><span style="--0:#C792EA;--1:#8844AE">=</span><span style="--0:#D6DEEB;--1:#403F53"> Circle </span><span style="--0:#C792EA;--1:#8844AE">|</span><span style="--0:#D6DEEB;--1:#403F53"> Rect</span></div></div><div class="ec-line"><div class="code">
+</div></div><div class="ec-line"><div class="code"><span style="--0:#C792EA;--1:#8844AE">def</span><span style="--0:#D6DEEB;--1:#403F53"> </span><span style="--0:#82AAFF;--1:#3B61B0">area</span><span style="--0:#D9F5DD;--1:#111111">(</span><span style="--0:#7FDBCA;--1:#096E72">s</span><span style="--0:#D9F5DD;--1:#111111">)</span><span style="--0:#D6DEEB;--1:#403F53">:</span></div></div><div class="ec-line"><div class="code"><span class="indent">    </span><span style="--0:#C792EA;--1:#8844AE">match</span><span style="--0:#D6DEEB;--1:#403F53"> s:</span></div></div><div class="ec-line"><div class="code"><span class="indent">        </span><span style="--0:#C792EA;--1:#8844AE">case</span><span style="--0:#D6DEEB;--1:#403F53"> </span><span style="--0:#B2CCD6;--1:#096E72">Circle</span><span style="--0:#D6DEEB;--1:#403F53">(</span><span style="--0:#82AAFF;--1:#3B61B0">r</span><span style="--0:#D6DEEB;--1:#403F53">):</span></div></div><div class="ec-line"><div class="code"><span class="indent">            </span><span style="--0:#C792EA;--1:#8844AE">return</span><span style="--0:#D6DEEB;--1:#403F53"> </span><span style="--0:#F78C6C;--1:#AA0982">3</span><span style="--0:#D6DEEB;--1:#403F53"> </span><span style="--0:#C792EA;--1:#8844AE">*</span><span style="--0:#D6DEEB;--1:#403F53"> r </span><span style="--0:#C792EA;--1:#8844AE">*</span><span style="--0:#D6DEEB;--1:#403F53"> r</span></div></div><div class="ec-line"><div class="code"><span class="indent">        </span><span style="--0:#C792EA;--1:#8844AE">case</span><span style="--0:#D6DEEB;--1:#403F53"> </span><span style="--0:#B2CCD6;--1:#096E72">Rect</span><span style="--0:#D6DEEB;--1:#403F53">(</span><span style="--0:#82AAFF;--1:#3B61B0">w</span><span style="--0:#D9F5DD;--1:#111111">,</span><span style="--0:#82AAFF;--1:#3B61B0"> h</span><span style="--0:#D6DEEB;--1:#403F53">):</span></div></div><div class="ec-line"><div class="code"><span class="indent">            </span><span style="--0:#C792EA;--1:#8844AE">return</span><span style="--0:#D6DEEB;--1:#403F53"> w </span><span style="--0:#C792EA;--1:#8844AE">*</span><span style="--0:#D6DEEB;--1:#403F53"> h</span></div></div><div class="ec-line"><div class="code">
+</div></div><div class="ec-line"><div class="code"><span style="--0:#D6DEEB;--1:#403F53">total </span><span style="--0:#C792EA;--1:#8844AE">=</span><span style="--0:#D6DEEB;--1:#403F53"> </span><span style="--0:#F78C6C;--1:#AA0982">0</span></div></div><div class="ec-line"><div class="code">
+</div></div><div class="ec-line"><div class="code"><span style="--0:#C792EA;--1:#8844AE">def</span><span style="--0:#D6DEEB;--1:#403F53"> </span><span style="--0:#82AAFF;--1:#3B61B0">add</span><span style="--0:#D9F5DD;--1:#111111">(</span><span style="--0:#7FDBCA;--1:#096E72">s</span><span style="--0:#D9F5DD;--1:#111111">)</span><span style="--0:#D6DEEB;--1:#403F53">:</span></div></div><div class="ec-line"><div class="code"><span class="indent">    </span><span style="--0:#C792EA;--1:#8844AE">global</span><span style="--0:#D6DEEB;--1:#403F53"> total</span></div></div><div class="ec-line"><div class="code"><span class="indent"><span style="--0:#D6DEEB;--1:#403F53">    </span></span><span style="--0:#D6DEEB;--1:#403F53">total </span><span style="--0:#C792EA;--1:#8844AE">=</span><span style="--0:#D6DEEB;--1:#403F53"> total </span><span style="--0:#C792EA;--1:#8844AE">+</span><span style="--0:#D6DEEB;--1:#403F53"> </span><span style="--0:#B2CCD6;--1:#096E72">area</span><span style="--0:#D6DEEB;--1:#403F53">(</span><span style="--0:#82AAFF;--1:#3B61B0">s</span><span style="--0:#D6DEEB;--1:#403F53">)</span></div></div><div class="ec-line"><div class="code"><span class="indent">    </span><span style="--0:#C792EA;--1:#8844AE">return</span><span style="--0:#D6DEEB;--1:#403F53"> ()</span></div></div><div class="ec-line"><div class="code">
+</div></div><div class="ec-line"><div class="code"><span style="--0:#C792EA;--1:#8844AE">for</span><span style="--0:#D6DEEB;--1:#403F53"> s </span><span style="--0:#C792EA;--1:#8844AE">in</span><span style="--0:#D6DEEB;--1:#403F53"> </span><span style="--0:#D9F5DD;--1:#111111">[</span><span style="--0:#B2CCD6;--1:#096E72">Circle</span><span style="--0:#D6DEEB;--1:#403F53">(</span><span style="--0:#F78C6C;--1:#AA0982">1</span><span style="--0:#D6DEEB;--1:#403F53">), </span><span style="--0:#B2CCD6;--1:#096E72">Rect</span><span style="--0:#D6DEEB;--1:#403F53">(</span><span style="--0:#F78C6C;--1:#AA0982">2</span><span style="--0:#D9F5DD;--1:#111111">,</span><span style="--0:#82AAFF;--1:#3B61B0"> </span><span style="--0:#F78C6C;--1:#AA0982">3</span><span style="--0:#D6DEEB;--1:#403F53">)</span><span style="--0:#D9F5DD;--1:#111111">]</span><span style="--0:#D6DEEB;--1:#403F53">:</span></div></div><div class="ec-line"><div class="code"><span class="indent">    </span><span style="--0:#B2CCD6;--1:#096E72">add</span><span style="--0:#D6DEEB;--1:#403F53">(</span><span style="--0:#82AAFF;--1:#3B61B0">s</span><span style="--0:#D6DEEB;--1:#403F53">)</span></div></div><div class="ec-line"><div class="code"><span style="--0:#C5E478;--1:#3B61B0">print</span><span style="--0:#D6DEEB;--1:#403F53">(</span><span style="--0:#82AAFF;--1:#3B61B0">total</span><span style="--0:#D9F5DD;--1:#111111">,</span><span style="--0:#82AAFF;--1:#3B61B0"> </span><span style="--0:#B2CCD6;--1:#096E72">__pyk_div</span><span style="--0:#D6DEEB;--1:#403F53">(</span><span style="--0:#82AAFF;--1:#3B61B0">total</span><span style="--0:#D9F5DD;--1:#111111">,</span><span style="--0:#82AAFF;--1:#3B61B0"> </span><span style="--0:#F78C6C;--1:#AA0982">4</span><span style="--0:#D6DEEB;--1:#403F53">))</span></div></div></code></pre><div class="copy"><div aria-live="polite"></div><button title="Copy to clipboard" data-copied="Copied!" data-code="from dataclasses import dataclass# ...def __pyk_div(a, b):    q = abs(a) // abs(b)    return q if (a < 0) == (b < 0) else -q# ...@dataclass(frozen=True, slots=True)class Circle:    r: int@dataclass(frozen=True, slots=True)class Rect:    w: int    h: inttype Shape = Circle | Rectdef area(s):    match s:        case Circle(r):            return 3 * r * r        case Rect(w, h):            return w * htotal = 0def add(s):    global total    total = total + area(s)    return ()for s in [Circle(1), Rect(2, 3)]:    add(s)print(total, __pyk_div(total, 4))"><div></div></button></div></figure></div>
+<h3 id="targets-and-limits">Targets and limits</h3>
+<ul>
+<li>
+<p><strong>What it takes:</strong> everything. Python is the reference target.</p>
+</li>
+<li>
+<p><strong>Running it:</strong> <code>python3 prog.py</code>. The output imports little:
+<code>dataclasses</code> where it declares a datatype, and the compiled modules
+of the Pyking libraries it uses.</p>
+</li>
+<li>
+<p><strong>3.12 or 3.14:</strong> <code>type</code> aliases and class type parameters need 3.12.
+The two versions differ in one place: 3.12 quotes a field whose type
+is not declared yet, such as a datatype holding itself, and 3.14
+writes it bare.</p>
+<div class="pkn-notebook pkn-embedded not-content"><div class="pkn-cell"><pre class="pkn-cell-fallback"><code>datatype Tree(a):
+    Leaf
+    Node(left: Tree(a), value: a, right: Tree(a))
+
+def size(t):
+    match t:
+        case Leaf: 0
+        case Node(l, _, r): size(l) + 1 + size(r)
+
+print(size(Node(Leaf, 7, Node(Leaf, 8, Leaf))))</code></pre></div></div>
+<div class="expressive-code"><figure class="frame not-content"><figcaption class="header"></figcaption><pre data-language="python"><code><div class="ec-line"><div class="code"><span style="--0:#C5E478;--1:#3B61B0">@dataclass</span><span style="--1:#403F53"><span style="--0:#D6DEEB">(</span><span style="--0:#D7DBE0">frozen</span></span><span style="--0:#C792EA;--1:#8844AE">=</span><span style="--0:#FF6A83;--1:#A24848">True</span><span style="--0:#D9F5DD;--1:#111111">,</span><span style="--0:#82AAFF;--1:#3B61B0"> </span><span style="--0:#D7DBE0;--1:#403F53">slots</span><span style="--0:#C792EA;--1:#8844AE">=</span><span style="--0:#FF6A83;--1:#A24848">True</span><span style="--0:#D6DEEB;--1:#403F53">)</span></div></div><div class="ec-line"><div class="code"><span style="--0:#C792EA;--1:#8844AE">class</span><span style="--0:#D6DEEB;--1:#403F53"> Node[a]:</span></div></div><div class="ec-line"><div class="code"><span class="indent"><span style="--0:#D6DEEB;--1:#403F53">    </span></span><span style="--0:#D6DEEB;--1:#403F53">left: </span><span style="--0:#D9F5DD;--1:#111111">'</span><span style="--0:#ECC48D;--1:#984E4D">Tree[a]</span><span style="--0:#D9F5DD;--1:#111111">'</span></div></div><div class="ec-line"><div class="code"><span class="indent"><span style="--0:#D6DEEB;--1:#403F53">    </span></span><span style="--0:#D6DEEB;--1:#403F53">value: a</span></div></div><div class="ec-line"><div class="code"><span class="indent"><span style="--0:#D6DEEB;--1:#403F53">    </span></span><span style="--0:#D6DEEB;--1:#403F53">right: </span><span style="--0:#D9F5DD;--1:#111111">'</span><span style="--0:#ECC48D;--1:#984E4D">Tree[a]</span><span style="--0:#D9F5DD;--1:#111111">'</span></div></div><div class="ec-line"><div class="code">
+</div></div><div class="ec-line"><div class="code"><span style="--0:#C5E478;--1:#3B61B0">type</span><span style="--0:#D6DEEB;--1:#403F53"> Tree[a] </span><span style="--0:#C792EA;--1:#8844AE">=</span><span style="--0:#D6DEEB;--1:#403F53"> Leaf[a] </span><span style="--0:#C792EA;--1:#8844AE">|</span><span style="--0:#D6DEEB;--1:#403F53"> Node[a]</span></div></div></code></pre><div class="copy"><div aria-live="polite"></div><button title="Copy to clipboard" data-copied="Copied!" data-code="@dataclass(frozen=True, slots=True)class Node[a]:    left: &#x27;Tree[a]&#x27;    value: a    right: &#x27;Tree[a]&#x27;type Tree[a] = Leaf[a] | Node[a]"><div></div></button></div></figure></div>
+<div class="expressive-code"><figure class="frame not-content"><figcaption class="header"></figcaption><pre data-language="python"><code><div class="ec-line"><div class="code"><span style="--0:#C5E478;--1:#3B61B0">@dataclass</span><span style="--1:#403F53"><span style="--0:#D6DEEB">(</span><span style="--0:#D7DBE0">frozen</span></span><span style="--0:#C792EA;--1:#8844AE">=</span><span style="--0:#FF6A83;--1:#A24848">True</span><span style="--0:#D9F5DD;--1:#111111">,</span><span style="--0:#82AAFF;--1:#3B61B0"> </span><span style="--0:#D7DBE0;--1:#403F53">slots</span><span style="--0:#C792EA;--1:#8844AE">=</span><span style="--0:#FF6A83;--1:#A24848">True</span><span style="--0:#D6DEEB;--1:#403F53">)</span></div></div><div class="ec-line"><div class="code"><span style="--0:#C792EA;--1:#8844AE">class</span><span style="--0:#D6DEEB;--1:#403F53"> Node[a]:</span></div></div><div class="ec-line"><div class="code"><span class="indent"><span style="--0:#D6DEEB;--1:#403F53">    </span></span><span style="--0:#D6DEEB;--1:#403F53">left: Tree[a]</span></div></div><div class="ec-line"><div class="code"><span class="indent"><span style="--0:#D6DEEB;--1:#403F53">    </span></span><span style="--0:#D6DEEB;--1:#403F53">value: a</span></div></div><div class="ec-line"><div class="code"><span class="indent"><span style="--0:#D6DEEB;--1:#403F53">    </span></span><span style="--0:#D6DEEB;--1:#403F53">right: Tree[a]</span></div></div></code></pre><div class="copy"><div aria-live="polite"></div><button title="Copy to clipboard" data-copied="Copied!" data-code="@dataclass(frozen=True, slots=True)class Node[a]:    left: Tree[a]    value: a    right: Tree[a]"><div></div></button></div></figure></div>
+</li>
+<li>
+<p><strong>Where the output differs:</strong> Python’s integers never overflow, so
+<code>2147483647 + 1</code> is <code>2147483648</code>. Python’s recursion limit is 1,000
+calls by default, so a deep recursion that is not a tail call can
+fail compiled and run in the interpreter. A negative index counts
+from the end.</p>
+</li>
+</ul>
+<h2 id="compared-to-javascript">Compared to JavaScript</h2>
+<p>Targets: <code>node22</code> (also <code>node</code>) and <code>node24</code> write a script for node;
+<code>web2020</code> (also <code>web</code>) and <code>web2024</code> write an HTML page and its
+JavaScript; <code>iweb2020</code> (also <code>iweb</code>) and <code>iweb2024</code> write a page that
+runs the Pyking interpreter in the browser.</p>
+<h3 id="syntax-1">Syntax</h3>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<table><thead><tr><th>Pyking</th><th>JavaScript</th></tr></thead><tbody><tr><td>blocks by indentation</td><td>blocks in <code>{ }</code></td></tr><tr><td><code>x = 5</code></td><td><code>const x = 5;</code></td></tr><tr><td><code>var n = 0</code>, then <code>n := n + 1</code></td><td><code>let n = 0;</code>, then <code>n = n + 1;</code></td></tr><tr><td><code>def add(a, b): a + b</code></td><td><code>function add(a, b) { return a + b; }</code></td></tr><tr><td><code>lam x. x + 1</code></td><td><code>x => x + 1</code></td></tr><tr><td><code>if n > 0 then "pos" else "neg"</code></td><td><code>n > 0 ? "pos" : "neg"</code></td></tr><tr><td><code>for x in xs:</code></td><td><code>for (const x of xs) { ... }</code></td></tr><tr><td><code>for i in range(10):</code></td><td><code>for (let i = 0; i &#x3C; 10; i++) { ... }</code></td></tr><tr><td><code>match s:</code> with <code>case Circle(r):</code></td><td><code>switch</code> on a tag field</td></tr><tr><td><code>a == b</code>, <code>a != b</code> (structural)</td><td><code>a === b</code>, <code>a !== b</code></td></tr><tr><td><code>and</code>, <code>or</code>, <code>not</code>, or <code>&#x26;&#x26;</code>, <code>||</code>, <code>!</code></td><td><code>&#x26;&#x26;</code>, <code>||</code>, <code>!</code></td></tr><tr><td><code>"n = $n"</code>, <code>"n = ${n + 1}"</code></td><td><code>`n = ${n}`</code>, <code>`n = ${n + 1}`</code></td></tr><tr><td><code>print(x)</code></td><td><code>console.log(x)</code></td></tr><tr><td><code>public def f(x: Int) -> Int:</code></td><td><code>export function f(x) { ... }</code></td></tr><tr><td><code>from m import f</code></td><td><code>import { f } from "./m.js";</code></td></tr><tr><td><code># comment</code></td><td><code>// comment</code></td></tr></tbody></table>
+<h3 id="semantics-1">Semantics</h3>
+<p>The same as JavaScript: closures and first-class functions, objects
+shared by reference (under <code>use objects</code>, and mutable structs), and a
+single thread. A <a href="/libraries/tinyweb/">tinyweb</a> program’s callbacks run
+one at a time, as on the event loop.</p>
+<p>Different:</p>
+<ul>
+<li>
+<p><strong>Types are static.</strong> A misspelled field or a wrong argument is found
+before the program runs.</p>
+</li>
+<li>
+<p><strong><code>Int</code> and <code>Float</code> are separate types</strong>, and <code>/</code> on two Ints
+truncates. <code>Char</code> is a type of its own, not a string of length one.</p>
+</li>
+<li>
+<p><strong>Nothing converts implicitly.</strong> <code>"n = " + 5</code> is an error; write
+<code>"n = " + string(5)</code>:</p>
+<div class="pkn-notebook pkn-embedded not-content"><div class="pkn-cell" data-error=""><pre class="pkn-cell-fallback"><code>print("n = " + 5)</code></pre></div></div>
+</li>
+<li>
+<p><strong><code>==</code> compares structure.</strong> Two lists, tuples or datatype values are
+equal when their parts are. There is no <code>===</code>, and no reference
+equality except <code>same(a, b)</code> for mutable values.</p>
+<div class="pkn-notebook pkn-embedded not-content"><div class="pkn-cell"><pre class="pkn-cell-fallback"><code>print(7 / 2, -7 / 2, 7.0 / 2.0)
+print([1, 2] + [3], [1, 2] == [1, 2], (1, "a") == (1, "a"))
+print("n = " + string(5))</code></pre></div></div>
+</li>
+<li>
+<p><strong>No <code>undefined</code> and no <code>null</code>.</strong> A missing value is an <code>Option</code>. An
+unbound name is a compile-time error.</p>
+</li>
+<li>
+<p><strong>Every block is a scope, and nothing is hoisted.</strong> A binding is
+visible from where it is written to the end of its block. Functions
+in a block can call each other in any order.</p>
+</li>
+</ul>
+<h3 id="how-pyking-compiles-to-it-1">How Pyking compiles to it</h3>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<table><thead><tr><th>Pyking</th><th>JavaScript</th></tr></thead><tbody><tr><td><code>x = 1</code></td><td><code>const x = 1;</code></td></tr><tr><td><code>var n = 0</code>, <code>n := n + k</code></td><td><code>let n = 0;</code>, <code>n = n + k;</code></td></tr><tr><td>a block binding that shadows an outer name</td><td><code>const x2</code></td></tr><tr><td>a tuple <code>(1, "one")</code></td><td>an array <code>[1, 'one']</code></td></tr><tr><td>a list</td><td>an array marked by <code>pykList([...])</code></td></tr><tr><td>a datatype value</td><td><code>pykData('Circle', [v0], ['r'])</code>, an object with its tag and fields</td></tr><tr><td><code>match</code></td><td>an <code>if</code>/<code>else</code> chain on <code>pykTag</code></td></tr><tr><td><code>a / b</code> on Ints</td><td><code>Math.trunc(a / b)</code></td></tr><tr><td>a Char <code>'z'</code></td><td>its code point, <code>122</code></td></tr><tr><td><code>==</code> on lists, tuples, datatypes</td><td><code>pykEqual(a, b)</code></td></tr><tr><td><code>==</code> on numbers, strings, Bools</td><td><code>===</code></td></tr><tr><td><code>+</code> on Strings or lists</td><td><code>pykConcat(a, b)</code></td></tr><tr><td><code>lam x. x + 1</code></td><td><code>(x) => x + 1</code></td></tr><tr><td><code>if c then a else b</code></td><td><code>c ? a : b</code></td></tr><tr><td>a function that calls itself in tail position</td><td>a <code>while (true)</code> loop</td></tr><tr><td>a list comprehension</td><td><code>flatMap</code></td></tr><tr><td><code>print</code></td><td><code>print</code> from <code>pyk-runtime.js</code></td></tr></tbody></table>
+<p>The same program as in the Python part:</p>
+<div class="pkn-notebook pkn-embedded not-content"><div class="pkn-cell"><pre class="pkn-cell-fallback"><code>use mutation
+
+datatype Shape:
+    Circle(r: Int)
+    Rect(w: Int, h: Int)
+
+def area(s: Shape) -> Int:
+    match s:
+        case Circle(r): 3 * r * r
+        case Rect(w, h): w * h
+
+var total = 0
+
+def add(s: Shape):
+    total := total + area(s)
+
+for s in [Circle(1), Rect(2, 3)]:
+    add(s)
+print(total, total / 4)</code></pre></div></div>
+<div class="expressive-code"><figure class="frame not-content"><figcaption class="header"></figcaption><pre data-language="javascript"><code><div class="ec-line"><div class="code"><span style="--0:#C792EA;--1:#8844AE">import</span><span style="--0:#D6DEEB;--1:#403F53"> { print } </span><span style="--0:#C792EA;--1:#8844AE">from</span><span style="--0:#D6DEEB;--1:#403F53"> </span><span style="--0:#D9F5DD;--1:#111111">'</span><span style="--0:#ECC48D;--1:#984E4D">./pyk-runtime.js</span><span style="--0:#D9F5DD;--1:#111111">'</span><span style="--0:#D6DEEB;--1:#403F53">;</span></div></div><div class="ec-line"><div class="code"><span style="--0:#919F9F;--1:#5D6376">// ...</span></div></div><div class="ec-line"><div class="code"><span style="--0:#C792EA;--1:#8844AE">function</span><span style="--0:#D6DEEB;--1:#403F53"> </span><span style="--0:#82AAFF;--1:#3B61B0">Circle</span><span style="--0:#D9F5DD;--1:#111111">(</span><span style="--0:#D7DBE0;--1:#403F53">v0</span><span style="--0:#D9F5DD;--1:#111111">)</span><span style="--0:#D6DEEB;--1:#403F53"> {</span></div></div><div class="ec-line"><div class="code"><span class="indent">  </span><span style="--0:#C792EA;--1:#8844AE">return</span><span style="--0:#D6DEEB;--1:#403F53"> </span><span style="--0:#82AAFF;--1:#3B61B0">pykData</span><span style="--0:#D6DEEB;--1:#403F53">(</span><span style="--0:#D9F5DD;--1:#111111">'</span><span style="--0:#ECC48D;--1:#984E4D">Circle</span><span style="--0:#D9F5DD;--1:#111111">'</span><span style="--0:#889FB2;--1:#4D667B">,</span><span style="--1:#403F53"><span style="--0:#D6DEEB"> [</span><span style="--0:#D7DBE0">v0</span><span style="--0:#D6DEEB">]</span></span><span style="--0:#889FB2;--1:#4D667B">,</span><span style="--0:#D6DEEB;--1:#403F53"> [</span><span style="--0:#D9F5DD;--1:#111111">'</span><span style="--0:#ECC48D;--1:#984E4D">r</span><span style="--0:#D9F5DD;--1:#111111">'</span><span style="--0:#D6DEEB;--1:#403F53">]);</span></div></div><div class="ec-line"><div class="code"><span style="--0:#D6DEEB;--1:#403F53">}</span></div></div><div class="ec-line"><div class="code">
+</div></div><div class="ec-line"><div class="code"><span style="--0:#C792EA;--1:#8844AE">function</span><span style="--0:#D6DEEB;--1:#403F53"> </span><span style="--0:#82AAFF;--1:#3B61B0">Rect</span><span style="--0:#D9F5DD;--1:#111111">(</span><span style="--1:#403F53"><span style="--0:#D7DBE0">v0</span><span style="--0:#D6DEEB">, </span><span style="--0:#D7DBE0">v1</span></span><span style="--0:#D9F5DD;--1:#111111">)</span><span style="--0:#D6DEEB;--1:#403F53"> {</span></div></div><div class="ec-line"><div class="code"><span class="indent">  </span><span style="--0:#C792EA;--1:#8844AE">return</span><span style="--0:#D6DEEB;--1:#403F53"> </span><span style="--0:#82AAFF;--1:#3B61B0">pykData</span><span style="--0:#D6DEEB;--1:#403F53">(</span><span style="--0:#D9F5DD;--1:#111111">'</span><span style="--0:#ECC48D;--1:#984E4D">Rect</span><span style="--0:#D9F5DD;--1:#111111">'</span><span style="--0:#889FB2;--1:#4D667B">,</span><span style="--1:#403F53"><span style="--0:#D6DEEB"> [</span><span style="--0:#D7DBE0">v0</span></span><span style="--0:#889FB2;--1:#4D667B">,</span><span style="--1:#403F53"><span style="--0:#D6DEEB"> </span><span style="--0:#D7DBE0">v1</span><span style="--0:#D6DEEB">]</span></span><span style="--0:#889FB2;--1:#4D667B">,</span><span style="--0:#D6DEEB;--1:#403F53"> [</span><span style="--0:#D9F5DD;--1:#111111">'</span><span style="--0:#ECC48D;--1:#984E4D">w</span><span style="--0:#D9F5DD;--1:#111111">'</span><span style="--0:#889FB2;--1:#4D667B">,</span><span style="--0:#D6DEEB;--1:#403F53"> </span><span style="--0:#D9F5DD;--1:#111111">'</span><span style="--0:#ECC48D;--1:#984E4D">h</span><span style="--0:#D9F5DD;--1:#111111">'</span><span style="--0:#D6DEEB;--1:#403F53">]);</span></div></div><div class="ec-line"><div class="code"><span style="--0:#D6DEEB;--1:#403F53">}</span></div></div><div class="ec-line"><div class="code">
+</div></div><div class="ec-line"><div class="code"><span style="--0:#C792EA;--1:#8844AE">function</span><span style="--0:#D6DEEB;--1:#403F53"> </span><span style="--0:#82AAFF;--1:#3B61B0">area</span><span style="--0:#D9F5DD;--1:#111111">(</span><span style="--0:#D7DBE0;--1:#403F53">s</span><span style="--0:#D9F5DD;--1:#111111">)</span><span style="--0:#D6DEEB;--1:#403F53"> {</span></div></div><div class="ec-line"><div class="code"><span class="indent">  </span><span style="--0:#C792EA;--1:#8844AE">const </span><span style="--0:#82AAFF;--1:#3B61B0">__subject</span><span style="--0:#C792EA;--1:#8844AE"> = </span><span style="--1:#403F53"><span style="--0:#D7DBE0">s</span><span style="--0:#D6DEEB">;</span></span></div></div><div class="ec-line"><div class="code"><span class="indent">  </span><span style="--0:#C792EA;--1:#8844AE">if</span><span style="--0:#D6DEEB;--1:#403F53"> (</span><span style="--0:#7FDBCA;--1:#096E72">__subject</span><span style="--0:#C792EA;--1:#8844AE">.</span><span style="--0:#7FDBCA;--1:#096E72">pykTag</span><span style="--0:#D6DEEB;--1:#403F53"> </span><span style="--0:#C792EA;--1:#8844AE">===</span><span style="--0:#D6DEEB;--1:#403F53"> </span><span style="--0:#D9F5DD;--1:#111111">'</span><span style="--0:#ECC48D;--1:#984E4D">Circle</span><span style="--0:#D9F5DD;--1:#111111">'</span><span style="--0:#D6DEEB;--1:#403F53">) {</span></div></div><div class="ec-line"><div class="code"><span class="indent">    </span><span style="--0:#C792EA;--1:#8844AE">const </span><span style="--0:#82AAFF;--1:#3B61B0">r</span><span style="--0:#C792EA;--1:#8844AE"> = </span><span style="--0:#7FDBCA;--1:#096E72">__subject</span><span style="--0:#C792EA;--1:#8844AE">.</span><span style="--0:#7FDBCA;--1:#096E72">pykValues</span><span style="--0:#D6DEEB;--1:#403F53">[</span><span style="--0:#F78C6C;--1:#AA0982">0</span><span style="--0:#D6DEEB;--1:#403F53">];</span></div></div><div class="ec-line"><div class="code"><span class="indent">    </span><span style="--0:#C792EA;--1:#8844AE">return</span><span style="--0:#D6DEEB;--1:#403F53"> </span><span style="--0:#F78C6C;--1:#AA0982">3</span><span style="--0:#D6DEEB;--1:#403F53"> </span><span style="--0:#C792EA;--1:#8844AE">*</span><span style="--1:#403F53"><span style="--0:#D6DEEB"> </span><span style="--0:#D7DBE0">r</span><span style="--0:#D6DEEB"> </span></span><span style="--0:#C792EA;--1:#8844AE">*</span><span style="--1:#403F53"><span style="--0:#D6DEEB"> </span><span style="--0:#D7DBE0">r</span><span style="--0:#D6DEEB">;</span></span></div></div><div class="ec-line"><div class="code"><span class="indent"><span style="--0:#D6DEEB;--1:#403F53">  </span></span><span style="--0:#D6DEEB;--1:#403F53">} </span><span style="--0:#C792EA;--1:#8844AE">else</span><span style="--0:#D6DEEB;--1:#403F53"> </span><span style="--0:#C792EA;--1:#8844AE">if</span><span style="--0:#D6DEEB;--1:#403F53"> (</span><span style="--0:#7FDBCA;--1:#096E72">__subject</span><span style="--0:#C792EA;--1:#8844AE">.</span><span style="--0:#7FDBCA;--1:#096E72">pykTag</span><span style="--0:#D6DEEB;--1:#403F53"> </span><span style="--0:#C792EA;--1:#8844AE">===</span><span style="--0:#D6DEEB;--1:#403F53"> </span><span style="--0:#D9F5DD;--1:#111111">'</span><span style="--0:#ECC48D;--1:#984E4D">Rect</span><span style="--0:#D9F5DD;--1:#111111">'</span><span style="--0:#D6DEEB;--1:#403F53">) {</span></div></div><div class="ec-line"><div class="code"><span class="indent">    </span><span style="--0:#C792EA;--1:#8844AE">const </span><span style="--0:#82AAFF;--1:#3B61B0">w</span><span style="--0:#C792EA;--1:#8844AE"> = </span><span style="--0:#7FDBCA;--1:#096E72">__subject</span><span style="--0:#C792EA;--1:#8844AE">.</span><span style="--0:#7FDBCA;--1:#096E72">pykValues</span><span style="--0:#D6DEEB;--1:#403F53">[</span><span style="--0:#F78C6C;--1:#AA0982">0</span><span style="--0:#D6DEEB;--1:#403F53">];</span></div></div><div class="ec-line"><div class="code"><span class="indent">    </span><span style="--0:#C792EA;--1:#8844AE">const </span><span style="--0:#82AAFF;--1:#3B61B0">h</span><span style="--0:#C792EA;--1:#8844AE"> = </span><span style="--0:#7FDBCA;--1:#096E72">__subject</span><span style="--0:#C792EA;--1:#8844AE">.</span><span style="--0:#7FDBCA;--1:#096E72">pykValues</span><span style="--0:#D6DEEB;--1:#403F53">[</span><span style="--0:#F78C6C;--1:#AA0982">1</span><span style="--0:#D6DEEB;--1:#403F53">];</span></div></div><div class="ec-line"><div class="code"><span class="indent">    </span><span style="--0:#C792EA;--1:#8844AE">return</span><span style="--1:#403F53"><span style="--0:#D6DEEB"> </span><span style="--0:#D7DBE0">w</span><span style="--0:#D6DEEB"> </span></span><span style="--0:#C792EA;--1:#8844AE">*</span><span style="--1:#403F53"><span style="--0:#D6DEEB"> </span><span style="--0:#D7DBE0">h</span><span style="--0:#D6DEEB">;</span></span></div></div><div class="ec-line"><div class="code"><span class="indent"><span style="--0:#D6DEEB;--1:#403F53">  </span></span><span style="--0:#D6DEEB;--1:#403F53">}</span></div></div><div class="ec-line"><div class="code"><span style="--0:#D6DEEB;--1:#403F53">}</span></div></div><div class="ec-line"><div class="code">
+</div></div><div class="ec-line"><div class="code"><span style="--0:#C792EA;--1:#8844AE">let </span><span style="--0:#D7DBE0;--1:#403F53">total</span><span style="--0:#C792EA;--1:#8844AE"> = </span><span style="--0:#F78C6C;--1:#AA0982">0</span><span style="--0:#D6DEEB;--1:#403F53">;</span></div></div><div class="ec-line"><div class="code">
+</div></div><div class="ec-line"><div class="code"><span style="--0:#C792EA;--1:#8844AE">function</span><span style="--0:#D6DEEB;--1:#403F53"> </span><span style="--0:#82AAFF;--1:#3B61B0">add</span><span style="--0:#D9F5DD;--1:#111111">(</span><span style="--0:#D7DBE0;--1:#403F53">s</span><span style="--0:#D9F5DD;--1:#111111">)</span><span style="--0:#D6DEEB;--1:#403F53"> {</span></div></div><div class="ec-line"><div class="code"><span class="indent"><span style="--1:#403F53">  </span></span><span style="--0:#D7DBE0;--1:#403F53">total</span><span style="--0:#D6DEEB;--1:#403F53"> </span><span style="--0:#C792EA;--1:#8844AE">=</span><span style="--1:#403F53"><span style="--0:#D6DEEB"> </span><span style="--0:#D7DBE0">total</span><span style="--0:#D6DEEB"> </span></span><span style="--0:#C792EA;--1:#8844AE">+</span><span style="--0:#D6DEEB;--1:#403F53"> </span><span style="--0:#82AAFF;--1:#3B61B0">area</span><span style="--1:#403F53"><span style="--0:#D6DEEB">(</span><span style="--0:#D7DBE0">s</span><span style="--0:#D6DEEB">);</span></span></div></div><div class="ec-line"><div class="code"><span style="--0:#D6DEEB;--1:#403F53">}</span></div></div><div class="ec-line"><div class="code">
+</div></div><div class="ec-line"><div class="code"><span style="--0:#C792EA;--1:#8844AE">for</span><span style="--0:#D6DEEB;--1:#403F53"> (</span><span style="--0:#C792EA;--1:#8844AE">const </span><span style="--0:#82AAFF;--1:#3B61B0">s</span><span style="--0:#C792EA;--1:#8844AE"> </span><span style="--0:#7FDBCA;--1:#096E72">of</span><span style="--0:#D6DEEB;--1:#403F53"> </span><span style="--0:#82AAFF;--1:#3B61B0">pykList</span><span style="--0:#D6DEEB;--1:#403F53">([</span><span style="--0:#82AAFF;--1:#3B61B0">Circle</span><span style="--0:#D6DEEB;--1:#403F53">(</span><span style="--0:#F78C6C;--1:#AA0982">1</span><span style="--0:#D6DEEB;--1:#403F53">), </span><span style="--0:#82AAFF;--1:#3B61B0">Rect</span><span style="--0:#D6DEEB;--1:#403F53">(</span><span style="--0:#F78C6C;--1:#AA0982">2</span><span style="--0:#D6DEEB;--1:#403F53">, </span><span style="--0:#F78C6C;--1:#AA0982">3</span><span style="--0:#D6DEEB;--1:#403F53">)])) {</span></div></div><div class="ec-line"><div class="code"><span class="indent">  </span><span style="--0:#82AAFF;--1:#3B61B0">add</span><span style="--1:#403F53"><span style="--0:#D6DEEB">(</span><span style="--0:#D7DBE0">s</span><span style="--0:#D6DEEB">);</span></span></div></div><div class="ec-line"><div class="code"><span style="--0:#D6DEEB;--1:#403F53">}</span></div></div><div class="ec-line"><div class="code"><span style="--0:#82AAFF;--1:#3B61B0">print</span><span style="--1:#403F53"><span style="--0:#D6DEEB">(</span><span style="--0:#D7DBE0">total</span><span style="--0:#D6DEEB">, </span></span><span style="--0:#7FDBCA;--1:#096E72">Math</span><span style="--0:#C792EA;--1:#8844AE">.</span><span style="--0:#82AAFF;--1:#3B61B0">trunc</span><span style="--1:#403F53"><span style="--0:#D6DEEB">(</span><span style="--0:#D7DBE0">total</span><span style="--0:#D6DEEB"> </span></span><span style="--0:#C792EA;--1:#8844AE">/</span><span style="--0:#D6DEEB;--1:#403F53"> </span><span style="--0:#F78C6C;--1:#AA0982">4</span><span style="--0:#D6DEEB;--1:#403F53">));</span></div></div></code></pre><div class="copy"><div aria-live="polite"></div><button title="Copy to clipboard" data-copied="Copied!" data-code="import { print } from &#x27;./pyk-runtime.js&#x27;;// ...function Circle(v0) {  return pykData(&#x27;Circle&#x27;, [v0], [&#x27;r&#x27;]);}function Rect(v0, v1) {  return pykData(&#x27;Rect&#x27;, [v0, v1], [&#x27;w&#x27;, &#x27;h&#x27;]);}function area(s) {  const __subject = s;  if (__subject.pykTag === &#x27;Circle&#x27;) {    const r = __subject.pykValues[0];    return 3 * r * r;  } else if (__subject.pykTag === &#x27;Rect&#x27;) {    const w = __subject.pykValues[0];    const h = __subject.pykValues[1];    return w * h;  }}let total = 0;function add(s) {  total = total + area(s);}for (const s of pykList([Circle(1), Rect(2, 3)])) {  add(s);}print(total, Math.trunc(total / 4));"><div></div></button></div></figure></div>
+<h3 id="targets-and-limits-1">Targets and limits</h3>
+<ul>
+<li><strong>What it takes:</strong> everything the type checker accepts, on all six
+targets.</li>
+<li><strong>node:</strong> <code>foo.js</code>, the shared <code>pyk-runtime.js</code> and a <code>package.json</code>
+that marks the files as ES modules. Run with <code>node foo.js</code>.</li>
+<li><strong>web:</strong> <code>foo.html</code> and the same <code>.js</code> files. <code>print</code> writes to the
+browser console. A page must be served over HTTP: <code>pyk compile -t web --run</code> starts <code>pyk serve</code> and prints the page’s address. tinyweb
+programs draw on the page.</li>
+<li><strong>iweb:</strong> the page ships the <code>.pyk</code> sources and the compiler built to
+JavaScript, and interprets the program in the browser. It compiles
+nothing.</li>
+<li><strong>ES2020 or ES2024:</strong> <code>node22</code>, <code>web2020</code> and <code>iweb2020</code> write ES2020,
+and the others ES2024. A program’s own modules are the same in both;
+only a page’s loader differs.</li>
+<li><strong>Where the output differs:</strong> a JavaScript number is a double, so an
+<code>Int</code> past the signed 32-bit range gets what double arithmetic gives:
+<code>2147483647 + 1</code> is <code>2147483648</code>, exact up to 2^53. An index outside
+a list is <code>undefined</code>, not an error, and <code>1 / 0</code> is <code>Infinity</code>.</li>
+</ul>
+<h2 id="compared-to-c">Compared to C</h2>
+<p>Targets: <code>c89</code>, <code>c99</code> (also <code>c</code>) and <code>c23</code> are plain C; <code>c23-gc</code> (also
+<code>c-gc</code>) is C23 with the Boehm–Demers–Weiser garbage collector.</p>
+<h3 id="syntax-2">Syntax</h3>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<table><thead><tr><th>Pyking</th><th>C</th></tr></thead><tbody><tr><td>no braces, no semicolons</td><td><code>{ }</code> and <code>;</code></td></tr><tr><td><code>x = 5</code></td><td><code>const int x = 5;</code></td></tr><tr><td><code>var n = 0</code>, then <code>n := n + 1</code> or <code>n += 1</code></td><td><code>int n = 0;</code>, then <code>n = n + 1;</code> or <code>n += 1;</code></td></tr><tr><td><code>def add(a: Int, b: Int) -> Int: a + b</code></td><td><code>int add(int a, int b) { return a + b; }</code></td></tr><tr><td><code>def add(a, b): a + b</code> (types inferred)</td><td>every type written out</td></tr><tr><td><code>for i in range(10):</code></td><td><code>for (int i = 0; i &#x3C; 10; i++) { ... }</code></td></tr><tr><td><code>p = &#x26;x</code>, <code>*p := 42</code> (<code>use mutation, pointers</code>)</td><td><code>int *p = &#x26;x; *p = 42;</code></td></tr><tr><td><code>mutable struct Point(x: Int, y: Int)</code></td><td><code>struct Point { int x; int y; };</code></td></tr><tr><td><code>datatype Shape: Circle(r: Int), Rect(w: Int, h: Int)</code></td><td>a <code>struct</code> with a tag and a <code>union</code></td></tr><tr><td><code>match s:</code> with <code>case Circle(r):</code></td><td><code>switch (s.tag)</code></td></tr><tr><td><code>"a" + b</code></td><td>a buffer and <code>strcat</code></td></tr><tr><td><code>print(n)</code></td><td><code>printf("%d\n", n);</code></td></tr><tr><td><code>import math</code></td><td><code>#include &#x3C;math.h></code></td></tr></tbody></table>
+<h3 id="semantics-2">Semantics</h3>
+<p>The same as C: <code>Int</code> arithmetic that truncates on division, mutable
+structs passed as references, arrays that know their length, and
+pointers to variables, with <code>&#x26;</code> and <code>*</code> written as in C.</p>
+<p>Different:</p>
+<ul>
+<li>
+<p><strong>Memory is managed.</strong> The program never frees anything, and nothing
+it holds is freed under it.</p>
+</li>
+<li>
+<p><strong>No undefined behaviour from memory.</strong> In Pyking an index outside an
+array or a list is a runtime error with a message (plain C output
+does not check it; <code>c23-gc</code> does). There is no null pointer, and a
+pointer has no arithmetic.</p>
+</li>
+<li>
+<p><strong>Strings are values.</strong> <code>+</code> joins two Strings into a new one, <code>s[i]</code>
+is a <code>Char</code> (a Unicode code point), and <code>len(s)</code> counts code points.</p>
+</li>
+<li>
+<p><strong>Functions are values, and closures exist.</strong> A function can return a
+function that remembers its arguments, and a function without type
+annotations works on any type that fits:</p>
+<div class="pkn-notebook pkn-embedded not-content"><div class="pkn-cell"><pre class="pkn-cell-fallback"><code>def adder(n: Int) -> (Int) -> Int:
+    lam x. x + n
+
+def first(pair):
+    (a, _) = pair
+    a
+
+add3 = adder(3)
+greeting = "Hello, " + "world"
+print(add3(4), first((1, "x")), first(("y", 2)))
+print(greeting, greeting[0], len(greeting))</code></pre></div></div>
+</li>
+<li>
+<p><strong>Modules, not headers.</strong> A file is a module; it exports what it
+marks <code>public</code>, and <code>import</code> reads it. There is no preprocessor.</p>
+</li>
+</ul>
+<h3 id="how-pyking-compiles-to-it-2">How Pyking compiles to it</h3>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<table><thead><tr><th>Pyking</th><th>C</th></tr></thead><tbody><tr><td><code>Int</code>, <code>Char</code>, <code>Float</code>, <code>Bool</code>, <code>String</code></td><td><code>int</code>, <code>int</code> (the code point), <code>double</code>, <code>bool</code> (<code>int</code> in C89), <code>const char *</code></td></tr><tr><td>a tuple <code>(Int, String)</code></td><td>a struct, <code>pyk_t_Tis_</code>, with fields <code>a0</code> and <code>a1</code></td></tr><tr><td>a datatype</td><td>a struct with a <code>tag</code> and a union of the constructors’ fields, passed by value</td></tr><tr><td><code>match</code></td><td>an <code>if</code>/<code>else</code> chain on the tag</td></tr><tr><td>a list <code>[Int]</code> (c23-gc)</td><td><code>pyk_l_Li_ *</code>, a pointer to the first cons cell; <code>NULL</code> for <code>[]</code></td></tr><tr><td>a function value <code>(Int) -> Int</code></td><td>a struct <code>pyk_c_Fi_i_</code> of a function and an environment, called as <code>f.fn(f.env, x)</code></td></tr><tr><td>a nested <code>def</code> or a lambda</td><td>a C function taking what it captures</td></tr><tr><td>a polymorphic function</td><td>one C function per type it is used at</td></tr><tr><td>a top-level binding</td><td>a <code>static</code> variable at file scope, set in <code>main</code></td></tr><tr><td><code>Array(Int)</code></td><td>a struct of <code>len</code> and <code>items</code></td></tr><tr><td>a <code>mutable struct</code></td><td>a pointer to a struct</td></tr><tr><td><code>&#x26;x</code>, <code>*p</code></td><td>C’s own <code>&#x26;x</code>, <code>*p</code></td></tr><tr><td><code>+</code> on Strings</td><td><code>pyk_concat(a, b)</code>, which allocates</td></tr><tr><td><code>print</code></td><td><code>printf</code></td></tr><tr><td>a function that calls itself in tail position</td><td>a <code>while (1)</code> loop</td></tr><tr><td>several modules</td><td>one <code>.c</code> file and a header per module</td></tr></tbody></table>
+<p>Plain C refuses the program the other parts compile, because it has a
+list:</p>
+<div class="pkn-notebook pkn-embedded not-content"><div class="pkn-cell"><pre class="pkn-cell-fallback"><code>use mutation
+
+datatype Shape:
+    Circle(r: Int)
+    Rect(w: Int, h: Int)
+
+def area(s: Shape) -> Int:
+    match s:
+        case Circle(r): 3 * r * r
+        case Rect(w, h): w * h
+
+var total = 0
+
+def add(s: Shape):
+    total := total + area(s)
+
+for s in [Circle(1), Rect(2, 3)]:
+    add(s)
+print(total, total / 4)</code></pre></div></div>
+<div class="expressive-code"><figure class="frame not-content"><figcaption class="header"></figcaption><pre data-language="text"><code><div class="ec-line"><div class="code"><span style="--0:#d6deeb;--1:#403f53">$ pyk compile -t c example.pyk</span></div></div><div class="ec-line"><div class="code"><span style="--0:#d6deeb;--1:#403f53">'example.pyk' 17:0-17:32 Unsupported by target 'c99': a `for` loop</span></div></div><div class="ec-line"><div class="code"><span class="indent"><span style="--0:#d6deeb;--1:#403f53">  </span></span><span style="--0:#d6deeb;--1:#403f53">over a list, which needs a heap that is freed: plain C has none, and</span></div></div><div class="ec-line"><div class="code"><span class="indent"><span style="--0:#d6deeb;--1:#403f53">  </span></span><span style="--0:#d6deeb;--1:#403f53">c23-gc compiles it</span></div></div></code></pre><div class="copy"><div aria-live="polite"></div><button title="Copy to clipboard" data-copied="Copied!" data-code="$ pyk compile -t c example.pyk&#x27;example.pyk&#x27; 17:0-17:32 Unsupported by target &#x27;c99&#x27;: a &#x60;for&#x60; loop  over a list, which needs a heap that is freed: plain C has none, and  c23-gc compiles it"><div></div></button></div></figure></div>
+<p><code>c23-gc</code> compiles it. The list becomes cons cells from the collector:</p>
+<div class="expressive-code"><figure class="frame not-content"><figcaption class="header"></figcaption><pre data-language="c"><code><div class="ec-line"><div class="code"><span style="--0:#C792EA;--1:#8844AE">#include</span><span style="--0:#D6DEEB;--1:#403F53"> </span><span style="--0:#D9F5DD;--1:#111111">&#x3C;</span><span style="--0:#ECC48D;--1:#984E4D">gc.h</span><span style="--0:#D9F5DD;--1:#111111">></span></div></div><div class="ec-line"><div class="code"><span style="--0:#919F9F;--1:#5D6376">// ...</span></div></div><div class="ec-line"><div class="code"><span style="--0:#C792EA;--1:#8844AE">typedef</span><span style="--0:#D6DEEB;--1:#403F53"> </span><span style="--0:#C792EA;--1:#8844AE">struct</span><span style="--0:#D6DEEB;--1:#403F53"> pyk_d_Dexample_Shape__ {</span></div></div><div class="ec-line"><div class="code"><span class="indent">    </span><span style="--0:#C792EA;--1:#8844AE">int</span><span style="--0:#D6DEEB;--1:#403F53"> tag;</span></div></div><div class="ec-line"><div class="code"><span class="indent">    </span><span style="--0:#C792EA;--1:#8844AE">union</span><span style="--0:#D6DEEB;--1:#403F53"> {</span></div></div><div class="ec-line"><div class="code"><span class="indent">        </span><span style="--0:#C792EA;--1:#8844AE">struct</span><span style="--0:#D6DEEB;--1:#403F53"> {</span></div></div><div class="ec-line"><div class="code"><span class="indent">            </span><span style="--0:#C792EA;--1:#8844AE">int</span><span style="--0:#D6DEEB;--1:#403F53"> f0;</span></div></div><div class="ec-line"><div class="code"><span class="indent"><span style="--0:#D6DEEB;--1:#403F53">        </span></span><span style="--0:#D6DEEB;--1:#403F53">} Circle;</span></div></div><div class="ec-line"><div class="code"><span class="indent">        </span><span style="--0:#C792EA;--1:#8844AE">struct</span><span style="--0:#D6DEEB;--1:#403F53"> {</span></div></div><div class="ec-line"><div class="code"><span class="indent">            </span><span style="--0:#C792EA;--1:#8844AE">int</span><span style="--0:#D6DEEB;--1:#403F53"> f0;</span></div></div><div class="ec-line"><div class="code"><span class="indent">            </span><span style="--0:#C792EA;--1:#8844AE">int</span><span style="--0:#D6DEEB;--1:#403F53"> f1;</span></div></div><div class="ec-line"><div class="code"><span class="indent"><span style="--0:#D6DEEB;--1:#403F53">        </span></span><span style="--0:#D6DEEB;--1:#403F53">} Rect;</span></div></div><div class="ec-line"><div class="code"><span class="indent"><span style="--0:#D6DEEB;--1:#403F53">    </span></span><span style="--0:#D6DEEB;--1:#403F53">} u;</span></div></div><div class="ec-line"><div class="code"><span style="--0:#D6DEEB;--1:#403F53">} pyk_d_Dexample_Shape__;</span></div></div><div class="ec-line"><div class="code"><span style="--0:#919F9F;--1:#5D6376">// ...</span></div></div><div class="ec-line"><div class="code"><span style="--0:#C792EA;--1:#8844AE">static</span><span style="--0:#D6DEEB;--1:#403F53"> </span><span style="--0:#C792EA;--1:#8844AE">int</span><span style="--0:#D6DEEB;--1:#403F53"> total;</span></div></div><div class="ec-line"><div class="code"><span style="--0:#919F9F;--1:#5D6376">// ...</span></div></div><div class="ec-line"><div class="code"><span style="--0:#C792EA;--1:#8844AE">int</span><span style="--0:#D6DEEB;--1:#403F53"> </span><span style="--0:#82AAFF;--1:#3B61B0">area</span><span style="--1:#403F53"><span style="--0:#D6DEEB">(pyk_d_Dexample_Shape__ </span><span style="--0:#D7DBE0">s</span><span style="--0:#D6DEEB">)</span></span></div></div><div class="ec-line"><div class="code"><span style="--0:#D6DEEB;--1:#403F53">{</span></div></div><div class="ec-line"><div class="code"><span class="indent"><span style="--0:#D6DEEB;--1:#403F53">    </span></span><span style="--0:#D6DEEB;--1:#403F53">pyk_d_Dexample_Shape__ pyk_s1 </span><span style="--0:#C792EA;--1:#8844AE">=</span><span style="--0:#D6DEEB;--1:#403F53"> s;</span></div></div><div class="ec-line"><div class="code"><span class="indent">    </span><span style="--0:#C792EA;--1:#8844AE">if</span><span style="--0:#D6DEEB;--1:#403F53"> (</span><span style="--0:#C5E478;--1:#3B61B0">pyk_s1</span><span style="--0:#D6DEEB;--1:#403F53">.</span><span style="--0:#C5E478;--1:#3B61B0">tag</span><span style="--0:#D6DEEB;--1:#403F53"> </span><span style="--0:#C792EA;--1:#8844AE">==</span><span style="--0:#D6DEEB;--1:#403F53"> </span><span style="--0:#F78C6C;--1:#AA0982">0</span><span style="--0:#D6DEEB;--1:#403F53">) {</span></div></div><div class="ec-line"><div class="code"><span class="indent"><span style="--0:#D6DEEB;--1:#403F53">        </span></span><span style="--0:#D6DEEB;--1:#403F53">{</span></div></div><div class="ec-line"><div class="code"><span class="indent">            </span><span style="--0:#C792EA;--1:#8844AE">int</span><span style="--0:#D6DEEB;--1:#403F53"> r </span><span style="--0:#C792EA;--1:#8844AE">=</span><span style="--0:#D6DEEB;--1:#403F53"> </span><span style="--0:#C5E478;--1:#3B61B0">pyk_s1</span><span style="--0:#D6DEEB;--1:#403F53">.</span><span style="--0:#C5E478;--1:#3B61B0">u</span><span style="--0:#D6DEEB;--1:#403F53">.</span><span style="--0:#C5E478;--1:#3B61B0">Circle</span><span style="--0:#D6DEEB;--1:#403F53">.</span><span style="--0:#C5E478;--1:#3B61B0">f0</span><span style="--0:#D6DEEB;--1:#403F53">;</span></div></div><div class="ec-line"><div class="code"><span class="indent">            </span><span style="--0:#C792EA;--1:#8844AE">return</span><span style="--0:#D6DEEB;--1:#403F53"> </span><span style="--0:#F78C6C;--1:#AA0982">3</span><span style="--0:#D6DEEB;--1:#403F53"> </span><span style="--0:#7FDBCA;--1:#096E72">*</span><span style="--0:#D6DEEB;--1:#403F53"> r </span><span style="--0:#7FDBCA;--1:#096E72">*</span><span style="--0:#D6DEEB;--1:#403F53"> r;</span></div></div><div class="ec-line"><div class="code"><span class="indent"><span style="--0:#D6DEEB;--1:#403F53">        </span></span><span style="--0:#D6DEEB;--1:#403F53">}</span></div></div><div class="ec-line"><div class="code"><span class="indent"><span style="--0:#D6DEEB;--1:#403F53">    </span></span><span style="--0:#D6DEEB;--1:#403F53">} </span><span style="--0:#C792EA;--1:#8844AE">else</span><span style="--0:#D6DEEB;--1:#403F53"> {</span></div></div><div class="ec-line"><div class="code"><span class="indent"><span style="--0:#D6DEEB;--1:#403F53">        </span></span><span style="--0:#D6DEEB;--1:#403F53">{</span></div></div><div class="ec-line"><div class="code"><span class="indent">            </span><span style="--0:#C792EA;--1:#8844AE">int</span><span style="--0:#D6DEEB;--1:#403F53"> w </span><span style="--0:#C792EA;--1:#8844AE">=</span><span style="--0:#D6DEEB;--1:#403F53"> </span><span style="--0:#C5E478;--1:#3B61B0">pyk_s1</span><span style="--0:#D6DEEB;--1:#403F53">.</span><span style="--0:#C5E478;--1:#3B61B0">u</span><span style="--0:#D6DEEB;--1:#403F53">.</span><span style="--0:#C5E478;--1:#3B61B0">Rect</span><span style="--0:#D6DEEB;--1:#403F53">.</span><span style="--0:#C5E478;--1:#3B61B0">f0</span><span style="--0:#D6DEEB;--1:#403F53">;</span></div></div><div class="ec-line"><div class="code"><span class="indent">            </span><span style="--0:#C792EA;--1:#8844AE">int</span><span style="--0:#D6DEEB;--1:#403F53"> h </span><span style="--0:#C792EA;--1:#8844AE">=</span><span style="--0:#D6DEEB;--1:#403F53"> </span><span style="--0:#C5E478;--1:#3B61B0">pyk_s1</span><span style="--0:#D6DEEB;--1:#403F53">.</span><span style="--0:#C5E478;--1:#3B61B0">u</span><span style="--0:#D6DEEB;--1:#403F53">.</span><span style="--0:#C5E478;--1:#3B61B0">Rect</span><span style="--0:#D6DEEB;--1:#403F53">.</span><span style="--0:#C5E478;--1:#3B61B0">f1</span><span style="--0:#D6DEEB;--1:#403F53">;</span></div></div><div class="ec-line"><div class="code"><span class="indent">            </span><span style="--0:#C792EA;--1:#8844AE">return</span><span style="--0:#D6DEEB;--1:#403F53"> w </span><span style="--0:#7FDBCA;--1:#096E72">*</span><span style="--0:#D6DEEB;--1:#403F53"> h;</span></div></div><div class="ec-line"><div class="code"><span class="indent"><span style="--0:#D6DEEB;--1:#403F53">        </span></span><span style="--0:#D6DEEB;--1:#403F53">}</span></div></div><div class="ec-line"><div class="code"><span class="indent"><span style="--0:#D6DEEB;--1:#403F53">    </span></span><span style="--0:#D6DEEB;--1:#403F53">}</span></div></div><div class="ec-line"><div class="code"><span style="--0:#D6DEEB;--1:#403F53">}</span></div></div><div class="ec-line"><div class="code">
+</div></div><div class="ec-line"><div class="code"><span style="--0:#C792EA;--1:#8844AE">void</span><span style="--0:#D6DEEB;--1:#403F53"> </span><span style="--0:#82AAFF;--1:#3B61B0">add</span><span style="--1:#403F53"><span style="--0:#D6DEEB">(pyk_d_Dexample_Shape__ </span><span style="--0:#D7DBE0">s</span><span style="--0:#D6DEEB">)</span></span></div></div><div class="ec-line"><div class="code"><span style="--0:#D6DEEB;--1:#403F53">{</span></div></div><div class="ec-line"><div class="code"><span class="indent"><span style="--0:#D6DEEB;--1:#403F53">    </span></span><span style="--0:#D6DEEB;--1:#403F53">total </span><span style="--0:#C792EA;--1:#8844AE">=</span><span style="--0:#D6DEEB;--1:#403F53"> total </span><span style="--0:#7FDBCA;--1:#096E72">+</span><span style="--0:#D6DEEB;--1:#403F53"> </span><span style="--0:#82AAFF;--1:#3B61B0">area(s)</span><span style="--0:#D6DEEB;--1:#403F53">;</span></div></div><div class="ec-line"><div class="code"><span style="--0:#D6DEEB;--1:#403F53">}</span></div></div><div class="ec-line"><div class="code">
+</div></div><div class="ec-line"><div class="code"><span style="--0:#C792EA;--1:#8844AE">int</span><span style="--0:#D6DEEB;--1:#403F53"> </span><span style="--0:#82AAFF;--1:#3B61B0">main</span><span style="--0:#D6DEEB;--1:#403F53">(</span><span style="--0:#C792EA;--1:#8844AE">void</span><span style="--0:#D6DEEB;--1:#403F53">)</span></div></div><div class="ec-line"><div class="code"><span style="--0:#D6DEEB;--1:#403F53">{</span></div></div><div class="ec-line"><div class="code"><span class="indent">    </span><span style="--0:#82AAFF;--1:#3B61B0">GC_INIT()</span><span style="--0:#D6DEEB;--1:#403F53">;</span></div></div><div class="ec-line"><div class="code"><span class="indent">    </span><span style="--0:#919F9F;--1:#5D6376">// ...</span></div></div><div class="ec-line"><div class="code"><span class="indent"><span style="--0:#D6DEEB;--1:#403F53">            </span></span><span style="--0:#D6DEEB;--1:#403F53">s </span><span style="--0:#C792EA;--1:#8844AE">=</span><span style="--0:#D6DEEB;--1:#403F53"> </span><span style="--0:#C5E478;--1:#3B61B0">s_at</span><span style="--0:#D6DEEB;--1:#403F53">-></span><span style="--0:#C5E478;--1:#3B61B0">head</span><span style="--0:#D6DEEB;--1:#403F53">;</span></div></div><div class="ec-line"><div class="code"><span class="indent">            </span><span style="--0:#82AAFF;--1:#3B61B0">add(s)</span><span style="--0:#D6DEEB;--1:#403F53">;</span></div></div><div class="ec-line"><div class="code"><span class="indent"><span style="--0:#D6DEEB;--1:#403F53">        </span></span><span style="--0:#D6DEEB;--1:#403F53">}</span></div></div><div class="ec-line"><div class="code"><span class="indent">        </span><span style="--0:#82AAFF;--1:#3B61B0">printf</span><span style="--0:#D6DEEB;--1:#403F53">(</span><span style="--0:#D9F5DD;--1:#111111">"</span><span style="--0:#82AAFF;--1:#3B61B0">%d</span><span style="--0:#ECC48D;--1:#984E4D"> </span><span style="--0:#82AAFF;--1:#3B61B0">%d</span><span style="--0:#F78C6C;--1:#AA0982">\n</span><span style="--0:#D9F5DD;--1:#111111">"</span><span style="--0:#D6DEEB;--1:#403F53">, total, total </span><span style="--0:#7FDBCA;--1:#096E72">/</span><span style="--0:#D6DEEB;--1:#403F53"> </span><span style="--0:#F78C6C;--1:#AA0982">4</span><span style="--0:#D6DEEB;--1:#403F53">);</span></div></div><div class="ec-line"><div class="code"><span class="indent"><span style="--0:#D6DEEB;--1:#403F53">    </span></span><span style="--0:#D6DEEB;--1:#403F53">}</span></div></div></code></pre><div class="copy"><div aria-live="polite"></div><button title="Copy to clipboard" data-copied="Copied!" data-code="#include <gc.h>// ...typedef struct pyk_d_Dexample_Shape__ {    int tag;    union {        struct {            int f0;        } Circle;        struct {            int f0;            int f1;        } Rect;    } u;} pyk_d_Dexample_Shape__;// ...static int total;// ...int area(pyk_d_Dexample_Shape__ s){    pyk_d_Dexample_Shape__ pyk_s1 = s;    if (pyk_s1.tag == 0) {        {            int r = pyk_s1.u.Circle.f0;            return 3 * r * r;        }    } else {        {            int w = pyk_s1.u.Rect.f0;            int h = pyk_s1.u.Rect.f1;            return w * h;        }    }}void add(pyk_d_Dexample_Shape__ s){    total = total + area(s);}int main(void){    GC_INIT();    // ...            s = s_at->head;            add(s);        }        printf(&#x22;%d %d\n&#x22;, total, total / 4);    }"><div></div></button></div></figure></div>
+<h3 id="targets-and-limits-2">Targets and limits</h3>
+<ul>
+<li><strong>Plain C</strong> (<code>c89</code>, <code>c99</code>, <code>c23</code>) allocates with <code>malloc</code> and never
+frees, and checks no index. It refuses what needs a heap that is
+freed: lists, a datatype holding itself, and a closure that outlives
+the function that made it. Each refusal names <code>c23-gc</code>. The three
+versions write the same program; they differ in comments, where
+declarations go and how Bools are spelled.</li>
+<li><strong>c23-gc</strong> takes everything else, and checks every index. It needs
+bdwgc: <code>apt install libgc-dev</code> on Debian and Ubuntu, <code>dnf install gc-devel</code> on Fedora, <code>brew install bdw-gc</code> on macOS. <code>pyk compile -t c-gc --run</code> finds it.</li>
+<li><strong>No C target</strong> compiles a polymorphic <em>parameter</em>
+(<code>all a. (a) -> a</code>): one C function cannot serve every type.</li>
+<li><strong>Running it:</strong> <code>cc -std=c99 foo.c -lm &#x26;&#x26; ./a.out</code> for plain C;
+<code>cc -std=c23 -DPYKING_GC foo.c -lgc -lm</code> for c23-gc.</li>
+<li><strong>Where the output differs:</strong> <code>int</code> is 32 bits on every common C
+compiler, and overflow is undefined behaviour; in practice
+<code>2147483647 + 1</code> is <code>-2147483648</code>. Division by zero is undefined too.
+A file using <code>Float</code> turns off floating-point contraction, so <code>a * b + c</code> rounds as on the other targets.</li>
+</ul>
+<h2 id="compared-to-java">Compared to Java</h2>
+<p>Targets: <code>java8</code>, <code>java17</code> and <code>java21</code> (also <code>java</code>).</p>
+<h3 id="syntax-3">Syntax</h3>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<table><thead><tr><th>Pyking</th><th>Java</th></tr></thead><tbody><tr><td>statements at the top level</td><td>a class with <code>public static void main</code></td></tr><tr><td><code>x = 5</code></td><td><code>final int x = 5;</code></td></tr><tr><td><code>var n = 0</code>, then <code>n := n + 1</code></td><td><code>int n = 0;</code>, then <code>n = n + 1;</code></td></tr><tr><td><code>def add(a: Int, b: Int) -> Int: a + b</code></td><td><code>static int add(int a, int b) { return a + b; }</code></td></tr><tr><td><code>def first(xs: [a]) -> Option(a):</code></td><td><code>static &#x3C;A> Optional&#x3C;A> first(List&#x3C;A> xs)</code></td></tr><tr><td><code>Rect(2.0, 3.0)</code></td><td><code>new Rect(2.0, 3.0)</code></td></tr><tr><td><code>class Rect(width: Float, height: Float) implements Shape:</code></td><td><code>class Rect implements Shape { ... }</code> with fields and a constructor</td></tr><tr><td><code>def area(self) -> Float:</code></td><td><code>double area() { ... }</code></td></tr><tr><td><code>override def area(self) -> Float:</code></td><td><code>@Override double area() { ... }</code></td></tr><tr><td><code>self.width</code> (always written)</td><td><code>this.width</code> or <code>width</code></td></tr><tr><td><code>lam x. x + 1</code></td><td><code>x -> x + 1</code></td></tr><tr><td><code>if n > 0 then "pos" else "neg"</code></td><td><code>n > 0 ? "pos" : "neg"</code></td></tr><tr><td><code>match s:</code> with <code>case Circle(r):</code></td><td><code>switch (s) { case Circle(var r) -> ... }</code></td></tr><tr><td><code>[1, 2, 3]</code>, <code>xs: [Int]</code></td><td><code>List.of(1, 2, 3)</code>, <code>List&#x3C;Integer> xs</code></td></tr><tr><td><code>for x in xs:</code></td><td><code>for (int x : xs) { ... }</code></td></tr></tbody></table>
+<h3 id="semantics-3">Semantics</h3>
+<p>The same as Java, under <code>use objects</code>: objects shared by reference,
+one parent class and any number of interfaces, dynamic dispatch,
+abstract classes, <code>override</code>, and garbage collection. Type variables
+work as generics do.</p>
+<div class="pkn-notebook pkn-embedded not-content"><div class="pkn-cell"><pre class="pkn-cell-fallback"><code>use objects
+
+class Animal(name: String):
+    def speak(self) -> String:
+        self.name + " makes a sound"
+
+class Dog(dog_name: String) extends Animal(dog_name):
+    override def speak(self) -> String:
+        self.name + " barks"
+
+pets: [Animal] = [Animal("Cat"), Dog("Rex")]
+for p in pets:
+    print(p.speak())</code></pre></div></div>
+<p>Different:</p>
+<ul>
+<li>
+<p><strong>Functions and data live outside classes.</strong> A program is a file of
+statements and <code>def</code>s; classes are only needed for objects.</p>
+</li>
+<li>
+<p><strong>Immutable by default.</strong> <code>=</code> is like <code>final</code>; a variable needs <code>var</code>
+and <code>use mutation</code>.</p>
+</li>
+<li>
+<p><strong>Datatypes and an exhaustive <code>match</code></strong>, like a sealed interface of
+records with a pattern <code>switch</code>, but the compiler always checks that
+every case is covered.</p>
+</li>
+<li>
+<p><strong>No <code>null</code> and no exceptions.</strong> A missing value is an <code>Option</code>, an
+error a <code>Result</code>, and <code>panic</code> stops the program.</p>
+</li>
+<li>
+<p><strong><code>==</code> compares structure</strong>, also on strings, lists and datatypes. On
+a class it calls the class’s <code>eq</code> method, and is refused if there is
+none. <code>same(a, b)</code> asks whether two names hold one object.</p>
+<div class="pkn-notebook pkn-embedded not-content"><div class="pkn-cell"><pre class="pkn-cell-fallback"><code>struct Point(x: Int, y: Int)
+a = "ab" + "c"
+print(a == "abc", Point(1, 2) == Point(1, 2), [1, 2] == [1, 2])</code></pre></div></div>
+</li>
+</ul>
+<h3 id="how-pyking-compiles-to-it-3">How Pyking compiles to it</h3>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<table><thead><tr><th>Pyking</th><th>Java</th></tr></thead><tbody><tr><td>a program <code>foo_bar.pyk</code></td><td><code>public final class FooBar</code>, in <code>FooBar.java</code></td></tr><tr><td><code>Int</code>, <code>Float</code>, <code>Bool</code></td><td><code>int</code>, <code>double</code>, <code>boolean</code> (<code>Integer</code> and so on as type arguments)</td></tr><tr><td><code>String</code>, <code>Char</code></td><td><code>String</code>, <code>PykRuntime.PykChar</code></td></tr><tr><td><code>[T]</code></td><td><code>java.util.List&#x3C;T></code>; a literal is <code>java.util.Arrays.asList(...)</code></td></tr><tr><td>a tuple <code>(A, B)</code></td><td><code>PykRuntime.T2&#x3C;A, B></code></td></tr><tr><td><code>(A) -> R</code></td><td><code>java.util.function.Function&#x3C;A, R></code></td></tr><tr><td>a type variable <code>a</code></td><td>a type parameter <code>A</code></td></tr><tr><td>a datatype</td><td>a sealed interface and a record per constructor (java17, java21); an abstract class and a final class per constructor (java8)</td></tr><tr><td><code>match</code></td><td>a pattern <code>switch</code> (java21); <code>instanceof</code> tests (java8, java17)</td></tr><tr><td>a top-level binding</td><td>a <code>private static</code> field, set in <code>main</code></td></tr><tr><td>a nested <code>def</code></td><td>a static method taking what it captures</td></tr><tr><td>a <code>var</code> a closure writes</td><td>a one-element array</td></tr><tr><td><code>==</code> on lists, tuples, datatypes</td><td><code>PykRuntime.equal(a, b)</code></td></tr><tr><td>a function that calls itself in tail position</td><td>a <code>while (true)</code> loop</td></tr><tr><td>a class</td><td>a nested Java class</td></tr></tbody></table>
+<p>The same program as in the other parts:</p>
+<div class="pkn-notebook pkn-embedded not-content"><div class="pkn-cell"><pre class="pkn-cell-fallback"><code>use mutation
+
+datatype Shape:
+    Circle(r: Int)
+    Rect(w: Int, h: Int)
+
+def area(s: Shape) -> Int:
+    match s:
+        case Circle(r): 3 * r * r
+        case Rect(w, h): w * h
+
+var total = 0
+
+def add(s: Shape):
+    total := total + area(s)
+
+for s in [Circle(1), Rect(2, 3)]:
+    add(s)
+print(total, total / 4)</code></pre></div></div>
+<p>java21 writes a sealed interface, records and a pattern <code>switch</code>:</p>
+<div class="expressive-code"><figure class="frame not-content"><figcaption class="header"></figcaption><pre data-language="java"><code><div class="ec-line"><div class="code"><span style="--0:#C792EA;--1:#8844AE">public</span><span style="--0:#D6DEEB;--1:#403F53"> </span><span style="--0:#C792EA;--1:#8844AE">final</span><span style="--0:#D6DEEB;--1:#403F53"> </span><span style="--0:#C792EA;--1:#8844AE">class</span><span style="--0:#D6DEEB;--1:#403F53"> </span><span style="--0:#FFCB8B;--1:#111111">Example</span><span style="--0:#D6DEEB;--1:#403F53"> {</span></div></div><div class="ec-line"><div class="code">
+</div></div><div class="ec-line"><div class="code"><span class="indent">    </span><span style="--0:#C792EA;--1:#8844AE">private</span><span style="--0:#D6DEEB;--1:#403F53"> </span><span style="--0:#C792EA;--1:#8844AE">sealed</span><span style="--0:#D6DEEB;--1:#403F53"> </span><span style="--0:#C792EA;--1:#8844AE">interface</span><span style="--0:#D6DEEB;--1:#403F53"> </span><span style="--0:#FFCB8B;--1:#111111">Shape</span><span style="--0:#D6DEEB;--1:#403F53"> </span><span style="--0:#C792EA;--1:#8844AE">extends</span><span style="--0:#D6DEEB;--1:#403F53"> </span><span style="--0:#C5E478;--1:#3B61B0">PykRuntime.Data</span><span style="--0:#D6DEEB;--1:#403F53"> </span><span style="--0:#C792EA;--1:#8844AE">permits</span><span style="--0:#D6DEEB;--1:#403F53"> </span><span style="--0:#C5E478;--1:#3B61B0">Circle</span><span style="--0:#D6DEEB;--1:#403F53">, </span><span style="--0:#C5E478;--1:#3B61B0">Rect</span><span style="--0:#D6DEEB;--1:#403F53"> {</span></div></div><div class="ec-line"><div class="code"><span class="indent"><span style="--0:#D6DEEB;--1:#403F53">    </span></span><span style="--0:#D6DEEB;--1:#403F53">}</span></div></div><div class="ec-line"><div class="code">
+</div></div><div class="ec-line"><div class="code"><span class="indent">    </span><span style="--0:#C792EA;--1:#8844AE">private</span><span style="--0:#D6DEEB;--1:#403F53"> </span><span style="--0:#C792EA;--1:#8844AE">static</span><span style="--0:#D6DEEB;--1:#403F53"> </span><span style="--0:#C792EA;--1:#8844AE">Shape</span><span style="--0:#D6DEEB;--1:#403F53"> </span><span style="--0:#82AAFF;--1:#3B61B0">Circle</span><span style="--0:#D9F5DD;--1:#111111">(</span><span style="--0:#C792EA;--1:#8844AE">final</span><span style="--0:#D6DEEB;--1:#403F53"> </span><span style="--0:#C792EA;--1:#8844AE">int</span><span style="--1:#403F53"><span style="--0:#D6DEEB"> </span><span style="--0:#D7DBE0">r</span></span><span style="--0:#D9F5DD;--1:#111111">)</span><span style="--0:#D6DEEB;--1:#403F53"> {</span></div></div><div class="ec-line"><div class="code"><span class="indent">        </span><span style="--0:#C792EA;--1:#8844AE">return</span><span style="--0:#D6DEEB;--1:#403F53"> </span><span style="--0:#C792EA;--1:#8844AE">new</span><span style="--0:#D6DEEB;--1:#403F53"> </span><span style="--0:#82AAFF;--1:#3B61B0">Circle</span><span style="--0:#D9F5DD;--1:#111111">(</span><span style="--0:#82AAFF;--1:#3B61B0">r</span><span style="--0:#D9F5DD;--1:#111111">)</span><span style="--0:#D6DEEB;--1:#403F53">;</span></div></div><div class="ec-line"><div class="code"><span class="indent"><span style="--0:#D6DEEB;--1:#403F53">    </span></span><span style="--0:#D6DEEB;--1:#403F53">}</span></div></div><div class="ec-line"><div class="code">
+</div></div><div class="ec-line"><div class="code"><span class="indent">    </span><span style="--0:#C792EA;--1:#8844AE">private</span><span style="--0:#D6DEEB;--1:#403F53"> </span><span style="--0:#C792EA;--1:#8844AE">record</span><span style="--0:#D6DEEB;--1:#403F53"> Circle</span><span style="--0:#D9F5DD;--1:#111111">(</span><span style="--0:#C792EA;--1:#8844AE">int</span><span style="--0:#D6DEEB;--1:#403F53"> r</span><span style="--0:#D9F5DD;--1:#111111">)</span><span style="--0:#D6DEEB;--1:#403F53"> </span><span style="--0:#C792EA;--1:#8844AE">implements</span><span style="--0:#D6DEEB;--1:#403F53"> </span><span style="--0:#C5E478;--1:#3B61B0">Shape</span><span style="--0:#D6DEEB;--1:#403F53"> {</span></div></div><div class="ec-line"><div class="code"><span class="indent">    </span><span style="--0:#919F9F;--1:#5D6376">// ...</span></div></div><div class="ec-line"><div class="code"><span class="indent">    </span><span style="--0:#C792EA;--1:#8844AE">private</span><span style="--0:#D6DEEB;--1:#403F53"> </span><span style="--0:#C792EA;--1:#8844AE">static</span><span style="--0:#D6DEEB;--1:#403F53"> </span><span style="--0:#C792EA;--1:#8844AE">int</span><span style="--0:#D6DEEB;--1:#403F53"> </span><span style="--0:#C5E478;--1:#3B61B0">total</span><span style="--0:#D6DEEB;--1:#403F53">;</span></div></div><div class="ec-line"><div class="code">
+</div></div><div class="ec-line"><div class="code"><span class="indent">    </span><span style="--0:#C792EA;--1:#8844AE">private</span><span style="--0:#D6DEEB;--1:#403F53"> </span><span style="--0:#C792EA;--1:#8844AE">static</span><span style="--0:#D6DEEB;--1:#403F53"> </span><span style="--0:#C792EA;--1:#8844AE">int</span><span style="--0:#D6DEEB;--1:#403F53"> </span><span style="--0:#82AAFF;--1:#3B61B0">area</span><span style="--0:#D9F5DD;--1:#111111">(</span><span style="--0:#C792EA;--1:#8844AE">final</span><span style="--0:#D6DEEB;--1:#403F53"> </span><span style="--0:#C792EA;--1:#8844AE">Shape</span><span style="--1:#403F53"><span style="--0:#D6DEEB"> </span><span style="--0:#D7DBE0">s</span></span><span style="--0:#D9F5DD;--1:#111111">)</span><span style="--0:#D6DEEB;--1:#403F53"> {</span></div></div><div class="ec-line"><div class="code"><span class="indent">        </span><span style="--0:#C792EA;--1:#8844AE">final</span><span style="--0:#D6DEEB;--1:#403F53"> </span><span style="--0:#C792EA;--1:#8844AE">Shape</span><span style="--0:#D6DEEB;--1:#403F53"> </span><span style="--0:#C5E478;--1:#3B61B0">s$1</span><span style="--0:#D6DEEB;--1:#403F53"> </span><span style="--0:#C792EA;--1:#8844AE">=</span><span style="--0:#D6DEEB;--1:#403F53"> s;</span></div></div><div class="ec-line"><div class="code"><span class="indent">        </span><span style="--0:#C792EA;--1:#8844AE">switch</span><span style="--0:#D6DEEB;--1:#403F53"> (s$1) {</span></div></div><div class="ec-line"><div class="code"><span class="indent">            </span><span style="--0:#C792EA;--1:#8844AE">case</span><span style="--0:#D6DEEB;--1:#403F53"> </span><span style="--0:#82AAFF;--1:#3B61B0">Circle</span><span style="--0:#D9F5DD;--1:#111111">(</span><span style="--0:#82AAFF;--1:#3B61B0">var t$2</span><span style="--0:#D9F5DD;--1:#111111">)</span><span style="--0:#D6DEEB;--1:#403F53"> </span><span style="--0:#C792EA;--1:#8844AE">-></span><span style="--0:#D6DEEB;--1:#403F53"> {</span></div></div><div class="ec-line"><div class="code"><span class="indent">                </span><span style="--0:#C792EA;--1:#8844AE">final</span><span style="--0:#D6DEEB;--1:#403F53"> </span><span style="--0:#C792EA;--1:#8844AE">int</span><span style="--0:#D6DEEB;--1:#403F53"> </span><span style="--0:#C5E478;--1:#3B61B0">r</span><span style="--0:#D6DEEB;--1:#403F53"> </span><span style="--0:#C792EA;--1:#8844AE">=</span><span style="--0:#D6DEEB;--1:#403F53"> t$2;</span></div></div><div class="ec-line"><div class="code"><span class="indent">                </span><span style="--0:#C792EA;--1:#8844AE">return</span><span style="--0:#D6DEEB;--1:#403F53"> </span><span style="--0:#F78C6C;--1:#AA0982">3</span><span style="--0:#D6DEEB;--1:#403F53"> </span><span style="--0:#C792EA;--1:#8844AE">*</span><span style="--0:#D6DEEB;--1:#403F53"> r </span><span style="--0:#C792EA;--1:#8844AE">*</span><span style="--0:#D6DEEB;--1:#403F53"> r;</span></div></div><div class="ec-line"><div class="code"><span class="indent"><span style="--0:#D6DEEB;--1:#403F53">            </span></span><span style="--0:#D6DEEB;--1:#403F53">}</span></div></div><div class="ec-line"><div class="code"><span class="indent">            </span><span style="--0:#C792EA;--1:#8844AE">case</span><span style="--0:#D6DEEB;--1:#403F53"> </span><span style="--0:#82AAFF;--1:#3B61B0">Rect</span><span style="--0:#D9F5DD;--1:#111111">(</span><span style="--0:#82AAFF;--1:#3B61B0">var t$3, var t$4</span><span style="--0:#D9F5DD;--1:#111111">)</span><span style="--0:#D6DEEB;--1:#403F53"> </span><span style="--0:#C792EA;--1:#8844AE">-></span><span style="--0:#D6DEEB;--1:#403F53"> {</span></div></div><div class="ec-line"><div class="code"><span class="indent">                </span><span style="--0:#C792EA;--1:#8844AE">final</span><span style="--0:#D6DEEB;--1:#403F53"> </span><span style="--0:#C792EA;--1:#8844AE">int</span><span style="--0:#D6DEEB;--1:#403F53"> </span><span style="--0:#C5E478;--1:#3B61B0">w</span><span style="--0:#D6DEEB;--1:#403F53"> </span><span style="--0:#C792EA;--1:#8844AE">=</span><span style="--0:#D6DEEB;--1:#403F53"> t$3;</span></div></div><div class="ec-line"><div class="code"><span class="indent">                </span><span style="--0:#C792EA;--1:#8844AE">final</span><span style="--0:#D6DEEB;--1:#403F53"> </span><span style="--0:#C792EA;--1:#8844AE">int</span><span style="--0:#D6DEEB;--1:#403F53"> </span><span style="--0:#C5E478;--1:#3B61B0">h</span><span style="--0:#D6DEEB;--1:#403F53"> </span><span style="--0:#C792EA;--1:#8844AE">=</span><span style="--0:#D6DEEB;--1:#403F53"> t$4;</span></div></div><div class="ec-line"><div class="code"><span class="indent">                </span><span style="--0:#C792EA;--1:#8844AE">return</span><span style="--0:#D6DEEB;--1:#403F53"> w </span><span style="--0:#C792EA;--1:#8844AE">*</span><span style="--0:#D6DEEB;--1:#403F53"> h;</span></div></div><div class="ec-line"><div class="code"><span class="indent"><span style="--0:#D6DEEB;--1:#403F53">            </span></span><span style="--0:#D6DEEB;--1:#403F53">}</span></div></div><div class="ec-line"><div class="code"><span class="indent">            </span><span style="--0:#919F9F;--1:#5D6376">// ...</span></div></div><div class="ec-line"><div class="code"><span class="indent"><span style="--0:#D6DEEB;--1:#403F53">        </span></span><span style="--0:#D6DEEB;--1:#403F53">}</span></div></div><div class="ec-line"><div class="code"><span class="indent"><span style="--0:#D6DEEB;--1:#403F53">    </span></span><span style="--0:#D6DEEB;--1:#403F53">}</span></div></div><div class="ec-line"><div class="code">
+</div></div><div class="ec-line"><div class="code"><span class="indent">    </span><span style="--0:#C792EA;--1:#8844AE">private</span><span style="--0:#D6DEEB;--1:#403F53"> </span><span style="--0:#C792EA;--1:#8844AE">static</span><span style="--0:#D6DEEB;--1:#403F53"> </span><span style="--0:#C792EA;--1:#8844AE">void</span><span style="--0:#D6DEEB;--1:#403F53"> </span><span style="--0:#82AAFF;--1:#3B61B0">add</span><span style="--0:#D9F5DD;--1:#111111">(</span><span style="--0:#C792EA;--1:#8844AE">final</span><span style="--0:#D6DEEB;--1:#403F53"> </span><span style="--0:#C792EA;--1:#8844AE">Shape</span><span style="--1:#403F53"><span style="--0:#D6DEEB"> </span><span style="--0:#D7DBE0">s</span></span><span style="--0:#D9F5DD;--1:#111111">)</span><span style="--0:#D6DEEB;--1:#403F53"> {</span></div></div><div class="ec-line"><div class="code"><span class="indent"><span style="--0:#D6DEEB;--1:#403F53">        </span></span><span style="--0:#D6DEEB;--1:#403F53">total </span><span style="--0:#C792EA;--1:#8844AE">=</span><span style="--0:#D6DEEB;--1:#403F53"> total </span><span style="--0:#C792EA;--1:#8844AE">+</span><span style="--0:#D6DEEB;--1:#403F53"> </span><span style="--0:#82AAFF;--1:#3B61B0">area</span><span style="--0:#D9F5DD;--1:#111111">(</span><span style="--0:#82AAFF;--1:#3B61B0">s</span><span style="--0:#D9F5DD;--1:#111111">)</span><span style="--0:#D6DEEB;--1:#403F53">;</span></div></div><div class="ec-line"><div class="code"><span class="indent"><span style="--0:#D6DEEB;--1:#403F53">    </span></span><span style="--0:#D6DEEB;--1:#403F53">}</span></div></div><div class="ec-line"><div class="code">
+</div></div><div class="ec-line"><div class="code"><span class="indent">    </span><span style="--0:#C792EA;--1:#8844AE">public</span><span style="--0:#D6DEEB;--1:#403F53"> </span><span style="--0:#C792EA;--1:#8844AE">static</span><span style="--0:#D6DEEB;--1:#403F53"> </span><span style="--0:#C792EA;--1:#8844AE">void</span><span style="--0:#D6DEEB;--1:#403F53"> </span><span style="--0:#82AAFF;--1:#3B61B0">main</span><span style="--0:#D9F5DD;--1:#111111">(</span><span style="--0:#C792EA;--1:#8844AE">String</span><span style="--1:#403F53"><span style="--0:#D6DEEB">[] </span><span style="--0:#D7DBE0">args</span></span><span style="--0:#D9F5DD;--1:#111111">)</span><span style="--0:#D6DEEB;--1:#403F53"> {</span></div></div><div class="ec-line"><div class="code"><span class="indent"><span style="--0:#D6DEEB;--1:#403F53">        </span></span><span style="--0:#D6DEEB;--1:#403F53">total </span><span style="--0:#C792EA;--1:#8844AE">=</span><span style="--0:#D6DEEB;--1:#403F53"> </span><span style="--0:#F78C6C;--1:#AA0982">0</span><span style="--0:#D6DEEB;--1:#403F53">;</span></div></div><div class="ec-line"><div class="code"><span class="indent">        </span><span style="--0:#C792EA;--1:#8844AE">for</span><span style="--0:#D6DEEB;--1:#403F53"> (</span><span style="--0:#C792EA;--1:#8844AE">final</span><span style="--0:#D6DEEB;--1:#403F53"> </span><span style="--0:#C792EA;--1:#8844AE">Shape</span><span style="--0:#D6DEEB;--1:#403F53"> </span><span style="--0:#C5E478;--1:#3B61B0">s</span><span style="--0:#D6DEEB;--1:#403F53"> </span><span style="--0:#C792EA;--1:#8844AE">:</span><span style="--0:#D6DEEB;--1:#403F53"> </span><span style="--0:#C5E478;--1:#3B61B0">java</span><span style="--0:#D6DEEB;--1:#403F53">.</span><span style="--0:#FAF39F;--1:#111111">util</span><span style="--0:#D6DEEB;--1:#403F53">.</span><span style="--0:#FAF39F;--1:#111111">Arrays</span><span style="--0:#D6DEEB;--1:#403F53">.</span><span style="--0:#82AAFF;--1:#3B61B0">asList</span><span style="--0:#D9F5DD;--1:#111111">(</span><span style="--0:#82AAFF;--1:#3B61B0">Circle</span><span style="--0:#D9F5DD;--1:#111111">(</span><span style="--0:#F78C6C;--1:#AA0982">1</span><span style="--0:#D9F5DD;--1:#111111">)</span><span style="--0:#D6DEEB;--1:#403F53">, </span><span style="--0:#82AAFF;--1:#3B61B0">Rect</span><span style="--0:#D9F5DD;--1:#111111">(</span><span style="--0:#F78C6C;--1:#AA0982">2</span><span style="--0:#82AAFF;--1:#3B61B0">, </span><span style="--0:#F78C6C;--1:#AA0982">3</span><span style="--0:#D9F5DD;--1:#111111">))</span><span style="--0:#D6DEEB;--1:#403F53">) {</span></div></div><div class="ec-line"><div class="code"><span class="indent">            </span><span style="--0:#82AAFF;--1:#3B61B0">add</span><span style="--0:#D9F5DD;--1:#111111">(</span><span style="--0:#82AAFF;--1:#3B61B0">s</span><span style="--0:#D9F5DD;--1:#111111">)</span><span style="--0:#D6DEEB;--1:#403F53">;</span></div></div><div class="ec-line"><div class="code"><span class="indent"><span style="--0:#D6DEEB;--1:#403F53">        </span></span><span style="--0:#D6DEEB;--1:#403F53">}</span></div></div><div class="ec-line"><div class="code"><span class="indent">        </span><span style="--0:#C5E478;--1:#3B61B0">System</span><span style="--0:#D6DEEB;--1:#403F53">.</span><span style="--0:#FAF39F;--1:#111111">out</span><span style="--0:#D6DEEB;--1:#403F53">.</span><span style="--0:#82AAFF;--1:#3B61B0">println</span><span style="--0:#D9F5DD;--1:#111111">(</span><span style="--0:#C5E478;--1:#3B61B0">String</span><span style="--0:#D6DEEB;--1:#403F53">.</span><span style="--0:#82AAFF;--1:#3B61B0">valueOf</span><span style="--0:#D9F5DD;--1:#111111">(</span><span style="--0:#D6DEEB;--1:#403F53">total</span><span style="--0:#D9F5DD;--1:#111111">)</span><span style="--0:#D6DEEB;--1:#403F53"> </span><span style="--0:#C792EA;--1:#8844AE">+</span><span style="--0:#D6DEEB;--1:#403F53"> </span><span style="--0:#D9F5DD;--1:#111111">"</span><span style="--0:#ECC48D;--1:#984E4D"> </span><span style="--0:#D9F5DD;--1:#111111">"</span><span style="--0:#D6DEEB;--1:#403F53"> </span><span style="--0:#C792EA;--1:#8844AE">+</span><span style="--0:#D6DEEB;--1:#403F53"> </span><span style="--0:#C5E478;--1:#3B61B0">String</span><span style="--0:#D6DEEB;--1:#403F53">.</span><span style="--0:#82AAFF;--1:#3B61B0">valueOf</span><span style="--0:#D9F5DD;--1:#111111">(</span><span style="--0:#D6DEEB;--1:#403F53">total </span><span style="--0:#C792EA;--1:#8844AE">/</span><span style="--0:#D6DEEB;--1:#403F53"> </span><span style="--0:#F78C6C;--1:#AA0982">4</span><span style="--0:#D9F5DD;--1:#111111">))</span><span style="--0:#D6DEEB;--1:#403F53">;</span></div></div><div class="ec-line"><div class="code"><span class="indent"><span style="--0:#D6DEEB;--1:#403F53">    </span></span><span style="--0:#D6DEEB;--1:#403F53">}</span></div></div><div class="ec-line"><div class="code"><span style="--0:#D6DEEB;--1:#403F53">}</span></div></div></code></pre><div class="copy"><div aria-live="polite"></div><button title="Copy to clipboard" data-copied="Copied!" data-code="public final class Example {    private sealed interface Shape extends PykRuntime.Data permits Circle, Rect {    }    private static Shape Circle(final int r) {        return new Circle(r);    }    private record Circle(int r) implements Shape {    // ...    private static int total;    private static int area(final Shape s) {        final Shape s$1 = s;        switch (s$1) {            case Circle(var t$2) -> {                final int r = t$2;                return 3 * r * r;            }            case Rect(var t$3, var t$4) -> {                final int w = t$3;                final int h = t$4;                return w * h;            }            // ...        }    }    private static void add(final Shape s) {        total = total + area(s);    }    public static void main(String[] args) {        total = 0;        for (final Shape s : java.util.Arrays.asList(Circle(1), Rect(2, 3))) {            add(s);        }        System.out.println(String.valueOf(total) + &#x22; &#x22; + String.valueOf(total / 4));    }}"><div></div></button></div></figure></div>
+<p>java17 tests with <code>instanceof</code> and reads the records’ accessors:</p>
+<div class="expressive-code"><figure class="frame not-content"><figcaption class="header"></figcaption><pre data-language="java"><code><div class="ec-line"><div class="code"><span class="indent">    </span><span style="--0:#C792EA;--1:#8844AE">private</span><span style="--0:#D6DEEB;--1:#403F53"> </span><span style="--0:#C792EA;--1:#8844AE">static</span><span style="--0:#D6DEEB;--1:#403F53"> </span><span style="--0:#C792EA;--1:#8844AE">int</span><span style="--0:#D6DEEB;--1:#403F53"> </span><span style="--0:#82AAFF;--1:#3B61B0">area</span><span style="--0:#D9F5DD;--1:#111111">(</span><span style="--0:#C792EA;--1:#8844AE">final</span><span style="--0:#82AAFF;--1:#3B61B0"> </span><span style="--0:#C792EA;--1:#8844AE">Shape</span><span style="--0:#82AAFF;--1:#3B61B0"> s</span><span style="--0:#D9F5DD;--1:#111111">)</span><span style="--0:#D6DEEB;--1:#403F53"> {</span></div></div><div class="ec-line"><div class="code"><span class="indent">        </span><span style="--0:#C792EA;--1:#8844AE">final</span><span style="--0:#D6DEEB;--1:#403F53"> </span><span style="--0:#C792EA;--1:#8844AE">Shape</span><span style="--0:#D6DEEB;--1:#403F53"> </span><span style="--0:#C5E478;--1:#3B61B0">s$1</span><span style="--0:#D6DEEB;--1:#403F53"> </span><span style="--0:#C792EA;--1:#8844AE">=</span><span style="--0:#D6DEEB;--1:#403F53"> s;</span></div></div><div class="ec-line"><div class="code"><span class="indent">        </span><span style="--0:#C792EA;--1:#8844AE">if</span><span style="--0:#D6DEEB;--1:#403F53"> (s$1 </span><span style="--0:#7FDBCA;--1:#096E72">instanceof</span><span style="--0:#D6DEEB;--1:#403F53"> </span><span style="--0:#C792EA;--1:#8844AE">Circle</span><span style="--0:#D6DEEB;--1:#403F53"> t$2) {</span></div></div><div class="ec-line"><div class="code"><span class="indent">            </span><span style="--0:#C792EA;--1:#8844AE">final</span><span style="--0:#D6DEEB;--1:#403F53"> </span><span style="--0:#C792EA;--1:#8844AE">int</span><span style="--0:#D6DEEB;--1:#403F53"> </span><span style="--0:#C5E478;--1:#3B61B0">r</span><span style="--0:#D6DEEB;--1:#403F53"> </span><span style="--0:#C792EA;--1:#8844AE">=</span><span style="--0:#D6DEEB;--1:#403F53"> </span><span style="--0:#C5E478;--1:#3B61B0">t$2</span><span style="--0:#D6DEEB;--1:#403F53">.</span><span style="--0:#82AAFF;--1:#3B61B0">r</span><span style="--0:#D9F5DD;--1:#111111">()</span><span style="--0:#D6DEEB;--1:#403F53">;</span></div></div><div class="ec-line"><div class="code"><span class="indent">            </span><span style="--0:#C792EA;--1:#8844AE">return</span><span style="--0:#D6DEEB;--1:#403F53"> </span><span style="--0:#F78C6C;--1:#AA0982">3</span><span style="--0:#D6DEEB;--1:#403F53"> </span><span style="--0:#C792EA;--1:#8844AE">*</span><span style="--0:#D6DEEB;--1:#403F53"> r </span><span style="--0:#C792EA;--1:#8844AE">*</span><span style="--0:#D6DEEB;--1:#403F53"> r;</span></div></div><div class="ec-line"><div class="code"><span class="indent"><span style="--0:#D6DEEB;--1:#403F53">        </span></span><span style="--0:#D6DEEB;--1:#403F53">} </span><span style="--0:#C792EA;--1:#8844AE">else</span><span style="--0:#D6DEEB;--1:#403F53"> {</span></div></div><div class="ec-line"><div class="code"><span class="indent">            </span><span style="--0:#C792EA;--1:#8844AE">final</span><span style="--0:#D6DEEB;--1:#403F53"> </span><span style="--0:#C792EA;--1:#8844AE">int</span><span style="--0:#D6DEEB;--1:#403F53"> </span><span style="--0:#C5E478;--1:#3B61B0">w</span><span style="--0:#D6DEEB;--1:#403F53"> </span><span style="--0:#C792EA;--1:#8844AE">=</span><span style="--0:#D6DEEB;--1:#403F53"> ((Rect) s$1).</span><span style="--0:#82AAFF;--1:#3B61B0">w</span><span style="--0:#D9F5DD;--1:#111111">()</span><span style="--0:#D6DEEB;--1:#403F53">;</span></div></div><div class="ec-line"><div class="code"><span class="indent">            </span><span style="--0:#C792EA;--1:#8844AE">final</span><span style="--0:#D6DEEB;--1:#403F53"> </span><span style="--0:#C792EA;--1:#8844AE">int</span><span style="--0:#D6DEEB;--1:#403F53"> </span><span style="--0:#C5E478;--1:#3B61B0">h</span><span style="--0:#D6DEEB;--1:#403F53"> </span><span style="--0:#C792EA;--1:#8844AE">=</span><span style="--0:#D6DEEB;--1:#403F53"> ((Rect) s$1).</span><span style="--0:#82AAFF;--1:#3B61B0">h</span><span style="--0:#D9F5DD;--1:#111111">()</span><span style="--0:#D6DEEB;--1:#403F53">;</span></div></div><div class="ec-line"><div class="code"><span class="indent">            </span><span style="--0:#C792EA;--1:#8844AE">return</span><span style="--0:#D6DEEB;--1:#403F53"> w </span><span style="--0:#C792EA;--1:#8844AE">*</span><span style="--0:#D6DEEB;--1:#403F53"> h;</span></div></div><div class="ec-line"><div class="code"><span class="indent"><span style="--0:#D6DEEB;--1:#403F53">        </span></span><span style="--0:#D6DEEB;--1:#403F53">}</span></div></div><div class="ec-line"><div class="code"><span class="indent"><span style="--0:#D6DEEB;--1:#403F53">    </span></span><span style="--0:#D6DEEB;--1:#403F53">}</span></div></div></code></pre><div class="copy"><div aria-live="polite"></div><button title="Copy to clipboard" data-copied="Copied!" data-code="    private static int area(final Shape s) {        final Shape s$1 = s;        if (s$1 instanceof Circle t$2) {            final int r = t$2.r();            return 3 * r * r;        } else {            final int w = ((Rect) s$1).w();            final int h = ((Rect) s$1).h();            return w * h;        }    }"><div></div></button></div></figure></div>
+<p>java8 has no records, so each constructor is a class of its own, and
+<code>match</code> tests the class and casts:</p>
+<div class="expressive-code"><figure class="frame not-content"><figcaption class="header"></figcaption><pre data-language="java"><code><div class="ec-line"><div class="code"><span class="indent">    </span><span style="--0:#C792EA;--1:#8844AE">private</span><span style="--0:#D6DEEB;--1:#403F53"> </span><span style="--0:#C792EA;--1:#8844AE">static</span><span style="--0:#D6DEEB;--1:#403F53"> </span><span style="--0:#C792EA;--1:#8844AE">abstract</span><span style="--0:#D6DEEB;--1:#403F53"> </span><span style="--0:#C792EA;--1:#8844AE">class</span><span style="--0:#D6DEEB;--1:#403F53"> </span><span style="--0:#FFCB8B;--1:#111111">Shape</span><span style="--0:#D6DEEB;--1:#403F53"> </span><span style="--0:#C792EA;--1:#8844AE">implements</span><span style="--0:#D6DEEB;--1:#403F53"> </span><span style="--0:#C5E478;--1:#3B61B0">PykRuntime.Data</span><span style="--0:#D6DEEB;--1:#403F53"> {</span></div></div><div class="ec-line"><div class="code"><span class="indent"><span style="--0:#D6DEEB;--1:#403F53">    </span></span><span style="--0:#D6DEEB;--1:#403F53">}</span></div></div><div class="ec-line"><div class="code"><span class="indent">    </span><span style="--0:#919F9F;--1:#5D6376">// ...</span></div></div><div class="ec-line"><div class="code"><span class="indent">    </span><span style="--0:#C792EA;--1:#8844AE">private</span><span style="--0:#D6DEEB;--1:#403F53"> </span><span style="--0:#C792EA;--1:#8844AE">static</span><span style="--0:#D6DEEB;--1:#403F53"> </span><span style="--0:#C792EA;--1:#8844AE">final</span><span style="--0:#D6DEEB;--1:#403F53"> </span><span style="--0:#C792EA;--1:#8844AE">class</span><span style="--0:#D6DEEB;--1:#403F53"> </span><span style="--0:#FFCB8B;--1:#111111">Circle</span><span style="--0:#D6DEEB;--1:#403F53"> </span><span style="--0:#C792EA;--1:#8844AE">extends</span><span style="--0:#D6DEEB;--1:#403F53"> </span><span style="--0:#C5E478;--1:#3B61B0">Shape</span><span style="--0:#D6DEEB;--1:#403F53"> {</span></div></div><div class="ec-line"><div class="code"><span class="indent">        </span><span style="--0:#C792EA;--1:#8844AE">public</span><span style="--0:#D6DEEB;--1:#403F53"> </span><span style="--0:#C792EA;--1:#8844AE">final</span><span style="--0:#D6DEEB;--1:#403F53"> </span><span style="--0:#C792EA;--1:#8844AE">int</span><span style="--0:#D6DEEB;--1:#403F53"> </span><span style="--0:#C5E478;--1:#3B61B0">r</span><span style="--0:#D6DEEB;--1:#403F53">;</span></div></div><div class="ec-line"><div class="code"><span class="indent">    </span><span style="--0:#919F9F;--1:#5D6376">// ...</span></div></div><div class="ec-line"><div class="code"><span class="indent">    </span><span style="--0:#C792EA;--1:#8844AE">private</span><span style="--0:#D6DEEB;--1:#403F53"> </span><span style="--0:#C792EA;--1:#8844AE">static</span><span style="--0:#D6DEEB;--1:#403F53"> </span><span style="--0:#C792EA;--1:#8844AE">int</span><span style="--0:#D6DEEB;--1:#403F53"> </span><span style="--0:#82AAFF;--1:#3B61B0">area</span><span style="--0:#D9F5DD;--1:#111111">(</span><span style="--0:#C792EA;--1:#8844AE">final</span><span style="--0:#D6DEEB;--1:#403F53"> </span><span style="--0:#C792EA;--1:#8844AE">Shape</span><span style="--1:#403F53"><span style="--0:#D6DEEB"> </span><span style="--0:#D7DBE0">s</span></span><span style="--0:#D9F5DD;--1:#111111">)</span><span style="--0:#D6DEEB;--1:#403F53"> {</span></div></div><div class="ec-line"><div class="code"><span class="indent">        </span><span style="--0:#C792EA;--1:#8844AE">final</span><span style="--0:#D6DEEB;--1:#403F53"> </span><span style="--0:#C792EA;--1:#8844AE">Shape</span><span style="--0:#D6DEEB;--1:#403F53"> </span><span style="--0:#C5E478;--1:#3B61B0">s$1</span><span style="--0:#D6DEEB;--1:#403F53"> </span><span style="--0:#C792EA;--1:#8844AE">=</span><span style="--0:#D6DEEB;--1:#403F53"> s;</span></div></div><div class="ec-line"><div class="code"><span class="indent">        </span><span style="--0:#C792EA;--1:#8844AE">if</span><span style="--0:#D6DEEB;--1:#403F53"> (s$1 </span><span style="--0:#7FDBCA;--1:#096E72">instanceof</span><span style="--0:#D6DEEB;--1:#403F53"> Circle) {</span></div></div><div class="ec-line"><div class="code"><span class="indent">            </span><span style="--0:#C792EA;--1:#8844AE">final</span><span style="--0:#D6DEEB;--1:#403F53"> </span><span style="--0:#C792EA;--1:#8844AE">int</span><span style="--0:#D6DEEB;--1:#403F53"> </span><span style="--0:#C5E478;--1:#3B61B0">r</span><span style="--0:#D6DEEB;--1:#403F53"> </span><span style="--0:#C792EA;--1:#8844AE">=</span><span style="--0:#D6DEEB;--1:#403F53"> ((Circle) s$1).</span><span style="--0:#FAF39F;--1:#111111">r</span><span style="--0:#D6DEEB;--1:#403F53">;</span></div></div><div class="ec-line"><div class="code"><span class="indent">            </span><span style="--0:#C792EA;--1:#8844AE">return</span><span style="--0:#D6DEEB;--1:#403F53"> </span><span style="--0:#F78C6C;--1:#AA0982">3</span><span style="--0:#D6DEEB;--1:#403F53"> </span><span style="--0:#C792EA;--1:#8844AE">*</span><span style="--0:#D6DEEB;--1:#403F53"> r </span><span style="--0:#C792EA;--1:#8844AE">*</span><span style="--0:#D6DEEB;--1:#403F53"> r;</span></div></div><div class="ec-line"><div class="code"><span class="indent"><span style="--0:#D6DEEB;--1:#403F53">        </span></span><span style="--0:#D6DEEB;--1:#403F53">} </span><span style="--0:#C792EA;--1:#8844AE">else</span><span style="--0:#D6DEEB;--1:#403F53"> {</span></div></div><div class="ec-line"><div class="code"><span class="indent">            </span><span style="--0:#C792EA;--1:#8844AE">final</span><span style="--0:#D6DEEB;--1:#403F53"> </span><span style="--0:#C792EA;--1:#8844AE">int</span><span style="--0:#D6DEEB;--1:#403F53"> </span><span style="--0:#C5E478;--1:#3B61B0">w</span><span style="--0:#D6DEEB;--1:#403F53"> </span><span style="--0:#C792EA;--1:#8844AE">=</span><span style="--0:#D6DEEB;--1:#403F53"> ((Rect) s$1).</span><span style="--0:#FAF39F;--1:#111111">w</span><span style="--0:#D6DEEB;--1:#403F53">;</span></div></div><div class="ec-line"><div class="code"><span class="indent">            </span><span style="--0:#C792EA;--1:#8844AE">final</span><span style="--0:#D6DEEB;--1:#403F53"> </span><span style="--0:#C792EA;--1:#8844AE">int</span><span style="--0:#D6DEEB;--1:#403F53"> </span><span style="--0:#C5E478;--1:#3B61B0">h</span><span style="--0:#D6DEEB;--1:#403F53"> </span><span style="--0:#C792EA;--1:#8844AE">=</span><span style="--0:#D6DEEB;--1:#403F53"> ((Rect) s$1).</span><span style="--0:#FAF39F;--1:#111111">h</span><span style="--0:#D6DEEB;--1:#403F53">;</span></div></div><div class="ec-line"><div class="code"><span class="indent">            </span><span style="--0:#C792EA;--1:#8844AE">return</span><span style="--0:#D6DEEB;--1:#403F53"> w </span><span style="--0:#C792EA;--1:#8844AE">*</span><span style="--0:#D6DEEB;--1:#403F53"> h;</span></div></div><div class="ec-line"><div class="code"><span class="indent"><span style="--0:#D6DEEB;--1:#403F53">        </span></span><span style="--0:#D6DEEB;--1:#403F53">}</span></div></div><div class="ec-line"><div class="code"><span class="indent"><span style="--0:#D6DEEB;--1:#403F53">    </span></span><span style="--0:#D6DEEB;--1:#403F53">}</span></div></div></code></pre><div class="copy"><div aria-live="polite"></div><button title="Copy to clipboard" data-copied="Copied!" data-code="    private static abstract class Shape implements PykRuntime.Data {    }    // ...    private static final class Circle extends Shape {        public final int r;    // ...    private static int area(final Shape s) {        final Shape s$1 = s;        if (s$1 instanceof Circle) {            final int r = ((Circle) s$1).r;            return 3 * r * r;        } else {            final int w = ((Rect) s$1).w;            final int h = ((Rect) s$1).h;            return w * h;        }    }"><div></div></button></div></figure></div>
+<h3 id="targets-and-limits-3">Targets and limits</h3>
+<ul>
+<li><strong>What it takes:</strong> everything the type checker accepts, on all three
+versions.</li>
+<li><strong>Running it:</strong> <code>javac --release 21 Foo.java PykRuntime.java &#x26;&#x26; java Foo</code>. <code>PykRuntime.java</code> is written beside every program: tuples,
+function interfaces past two parameters, and the printing helpers.</li>
+<li><strong>8, 17 or 21:</strong> the same program in three shapes. java8 writes plain
+classes and casts, java17 records and <code>instanceof</code> patterns, java21
+records and a pattern <code>switch</code>.</li>
+<li><strong>Where the output differs:</strong> <code>int</code> is 32 bits and wraps, so
+<code>2147483647 + 1</code> is <code>-2147483648</code>. Division by zero throws an
+<code>ArithmeticException</code>.</li>
+</ul>
+<h2 id="compared-to-ocaml">Compared to OCaml</h2>
+<p>Targets: <code>ocaml4.14</code> (also <code>ocaml</code>) and <code>ocaml5.5</code>.</p>
+<h3 id="syntax-4">Syntax</h3>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<table><thead><tr><th>Pyking</th><th>OCaml</th></tr></thead><tbody><tr><td><code>x = 5</code> on its own line, then the rest of the block</td><td><code>let x = 5 in ...</code></td></tr><tr><td><code>let x = 5 in x + 1</code></td><td><code>let x = 5 in x + 1</code></td></tr><tr><td><code>def add(a, b): a + b</code></td><td><code>let add a b = a + b</code></td></tr><tr><td>a <code>def</code> that calls itself</td><td><code>let rec</code></td></tr><tr><td><code>lam x. x + 1</code></td><td><code>fun x -> x + 1</code></td></tr><tr><td><code>match o:</code>, <code>case Some(x): x</code>, <code>case None: 0</code></td><td><code>match o with Some x -> x | None -> 0</code></td></tr><tr><td><code>datatype Shape: Circle(Int), Rect(Int, Int)</code></td><td><code>type shape = Circle of int | Rect of int * int</code></td></tr><tr><td><code>Some(3)</code></td><td><code>Some 3</code></td></tr><tr><td><code>def ident(x: a) -> a: x</code></td><td><code>let ident (x : 'a) : 'a = x</code></td></tr><tr><td><code>var n = 0</code>, <code>n := n + 1</code>, <code>n</code></td><td><code>let n = ref 0</code>, <code>n := !n + 1</code>, <code>!n</code></td></tr><tr><td><code>[1, 2, 3]</code>, <code>case [x, ..rest]:</code></td><td><code>[1; 2; 3]</code>, <code>x :: rest</code></td></tr><tr><td><code>"a" + "b"</code>, <code>[1] + [2]</code></td><td><code>"a" ^ "b"</code>, <code>[1] @ [2]</code></td></tr><tr><td><code>x == y</code>, <code>x != y</code></td><td><code>x = y</code>, <code>x &#x3C;> y</code></td></tr><tr><td><code>7 % 2</code></td><td><code>7 mod 2</code></td></tr><tr><td><code>1.5 + 2.0</code></td><td><code>1.5 +. 2.0</code></td></tr><tr><td><code>print(n)</code></td><td><code>print_endline (string_of_int n)</code></td></tr></tbody></table>
+<h3 id="semantics-4">Semantics</h3>
+<p>Almost all of the core is the same as OCaml: type inference, immutable
+bindings, variants and an exhaustive <code>match</code>, <code>Option</code> and <code>Result</code>,
+closures, guaranteed tail calls, and <code>var</code>/<code>:=</code> as a <code>ref</code> cell.</p>
+<p>Different:</p>
+<ul>
+<li>
+<p><strong>Statements, not expressions everywhere.</strong> A block is a sequence of
+statements, and its value is its last one. <code>if</code> and <code>match</code> give a
+value where one is bound or returned.</p>
+</li>
+<li>
+<p><strong><code>return</code>, <code>break</code> and <code>continue</code>.</strong> A function can stop early, and
+so can a loop:</p>
+<div class="pkn-notebook pkn-embedded not-content"><div class="pkn-cell"><pre class="pkn-cell-fallback"><code>def find(xs: [Int], target: Int) -> Option(Int):
+    loop i = 0 for x in xs:
+        if x == target:
+            return Some(i)
+        i + 1
+    None
+
+print(find([4, 5, 6], 5), find([4, 5, 6], 9))</code></pre></div></div>
+</li>
+<li>
+<p><strong>Overloading and implicits.</strong> Two <code>def</code>s may share a name, told apart
+by their argument types. OCaml has neither.</p>
+<div class="pkn-notebook pkn-embedded not-content"><div class="pkn-cell"><pre class="pkn-cell-fallback"><code>def int::twice(x: Int) -> Int: x * 2
+def string::twice(x: String) -> String: x + x
+
+print(twice(21), twice("ab"))</code></pre></div></div>
+</li>
+<li>
+<p><strong>One <code>+</code> for Ints, Floats, Strings and lists</strong>, and one <code>==</code> and
+<code>print</code> for every type that has them. OCaml has <code>+.</code>, <code>^</code>, <code>@</code> and no
+generic printer.</p>
+</li>
+<li>
+<p><strong>Classes are Java-style</strong>, with nominal types, single inheritance and
+explicit <code>override</code>. They are not OCaml’s structural objects.</p>
+</li>
+<li>
+<p><strong>No functors.</strong> Modules are files, with <code>public</code> names.</p>
+</li>
+</ul>
+<h3 id="how-pyking-compiles-to-it-4">How Pyking compiles to it</h3>
+<p>The OCaml target runs Pyking’s type checker and reads the types back,
+so the output has no type annotations: OCaml infers them again.</p>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<table><thead><tr><th>Pyking</th><th>OCaml</th></tr></thead><tbody><tr><td>a binding in a block</td><td><code>let ... in</code>; nothing is renamed</td></tr><tr><td>a top-level binding</td><td><code>let x = ...</code></td></tr><tr><td>a <code>def</code></td><td><code>let</code>, <code>let rec</code> where it recurses, <code>and</code> between functions that call each other</td></tr><tr><td>a <code>def</code> with no parameters</td><td>a function taking <code>()</code></td></tr><tr><td><code>lam x. x + 1</code></td><td><code>fun x -> x + 1</code></td></tr><tr><td><code>var n = 0</code>, <code>n := e</code>, reading <code>n</code></td><td><code>let n = ref 0</code>, <code>n := e</code>, <code>!n</code></td></tr><tr><td>a datatype</td><td>a variant type, its name lowercased</td></tr><tr><td><code>Some</code>, <code>None</code>, <code>Ok</code>, <code>Error</code> of Pyking’s library</td><td><code>Some_</code>, <code>None_</code>, <code>Ok_</code>, <code>Error_</code></td></tr><tr><td><code>match</code></td><td><code>match</code></td></tr><tr><td>a Char <code>'z'</code></td><td>its code point, <code>122</code></td></tr><tr><td><code>==</code>, <code>%</code>, <code>+</code> on Strings</td><td><code>=</code>, <code>mod</code>, <code>^</code></td></tr><tr><td>a <code>for</code> over a list, a <code>loop</code></td><td>a local recursive function</td></tr><tr><td>a list comprehension</td><td><code>List.concat_map</code></td></tr><tr><td>a tail call</td><td>a tail call; OCaml eliminates it</td></tr><tr><td><code>print</code></td><td><code>print_endline</code>, with a printer per type</td></tr></tbody></table>
+<p>The same program as in the other parts:</p>
+<div class="pkn-notebook pkn-embedded not-content"><div class="pkn-cell"><pre class="pkn-cell-fallback"><code>use mutation
+
+datatype Shape:
+    Circle(r: Int)
+    Rect(w: Int, h: Int)
+
+def area(s: Shape) -> Int:
+    match s:
+        case Circle(r): 3 * r * r
+        case Rect(w, h): w * h
+
+var total = 0
+
+def add(s: Shape):
+    total := total + area(s)
+
+for s in [Circle(1), Rect(2, 3)]:
+    add(s)
+print(total, total / 4)</code></pre></div></div>
+<div class="expressive-code"><figure class="frame not-content"><figcaption class="header"></figcaption><pre data-language="ocaml"><code><div class="ec-line"><div class="code"><span style="--0:#C792EA;--1:#8844AE">type</span><span style="--0:#D6DEEB;--1:#403F53"> </span><span style="--0:#82AAFF;--1:#3B61B0">shape</span><span style="--0:#D6DEEB;--1:#403F53"> </span><span style="--0:#C5E478;--1:#3B61B0">=</span></div></div><div class="ec-line"><div class="code"><span class="indent">  </span><span style="--0:#C5E478;--1:#3B61B0">|</span><span style="--0:#D6DEEB;--1:#403F53"> </span><span style="--0:#FAD430;--1:#AA0982">Circle</span><span style="--0:#D6DEEB;--1:#403F53"> </span><span style="--0:#7FDBCA;--1:#8844AE">of</span><span style="--0:#D6DEEB;--1:#403F53"> int</span></div></div><div class="ec-line"><div class="code"><span class="indent">  </span><span style="--0:#C5E478;--1:#3B61B0">|</span><span style="--0:#D6DEEB;--1:#403F53"> </span><span style="--0:#FAD430;--1:#AA0982">Rect</span><span style="--0:#D6DEEB;--1:#403F53"> </span><span style="--0:#7FDBCA;--1:#8844AE">of</span><span style="--0:#D6DEEB;--1:#403F53"> int </span><span style="--0:#5CA7E4;--1:#3A688F">*</span><span style="--0:#D6DEEB;--1:#403F53"> int</span></div></div><div class="ec-line"><div class="code"><span style="--0:#919F9F;--1:#5F636F">(* ... *)</span></div></div><div class="ec-line"><div class="code"><span style="--0:#C792EA;--1:#8844AE">let</span><span style="--0:#D6DEEB;--1:#403F53"> </span><span style="--0:#82AAFF;--1:#3B61B0">area</span><span style="--0:#D6DEEB;--1:#403F53"> </span><span style="--0:#D7DBE0;--1:#403F53">s</span><span style="--0:#D6DEEB;--1:#403F53"> </span><span style="--0:#C5E478;--1:#3B61B0">=</span></div></div><div class="ec-line"><div class="code"><span class="indent">  </span><span style="--0:#C792EA;--1:#8844AE">match</span><span style="--0:#D6DEEB;--1:#403F53"> s </span><span style="--0:#C792EA;--1:#8844AE">with</span></div></div><div class="ec-line"><div class="code"><span class="indent">      </span><span style="--0:#C5E478;--1:#3B61B0">|</span><span style="--0:#D6DEEB;--1:#403F53"> </span><span style="--0:#FAD430;--1:#AA0982">Circle</span><span style="--0:#D6DEEB;--1:#403F53"> </span><span style="--0:#7FDBCA;--1:#8844AE">(</span><span style="--0:#D7DBE0;--1:#403F53">r</span><span style="--0:#7FDBCA;--1:#8844AE">)</span><span style="--0:#D6DEEB;--1:#403F53"> </span><span style="--0:#C5E478;--1:#3B61B0">-></span><span style="--0:#D6DEEB;--1:#403F53"> </span><span style="--0:#F78C6C;--1:#AA0982">3</span><span style="--0:#D6DEEB;--1:#403F53"> </span><span style="--0:#5CA7E4;--1:#3A688F">*</span><span style="--0:#D6DEEB;--1:#403F53"> r </span><span style="--0:#5CA7E4;--1:#3A688F">*</span><span style="--0:#D6DEEB;--1:#403F53"> r</span></div></div><div class="ec-line"><div class="code"><span class="indent">      </span><span style="--0:#C5E478;--1:#3B61B0">|</span><span style="--0:#D6DEEB;--1:#403F53"> </span><span style="--0:#FAD430;--1:#AA0982">Rect</span><span style="--0:#D6DEEB;--1:#403F53"> </span><span style="--0:#7FDBCA;--1:#8844AE">(</span><span style="--0:#D7DBE0;--1:#403F53">w</span><span style="--0:#5CA7E4;--1:#3A688F">,</span><span style="--0:#D6DEEB;--1:#403F53"> </span><span style="--0:#D7DBE0;--1:#403F53">h</span><span style="--0:#7FDBCA;--1:#8844AE">)</span><span style="--0:#D6DEEB;--1:#403F53"> </span><span style="--0:#C5E478;--1:#3B61B0">-></span><span style="--0:#D6DEEB;--1:#403F53"> w </span><span style="--0:#5CA7E4;--1:#3A688F">*</span><span style="--0:#D6DEEB;--1:#403F53"> h</span></div></div><div class="ec-line"><div class="code">
+</div></div><div class="ec-line"><div class="code"><span style="--0:#C792EA;--1:#8844AE">let</span><span style="--0:#D6DEEB;--1:#403F53"> </span><span style="--0:#82AAFF;--1:#3B61B0">total</span><span style="--0:#D6DEEB;--1:#403F53"> </span><span style="--0:#C5E478;--1:#3B61B0">=</span><span style="--0:#D6DEEB;--1:#403F53"> ref </span><span style="--0:#F78C6C;--1:#AA0982">0</span></div></div><div class="ec-line"><div class="code">
+</div></div><div class="ec-line"><div class="code"><span style="--0:#C792EA;--1:#8844AE">let</span><span style="--0:#D6DEEB;--1:#403F53"> </span><span style="--0:#82AAFF;--1:#3B61B0">add</span><span style="--0:#D6DEEB;--1:#403F53"> </span><span style="--0:#D7DBE0;--1:#403F53">s</span><span style="--0:#D6DEEB;--1:#403F53"> </span><span style="--0:#C5E478;--1:#3B61B0">=</span><span style="--0:#D6DEEB;--1:#403F53"> total </span><span style="--0:#5CA7E4;--1:#3A688F">:=</span><span style="--0:#D6DEEB;--1:#403F53"> </span><span style="--0:#5CA7E4;--1:#3A688F">!</span><span style="--0:#D6DEEB;--1:#403F53">total </span><span style="--0:#5CA7E4;--1:#3A688F">+</span><span style="--0:#D6DEEB;--1:#403F53"> area s</span></div></div><div class="ec-line"><div class="code">
+</div></div><div class="ec-line"><div class="code"><span style="--0:#C792EA;--1:#8844AE">let</span><span style="--0:#D6DEEB;--1:#403F53"> </span><span style="--0:#FAD430;--1:#AA0982">()</span><span style="--0:#D6DEEB;--1:#403F53"> </span><span style="--0:#C5E478;--1:#3B61B0">=</span></div></div><div class="ec-line"><div class="code"><span class="indent">  </span><span style="--0:#C792EA;--1:#8844AE">let</span><span style="--0:#D6DEEB;--1:#403F53"> </span><span style="--0:#5CA7E4;--1:#3A688F">rec</span><span style="--0:#D6DEEB;--1:#403F53"> </span><span style="--0:#82AAFF;--1:#3B61B0">tmp1</span><span style="--0:#D6DEEB;--1:#403F53"> </span><span style="--0:#D7DBE0;--1:#403F53">_tmp2</span><span style="--0:#D6DEEB;--1:#403F53"> </span><span style="--0:#D7DBE0;--1:#403F53">tmp4</span><span style="--0:#D6DEEB;--1:#403F53"> </span><span style="--0:#C5E478;--1:#3B61B0">=</span></div></div><div class="ec-line"><div class="code"><span class="indent">    </span><span style="--0:#C792EA;--1:#8844AE">match</span><span style="--0:#D6DEEB;--1:#403F53"> tmp4 </span><span style="--0:#C792EA;--1:#8844AE">with</span></div></div><div class="ec-line"><div class="code"><span class="indent">        </span><span style="--0:#C5E478;--1:#3B61B0">|</span><span style="--0:#D6DEEB;--1:#403F53"> </span><span style="--0:#FAD430;--1:#AA0982">[]</span><span style="--0:#D6DEEB;--1:#403F53"> </span><span style="--0:#C5E478;--1:#3B61B0">-></span><span style="--0:#D6DEEB;--1:#403F53"> </span><span style="--0:#FAD430;--1:#AA0982">()</span></div></div><div class="ec-line"><div class="code"><span class="indent">        </span><span style="--0:#C5E478;--1:#3B61B0">|</span><span style="--0:#D6DEEB;--1:#403F53"> </span><span style="--0:#D7DBE0;--1:#403F53">s</span><span style="--0:#D6DEEB;--1:#403F53"> </span><span style="--0:#5CA7E4;--1:#3A688F">::</span><span style="--0:#D6DEEB;--1:#403F53"> </span><span style="--0:#D7DBE0;--1:#403F53">tmp3</span><span style="--0:#D6DEEB;--1:#403F53"> </span><span style="--0:#C5E478;--1:#3B61B0">-></span><span style="--0:#D6DEEB;--1:#403F53"> </span><span style="--0:#7FDBCA;--1:#8844AE">(</span><span style="--0:#D6DEEB;--1:#403F53">add s</span><span style="--0:#5CA7E4;--1:#3A688F">;</span><span style="--0:#D6DEEB;--1:#403F53"> tmp1 </span><span style="--0:#FAD430;--1:#AA0982">()</span><span style="--0:#D6DEEB;--1:#403F53"> tmp3</span><span style="--0:#7FDBCA;--1:#8844AE">)</span><span style="--0:#D6DEEB;--1:#403F53"> </span><span style="--0:#C792EA;--1:#8844AE">in</span></div></div><div class="ec-line"><div class="code"><span class="indent"><span style="--0:#D6DEEB;--1:#403F53">  </span></span><span style="--0:#D6DEEB;--1:#403F53">tmp1 </span><span style="--0:#FAD430;--1:#AA0982">()</span><span style="--0:#D6DEEB;--1:#403F53"> </span><span style="--0:#FAD430;--1:#AA0982">[Circle</span><span style="--0:#D6DEEB;--1:#403F53"> </span><span style="--0:#F78C6C;--1:#AA0982">1</span><span style="--0:#5CA7E4;--1:#3A688F">;</span><span style="--0:#D6DEEB;--1:#403F53"> </span><span style="--0:#FAD430;--1:#AA0982">Rect</span><span style="--0:#D6DEEB;--1:#403F53"> </span><span style="--0:#7FDBCA;--1:#8844AE">(</span><span style="--0:#F78C6C;--1:#AA0982">2</span><span style="--0:#5CA7E4;--1:#3A688F">,</span><span style="--0:#D6DEEB;--1:#403F53"> </span><span style="--0:#F78C6C;--1:#AA0982">3</span><span style="--0:#7FDBCA;--1:#8844AE">)</span><span style="--0:#FAD430;--1:#AA0982">]</span><span style="--0:#5CA7E4;--1:#3A688F">;</span></div></div><div class="ec-line"><div class="code"><span class="indent"><span style="--0:#D6DEEB;--1:#403F53">  </span></span><span style="--0:#D6DEEB;--1:#403F53">print_endline </span><span style="--0:#7FDBCA;--1:#8844AE">(</span><span style="--0:#D6DEEB;--1:#403F53">string_of_int </span><span style="--0:#5CA7E4;--1:#3A688F">!</span><span style="--0:#D6DEEB;--1:#403F53">total </span><span style="--0:#5CA7E4;--1:#3A688F">^</span><span style="--0:#D6DEEB;--1:#403F53"> </span><span style="--0:#ECC48D;--1:#3B61B0">" "</span><span style="--0:#D6DEEB;--1:#403F53"> </span><span style="--0:#5CA7E4;--1:#3A688F">^</span><span style="--0:#D6DEEB;--1:#403F53"> string_of_int </span><span style="--0:#7FDBCA;--1:#8844AE">(</span><span style="--0:#5CA7E4;--1:#3A688F">!</span><span style="--0:#D6DEEB;--1:#403F53">total </span><span style="--0:#5CA7E4;--1:#3A688F">/</span><span style="--0:#D6DEEB;--1:#403F53"> </span><span style="--0:#F78C6C;--1:#AA0982">4</span><span style="--0:#7FDBCA;--1:#8844AE">))</span></div></div></code></pre><div class="copy"><div aria-live="polite"></div><button title="Copy to clipboard" data-copied="Copied!" data-code="type shape =  | Circle of int  | Rect of int * int(* ... *)let area s =  match s with      | Circle (r) -> 3 * r * r      | Rect (w, h) -> w * hlet total = ref 0let add s = total := !total + area slet () =  let rec tmp1 _tmp2 tmp4 =    match tmp4 with        | [] -> ()        | s :: tmp3 -> (add s; tmp1 () tmp3) in  tmp1 () [Circle 1; Rect (2, 3)];  print_endline (string_of_int !total ^ &#x22; &#x22; ^ string_of_int (!total / 4))"><div></div></button></div></figure></div>
+<h3 id="targets-and-limits-4">Targets and limits</h3>
+<ul>
+<li><strong>What it takes:</strong> everything the type checker accepts, except a few
+shapes OCaml cannot be given. The main ones: a <code>break</code> or <code>continue</code>
+that is neither the last thing in the loop body nor guarding the rest
+of it; printing a value whose type is a type variable; and a generic
+class whose method returns the class at other type arguments. Each is
+refused at compile time with a source position.</li>
+<li><strong>Running it:</strong> <code>ocamlopt foo.ml -o foo &#x26;&#x26; ./foo</code>. The output needs
+only the standard library, and builds with every warning on.</li>
+<li><strong>4.14 or 5.5:</strong> the output is written for both. 4.14 lacks a few
+newer library functions, such as <code>List.take</code>, so the compiler does
+not use them there.</li>
+<li><strong>Where the output differs:</strong> OCaml’s <code>int</code> is 63 bits, so
+<code>2147483647 + 1</code> is <code>2147483648</code>, where Java and C give
+<code>-2147483648</code>. Division by zero raises <code>Division_by_zero</code>.</li>
+</ul></div><footer class="sl-flex astro-ddtxxk7k"><div class="meta sl-flex astro-ddtxxk7k"></div><div class="pagination-links print:hidden astro-b5raizh3" dir="ltr"></div></footer></div></div></main></div></div></div></div></body></html>

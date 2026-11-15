@@ -1,0 +1,334 @@
+<!DOCTYPE html><html lang="en" dir="ltr" data-theme="dark" data-has-sidebar class="astro-g5ptsecz"><head><meta charset="utf-8"/><meta name="viewport" content="width=device-width, initial-scale=1"/><title>Objects | Pyking</title><link rel="canonical" href="https://pyking.org/documentation/language/objects/"/><link rel="sitemap" href="/sitemap-index.xml"/><script src="/v/8e74ca34b133/site/shell.js" data-base data-build="8e74ca34b133" data-sections="[{&quot;key&quot;:&quot;install&quot;,&quot;label&quot;:&quot;Install&quot;,&quot;prefix&quot;:&quot;/install/&quot;},{&quot;key&quot;:&quot;getstarted&quot;,&quot;label&quot;:&quot;Getting started&quot;,&quot;prefix&quot;:&quot;/getstarted/&quot;},{&quot;key&quot;:&quot;documentation&quot;,&quot;label&quot;:&quot;Documentation&quot;,&quot;prefix&quot;:&quot;/documentation/&quot;},{&quot;key&quot;:&quot;libraries&quot;,&quot;label&quot;:&quot;Libraries&quot;,&quot;prefix&quot;:&quot;/libraries/&quot;},{&quot;key&quot;:&quot;playground&quot;,&quot;label&quot;:&quot;Playground&quot;,&quot;prefix&quot;:&quot;/playground/&quot;}]"></script><script type="module" src="/v/8e74ca34b133/site/cells.js"></script><script>try { if (localStorage.getItem('starlight-theme') === null) localStorage.setItem('starlight-theme', 'dark'); } catch (e) {}</script><link rel="shortcut icon" href="/v/8e74ca34b133/site/favicon.svg" type="image/svg+xml"/><meta name="generator" content="Astro v7.3.5"/><meta name="generator" content="Starlight v0.42.5"/><meta property="og:title" content="Objects"/><meta property="og:type" content="article"/><meta property="og:url" content="https://pyking.org/documentation/language/objects/"/><meta property="og:locale" content="en"/><meta property="og:description" content="Classes, abstract classes and interfaces, under use objects, and classes across modules."/><meta property="og:site_name" content="Pyking"/><meta name="twitter:card" content="summary_large_image"/><meta name="description" content="Classes, abstract classes and interfaces, under use objects, and classes across modules."/><script>
+	window.StarlightThemeProvider = (() => {
+		const storedTheme =
+			typeof localStorage !== 'undefined' && localStorage.getItem('starlight-theme');
+		const theme =
+			storedTheme ||
+			(window.matchMedia('(prefers-color-scheme: light)').matches ? 'light' : 'dark');
+		document.documentElement.dataset.theme = theme === 'light' ? 'light' : 'dark';
+		return {
+			updatePickers(theme = storedTheme || 'auto') {
+				document.querySelectorAll('starlight-theme-select').forEach((picker) => {
+					const select = picker.querySelector('select');
+					if (select) select.value = theme;
+					/** @type {HTMLTemplateElement | null} */
+					const tmpl = document.querySelector(`#theme-icons`);
+					const newIcon = tmpl && tmpl.content.querySelector('.' + theme);
+					if (newIcon) {
+						const oldIcon = picker.querySelector('svg.label-icon');
+						if (oldIcon) {
+							oldIcon.replaceChildren(...newIcon.cloneNode(true).childNodes);
+						}
+					}
+				});
+			},
+		};
+	})();
+</script><template id="theme-icons"><svg aria-hidden="true" class="light astro-hkc32dio" width="16" height="16" viewBox="0 0 24 24" fill="currentColor" style="--sl-icon-size: 1em;"><path d="M5 12a1 1 0 0 0-1-1H3a1 1 0 0 0 0 2h1a1 1 0 0 0 1-1Zm.64 5-.71.71a1 1 0 0 0 0 1.41 1 1 0 0 0 1.41 0l.71-.71A1 1 0 0 0 5.64 17ZM12 5a1 1 0 0 0 1-1V3a1 1 0 0 0-2 0v1a1 1 0 0 0 1 1Zm5.66 2.34a1 1 0 0 0 .7-.29l.71-.71a1 1 0 1 0-1.41-1.41l-.66.71a1 1 0 0 0 0 1.41 1 1 0 0 0 .66.29Zm-12-.29a1 1 0 0 0 1.41 0 1 1 0 0 0 0-1.41l-.71-.71a1.004 1.004 0 1 0-1.43 1.41l.73.71ZM21 11h-1a1 1 0 0 0 0 2h1a1 1 0 0 0 0-2Zm-2.64 6A1 1 0 0 0 17 18.36l.71.71a1 1 0 0 0 1.41 0 1 1 0 0 0 0-1.41l-.76-.66ZM12 6.5a5.5 5.5 0 1 0 5.5 5.5A5.51 5.51 0 0 0 12 6.5Zm0 9a3.5 3.5 0 1 1 0-7 3.5 3.5 0 0 1 0 7Zm0 3.5a1 1 0 0 0-1 1v1a1 1 0 0 0 2 0v-1a1 1 0 0 0-1-1Z"/></svg><svg aria-hidden="true" class="dark astro-hkc32dio" width="16" height="16" viewBox="0 0 24 24" fill="currentColor" style="--sl-icon-size: 1em;"><path d="M21.64 13a1 1 0 0 0-1.05-.14 8.049 8.049 0 0 1-3.37.73 8.15 8.15 0 0 1-8.14-8.1 8.59 8.59 0 0 1 .25-2A1 1 0 0 0 8 2.36a10.14 10.14 0 1 0 14 11.69 1 1 0 0 0-.36-1.05Zm-9.5 6.69A8.14 8.14 0 0 1 7.08 5.22v.27a10.15 10.15 0 0 0 10.14 10.14 9.784 9.784 0 0 0 2.1-.22 8.11 8.11 0 0 1-7.18 4.32v-.04Z"/></svg><svg aria-hidden="true" class="auto astro-hkc32dio" width="16" height="16" viewBox="0 0 24 24" fill="currentColor" style="--sl-icon-size: 1em;"><path d="M21 14h-1V7a3 3 0 0 0-3-3H7a3 3 0 0 0-3 3v7H3a1 1 0 0 0-1 1v2a3 3 0 0 0 3 3h14a3 3 0 0 0 3-3v-2a1 1 0 0 0-1-1ZM6 7a1 1 0 0 1 1-1h10a1 1 0 0 1 1 1v7H6V7Zm14 10a1 1 0 0 1-1 1H5a1 1 0 0 1-1-1v-1h16v1Z"/></svg></template><link rel="stylesheet" href="/_astro/print.ehPL0gv-.css" media="print"><link rel="stylesheet" href="/_astro/middleware.DYJDcmyo.css"><script type="module" src="/_astro/page.Dwipeu-R.js"></script></head><body class="astro-g5ptsecz"><a class="sl-skip-link astro-qb7clj6f" href="#_top">Skip to content</a><div class="page sl-flex astro-yntsjkba"><header class="header astro-yntsjkba"><div class="pyking-header"><div class="pyking-header-left"><a href="/" class="site-title sl-flex astro-6rvad3va"><img class="astro-6rvad3va" alt="Pyking" src="/_astro/logo.C9hvHOpV.svg" width="64" height="64"><span class="astro-6rvad3va" translate="no">Pyking</span></a><nav class="pyking-nav" aria-label="Sections"><a href="/install/">Install</a><a href="/getstarted/pyking-in-20-minutes/">Getting started</a><a href="/documentation/language/" aria-current="page">Documentation</a><a href="/libraries/">Libraries</a><a href="/playground/">Playground</a></nav></div><div class="pyking-header-right print:hidden"><site-search class=" astro-b5kgnn7o" data-translations="{&quot;placeholder&quot;:&quot;Search&quot;}"><button data-open-modal disabled aria-label="Search" aria-keyshortcuts="Control+K" class="astro-b5kgnn7o"><svg aria-hidden="true" class="astro-b5kgnn7o astro-hkc32dio" width="16" height="16" viewBox="0 0 24 24" fill="currentColor" style="--sl-icon-size: 1em;"><path d="M21.71 20.29 18 16.61A9 9 0 1 0 16.61 18l3.68 3.68a.999.999 0 0 0 1.42 0 1 1 0 0 0 0-1.39ZM11 18a7 7 0 1 1 0-14 7 7 0 0 1 0 14Z"/></svg><span class="sl-hidden md:sl-block astro-b5kgnn7o" aria-hidden="true">Search</span><kbd class="sl-hidden md:sl-flex astro-b5kgnn7o" style="display: none;"><kbd class="astro-b5kgnn7o">Ctrl</kbd><kbd class="astro-b5kgnn7o">K</kbd></kbd></button><dialog style="padding:0" aria-label="Search" class="astro-b5kgnn7o"><div class="dialog-frame sl-flex astro-b5kgnn7o"><button data-close-modal class="sl-flex md:sl-hidden astro-b5kgnn7o">Cancel</button><div class="search-container astro-b5kgnn7o"><div id="starlight__search" class="astro-b5kgnn7o"></div></div></div></dialog></site-search><script>
+	(() => {
+		const openBtn = document.querySelector('button[data-open-modal]');
+		const shortcut = openBtn?.querySelector('kbd');
+		if (!openBtn || !(shortcut instanceof HTMLElement)) return;
+		const platformKey = shortcut.querySelector('kbd');
+		if (platformKey && /(Mac|iPhone|iPod|iPad)/i.test(navigator.platform)) {
+			platformKey.textContent = '⌘';
+			openBtn.setAttribute('aria-keyshortcuts', 'Meta+K');
+		}
+		shortcut.style.display = '';
+	})();
+</script><script type="module" src="/_astro/Search.astro_astro_type_script_index_0_lang.Bumivpjo.js"></script><div class="sl-hidden md:sl-flex"><starlight-theme-select><label style="--sl-select-width: 6.25em" class="astro-2z5xp7gb"><span class="sr-only astro-2z5xp7gb">Select theme</span><svg aria-hidden="true" class="icon label-icon astro-2z5xp7gb astro-hkc32dio" width="16" height="16" viewBox="0 0 24 24" fill="currentColor" style="--sl-icon-size: 1em;"><path d="M21 14h-1V7a3 3 0 0 0-3-3H7a3 3 0 0 0-3 3v7H3a1 1 0 0 0-1 1v2a3 3 0 0 0 3 3h14a3 3 0 0 0 3-3v-2a1 1 0 0 0-1-1ZM6 7a1 1 0 0 1 1-1h10a1 1 0 0 1 1 1v7H6V7Zm14 10a1 1 0 0 1-1 1H5a1 1 0 0 1-1-1v-1h16v1Z"/></svg><select autocomplete="off" class="astro-2z5xp7gb"><option value="dark" class="astro-2z5xp7gb">Dark</option><option value="light" class="astro-2z5xp7gb">Light</option><option value="auto" selected class="astro-2z5xp7gb">Auto</option></select><svg aria-hidden="true" class="icon caret astro-2z5xp7gb astro-hkc32dio" width="16" height="16" viewBox="0 0 24 24" fill="currentColor" style="--sl-icon-size: 1em;"><path d="M17 9.17a1 1 0 0 0-1.41 0L12 12.71 8.46 9.17a1 1 0 1 0-1.41 1.42l4.24 4.24a1.002 1.002 0 0 0 1.42 0L17 10.59a1.002 1.002 0 0 0 0-1.42Z"/></svg></label></starlight-theme-select><script>
+	StarlightThemeProvider.updatePickers();
+</script><script type="module">var e=`starlight-theme`,t=e=>e===`auto`||e===`dark`||e===`light`?e:`auto`,n=()=>t(typeof localStorage<`u`&&localStorage.getItem(e));function r(t){typeof localStorage<`u`&&localStorage.setItem(e,t===`light`||t===`dark`?t:``)}var i=()=>matchMedia(`(prefers-color-scheme: light)`).matches?`light`:`dark`;function a(e){StarlightThemeProvider.updatePickers(e),document.documentElement.dataset.theme=e===`auto`?i():e,r(e)}matchMedia(`(prefers-color-scheme: light)`).addEventListener(`change`,()=>{n()===`auto`&&a(`auto`)});var o=class extends HTMLElement{constructor(){super(),a(n()),this.querySelector(`select`)?.addEventListener(`change`,e=>{e.currentTarget instanceof HTMLSelectElement&&a(t(e.currentTarget.value))})}};customElements.define(`starlight-theme-select`,o);</script></div><a class="pyking-github" href="https://github.com/pyking-lang" title="Pyking on GitHub"><span class="sr-only">GitHub</span><svg aria-hidden="true" viewBox="0 0 24 24" width="22" height="22" fill="currentColor"><path d="M12 .3a12 12 0 0 0-3.8 23.4c.6.1.8-.3.8-.6v-2c-3.3.7-4-1.6-4-1.6-.6-1.4-1.4-1.8-1.4-1.8-1-.7.1-.7.1-.7 1.2.1 1.8 1.2 1.8 1.2 1 1.8 2.8 1.3 3.5 1 0-.8.4-1.3.7-1.6-2.7-.3-5.5-1.3-5.5-6 0-1.2.5-2.3 1.3-3.1-.2-.4-.6-1.6 0-3.2 0 0 1-.3 3.4 1.2a11.5 11.5 0 0 1 6 0c2.3-1.5 3.3-1.2 3.3-1.2.6 1.6.2 2.8.1 3.2.8.8 1.3 1.9 1.3 3.1 0 4.6-2.8 5.6-5.5 5.9.5.4.9 1.1.9 2.2v3.3c0 .3.1.7.8.6A12 12 0 0 0 12 .3"></path></svg></a></div></div></header><nav class="sidebar print:hidden astro-yntsjkba" aria-label="Main"><button popovertarget="starlight__sidebar" class="sl-menu-button sl-flex md:sl-hidden print:hidden astro-r2osgdlg"><svg aria-hidden="true" class="open-menu astro-r2osgdlg astro-hkc32dio" width="16" height="16" viewBox="0 0 24 24" fill="currentColor" style="--sl-icon-size: 1em;"><path d="M3 8h18a1 1 0 1 0 0-2H3a1 1 0 0 0 0 2Zm18 8H3a1 1 0 0 0 0 2h18a1 1 0 0 0 0-2Zm0-5H3a1 1 0 0 0 0 2h18a1 1 0 0 0 0-2Z"/></svg><svg aria-hidden="true" class="close-menu astro-r2osgdlg astro-hkc32dio" width="16" height="16" viewBox="0 0 24 24" fill="currentColor" style="--sl-icon-size: 1em;"><path d="m13.41 12 6.3-6.29a1.004 1.004 0 1 0-1.42-1.42L12 10.59l-6.29-6.3a1.004 1.004 0 0 0-1.42 1.42l6.3 6.29-6.3 6.29a1 1 0 0 0 0 1.42.998.998 0 0 0 1.42 0l6.29-6.3 6.29 6.3a.999.999 0 0 0 1.42 0 1 1 0 0 0 0-1.42L13.41 12Z"/></svg><span class="sr-only astro-r2osgdlg">Menu</span></button><script type="module">var e=class extends HTMLElement{constructor(){super();let e=matchMedia(`(min-width: 50em)`),t=()=>{this.popover=e.matches?null:`auto`};t(),e.addEventListener(`change`,()=>t()),this.addEventListener(`toggle`,({newState:e})=>this.trapFocus(e===`open`))}trapFocus(e){document.querySelectorAll(`.main-frame, .sl-skip-link`).forEach(t=>{t.toggleAttribute(`inert`,e)})}};customElements.define(`sl-sidebar-pane`,e);</script><script type="module">var e=class extends HTMLElement{constructor(){super();let e=this.querySelector(`select`);e&&(e.addEventListener(`change`,e=>{e.currentTarget instanceof HTMLSelectElement&&(window.location.pathname=e.currentTarget.value)}),window.addEventListener(`pageshow`,t=>{if(!t.persisted)return;let n=e.querySelector(`option[selected]`)?.index;n!==e.selectedIndex&&(e.selectedIndex=n??0)}))}};customElements.define(`starlight-lang-select`,e);</script><sl-sidebar-pane popover id="starlight__sidebar" class="sidebar-pane astro-yntsjkba"><div class="sidebar-content sl-flex astro-yntsjkba"><nav class="pyking-sidebar" aria-label="Documentation"><p class="pyking-sidebar-title">Documentation</p><ul class="pyking-sidebar-main"><li><a href="/documentation/editors/">Editors</a></li><li><a href="/documentation/playground/">Playground</a></li><li><a href="/documentation/notebook/">Notebook</a></li><li><a href="/documentation/command-line/">Command line</a></li><li><a href="/documentation/repl/">REPL</a></li><li><a href="/documentation/targets/">Compiler targets</a></li><li><a href="/documentation/slides/">Code on slides</a></li><li class="pyking-sidebar-parent pyking-sidebar-open"><a href="/documentation/language/">Language reference</a><ul class="pyking-sidebar-sub"><li><a href="/documentation/language/programs-and-use/">Programs, modes and use</a></li><li><a href="/documentation/language/values/">Values and basic types</a></li><li><a href="/documentation/language/expressions/">Operators and expressions</a></li><li><a href="/documentation/language/names-and-scope/">Names, bindings and scope</a></li><li><a href="/documentation/language/mutable-state/">Mutable state</a></li><li><a href="/documentation/language/functions/">Functions</a></li><li><a href="/documentation/language/control-flow/">Control flow</a></li><li><a href="/documentation/language/collections/">Collections</a></li><li><a href="/documentation/language/datatypes/">Datatypes, structs and pattern matching</a></li><li><a href="/documentation/language/objects/" aria-current="page">Objects</a></li><li><a href="/documentation/language/types/">Types and type inference</a></li><li><a href="/documentation/language/overloading-and-implicits/">Overloading and implicits</a></li><li><a href="/documentation/language/modules/">Modules</a></li><li><a href="/documentation/language/builtins/">Builtins and I/O</a></li><li><a href="/documentation/language/warnings/">Warnings</a></li></ul></li><li><a href="/documentation/vs-other-languages/">Pyking vs. other languages</a></li><li><a href="/documentation/grammar/">Grammar</a></li><li class="pyking-sidebar-parent"><a href="/documentation/tinyweb/">Tinyweb without Pyking</a></li><li><a href="/documentation/tinyweb-styles/">Styling tinyweb</a></li></ul></nav><div class="md:sl-hidden"><div class="mobile-preferences sl-flex astro-p4azlveh"><div class="social-icons astro-p4azlveh"></div><starlight-theme-select><label style="--sl-select-width: 6.25em" class="astro-2z5xp7gb"><span class="sr-only astro-2z5xp7gb">Select theme</span><svg aria-hidden="true" class="icon label-icon astro-2z5xp7gb astro-hkc32dio" width="16" height="16" viewBox="0 0 24 24" fill="currentColor" style="--sl-icon-size: 1em;"><path d="M21 14h-1V7a3 3 0 0 0-3-3H7a3 3 0 0 0-3 3v7H3a1 1 0 0 0-1 1v2a3 3 0 0 0 3 3h14a3 3 0 0 0 3-3v-2a1 1 0 0 0-1-1ZM6 7a1 1 0 0 1 1-1h10a1 1 0 0 1 1 1v7H6V7Zm14 10a1 1 0 0 1-1 1H5a1 1 0 0 1-1-1v-1h16v1Z"/></svg><select autocomplete="off" class="astro-2z5xp7gb"><option value="dark" class="astro-2z5xp7gb">Dark</option><option value="light" class="astro-2z5xp7gb">Light</option><option value="auto" selected class="astro-2z5xp7gb">Auto</option></select><svg aria-hidden="true" class="icon caret astro-2z5xp7gb astro-hkc32dio" width="16" height="16" viewBox="0 0 24 24" fill="currentColor" style="--sl-icon-size: 1em;"><path d="M17 9.17a1 1 0 0 0-1.41 0L12 12.71 8.46 9.17a1 1 0 1 0-1.41 1.42l4.24 4.24a1.002 1.002 0 0 0 1.42 0L17 10.59a1.002 1.002 0 0 0 0-1.42Z"/></svg></label></starlight-theme-select><script>
+	StarlightThemeProvider.updatePickers();
+</script></div></div></div></sl-sidebar-pane></nav><div class="main-frame astro-yntsjkba"><script type="module">var e=document.getElementById(`starlight__sidebar`),t=e?.querySelector(`sl-sidebar-state-persist`),n=`sl-sidebar-state`,r=()=>{let r=[],i=t?.dataset.hash||``;try{let e=sessionStorage.getItem(n),t=JSON.parse(e||`{}`);Array.isArray(t.open)&&t.hash===i&&(r=t.open)}catch{}return{hash:i,open:r,scroll:e?.scrollTop||0}},i=e=>{try{sessionStorage.setItem(n,JSON.stringify(e))}catch{}},a=()=>i(r()),o=(e,t)=>{let n=r();n.open[t]=e,i(n)};t?.addEventListener(`click`,e=>{if(!(e.target instanceof Element))return;let t=e.target.closest(`summary`)?.closest(`details`);if(!t)return;let n=t.querySelector(`sl-sidebar-restore`),r=parseInt(n?.dataset.index||``);isNaN(r)||o(!t.open,r)}),addEventListener(`visibilitychange`,()=>{document.visibilityState===`hidden`&&a()});</script><div class="lg:sl-flex astro-lrzkfocr"><div class="main-pane astro-lrzkfocr"><main data-pagefind-body class="astro-g5ptsecz" lang="en" dir="ltr"><div class="content-panel astro-a7po4psb"><div class="sl-container astro-a7po4psb"><h1 id="_top" class="astro-bebwqqxs">Objects</h1></div></div><div class="content-panel astro-a7po4psb"><div class="sl-container astro-a7po4psb"><div class="sl-markdown-content"><blockquote>
+<p><strong>Available:</strong> with <code>use objects</code> · <strong>Compared with Python:</strong> differs —
+Java’s semantics (single inheritance, interfaces, dynamic dispatch) in
+Python’s spelling</p>
+</blockquote>
+<h2 id="classes-and-interfaces--pyking-extension">Classes and interfaces — Pyking extension</h2>
+<p>Under <code>use objects</code>, a module declares <strong>classes</strong>, <strong>abstract classes</strong>
+and <strong>interfaces</strong>. They follow Java’s semantics — objects are shared,
+a class extends one parent and implements any number of interfaces,
+dispatch is dynamic — in Python’s spelling, with <code>self</code> written. The
+design, with the choices it made and the ones it did not, is
+<code>design/plan-objects.md</code>.</p>
+<div class="pkn-notebook pkn-embedded not-content"><div class="pkn-cell"><pre class="pkn-cell-fallback"><code>use objects
+
+interface Shape:
+    def area(self) -> Float
+    def name(self) -> String
+    def describe(self) -> String:
+        self.name() + " of area " + string(self.area())
+
+class Rect(width: Float, height: Float) implements Shape:
+    override def area(self) -> Float:
+        self.width * self.height
+    override def name(self) -> String:
+        "rectangle"
+
+class Square(side: Float) extends Rect(side, side):
+    override def name(self) -> String:
+        "square"
+
+shapes: [Shape] = [Rect(2.0, 3.0), Square(2.0)]
+for s in shapes:
+    print(s.describe())
+print(Square(2.0))</code></pre></div></div>
+<p>prints <code>rectangle of area 6.0</code>, <code>square of area 4.0</code> and <code>Square(2.0)</code>.</p>
+<p><strong>The gate.</strong> Declaring a class or an interface needs <code>use objects</code>; a
+module without it may still make objects of another module’s classes,
+call their methods and match them. A <code>var</code> field needs <code>use mutation</code> in
+the module declaring it, and writing one (<code>o.f := v</code>) in the module
+writing it.</p>
+<p><strong>Fields and the constructor.</strong> A class’s header lists its fields, as a
+struct’s does, and they are its constructor’s parameters, with defaults
+and named arguments: <code>Account("ada", limit = 100.0)</code>. Every field says
+its type, unless a literal default says it. Fields declared in the body,
+<code>name: T = value</code> or <code>var name: T = value</code>, are set up from that value,
+which may use the header’s parameters by name — not <code>self</code>, so nothing
+calls a method on a half-made object. An object is set up in a fixed
+order: its parent’s part first, then its own header fields, then its
+body fields in the order written. A class with nothing to declare under
+its header has no <code>:</code>: <code>class Tag(name: String)</code>. A field never shares a
+name with a method, nor with a field of a class above it. A constructor
+is not a value: <code>Tag</code> alone is <code>Tag()</code> where every field has a default,
+and is refused otherwise.</p>
+<p><strong>Methods.</strong> A method is a <code>def</code> in the class body whose first parameter
+is <code>self</code>, written without a type; every other parameter says its type,
+and its result is written after <code>-></code>, or is <code>()</code> where nothing is
+written. A method reaches its object’s fields and methods only through
+<code>self</code> (<code>self.width</code>, <code>self.area()</code>). It is called with <code>obj.m(args)</code>,
+named and default arguments as for any <code>def</code>; defaults are written where
+a method is first declared, never on an override. <code>obj.m</code> without a call
+is a function closed over the object, worked out once. A body ending in
+a value it does not return is fine in a method answering <code>()</code>.
+No member is named as Python names its special ones, <code>__del__</code> or
+<code>__init__</code>: Python would give such a method or field a meaning of its
+own there alone (<code>__del__</code> would run when the object is collected), so
+the name is refused, with <code>eq</code> or <code>show</code> named where one of those is
+what was meant. A struct’s or a datatype’s field is refused such a name
+too.</p>
+<p><strong>Objects are references.</strong> Every object is shared by each name, element
+and field holding it, as in Java and Python; <code>same(a, b)</code> asks whether
+two names hold one object. An object with no <code>var</code> field never changes. <code>copy(o)</code> and <code>deepcopy(o)</code> make a new object of the class <code>o</code> is (see
+“Copying”).</p>
+<p><strong>Equality and printing.</strong> <code>a == b</code> and <code>a != b</code> call the class’s <code>eq</code>,
+written <code>def eq(self, other: C) -> Bool</code>, and are refused where it has
+none — <code>same</code> is the identity test. An object prints as its class’s
+name and its header’s fields, <code>Square(2.0)</code>, or as its <code>show</code> says,
+written <code>def show(self) -> String</code>: in <code>print</code> and <code>string</code>, inside a
+printed list included. A header field written <code>private</code> prints as <code>_</code>:
+<code>Account("ada", _)</code>. The REPL’s echo of a value and the debugger’s
+Variables view show the header form, every field in it, since neither
+runs a method to show one and both are for looking inside. Objects have
+no order: <code>&#x3C;</code> is refused.</p>
+<p><strong><code>private</code>.</strong> A field or method written <code>private</code> is reached only from
+the methods of the class declaring it, on any object of that class —
+read, written, matched by a pattern, or given to the constructor;
+classes below it do not see it, and none of them may declare a member of
+its name. A header field written <code>private</code> is a parameter of the
+constructor only the class’s own methods give: everywhere else — other
+functions, other modules, a class below it and its <code>extends</code> — it takes
+its default, so it has one, and it comes after the header’s other
+fields. That is how a class keeps a promise about what it holds: every
+object is made by its own methods.</p>
+<div class="pkn-notebook pkn-embedded not-content"><div class="pkn-cell"><pre class="pkn-cell-fallback"><code>use objects
+
+# Every group is made empty, `Group()`, and grows by `add`, so no name
+# is in one twice.
+class Group(private names: [String] = []):
+    def add(self, name: String) -> Group:
+        if any(lam n. n == name, self.names) then self else Group(self.names + [name])
+    def size(self) -> Int:
+        len(self.names)
+
+g = Group().add("ada").add("bo").add("ada")
+print(g.size(), g)    # 2 Group(_)</code></pre></div></div>
+<p>Outside its methods, giving it is refused, by position or by name:</p>
+<div class="pkn-notebook pkn-embedded not-content"><div class="pkn-cell" data-error=""><pre class="pkn-cell-fallback"><code>use objects
+
+class Group(private names: [String] = [])
+
+forged = Group(["ada", "ada"])</code></pre></div></div>
+<p>A named argument that is the parameter’s own default — the literal its
+header writes — chooses nothing, and is not refused; that is how the
+program <code>pyk compile -t pyking</code> prints writes every construction.</p>
+<p><strong>Interfaces.</strong> An interface declares method signatures and, where it
+gives one, a default body; it has no fields, may <code>extends</code> other
+interfaces and may have type parameters (<code>interface Source(a):</code>, which a
+class implements as <code>implements Source(Int)</code>). An interface is a type —
+a parameter, an element, a field — and is never made.</p>
+<p><strong>Inheritance.</strong> <code>extends P(args)</code> names one parent class and what its
+constructor is given; the arguments may use the header’s parameters. A
+header parameter with the name and type of an inherited field only
+passes it on, so <code>extends</code> gives it to the parent as it is, in the place
+of that field: <code>class B(m: Int, n: Int) extends A(n)</code>. Written anywhere
+else — <code>extends A(5)</code>, <code>extends A(n + 1)</code> — the value given for it
+would be dropped, and it is refused. A method replacing one a class or interface above has is
+written <code>override def</code>, with the same parameters, by name and type, and
+the same result; <code>override</code> where nothing is replaced is refused, and so
+is replacing without it. <code>super.m(args)</code> calls the body the class
+inherited: its parent chain’s first, then an interface’s default. A class
+inheriting defaults of one name from two interfaces overrides it.</p>
+<p><strong>Abstract classes.</strong> An <code>abstract class</code> may declare <code>abstract def</code>s,
+which have no body, and is never made; a class that can be made gives
+every method a body, its own or one it inherits.</p>
+<p><strong>Where an object is seen as a supertype.</strong> A <code>Square</code> stands where a
+<code>Shape</code> is written — an annotated binding, a declared parameter or
+result, a field, a <code>var</code> of a declared type — and inside a list, a
+tuple, an <code>if</code> or a datatype’s constructor written there, each part on
+its own: a function declared to return <code>Result(Shape, String)</code> may end
+in <code>Ok(Square(2.0))</code>, or <code>return</code> it. Nowhere else is a type guessed: <code>[Rect(1.0, 1.0), Circle(1.0)]</code> with nothing written is refused,
+with where to write the type. Lists do not take subtypes: a <code>[Square]</code>
+is not a <code>[Shape]</code>.</p>
+<p><strong>A method call needs the class.</strong> <code>x.m()</code> and <code>x.f</code> are checked where
+the type of <code>x</code> is known there; a parameter with no type a body calls a
+method on is refused with “annotate it”, as a struct’s field is.</p>
+<p><strong>Class patterns.</strong> <code>case Square(side):</code> matches an object of that class
+or one below it, its header’s fields matched as a struct’s are, with <code>_</code>
+for a <code>private</code> one outside the methods of the class declaring it; <code>case c: Circle:</code> binds the object at its class or interface. A <code>match</code> on an
+interface or a class others extend needs a <code>case _</code> (or a case for the
+type itself), since there may be other classes:</p>
+<div class="pkn-notebook pkn-embedded not-content"><div class="pkn-cell"><pre class="pkn-cell-fallback"><code>use objects
+
+interface Pet:
+    def name(self) -> String
+
+class Dog(called: String, age: Int) implements Pet:
+    override def name(self) -> String:
+        self.called
+
+class Cat(called: String) implements Pet:
+    override def name(self) -> String:
+        self.called
+
+def describe(p: Pet) -> String:
+    match p:
+        case Dog(n, age) if age > 10:
+            "an old dog, " + n
+        case c: Cat:
+            "a cat called " + c.name()
+        case _:
+            p.name()
+
+print(describe(Dog("Rex", 12)))   # an old dog, Rex
+print(describe(Dog("Fido", 3)))   # Fido
+print(describe(Cat("Tom")))       # a cat called Tom</code></pre></div></div>
+<p><strong>Targets.</strong> Every target compiles them, each in its own idiom:</p>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<table><thead><tr><th>Target</th><th>A class is</th></tr></thead><tbody><tr><td>Python</td><td>a class (an <code>abc.ABC</code> for an interface or abstract class), its methods defs named for it at the top level and given as attributes</td></tr><tr><td>JavaScript, web</td><td>an ES class, an interface’s defaults copied into the classes without them</td></tr><tr><td>Java</td><td>a nested class, an interface a Java interface with <code>default</code> methods</td></tr><tr><td>OCaml</td><td>a class type, objects immediate objects built by a function, each method a function taking <code>self</code></td></tr><tr><td>C</td><td>a struct starting with its class descriptor, a method table per class, one slot per method name of the program</td></tr><tr><td>interpreter</td><td>a value with its class’s name and fields; methods kept by name</td></tr></tbody></table>
+<p>A generic class is not compiled to C, which would need one copy of it per
+type, and OCaml cannot write a generic class whose method gives the class
+at other type arguments than its own (<code>swap</code> answering <code>Pair(b, a)</code>):
+both are refused with a message saying so.</p>
+<h2 id="classes-across-modules--pyking-extension">Classes across modules — Pyking extension</h2>
+<p><code>public class</code>, <code>public abstract class</code> and <code>public interface</code> export a
+class or an interface. Another module may then use it, implement it and
+extend it, as the module declaring it does:</p>
+<div class="expressive-code"><link rel="stylesheet" href="/_astro/ec.w36nc.css"><script type="module" src="/_astro/ec.0vx5m.js"></script><figure class="frame has-title not-content"><figcaption class="header"><span class="title">shapes.pyk</span></figcaption><pre data-language="pyking"><code><div class="ec-line"><div class="code"><span style="--0:#C792EA;--1:#8844AE">use</span><span style="--0:#D6DEEB;--1:#403F53"> objects, mutation</span></div></div><div class="ec-line"><div class="code">
+</div></div><div class="ec-line"><div class="code"><span style="--0:#C792EA;--1:#8844AE">public</span><span style="--0:#D6DEEB;--1:#403F53"> </span><span style="--0:#C792EA;--1:#8844AE">interface</span><span style="--0:#D6DEEB;--1:#403F53"> Shape:</span></div></div><div class="ec-line"><div class="code"><span class="indent">    </span><span style="--0:#C792EA;--1:#8844AE">def</span><span style="--0:#D6DEEB;--1:#403F53"> </span><span style="--0:#82AAFF;--1:#3B61B0">area</span><span style="--0:#D6DEEB;--1:#403F53">(</span><span style="--0:#C792EA;--1:#8844AE">self</span><span style="--0:#D6DEEB;--1:#403F53">) </span><span style="--0:#7FDBCA;--1:#096E72">-></span><span style="--0:#D6DEEB;--1:#403F53"> </span><span style="--0:#C792EA;--1:#8844AE">Int</span></div></div><div class="ec-line"><div class="code"><span class="indent">    </span><span style="--0:#C792EA;--1:#8844AE">def</span><span style="--0:#D6DEEB;--1:#403F53"> </span><span style="--0:#82AAFF;--1:#3B61B0">name</span><span style="--0:#D6DEEB;--1:#403F53">(</span><span style="--0:#C792EA;--1:#8844AE">self</span><span style="--0:#D6DEEB;--1:#403F53">) </span><span style="--0:#7FDBCA;--1:#096E72">-></span><span style="--0:#D6DEEB;--1:#403F53"> </span><span style="--0:#C792EA;--1:#8844AE">String</span></div></div><div class="ec-line"><div class="code"><span class="indent">    </span><span style="--0:#C792EA;--1:#8844AE">def</span><span style="--0:#D6DEEB;--1:#403F53"> </span><span style="--0:#82AAFF;--1:#3B61B0">describe</span><span style="--0:#D6DEEB;--1:#403F53">(</span><span style="--0:#C792EA;--1:#8844AE">self</span><span style="--0:#D6DEEB;--1:#403F53">) </span><span style="--0:#7FDBCA;--1:#096E72">-></span><span style="--0:#D6DEEB;--1:#403F53"> </span><span style="--0:#C792EA;--1:#8844AE">String</span><span style="--0:#D6DEEB;--1:#403F53">:</span></div></div><div class="ec-line"><div class="code"><span class="indent">        </span><span style="--0:#C792EA;--1:#8844AE">self</span><span style="--0:#D6DEEB;--1:#403F53">.name() </span><span style="--0:#7FDBCA;--1:#096E72">+</span><span style="--0:#D6DEEB;--1:#403F53"> </span><span style="--0:#ECC48D;--1:#984E4D">" of area "</span><span style="--0:#D6DEEB;--1:#403F53"> </span><span style="--0:#7FDBCA;--1:#096E72">+</span><span style="--0:#D6DEEB;--1:#403F53"> </span><span style="--0:#C5E478;--1:#3B61B0">string</span><span style="--0:#D6DEEB;--1:#403F53">(</span><span style="--0:#C792EA;--1:#8844AE">self</span><span style="--0:#D6DEEB;--1:#403F53">.area())</span></div></div><div class="ec-line"><div class="code">
+</div></div><div class="ec-line"><div class="code"><span style="--0:#C792EA;--1:#8844AE">public</span><span style="--0:#D6DEEB;--1:#403F53"> </span><span style="--0:#C792EA;--1:#8844AE">class</span><span style="--0:#D6DEEB;--1:#403F53"> Rect(width: </span><span style="--0:#C792EA;--1:#8844AE">Int</span><span style="--0:#D6DEEB;--1:#403F53">, height: </span><span style="--0:#C792EA;--1:#8844AE">Int</span><span style="--0:#D6DEEB;--1:#403F53"> </span><span style="--0:#7FDBCA;--1:#096E72">=</span><span style="--0:#D6DEEB;--1:#403F53"> </span><span style="--0:#F78C6C;--1:#AA0982">1</span><span style="--0:#D6DEEB;--1:#403F53">) </span><span style="--0:#C792EA;--1:#8844AE">implements</span><span style="--0:#D6DEEB;--1:#403F53"> Shape:</span></div></div><div class="ec-line"><div class="code"><span class="indent">    </span><span style="--0:#C792EA;--1:#8844AE">private</span><span style="--0:#D6DEEB;--1:#403F53"> </span><span style="--0:#C792EA;--1:#8844AE">var</span><span style="--0:#D6DEEB;--1:#403F53"> moves: </span><span style="--0:#C792EA;--1:#8844AE">Int</span><span style="--0:#D6DEEB;--1:#403F53"> </span><span style="--0:#7FDBCA;--1:#096E72">=</span><span style="--0:#D6DEEB;--1:#403F53"> </span><span style="--0:#F78C6C;--1:#AA0982">0</span></div></div><div class="ec-line"><div class="code"><span class="indent">    </span><span style="--0:#C792EA;--1:#8844AE">override</span><span style="--0:#D6DEEB;--1:#403F53"> </span><span style="--0:#C792EA;--1:#8844AE">def</span><span style="--0:#D6DEEB;--1:#403F53"> </span><span style="--0:#82AAFF;--1:#3B61B0">area</span><span style="--0:#D6DEEB;--1:#403F53">(</span><span style="--0:#C792EA;--1:#8844AE">self</span><span style="--0:#D6DEEB;--1:#403F53">) </span><span style="--0:#7FDBCA;--1:#096E72">-></span><span style="--0:#D6DEEB;--1:#403F53"> </span><span style="--0:#C792EA;--1:#8844AE">Int</span><span style="--0:#D6DEEB;--1:#403F53">:</span></div></div><div class="ec-line"><div class="code"><span class="indent">        </span><span style="--0:#C792EA;--1:#8844AE">self</span><span style="--0:#D6DEEB;--1:#403F53">.width </span><span style="--0:#7FDBCA;--1:#096E72">*</span><span style="--0:#D6DEEB;--1:#403F53"> </span><span style="--0:#C792EA;--1:#8844AE">self</span><span style="--0:#D6DEEB;--1:#403F53">.height</span></div></div><div class="ec-line"><div class="code"><span class="indent">    </span><span style="--0:#C792EA;--1:#8844AE">override</span><span style="--0:#D6DEEB;--1:#403F53"> </span><span style="--0:#C792EA;--1:#8844AE">def</span><span style="--0:#D6DEEB;--1:#403F53"> </span><span style="--0:#82AAFF;--1:#3B61B0">name</span><span style="--0:#D6DEEB;--1:#403F53">(</span><span style="--0:#C792EA;--1:#8844AE">self</span><span style="--0:#D6DEEB;--1:#403F53">) </span><span style="--0:#7FDBCA;--1:#096E72">-></span><span style="--0:#D6DEEB;--1:#403F53"> </span><span style="--0:#C792EA;--1:#8844AE">String</span><span style="--0:#D6DEEB;--1:#403F53">:</span></div></div><div class="ec-line"><div class="code"><span class="indent">        </span><span style="--0:#ECC48D;--1:#984E4D">"rectangle"</span></div></div><div class="ec-line"><div class="code"><span class="indent">    </span><span style="--0:#C792EA;--1:#8844AE">def</span><span style="--0:#D6DEEB;--1:#403F53"> </span><span style="--0:#82AAFF;--1:#3B61B0">grow</span><span style="--0:#D6DEEB;--1:#403F53">(</span><span style="--0:#C792EA;--1:#8844AE">self</span><span style="--0:#D6DEEB;--1:#403F53">, by: </span><span style="--0:#C792EA;--1:#8844AE">Int</span><span style="--0:#D6DEEB;--1:#403F53"> </span><span style="--0:#7FDBCA;--1:#096E72">=</span><span style="--0:#D6DEEB;--1:#403F53"> </span><span style="--0:#F78C6C;--1:#AA0982">2</span><span style="--0:#D6DEEB;--1:#403F53">) </span><span style="--0:#7FDBCA;--1:#096E72">-></span><span style="--0:#D6DEEB;--1:#403F53"> ():</span></div></div><div class="ec-line"><div class="code"><span class="indent">        </span><span style="--0:#C792EA;--1:#8844AE">self</span><span style="--0:#D6DEEB;--1:#403F53">.moves </span><span style="--0:#7FDBCA;--1:#096E72">:=</span><span style="--0:#D6DEEB;--1:#403F53"> </span><span style="--0:#C792EA;--1:#8844AE">self</span><span style="--0:#D6DEEB;--1:#403F53">.moves </span><span style="--0:#7FDBCA;--1:#096E72">+</span><span style="--0:#D6DEEB;--1:#403F53"> by</span></div></div></code></pre><div class="copy"><div aria-live="polite"></div><button title="Copy to clipboard" data-copied="Copied!" data-code="use objects, mutationpublic interface Shape:    def area(self) -> Int    def name(self) -> String    def describe(self) -> String:        self.name() + &#x22; of area &#x22; + string(self.area())public class Rect(width: Int, height: Int = 1) implements Shape:    private var moves: Int = 0    override def area(self) -> Int:        self.width * self.height    override def name(self) -> String:        &#x22;rectangle&#x22;    def grow(self, by: Int = 2) -> ():        self.moves := self.moves + by"><div></div></button></div></figure></div>
+<div class="expressive-code"><figure class="frame has-title not-content"><figcaption class="header"><span class="title">main.pyk</span></figcaption><pre data-language="pyking"><code><div class="ec-line"><div class="code"><span style="--0:#C792EA;--1:#8844AE">use</span><span style="--0:#D6DEEB;--1:#403F53"> objects</span></div></div><div class="ec-line"><div class="code"><span style="--0:#C792EA;--1:#8844AE">import</span><span style="--0:#D6DEEB;--1:#403F53"> shapes</span></div></div><div class="ec-line"><div class="code"><span style="--0:#C792EA;--1:#8844AE">from</span><span style="--0:#D6DEEB;--1:#403F53"> shapes </span><span style="--0:#C792EA;--1:#8844AE">import</span><span style="--0:#D6DEEB;--1:#403F53"> Rect</span></div></div><div class="ec-line"><div class="code">
+</div></div><div class="ec-line"><div class="code"><span style="--0:#C792EA;--1:#8844AE">class</span><span style="--0:#D6DEEB;--1:#403F53"> Circle(r: </span><span style="--0:#C792EA;--1:#8844AE">Int</span><span style="--0:#D6DEEB;--1:#403F53">) </span><span style="--0:#C792EA;--1:#8844AE">implements</span><span style="--0:#D6DEEB;--1:#403F53"> shapes.Shape:</span></div></div><div class="ec-line"><div class="code"><span class="indent">    </span><span style="--0:#C792EA;--1:#8844AE">override</span><span style="--0:#D6DEEB;--1:#403F53"> </span><span style="--0:#C792EA;--1:#8844AE">def</span><span style="--0:#D6DEEB;--1:#403F53"> </span><span style="--0:#82AAFF;--1:#3B61B0">area</span><span style="--0:#D6DEEB;--1:#403F53">(</span><span style="--0:#C792EA;--1:#8844AE">self</span><span style="--0:#D6DEEB;--1:#403F53">) </span><span style="--0:#7FDBCA;--1:#096E72">-></span><span style="--0:#D6DEEB;--1:#403F53"> </span><span style="--0:#C792EA;--1:#8844AE">Int</span><span style="--0:#D6DEEB;--1:#403F53">:</span></div></div><div class="ec-line"><div class="code"><span class="indent">        </span><span style="--0:#F78C6C;--1:#AA0982">3</span><span style="--0:#D6DEEB;--1:#403F53"> </span><span style="--0:#7FDBCA;--1:#096E72">*</span><span style="--0:#D6DEEB;--1:#403F53"> </span><span style="--0:#C792EA;--1:#8844AE">self</span><span style="--0:#D6DEEB;--1:#403F53">.r </span><span style="--0:#7FDBCA;--1:#096E72">*</span><span style="--0:#D6DEEB;--1:#403F53"> </span><span style="--0:#C792EA;--1:#8844AE">self</span><span style="--0:#D6DEEB;--1:#403F53">.r</span></div></div><div class="ec-line"><div class="code"><span class="indent">    </span><span style="--0:#C792EA;--1:#8844AE">override</span><span style="--0:#D6DEEB;--1:#403F53"> </span><span style="--0:#C792EA;--1:#8844AE">def</span><span style="--0:#D6DEEB;--1:#403F53"> </span><span style="--0:#82AAFF;--1:#3B61B0">name</span><span style="--0:#D6DEEB;--1:#403F53">(</span><span style="--0:#C792EA;--1:#8844AE">self</span><span style="--0:#D6DEEB;--1:#403F53">) </span><span style="--0:#7FDBCA;--1:#096E72">-></span><span style="--0:#D6DEEB;--1:#403F53"> </span><span style="--0:#C792EA;--1:#8844AE">String</span><span style="--0:#D6DEEB;--1:#403F53">:</span></div></div><div class="ec-line"><div class="code"><span class="indent">        </span><span style="--0:#ECC48D;--1:#984E4D">"circle"</span></div></div><div class="ec-line"><div class="code">
+</div></div><div class="ec-line"><div class="code"><span style="--0:#C792EA;--1:#8844AE">class</span><span style="--0:#D6DEEB;--1:#403F53"> Square(side: </span><span style="--0:#C792EA;--1:#8844AE">Int</span><span style="--0:#D6DEEB;--1:#403F53">) </span><span style="--0:#C792EA;--1:#8844AE">extends</span><span style="--0:#D6DEEB;--1:#403F53"> Rect(side, side):</span></div></div><div class="ec-line"><div class="code"><span class="indent">    </span><span style="--0:#C792EA;--1:#8844AE">override</span><span style="--0:#D6DEEB;--1:#403F53"> </span><span style="--0:#C792EA;--1:#8844AE">def</span><span style="--0:#D6DEEB;--1:#403F53"> </span><span style="--0:#82AAFF;--1:#3B61B0">name</span><span style="--0:#D6DEEB;--1:#403F53">(</span><span style="--0:#C792EA;--1:#8844AE">self</span><span style="--0:#D6DEEB;--1:#403F53">) </span><span style="--0:#7FDBCA;--1:#096E72">-></span><span style="--0:#D6DEEB;--1:#403F53"> </span><span style="--0:#C792EA;--1:#8844AE">String</span><span style="--0:#D6DEEB;--1:#403F53">:</span></div></div><div class="ec-line"><div class="code"><span class="indent">        </span><span style="--0:#ECC48D;--1:#984E4D">"square, a "</span><span style="--0:#D6DEEB;--1:#403F53"> </span><span style="--0:#7FDBCA;--1:#096E72">+</span><span style="--0:#D6DEEB;--1:#403F53"> </span><span style="--0:#C792EA;--1:#8844AE">super</span><span style="--0:#D6DEEB;--1:#403F53">.name()</span></div></div><div class="ec-line"><div class="code">
+</div></div><div class="ec-line"><div class="code"><span style="--0:#D6DEEB;--1:#403F53">all: [shapes.Shape] </span><span style="--0:#7FDBCA;--1:#096E72">=</span><span style="--0:#D6DEEB;--1:#403F53"> [Rect(</span><span style="--0:#F78C6C;--1:#AA0982">2</span><span style="--0:#D6DEEB;--1:#403F53">), shapes.Rect(</span><span style="--0:#F78C6C;--1:#AA0982">3</span><span style="--0:#D6DEEB;--1:#403F53">, </span><span style="--0:#F78C6C;--1:#AA0982">4</span><span style="--0:#D6DEEB;--1:#403F53">), Circle(</span><span style="--0:#F78C6C;--1:#AA0982">1</span><span style="--0:#D6DEEB;--1:#403F53">), Square(</span><span style="--0:#F78C6C;--1:#AA0982">2</span><span style="--0:#D6DEEB;--1:#403F53">)]</span></div></div><div class="ec-line"><div class="code"><span style="--0:#C792EA;--1:#8844AE">for</span><span style="--0:#D6DEEB;--1:#403F53"> s </span><span style="--0:#C792EA;--1:#8844AE">in</span><span style="--0:#D6DEEB;--1:#403F53"> all:</span></div></div><div class="ec-line"><div class="code"><span class="indent">    </span><span style="--0:#C5E478;--1:#3B61B0">print</span><span style="--0:#D6DEEB;--1:#403F53">(s.describe())</span></div></div><div class="ec-line"><div class="code"><span style="--0:#C792EA;--1:#8844AE">match</span><span style="--0:#D6DEEB;--1:#403F53"> all[</span><span style="--0:#F78C6C;--1:#AA0982">3</span><span style="--0:#D6DEEB;--1:#403F53">]:</span></div></div><div class="ec-line"><div class="code"><span class="indent">    </span><span style="--0:#C792EA;--1:#8844AE">case</span><span style="--0:#D6DEEB;--1:#403F53"> q: Square: </span><span style="--0:#C5E478;--1:#3B61B0">print</span><span style="--0:#D6DEEB;--1:#403F53">(</span><span style="--0:#ECC48D;--1:#984E4D">"a square of side"</span><span style="--0:#D6DEEB;--1:#403F53">, q.side)</span></div></div><div class="ec-line"><div class="code"><span class="indent">    </span><span style="--0:#C792EA;--1:#8844AE">case</span><span style="--0:#D6DEEB;--1:#403F53"> _: </span><span style="--0:#C5E478;--1:#3B61B0">print</span><span style="--0:#D6DEEB;--1:#403F53">(</span><span style="--0:#ECC48D;--1:#984E4D">"something else"</span><span style="--0:#D6DEEB;--1:#403F53">)</span></div></div></code></pre><div class="copy"><div aria-live="polite"></div><button title="Copy to clipboard" data-copied="Copied!" data-code="use objectsimport shapesfrom shapes import Rectclass Circle(r: Int) implements shapes.Shape:    override def area(self) -> Int:        3 * self.r * self.r    override def name(self) -> String:        &#x22;circle&#x22;class Square(side: Int) extends Rect(side, side):    override def name(self) -> String:        &#x22;square, a &#x22; + super.name()all: [shapes.Shape] = [Rect(2), shapes.Rect(3, 4), Circle(1), Square(2)]for s in all:    print(s.describe())match all[3]:    case q: Square: print(&#x22;a square of side&#x22;, q.side)    case _: print(&#x22;something else&#x22;)"><div></div></button></div></figure></div>
+<p>prints <code>rectangle of area 2</code>, <code>rectangle of area 12</code>, <code>circle of area 3</code>, <code>square, a rectangle of area 4</code> and <code>a square of side 2</code>.</p>
+<p><strong>What <code>public</code> exports.</strong> The class or interface, its constructor (a
+class’s, not an abstract class’s or an interface’s), and every member
+that is not <code>private</code>. A <code>private</code> member stays reachable only from the
+methods of the class declaring it, wherever the object is, and a class
+in another module extending it never declares a member of that name. So
+another module makes the class without its <code>private</code> header fields —
+<code>tally.Tally("a")</code> for <code>class Tally(label: String, private counts: [Int] = [])</code> — and a class pattern there writes <code>_</code> in their places.</p>
+<p><strong>How it is named.</strong> As a datatype of another module is: <code>shapes.Rect</code>
+through <code>import shapes</code>, the alias through <code>import shapes as sh</code>
+(<code>sh.Rect</code>), and <code>Rect</code> through <code>from shapes import Rect</code>. That holds in
+a type, a constructor call, a class pattern (<code>case shapes.Rect(w, h)</code>,
+<code>case r: shapes.Rect</code>), and after <code>extends</code> and <code>implements</code>.</p>
+<p><strong>Everything else is as within one module.</strong> Defaults and named
+arguments of constructors and methods work from the importing module,
+an override takes its defaults from where the method is first declared,
+<code>super.m(...)</code> reaches a body in another module, and an interface’s
+default bodies are inherited. <code>==</code> calls <code>eq</code>, printing calls <code>show</code>,
+and <code>copy</code> and <code>deepcopy</code> copy an object as its own class. A class of
+another module is open: any module may extend it or implement it, so a
+<code>match</code> on one needs a <code>case _</code> unless a case covers the class itself.</p>
+<p><strong>What a public class may name.</strong> A module importing a class has to be
+able to name everything it is. So a public class builds only on public
+classes and interfaces, and its members that are not <code>private</code> name
+only public classes and datatypes. A public function, binding or
+datatype naming a class follows the same rule:</p>
+<div class="pkn-notebook pkn-embedded not-content"><div class="pkn-cell" data-error=""><pre class="pkn-cell-fallback"><code>use objects
+
+interface Sized:
+    def size(self) -> Int
+
+public class Box(n: Int) implements Sized:
+    override def size(self) -> Int: self.n</code></pre></div></div>
+<div class="expressive-code"><figure class="frame not-content"><figcaption class="header"></figcaption><pre data-language="plaintext"><code><div class="ec-line"><div class="code"><span style="--0:#d6deeb;--1:#403f53">'box.pyk' 6:0-7:42 Type error: 'Box' is public, and builds on 'Sized',</span></div></div><div class="ec-line"><div class="code"><span class="indent"><span style="--0:#d6deeb;--1:#403f53">  </span></span><span style="--0:#d6deeb;--1:#403f53">which is not: make 'Sized' public too, so that a module using 'Box'</span></div></div><div class="ec-line"><div class="code"><span class="indent"><span style="--0:#d6deeb;--1:#403f53">  </span></span><span style="--0:#d6deeb;--1:#403f53">can see everything it is</span></div></div></code></pre><div class="copy"><div aria-live="polite"></div><button title="Copy to clipboard" data-copied="Copied!" data-code="&#x27;box.pyk&#x27; 6:0-7:42 Type error: &#x27;Box&#x27; is public, and builds on &#x27;Sized&#x27;,  which is not: make &#x27;Sized&#x27; public too, so that a module using &#x27;Box&#x27;  can see everything it is"><div></div></button></div></figure></div>
+<p><strong>One class name per module.</strong> Two modules may each declare a class of
+the same name, private or public: each module’s code means its own,
+and another module names a public one through its module.</p>
+<p><strong>Targets.</strong> Every target compiles classes across modules:</p>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<table><thead><tr><th>Target</th><th>Another module’s class is</th></tr></thead><tbody><tr><td>Python, JavaScript</td><td>its module’s class, <code>shapes.Rect</code>, extended and implemented as its own</td></tr><tr><td>Java</td><td>a public nested class of its module’s class, <code>Shapes.Rect</code>; a public class is not <code>final</code></td></tr><tr><td>OCaml</td><td>its module’s class type and functions, <code>Shapes.rect</code> and <code>Shapes.rect__new</code>, which its <code>.mli</code> declares; a class pattern tests one of its exceptions, since <code>exn</code> is the one extensible type every module shares</td></tr><tr><td>C</td><td>its module’s descriptor and object struct, which its header declares; every module numbers an object’s method table the same way</td></tr><tr><td>interpreter</td><td>its class by the name <code>module.Name</code>, so two modules’ classes of one name are two classes</td></tr></tbody></table></div><footer class="sl-flex astro-ddtxxk7k"><div class="meta sl-flex astro-ddtxxk7k"></div><div class="pagination-links print:hidden astro-b5raizh3" dir="ltr"></div></footer></div></div></main></div></div></div></div></body></html>

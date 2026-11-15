@@ -1,0 +1,524 @@
+<!DOCTYPE html><html lang="en" dir="ltr" data-theme="dark" data-has-sidebar class="astro-g5ptsecz"><head><meta charset="utf-8"/><meta name="viewport" content="width=device-width, initial-scale=1"/><title>Compiler targets | Pyking</title><link rel="canonical" href="https://pyking.org/documentation/targets/"/><link rel="sitemap" href="/sitemap-index.xml"/><script src="/v/8e74ca34b133/site/shell.js" data-base data-build="8e74ca34b133" data-sections="[{&quot;key&quot;:&quot;install&quot;,&quot;label&quot;:&quot;Install&quot;,&quot;prefix&quot;:&quot;/install/&quot;},{&quot;key&quot;:&quot;getstarted&quot;,&quot;label&quot;:&quot;Getting started&quot;,&quot;prefix&quot;:&quot;/getstarted/&quot;},{&quot;key&quot;:&quot;documentation&quot;,&quot;label&quot;:&quot;Documentation&quot;,&quot;prefix&quot;:&quot;/documentation/&quot;},{&quot;key&quot;:&quot;libraries&quot;,&quot;label&quot;:&quot;Libraries&quot;,&quot;prefix&quot;:&quot;/libraries/&quot;},{&quot;key&quot;:&quot;playground&quot;,&quot;label&quot;:&quot;Playground&quot;,&quot;prefix&quot;:&quot;/playground/&quot;}]"></script><script type="module" src="/v/8e74ca34b133/site/cells.js"></script><script>try { if (localStorage.getItem('starlight-theme') === null) localStorage.setItem('starlight-theme', 'dark'); } catch (e) {}</script><link rel="shortcut icon" href="/v/8e74ca34b133/site/favicon.svg" type="image/svg+xml"/><meta name="generator" content="Astro v7.3.5"/><meta name="generator" content="Starlight v0.42.5"/><meta property="og:title" content="Compiler targets"/><meta property="og:type" content="article"/><meta property="og:url" content="https://pyking.org/documentation/targets/"/><meta property="og:locale" content="en"/><meta property="og:description" content="What each Pyking compiler target writes, what it needs to run, what it supports, and how to implement a module in a target's own language."/><meta property="og:site_name" content="Pyking"/><meta name="twitter:card" content="summary_large_image"/><meta name="description" content="What each Pyking compiler target writes, what it needs to run, what it supports, and how to implement a module in a target's own language."/><script>
+	window.StarlightThemeProvider = (() => {
+		const storedTheme =
+			typeof localStorage !== 'undefined' && localStorage.getItem('starlight-theme');
+		const theme =
+			storedTheme ||
+			(window.matchMedia('(prefers-color-scheme: light)').matches ? 'light' : 'dark');
+		document.documentElement.dataset.theme = theme === 'light' ? 'light' : 'dark';
+		return {
+			updatePickers(theme = storedTheme || 'auto') {
+				document.querySelectorAll('starlight-theme-select').forEach((picker) => {
+					const select = picker.querySelector('select');
+					if (select) select.value = theme;
+					/** @type {HTMLTemplateElement | null} */
+					const tmpl = document.querySelector(`#theme-icons`);
+					const newIcon = tmpl && tmpl.content.querySelector('.' + theme);
+					if (newIcon) {
+						const oldIcon = picker.querySelector('svg.label-icon');
+						if (oldIcon) {
+							oldIcon.replaceChildren(...newIcon.cloneNode(true).childNodes);
+						}
+					}
+				});
+			},
+		};
+	})();
+</script><template id="theme-icons"><svg aria-hidden="true" class="light astro-hkc32dio" width="16" height="16" viewBox="0 0 24 24" fill="currentColor" style="--sl-icon-size: 1em;"><path d="M5 12a1 1 0 0 0-1-1H3a1 1 0 0 0 0 2h1a1 1 0 0 0 1-1Zm.64 5-.71.71a1 1 0 0 0 0 1.41 1 1 0 0 0 1.41 0l.71-.71A1 1 0 0 0 5.64 17ZM12 5a1 1 0 0 0 1-1V3a1 1 0 0 0-2 0v1a1 1 0 0 0 1 1Zm5.66 2.34a1 1 0 0 0 .7-.29l.71-.71a1 1 0 1 0-1.41-1.41l-.66.71a1 1 0 0 0 0 1.41 1 1 0 0 0 .66.29Zm-12-.29a1 1 0 0 0 1.41 0 1 1 0 0 0 0-1.41l-.71-.71a1.004 1.004 0 1 0-1.43 1.41l.73.71ZM21 11h-1a1 1 0 0 0 0 2h1a1 1 0 0 0 0-2Zm-2.64 6A1 1 0 0 0 17 18.36l.71.71a1 1 0 0 0 1.41 0 1 1 0 0 0 0-1.41l-.76-.66ZM12 6.5a5.5 5.5 0 1 0 5.5 5.5A5.51 5.51 0 0 0 12 6.5Zm0 9a3.5 3.5 0 1 1 0-7 3.5 3.5 0 0 1 0 7Zm0 3.5a1 1 0 0 0-1 1v1a1 1 0 0 0 2 0v-1a1 1 0 0 0-1-1Z"/></svg><svg aria-hidden="true" class="dark astro-hkc32dio" width="16" height="16" viewBox="0 0 24 24" fill="currentColor" style="--sl-icon-size: 1em;"><path d="M21.64 13a1 1 0 0 0-1.05-.14 8.049 8.049 0 0 1-3.37.73 8.15 8.15 0 0 1-8.14-8.1 8.59 8.59 0 0 1 .25-2A1 1 0 0 0 8 2.36a10.14 10.14 0 1 0 14 11.69 1 1 0 0 0-.36-1.05Zm-9.5 6.69A8.14 8.14 0 0 1 7.08 5.22v.27a10.15 10.15 0 0 0 10.14 10.14 9.784 9.784 0 0 0 2.1-.22 8.11 8.11 0 0 1-7.18 4.32v-.04Z"/></svg><svg aria-hidden="true" class="auto astro-hkc32dio" width="16" height="16" viewBox="0 0 24 24" fill="currentColor" style="--sl-icon-size: 1em;"><path d="M21 14h-1V7a3 3 0 0 0-3-3H7a3 3 0 0 0-3 3v7H3a1 1 0 0 0-1 1v2a3 3 0 0 0 3 3h14a3 3 0 0 0 3-3v-2a1 1 0 0 0-1-1ZM6 7a1 1 0 0 1 1-1h10a1 1 0 0 1 1 1v7H6V7Zm14 10a1 1 0 0 1-1 1H5a1 1 0 0 1-1-1v-1h16v1Z"/></svg></template><link rel="stylesheet" href="/_astro/print.ehPL0gv-.css" media="print"><link rel="stylesheet" href="/_astro/middleware.DYJDcmyo.css"><script type="module" src="/_astro/page.Dwipeu-R.js"></script></head><body class="astro-g5ptsecz"><a class="sl-skip-link astro-qb7clj6f" href="#_top">Skip to content</a><div class="page sl-flex astro-yntsjkba"><header class="header astro-yntsjkba"><div class="pyking-header"><div class="pyking-header-left"><a href="/" class="site-title sl-flex astro-6rvad3va"><img class="astro-6rvad3va" alt="Pyking" src="/_astro/logo.C9hvHOpV.svg" width="64" height="64"><span class="astro-6rvad3va" translate="no">Pyking</span></a><nav class="pyking-nav" aria-label="Sections"><a href="/install/">Install</a><a href="/getstarted/pyking-in-20-minutes/">Getting started</a><a href="/documentation/language/" aria-current="page">Documentation</a><a href="/libraries/">Libraries</a><a href="/playground/">Playground</a></nav></div><div class="pyking-header-right print:hidden"><site-search class=" astro-b5kgnn7o" data-translations="{&quot;placeholder&quot;:&quot;Search&quot;}"><button data-open-modal disabled aria-label="Search" aria-keyshortcuts="Control+K" class="astro-b5kgnn7o"><svg aria-hidden="true" class="astro-b5kgnn7o astro-hkc32dio" width="16" height="16" viewBox="0 0 24 24" fill="currentColor" style="--sl-icon-size: 1em;"><path d="M21.71 20.29 18 16.61A9 9 0 1 0 16.61 18l3.68 3.68a.999.999 0 0 0 1.42 0 1 1 0 0 0 0-1.39ZM11 18a7 7 0 1 1 0-14 7 7 0 0 1 0 14Z"/></svg><span class="sl-hidden md:sl-block astro-b5kgnn7o" aria-hidden="true">Search</span><kbd class="sl-hidden md:sl-flex astro-b5kgnn7o" style="display: none;"><kbd class="astro-b5kgnn7o">Ctrl</kbd><kbd class="astro-b5kgnn7o">K</kbd></kbd></button><dialog style="padding:0" aria-label="Search" class="astro-b5kgnn7o"><div class="dialog-frame sl-flex astro-b5kgnn7o"><button data-close-modal class="sl-flex md:sl-hidden astro-b5kgnn7o">Cancel</button><div class="search-container astro-b5kgnn7o"><div id="starlight__search" class="astro-b5kgnn7o"></div></div></div></dialog></site-search><script>
+	(() => {
+		const openBtn = document.querySelector('button[data-open-modal]');
+		const shortcut = openBtn?.querySelector('kbd');
+		if (!openBtn || !(shortcut instanceof HTMLElement)) return;
+		const platformKey = shortcut.querySelector('kbd');
+		if (platformKey && /(Mac|iPhone|iPod|iPad)/i.test(navigator.platform)) {
+			platformKey.textContent = '⌘';
+			openBtn.setAttribute('aria-keyshortcuts', 'Meta+K');
+		}
+		shortcut.style.display = '';
+	})();
+</script><script type="module" src="/_astro/Search.astro_astro_type_script_index_0_lang.Bumivpjo.js"></script><div class="sl-hidden md:sl-flex"><starlight-theme-select><label style="--sl-select-width: 6.25em" class="astro-2z5xp7gb"><span class="sr-only astro-2z5xp7gb">Select theme</span><svg aria-hidden="true" class="icon label-icon astro-2z5xp7gb astro-hkc32dio" width="16" height="16" viewBox="0 0 24 24" fill="currentColor" style="--sl-icon-size: 1em;"><path d="M21 14h-1V7a3 3 0 0 0-3-3H7a3 3 0 0 0-3 3v7H3a1 1 0 0 0-1 1v2a3 3 0 0 0 3 3h14a3 3 0 0 0 3-3v-2a1 1 0 0 0-1-1ZM6 7a1 1 0 0 1 1-1h10a1 1 0 0 1 1 1v7H6V7Zm14 10a1 1 0 0 1-1 1H5a1 1 0 0 1-1-1v-1h16v1Z"/></svg><select autocomplete="off" class="astro-2z5xp7gb"><option value="dark" class="astro-2z5xp7gb">Dark</option><option value="light" class="astro-2z5xp7gb">Light</option><option value="auto" selected class="astro-2z5xp7gb">Auto</option></select><svg aria-hidden="true" class="icon caret astro-2z5xp7gb astro-hkc32dio" width="16" height="16" viewBox="0 0 24 24" fill="currentColor" style="--sl-icon-size: 1em;"><path d="M17 9.17a1 1 0 0 0-1.41 0L12 12.71 8.46 9.17a1 1 0 1 0-1.41 1.42l4.24 4.24a1.002 1.002 0 0 0 1.42 0L17 10.59a1.002 1.002 0 0 0 0-1.42Z"/></svg></label></starlight-theme-select><script>
+	StarlightThemeProvider.updatePickers();
+</script><script type="module">var e=`starlight-theme`,t=e=>e===`auto`||e===`dark`||e===`light`?e:`auto`,n=()=>t(typeof localStorage<`u`&&localStorage.getItem(e));function r(t){typeof localStorage<`u`&&localStorage.setItem(e,t===`light`||t===`dark`?t:``)}var i=()=>matchMedia(`(prefers-color-scheme: light)`).matches?`light`:`dark`;function a(e){StarlightThemeProvider.updatePickers(e),document.documentElement.dataset.theme=e===`auto`?i():e,r(e)}matchMedia(`(prefers-color-scheme: light)`).addEventListener(`change`,()=>{n()===`auto`&&a(`auto`)});var o=class extends HTMLElement{constructor(){super(),a(n()),this.querySelector(`select`)?.addEventListener(`change`,e=>{e.currentTarget instanceof HTMLSelectElement&&a(t(e.currentTarget.value))})}};customElements.define(`starlight-theme-select`,o);</script></div><a class="pyking-github" href="https://github.com/pyking-lang" title="Pyking on GitHub"><span class="sr-only">GitHub</span><svg aria-hidden="true" viewBox="0 0 24 24" width="22" height="22" fill="currentColor"><path d="M12 .3a12 12 0 0 0-3.8 23.4c.6.1.8-.3.8-.6v-2c-3.3.7-4-1.6-4-1.6-.6-1.4-1.4-1.8-1.4-1.8-1-.7.1-.7.1-.7 1.2.1 1.8 1.2 1.8 1.2 1 1.8 2.8 1.3 3.5 1 0-.8.4-1.3.7-1.6-2.7-.3-5.5-1.3-5.5-6 0-1.2.5-2.3 1.3-3.1-.2-.4-.6-1.6 0-3.2 0 0 1-.3 3.4 1.2a11.5 11.5 0 0 1 6 0c2.3-1.5 3.3-1.2 3.3-1.2.6 1.6.2 2.8.1 3.2.8.8 1.3 1.9 1.3 3.1 0 4.6-2.8 5.6-5.5 5.9.5.4.9 1.1.9 2.2v3.3c0 .3.1.7.8.6A12 12 0 0 0 12 .3"></path></svg></a></div></div></header><nav class="sidebar print:hidden astro-yntsjkba" aria-label="Main"><button popovertarget="starlight__sidebar" class="sl-menu-button sl-flex md:sl-hidden print:hidden astro-r2osgdlg"><svg aria-hidden="true" class="open-menu astro-r2osgdlg astro-hkc32dio" width="16" height="16" viewBox="0 0 24 24" fill="currentColor" style="--sl-icon-size: 1em;"><path d="M3 8h18a1 1 0 1 0 0-2H3a1 1 0 0 0 0 2Zm18 8H3a1 1 0 0 0 0 2h18a1 1 0 0 0 0-2Zm0-5H3a1 1 0 0 0 0 2h18a1 1 0 0 0 0-2Z"/></svg><svg aria-hidden="true" class="close-menu astro-r2osgdlg astro-hkc32dio" width="16" height="16" viewBox="0 0 24 24" fill="currentColor" style="--sl-icon-size: 1em;"><path d="m13.41 12 6.3-6.29a1.004 1.004 0 1 0-1.42-1.42L12 10.59l-6.29-6.3a1.004 1.004 0 0 0-1.42 1.42l6.3 6.29-6.3 6.29a1 1 0 0 0 0 1.42.998.998 0 0 0 1.42 0l6.29-6.3 6.29 6.3a.999.999 0 0 0 1.42 0 1 1 0 0 0 0-1.42L13.41 12Z"/></svg><span class="sr-only astro-r2osgdlg">Menu</span></button><script type="module">var e=class extends HTMLElement{constructor(){super();let e=matchMedia(`(min-width: 50em)`),t=()=>{this.popover=e.matches?null:`auto`};t(),e.addEventListener(`change`,()=>t()),this.addEventListener(`toggle`,({newState:e})=>this.trapFocus(e===`open`))}trapFocus(e){document.querySelectorAll(`.main-frame, .sl-skip-link`).forEach(t=>{t.toggleAttribute(`inert`,e)})}};customElements.define(`sl-sidebar-pane`,e);</script><script type="module">var e=class extends HTMLElement{constructor(){super();let e=this.querySelector(`select`);e&&(e.addEventListener(`change`,e=>{e.currentTarget instanceof HTMLSelectElement&&(window.location.pathname=e.currentTarget.value)}),window.addEventListener(`pageshow`,t=>{if(!t.persisted)return;let n=e.querySelector(`option[selected]`)?.index;n!==e.selectedIndex&&(e.selectedIndex=n??0)}))}};customElements.define(`starlight-lang-select`,e);</script><sl-sidebar-pane popover id="starlight__sidebar" class="sidebar-pane astro-yntsjkba"><div class="sidebar-content sl-flex astro-yntsjkba"><nav class="pyking-sidebar" aria-label="Documentation"><p class="pyking-sidebar-title">Documentation</p><ul class="pyking-sidebar-main"><li><a href="/documentation/editors/">Editors</a></li><li><a href="/documentation/playground/">Playground</a></li><li><a href="/documentation/notebook/">Notebook</a></li><li><a href="/documentation/command-line/">Command line</a></li><li><a href="/documentation/repl/">REPL</a></li><li class="pyking-sidebar-open"><a href="/documentation/targets/" aria-current="page">Compiler targets</a><ul class="pyking-sidebar-sub"><li><a href="#families-versions-and-aliases">Families, versions and aliases</a></li><li><a href="#all-targets">All targets</a></li><li><a href="#choosing-a-target">Choosing a target</a></li><li><a href="#python">Python</a></li><li><a href="#node">node</a></li><li><a href="#web-page">Web page</a></li><li><a href="#interpreted-web-page">Interpreted web page</a></li><li><a href="#c">C</a></li><li><a href="#c-with-gc">C with GC</a></li><li><a href="#java">Java</a></li><li><a href="#ocaml">OCaml</a></li><li><a href="#where-the-targets-differ">Where the targets differ</a></li><li><a href="#tail-calls-and---release">Tail calls and --release</a></li><li><a href="#external-modules">External modules</a></li></ul></li><li><a href="/documentation/slides/">Code on slides</a></li><li class="pyking-sidebar-parent"><a href="/documentation/language/">Language reference</a></li><li><a href="/documentation/vs-other-languages/">Pyking vs. other languages</a></li><li><a href="/documentation/grammar/">Grammar</a></li><li class="pyking-sidebar-parent"><a href="/documentation/tinyweb/">Tinyweb without Pyking</a></li><li><a href="/documentation/tinyweb-styles/">Styling tinyweb</a></li></ul></nav><div class="md:sl-hidden"><div class="mobile-preferences sl-flex astro-p4azlveh"><div class="social-icons astro-p4azlveh"></div><starlight-theme-select><label style="--sl-select-width: 6.25em" class="astro-2z5xp7gb"><span class="sr-only astro-2z5xp7gb">Select theme</span><svg aria-hidden="true" class="icon label-icon astro-2z5xp7gb astro-hkc32dio" width="16" height="16" viewBox="0 0 24 24" fill="currentColor" style="--sl-icon-size: 1em;"><path d="M21 14h-1V7a3 3 0 0 0-3-3H7a3 3 0 0 0-3 3v7H3a1 1 0 0 0-1 1v2a3 3 0 0 0 3 3h14a3 3 0 0 0 3-3v-2a1 1 0 0 0-1-1ZM6 7a1 1 0 0 1 1-1h10a1 1 0 0 1 1 1v7H6V7Zm14 10a1 1 0 0 1-1 1H5a1 1 0 0 1-1-1v-1h16v1Z"/></svg><select autocomplete="off" class="astro-2z5xp7gb"><option value="dark" class="astro-2z5xp7gb">Dark</option><option value="light" class="astro-2z5xp7gb">Light</option><option value="auto" selected class="astro-2z5xp7gb">Auto</option></select><svg aria-hidden="true" class="icon caret astro-2z5xp7gb astro-hkc32dio" width="16" height="16" viewBox="0 0 24 24" fill="currentColor" style="--sl-icon-size: 1em;"><path d="M17 9.17a1 1 0 0 0-1.41 0L12 12.71 8.46 9.17a1 1 0 1 0-1.41 1.42l4.24 4.24a1.002 1.002 0 0 0 1.42 0L17 10.59a1.002 1.002 0 0 0 0-1.42Z"/></svg></label></starlight-theme-select><script>
+	StarlightThemeProvider.updatePickers();
+</script></div></div></div></sl-sidebar-pane></nav><div class="main-frame astro-yntsjkba"><script type="module">var e=document.getElementById(`starlight__sidebar`),t=e?.querySelector(`sl-sidebar-state-persist`),n=`sl-sidebar-state`,r=()=>{let r=[],i=t?.dataset.hash||``;try{let e=sessionStorage.getItem(n),t=JSON.parse(e||`{}`);Array.isArray(t.open)&&t.hash===i&&(r=t.open)}catch{}return{hash:i,open:r,scroll:e?.scrollTop||0}},i=e=>{try{sessionStorage.setItem(n,JSON.stringify(e))}catch{}},a=()=>i(r()),o=(e,t)=>{let n=r();n.open[t]=e,i(n)};t?.addEventListener(`click`,e=>{if(!(e.target instanceof Element))return;let t=e.target.closest(`summary`)?.closest(`details`);if(!t)return;let n=t.querySelector(`sl-sidebar-restore`),r=parseInt(n?.dataset.index||``);isNaN(r)||o(!t.open,r)}),addEventListener(`visibilitychange`,()=>{document.visibilityState===`hidden`&&a()});</script><div class="lg:sl-flex astro-lrzkfocr"><div class="main-pane astro-lrzkfocr"><main data-pagefind-body class="astro-g5ptsecz" lang="en" dir="ltr"><div class="content-panel astro-a7po4psb"><div class="sl-container astro-a7po4psb"><h1 id="_top" class="astro-bebwqqxs">Compiler targets</h1></div></div><div class="content-panel astro-a7po4psb"><div class="sl-container astro-a7po4psb"><div class="sl-markdown-content"><p>One Pyking program can be run by the interpreter or compiled for any of
+seventeen targets: Python, JavaScript for node or a web page, C, Java
+and OCaml. This page says what each target writes, what you need to run
+the result, and what each one supports. For how Pyking’s constructs map
+to each language, see
+<a href="/documentation/vs-other-languages/">Pyking vs. other languages</a>.</p>
+<div class="expressive-code"><link rel="stylesheet" href="/_astro/ec.w36nc.css"><script type="module" src="/_astro/ec.0vx5m.js"></script><figure class="frame is-terminal not-content"><figcaption class="header"><span class="title"></span><span class="sr-only">Terminal window</span></figcaption><pre data-language="sh"><code><div class="ec-line"><div class="code"><span style="--0:#82AAFF;--1:#3B61B0">pyk</span><span style="--0:#D6DEEB;--1:#403F53"> </span><span style="--0:#ECC48D;--1:#3B61B0">prog.pyk</span><span style="--0:#D6DEEB;--1:#403F53">                     </span><span style="--0:#919F9F;--1:#5F636F"># run with the interpreter</span></div></div><div class="ec-line"><div class="code"><span style="--0:#82AAFF;--1:#3B61B0">pyk</span><span style="--0:#D6DEEB;--1:#403F53"> </span><span style="--0:#ECC48D;--1:#3B61B0">compile</span><span style="--0:#D6DEEB;--1:#403F53"> </span><span style="--0:#82AAFF;--1:#3B61B0">-t</span><span style="--0:#D6DEEB;--1:#403F53"> </span><span style="--0:#ECC48D;--1:#3B61B0">node</span><span style="--0:#D6DEEB;--1:#403F53"> </span><span style="--0:#ECC48D;--1:#3B61B0">prog.pyk</span><span style="--0:#D6DEEB;--1:#403F53">     </span><span style="--0:#919F9F;--1:#5F636F"># compile for node; ./prog runs it</span></div></div><div class="ec-line"><div class="code"><span style="--0:#82AAFF;--1:#3B61B0">pyk</span><span style="--0:#D6DEEB;--1:#403F53"> </span><span style="--0:#ECC48D;--1:#3B61B0">compile</span><span style="--0:#D6DEEB;--1:#403F53"> </span><span style="--0:#82AAFF;--1:#3B61B0">-t</span><span style="--0:#D6DEEB;--1:#403F53"> </span><span style="--0:#ECC48D;--1:#3B61B0">c</span><span style="--0:#D6DEEB;--1:#403F53"> </span><span style="--0:#82AAFF;--1:#3B61B0">--run</span><span style="--0:#D6DEEB;--1:#403F53"> </span><span style="--0:#ECC48D;--1:#3B61B0">prog.pyk</span><span style="--0:#D6DEEB;--1:#403F53">  </span><span style="--0:#919F9F;--1:#5F636F"># compile for C, build it and run it</span></div></div><div class="ec-line"><div class="code"><span style="--0:#82AAFF;--1:#3B61B0">pyk</span><span style="--0:#D6DEEB;--1:#403F53"> </span><span style="--0:#ECC48D;--1:#3B61B0">prog.pyk</span><span style="--0:#D6DEEB;--1:#403F53"> </span><span style="--0:#82AAFF;--1:#3B61B0">-t</span><span style="--0:#D6DEEB;--1:#403F53"> </span><span style="--0:#ECC48D;--1:#3B61B0">java</span><span style="--0:#D6DEEB;--1:#403F53">             </span><span style="--0:#919F9F;--1:#5F636F"># compile for Java and run it</span></div></div></code></pre><div class="copy"><div aria-live="polite"></div><button title="Copy to clipboard" data-copied="Copied!" data-code="pyk prog.pyk                     # run with the interpreterpyk compile -t node prog.pyk     # compile for node; ./prog runs itpyk compile -t c --run prog.pyk  # compile for C, build it and run itpyk prog.pyk -t java             # compile for Java and run it"><div></div></button></div></figure></div>
+<p><a href="/documentation/command-line/#pyk-compile">Command line</a> has every flag
+of <code>pyk compile</code>. The playground’s Compiled code tab compiles for every
+target too, and shows the code.</p>
+<h2 id="families-versions-and-aliases">Families, versions and aliases</h2>
+<p>A target names a <strong>family</strong> and a <strong>version</strong>: <code>c23</code> is C at the C23
+standard, <code>java8</code> is Java at release 8. The version is the oldest host
+the output is promised to run on. Each family also has a name without a
+version, which means its default version.</p>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<table><thead><tr><th>Family</th><th>Name</th><th>Versions</th><th>Default</th><th>The version is</th></tr></thead><tbody><tr><td>Python</td><td><code>python</code></td><td><code>python12</code>, <code>python14</code></td><td><code>python12</code></td><td>the Python release, 3.12 or 3.14</td></tr><tr><td>node</td><td><code>node</code></td><td><code>node22</code>, <code>node24</code></td><td><code>node22</code></td><td>the node release; <code>node22</code> writes ES2020, <code>node24</code> ES2024</td></tr><tr><td>Web page</td><td><code>web</code></td><td><code>web2020</code>, <code>web2024</code></td><td><code>web2020</code></td><td>the ECMAScript edition the page’s JavaScript is written in</td></tr><tr><td>Interpreted web page</td><td><code>iweb</code></td><td><code>iweb2020</code>, <code>iweb2024</code></td><td><code>iweb2020</code></td><td>the same, for the page that runs the interpreter</td></tr><tr><td>C</td><td><code>c</code></td><td><code>c89</code>, <code>c99</code>, <code>c23</code></td><td><code>c99</code></td><td>the C standard, with no garbage collector</td></tr><tr><td>C with GC</td><td><code>c-gc</code></td><td><code>c23-gc</code></td><td><code>c23-gc</code></td><td>C23, with the bdwgc garbage collector</td></tr><tr><td>Java</td><td><code>java</code></td><td><code>java8</code>, <code>java17</code>, <code>java21</code></td><td><code>java21</code></td><td>the Java release, as <code>javac --release</code> takes it</td></tr><tr><td>OCaml</td><td><code>ocaml</code></td><td><code>ocaml4.14</code>, <code>ocaml5.5</code></td><td><code>ocaml4.14</code></td><td>the OCaml release</td></tr></tbody></table>
+<p><code>pyk compile</code> with no <code>-t</code> uses <code>python</code>. The targets of one family
+accept exactly the same programs; they differ only in how the output is
+written. <code>--run</code> uses the family’s own command (<code>python3</code>, <code>node</code>,
+<code>ocamlopt</code>) whatever the version, since a newer host runs older output.</p>
+<p>There is one more target, <code>pyking</code>, which compiles Pyking to Pyking:
+it writes the program as the compiler understood it, with the types it
+inferred and the loops it made of tail calls. It is for looking inside the compiler, not for running.</p>
+<h2 id="all-targets">All targets</h2>
+<p><code>pyk compile prog.pyk</code> writes its files into <code>build/</code>, and puts the
+executable beside it as <code>./prog</code>
+(<a href="/documentation/command-line/#what-it-writes">details</a>).</p>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<table><thead><tr><th>Target</th><th>Writes in <code>build/</code></th><th>Run with</th><th>Supports</th></tr></thead><tbody><tr><td><code>python12</code>, <code>python14</code></td><td><code>prog.py</code></td><td><code>python3 prog.py</code></td><td>everything</td></tr><tr><td><code>node22</code>, <code>node24</code></td><td><code>prog.js</code>, <code>pyk-runtime.js</code>, <code>package.json</code></td><td><code>node prog.js</code></td><td>everything</td></tr><tr><td><code>web2020</code>, <code>web2024</code></td><td><code>prog.html</code>, <code>prog.js</code>, <code>pyk-runtime.js</code>, <code>io_external.js</code></td><td>a browser, with the page served</td><td>everything</td></tr><tr><td><code>iweb2020</code>, <code>iweb2024</code></td><td><code>prog.html</code>, <code>prog.pyk</code>, <code>pyking.js</code>, <code>io_external.js</code></td><td>a browser, with the page served</td><td>everything</td></tr><tr><td><code>c89</code>, <code>c99</code>, <code>c23</code></td><td><code>prog.c</code></td><td><code>cc -std=c99 -o prog prog.c -lm</code>, with the target’s standard</td><td>no lists, recursive datatypes, escaping closures or polymorphic parameters</td></tr><tr><td><code>c23-gc</code></td><td><code>prog.c</code></td><td><code>cc -std=c23 -DPYKING_GC -o prog prog.c -lgc -lm</code></td><td>everything but polymorphic parameters</td></tr><tr><td><code>java8</code>, <code>java17</code>, <code>java21</code></td><td><code>Prog.java</code>, <code>PykRuntime.java</code></td><td><code>javac --release 21 ...</code> (the target’s release), then <code>java Prog</code></td><td>everything</td></tr><tr><td><code>ocaml4.14</code>, <code>ocaml5.5</code></td><td><code>prog.ml</code></td><td><code>ocamlopt -I +unix unix.cmxa -o prog prog.ml</code></td><td>everything but a few shapes, <a href="#ocaml">below</a></td></tr><tr><td><code>pyking</code></td><td><code>prog.pyk</code></td><td><code>pyk prog.pyk</code></td><td>everything</td></tr><tr><td>the interpreter</td><td>nothing</td><td><code>pyk prog.pyk</code></td><td>everything</td></tr></tbody></table>
+<p>“Everything” means every program the type checker accepts. Each module
+the program imports becomes a file of its own beside the program’s.</p>
+<p>A program a target cannot compile is refused before any code is
+written, with the position and the reason:</p>
+<div class="expressive-code"><figure class="frame is-terminal not-content"><figcaption class="header"><span class="title"></span><span class="sr-only">Terminal window</span></figcaption><pre data-language="sh"><code><div class="ec-line"><div class="code"><span style="--0:#82AAFF;--1:#3B61B0">$</span><span style="--0:#D6DEEB;--1:#403F53"> </span><span style="--0:#ECC48D;--1:#3B61B0">pyk</span><span style="--0:#D6DEEB;--1:#403F53"> </span><span style="--0:#ECC48D;--1:#3B61B0">compile</span><span style="--0:#D6DEEB;--1:#403F53"> </span><span style="--0:#82AAFF;--1:#3B61B0">-t</span><span style="--0:#D6DEEB;--1:#403F53"> </span><span style="--0:#ECC48D;--1:#3B61B0">c</span><span style="--0:#D6DEEB;--1:#403F53"> </span><span style="--0:#ECC48D;--1:#3B61B0">squares.pyk</span></div></div><div class="ec-line"><div class="code"><span style="--0:#82AAFF;--1:#3B61B0">'squares.pyk'</span><span style="--0:#D6DEEB;--1:#403F53"> </span><span style="--0:#ECC48D;--1:#3B61B0">1:5-1:14</span><span style="--0:#D6DEEB;--1:#403F53"> </span><span style="--0:#ECC48D;--1:#3B61B0">Unsupported</span><span style="--0:#D6DEEB;--1:#403F53"> </span><span style="--0:#ECC48D;--1:#3B61B0">by</span><span style="--0:#D6DEEB;--1:#403F53"> </span><span style="--0:#ECC48D;--1:#3B61B0">target</span><span style="--0:#D6DEEB;--1:#403F53"> </span><span style="--0:#D9F5DD;--1:#111111">'</span><span style="--0:#ECC48D;--1:#984E4D">c99</span><span style="--0:#D9F5DD;--1:#111111">'</span><span style="--0:#ECC48D;--1:#3B61B0">:</span><span style="--0:#D6DEEB;--1:#403F53"> </span><span style="--0:#ECC48D;--1:#3B61B0">a</span><span style="--0:#D6DEEB;--1:#403F53"> </span><span style="--0:#ECC48D;--1:#3B61B0">list,</span><span style="--0:#D6DEEB;--1:#403F53"> </span><span style="--0:#ECC48D;--1:#3B61B0">which</span></div></div><div class="ec-line"><div class="code"><span class="indent">  </span><span style="--0:#82AAFF;--1:#3B61B0">needs</span><span style="--0:#D6DEEB;--1:#403F53"> </span><span style="--0:#ECC48D;--1:#3B61B0">a</span><span style="--0:#D6DEEB;--1:#403F53"> </span><span style="--0:#ECC48D;--1:#3B61B0">heap</span><span style="--0:#D6DEEB;--1:#403F53"> </span><span style="--0:#ECC48D;--1:#3B61B0">that</span><span style="--0:#D6DEEB;--1:#403F53"> </span><span style="--0:#ECC48D;--1:#3B61B0">is</span><span style="--0:#D6DEEB;--1:#403F53"> </span><span style="--0:#ECC48D;--1:#3B61B0">freed:</span><span style="--0:#D6DEEB;--1:#403F53"> </span><span style="--0:#ECC48D;--1:#3B61B0">plain</span><span style="--0:#D6DEEB;--1:#403F53"> </span><span style="--0:#ECC48D;--1:#3B61B0">C</span><span style="--0:#D6DEEB;--1:#403F53"> </span><span style="--0:#ECC48D;--1:#3B61B0">has</span><span style="--0:#D6DEEB;--1:#403F53"> </span><span style="--0:#ECC48D;--1:#3B61B0">none,</span><span style="--0:#D6DEEB;--1:#403F53"> </span><span style="--0:#ECC48D;--1:#3B61B0">and</span><span style="--0:#D6DEEB;--1:#403F53"> </span><span style="--0:#ECC48D;--1:#3B61B0">c23-gc</span><span style="--0:#D6DEEB;--1:#403F53"> </span><span style="--0:#ECC48D;--1:#3B61B0">compiles</span><span style="--0:#D6DEEB;--1:#403F53"> </span><span style="--0:#ECC48D;--1:#3B61B0">it</span></div></div></code></pre><div class="copy"><div aria-live="polite"></div><button title="Copy to clipboard" data-copied="Copied!" data-code="$ pyk compile -t c squares.pyk&#x27;squares.pyk&#x27; 1:5-1:14 Unsupported by target &#x27;c99&#x27;: a list, which  needs a heap that is freed: plain C has none, and c23-gc compiles it"><div></div></button></div></figure></div>
+<h2 id="choosing-a-target">Choosing a target</h2>
+<ul>
+<li><strong>To run a program while you write it</strong>, use the interpreter,
+<code>pyk prog.pyk</code>. It needs nothing else, reports runtime errors with
+their place in the source, and is the reference for what a program
+means.</li>
+<li><strong>To hand someone a program they can run</strong>, <code>python</code> or <code>node</code>: both
+take the whole language, and most machines have one of them.</li>
+<li><strong>To put a program on a web page</strong>, <code>web</code>. Use <code>iweb</code> to run it in
+the browser with the interpreter instead of compiling it.</li>
+<li><strong>To see or teach how a program becomes C</strong>, plain <code>c</code>: readable C
+with no runtime, for programs without lists. Use <code>c-gc</code> for the whole
+language in C.</li>
+<li><strong>For Java or OCaml</strong>, <code>java</code> or <code>ocaml</code>: both take the whole
+language and their output is ordinary code in that language.</li>
+</ul>
+<h2 id="python">Python</h2>
+<p><code>python12</code> (alias <code>python</code>) and <code>python14</code>.</p>
+<ul>
+<li><strong>Writes</strong> <code>prog.py</code>, and one <code>.py</code> per module. A module implemented
+in Python is copied beside it.</li>
+<li><strong>Needs</strong> Python 3.12, or 3.14 for <code>python14</code>. The output imports
+nothing beyond Python’s own standard library.</li>
+<li><strong>Supports</strong> the whole language.</li>
+<li><strong>tinyweb</strong>: the program serves its own page when it calls
+<code>web_init</code>, and prints its address.</li>
+<li><strong>Limits</strong>: Python’s own recursion limit, 1000 calls by default,
+applies to a recursion that is not a tail call.</li>
+</ul>
+<h2 id="node">node</h2>
+<p><code>node22</code> (alias <code>node</code>) and <code>node24</code>.</p>
+<ul>
+<li><strong>Writes</strong> <code>prog.js</code> and <code>pyk-runtime.js</code>, which every module shares,
+and a <code>package.json</code> saying <code>"type": "module"</code>, which node needs to
+load the files as ES modules. A <code>package.json</code> that is already there
+is never written over.</li>
+<li><strong>Needs</strong> node 22, or 24 for <code>node24</code>.</li>
+<li><strong>Supports</strong> the whole language.</li>
+<li><strong>tinyweb</strong>: the program serves its own page when it calls
+<code>web_init</code>, and prints its address.</li>
+<li><strong>Limits</strong>: a JavaScript number is a double, so an <code>Int</code> is exact to
+2^53, not wrapped at 32 bits.</li>
+</ul>
+<h2 id="web-page">Web page</h2>
+<p><code>web2020</code> (alias <code>web</code>) and <code>web2024</code>.</p>
+<ul>
+<li><strong>Writes</strong> <code>prog.html</code>, a page that loads the program, beside the same
+JavaScript files <code>node</code> writes, and <code>io_external.js</code>. It writes no
+<code>package.json</code>.</li>
+<li><strong>Needs</strong> a browser, and the page must be served over HTTP: a browser
+will not load the program’s modules from a <code>file://</code> address.
+<code>pyk compile -t web --run</code> and <code>pyk serve build/prog.html</code> both serve
+it and print the link.</li>
+<li><strong>Output</strong>: what the program prints goes to the browser’s console,
+and <code>debug</code> to the console as an error.</li>
+<li><strong>tinyweb</strong>: the page itself is the tinyweb page. <code>web_init</code> does
+nothing.</li>
+<li><strong>Limits</strong>: a page has no files, standard input, arguments or
+environment. The <code>fs</code> library is not supported, <code>io</code> writes but cannot
+read, and <code>sys</code> offers only <code>exit</code>; a function a page cannot provide
+says so on the console. A program that calls tinyweb’s <code>sdelay</code>, which
+waits, is refused for <code>web</code>.</li>
+</ul>
+<h2 id="interpreted-web-page">Interpreted web page</h2>
+<p><code>iweb2020</code> (alias <code>iweb</code>) and <code>iweb2024</code>.</p>
+<p><code>iweb</code> compiles nothing. The page ships the program’s Pyking source and
+the Pyking interpreter built to JavaScript, <code>pyking.js</code>, and runs the
+program in the browser, the way the playground does.</p>
+<ul>
+<li><strong>Writes</strong> <code>prog.html</code>, the program’s <code>.pyk</code> files (an external
+module’s declaration included), <code>pyking.js</code> and <code>io_external.js</code>.</li>
+<li><strong>Needs</strong> a browser that supports ES2022, whichever edition the page
+was compiled for, and the page served over HTTP, as for <code>web</code>.
+<code>pyking.js</code> is about 5 MB.</li>
+<li><strong>Supports</strong> whatever the interpreter does: the whole language.</li>
+<li><strong>tinyweb</strong>: the page itself is the tinyweb page. <code>web_init</code> does
+nothing.</li>
+<li><strong>Limits</strong>: as for <code>web</code>, the page has no files, standard input,
+arguments or environment. The program is interpreted, so it runs more
+slowly than compiled code.</li>
+</ul>
+<h2 id="c">C</h2>
+<p><code>c89</code>, <code>c99</code> (alias <code>c</code>) and <code>c23</code>.</p>
+<p>Plain C is meant to be clean, readable C, for teaching: one <code>.c</code> file
+per module, using only the C standard library, and no runtime of its
+own. It allocates with <code>malloc</code> and never frees, and checks no array
+index. The three standards differ only in how the same C is written:
+comments, where declarations go, and how a <code>Bool</code> is spelled.</p>
+<ul>
+<li><strong>Writes</strong> <code>prog.c</code>, and a <code>.c</code> and <code>.h</code> per module.</li>
+<li><strong>Needs</strong> a C compiler that accepts the standard,
+<code>cc -std=c89</code>, <code>-std=c99</code> or <code>-std=c23</code>, and the maths library, <code>-lm</code>.</li>
+<li><strong>Refuses</strong>, because each needs memory that is freed:
+<ul>
+<li>lists, list comprehensions, <code>for</code> over a list and list patterns
+(<code>for x in range(...)</code> is fine: it is a counting loop);</li>
+<li>a datatype that holds itself, such as a tree;</li>
+<li>a function value that captures, and is returned or stored.</li>
+</ul>
+</li>
+<li><strong>Refuses</strong>, on all four C targets: a polymorphic parameter, and a
+polymorphic function used as a value.</li>
+<li><strong>Libraries</strong>: <code>list</code>, <code>map</code>, <code>mutmap</code> and <code>prelude</code> are not
+available, <code>sys</code> offers only <code>exit</code>, and functions that take or answer
+a list are left out of <code>array</code>, <code>dynarray</code>, <code>option</code>, <code>result</code>, <code>text</code>
+and <code>random</code>.</li>
+<li><strong>tinyweb</strong>: the program serves its own page, as on Python. The
+drawing functions that take a list are not available.</li>
+<li><strong>Limits</strong>: an <code>Int</code> is C’s <code>int</code>, and an array index outside the
+array is not caught.</li>
+</ul>
+<p>Each refusal on plain C says that <code>c-gc</code> compiles it.</p>
+<h2 id="c-with-gc">C with GC</h2>
+<p><code>c23-gc</code> (alias <code>c-gc</code>).</p>
+<p><code>c23-gc</code> is C23 with the Boehm-Demers-Weiser garbage collector, bdwgc.
+It frees memory nothing uses any more, and checks every index and array
+size. It compiles what plain C refuses: lists, datatypes that hold
+themselves and closures that outlive their function.</p>
+<ul>
+<li>
+<p><strong>Writes</strong> <code>prog.c</code>, as plain C does.</p>
+</li>
+<li>
+<p><strong>Needs</strong> a C compiler that accepts <code>-std=c23</code>, and bdwgc:</p>
+<div class="expressive-code"><figure class="frame is-terminal not-content"><figcaption class="header"><span class="title"></span><span class="sr-only">Terminal window</span></figcaption><pre data-language="sh"><code><div class="ec-line"><div class="code"><span style="--0:#82AAFF;--1:#3B61B0">brew</span><span style="--0:#D6DEEB;--1:#403F53"> </span><span style="--0:#ECC48D;--1:#3B61B0">install</span><span style="--0:#D6DEEB;--1:#403F53"> </span><span style="--0:#ECC48D;--1:#3B61B0">bdw-gc</span><span style="--0:#D6DEEB;--1:#403F53">          </span><span style="--0:#919F9F;--1:#5F636F"># macOS</span></div></div><div class="ec-line"><div class="code"><span style="--0:#82AAFF;--1:#3B61B0">sudo</span><span style="--0:#D6DEEB;--1:#403F53"> </span><span style="--0:#ECC48D;--1:#3B61B0">apt</span><span style="--0:#D6DEEB;--1:#403F53"> </span><span style="--0:#ECC48D;--1:#3B61B0">install</span><span style="--0:#D6DEEB;--1:#403F53"> </span><span style="--0:#ECC48D;--1:#3B61B0">libgc-dev</span><span style="--0:#D6DEEB;--1:#403F53">   </span><span style="--0:#919F9F;--1:#5F636F"># Debian, Ubuntu, WSL</span></div></div><div class="ec-line"><div class="code"><span style="--0:#82AAFF;--1:#3B61B0">sudo</span><span style="--0:#D6DEEB;--1:#403F53"> </span><span style="--0:#ECC48D;--1:#3B61B0">dnf</span><span style="--0:#D6DEEB;--1:#403F53"> </span><span style="--0:#ECC48D;--1:#3B61B0">install</span><span style="--0:#D6DEEB;--1:#403F53"> </span><span style="--0:#ECC48D;--1:#3B61B0">gc-devel</span><span style="--0:#D6DEEB;--1:#403F53">    </span><span style="--0:#919F9F;--1:#5F636F"># Fedora</span></div></div></code></pre><div class="copy"><div aria-live="polite"></div><button title="Copy to clipboard" data-copied="Copied!" data-code="brew install bdw-gc          # macOSsudo apt install libgc-dev   # Debian, Ubuntu, WSLsudo dnf install gc-devel    # Fedora"><div></div></button></div></figure></div>
+<p><code>--run</code> and the <code>Makefile</code> find it with <code>pkg-config bdw-gc</code>, or in
+the usual places. Where it is missing, <code>pyk</code> says so and how to
+install it. To build by hand:</p>
+<div class="expressive-code"><figure class="frame is-terminal not-content"><figcaption class="header"><span class="title"></span><span class="sr-only">Terminal window</span></figcaption><pre data-language="sh"><code><div class="ec-line"><div class="code"><span style="--0:#82AAFF;--1:#3B61B0">cc</span><span style="--0:#D6DEEB;--1:#403F53"> </span><span style="--0:#82AAFF;--1:#3B61B0">-std=c23</span><span style="--0:#D6DEEB;--1:#403F53"> </span><span style="--0:#82AAFF;--1:#3B61B0">-DPYKING_GC</span><span style="--0:#D6DEEB;--1:#403F53"> </span><span style="--0:#82AAFF;--1:#3B61B0">-o</span><span style="--0:#D6DEEB;--1:#403F53"> </span><span style="--0:#ECC48D;--1:#3B61B0">prog</span><span style="--0:#D6DEEB;--1:#403F53"> </span><span style="--0:#ECC48D;--1:#3B61B0">prog.c</span><span style="--0:#D6DEEB;--1:#403F53"> $(</span><span style="--0:#82AAFF;--1:#3B61B0">pkg-config</span><span style="--0:#D6DEEB;--1:#403F53"> </span><span style="--0:#82AAFF;--1:#3B61B0">--cflags</span><span style="--0:#D6DEEB;--1:#403F53"> </span><span style="--0:#82AAFF;--1:#3B61B0">--libs</span><span style="--0:#D6DEEB;--1:#403F53"> </span><span style="--0:#ECC48D;--1:#3B61B0">bdw-gc</span><span style="--0:#D6DEEB;--1:#403F53">) </span><span style="--0:#82AAFF;--1:#3B61B0">-lm</span></div></div></code></pre><div class="copy"><div aria-live="polite"></div><button title="Copy to clipboard" data-copied="Copied!" data-code="cc -std=c23 -DPYKING_GC -o prog prog.c $(pkg-config --cflags --libs bdw-gc) -lm"><div></div></button></div></figure></div>
+</li>
+<li>
+<p><strong>Supports</strong> everything but a polymorphic parameter, and a
+polymorphic function used as a value.</p>
+</li>
+<li>
+<p><strong>Libraries</strong>: all of them.</p>
+</li>
+<li>
+<p><strong>tinyweb</strong>: the program serves its own page.</p>
+</li>
+</ul>
+<h2 id="java">Java</h2>
+<p><code>java8</code>, <code>java17</code> and <code>java21</code> (alias <code>java</code>).</p>
+<ul>
+<li><strong>Writes</strong> <code>Prog.java</code>, one class per module, and <code>PykRuntime.java</code>,
+the runtime every program shares. The file and its class are named in
+Java’s style: <code>foo_bar.pyk</code> becomes <code>FooBar.java</code>, unless <code>-o</code> names
+it. Running <code>./prog</code> runs <code>java</code> on what is in <code>build/</code>.</li>
+<li><strong>Needs</strong> a JDK: <code>javac --release 8</code>, <code>17</code> or <code>21</code>, and <code>java</code>. One
+JDK 21 builds all three.</li>
+<li><strong>Supports</strong> the whole language. The three versions are three shapes
+of the same program: plain classes and casts for <code>java8</code>, records and
+<code>instanceof</code> patterns for <code>java17</code>, records and pattern <code>switch</code> for
+<code>java21</code>.</li>
+<li><strong>tinyweb</strong>: the program serves its own page.</li>
+<li><strong>Limits</strong>: an <code>Int</code> is Java’s <code>int</code>, so it wraps at 32 bits.</li>
+</ul>
+<h2 id="ocaml">OCaml</h2>
+<p><code>ocaml4.14</code> (alias <code>ocaml</code>) and <code>ocaml5.5</code>.</p>
+<ul>
+<li><strong>Writes</strong> <code>prog.ml</code>, and an <code>.ml</code> and <code>.mli</code> per module. The code has
+no type annotations: OCaml infers them.</li>
+<li><strong>Needs</strong> <code>ocamlopt</code>: OCaml 4.14 or later, or 5.5 or later for
+<code>ocaml5.5</code>. Every program is linked
+with OCaml’s <code>unix</code> library, which comes with the compiler.</li>
+<li><strong>Supports</strong> nearly every program the type checker accepts. It
+refuses a few shapes OCaml cannot be given, each with its position:
+<ul>
+<li>a <code>break</code> or <code>continue</code> inside an <code>if</code> that has statements after it
+in the loop’s body;</li>
+<li>a <code>def</code> that has to be moved to join the functions it calls, when a
+name it reads is bound again in between;</li>
+<li>printing a value whose type is a type variable, in a function used
+at two types;</li>
+<li><code>|</code> around a <code>+</code> split of a String, or a list split from its end;</li>
+<li>a literal or a nested list as an element after <code>..</code> in a list
+pattern.</li>
+</ul>
+</li>
+<li><strong>tinyweb</strong>: the program serves its own page.</li>
+<li><strong>Limits</strong>: an <code>Int</code> is OCaml’s 63-bit <code>int</code>.</li>
+</ul>
+<h2 id="where-the-targets-differ">Where the targets differ</h2>
+<p>A program means the same on every target, except where Pyking leaves
+the answer open:</p>
+<ul>
+<li><strong>Integer overflow.</strong> An <code>Int</code> holds at least the signed 32-bit
+range; past it, the result is undefined and each target does its own
+arithmetic. Python never overflows, node is exact to 2^53, Java wraps
+at 32 bits, C’s <code>int</code> overflows as C’s does, and OCaml and the
+interpreter have 63 bits (the playground’s interpreter has 32). An integer literal outside the
+32-bit range is an error everywhere.</li>
+<li><strong>Integer division or <code>%</code> by zero</strong>, and <strong>a list index out of
+range</strong>: the interpreter reports a runtime error, and each compiled
+target does what its host does.</li>
+<li><strong>A <code>Float</code></strong> is a 64-bit IEEE double everywhere, and prints the same
+everywhere.</li>
+<li><strong><code>debug</code></strong> writes to standard error, or the console on the web
+targets.</li>
+<li><strong>The exit status</strong> is 0 when the program ends by itself, <code>code</code>
+after <code>sys.exit(code)</code>, and not 0 after a runtime error.</li>
+</ul>
+<h2 id="tail-calls-and---release">Tail calls and <code>--release</code></h2>
+<p>A function that calls itself in tail position is turned into a loop
+before any target sees it, and so is a group of functions that
+tail-call each other. Such a function runs in constant space on every
+target and in the interpreter, however deep it goes:</p>
+<div class="pkn-notebook pkn-embedded not-content"><div class="pkn-cell"><pre class="pkn-cell-fallback"><code>def count(n: Int, total: Int) -> Int:
+    if n == 0:
+        return total
+    return count(n - 1, total + n)
+
+print(count(100000, 0))</code></pre></div></div>
+<p>The OCaml target is compiled without this step, since OCaml eliminates
+tail calls itself. A call that is not in tail position stays a call:
+compiled to Python, <code>sum_to(n - 1) + n</code> stops after about 1000 calls,
+Python’s own limit, while the interpreter goes to 10,000 calls.
+<code>--no-tail-call-opt</code> turns the step off.</p>
+<p><code>pyk compile --release</code> removes every call to <code>debug()</code> before the
+program is compiled, on every target. On <code>iweb</code> the page removes them
+before it runs the program. <code>print</code> is kept.</p>
+<h2 id="external-modules">External modules</h2>
+<p>A module can be written in a target’s own language instead of in
+Pyking: to reach something the standard library does not offer, or to
+use existing code. The standard library does this itself, for <code>fs</code>,
+<code>io</code>, <code>sys</code> and others.</p>
+<p>Such a module has a declaration in Pyking, <code>NAME_external.pyk</code>, which
+holds only signatures:</p>
+<div class="expressive-code"><figure class="frame has-title not-content"><figcaption class="header"><span class="title">greet_external.pyk</span></figcaption><pre data-language="pyking"><code><div class="ec-line"><div class="code"><span style="--0:#C792EA;--1:#8844AE">public</span><span style="--0:#D6DEEB;--1:#403F53"> </span><span style="--0:#C792EA;--1:#8844AE">def</span><span style="--0:#D6DEEB;--1:#403F53"> </span><span style="--0:#82AAFF;--1:#3B61B0">shout</span><span style="--0:#D6DEEB;--1:#403F53">(text: </span><span style="--0:#C792EA;--1:#8844AE">String</span><span style="--0:#D6DEEB;--1:#403F53">) </span><span style="--0:#7FDBCA;--1:#096E72">-></span><span style="--0:#D6DEEB;--1:#403F53"> </span><span style="--0:#C792EA;--1:#8844AE">String</span></div></div></code></pre><div class="copy"><div aria-live="polite"></div><button title="Copy to clipboard" data-copied="Copied!" data-code="public def shout(text: String) -> String"><div></div></button></div></figure></div>
+<p>A program imports it like any other module:</p>
+<div class="expressive-code"><figure class="frame has-title not-content"><figcaption class="header"><span class="title">main.pyk</span></figcaption><pre data-language="pyking"><code><div class="ec-line"><div class="code"><span style="--0:#C792EA;--1:#8844AE">import</span><span style="--0:#D6DEEB;--1:#403F53"> greet</span></div></div><div class="ec-line"><div class="code">
+</div></div><div class="ec-line"><div class="code"><span style="--0:#C5E478;--1:#3B61B0">print</span><span style="--0:#D6DEEB;--1:#403F53">(greet.shout(</span><span style="--0:#ECC48D;--1:#984E4D">"hello"</span><span style="--0:#D6DEEB;--1:#403F53">))</span></div></div></code></pre><div class="copy"><div aria-live="polite"></div><button title="Copy to clipboard" data-copied="Copied!" data-code="import greetprint(greet.shout(&#x22;hello&#x22;))"><div></div></button></div></figure></div>
+<p>and each target finds its implementation beside the declaration, by a
+name of its own:</p>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<table><thead><tr><th>Target</th><th>Implementation</th><th>Example</th></tr></thead><tbody><tr><td><code>python</code></td><td><code>greet_external.py</code></td><td><code>def shout(text): ...</code></td></tr><tr><td><code>node</code></td><td><code>greet_external_node.js</code></td><td><code>export function shout(text) { ... }</code></td></tr><tr><td><code>web</code>, <code>iweb</code></td><td><code>greet_external_browser.js</code></td><td>the same</td></tr><tr><td><code>c</code>, <code>c-gc</code></td><td><code>greet_external.c</code></td><td><code>const char *greet_shout(const char *text) { ... }</code></td></tr><tr><td><code>java</code></td><td><code>GreetExternal.java</code></td><td><code>public static String shout(String text) { ... }</code></td></tr><tr><td><code>ocaml</code></td><td><code>greet_external.ml</code></td><td><code>let shout text = ...</code></td></tr><tr><td>the interpreter</td><td><code>greet_external.ml</code></td><td>the same file as for <code>ocaml</code></td></tr></tbody></table>
+<div class="expressive-code"><figure class="frame has-title not-content"><figcaption class="header"><span class="title">greet_external.py</span></figcaption><pre data-language="python"><code><div class="ec-line"><div class="code"><span style="--0:#C792EA;--1:#8844AE">def</span><span style="--0:#D6DEEB;--1:#403F53"> </span><span style="--0:#82AAFF;--1:#3B61B0">shout</span><span style="--0:#D9F5DD;--1:#111111">(</span><span style="--0:#7FDBCA;--1:#096E72">text</span><span style="--0:#D9F5DD;--1:#111111">)</span><span style="--0:#D6DEEB;--1:#403F53">:</span></div></div><div class="ec-line"><div class="code"><span class="indent">    </span><span style="--0:#C792EA;--1:#8844AE">return</span><span style="--0:#D6DEEB;--1:#403F53"> text.</span><span style="--0:#B2CCD6;--1:#096E72">upper</span><span style="--0:#D6DEEB;--1:#403F53">() </span><span style="--0:#C792EA;--1:#8844AE">+</span><span style="--0:#D6DEEB;--1:#403F53"> </span><span style="--0:#D9F5DD;--1:#111111">"</span><span style="--0:#ECC48D;--1:#984E4D">!</span><span style="--0:#D9F5DD;--1:#111111">"</span></div></div></code></pre><div class="copy"><div aria-live="polite"></div><button title="Copy to clipboard" data-copied="Copied!" data-code="def shout(text):    return text.upper() + &#x22;!&#x22;"><div></div></button></div></figure></div>
+<div class="expressive-code"><figure class="frame has-title not-content"><figcaption class="header"><span class="title">greet_external.c</span></figcaption><pre data-language="c"><code><div class="ec-line"><div class="code"><span style="--0:#C792EA;--1:#8844AE">#include</span><span style="--0:#D6DEEB;--1:#403F53"> </span><span style="--0:#D9F5DD;--1:#111111">&#x3C;</span><span style="--0:#ECC48D;--1:#984E4D">ctype.h</span><span style="--0:#D9F5DD;--1:#111111">></span></div></div><div class="ec-line"><div class="code"><span style="--0:#C792EA;--1:#8844AE">#include</span><span style="--0:#D6DEEB;--1:#403F53"> </span><span style="--0:#D9F5DD;--1:#111111">&#x3C;</span><span style="--0:#ECC48D;--1:#984E4D">stdlib.h</span><span style="--0:#D9F5DD;--1:#111111">></span></div></div><div class="ec-line"><div class="code"><span style="--0:#C792EA;--1:#8844AE">#include</span><span style="--0:#D6DEEB;--1:#403F53"> </span><span style="--0:#D9F5DD;--1:#111111">&#x3C;</span><span style="--0:#ECC48D;--1:#984E4D">string.h</span><span style="--0:#D9F5DD;--1:#111111">></span></div></div><div class="ec-line"><div class="code">
+</div></div><div class="ec-line"><div class="code"><span style="--0:#C792EA;--1:#8844AE">const</span><span style="--0:#D6DEEB;--1:#403F53"> </span><span style="--0:#C792EA;--1:#8844AE">char</span><span style="--0:#D6DEEB;--1:#403F53"> </span><span style="--0:#7FDBCA;--1:#096E72">*</span><span style="--0:#82AAFF;--1:#3B61B0">greet_shout</span><span style="--0:#D6DEEB;--1:#403F53">(</span><span style="--0:#C792EA;--1:#8844AE">const</span><span style="--0:#D6DEEB;--1:#403F53"> </span><span style="--0:#C792EA;--1:#8844AE">char</span><span style="--0:#D6DEEB;--1:#403F53"> </span><span style="--0:#7FDBCA;--1:#096E72">*</span><span style="--1:#403F53"><span style="--0:#D7DBE0">text</span><span style="--0:#D6DEEB">) {</span></span></div></div><div class="ec-line"><div class="code"><span class="indent">  </span><span style="--0:#C792EA;--1:#8844AE">size_t</span><span style="--0:#D6DEEB;--1:#403F53"> n </span><span style="--0:#C792EA;--1:#8844AE">=</span><span style="--0:#D6DEEB;--1:#403F53"> </span><span style="--0:#82AAFF;--1:#3B61B0">strlen(text)</span><span style="--0:#D6DEEB;--1:#403F53">;</span></div></div><div class="ec-line"><div class="code"><span class="indent">  </span><span style="--0:#C792EA;--1:#8844AE">char</span><span style="--0:#D6DEEB;--1:#403F53"> </span><span style="--0:#7FDBCA;--1:#096E72">*</span><span style="--0:#D6DEEB;--1:#403F53">out </span><span style="--0:#C792EA;--1:#8844AE">=</span><span style="--0:#D6DEEB;--1:#403F53"> </span><span style="--0:#82AAFF;--1:#3B61B0">malloc(n </span><span style="--0:#7FDBCA;--1:#096E72">+</span><span style="--0:#82AAFF;--1:#3B61B0"> </span><span style="--0:#F78C6C;--1:#AA0982">2</span><span style="--0:#82AAFF;--1:#3B61B0">)</span><span style="--0:#D6DEEB;--1:#403F53">;</span></div></div><div class="ec-line"><div class="code"><span class="indent">  </span><span style="--0:#C792EA;--1:#8844AE">for</span><span style="--0:#D6DEEB;--1:#403F53"> (</span><span style="--0:#C792EA;--1:#8844AE">size_t</span><span style="--0:#D6DEEB;--1:#403F53"> i </span><span style="--0:#C792EA;--1:#8844AE">=</span><span style="--0:#D6DEEB;--1:#403F53"> </span><span style="--0:#F78C6C;--1:#AA0982">0</span><span style="--0:#D6DEEB;--1:#403F53">; i </span><span style="--0:#C792EA;--1:#8844AE">&#x3C;</span><span style="--0:#D6DEEB;--1:#403F53"> n; i</span><span style="--0:#C792EA;--1:#8844AE">++</span><span style="--0:#D6DEEB;--1:#403F53">) </span><span style="--0:#C5E478;--1:#3B61B0">out</span><span style="--0:#D6DEEB;--1:#403F53">[i] </span><span style="--0:#C792EA;--1:#8844AE">=</span><span style="--0:#D6DEEB;--1:#403F53"> (</span><span style="--0:#C792EA;--1:#8844AE">char</span><span style="--0:#D6DEEB;--1:#403F53">) </span><span style="--0:#82AAFF;--1:#3B61B0">toupper((</span><span style="--0:#C792EA;--1:#8844AE">unsigned</span><span style="--0:#82AAFF;--1:#3B61B0"> </span><span style="--0:#C792EA;--1:#8844AE">char</span><span style="--1:#3B61B0"><span style="--0:#82AAFF">) </span><span style="--0:#C5E478">text</span><span style="--0:#82AAFF">[i])</span></span><span style="--0:#D6DEEB;--1:#403F53">;</span></div></div><div class="ec-line"><div class="code"><span class="indent">  </span><span style="--0:#C5E478;--1:#3B61B0">out</span><span style="--0:#D6DEEB;--1:#403F53">[n] </span><span style="--0:#C792EA;--1:#8844AE">=</span><span style="--0:#D6DEEB;--1:#403F53"> </span><span style="--0:#D9F5DD;--1:#111111">'</span><span style="--0:#ECC48D;--1:#984E4D">!</span><span style="--0:#D9F5DD;--1:#111111">'</span><span style="--0:#D6DEEB;--1:#403F53">;</span></div></div><div class="ec-line"><div class="code"><span class="indent">  </span><span style="--0:#C5E478;--1:#3B61B0">out</span><span style="--0:#D6DEEB;--1:#403F53">[n </span><span style="--0:#7FDBCA;--1:#096E72">+</span><span style="--0:#D6DEEB;--1:#403F53"> </span><span style="--0:#F78C6C;--1:#AA0982">1</span><span style="--0:#D6DEEB;--1:#403F53">] </span><span style="--0:#C792EA;--1:#8844AE">=</span><span style="--0:#D6DEEB;--1:#403F53"> </span><span style="--0:#D9F5DD;--1:#111111">'</span><span style="--0:#F78C6C;--1:#AA0982">\0</span><span style="--0:#D9F5DD;--1:#111111">'</span><span style="--0:#D6DEEB;--1:#403F53">;</span></div></div><div class="ec-line"><div class="code"><span class="indent">  </span><span style="--0:#C792EA;--1:#8844AE">return</span><span style="--0:#D6DEEB;--1:#403F53"> out;</span></div></div><div class="ec-line"><div class="code"><span style="--0:#D6DEEB;--1:#403F53">}</span></div></div></code></pre><div class="copy"><div aria-live="polite"></div><button title="Copy to clipboard" data-copied="Copied!" data-code="#include <ctype.h>#include <stdlib.h>#include <string.h>const char *greet_shout(const char *text) {  size_t n = strlen(text);  char *out = malloc(n + 2);  for (size_t i = 0; i < n; i++) out[i] = (char) toupper((unsigned char) text[i]);  out[n] = &#x27;!&#x27;;  out[n + 1] = &#x27;\0&#x27;;  return out;}"><div></div></button></div></figure></div>
+<p>The compiler reads the declaration and never the implementation: it
+copies the right file into <code>build/</code> beside the program and lets the
+target’s own tools compile it. A target with no implementation file is
+refused, naming the file it looked for:</p>
+<div class="expressive-code"><figure class="frame is-terminal not-content"><figcaption class="header"><span class="title"></span><span class="sr-only">Terminal window</span></figcaption><pre data-language="sh"><code><div class="ec-line"><div class="code"><span style="--0:#82AAFF;--1:#3B61B0">$</span><span style="--0:#D6DEEB;--1:#403F53"> </span><span style="--0:#ECC48D;--1:#3B61B0">pyk</span><span style="--0:#D6DEEB;--1:#403F53"> </span><span style="--0:#ECC48D;--1:#3B61B0">main.pyk</span><span style="--0:#D6DEEB;--1:#403F53"> </span><span style="--0:#82AAFF;--1:#3B61B0">-t</span><span style="--0:#D6DEEB;--1:#403F53"> </span><span style="--0:#ECC48D;--1:#3B61B0">node</span></div></div><div class="ec-line"><div class="code"><span style="--0:#82AAFF;--1:#3B61B0">'greet_external.pyk'</span><span style="--0:#D6DEEB;--1:#403F53"> </span><span style="--0:#ECC48D;--1:#3B61B0">1:0-1:0</span><span style="--0:#D6DEEB;--1:#403F53"> </span><span style="--0:#ECC48D;--1:#3B61B0">Module</span><span style="--0:#D6DEEB;--1:#403F53"> </span><span style="--0:#ECC48D;--1:#3B61B0">error:</span><span style="--0:#D6DEEB;--1:#403F53"> </span><span style="--0:#ECC48D;--1:#3B61B0">the</span><span style="--0:#D6DEEB;--1:#403F53"> </span><span style="--0:#ECC48D;--1:#3B61B0">external</span><span style="--0:#D6DEEB;--1:#403F53"> </span><span style="--0:#ECC48D;--1:#3B61B0">module</span><span style="--0:#D6DEEB;--1:#403F53"> </span><span style="--0:#D9F5DD;--1:#111111">'</span><span style="--0:#ECC48D;--1:#984E4D">greet</span><span style="--0:#D9F5DD;--1:#111111">'</span></div></div><div class="ec-line"><div class="code"><span class="indent">  </span><span style="--0:#82AAFF;--1:#3B61B0">has</span><span style="--0:#D6DEEB;--1:#403F53"> </span><span style="--0:#ECC48D;--1:#3B61B0">no</span><span style="--0:#D6DEEB;--1:#403F53"> </span><span style="--0:#ECC48D;--1:#3B61B0">implementation</span><span style="--0:#D6DEEB;--1:#403F53"> </span><span style="--0:#ECC48D;--1:#3B61B0">for</span><span style="--0:#D6DEEB;--1:#403F53"> </span><span style="--0:#ECC48D;--1:#3B61B0">target</span><span style="--0:#D6DEEB;--1:#403F53"> </span><span style="--0:#D9F5DD;--1:#111111">'</span><span style="--0:#ECC48D;--1:#984E4D">node22</span><span style="--0:#D9F5DD;--1:#111111">'</span><span style="--0:#ECC48D;--1:#3B61B0">:</span><span style="--0:#D6DEEB;--1:#403F53"> </span><span style="--0:#ECC48D;--1:#3B61B0">there</span><span style="--0:#D6DEEB;--1:#403F53"> </span><span style="--0:#ECC48D;--1:#3B61B0">is</span><span style="--0:#D6DEEB;--1:#403F53"> </span><span style="--0:#ECC48D;--1:#3B61B0">no</span><span style="--0:#D6DEEB;--1:#403F53"> </span><span style="--0:#ECC48D;--1:#3B61B0">file</span></div></div><div class="ec-line"><div class="code"><span class="indent">  </span><span style="--0:#82AAFF;--1:#3B61B0">'greet_external_node.js'</span></div></div></code></pre><div class="copy"><div aria-live="polite"></div><button title="Copy to clipboard" data-copied="Copied!" data-code="$ pyk main.pyk -t node&#x27;greet_external.pyk&#x27; 1:0-1:0 Module error: the external module &#x27;greet&#x27;  has no implementation for target &#x27;node22&#x27;: there is no file  &#x27;greet_external_node.js&#x27;"><div></div></button></div></figure></div>
+<p>A few things to know when writing one:</p>
+<ul>
+<li><strong>Names.</strong> In C, a function is <code>MODULE_NAME</code>, here <code>greet_shout</code>. In
+Java the class is the module’s name in Java’s style, <code>GreetExternal</code>.
+In OCaml, write the standard library’s modules in full, such as
+<code>Stdlib.String</code>, since a Pyking module of the same name would hide
+them.</li>
+<li><strong>What crosses.</strong> <code>Int</code>, <code>Float</code>, <code>String</code>, <code>Char</code>, <code>Bool</code> and <code>()</code>
+cross on every target, each as the host’s own type. Tuples and lists
+cross on some targets and not others; plain C takes no list.</li>
+<li><strong>The interpreter</strong> runs the OCaml implementation, compiled to a
+plugin with <code>ocamlopt</code> the first time it is needed and kept in
+<code>~/.cache/pyking</code>. That needs the same OCaml version <code>pyk</code> was built
+with. <code>pyk plugins DIR</code> builds the plugins of a directory of libraries
+ahead of time; see
+<a href="/documentation/command-line/#pyk-plugins">Command line</a>.</li>
+<li><strong>A module in two halves.</strong> <code>greet.pyk</code> beside <code>greet_external.pyk</code>
+is one module: the Pyking half can use what the declaration offers,
+and add functions of its own on top.</li>
+</ul>
+<p>See <a href="/documentation/language/modules/">Modules</a> for imports and what a
+module exports.</p></div><footer class="sl-flex astro-ddtxxk7k"><div class="meta sl-flex astro-ddtxxk7k"></div><div class="pagination-links print:hidden astro-b5raizh3" dir="ltr"></div></footer></div></div></main></div></div></div></div></body></html>

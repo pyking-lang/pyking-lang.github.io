@@ -1,0 +1,390 @@
+<!DOCTYPE html><html lang="en" dir="ltr" data-theme="dark" data-has-sidebar class="astro-g5ptsecz"><head><meta charset="utf-8"/><meta name="viewport" content="width=device-width, initial-scale=1"/><title>Datatypes, structs and pattern matching | Pyking</title><link rel="canonical" href="https://pyking.org/documentation/language/datatypes/"/><link rel="sitemap" href="/sitemap-index.xml"/><script src="/v/8e74ca34b133/site/shell.js" data-base data-build="8e74ca34b133" data-sections="[{&quot;key&quot;:&quot;install&quot;,&quot;label&quot;:&quot;Install&quot;,&quot;prefix&quot;:&quot;/install/&quot;},{&quot;key&quot;:&quot;getstarted&quot;,&quot;label&quot;:&quot;Getting started&quot;,&quot;prefix&quot;:&quot;/getstarted/&quot;},{&quot;key&quot;:&quot;documentation&quot;,&quot;label&quot;:&quot;Documentation&quot;,&quot;prefix&quot;:&quot;/documentation/&quot;},{&quot;key&quot;:&quot;libraries&quot;,&quot;label&quot;:&quot;Libraries&quot;,&quot;prefix&quot;:&quot;/libraries/&quot;},{&quot;key&quot;:&quot;playground&quot;,&quot;label&quot;:&quot;Playground&quot;,&quot;prefix&quot;:&quot;/playground/&quot;}]"></script><script type="module" src="/v/8e74ca34b133/site/cells.js"></script><script>try { if (localStorage.getItem('starlight-theme') === null) localStorage.setItem('starlight-theme', 'dark'); } catch (e) {}</script><link rel="shortcut icon" href="/v/8e74ca34b133/site/favicon.svg" type="image/svg+xml"/><meta name="generator" content="Astro v7.3.5"/><meta name="generator" content="Starlight v0.42.5"/><meta property="og:title" content="Datatypes, structs and pattern matching"/><meta property="og:type" content="article"/><meta property="og:url" content="https://pyking.org/documentation/language/datatypes/"/><meta property="og:locale" content="en"/><meta property="og:description" content="datatype, struct, match and its patterns, Option and Result."/><meta property="og:site_name" content="Pyking"/><meta name="twitter:card" content="summary_large_image"/><meta name="description" content="datatype, struct, match and its patterns, Option and Result."/><script>
+	window.StarlightThemeProvider = (() => {
+		const storedTheme =
+			typeof localStorage !== 'undefined' && localStorage.getItem('starlight-theme');
+		const theme =
+			storedTheme ||
+			(window.matchMedia('(prefers-color-scheme: light)').matches ? 'light' : 'dark');
+		document.documentElement.dataset.theme = theme === 'light' ? 'light' : 'dark';
+		return {
+			updatePickers(theme = storedTheme || 'auto') {
+				document.querySelectorAll('starlight-theme-select').forEach((picker) => {
+					const select = picker.querySelector('select');
+					if (select) select.value = theme;
+					/** @type {HTMLTemplateElement | null} */
+					const tmpl = document.querySelector(`#theme-icons`);
+					const newIcon = tmpl && tmpl.content.querySelector('.' + theme);
+					if (newIcon) {
+						const oldIcon = picker.querySelector('svg.label-icon');
+						if (oldIcon) {
+							oldIcon.replaceChildren(...newIcon.cloneNode(true).childNodes);
+						}
+					}
+				});
+			},
+		};
+	})();
+</script><template id="theme-icons"><svg aria-hidden="true" class="light astro-hkc32dio" width="16" height="16" viewBox="0 0 24 24" fill="currentColor" style="--sl-icon-size: 1em;"><path d="M5 12a1 1 0 0 0-1-1H3a1 1 0 0 0 0 2h1a1 1 0 0 0 1-1Zm.64 5-.71.71a1 1 0 0 0 0 1.41 1 1 0 0 0 1.41 0l.71-.71A1 1 0 0 0 5.64 17ZM12 5a1 1 0 0 0 1-1V3a1 1 0 0 0-2 0v1a1 1 0 0 0 1 1Zm5.66 2.34a1 1 0 0 0 .7-.29l.71-.71a1 1 0 1 0-1.41-1.41l-.66.71a1 1 0 0 0 0 1.41 1 1 0 0 0 .66.29Zm-12-.29a1 1 0 0 0 1.41 0 1 1 0 0 0 0-1.41l-.71-.71a1.004 1.004 0 1 0-1.43 1.41l.73.71ZM21 11h-1a1 1 0 0 0 0 2h1a1 1 0 0 0 0-2Zm-2.64 6A1 1 0 0 0 17 18.36l.71.71a1 1 0 0 0 1.41 0 1 1 0 0 0 0-1.41l-.76-.66ZM12 6.5a5.5 5.5 0 1 0 5.5 5.5A5.51 5.51 0 0 0 12 6.5Zm0 9a3.5 3.5 0 1 1 0-7 3.5 3.5 0 0 1 0 7Zm0 3.5a1 1 0 0 0-1 1v1a1 1 0 0 0 2 0v-1a1 1 0 0 0-1-1Z"/></svg><svg aria-hidden="true" class="dark astro-hkc32dio" width="16" height="16" viewBox="0 0 24 24" fill="currentColor" style="--sl-icon-size: 1em;"><path d="M21.64 13a1 1 0 0 0-1.05-.14 8.049 8.049 0 0 1-3.37.73 8.15 8.15 0 0 1-8.14-8.1 8.59 8.59 0 0 1 .25-2A1 1 0 0 0 8 2.36a10.14 10.14 0 1 0 14 11.69 1 1 0 0 0-.36-1.05Zm-9.5 6.69A8.14 8.14 0 0 1 7.08 5.22v.27a10.15 10.15 0 0 0 10.14 10.14 9.784 9.784 0 0 0 2.1-.22 8.11 8.11 0 0 1-7.18 4.32v-.04Z"/></svg><svg aria-hidden="true" class="auto astro-hkc32dio" width="16" height="16" viewBox="0 0 24 24" fill="currentColor" style="--sl-icon-size: 1em;"><path d="M21 14h-1V7a3 3 0 0 0-3-3H7a3 3 0 0 0-3 3v7H3a1 1 0 0 0-1 1v2a3 3 0 0 0 3 3h14a3 3 0 0 0 3-3v-2a1 1 0 0 0-1-1ZM6 7a1 1 0 0 1 1-1h10a1 1 0 0 1 1 1v7H6V7Zm14 10a1 1 0 0 1-1 1H5a1 1 0 0 1-1-1v-1h16v1Z"/></svg></template><link rel="stylesheet" href="/_astro/print.ehPL0gv-.css" media="print"><link rel="stylesheet" href="/_astro/middleware.DYJDcmyo.css"><script type="module" src="/_astro/page.Dwipeu-R.js"></script></head><body class="astro-g5ptsecz"><a class="sl-skip-link astro-qb7clj6f" href="#_top">Skip to content</a><div class="page sl-flex astro-yntsjkba"><header class="header astro-yntsjkba"><div class="pyking-header"><div class="pyking-header-left"><a href="/" class="site-title sl-flex astro-6rvad3va"><img class="astro-6rvad3va" alt="Pyking" src="/_astro/logo.C9hvHOpV.svg" width="64" height="64"><span class="astro-6rvad3va" translate="no">Pyking</span></a><nav class="pyking-nav" aria-label="Sections"><a href="/install/">Install</a><a href="/getstarted/pyking-in-20-minutes/">Getting started</a><a href="/documentation/language/" aria-current="page">Documentation</a><a href="/libraries/">Libraries</a><a href="/playground/">Playground</a></nav></div><div class="pyking-header-right print:hidden"><site-search class=" astro-b5kgnn7o" data-translations="{&quot;placeholder&quot;:&quot;Search&quot;}"><button data-open-modal disabled aria-label="Search" aria-keyshortcuts="Control+K" class="astro-b5kgnn7o"><svg aria-hidden="true" class="astro-b5kgnn7o astro-hkc32dio" width="16" height="16" viewBox="0 0 24 24" fill="currentColor" style="--sl-icon-size: 1em;"><path d="M21.71 20.29 18 16.61A9 9 0 1 0 16.61 18l3.68 3.68a.999.999 0 0 0 1.42 0 1 1 0 0 0 0-1.39ZM11 18a7 7 0 1 1 0-14 7 7 0 0 1 0 14Z"/></svg><span class="sl-hidden md:sl-block astro-b5kgnn7o" aria-hidden="true">Search</span><kbd class="sl-hidden md:sl-flex astro-b5kgnn7o" style="display: none;"><kbd class="astro-b5kgnn7o">Ctrl</kbd><kbd class="astro-b5kgnn7o">K</kbd></kbd></button><dialog style="padding:0" aria-label="Search" class="astro-b5kgnn7o"><div class="dialog-frame sl-flex astro-b5kgnn7o"><button data-close-modal class="sl-flex md:sl-hidden astro-b5kgnn7o">Cancel</button><div class="search-container astro-b5kgnn7o"><div id="starlight__search" class="astro-b5kgnn7o"></div></div></div></dialog></site-search><script>
+	(() => {
+		const openBtn = document.querySelector('button[data-open-modal]');
+		const shortcut = openBtn?.querySelector('kbd');
+		if (!openBtn || !(shortcut instanceof HTMLElement)) return;
+		const platformKey = shortcut.querySelector('kbd');
+		if (platformKey && /(Mac|iPhone|iPod|iPad)/i.test(navigator.platform)) {
+			platformKey.textContent = '⌘';
+			openBtn.setAttribute('aria-keyshortcuts', 'Meta+K');
+		}
+		shortcut.style.display = '';
+	})();
+</script><script type="module" src="/_astro/Search.astro_astro_type_script_index_0_lang.Bumivpjo.js"></script><div class="sl-hidden md:sl-flex"><starlight-theme-select><label style="--sl-select-width: 6.25em" class="astro-2z5xp7gb"><span class="sr-only astro-2z5xp7gb">Select theme</span><svg aria-hidden="true" class="icon label-icon astro-2z5xp7gb astro-hkc32dio" width="16" height="16" viewBox="0 0 24 24" fill="currentColor" style="--sl-icon-size: 1em;"><path d="M21 14h-1V7a3 3 0 0 0-3-3H7a3 3 0 0 0-3 3v7H3a1 1 0 0 0-1 1v2a3 3 0 0 0 3 3h14a3 3 0 0 0 3-3v-2a1 1 0 0 0-1-1ZM6 7a1 1 0 0 1 1-1h10a1 1 0 0 1 1 1v7H6V7Zm14 10a1 1 0 0 1-1 1H5a1 1 0 0 1-1-1v-1h16v1Z"/></svg><select autocomplete="off" class="astro-2z5xp7gb"><option value="dark" class="astro-2z5xp7gb">Dark</option><option value="light" class="astro-2z5xp7gb">Light</option><option value="auto" selected class="astro-2z5xp7gb">Auto</option></select><svg aria-hidden="true" class="icon caret astro-2z5xp7gb astro-hkc32dio" width="16" height="16" viewBox="0 0 24 24" fill="currentColor" style="--sl-icon-size: 1em;"><path d="M17 9.17a1 1 0 0 0-1.41 0L12 12.71 8.46 9.17a1 1 0 1 0-1.41 1.42l4.24 4.24a1.002 1.002 0 0 0 1.42 0L17 10.59a1.002 1.002 0 0 0 0-1.42Z"/></svg></label></starlight-theme-select><script>
+	StarlightThemeProvider.updatePickers();
+</script><script type="module">var e=`starlight-theme`,t=e=>e===`auto`||e===`dark`||e===`light`?e:`auto`,n=()=>t(typeof localStorage<`u`&&localStorage.getItem(e));function r(t){typeof localStorage<`u`&&localStorage.setItem(e,t===`light`||t===`dark`?t:``)}var i=()=>matchMedia(`(prefers-color-scheme: light)`).matches?`light`:`dark`;function a(e){StarlightThemeProvider.updatePickers(e),document.documentElement.dataset.theme=e===`auto`?i():e,r(e)}matchMedia(`(prefers-color-scheme: light)`).addEventListener(`change`,()=>{n()===`auto`&&a(`auto`)});var o=class extends HTMLElement{constructor(){super(),a(n()),this.querySelector(`select`)?.addEventListener(`change`,e=>{e.currentTarget instanceof HTMLSelectElement&&a(t(e.currentTarget.value))})}};customElements.define(`starlight-theme-select`,o);</script></div><a class="pyking-github" href="https://github.com/pyking-lang" title="Pyking on GitHub"><span class="sr-only">GitHub</span><svg aria-hidden="true" viewBox="0 0 24 24" width="22" height="22" fill="currentColor"><path d="M12 .3a12 12 0 0 0-3.8 23.4c.6.1.8-.3.8-.6v-2c-3.3.7-4-1.6-4-1.6-.6-1.4-1.4-1.8-1.4-1.8-1-.7.1-.7.1-.7 1.2.1 1.8 1.2 1.8 1.2 1 1.8 2.8 1.3 3.5 1 0-.8.4-1.3.7-1.6-2.7-.3-5.5-1.3-5.5-6 0-1.2.5-2.3 1.3-3.1-.2-.4-.6-1.6 0-3.2 0 0 1-.3 3.4 1.2a11.5 11.5 0 0 1 6 0c2.3-1.5 3.3-1.2 3.3-1.2.6 1.6.2 2.8.1 3.2.8.8 1.3 1.9 1.3 3.1 0 4.6-2.8 5.6-5.5 5.9.5.4.9 1.1.9 2.2v3.3c0 .3.1.7.8.6A12 12 0 0 0 12 .3"></path></svg></a></div></div></header><nav class="sidebar print:hidden astro-yntsjkba" aria-label="Main"><button popovertarget="starlight__sidebar" class="sl-menu-button sl-flex md:sl-hidden print:hidden astro-r2osgdlg"><svg aria-hidden="true" class="open-menu astro-r2osgdlg astro-hkc32dio" width="16" height="16" viewBox="0 0 24 24" fill="currentColor" style="--sl-icon-size: 1em;"><path d="M3 8h18a1 1 0 1 0 0-2H3a1 1 0 0 0 0 2Zm18 8H3a1 1 0 0 0 0 2h18a1 1 0 0 0 0-2Zm0-5H3a1 1 0 0 0 0 2h18a1 1 0 0 0 0-2Z"/></svg><svg aria-hidden="true" class="close-menu astro-r2osgdlg astro-hkc32dio" width="16" height="16" viewBox="0 0 24 24" fill="currentColor" style="--sl-icon-size: 1em;"><path d="m13.41 12 6.3-6.29a1.004 1.004 0 1 0-1.42-1.42L12 10.59l-6.29-6.3a1.004 1.004 0 0 0-1.42 1.42l6.3 6.29-6.3 6.29a1 1 0 0 0 0 1.42.998.998 0 0 0 1.42 0l6.29-6.3 6.29 6.3a.999.999 0 0 0 1.42 0 1 1 0 0 0 0-1.42L13.41 12Z"/></svg><span class="sr-only astro-r2osgdlg">Menu</span></button><script type="module">var e=class extends HTMLElement{constructor(){super();let e=matchMedia(`(min-width: 50em)`),t=()=>{this.popover=e.matches?null:`auto`};t(),e.addEventListener(`change`,()=>t()),this.addEventListener(`toggle`,({newState:e})=>this.trapFocus(e===`open`))}trapFocus(e){document.querySelectorAll(`.main-frame, .sl-skip-link`).forEach(t=>{t.toggleAttribute(`inert`,e)})}};customElements.define(`sl-sidebar-pane`,e);</script><script type="module">var e=class extends HTMLElement{constructor(){super();let e=this.querySelector(`select`);e&&(e.addEventListener(`change`,e=>{e.currentTarget instanceof HTMLSelectElement&&(window.location.pathname=e.currentTarget.value)}),window.addEventListener(`pageshow`,t=>{if(!t.persisted)return;let n=e.querySelector(`option[selected]`)?.index;n!==e.selectedIndex&&(e.selectedIndex=n??0)}))}};customElements.define(`starlight-lang-select`,e);</script><sl-sidebar-pane popover id="starlight__sidebar" class="sidebar-pane astro-yntsjkba"><div class="sidebar-content sl-flex astro-yntsjkba"><nav class="pyking-sidebar" aria-label="Documentation"><p class="pyking-sidebar-title">Documentation</p><ul class="pyking-sidebar-main"><li><a href="/documentation/editors/">Editors</a></li><li><a href="/documentation/playground/">Playground</a></li><li><a href="/documentation/notebook/">Notebook</a></li><li><a href="/documentation/command-line/">Command line</a></li><li><a href="/documentation/repl/">REPL</a></li><li><a href="/documentation/targets/">Compiler targets</a></li><li><a href="/documentation/slides/">Code on slides</a></li><li class="pyking-sidebar-parent pyking-sidebar-open"><a href="/documentation/language/">Language reference</a><ul class="pyking-sidebar-sub"><li><a href="/documentation/language/programs-and-use/">Programs, modes and use</a></li><li><a href="/documentation/language/values/">Values and basic types</a></li><li><a href="/documentation/language/expressions/">Operators and expressions</a></li><li><a href="/documentation/language/names-and-scope/">Names, bindings and scope</a></li><li><a href="/documentation/language/mutable-state/">Mutable state</a></li><li><a href="/documentation/language/functions/">Functions</a></li><li><a href="/documentation/language/control-flow/">Control flow</a></li><li><a href="/documentation/language/collections/">Collections</a></li><li><a href="/documentation/language/datatypes/" aria-current="page">Datatypes, structs and pattern matching</a></li><li><a href="/documentation/language/objects/">Objects</a></li><li><a href="/documentation/language/types/">Types and type inference</a></li><li><a href="/documentation/language/overloading-and-implicits/">Overloading and implicits</a></li><li><a href="/documentation/language/modules/">Modules</a></li><li><a href="/documentation/language/builtins/">Builtins and I/O</a></li><li><a href="/documentation/language/warnings/">Warnings</a></li></ul></li><li><a href="/documentation/vs-other-languages/">Pyking vs. other languages</a></li><li><a href="/documentation/grammar/">Grammar</a></li><li class="pyking-sidebar-parent"><a href="/documentation/tinyweb/">Tinyweb without Pyking</a></li><li><a href="/documentation/tinyweb-styles/">Styling tinyweb</a></li></ul></nav><div class="md:sl-hidden"><div class="mobile-preferences sl-flex astro-p4azlveh"><div class="social-icons astro-p4azlveh"></div><starlight-theme-select><label style="--sl-select-width: 6.25em" class="astro-2z5xp7gb"><span class="sr-only astro-2z5xp7gb">Select theme</span><svg aria-hidden="true" class="icon label-icon astro-2z5xp7gb astro-hkc32dio" width="16" height="16" viewBox="0 0 24 24" fill="currentColor" style="--sl-icon-size: 1em;"><path d="M21 14h-1V7a3 3 0 0 0-3-3H7a3 3 0 0 0-3 3v7H3a1 1 0 0 0-1 1v2a3 3 0 0 0 3 3h14a3 3 0 0 0 3-3v-2a1 1 0 0 0-1-1ZM6 7a1 1 0 0 1 1-1h10a1 1 0 0 1 1 1v7H6V7Zm14 10a1 1 0 0 1-1 1H5a1 1 0 0 1-1-1v-1h16v1Z"/></svg><select autocomplete="off" class="astro-2z5xp7gb"><option value="dark" class="astro-2z5xp7gb">Dark</option><option value="light" class="astro-2z5xp7gb">Light</option><option value="auto" selected class="astro-2z5xp7gb">Auto</option></select><svg aria-hidden="true" class="icon caret astro-2z5xp7gb astro-hkc32dio" width="16" height="16" viewBox="0 0 24 24" fill="currentColor" style="--sl-icon-size: 1em;"><path d="M17 9.17a1 1 0 0 0-1.41 0L12 12.71 8.46 9.17a1 1 0 1 0-1.41 1.42l4.24 4.24a1.002 1.002 0 0 0 1.42 0L17 10.59a1.002 1.002 0 0 0 0-1.42Z"/></svg></label></starlight-theme-select><script>
+	StarlightThemeProvider.updatePickers();
+</script></div></div></div></sl-sidebar-pane></nav><div class="main-frame astro-yntsjkba"><script type="module">var e=document.getElementById(`starlight__sidebar`),t=e?.querySelector(`sl-sidebar-state-persist`),n=`sl-sidebar-state`,r=()=>{let r=[],i=t?.dataset.hash||``;try{let e=sessionStorage.getItem(n),t=JSON.parse(e||`{}`);Array.isArray(t.open)&&t.hash===i&&(r=t.open)}catch{}return{hash:i,open:r,scroll:e?.scrollTop||0}},i=e=>{try{sessionStorage.setItem(n,JSON.stringify(e))}catch{}},a=()=>i(r()),o=(e,t)=>{let n=r();n.open[t]=e,i(n)};t?.addEventListener(`click`,e=>{if(!(e.target instanceof Element))return;let t=e.target.closest(`summary`)?.closest(`details`);if(!t)return;let n=t.querySelector(`sl-sidebar-restore`),r=parseInt(n?.dataset.index||``);isNaN(r)||o(!t.open,r)}),addEventListener(`visibilitychange`,()=>{document.visibilityState===`hidden`&&a()});</script><div class="lg:sl-flex astro-lrzkfocr"><div class="main-pane astro-lrzkfocr"><main data-pagefind-body class="astro-g5ptsecz" lang="en" dir="ltr"><div class="content-panel astro-a7po4psb"><div class="sl-container astro-a7po4psb"><h1 id="_top" class="astro-bebwqqxs">Datatypes, structs and pattern matching</h1></div></div><div class="content-panel astro-a7po4psb"><div class="sl-container astro-a7po4psb"><div class="sl-markdown-content"><blockquote>
+<p><strong>Available:</strong> in every module (<code>mutable struct</code> with <code>use mutation</code>) ·
+<strong>Compared with Python:</strong> <code>match</code> is Python’s; datatypes and structs are
+new in Pyking</p>
+</blockquote>
+<p>A datatype lists the shapes a value may have, each a constructor with
+fields; a struct is a datatype with one constructor. <code>match</code> takes a
+value apart by its shape, and the checker makes sure every shape is
+handled. <code>Option</code> and <code>Result</code> are datatypes of the standard library,
+used where Python would use <code>None</code> or an exception.</p>
+<h2 id="datatypes--pyking-extension">Datatypes — Pyking extension</h2>
+<p><code>datatype</code> declares a type of its own: a name, the type variables it is
+written over, and its <strong>constructors</strong>, one per indented line. A value
+of the datatype is built by a constructor, and is one of them and
+nothing else:</p>
+<div class="pkn-notebook pkn-embedded not-content"><div class="pkn-cell"><pre class="pkn-cell-fallback"><code>datatype Shape:
+    Circle(radius: Float)
+    Rect(width: Float, height: Float)
+    Dot
+
+
+def area(s: Shape) -> Float:
+    match s:
+        case Circle(r): 3.0 * r * r
+        case Rect(w, h): w * h
+        case Dot: 0.0
+
+
+print(area(Circle(1.0)), area(Rect(2.0, 3.0)), area(Dot))
+print(Rect(2.0, 3.0), Dot)</code></pre></div></div>
+<p>The name of a datatype and of each constructor starts with an
+uppercase letter, which is what tells a constructor from a name in a
+pattern: <code>case Dot:</code> matches the constructor, and <code>case dot:</code> binds
+whatever arrives. A constructor with no fields is written bare, <code>Dot</code>,
+in a pattern and as a value. A datatype is declared at the top level of
+a module, and every datatype of the module is in scope throughout it,
+so datatypes may name each other in any order, and one may name
+itself.</p>
+<p>Constructors may share a line, separated by commas, and the first line
+of them may follow the datatype’s <code>:</code> directly; each further line of
+them is indented under it:</p>
+<div class="pkn-notebook pkn-embedded not-content"><div class="pkn-cell"><pre class="pkn-cell-fallback"><code>datatype Color: Red, Green, Blue
+    Gray(level: Int), Black
+
+datatype Bit: Zero, One
+
+print(Gray(3), One)</code></pre></div></div>
+<p>A value prints as the constructor applied to its fields, every field by
+position, a string among them quoted: <code>Rect(2.0, 3.0)</code>.</p>
+<p><strong>A field</strong> is a type alone, which makes it positional, or a name and a
+type, which may also be given by name. A named field may carry a
+default, any expression, and may leave its type to it:</p>
+<div class="pkn-notebook pkn-embedded not-content"><div class="pkn-cell"><pre class="pkn-cell-fallback"><code>def opening() -> Int:
+    return 100
+
+
+datatype Account:
+    Account(String, balance = opening(), currency = "SEK")
+
+
+print(Account("ada"))
+print(Account("grace", 10))
+print(Account("don", currency = "EUR"))</code></pre></div></div>
+<p>A field with no type written has its default’s type, and that default
+has to decide one: <code>items = []</code> is refused, since an empty list says
+nothing about what it holds. An exported datatype writes its fields’
+types down, a literal default’s apart (see “What a module may
+export”).</p>
+<p>A constructor is called with exactly the rules a <code>def</code> is (see “Default
+parameters” and “Named arguments”): positional arguments first, named
+ones in any order, every field without a default
+given something, and a default evaluated at each construction that
+leaves it out, in the scope the datatype is declared in. The unnamed
+fields come first, and every field after one with a default has one
+too.</p>
+<p><strong>A datatype may have parameters</strong>, written as type variables after its
+name, and applied to types where it is named — <code>Tree(Int)</code>,
+<code>Option(String)</code>. A polymorphic function over one is written and
+inferred like any other:</p>
+<div class="pkn-notebook pkn-embedded not-content"><div class="pkn-cell"><pre class="pkn-cell-fallback"><code>datatype Option(a):
+    Nothing
+    Just(a)
+
+
+def default(o: Option(a), d: a) -> a:
+    match o:
+        case Just(x): x
+        case Nothing: d
+
+
+print(default(Just(3), 0), default(Nothing, "none"))</code></pre></div></div>
+<p>A field’s type may name only the datatype’s own parameters.</p>
+<p><strong>A constructor pattern</strong> takes a value apart by the same rules a call
+puts one together: positional patterns first, then <code>field = pattern</code>,
+here in any order, and a field the pattern does not mention matches
+anything:</p>
+<div class="pkn-notebook pkn-embedded not-content"><div class="pkn-cell"><pre class="pkn-cell-fallback"><code>datatype Person:
+    Person(name: String, age: Int, admin: Bool = false)
+
+
+def role(p: Person) -> String:
+    match p:
+        case Person(admin = true): "admin"
+        case Person(n, age = a) if a &#x3C; 18: n + " is young"
+        case Person(name = n): n
+
+
+print(role(Person("ada", 36)), role(Person("tim", 12)), role(Person("root", 1, true)))</code></pre></div></div>
+<p><strong>A named field is read with <code>.</code></strong>, <code>p.name</code>, where every constructor of
+the datatype has a field of that name at one type — so a datatype of one
+constructor is a record:</p>
+<div class="pkn-notebook pkn-embedded not-content"><div class="pkn-cell"><pre class="pkn-cell-fallback"><code>datatype Point:
+    Point(x: Int, y: Int)
+
+
+p = Point(3, 4)
+print(p.x * p.x + p.y * p.y)</code></pre></div></div>
+<p>A constructor is not a value of its own: one with fields is always
+applied to them, and <code>Point</code> alone is refused.</p>
+<p><strong>Across modules</strong>, <code>public datatype</code> exports the datatype and every
+constructor. A constructor is reached through the module as any public
+name is — <code>shapes.Circle(1.0)</code>, <code>case shapes.Circle(r):</code> — and a
+datatype named on a <code>from</code> line brings its constructors with it:
+<code>from shapes import Shape</code> makes <code>Circle</code> a constructor here. A public
+definition whose type names a datatype that is not public is refused,
+since a module holding such a value could not say its type.</p>
+<h2 id="structs--pyking-extension">Structs — Pyking extension</h2>
+<p><code>struct</code> declares a datatype of one constructor, named as the type is.
+It means exactly the <code>datatype</code> it stands for, which is why everything
+“Datatypes” says of fields, defaults, construction, patterns and
+modules holds of it:</p>
+<div class="pkn-notebook pkn-embedded not-content"><div class="pkn-cell"><pre class="pkn-cell-fallback"><code>struct Point(x: Int, y = 78)
+
+# the same as
+#   datatype Point:
+#       Point(x: Int, y: Int = 78)
+
+p = Point(7, 10)
+print(p, Point(1), p.x + p.y)</code></pre></div></div>
+<p>Its fields are in parentheses after its name, or on indented lines under
+its <code>:</code>, a line holding one or more separated by commas. With neither,
+it has no fields:</p>
+<div class="pkn-notebook pkn-embedded not-content"><div class="pkn-cell"><pre class="pkn-cell-fallback"><code>struct Size:
+    width: Int, height: Int
+    unit = "px"
+
+
+struct Pair(Int, Int)
+
+
+struct Empty
+
+
+print(Size(4, 5), Pair(1, 2), Empty)</code></pre></div></div>
+<p><strong>Type parameters</strong> are written in parentheses before the <code>:</code> of the
+indented form. On one line, every type variable a field names is a
+parameter, in the order they first appear:</p>
+<div class="pkn-notebook pkn-embedded not-content"><div class="pkn-cell"><pre class="pkn-cell-fallback"><code>struct Pair(a, b):
+    first: a
+    second: b
+
+
+struct Box(value: a, label = "box")
+
+
+print(Pair(1, "one"), Box(true).label)</code></pre></div></div>
+<p>A struct’s value never changes: there is no assignment to its field. A
+changed copy is built instead, with <code>..</code> below. A struct whose fields
+are written in place is a <code>mutable struct</code> (see “Mutable structs”).</p>
+<p><strong><code>..base</code></strong> as the last argument of a constructor gives every field
+not written before it from <code>base</code>, a value of the same datatype, by
+name:</p>
+<div class="pkn-notebook pkn-embedded not-content"><div class="pkn-cell"><pre class="pkn-cell-fallback"><code>struct Point(x: Int, y: Int, z: Int = 0)
+
+
+p = Point(7, 10)
+print(Point(x = 5, ..p))          # Point(5, 10, 0)
+print(Point(1, ..p))              # Point(1, 10, 0)</code></pre></div></div>
+<p><code>Point(x = 5, ..p)</code> means <code>Point(x = 5, y = p.y, z = p.z)</code>: what is
+written before the <code>..</code> is evaluated first, in the order written, and
+<code>base</code> after it, once. Defaults play no part, since every field left
+out comes from <code>base</code>. A field an update can fill is one with a
+name, so an unnamed field is given before the <code>..</code>. <code>..</code> is written for
+any datatype of one constructor — one of several might not be the
+constructor <code>base</code> was built by — and is refused where it fills no
+field, and in a call to a <code>def</code>, which has no fields to fill. Where the
+datatype has parameters, the fields written may change them:
+<code>Pair(first = true, ..Pair(1, "one"))</code> is a <code>Pair(Bool, String)</code>.</p>
+<h2 id="matchcase-pattern-matching"><code>match</code>/<code>case</code> pattern matching</h2>
+<p><code>match expr:</code> is followed by one or more indented <code>case pattern:</code> clauses;
+the body of the first case whose pattern matches runs. A pattern is an
+integer literal, a string literal, a boolean literal, <code>_</code> (always
+matches, discards the value), a plain identifier (always matches, binds
+the value to that name), or a tuple pattern that destructures a tuple
+value element by element (with or without parentheses, nesting
+arbitrarily, and sub-patterns can themselves be literals, <code>_</code>,
+identifiers, or further tuple patterns) — see the notes on the Grammar,
+and the sections below for constructor patterns, or-patterns, <code>as</code> and
+guards. A <code>match</code> matches every value of its subject’s type, which is
+why <code>describe</code> ends in a case that binds a name (see “Exhaustiveness”).</p>
+<div class="expressive-code"><link rel="stylesheet" href="/_astro/ec.w36nc.css"><script type="module" src="/_astro/ec.0vx5m.js"></script><figure class="frame not-content"><figcaption class="header"></figcaption><pre data-language="python"><code><div class="ec-line"><div class="code"><span style="--0:#C792EA;--1:#8844AE">def</span><span style="--0:#D6DEEB;--1:#403F53"> </span><span style="--0:#82AAFF;--1:#3B61B0">describe</span><span style="--0:#D9F5DD;--1:#111111">(</span><span style="--0:#7FDBCA;--1:#096E72">n</span><span style="--0:#D9F5DD;--1:#111111">)</span><span style="--0:#D6DEEB;--1:#403F53">:</span></div></div><div class="ec-line"><div class="code"><span class="indent">    </span><span style="--0:#C792EA;--1:#8844AE">match</span><span style="--0:#D6DEEB;--1:#403F53"> n:</span></div></div><div class="ec-line"><div class="code"><span class="indent">        </span><span style="--0:#C792EA;--1:#8844AE">case</span><span style="--0:#D6DEEB;--1:#403F53"> </span><span style="--0:#F78C6C;--1:#AA0982">0</span><span style="--0:#D6DEEB;--1:#403F53">:</span></div></div><div class="ec-line"><div class="code"><span class="indent">            </span><span style="--0:#C792EA;--1:#8844AE">return</span><span style="--0:#D6DEEB;--1:#403F53"> </span><span style="--0:#D9F5DD;--1:#111111">"</span><span style="--0:#ECC48D;--1:#984E4D">zero</span><span style="--0:#D9F5DD;--1:#111111">"</span></div></div><div class="ec-line"><div class="code"><span class="indent">        </span><span style="--0:#C792EA;--1:#8844AE">case</span><span style="--0:#D6DEEB;--1:#403F53"> </span><span style="--0:#F78C6C;--1:#AA0982">1</span><span style="--0:#D6DEEB;--1:#403F53">:</span></div></div><div class="ec-line"><div class="code"><span class="indent">            </span><span style="--0:#C792EA;--1:#8844AE">return</span><span style="--0:#D6DEEB;--1:#403F53"> </span><span style="--0:#D9F5DD;--1:#111111">"</span><span style="--0:#ECC48D;--1:#984E4D">one</span><span style="--0:#D9F5DD;--1:#111111">"</span></div></div><div class="ec-line"><div class="code"><span class="indent">        </span><span style="--0:#C792EA;--1:#8844AE">case</span><span style="--0:#D6DEEB;--1:#403F53"> value:</span></div></div><div class="ec-line"><div class="code"><span class="indent">            </span><span style="--0:#C792EA;--1:#8844AE">return</span><span style="--0:#D6DEEB;--1:#403F53"> </span><span style="--0:#D9F5DD;--1:#111111">"</span><span style="--0:#ECC48D;--1:#984E4D">many: </span><span style="--0:#D9F5DD;--1:#111111">"</span><span style="--0:#D6DEEB;--1:#403F53"> </span><span style="--0:#C792EA;--1:#8844AE">+</span><span style="--0:#D6DEEB;--1:#403F53"> </span><span style="--0:#B2CCD6;--1:#096E72">string</span><span style="--0:#D6DEEB;--1:#403F53">(</span><span style="--0:#82AAFF;--1:#3B61B0">value</span><span style="--0:#D6DEEB;--1:#403F53">)</span></div></div><div class="ec-line"><div class="code">
+</div></div><div class="ec-line"><div class="code">
+</div></div><div class="ec-line"><div class="code"><span style="--0:#C792EA;--1:#8844AE">for</span><span style="--0:#D6DEEB;--1:#403F53"> i </span><span style="--0:#C792EA;--1:#8844AE">in</span><span style="--0:#D6DEEB;--1:#403F53"> </span><span style="--0:#D9F5DD;--1:#111111">[</span><span style="--0:#F78C6C;--1:#AA0982">0</span><span style="--0:#D6DEEB;--1:#403F53">, </span><span style="--0:#F78C6C;--1:#AA0982">1</span><span style="--0:#D6DEEB;--1:#403F53">, </span><span style="--0:#F78C6C;--1:#AA0982">5</span><span style="--0:#D9F5DD;--1:#111111">]</span><span style="--0:#D6DEEB;--1:#403F53">:</span></div></div><div class="ec-line"><div class="code"><span class="indent">    </span><span style="--0:#C5E478;--1:#3B61B0">print</span><span style="--0:#D6DEEB;--1:#403F53">(</span><span style="--0:#B2CCD6;--1:#096E72">describe</span><span style="--0:#D6DEEB;--1:#403F53">(</span><span style="--0:#82AAFF;--1:#3B61B0">i</span><span style="--0:#D6DEEB;--1:#403F53">))</span></div></div></code></pre><div class="copy"><div aria-live="polite"></div><button title="Copy to clipboard" data-copied="Copied!" data-code="def describe(n):    match n:        case 0:            return &#x22;zero&#x22;        case 1:            return &#x22;one&#x22;        case value:            return &#x22;many: &#x22; + string(value)for i in [0, 1, 5]:    print(describe(i))"><div></div></button></div></figure></div>
+<p>A boolean pattern matches only that exact value, the same way an integer
+or string literal pattern does:</p>
+<div class="pkn-notebook pkn-embedded not-content"><div class="pkn-cell"><pre class="pkn-cell-fallback"><code>def describe(flag):
+    match flag:
+        case true: "yes"
+        case false: "no"
+
+
+print(describe(1 &#x3C; 2), describe(3 &#x3C; 2))</code></pre></div></div>
+<div class="expressive-code"><figure class="frame not-content"><figcaption class="header"></figcaption><pre data-language="python"><code><div class="ec-line"><div class="code"><span style="--0:#C792EA;--1:#8844AE">def</span><span style="--0:#D6DEEB;--1:#403F53"> </span><span style="--0:#82AAFF;--1:#3B61B0">classify_point</span><span style="--0:#D9F5DD;--1:#111111">(</span><span style="--0:#7FDBCA;--1:#096E72">p</span><span style="--0:#D9F5DD;--1:#111111">)</span><span style="--0:#D6DEEB;--1:#403F53">:</span></div></div><div class="ec-line"><div class="code"><span class="indent">    </span><span style="--0:#C792EA;--1:#8844AE">match</span><span style="--0:#D6DEEB;--1:#403F53"> p:</span></div></div><div class="ec-line"><div class="code"><span class="indent">        </span><span style="--0:#C792EA;--1:#8844AE">case</span><span style="--0:#D6DEEB;--1:#403F53"> (</span><span style="--0:#F78C6C;--1:#AA0982">0</span><span style="--0:#D6DEEB;--1:#403F53">, </span><span style="--0:#F78C6C;--1:#AA0982">0</span><span style="--0:#D6DEEB;--1:#403F53">):</span></div></div><div class="ec-line"><div class="code"><span class="indent">            </span><span style="--0:#C792EA;--1:#8844AE">return</span><span style="--0:#D6DEEB;--1:#403F53"> </span><span style="--0:#D9F5DD;--1:#111111">"</span><span style="--0:#ECC48D;--1:#984E4D">origin</span><span style="--0:#D9F5DD;--1:#111111">"</span></div></div><div class="ec-line"><div class="code"><span class="indent">        </span><span style="--0:#C792EA;--1:#8844AE">case</span><span style="--0:#D6DEEB;--1:#403F53"> (x, </span><span style="--0:#F78C6C;--1:#AA0982">0</span><span style="--0:#D6DEEB;--1:#403F53">):</span></div></div><div class="ec-line"><div class="code"><span class="indent">            </span><span style="--0:#C792EA;--1:#8844AE">return</span><span style="--0:#D6DEEB;--1:#403F53"> </span><span style="--0:#D9F5DD;--1:#111111">"</span><span style="--0:#ECC48D;--1:#984E4D">on the x axis</span><span style="--0:#D9F5DD;--1:#111111">"</span></div></div><div class="ec-line"><div class="code"><span class="indent">        </span><span style="--0:#C792EA;--1:#8844AE">case</span><span style="--0:#D6DEEB;--1:#403F53"> (</span><span style="--0:#F78C6C;--1:#AA0982">0</span><span style="--0:#D6DEEB;--1:#403F53">, y):</span></div></div><div class="ec-line"><div class="code"><span class="indent">            </span><span style="--0:#C792EA;--1:#8844AE">return</span><span style="--0:#D6DEEB;--1:#403F53"> </span><span style="--0:#D9F5DD;--1:#111111">"</span><span style="--0:#ECC48D;--1:#984E4D">on the y axis</span><span style="--0:#D9F5DD;--1:#111111">"</span></div></div><div class="ec-line"><div class="code"><span class="indent">        </span><span style="--0:#C792EA;--1:#8844AE">case</span><span style="--0:#D6DEEB;--1:#403F53"> (x, y):</span></div></div><div class="ec-line"><div class="code"><span class="indent">            </span><span style="--0:#C792EA;--1:#8844AE">return</span><span style="--0:#D6DEEB;--1:#403F53"> </span><span style="--0:#D9F5DD;--1:#111111">"</span><span style="--0:#ECC48D;--1:#984E4D">elsewhere</span><span style="--0:#D9F5DD;--1:#111111">"</span></div></div><div class="ec-line"><div class="code">
+</div></div><div class="ec-line"><div class="code">
+</div></div><div class="ec-line"><div class="code"><span style="--0:#C5E478;--1:#3B61B0">print</span><span style="--0:#D6DEEB;--1:#403F53">(</span><span style="--0:#B2CCD6;--1:#096E72">classify_point</span><span style="--0:#D6DEEB;--1:#403F53">(</span><span style="--0:#82AAFF;--1:#3B61B0">(</span><span style="--0:#F78C6C;--1:#AA0982">0</span><span style="--0:#82AAFF;--1:#3B61B0">, </span><span style="--0:#F78C6C;--1:#AA0982">0</span><span style="--0:#82AAFF;--1:#3B61B0">)</span><span style="--0:#D6DEEB;--1:#403F53">))</span></div></div><div class="ec-line"><div class="code"><span style="--0:#C5E478;--1:#3B61B0">print</span><span style="--0:#D6DEEB;--1:#403F53">(</span><span style="--0:#B2CCD6;--1:#096E72">classify_point</span><span style="--0:#D6DEEB;--1:#403F53">(</span><span style="--0:#82AAFF;--1:#3B61B0">(</span><span style="--0:#F78C6C;--1:#AA0982">3</span><span style="--0:#82AAFF;--1:#3B61B0">, </span><span style="--0:#F78C6C;--1:#AA0982">0</span><span style="--0:#82AAFF;--1:#3B61B0">)</span><span style="--0:#D6DEEB;--1:#403F53">))</span></div></div><div class="ec-line"><div class="code"><span style="--0:#C5E478;--1:#3B61B0">print</span><span style="--0:#D6DEEB;--1:#403F53">(</span><span style="--0:#B2CCD6;--1:#096E72">classify_point</span><span style="--0:#D6DEEB;--1:#403F53">(</span><span style="--0:#82AAFF;--1:#3B61B0">(</span><span style="--0:#F78C6C;--1:#AA0982">0</span><span style="--0:#82AAFF;--1:#3B61B0">, </span><span style="--0:#F78C6C;--1:#AA0982">3</span><span style="--0:#82AAFF;--1:#3B61B0">)</span><span style="--0:#D6DEEB;--1:#403F53">))</span></div></div><div class="ec-line"><div class="code"><span style="--0:#C5E478;--1:#3B61B0">print</span><span style="--0:#D6DEEB;--1:#403F53">(</span><span style="--0:#B2CCD6;--1:#096E72">classify_point</span><span style="--0:#D6DEEB;--1:#403F53">(</span><span style="--0:#82AAFF;--1:#3B61B0">(</span><span style="--0:#F78C6C;--1:#AA0982">3</span><span style="--0:#82AAFF;--1:#3B61B0">, </span><span style="--0:#F78C6C;--1:#AA0982">4</span><span style="--0:#82AAFF;--1:#3B61B0">)</span><span style="--0:#D6DEEB;--1:#403F53">))</span></div></div></code></pre><div class="copy"><div aria-live="polite"></div><button title="Copy to clipboard" data-copied="Copied!" data-code="def classify_point(p):    match p:        case (0, 0):            return &#x22;origin&#x22;        case (x, 0):            return &#x22;on the x axis&#x22;        case (0, y):            return &#x22;on the y axis&#x22;        case (x, y):            return &#x22;elsewhere&#x22;print(classify_point((0, 0)))print(classify_point((3, 0)))print(classify_point((0, 3)))print(classify_point((3, 4)))"><div></div></button></div></figure></div>
+<p>A list pattern destructures a list value, and — unlike a tuple pattern —
+may include <strong>one</strong> <code>..</code>/<code>..name</code> “rest” marker anywhere among its
+elements, matching a run of zero or more elements there: <code>..</code> matches and
+discards them, <code>..name</code> matches and binds them (as a list) to <code>name</code>.
+Patterns before the marker are a required prefix, patterns after it are
+a required suffix, and with no marker at all the list pattern matches
+only a list of exactly that length. A plain <code>_</code> still matches (and
+discards) a single element, exactly as in a tuple pattern.</p>
+<div class="expressive-code"><figure class="frame not-content"><figcaption class="header"></figcaption><pre data-language="python"><code><div class="ec-line"><div class="code"><span style="--0:#C792EA;--1:#8844AE">def</span><span style="--0:#D6DEEB;--1:#403F53"> </span><span style="--0:#82AAFF;--1:#3B61B0">describe</span><span style="--0:#D9F5DD;--1:#111111">(</span><span style="--0:#7FDBCA;--1:#096E72">xs</span><span style="--0:#D9F5DD;--1:#111111">)</span><span style="--0:#D6DEEB;--1:#403F53">:</span></div></div><div class="ec-line"><div class="code"><span class="indent">    </span><span style="--0:#C792EA;--1:#8844AE">match</span><span style="--0:#D6DEEB;--1:#403F53"> xs:</span></div></div><div class="ec-line"><div class="code"><span class="indent">        </span><span style="--0:#C792EA;--1:#8844AE">case</span><span style="--0:#D6DEEB;--1:#403F53"> </span><span style="--0:#D9F5DD;--1:#111111">[]</span><span style="--0:#D6DEEB;--1:#403F53">:</span></div></div><div class="ec-line"><div class="code"><span class="indent">            </span><span style="--0:#C792EA;--1:#8844AE">return</span><span style="--0:#D6DEEB;--1:#403F53"> </span><span style="--0:#D9F5DD;--1:#111111">"</span><span style="--0:#ECC48D;--1:#984E4D">empty</span><span style="--0:#D9F5DD;--1:#111111">"</span></div></div><div class="ec-line"><div class="code"><span class="indent">        </span><span style="--0:#C792EA;--1:#8844AE">case</span><span style="--0:#D6DEEB;--1:#403F53"> </span><span style="--0:#D9F5DD;--1:#111111">[</span><span style="--0:#D6DEEB;--1:#403F53">x</span><span style="--0:#D9F5DD;--1:#111111">]</span><span style="--0:#D6DEEB;--1:#403F53">:</span></div></div><div class="ec-line"><div class="code"><span class="indent">            </span><span style="--0:#C792EA;--1:#8844AE">return</span><span style="--0:#D6DEEB;--1:#403F53"> </span><span style="--0:#D9F5DD;--1:#111111">"</span><span style="--0:#ECC48D;--1:#984E4D">exactly one: </span><span style="--0:#D9F5DD;--1:#111111">"</span><span style="--0:#D6DEEB;--1:#403F53"> </span><span style="--0:#C792EA;--1:#8844AE">+</span><span style="--0:#D6DEEB;--1:#403F53"> </span><span style="--0:#B2CCD6;--1:#096E72">string</span><span style="--0:#D6DEEB;--1:#403F53">(</span><span style="--0:#82AAFF;--1:#3B61B0">x</span><span style="--0:#D6DEEB;--1:#403F53">)</span></div></div><div class="ec-line"><div class="code"><span class="indent">        </span><span style="--0:#C792EA;--1:#8844AE">case</span><span style="--0:#D6DEEB;--1:#403F53"> </span><span style="--0:#D9F5DD;--1:#111111">[</span><span style="--0:#D6DEEB;--1:#403F53">a, b, c</span><span style="--0:#D9F5DD;--1:#111111">]</span><span style="--0:#D6DEEB;--1:#403F53">:</span></div></div><div class="ec-line"><div class="code"><span class="indent">            </span><span style="--0:#C792EA;--1:#8844AE">return</span><span style="--0:#D6DEEB;--1:#403F53"> </span><span style="--0:#D9F5DD;--1:#111111">"</span><span style="--0:#ECC48D;--1:#984E4D">exactly three</span><span style="--0:#D9F5DD;--1:#111111">"</span></div></div><div class="ec-line"><div class="code"><span class="indent">        </span><span style="--0:#C792EA;--1:#8844AE">case</span><span style="--0:#D6DEEB;--1:#403F53"> </span><span style="--0:#D9F5DD;--1:#111111">[</span><span style="--0:#D6DEEB;--1:#403F53">first, ..rest</span><span style="--0:#D9F5DD;--1:#111111">]</span><span style="--0:#D6DEEB;--1:#403F53">:</span></div></div><div class="ec-line"><div class="code"><span class="indent">            </span><span style="--0:#C792EA;--1:#8844AE">return</span><span style="--0:#D6DEEB;--1:#403F53"> </span><span style="--0:#D9F5DD;--1:#111111">"</span><span style="--0:#ECC48D;--1:#984E4D">prefix + rest, first=</span><span style="--0:#D9F5DD;--1:#111111">"</span><span style="--0:#D6DEEB;--1:#403F53"> </span><span style="--0:#C792EA;--1:#8844AE">+</span><span style="--0:#D6DEEB;--1:#403F53"> </span><span style="--0:#B2CCD6;--1:#096E72">string</span><span style="--0:#D6DEEB;--1:#403F53">(</span><span style="--0:#82AAFF;--1:#3B61B0">first</span><span style="--0:#D6DEEB;--1:#403F53">)</span></div></div><div class="ec-line"><div class="code">
+</div></div><div class="ec-line"><div class="code">
+</div></div><div class="ec-line"><div class="code"><span style="--0:#C5E478;--1:#3B61B0">print</span><span style="--0:#D6DEEB;--1:#403F53">(</span><span style="--0:#B2CCD6;--1:#096E72">describe</span><span style="--0:#D6DEEB;--1:#403F53">(</span><span style="--0:#D9F5DD;--1:#111111">[]</span><span style="--0:#D6DEEB;--1:#403F53">))</span></div></div><div class="ec-line"><div class="code"><span style="--0:#C5E478;--1:#3B61B0">print</span><span style="--0:#D6DEEB;--1:#403F53">(</span><span style="--0:#B2CCD6;--1:#096E72">describe</span><span style="--0:#D6DEEB;--1:#403F53">(</span><span style="--0:#D9F5DD;--1:#111111">[</span><span style="--0:#F78C6C;--1:#AA0982">1</span><span style="--0:#D9F5DD;--1:#111111">]</span><span style="--0:#D6DEEB;--1:#403F53">))</span></div></div><div class="ec-line"><div class="code"><span style="--0:#C5E478;--1:#3B61B0">print</span><span style="--0:#D6DEEB;--1:#403F53">(</span><span style="--0:#B2CCD6;--1:#096E72">describe</span><span style="--0:#D6DEEB;--1:#403F53">(</span><span style="--0:#D9F5DD;--1:#111111">[</span><span style="--0:#F78C6C;--1:#AA0982">1</span><span style="--0:#82AAFF;--1:#3B61B0">, </span><span style="--0:#F78C6C;--1:#AA0982">2</span><span style="--0:#82AAFF;--1:#3B61B0">, </span><span style="--0:#F78C6C;--1:#AA0982">3</span><span style="--0:#D9F5DD;--1:#111111">]</span><span style="--0:#D6DEEB;--1:#403F53">))</span></div></div></code></pre><div class="copy"><div aria-live="polite"></div><button title="Copy to clipboard" data-copied="Copied!" data-code="def describe(xs):    match xs:        case []:            return &#x22;empty&#x22;        case [x]:            return &#x22;exactly one: &#x22; + string(x)        case [a, b, c]:            return &#x22;exactly three&#x22;        case [first, ..rest]:            return &#x22;prefix + rest, first=&#x22; + string(first)print(describe([]))print(describe([1]))print(describe([1, 2, 3]))"><div></div></button></div></figure></div>
+<p>A case that no value can reach — every value it matches is taken by a
+case above it — is refused, so after <code>[first, ..rest]</code>, which takes
+every list of one element or more, nothing more may be written. The
+other forms, <code>[..init, last]</code>, <code>[p, q, ..mid, r]</code>, <code>[u, v, ..]</code> and
+<code>[_, ..w]</code>, are each shown in a function of their own in
+<code>tests/list_pattern_match.pyk</code>.</p>
+<p><strong>Splitting with <code>+</code>.</strong> A pattern may be written as pieces joined with
+<code>+</code>, the concatenation operator read backwards: a pattern says how the
+value was put together. Every piece but one has a fixed length, and the
+one name in the middle takes whatever is left:</p>
+<div class="expressive-code"><figure class="frame not-content"><figcaption class="header"></figcaption><pre data-language="pyking"><code><div class="ec-line"><div class="code"><span style="--0:#D6DEEB;--1:#403F53">[x] </span><span style="--0:#7FDBCA;--1:#096E72">+</span><span style="--0:#D6DEEB;--1:#403F53"> xs               is  [x, </span><span style="--0:#7FDBCA;--1:#096E72">..</span><span style="--0:#D6DEEB;--1:#403F53">xs]</span></div></div><div class="ec-line"><div class="code"><span style="--0:#D6DEEB;--1:#403F53">first </span><span style="--0:#7FDBCA;--1:#096E72">+</span><span style="--0:#D6DEEB;--1:#403F53"> [x, y, z]      is  [</span><span style="--0:#7FDBCA;--1:#096E72">..</span><span style="--0:#D6DEEB;--1:#403F53">first, x, y, z]</span></div></div><div class="ec-line"><div class="code"><span style="--0:#D6DEEB;--1:#403F53">[x, y] </span><span style="--0:#7FDBCA;--1:#096E72">+</span><span style="--0:#D6DEEB;--1:#403F53"> m </span><span style="--0:#7FDBCA;--1:#096E72">+</span><span style="--0:#D6DEEB;--1:#403F53"> [k1, k2]  is  [x, y, </span><span style="--0:#7FDBCA;--1:#096E72">..</span><span style="--0:#D6DEEB;--1:#403F53">m, k1, k2]</span></div></div></code></pre><div class="copy"><div aria-live="polite"></div><button title="Copy to clipboard" data-copied="Copied!" data-code="[x] + xs               is  [x, ..xs]first + [x, y, z]      is  [..first, x, y, z][x, y] + m + [k1, k2]  is  [x, y, ..m, k1, k2]"><div></div></button></div></figure></div>
+<p>For a list the two spellings are the same pattern, and the printed
+program uses the <code>..</code> one whichever was written. For a <strong>string</strong> this is the only
+spelling, and the only way to match a string by anything but equality:</p>
+<div class="pkn-notebook pkn-embedded not-content"><div class="pkn-cell"><pre class="pkn-cell-fallback"><code>def command(line:String) -> String:
+    match line:
+        case "get " + rest:
+            return "GET(" + rest + ")"
+        case "&#x3C;" + body + ">":
+            return body
+        case other:
+            return "?" + other</code></pre></div></div>
+<p>Only <em>literal</em> text can be stripped this way. <code>_ + rest</code> leaves two
+parts open and is refused, and so is a chain mixing a list with a
+string, or one whose pieces are not all of fixed length (<code>[x, ..r] + ys</code>
+would need two rest markers).</p>
+<p>A <code>case</code> clause opens a block like any other header, so an arm whose
+body is one expression can be written on the clause’s own line (see “A
+block on its header’s own line” in the Grammar). The arm then supplies its value
+the way any branch tail does: it is the function’s value directly inside
+a function, and the bound value when the whole <code>match</code> is bound with <code>=</code>
+(see “<code>if</code>/<code>match</code> statements as bound values”). Arms written each
+way mix freely within one <code>match</code>.</p>
+<div class="pkn-notebook pkn-embedded not-content"><div class="pkn-cell"><pre class="pkn-cell-fallback"><code>def describe(n):
+    match n:
+        case 0: "zero"
+        case 1: "one"
+        case _: "many"
+
+
+for i in [0, 1, 5]:
+    print(describe(i))</code></pre></div></div>
+<h2 id="or-patterns-as-and-guards">Or-patterns, <code>as</code> and guards</h2>
+<p><code>p1 | p2</code> matches what either alternative matches. The alternatives
+bind the same names, at the same types, so the arm after it sees one set
+of bindings whichever matched:</p>
+<div class="pkn-notebook pkn-embedded not-content"><div class="pkn-cell"><pre class="pkn-cell-fallback"><code>def on_axis(p: (Int, Int)) -> String:
+    match p:
+        case (0, 0): "origin"
+        case (x, 0) | (0, x): "on an axis at " + string(x)
+        case _: "elsewhere"
+
+
+print(on_axis((3, 0)), on_axis((0, -4)), on_axis((1, 1)))</code></pre></div></div>
+<p><code>pattern as name</code> binds the whole value the pattern matched, beside
+what the pattern takes apart:</p>
+<div class="pkn-notebook pkn-embedded not-content"><div class="pkn-cell"><pre class="pkn-cell-fallback"><code>match (1, (2, 3)):
+    case (x, (y, z) as inner):
+        print(x, y, z, inner)</code></pre></div></div>
+<p>A <strong>guard</strong>, <code>case pattern if condition:</code>, is asked once the pattern has
+matched, with what the pattern bound in scope. A guard that is false
+goes on to the next case, as a pattern that does not match does. The
+guard is a <code>Bool</code>:</p>
+<div class="pkn-notebook pkn-embedded not-content"><div class="pkn-cell"><pre class="pkn-cell-fallback"><code>def sign(n: Int) -> String:
+    match n:
+        case 0: "zero"
+        case m if m > 0: "positive"
+        case _: "negative"
+
+
+print(sign(5), sign(0), sign(-5))</code></pre></div></div>
+<p>Guards are asked in order, and only as far as the first that holds, so
+one that calls a function calls it only when every case above it was
+passed over.</p>
+<h2 id="option--pyking-extension">Option — Pyking extension</h2>
+<p><code>Option(a)</code> is a value or none: <code>Some(value)</code> or <code>None</code>. It is builtin
+in the way a library is: a module that uses <code>Option</code>, <code>Some</code> or <code>None</code>,
+and declares and imports none of them, has lib/option’s — as if it
+began <code>from option import Option</code> — and <code>import option</code> reaches its
+functions, named as Rust’s are: <code>is_some</code>, <code>is_none</code>, <code>unwrap_or</code>,
+<code>unwrap_or_else</code>, <code>and_then</code>, <code>or_else</code>, <code>zip</code>, <code>flatten</code>, <code>unwrap</code>,
+<code>expect</code>, <code>all_some</code> and <code>values</code>. <code>fmap</code>, <code>filter</code>, the folds and
+<code>list(o)</code> take an Option too (see “fmap and the folds”).</p>
+<div class="pkn-notebook pkn-embedded not-content"><div class="pkn-cell"><pre class="pkn-cell-fallback"><code>import option
+
+def first_even(xs: [Int]) -> Option(Int):
+    match xs:
+        case []: None
+        case [x, ..rest]: if x % 2 == 0 then Some(x) else first_even(rest)
+
+print(first_even([1, 4, 5]), first_even([1]), option.unwrap_or(first_even([3]), 0))
+# Some(4) None 0</code></pre></div></div>
+<p>A module declaring a datatype <code>Option</code>, or one with a constructor <code>Some</code>
+or <code>None</code>, means its own, as programs written before Option was builtin
+do. A pointer that may point nowhere is an <code>Option(Ptr(T))</code> (see
+“Pointers”): Pyking has no null.</p>
+<p><code>option.or_else(o, f)</code> takes a function answering an Option, as Rust’s
+does; until November 2026 it took the default value, which is now
+<code>option.unwrap_or(o, value)</code>, and an old call is refused with that
+named.</p>
+<h2 id="result--pyking-extension">Result — Pyking extension</h2>
+<p><code>Result(t, e)</code> is a value or the error that stopped it: <code>Ok(value)</code> or
+<code>Error(error)</code>, as Rust’s is, with <code>Error</code> for Rust’s <code>Err</code>. It is
+builtin as Option is: a module that uses <code>Result</code>, <code>Ok</code> or <code>Error</code>, and
+declares and imports none of them, has lib/result’s, and <code>import result</code> reaches its functions.</p>
+<div class="pkn-notebook pkn-embedded not-content"><div class="pkn-cell"><pre class="pkn-cell-fallback"><code>import result
+
+def parse_age(s: String) -> Result(Int, String):
+    n = int(s)
+    if string(n) == s and n >= 0 then Ok(n) else Error("not an age: " + s)
+
+print(parse_age("31"), parse_age("x"), fmap(lam n. n + 1, parse_age("31")))
+print(result.unwrap_or(parse_age("x"), 0), result.and_then(parse_age("31"), lam n. if n &#x3C; 150 then Ok(n) else Error("too old")))
+# Ok(31) Error("not an age: x") Ok(32)
+# 0 Ok(31)</code></pre></div></div>
+<p>lib/result has <code>is_ok</code>, <code>is_error</code>, <code>ok</code>, <code>error</code>, <code>unwrap_or</code>,
+<code>unwrap_or_else</code>, <code>and_then</code> (the next step, which stops at the first
+error), <code>or_else</code>, <code>map_error</code>, <code>unwrap</code>, <code>expect</code>, <code>unwrap_error</code>,
+<code>flatten</code>, <code>all_ok</code>, <code>partition_results</code>, and <code>ok_or</code>, which makes an
+Option a Result. <code>unwrap</code> of an <code>Error</code> stops the program with a runtime
+error, as <code>panic</code> does. A module declaring its own <code>Result</code>, <code>Ok</code> or
+<code>Error</code> means its own.</p></div><footer class="sl-flex astro-ddtxxk7k"><div class="meta sl-flex astro-ddtxxk7k"></div><div class="pagination-links print:hidden astro-b5raizh3" dir="ltr"></div></footer></div></div></main></div></div></div></div></body></html>

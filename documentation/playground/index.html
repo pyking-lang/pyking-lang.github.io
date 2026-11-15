@@ -1,0 +1,533 @@
+<!DOCTYPE html><html lang="en" dir="ltr" data-theme="dark" data-has-sidebar class="astro-g5ptsecz"><head><meta charset="utf-8"/><meta name="viewport" content="width=device-width, initial-scale=1"/><title>Playground | Pyking</title><link rel="canonical" href="https://pyking.org/documentation/playground/"/><link rel="sitemap" href="/sitemap-index.xml"/><script src="/v/8e74ca34b133/site/shell.js" data-base data-build="8e74ca34b133" data-sections="[{&quot;key&quot;:&quot;install&quot;,&quot;label&quot;:&quot;Install&quot;,&quot;prefix&quot;:&quot;/install/&quot;},{&quot;key&quot;:&quot;getstarted&quot;,&quot;label&quot;:&quot;Getting started&quot;,&quot;prefix&quot;:&quot;/getstarted/&quot;},{&quot;key&quot;:&quot;documentation&quot;,&quot;label&quot;:&quot;Documentation&quot;,&quot;prefix&quot;:&quot;/documentation/&quot;},{&quot;key&quot;:&quot;libraries&quot;,&quot;label&quot;:&quot;Libraries&quot;,&quot;prefix&quot;:&quot;/libraries/&quot;},{&quot;key&quot;:&quot;playground&quot;,&quot;label&quot;:&quot;Playground&quot;,&quot;prefix&quot;:&quot;/playground/&quot;}]"></script><script type="module" src="/v/8e74ca34b133/site/cells.js"></script><script>try { if (localStorage.getItem('starlight-theme') === null) localStorage.setItem('starlight-theme', 'dark'); } catch (e) {}</script><link rel="shortcut icon" href="/v/8e74ca34b133/site/favicon.svg" type="image/svg+xml"/><meta name="generator" content="Astro v7.3.5"/><meta name="generator" content="Starlight v0.42.5"/><meta property="og:title" content="Playground"/><meta property="og:type" content="article"/><meta property="og:url" content="https://pyking.org/documentation/playground/"/><meta property="og:locale" content="en"/><meta property="og:description" content="Write, run, compile, debug and share Pyking programs in the browser, with nothing to install."/><meta property="og:site_name" content="Pyking"/><meta name="twitter:card" content="summary_large_image"/><meta name="description" content="Write, run, compile, debug and share Pyking programs in the browser, with nothing to install."/><script>
+	window.StarlightThemeProvider = (() => {
+		const storedTheme =
+			typeof localStorage !== 'undefined' && localStorage.getItem('starlight-theme');
+		const theme =
+			storedTheme ||
+			(window.matchMedia('(prefers-color-scheme: light)').matches ? 'light' : 'dark');
+		document.documentElement.dataset.theme = theme === 'light' ? 'light' : 'dark';
+		return {
+			updatePickers(theme = storedTheme || 'auto') {
+				document.querySelectorAll('starlight-theme-select').forEach((picker) => {
+					const select = picker.querySelector('select');
+					if (select) select.value = theme;
+					/** @type {HTMLTemplateElement | null} */
+					const tmpl = document.querySelector(`#theme-icons`);
+					const newIcon = tmpl && tmpl.content.querySelector('.' + theme);
+					if (newIcon) {
+						const oldIcon = picker.querySelector('svg.label-icon');
+						if (oldIcon) {
+							oldIcon.replaceChildren(...newIcon.cloneNode(true).childNodes);
+						}
+					}
+				});
+			},
+		};
+	})();
+</script><template id="theme-icons"><svg aria-hidden="true" class="light astro-hkc32dio" width="16" height="16" viewBox="0 0 24 24" fill="currentColor" style="--sl-icon-size: 1em;"><path d="M5 12a1 1 0 0 0-1-1H3a1 1 0 0 0 0 2h1a1 1 0 0 0 1-1Zm.64 5-.71.71a1 1 0 0 0 0 1.41 1 1 0 0 0 1.41 0l.71-.71A1 1 0 0 0 5.64 17ZM12 5a1 1 0 0 0 1-1V3a1 1 0 0 0-2 0v1a1 1 0 0 0 1 1Zm5.66 2.34a1 1 0 0 0 .7-.29l.71-.71a1 1 0 1 0-1.41-1.41l-.66.71a1 1 0 0 0 0 1.41 1 1 0 0 0 .66.29Zm-12-.29a1 1 0 0 0 1.41 0 1 1 0 0 0 0-1.41l-.71-.71a1.004 1.004 0 1 0-1.43 1.41l.73.71ZM21 11h-1a1 1 0 0 0 0 2h1a1 1 0 0 0 0-2Zm-2.64 6A1 1 0 0 0 17 18.36l.71.71a1 1 0 0 0 1.41 0 1 1 0 0 0 0-1.41l-.76-.66ZM12 6.5a5.5 5.5 0 1 0 5.5 5.5A5.51 5.51 0 0 0 12 6.5Zm0 9a3.5 3.5 0 1 1 0-7 3.5 3.5 0 0 1 0 7Zm0 3.5a1 1 0 0 0-1 1v1a1 1 0 0 0 2 0v-1a1 1 0 0 0-1-1Z"/></svg><svg aria-hidden="true" class="dark astro-hkc32dio" width="16" height="16" viewBox="0 0 24 24" fill="currentColor" style="--sl-icon-size: 1em;"><path d="M21.64 13a1 1 0 0 0-1.05-.14 8.049 8.049 0 0 1-3.37.73 8.15 8.15 0 0 1-8.14-8.1 8.59 8.59 0 0 1 .25-2A1 1 0 0 0 8 2.36a10.14 10.14 0 1 0 14 11.69 1 1 0 0 0-.36-1.05Zm-9.5 6.69A8.14 8.14 0 0 1 7.08 5.22v.27a10.15 10.15 0 0 0 10.14 10.14 9.784 9.784 0 0 0 2.1-.22 8.11 8.11 0 0 1-7.18 4.32v-.04Z"/></svg><svg aria-hidden="true" class="auto astro-hkc32dio" width="16" height="16" viewBox="0 0 24 24" fill="currentColor" style="--sl-icon-size: 1em;"><path d="M21 14h-1V7a3 3 0 0 0-3-3H7a3 3 0 0 0-3 3v7H3a1 1 0 0 0-1 1v2a3 3 0 0 0 3 3h14a3 3 0 0 0 3-3v-2a1 1 0 0 0-1-1ZM6 7a1 1 0 0 1 1-1h10a1 1 0 0 1 1 1v7H6V7Zm14 10a1 1 0 0 1-1 1H5a1 1 0 0 1-1-1v-1h16v1Z"/></svg></template><link rel="stylesheet" href="/_astro/print.ehPL0gv-.css" media="print"><link rel="stylesheet" href="/_astro/middleware.DYJDcmyo.css"><script type="module" src="/_astro/page.Dwipeu-R.js"></script></head><body class="astro-g5ptsecz"><a class="sl-skip-link astro-qb7clj6f" href="#_top">Skip to content</a><div class="page sl-flex astro-yntsjkba"><header class="header astro-yntsjkba"><div class="pyking-header"><div class="pyking-header-left"><a href="/" class="site-title sl-flex astro-6rvad3va"><img class="astro-6rvad3va" alt="Pyking" src="/_astro/logo.C9hvHOpV.svg" width="64" height="64"><span class="astro-6rvad3va" translate="no">Pyking</span></a><nav class="pyking-nav" aria-label="Sections"><a href="/install/">Install</a><a href="/getstarted/pyking-in-20-minutes/">Getting started</a><a href="/documentation/language/" aria-current="page">Documentation</a><a href="/libraries/">Libraries</a><a href="/playground/">Playground</a></nav></div><div class="pyking-header-right print:hidden"><site-search class=" astro-b5kgnn7o" data-translations="{&quot;placeholder&quot;:&quot;Search&quot;}"><button data-open-modal disabled aria-label="Search" aria-keyshortcuts="Control+K" class="astro-b5kgnn7o"><svg aria-hidden="true" class="astro-b5kgnn7o astro-hkc32dio" width="16" height="16" viewBox="0 0 24 24" fill="currentColor" style="--sl-icon-size: 1em;"><path d="M21.71 20.29 18 16.61A9 9 0 1 0 16.61 18l3.68 3.68a.999.999 0 0 0 1.42 0 1 1 0 0 0 0-1.39ZM11 18a7 7 0 1 1 0-14 7 7 0 0 1 0 14Z"/></svg><span class="sl-hidden md:sl-block astro-b5kgnn7o" aria-hidden="true">Search</span><kbd class="sl-hidden md:sl-flex astro-b5kgnn7o" style="display: none;"><kbd class="astro-b5kgnn7o">Ctrl</kbd><kbd class="astro-b5kgnn7o">K</kbd></kbd></button><dialog style="padding:0" aria-label="Search" class="astro-b5kgnn7o"><div class="dialog-frame sl-flex astro-b5kgnn7o"><button data-close-modal class="sl-flex md:sl-hidden astro-b5kgnn7o">Cancel</button><div class="search-container astro-b5kgnn7o"><div id="starlight__search" class="astro-b5kgnn7o"></div></div></div></dialog></site-search><script>
+	(() => {
+		const openBtn = document.querySelector('button[data-open-modal]');
+		const shortcut = openBtn?.querySelector('kbd');
+		if (!openBtn || !(shortcut instanceof HTMLElement)) return;
+		const platformKey = shortcut.querySelector('kbd');
+		if (platformKey && /(Mac|iPhone|iPod|iPad)/i.test(navigator.platform)) {
+			platformKey.textContent = '⌘';
+			openBtn.setAttribute('aria-keyshortcuts', 'Meta+K');
+		}
+		shortcut.style.display = '';
+	})();
+</script><script type="module" src="/_astro/Search.astro_astro_type_script_index_0_lang.Bumivpjo.js"></script><div class="sl-hidden md:sl-flex"><starlight-theme-select><label style="--sl-select-width: 6.25em" class="astro-2z5xp7gb"><span class="sr-only astro-2z5xp7gb">Select theme</span><svg aria-hidden="true" class="icon label-icon astro-2z5xp7gb astro-hkc32dio" width="16" height="16" viewBox="0 0 24 24" fill="currentColor" style="--sl-icon-size: 1em;"><path d="M21 14h-1V7a3 3 0 0 0-3-3H7a3 3 0 0 0-3 3v7H3a1 1 0 0 0-1 1v2a3 3 0 0 0 3 3h14a3 3 0 0 0 3-3v-2a1 1 0 0 0-1-1ZM6 7a1 1 0 0 1 1-1h10a1 1 0 0 1 1 1v7H6V7Zm14 10a1 1 0 0 1-1 1H5a1 1 0 0 1-1-1v-1h16v1Z"/></svg><select autocomplete="off" class="astro-2z5xp7gb"><option value="dark" class="astro-2z5xp7gb">Dark</option><option value="light" class="astro-2z5xp7gb">Light</option><option value="auto" selected class="astro-2z5xp7gb">Auto</option></select><svg aria-hidden="true" class="icon caret astro-2z5xp7gb astro-hkc32dio" width="16" height="16" viewBox="0 0 24 24" fill="currentColor" style="--sl-icon-size: 1em;"><path d="M17 9.17a1 1 0 0 0-1.41 0L12 12.71 8.46 9.17a1 1 0 1 0-1.41 1.42l4.24 4.24a1.002 1.002 0 0 0 1.42 0L17 10.59a1.002 1.002 0 0 0 0-1.42Z"/></svg></label></starlight-theme-select><script>
+	StarlightThemeProvider.updatePickers();
+</script><script type="module">var e=`starlight-theme`,t=e=>e===`auto`||e===`dark`||e===`light`?e:`auto`,n=()=>t(typeof localStorage<`u`&&localStorage.getItem(e));function r(t){typeof localStorage<`u`&&localStorage.setItem(e,t===`light`||t===`dark`?t:``)}var i=()=>matchMedia(`(prefers-color-scheme: light)`).matches?`light`:`dark`;function a(e){StarlightThemeProvider.updatePickers(e),document.documentElement.dataset.theme=e===`auto`?i():e,r(e)}matchMedia(`(prefers-color-scheme: light)`).addEventListener(`change`,()=>{n()===`auto`&&a(`auto`)});var o=class extends HTMLElement{constructor(){super(),a(n()),this.querySelector(`select`)?.addEventListener(`change`,e=>{e.currentTarget instanceof HTMLSelectElement&&a(t(e.currentTarget.value))})}};customElements.define(`starlight-theme-select`,o);</script></div><a class="pyking-github" href="https://github.com/pyking-lang" title="Pyking on GitHub"><span class="sr-only">GitHub</span><svg aria-hidden="true" viewBox="0 0 24 24" width="22" height="22" fill="currentColor"><path d="M12 .3a12 12 0 0 0-3.8 23.4c.6.1.8-.3.8-.6v-2c-3.3.7-4-1.6-4-1.6-.6-1.4-1.4-1.8-1.4-1.8-1-.7.1-.7.1-.7 1.2.1 1.8 1.2 1.8 1.2 1 1.8 2.8 1.3 3.5 1 0-.8.4-1.3.7-1.6-2.7-.3-5.5-1.3-5.5-6 0-1.2.5-2.3 1.3-3.1-.2-.4-.6-1.6 0-3.2 0 0 1-.3 3.4 1.2a11.5 11.5 0 0 1 6 0c2.3-1.5 3.3-1.2 3.3-1.2.6 1.6.2 2.8.1 3.2.8.8 1.3 1.9 1.3 3.1 0 4.6-2.8 5.6-5.5 5.9.5.4.9 1.1.9 2.2v3.3c0 .3.1.7.8.6A12 12 0 0 0 12 .3"></path></svg></a></div></div></header><nav class="sidebar print:hidden astro-yntsjkba" aria-label="Main"><button popovertarget="starlight__sidebar" class="sl-menu-button sl-flex md:sl-hidden print:hidden astro-r2osgdlg"><svg aria-hidden="true" class="open-menu astro-r2osgdlg astro-hkc32dio" width="16" height="16" viewBox="0 0 24 24" fill="currentColor" style="--sl-icon-size: 1em;"><path d="M3 8h18a1 1 0 1 0 0-2H3a1 1 0 0 0 0 2Zm18 8H3a1 1 0 0 0 0 2h18a1 1 0 0 0 0-2Zm0-5H3a1 1 0 0 0 0 2h18a1 1 0 0 0 0-2Z"/></svg><svg aria-hidden="true" class="close-menu astro-r2osgdlg astro-hkc32dio" width="16" height="16" viewBox="0 0 24 24" fill="currentColor" style="--sl-icon-size: 1em;"><path d="m13.41 12 6.3-6.29a1.004 1.004 0 1 0-1.42-1.42L12 10.59l-6.29-6.3a1.004 1.004 0 0 0-1.42 1.42l6.3 6.29-6.3 6.29a1 1 0 0 0 0 1.42.998.998 0 0 0 1.42 0l6.29-6.3 6.29 6.3a.999.999 0 0 0 1.42 0 1 1 0 0 0 0-1.42L13.41 12Z"/></svg><span class="sr-only astro-r2osgdlg">Menu</span></button><script type="module">var e=class extends HTMLElement{constructor(){super();let e=matchMedia(`(min-width: 50em)`),t=()=>{this.popover=e.matches?null:`auto`};t(),e.addEventListener(`change`,()=>t()),this.addEventListener(`toggle`,({newState:e})=>this.trapFocus(e===`open`))}trapFocus(e){document.querySelectorAll(`.main-frame, .sl-skip-link`).forEach(t=>{t.toggleAttribute(`inert`,e)})}};customElements.define(`sl-sidebar-pane`,e);</script><script type="module">var e=class extends HTMLElement{constructor(){super();let e=this.querySelector(`select`);e&&(e.addEventListener(`change`,e=>{e.currentTarget instanceof HTMLSelectElement&&(window.location.pathname=e.currentTarget.value)}),window.addEventListener(`pageshow`,t=>{if(!t.persisted)return;let n=e.querySelector(`option[selected]`)?.index;n!==e.selectedIndex&&(e.selectedIndex=n??0)}))}};customElements.define(`starlight-lang-select`,e);</script><sl-sidebar-pane popover id="starlight__sidebar" class="sidebar-pane astro-yntsjkba"><div class="sidebar-content sl-flex astro-yntsjkba"><nav class="pyking-sidebar" aria-label="Documentation"><p class="pyking-sidebar-title">Documentation</p><ul class="pyking-sidebar-main"><li><a href="/documentation/editors/">Editors</a></li><li class="pyking-sidebar-open"><a href="/documentation/playground/" aria-current="page">Playground</a><ul class="pyking-sidebar-sub"><li><a href="#the-layout">The layout</a></li><li><a href="#writing-code">Writing code</a></li><li><a href="#examples">Examples</a></li><li><a href="#running-a-program">Running a program</a></li><li><a href="#compiled-code">Compiled code</a></li><li><a href="#web-output">Web output</a></li><li><a href="#repl">REPL</a></li><li><a href="#debug">Debug</a></li><li><a href="#help">Help</a></li><li><a href="#sharing-a-program">Sharing a program</a></li><li><a href="#copy-for-slides">Copy for slides</a></li><li><a href="#settings">Settings</a></li><li><a href="#keyboard-shortcuts">Keyboard shortcuts</a></li><li><a href="#embedding-the-playground-in-another-page">Embedding the playground in another page</a></li><li><a href="#limitations">Limitations</a></li></ul></li><li><a href="/documentation/notebook/">Notebook</a></li><li><a href="/documentation/command-line/">Command line</a></li><li><a href="/documentation/repl/">REPL</a></li><li><a href="/documentation/targets/">Compiler targets</a></li><li><a href="/documentation/slides/">Code on slides</a></li><li class="pyking-sidebar-parent"><a href="/documentation/language/">Language reference</a></li><li><a href="/documentation/vs-other-languages/">Pyking vs. other languages</a></li><li><a href="/documentation/grammar/">Grammar</a></li><li class="pyking-sidebar-parent"><a href="/documentation/tinyweb/">Tinyweb without Pyking</a></li><li><a href="/documentation/tinyweb-styles/">Styling tinyweb</a></li></ul></nav><div class="md:sl-hidden"><div class="mobile-preferences sl-flex astro-p4azlveh"><div class="social-icons astro-p4azlveh"></div><starlight-theme-select><label style="--sl-select-width: 6.25em" class="astro-2z5xp7gb"><span class="sr-only astro-2z5xp7gb">Select theme</span><svg aria-hidden="true" class="icon label-icon astro-2z5xp7gb astro-hkc32dio" width="16" height="16" viewBox="0 0 24 24" fill="currentColor" style="--sl-icon-size: 1em;"><path d="M21 14h-1V7a3 3 0 0 0-3-3H7a3 3 0 0 0-3 3v7H3a1 1 0 0 0-1 1v2a3 3 0 0 0 3 3h14a3 3 0 0 0 3-3v-2a1 1 0 0 0-1-1ZM6 7a1 1 0 0 1 1-1h10a1 1 0 0 1 1 1v7H6V7Zm14 10a1 1 0 0 1-1 1H5a1 1 0 0 1-1-1v-1h16v1Z"/></svg><select autocomplete="off" class="astro-2z5xp7gb"><option value="dark" class="astro-2z5xp7gb">Dark</option><option value="light" class="astro-2z5xp7gb">Light</option><option value="auto" selected class="astro-2z5xp7gb">Auto</option></select><svg aria-hidden="true" class="icon caret astro-2z5xp7gb astro-hkc32dio" width="16" height="16" viewBox="0 0 24 24" fill="currentColor" style="--sl-icon-size: 1em;"><path d="M17 9.17a1 1 0 0 0-1.41 0L12 12.71 8.46 9.17a1 1 0 1 0-1.41 1.42l4.24 4.24a1.002 1.002 0 0 0 1.42 0L17 10.59a1.002 1.002 0 0 0 0-1.42Z"/></svg></label></starlight-theme-select><script>
+	StarlightThemeProvider.updatePickers();
+</script></div></div></div></sl-sidebar-pane></nav><div class="main-frame astro-yntsjkba"><script type="module">var e=document.getElementById(`starlight__sidebar`),t=e?.querySelector(`sl-sidebar-state-persist`),n=`sl-sidebar-state`,r=()=>{let r=[],i=t?.dataset.hash||``;try{let e=sessionStorage.getItem(n),t=JSON.parse(e||`{}`);Array.isArray(t.open)&&t.hash===i&&(r=t.open)}catch{}return{hash:i,open:r,scroll:e?.scrollTop||0}},i=e=>{try{sessionStorage.setItem(n,JSON.stringify(e))}catch{}},a=()=>i(r()),o=(e,t)=>{let n=r();n.open[t]=e,i(n)};t?.addEventListener(`click`,e=>{if(!(e.target instanceof Element))return;let t=e.target.closest(`summary`)?.closest(`details`);if(!t)return;let n=t.querySelector(`sl-sidebar-restore`),r=parseInt(n?.dataset.index||``);isNaN(r)||o(!t.open,r)}),addEventListener(`visibilitychange`,()=>{document.visibilityState===`hidden`&&a()});</script><div class="lg:sl-flex astro-lrzkfocr"><div class="main-pane astro-lrzkfocr"><main data-pagefind-body class="astro-g5ptsecz" lang="en" dir="ltr"><div class="content-panel astro-a7po4psb"><div class="sl-container astro-a7po4psb"><h1 id="_top" class="astro-bebwqqxs">Playground</h1></div></div><div class="content-panel astro-a7po4psb"><div class="sl-container astro-a7po4psb"><div class="sl-markdown-content"><p>The <a href="/playground/">playground</a> is an editor for Pyking in a web page.
+You write a program on the left and run it, compile it for another
+language, step through it in a debugger or try it out line by line in
+a REPL, on the right.</p>
+<p>The page holds the real Pyking compiler, compiled to JavaScript. It
+checks, runs and compiles your program in the browser, the same way
+<code>pyk</code> does on your computer. <strong>Nothing runs on a server</strong>, and your
+program is never sent anywhere.</p>
+<p>There are two copies of it:</p>
+<ul>
+<li>The website’s, at <a href="/playground/">/playground/</a>.</li>
+<li>Your own, served by <code>pyk</code> from your computer, with no internet
+connection needed once Pyking is <a href="/install/">installed</a>:</li>
+</ul>
+<div class="expressive-code"><link rel="stylesheet" href="/_astro/ec.w36nc.css"><script type="module" src="/_astro/ec.0vx5m.js"></script><figure class="frame is-terminal not-content"><figcaption class="header"><span class="title"></span><span class="sr-only">Terminal window</span></figcaption><pre data-language="sh"><code><div class="ec-line"><div class="code"><span style="--0:#82AAFF;--1:#3B61B0">pyk</span><span style="--0:#D6DEEB;--1:#403F53"> </span><span style="--0:#ECC48D;--1:#3B61B0">playground</span><span style="--0:#D6DEEB;--1:#403F53">              </span><span style="--0:#919F9F;--1:#5F636F"># serves it and prints a link to open</span></div></div><div class="ec-line"><div class="code"><span style="--0:#82AAFF;--1:#3B61B0">pyk</span><span style="--0:#D6DEEB;--1:#403F53"> </span><span style="--0:#ECC48D;--1:#3B61B0">playground</span><span style="--0:#D6DEEB;--1:#403F53"> </span><span style="--0:#82AAFF;--1:#3B61B0">--port</span><span style="--0:#D6DEEB;--1:#403F53"> </span><span style="--0:#F78C6C;--1:#AA0982">9000</span><span style="--0:#D6DEEB;--1:#403F53">  </span><span style="--0:#919F9F;--1:#5F636F"># on a port of your choice</span></div></div></code></pre><div class="copy"><div aria-live="polite"></div><button title="Copy to clipboard" data-copied="Copied!" data-code="pyk playground              # serves it and prints a link to openpyk playground --port 9000  # on a port of your choice"><div></div></button></div></figure></div>
+<h2 id="the-layout">The layout</h2>
+<p>The editor is on the left. The right-hand side has six tabs:</p>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<table><thead><tr><th>Tab</th><th>What it shows</th></tr></thead><tbody><tr><td><strong>Run output</strong></td><td>what the program printed when you pressed ▶ Run</td></tr><tr><td><strong>Compiled code</strong></td><td>the program compiled for a target, and what running that printed</td></tr><tr><td><strong>Web output</strong></td><td>the page a <code>tinyweb</code> program draws</td></tr><tr><td><strong>REPL</strong></td><td>a Pyking REPL, an entry at a time</td></tr><tr><td><strong>Debug</strong></td><td>the program run a step at a time</td></tr><tr><td><strong>Help</strong></td><td>this documentation</td></tr></tbody></table>
+<p>The page opens on Run output. Drag the bar between the two columns to
+make one wider. The Compiled code, Web output and REPL tabs also have a
+bar across them, between the upper and lower part, that you can drag.
+A pane can be made small, but not dragged out of sight. <strong>Reset pane
+sizes</strong>, under Settings, Appearance, puts them back.</p>
+<p>The playground remembers where you were. Reload the page and you find
+the program, the cursor, the target, the tab, the output, the last
+input and the REPL’s history as you left them. This lasts as long as the
+browser tab: a new tab starts again with the first example. On the
+website, going to another section and coming back leaves the playground
+exactly as it was, even a program that is running or stopped in the
+debugger.</p>
+<p>The header shows the version of Pyking the page runs and a status pill:
+<code>starting…</code> and <code>loading compiler…</code> while the compiler loads, then
+<code>ready</code>. The first load takes a moment. After that a compile takes
+about a millisecond.</p>
+<h2 id="writing-code">Writing code</h2>
+<p>The editor is <a href="https://microsoft.github.io/monaco-editor/">Monaco</a>, the
+editor VS Code is built on. It highlights Pyking, and it talks to the
+Pyking language server, which runs in the page. So you get what an
+editor set up with <code>pyk lsp</code> gives (see <a href="/documentation/editors/">Editors</a>):</p>
+<ul>
+<li><strong>Errors as you type.</strong> A short moment after you stop typing, the
+first error is underlined where it is. Hover over it to read it.
+Warnings, such as a name that is never used, are underlined too.</li>
+<li><strong>Hover</strong>: the type of what is under the pointer.</li>
+<li><strong>Completion</strong>: keywords, builtins, the names in scope, and after
+<code>m.</code> what module <code>m</code> exports.</li>
+<li><strong>Signature help</strong>: a function’s parameters while you type a call,
+and a class’s constructor’s.</li>
+<li><strong>Go to definition</strong> (F12, or Ctrl+click, Cmd+click on a Mac), and
+<strong>Peek Definition</strong> (Alt+F12), which also shows a definition in the
+standard library.</li>
+<li><strong>Outline</strong> (Ctrl+Shift+O, Cmd+Shift+O on a Mac): the <code>def</code>s,
+bindings and imports.</li>
+<li><strong>References</strong> (Shift+F12), <strong>highlights</strong> of a name, and
+<strong>rename</strong> (F2).</li>
+<li><strong>Folding</strong>, <strong>semantic highlighting</strong>, and <strong>quick fixes</strong>: the light
+bulb offers a fix for an error that says what was meant, such as a
+missing <code>use mutation</code> line.</li>
+</ul>
+<h2 id="examples">Examples</h2>
+<p>The <strong>Examples</strong> list above the editor holds the programs that
+<code>pyk example</code> lists: hello world, a program that reads its arguments,
+<code>tinyweb</code> graphics and sound, a drum pad, a sequencer, a piano, and
+classes and interfaces. Rest the pointer on one to read what it does.
+Choosing one replaces the program in the editor.</p>
+<p>The same examples are on your computer:</p>
+<div class="expressive-code"><figure class="frame is-terminal not-content"><figcaption class="header"><span class="title"></span><span class="sr-only">Terminal window</span></figcaption><pre data-language="sh"><code><div class="ec-line"><div class="code"><span style="--0:#82AAFF;--1:#3B61B0">pyk</span><span style="--0:#D6DEEB;--1:#403F53"> </span><span style="--0:#ECC48D;--1:#3B61B0">example</span><span style="--0:#D6DEEB;--1:#403F53">                </span><span style="--0:#919F9F;--1:#5F636F"># list them</span></div></div><div class="ec-line"><div class="code"><span style="--0:#82AAFF;--1:#3B61B0">pyk</span><span style="--0:#D6DEEB;--1:#403F53"> </span><span style="--0:#ECC48D;--1:#3B61B0">example</span><span style="--0:#D6DEEB;--1:#403F53"> </span><span style="--0:#ECC48D;--1:#3B61B0">drum_pad.pyk</span><span style="--0:#D6DEEB;--1:#403F53">   </span><span style="--0:#919F9F;--1:#5F636F"># save one in the current directory</span></div></div></code></pre><div class="copy"><div aria-live="polite"></div><button title="Copy to clipboard" data-copied="Copied!" data-code="pyk example                # list thempyk example drum_pad.pyk   # save one in the current directory"><div></div></button></div></figure></div>
+<h2 id="running-a-program">Running a program</h2>
+<p><strong>▶ Run</strong>, above the editor, runs the program with the Pyking
+interpreter, whatever target is chosen. Shift+Enter or Ctrl+Enter
+(Cmd+Enter on a Mac) in the editor does the same. Before it runs, the
+program is checked, exactly as <code>pyk</code> checks it. A program the checker
+refuses is not run, and the error is written in the output and
+underlined in the editor.</p>
+<p>What the program prints appears on <strong>Run output</strong> line by line as it is
+printed, so a program that prints and then hangs still shows what it
+printed. A line written by <code>debug</code> is shown dimmed, and warnings are
+shown first, in their own colour.</p>
+<p>A program may import the standard library, <code>tinyweb</code> included. It is
+one file: there is no way to add modules of your own.</p>
+<h3 id="standard-input-and-arguments">Standard input and arguments</h3>
+<p>When a program reads standard input (<code>io.read_line</code>, <code>io.read</code>,
+<code>io.is_eof</code>) or its arguments (<code>sys.args()</code>), ▶ Run first opens a
+dialog, <strong>Before it runs</strong>, with a <strong>Standard input</strong> box and an
+<strong>Arguments</strong> line. Type the input, one line for each line the program
+reads, and the arguments separated by spaces, with quotes to keep a
+space inside one. Then press ▶ Run in the dialog. The dialog offers the
+values you gave last time.</p>
+<p>For example, this program asks for both:</p>
+<div class="pkn-notebook pkn-embedded not-content"><div class="pkn-cell" data-stdin="Ada
+"><pre class="pkn-cell-fallback"><code>import io
+import sys
+
+name = io.read_line()
+print("Hello, " + name + "!")
+print(sys.args())</code></pre></div></div>
+<p>A line the program reads is echoed in the output.</p>
+<h3 id="stop">Stop</h3>
+<p>While a program runs, ▶ Run becomes <strong>■ Stop</strong>, and the same keys stop
+it. A program that never ends does not freeze the page. Try this one:</p>
+<div class="expressive-code"><figure class="frame not-content"><figcaption class="header"></figcaption><pre data-language="pyking"><code><div class="ec-line"><div class="code"><span style="--0:#C792EA;--1:#8844AE">use</span><span style="--0:#D6DEEB;--1:#403F53"> mutation</span></div></div><div class="ec-line"><div class="code">
+</div></div><div class="ec-line"><div class="code"><span style="--0:#C792EA;--1:#8844AE">var</span><span style="--0:#D6DEEB;--1:#403F53"> i </span><span style="--0:#7FDBCA;--1:#096E72">=</span><span style="--0:#D6DEEB;--1:#403F53"> </span><span style="--0:#F78C6C;--1:#AA0982">0</span></div></div><div class="ec-line"><div class="code"><span style="--0:#C792EA;--1:#8844AE">while</span><span style="--0:#D6DEEB;--1:#403F53"> i </span><span style="--0:#7FDBCA;--1:#096E72">&#x3C;</span><span style="--0:#D6DEEB;--1:#403F53"> </span><span style="--0:#F78C6C;--1:#AA0982">1</span><span style="--0:#D6DEEB;--1:#403F53">:</span></div></div><div class="ec-line"><div class="code"><span class="indent"><span style="--0:#D6DEEB;--1:#403F53">    </span></span><span style="--0:#D6DEEB;--1:#403F53">i </span><span style="--0:#7FDBCA;--1:#096E72">:=</span><span style="--0:#D6DEEB;--1:#403F53"> </span><span style="--0:#F78C6C;--1:#AA0982">0</span></div></div></code></pre><div class="copy"><div aria-live="polite"></div><button title="Copy to clipboard" data-copied="Copied!" data-code="use mutationvar i = 0while i < 1:    i := 0"><div></div></button></div></figure></div>
+<p>Press ▶ Run, and then ■ Stop. The compiler restarts after a stop, which
+takes a moment.</p>
+<h3 id="settings-for-running">Settings for running</h3>
+<p>Under Settings, <strong>Running</strong>:</p>
+<ul>
+<li><strong>Run while you type</strong> (off by default): the program runs about half
+a second after you stop typing, as if you had pressed ▶ Run. A run
+like this does not ask for input; it uses the last values given.</li>
+<li><strong>Clear it each time you press Run</strong> (on by default): the output is
+emptied before each run.</li>
+<li><strong>Scrollable</strong> (on by default): the output scrolls and follows the
+newest line. Off, it is clipped instead.</li>
+</ul>
+<h2 id="compiled-code">Compiled code</h2>
+<p>The <strong>Compiled code</strong> tab shows what the program becomes in another
+language.</p>
+<ol>
+<li>Choose a target in the <strong>Target</strong> list: Python, JavaScript for
+node or for a web page, C, Java, OCaml, or <code>pyking</code>. See
+<a href="/documentation/targets/">Compiler targets</a> for what each one is.</li>
+<li>Press <strong>Compile</strong>. The generated code appears in the upper pane, and
+what the compiler said in the lower one. An error is also underlined
+in the editor.</li>
+</ol>
+<p>A program that imports modules compiles into several files. Their names
+are listed above the code, the program’s own file first; click one to
+see it.</p>
+<p>The <code>pyking</code> target shows your program as the checker read it, with
+every type it inferred written in. It is a quick way to see the types
+of a whole program at once.</p>
+<p>The other buttons on the tab:</p>
+<ul>
+<li><strong>▶ Run</strong> runs the code that is shown, edits included. It works for
+the node and web targets, the ones a browser can run. For Python, C,
+Java and OCaml it is greyed out, and its tooltip says why: there is no
+Python, C compiler, JVM or OCaml in a browser.</li>
+<li><strong>Copy</strong> copies the generated code.</li>
+<li><strong>Download</strong> saves the compiled program as a zip file,
+<code>playground-&#x3C;target>.zip</code>. It holds every file the compiler wrote,
+the parts of the standard library the program needs, and a
+<code>Makefile</code>. Unpack it, and on a computer with the target’s tools
+installed:</li>
+</ul>
+<div class="expressive-code"><figure class="frame is-terminal not-content"><figcaption class="header"><span class="title"></span><span class="sr-only">Terminal window</span></figcaption><pre data-language="sh"><code><div class="ec-line"><div class="code"><span style="--0:#82AAFF;--1:#3B61B0">make</span><span style="--0:#D6DEEB;--1:#403F53">          </span><span style="--0:#919F9F;--1:#5F636F"># build it</span></div></div><div class="ec-line"><div class="code"><span style="--0:#82AAFF;--1:#3B61B0">make</span><span style="--0:#D6DEEB;--1:#403F53"> </span><span style="--0:#ECC48D;--1:#3B61B0">run</span><span style="--0:#D6DEEB;--1:#403F53">      </span><span style="--0:#919F9F;--1:#5F636F"># build it and run it (a web page is served with pyk serve)</span></div></div><div class="ec-line"><div class="code"><span style="--0:#82AAFF;--1:#3B61B0">make</span><span style="--0:#D6DEEB;--1:#403F53"> </span><span style="--0:#ECC48D;--1:#3B61B0">clean</span><span style="--0:#D6DEEB;--1:#403F53">    </span><span style="--0:#919F9F;--1:#5F636F"># remove what make built</span></div></div></code></pre><div class="copy"><div aria-live="polite"></div><button title="Copy to clipboard" data-copied="Copied!" data-code="make          # build itmake run      # build it and run it (a web page is served with pyk serve)make clean    # remove what make built"><div></div></button></div></figure></div>
+<p>A generated C or Java file also starts with a comment that gives the
+command to build it by hand.</p>
+<h2 id="web-output">Web output</h2>
+<p>A program that imports <code>tinyweb</code> draws a page: canvases, buttons,
+sliders, text, and sound. ▶ Run switches to the <strong>Web output</strong> tab and
+shows the page in a frame drawn as a browser window, with the program’s
+printed output below it.</p>
+<p>Such a program goes on running after its last line, because the page
+calls back the functions it was given, for example when a button is
+clicked. So ■ Stop stays shown until you press it. When nothing runs,
+the frame is empty. <strong>↻ Refresh</strong>, in the frame’s title bar, stops the
+program and runs it again.</p>
+<p>The window has the keyboard while its frame is outlined. Click in it
+to give it the keyboard, and click outside it, in the editor say, to
+take it away. ▶ Run gives the window the keyboard, so a game can be
+played at once.</p>
+<p>The <strong>tinyweb log</strong> switch above the output shows what the program
+sends its page and what the page answers, one line each, as
+<code>pyk --tinyweb-log</code> does. It is also under Settings, Running.</p>
+<p>Try the <code>tinyweb1.pyk</code> or <code>drum_pad.pyk</code> example to see it.</p>
+<h2 id="repl">REPL</h2>
+<p>The <strong>REPL</strong> tab is the Pyking REPL, as <code>pyk repl</code> gives it in a
+terminal (see <a href="/documentation/repl/">REPL</a>). Each entry is checked
+against the entries before it and run.</p>
+<ul>
+<li><strong>Enter</strong> runs an entry that is complete, and otherwise opens the next
+line, indented after a <code>:</code>. A blank line ends a block.</li>
+<li><strong>Shift+Enter</strong> always opens a new line.</li>
+<li><strong>Tab</strong> indents at the start of a line, and completes the word before
+the cursor elsewhere, listing what fits, with types.</li>
+<li><strong>Up</strong> and <strong>Down</strong> go through the entries you typed before.</li>
+<li><strong>Escape</strong> empties the prompt.</li>
+</ul>
+<p>A value is shown in green as <code>value : Type</code>, what an entry prints in
+the ordinary colour, and an error in red. The commands <code>:help</code>, <code>:ls</code>,
+<code>:type</code>, <code>:edit</code>, <code>:ast</code>, <code>:tokens</code> and <code>:reset</code> work as in the
+terminal.</p>
+<p>The <strong>Environment</strong> table below the prompt lists every name the session
+has defined, with its value and type, and is updated after each entry.</p>
+<p>The buttons above it:</p>
+<ul>
+<li><strong>Copy from editor</strong> puts the text marked in the editor into the
+prompt, without the indentation its lines share.</li>
+<li><strong>■ Stop</strong> shows while an entry runs. It ends the session, and a new
+one starts.</li>
+<li><strong>Reset</strong> forgets every name, as <code>:reset</code> does.</li>
+<li><strong>Clear</strong> empties the transcript and keeps the session.</li>
+</ul>
+<p>An entry may import the standard library, but not <code>tinyweb</code>: a page
+needs ▶ Run. <code>io.read_line</code> finds no input here, and <code>sys.args()</code> is
+empty.</p>
+<h2 id="debug">Debug</h2>
+<p>The <strong>Debug</strong> tab runs the program in the editor a step at a time.
+Click in the margin left of the line numbers to set a breakpoint, and
+press <strong>Debug</strong> (Alt+D). The program stops at the breakpoint, or at the
+first statement when there is none. From there you can continue, step
+over, into and out of calls, look at every variable and change a
+<code>var</code>’s value, watch expressions, see the calls in progress, set
+conditions on breakpoints, and evaluate expressions in a console.</p>
+<p><a href="/getstarted/debugging/">Debugging</a> shows how to use it. The keys are
+in the table under “Keyboard shortcuts” below.</p>
+<h2 id="help">Help</h2>
+<p>The <strong>Help</strong> tab holds this website’s documentation: Getting started,
+the Documentation and the Libraries. A menu above the page lists the
+sections and the headings of the page you read. Every example on these
+pages is a cell you can run right there, and its <strong>Copy to editor</strong>
+button puts it in the editor.</p>
+<p>The help comes with the playground, so it also works in a playground you
+serve yourself with no internet connection. <code>pyk pykhelp</code> opens the same
+help in a browser tab of its own.</p>
+<h2 id="sharing-a-program">Sharing a program</h2>
+<p><strong>Copy code as link</strong>, beside Examples, copies a link to the program in
+the editor. Whoever opens the link gets the playground with that program
+in the editor. It is not run until they press ▶ Run.</p>
+<p>The program is in the link itself, after <code>#code=</code>. The part of an
+address after <code>#</code> is never sent to a server, so the program does not
+leave your computer until you send the link to someone. A long program
+makes a long link.</p>
+<p>The cells on this website have the same kind of link: a <strong>Try in
+playground</strong> button opens the cell’s code in the playground.</p>
+<div class="pyking-try"><div class="pkn-notebook pkn-embedded not-content"><div class="pkn-cell"><pre class="pkn-cell-fallback"><code>def square(n: Int) -> Int:
+    return n * n
+
+print([square(n) for n in range(1, 6)])</code></pre></div></div><p class="pyking-try-foot not-content"><a class="pyking-try-link" href="/playground/#code=ZGVmIHNxdWFyZShuOiBJbnQpIC0-IEludDoKICAgIHJldHVybiBuICogbgoKcHJpbnQoW3NxdWFyZShuKSBmb3IgbiBpbiByYW5nZSgxLCA2KV0pCg">Try in playground</a></p></div>
+<h2 id="copy-for-slides">Copy for slides</h2>
+<p><strong>Copy for slides</strong> copies the code in an editor, coloured, ready to be
+pasted on a slide in Keynote, PowerPoint or Google Slides. It copies
+the selection, or the whole program when nothing is selected, from
+either editor: your program, or the compiled code. The code stays text
+on the slide, so a reader can still copy it.</p>
+<p>It is in each editor’s right-click menu, and on Alt+Shift+C
+(Option+Shift+C on a Mac). Settings, <strong>Copy for slides</strong> sets the
+colours (light or dark), the font, the size in points, the background
+and the kind of spaces, with a preview, and can put a Copy for slides
+button above the editor.</p>
+<p><a href="/documentation/slides/">Code on slides</a> has more, including
+<code>pyk highlight</code>, which does the same from the command line.</p>
+<h2 id="settings">Settings</h2>
+<p>The <strong>Settings</strong> button in the header opens a dialog with six tabs. The
+arrow keys move between the tabs, and Escape, the ✕ or a click outside
+closes it. Every setting is remembered in your browser, so the
+playground looks the same next time.</p>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<table><thead><tr><th>Tab</th><th>What it sets</th></tr></thead><tbody><tr><td><strong>Appearance</strong></td><td>the theme: the same as the system (the default), light or dark; the font size, 10 to 26 pixels, for both editors, the output and the REPL; Reset pane sizes</td></tr><tr><td><strong>Running</strong></td><td>Run while you type, clearing the output on each run, scrollable output, and the tinyweb log</td></tr><tr><td><strong>Warnings</strong></td><td>which warnings are reported, and which count as errors</td></tr><tr><td><strong>Debugger</strong></td><td>whether to stop at the first statement, and whether to step over the standard library’s code</td></tr><tr><td><strong>Copy for slides</strong></td><td>the options above, with a preview</td></tr><tr><td><strong>Keys</strong></td><td>the keys of every command</td></tr></tbody></table>
+<p>The ☀/☾ button in the header also switches between light and dark.</p>
+<h3 id="warnings">Warnings</h3>
+<p>A warning reports a program that checks but may still be wrong: a name
+bound and never used, for example. The program still runs. The Warnings
+tab has one row for each warning: a box that turns it on, its flag as
+<code>pyk</code> takes it (<code>-Wunused-binding</code>), whether it is on by default, and an
+<strong>as an error</strong> box, which makes it stop the program instead.</p>
+<p>Below them are <strong>Every warning that is on is an error</strong> (<code>-Werror</code>),
+<strong>Turn them all on</strong> (<code>-Wall</code>), <strong>Turn them all off</strong> (<code>-w</code>) and <strong>Back
+to the defaults</strong>. The tab also shows the <code>pyk</code> command line that has
+the same effect. A change applies at once, to Run, Compile, the REPL,
+the Debug tab and the underlines in the editor.</p>
+<p>There is no setting to turn type checking off. Pyking is statically
+typed, and every program is checked before it runs.</p>
+<h3 id="keys">Keys</h3>
+<p>The Keys tab lists every key the playground adds, by area: Editor,
+Debugger and REPL. Each command’s keys are shown as chips. <strong>✕</strong> removes
+a key, <strong>+</strong> records the next key you press (Escape leaves it),
+<strong>reset</strong> gives a command back its default keys, and <strong>Reset all the
+keys</strong> does so for every command. Tooltips and the right-click menu
+always name a command’s current keys. Monaco’s own editing keys are not
+in the list.</p>
+<h2 id="keyboard-shortcuts">Keyboard shortcuts</h2>
+<p>These are the defaults. On a Mac, Ctrl is Cmd where the table says so,
+and Alt is Option.</p>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<table><thead><tr><th>Keys</th><th>Where</th><th>What it does</th></tr></thead><tbody><tr><td>Shift+Enter, Ctrl+Enter (Mac: Cmd+Enter, Ctrl+Enter)</td><td>editor</td><td>run the program, or stop it while it runs</td></tr><tr><td>Shift+Enter, Ctrl+Enter (Mac: Cmd+Enter, Ctrl+Enter)</td><td>compiled code</td><td>run the compiled code</td></tr><tr><td>Alt+Shift+C</td><td>either editor</td><td>Copy for slides</td></tr><tr><td>F12, Ctrl+click (Mac: Cmd+click)</td><td>editor</td><td>go to definition</td></tr><tr><td>Alt+F12</td><td>editor</td><td>peek definition</td></tr><tr><td>Shift+F12</td><td>editor</td><td>find references</td></tr><tr><td>F2</td><td>editor</td><td>rename</td></tr><tr><td>Ctrl+Shift+O (Mac: Cmd+Shift+O)</td><td>editor</td><td>outline</td></tr><tr><td>Alt+D</td><td>anywhere</td><td>start debugging, or start again</td></tr><tr><td>F8, Alt+C</td><td>anywhere</td><td>continue, or pause</td></tr><tr><td>F10, Alt+O</td><td>anywhere</td><td>step over</td></tr><tr><td>F11, Alt+I</td><td>anywhere</td><td>step into</td></tr><tr><td>Shift+F11, Alt+T</td><td>anywhere</td><td>step out</td></tr><tr><td>Alt+S</td><td>editor, Debug tab</td><td>stop debugging</td></tr><tr><td>Alt+B</td><td>editor, Debug tab</td><td>set or remove a breakpoint on the cursor’s line</td></tr><tr><td>Enter</td><td>REPL</td><td>run the entry, or open the next line</td></tr><tr><td>Shift+Enter</td><td>REPL</td><td>open a new line</td></tr><tr><td>Tab</td><td>REPL</td><td>complete the word, or indent</td></tr><tr><td>Up, Down</td><td>REPL</td><td>the entry before, the entry after</td></tr><tr><td>Escape</td><td>REPL</td><td>empty the prompt</td></tr><tr><td>Escape</td><td>Settings</td><td>close the dialog</td></tr></tbody></table>
+<p>All but the editor’s own keys (go to definition and the rest) can be
+changed under Settings, Keys.</p>
+<h2 id="embedding-the-playground-in-another-page">Embedding the playground in another page</h2>
+<p>The playground is one component, which a page of your own can mount, for
+example in course material. A Pyking installation holds its files:
+<code>tools/playground/assets/</code>, <code>tools/webrun/assets/</code> and
+<code>tools/webrun/vendor/</code>, the compiler <code>share/pyking.js</code>, and the
+libraries in <code>lib/</code>. Serve them side by side, as <code>pyk playground</code> does,
+and point the options at them:</p>
+<div class="expressive-code"><figure class="frame not-content"><figcaption class="header"></figcaption><pre data-language="html"><code><div class="ec-line"><div class="code"><span style="--1:#8844AE"><span style="--0:#7FDBCA">&#x3C;</span><span style="--0:#CAECE6">link</span><span style="--0:#7FDBCA"> </span></span><span style="--0:#C5E478;--1:#3B61B0">rel</span><span style="--0:#7FDBCA;--1:#8844AE">=</span><span style="--0:#D9F5DD;--1:#111111">"</span><span style="--0:#ECC48D;--1:#984E4D">stylesheet</span><span style="--0:#D9F5DD;--1:#111111">"</span><span style="--0:#7FDBCA;--1:#8844AE"> </span><span style="--0:#C5E478;--1:#3B61B0">href</span><span style="--0:#7FDBCA;--1:#8844AE">=</span><span style="--0:#D9F5DD;--1:#111111">"</span><span style="--0:#ECC48D;--1:#984E4D">assets/playground.css</span><span style="--0:#D9F5DD;--1:#111111">"</span><span style="--0:#7FDBCA;--1:#8844AE">></span></div></div><div class="ec-line"><div class="code"><span style="--1:#8844AE"><span style="--0:#7FDBCA">&#x3C;</span><span style="--0:#CAECE6">div</span><span style="--0:#7FDBCA"> </span></span><span style="--0:#C5E478;--1:#3B61B0">id</span><span style="--0:#7FDBCA;--1:#8844AE">=</span><span style="--0:#D9F5DD;--1:#111111">"</span><span style="--0:#ECC48D;--1:#984E4D">host</span><span style="--0:#D9F5DD;--1:#111111">"</span><span style="--0:#7FDBCA;--1:#8844AE"> </span><span style="--0:#C5E478;--1:#3B61B0">style</span><span style="--0:#7FDBCA;--1:#8844AE">=</span><span style="--0:#D9F5DD;--1:#111111">"</span><span style="--0:#ECC48D;--1:#984E4D">height: 90vh</span><span style="--0:#D9F5DD;--1:#111111">"</span><span style="--1:#8844AE"><span style="--0:#7FDBCA">>&#x3C;/</span><span style="--0:#CAECE6">div</span><span style="--0:#7FDBCA">></span></span></div></div><div class="ec-line"><div class="code"><span style="--1:#8844AE"><span style="--0:#7FDBCA">&#x3C;</span><span style="--0:#CAECE6">script</span><span style="--0:#7FDBCA"> </span></span><span style="--0:#C5E478;--1:#3B61B0">type</span><span style="--0:#7FDBCA;--1:#8844AE">=</span><span style="--0:#D9F5DD;--1:#111111">"</span><span style="--0:#ECC48D;--1:#984E4D">module</span><span style="--0:#D9F5DD;--1:#111111">"</span><span style="--0:#7FDBCA;--1:#8844AE">></span></div></div><div class="ec-line"><div class="code"><span class="indent">  </span><span style="--0:#C792EA;--1:#8844AE">import</span><span style="--0:#D6DEEB;--1:#403F53"> { mountPlayground } </span><span style="--0:#C792EA;--1:#8844AE">from</span><span style="--0:#D6DEEB;--1:#403F53"> </span><span style="--0:#D9F5DD;--1:#111111">"</span><span style="--0:#ECC48D;--1:#984E4D">./assets/playground.js</span><span style="--0:#D9F5DD;--1:#111111">"</span><span style="--0:#D6DEEB;--1:#403F53">;</span></div></div><div class="ec-line"><div class="code"><span class="indent">  </span><span style="--0:#82AAFF;--1:#3B61B0">mountPlayground</span><span style="--0:#D6DEEB;--1:#403F53">(</span><span style="--0:#7FDBCA;--1:#096E72">document</span><span style="--0:#C792EA;--1:#8844AE">.</span><span style="--0:#82AAFF;--1:#3B61B0">getElementById</span><span style="--0:#D6DEEB;--1:#403F53">(</span><span style="--0:#D9F5DD;--1:#111111">"</span><span style="--0:#ECC48D;--1:#984E4D">host</span><span style="--0:#D9F5DD;--1:#111111">"</span><span style="--0:#D6DEEB;--1:#403F53">), {</span></div></div><div class="ec-line"><div class="code"><span class="indent"><span style="--0:#D6DEEB;--1:#403F53">    </span></span><span style="--0:#D6DEEB;--1:#403F53">base: </span><span style="--0:#D9F5DD;--1:#111111">"</span><span style="--0:#ECC48D;--1:#984E4D">./assets</span><span style="--0:#D9F5DD;--1:#111111">"</span><span style="--0:#D6DEEB;--1:#403F53">,             </span><span style="--0:#919F9F;--1:#5D6376">// playground.json, js-worker.js</span></div></div><div class="ec-line"><div class="code"><span class="indent"><span style="--0:#D6DEEB;--1:#403F53">    </span></span><span style="--0:#D6DEEB;--1:#403F53">webrunURL: </span><span style="--0:#D9F5DD;--1:#111111">"</span><span style="--0:#ECC48D;--1:#984E4D">./webrun/</span><span style="--0:#D9F5DD;--1:#111111">"</span><span style="--0:#D6DEEB;--1:#403F53">,       </span><span style="--0:#919F9F;--1:#5D6376">// tools/webrun/assets</span></div></div><div class="ec-line"><div class="code"><span class="indent"><span style="--0:#D6DEEB;--1:#403F53">    </span></span><span style="--0:#D6DEEB;--1:#403F53">vendorURL: </span><span style="--0:#D9F5DD;--1:#111111">"</span><span style="--0:#ECC48D;--1:#984E4D">./vendor/</span><span style="--0:#D9F5DD;--1:#111111">"</span><span style="--0:#D6DEEB;--1:#403F53">,       </span><span style="--0:#919F9F;--1:#5D6376">// tools/webrun/vendor (Monaco)</span></div></div><div class="ec-line"><div class="code"><span class="indent"><span style="--0:#D6DEEB;--1:#403F53">    </span></span><span style="--0:#D6DEEB;--1:#403F53">pykingURL: </span><span style="--0:#D9F5DD;--1:#111111">"</span><span style="--0:#ECC48D;--1:#984E4D">./pyking/</span><span style="--0:#D9F5DD;--1:#111111">"</span><span style="--0:#D6DEEB;--1:#403F53">,       </span><span style="--0:#919F9F;--1:#5D6376">// pyking.js</span></div></div><div class="ec-line"><div class="code"><span class="indent"><span style="--0:#D6DEEB;--1:#403F53">    </span></span><span style="--0:#D6DEEB;--1:#403F53">examplesURL: </span><span style="--0:#D9F5DD;--1:#111111">"</span><span style="--0:#ECC48D;--1:#984E4D">./examples/</span><span style="--0:#D9F5DD;--1:#111111">"</span><span style="--0:#D6DEEB;--1:#403F53">,   </span><span style="--0:#919F9F;--1:#5D6376">// the example programs</span></div></div><div class="ec-line"><div class="code"><span class="indent"><span style="--0:#D6DEEB;--1:#403F53">    </span></span><span style="--0:#D6DEEB;--1:#403F53">initialTarget: </span><span style="--0:#D9F5DD;--1:#111111">"</span><span style="--0:#ECC48D;--1:#984E4D">c23</span><span style="--0:#D9F5DD;--1:#111111">"</span><span style="--0:#D6DEEB;--1:#403F53">,</span></div></div><div class="ec-line"><div class="code"><span class="indent"><span style="--0:#D6DEEB;--1:#403F53">    </span></span><span style="--0:#D6DEEB;--1:#403F53">initialExample: </span><span style="--0:#D9F5DD;--1:#111111">"</span><span style="--0:#ECC48D;--1:#984E4D">hello.pyk</span><span style="--0:#D9F5DD;--1:#111111">"</span><span style="--0:#D6DEEB;--1:#403F53">,</span></div></div><div class="ec-line"><div class="code"><span class="indent"><span style="--0:#D6DEEB;--1:#403F53">    </span></span><span style="--0:#D6DEEB;--1:#403F53">readLink: </span><span style="--0:#FF6A83;--1:#A24848">true</span><span style="--0:#D6DEEB;--1:#403F53">,               </span><span style="--0:#919F9F;--1:#5D6376">// open a #code=... link's program</span></div></div><div class="ec-line"><div class="code"><span class="indent"><span style="--0:#D6DEEB;--1:#403F53">    </span></span><span style="--0:#D6DEEB;--1:#403F53">keepState: </span><span style="--0:#FF6A83;--1:#A24848">true</span><span style="--0:#D6DEEB;--1:#403F53">,              </span><span style="--0:#919F9F;--1:#5D6376">// keep the program and the rest for the tab</span></div></div><div class="ec-line"><div class="code"><span class="indent"><span style="--0:#D6DEEB;--1:#403F53">    </span></span><span style="--0:#D6DEEB;--1:#403F53">theme: </span><span style="--0:#D9F5DD;--1:#111111">"</span><span style="--0:#ECC48D;--1:#984E4D">light</span><span style="--0:#D9F5DD;--1:#111111">"</span><span style="--0:#D6DEEB;--1:#403F53">,               </span><span style="--0:#919F9F;--1:#5D6376">// omit to let the reader choose</span></div></div><div class="ec-line"><div class="code"><span class="indent"><span style="--0:#D6DEEB;--1:#403F53">  </span></span><span style="--0:#D6DEEB;--1:#403F53">});</span></div></div><div class="ec-line"><div class="code"><span style="--1:#8844AE"><span style="--0:#7FDBCA">&#x3C;/</span><span style="--0:#CAECE6">script</span><span style="--0:#7FDBCA">></span></span></div></div></code></pre><div class="copy"><div aria-live="polite"></div><button title="Copy to clipboard" data-copied="Copied!" data-code="<link rel=&#x22;stylesheet&#x22; href=&#x22;assets/playground.css&#x22;><div id=&#x22;host&#x22; style=&#x22;height: 90vh&#x22;></div><script type=&#x22;module&#x22;>  import { mountPlayground } from &#x22;./assets/playground.js&#x22;;  mountPlayground(document.getElementById(&#x22;host&#x22;), {    base: &#x22;./assets&#x22;,             // playground.json, js-worker.js    webrunURL: &#x22;./webrun/&#x22;,       // tools/webrun/assets    vendorURL: &#x22;./vendor/&#x22;,       // tools/webrun/vendor (Monaco)    pykingURL: &#x22;./pyking/&#x22;,       // pyking.js    examplesURL: &#x22;./examples/&#x22;,   // the example programs    initialTarget: &#x22;c23&#x22;,    initialExample: &#x22;hello.pyk&#x22;,    readLink: true,               // open a #code=... link&#x27;s program    keepState: true,              // keep the program and the rest for the tab    theme: &#x22;light&#x22;,               // omit to let the reader choose  });</script>"><div></div></button></div></figure></div>
+<p>Every option has a default. <code>readLink: false</code> ignores a program in the
+page’s own address, and <code>keepState: false</code> starts afresh on every load.
+With <code>theme</code> given, the page decides the theme and the playground hides
+its own switch. The starting sizes of the panes can be set from CSS:</p>
+<div class="expressive-code"><figure class="frame not-content"><figcaption class="header"></figcaption><pre data-language="css"><code><div class="ec-line"><div class="code"><span style="--0:#FAD430;--1:#AA0982">#host</span><span style="--0:#D6DEEB;--1:#403F53"> { </span><span style="--0:#C5E478;--1:#3B61B0">--pyk-col-split</span><span style="--0:#D6DEEB;--1:#403F53">: </span><span style="--1:#AA0982"><span style="--0:#F78C6C">40</span><span style="--0:#FFEB95">%</span></span><span style="--0:#D6DEEB;--1:#403F53">; </span><span style="--0:#C5E478;--1:#3B61B0">--pyk-out-split</span><span style="--0:#D6DEEB;--1:#403F53">: </span><span style="--1:#AA0982"><span style="--0:#F78C6C">25</span><span style="--0:#FFEB95">%</span></span><span style="--0:#D6DEEB;--1:#403F53">; }</span></div></div></code></pre><div class="copy"><div aria-live="polite"></div><button title="Copy to clipboard" data-copied="Copied!" data-code="#host { --pyk-col-split: 40%; --pyk-out-split: 25%; }"><div></div></button></div></figure></div>
+<p>The page must be served over HTTP, by <code>pyk serve</code> or any web server
+that handles several connections at once. Opened as a <code>file://</code> address
+it does not load, since browsers block what it needs there.</p>
+<h2 id="limitations">Limitations</h2>
+<ul>
+<li><strong>Python, C, Java and OCaml do not run in the page.</strong> Compile and look
+at them, then Download them and <code>make run</code> on your computer, or use
+<code>pyk compile</code> (see <a href="/documentation/command-line/">Command line</a>).</li>
+<li><strong>One file.</strong> A program can import the standard library, but not
+modules of its own.</li>
+<li><strong>No <code>iweb</code> target.</strong> It packages a program with the interpreter so a
+browser can run it, which is what the playground already does.</li>
+<li><strong>The first load is about 11 MB</strong>: the compiler and the editor. After
+that the browser keeps them.</li>
+<li><strong>Nothing is saved on a server.</strong> A program lasts as long as the
+browser tab. To keep it, copy it into a file, or keep its link from
+Copy code as link.</li>
+<li><strong>The REPL has no input and no pages</strong>: <code>io.read_line</code> finds no input,
+and <code>tinyweb</code> is refused there.</li>
+</ul></div><footer class="sl-flex astro-ddtxxk7k"><div class="meta sl-flex astro-ddtxxk7k"></div><div class="pagination-links print:hidden astro-b5raizh3" dir="ltr"></div></footer></div></div></main></div></div></div></div></body></html>

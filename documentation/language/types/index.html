@@ -1,0 +1,808 @@
+<!DOCTYPE html><html lang="en" dir="ltr" data-theme="dark" data-has-sidebar class="astro-g5ptsecz"><head><meta charset="utf-8"/><meta name="viewport" content="width=device-width, initial-scale=1"/><title>Types and type inference | Pyking</title><link rel="canonical" href="https://pyking.org/documentation/language/types/"/><link rel="sitemap" href="/sitemap-index.xml"/><script src="/v/8e74ca34b133/site/shell.js" data-base data-build="8e74ca34b133" data-sections="[{&quot;key&quot;:&quot;install&quot;,&quot;label&quot;:&quot;Install&quot;,&quot;prefix&quot;:&quot;/install/&quot;},{&quot;key&quot;:&quot;getstarted&quot;,&quot;label&quot;:&quot;Getting started&quot;,&quot;prefix&quot;:&quot;/getstarted/&quot;},{&quot;key&quot;:&quot;documentation&quot;,&quot;label&quot;:&quot;Documentation&quot;,&quot;prefix&quot;:&quot;/documentation/&quot;},{&quot;key&quot;:&quot;libraries&quot;,&quot;label&quot;:&quot;Libraries&quot;,&quot;prefix&quot;:&quot;/libraries/&quot;},{&quot;key&quot;:&quot;playground&quot;,&quot;label&quot;:&quot;Playground&quot;,&quot;prefix&quot;:&quot;/playground/&quot;}]"></script><script type="module" src="/v/8e74ca34b133/site/cells.js"></script><script>try { if (localStorage.getItem('starlight-theme') === null) localStorage.setItem('starlight-theme', 'dark'); } catch (e) {}</script><link rel="shortcut icon" href="/v/8e74ca34b133/site/favicon.svg" type="image/svg+xml"/><meta name="generator" content="Astro v7.3.5"/><meta name="generator" content="Starlight v0.42.5"/><meta property="og:title" content="Types and type inference"/><meta property="og:type" content="article"/><meta property="og:url" content="https://pyking.org/documentation/language/types/"/><meta property="og:locale" content="en"/><meta property="og:description" content="The types, what the checker checks, type variables and inference."/><meta property="og:site_name" content="Pyking"/><meta name="twitter:card" content="summary_large_image"/><meta name="description" content="The types, what the checker checks, type variables and inference."/><script>
+	window.StarlightThemeProvider = (() => {
+		const storedTheme =
+			typeof localStorage !== 'undefined' && localStorage.getItem('starlight-theme');
+		const theme =
+			storedTheme ||
+			(window.matchMedia('(prefers-color-scheme: light)').matches ? 'light' : 'dark');
+		document.documentElement.dataset.theme = theme === 'light' ? 'light' : 'dark';
+		return {
+			updatePickers(theme = storedTheme || 'auto') {
+				document.querySelectorAll('starlight-theme-select').forEach((picker) => {
+					const select = picker.querySelector('select');
+					if (select) select.value = theme;
+					/** @type {HTMLTemplateElement | null} */
+					const tmpl = document.querySelector(`#theme-icons`);
+					const newIcon = tmpl && tmpl.content.querySelector('.' + theme);
+					if (newIcon) {
+						const oldIcon = picker.querySelector('svg.label-icon');
+						if (oldIcon) {
+							oldIcon.replaceChildren(...newIcon.cloneNode(true).childNodes);
+						}
+					}
+				});
+			},
+		};
+	})();
+</script><template id="theme-icons"><svg aria-hidden="true" class="light astro-hkc32dio" width="16" height="16" viewBox="0 0 24 24" fill="currentColor" style="--sl-icon-size: 1em;"><path d="M5 12a1 1 0 0 0-1-1H3a1 1 0 0 0 0 2h1a1 1 0 0 0 1-1Zm.64 5-.71.71a1 1 0 0 0 0 1.41 1 1 0 0 0 1.41 0l.71-.71A1 1 0 0 0 5.64 17ZM12 5a1 1 0 0 0 1-1V3a1 1 0 0 0-2 0v1a1 1 0 0 0 1 1Zm5.66 2.34a1 1 0 0 0 .7-.29l.71-.71a1 1 0 1 0-1.41-1.41l-.66.71a1 1 0 0 0 0 1.41 1 1 0 0 0 .66.29Zm-12-.29a1 1 0 0 0 1.41 0 1 1 0 0 0 0-1.41l-.71-.71a1.004 1.004 0 1 0-1.43 1.41l.73.71ZM21 11h-1a1 1 0 0 0 0 2h1a1 1 0 0 0 0-2Zm-2.64 6A1 1 0 0 0 17 18.36l.71.71a1 1 0 0 0 1.41 0 1 1 0 0 0 0-1.41l-.76-.66ZM12 6.5a5.5 5.5 0 1 0 5.5 5.5A5.51 5.51 0 0 0 12 6.5Zm0 9a3.5 3.5 0 1 1 0-7 3.5 3.5 0 0 1 0 7Zm0 3.5a1 1 0 0 0-1 1v1a1 1 0 0 0 2 0v-1a1 1 0 0 0-1-1Z"/></svg><svg aria-hidden="true" class="dark astro-hkc32dio" width="16" height="16" viewBox="0 0 24 24" fill="currentColor" style="--sl-icon-size: 1em;"><path d="M21.64 13a1 1 0 0 0-1.05-.14 8.049 8.049 0 0 1-3.37.73 8.15 8.15 0 0 1-8.14-8.1 8.59 8.59 0 0 1 .25-2A1 1 0 0 0 8 2.36a10.14 10.14 0 1 0 14 11.69 1 1 0 0 0-.36-1.05Zm-9.5 6.69A8.14 8.14 0 0 1 7.08 5.22v.27a10.15 10.15 0 0 0 10.14 10.14 9.784 9.784 0 0 0 2.1-.22 8.11 8.11 0 0 1-7.18 4.32v-.04Z"/></svg><svg aria-hidden="true" class="auto astro-hkc32dio" width="16" height="16" viewBox="0 0 24 24" fill="currentColor" style="--sl-icon-size: 1em;"><path d="M21 14h-1V7a3 3 0 0 0-3-3H7a3 3 0 0 0-3 3v7H3a1 1 0 0 0-1 1v2a3 3 0 0 0 3 3h14a3 3 0 0 0 3-3v-2a1 1 0 0 0-1-1ZM6 7a1 1 0 0 1 1-1h10a1 1 0 0 1 1 1v7H6V7Zm14 10a1 1 0 0 1-1 1H5a1 1 0 0 1-1-1v-1h16v1Z"/></svg></template><link rel="stylesheet" href="/_astro/print.ehPL0gv-.css" media="print"><link rel="stylesheet" href="/_astro/middleware.DYJDcmyo.css"><script type="module" src="/_astro/page.Dwipeu-R.js"></script></head><body class="astro-g5ptsecz"><a class="sl-skip-link astro-qb7clj6f" href="#_top">Skip to content</a><div class="page sl-flex astro-yntsjkba"><header class="header astro-yntsjkba"><div class="pyking-header"><div class="pyking-header-left"><a href="/" class="site-title sl-flex astro-6rvad3va"><img class="astro-6rvad3va" alt="Pyking" src="/_astro/logo.C9hvHOpV.svg" width="64" height="64"><span class="astro-6rvad3va" translate="no">Pyking</span></a><nav class="pyking-nav" aria-label="Sections"><a href="/install/">Install</a><a href="/getstarted/pyking-in-20-minutes/">Getting started</a><a href="/documentation/language/" aria-current="page">Documentation</a><a href="/libraries/">Libraries</a><a href="/playground/">Playground</a></nav></div><div class="pyking-header-right print:hidden"><site-search class=" astro-b5kgnn7o" data-translations="{&quot;placeholder&quot;:&quot;Search&quot;}"><button data-open-modal disabled aria-label="Search" aria-keyshortcuts="Control+K" class="astro-b5kgnn7o"><svg aria-hidden="true" class="astro-b5kgnn7o astro-hkc32dio" width="16" height="16" viewBox="0 0 24 24" fill="currentColor" style="--sl-icon-size: 1em;"><path d="M21.71 20.29 18 16.61A9 9 0 1 0 16.61 18l3.68 3.68a.999.999 0 0 0 1.42 0 1 1 0 0 0 0-1.39ZM11 18a7 7 0 1 1 0-14 7 7 0 0 1 0 14Z"/></svg><span class="sl-hidden md:sl-block astro-b5kgnn7o" aria-hidden="true">Search</span><kbd class="sl-hidden md:sl-flex astro-b5kgnn7o" style="display: none;"><kbd class="astro-b5kgnn7o">Ctrl</kbd><kbd class="astro-b5kgnn7o">K</kbd></kbd></button><dialog style="padding:0" aria-label="Search" class="astro-b5kgnn7o"><div class="dialog-frame sl-flex astro-b5kgnn7o"><button data-close-modal class="sl-flex md:sl-hidden astro-b5kgnn7o">Cancel</button><div class="search-container astro-b5kgnn7o"><div id="starlight__search" class="astro-b5kgnn7o"></div></div></div></dialog></site-search><script>
+	(() => {
+		const openBtn = document.querySelector('button[data-open-modal]');
+		const shortcut = openBtn?.querySelector('kbd');
+		if (!openBtn || !(shortcut instanceof HTMLElement)) return;
+		const platformKey = shortcut.querySelector('kbd');
+		if (platformKey && /(Mac|iPhone|iPod|iPad)/i.test(navigator.platform)) {
+			platformKey.textContent = '⌘';
+			openBtn.setAttribute('aria-keyshortcuts', 'Meta+K');
+		}
+		shortcut.style.display = '';
+	})();
+</script><script type="module" src="/_astro/Search.astro_astro_type_script_index_0_lang.Bumivpjo.js"></script><div class="sl-hidden md:sl-flex"><starlight-theme-select><label style="--sl-select-width: 6.25em" class="astro-2z5xp7gb"><span class="sr-only astro-2z5xp7gb">Select theme</span><svg aria-hidden="true" class="icon label-icon astro-2z5xp7gb astro-hkc32dio" width="16" height="16" viewBox="0 0 24 24" fill="currentColor" style="--sl-icon-size: 1em;"><path d="M21 14h-1V7a3 3 0 0 0-3-3H7a3 3 0 0 0-3 3v7H3a1 1 0 0 0-1 1v2a3 3 0 0 0 3 3h14a3 3 0 0 0 3-3v-2a1 1 0 0 0-1-1ZM6 7a1 1 0 0 1 1-1h10a1 1 0 0 1 1 1v7H6V7Zm14 10a1 1 0 0 1-1 1H5a1 1 0 0 1-1-1v-1h16v1Z"/></svg><select autocomplete="off" class="astro-2z5xp7gb"><option value="dark" class="astro-2z5xp7gb">Dark</option><option value="light" class="astro-2z5xp7gb">Light</option><option value="auto" selected class="astro-2z5xp7gb">Auto</option></select><svg aria-hidden="true" class="icon caret astro-2z5xp7gb astro-hkc32dio" width="16" height="16" viewBox="0 0 24 24" fill="currentColor" style="--sl-icon-size: 1em;"><path d="M17 9.17a1 1 0 0 0-1.41 0L12 12.71 8.46 9.17a1 1 0 1 0-1.41 1.42l4.24 4.24a1.002 1.002 0 0 0 1.42 0L17 10.59a1.002 1.002 0 0 0 0-1.42Z"/></svg></label></starlight-theme-select><script>
+	StarlightThemeProvider.updatePickers();
+</script><script type="module">var e=`starlight-theme`,t=e=>e===`auto`||e===`dark`||e===`light`?e:`auto`,n=()=>t(typeof localStorage<`u`&&localStorage.getItem(e));function r(t){typeof localStorage<`u`&&localStorage.setItem(e,t===`light`||t===`dark`?t:``)}var i=()=>matchMedia(`(prefers-color-scheme: light)`).matches?`light`:`dark`;function a(e){StarlightThemeProvider.updatePickers(e),document.documentElement.dataset.theme=e===`auto`?i():e,r(e)}matchMedia(`(prefers-color-scheme: light)`).addEventListener(`change`,()=>{n()===`auto`&&a(`auto`)});var o=class extends HTMLElement{constructor(){super(),a(n()),this.querySelector(`select`)?.addEventListener(`change`,e=>{e.currentTarget instanceof HTMLSelectElement&&a(t(e.currentTarget.value))})}};customElements.define(`starlight-theme-select`,o);</script></div><a class="pyking-github" href="https://github.com/pyking-lang" title="Pyking on GitHub"><span class="sr-only">GitHub</span><svg aria-hidden="true" viewBox="0 0 24 24" width="22" height="22" fill="currentColor"><path d="M12 .3a12 12 0 0 0-3.8 23.4c.6.1.8-.3.8-.6v-2c-3.3.7-4-1.6-4-1.6-.6-1.4-1.4-1.8-1.4-1.8-1-.7.1-.7.1-.7 1.2.1 1.8 1.2 1.8 1.2 1 1.8 2.8 1.3 3.5 1 0-.8.4-1.3.7-1.6-2.7-.3-5.5-1.3-5.5-6 0-1.2.5-2.3 1.3-3.1-.2-.4-.6-1.6 0-3.2 0 0 1-.3 3.4 1.2a11.5 11.5 0 0 1 6 0c2.3-1.5 3.3-1.2 3.3-1.2.6 1.6.2 2.8.1 3.2.8.8 1.3 1.9 1.3 3.1 0 4.6-2.8 5.6-5.5 5.9.5.4.9 1.1.9 2.2v3.3c0 .3.1.7.8.6A12 12 0 0 0 12 .3"></path></svg></a></div></div></header><nav class="sidebar print:hidden astro-yntsjkba" aria-label="Main"><button popovertarget="starlight__sidebar" class="sl-menu-button sl-flex md:sl-hidden print:hidden astro-r2osgdlg"><svg aria-hidden="true" class="open-menu astro-r2osgdlg astro-hkc32dio" width="16" height="16" viewBox="0 0 24 24" fill="currentColor" style="--sl-icon-size: 1em;"><path d="M3 8h18a1 1 0 1 0 0-2H3a1 1 0 0 0 0 2Zm18 8H3a1 1 0 0 0 0 2h18a1 1 0 0 0 0-2Zm0-5H3a1 1 0 0 0 0 2h18a1 1 0 0 0 0-2Z"/></svg><svg aria-hidden="true" class="close-menu astro-r2osgdlg astro-hkc32dio" width="16" height="16" viewBox="0 0 24 24" fill="currentColor" style="--sl-icon-size: 1em;"><path d="m13.41 12 6.3-6.29a1.004 1.004 0 1 0-1.42-1.42L12 10.59l-6.29-6.3a1.004 1.004 0 0 0-1.42 1.42l6.3 6.29-6.3 6.29a1 1 0 0 0 0 1.42.998.998 0 0 0 1.42 0l6.29-6.3 6.29 6.3a.999.999 0 0 0 1.42 0 1 1 0 0 0 0-1.42L13.41 12Z"/></svg><span class="sr-only astro-r2osgdlg">Menu</span></button><script type="module">var e=class extends HTMLElement{constructor(){super();let e=matchMedia(`(min-width: 50em)`),t=()=>{this.popover=e.matches?null:`auto`};t(),e.addEventListener(`change`,()=>t()),this.addEventListener(`toggle`,({newState:e})=>this.trapFocus(e===`open`))}trapFocus(e){document.querySelectorAll(`.main-frame, .sl-skip-link`).forEach(t=>{t.toggleAttribute(`inert`,e)})}};customElements.define(`sl-sidebar-pane`,e);</script><script type="module">var e=class extends HTMLElement{constructor(){super();let e=this.querySelector(`select`);e&&(e.addEventListener(`change`,e=>{e.currentTarget instanceof HTMLSelectElement&&(window.location.pathname=e.currentTarget.value)}),window.addEventListener(`pageshow`,t=>{if(!t.persisted)return;let n=e.querySelector(`option[selected]`)?.index;n!==e.selectedIndex&&(e.selectedIndex=n??0)}))}};customElements.define(`starlight-lang-select`,e);</script><sl-sidebar-pane popover id="starlight__sidebar" class="sidebar-pane astro-yntsjkba"><div class="sidebar-content sl-flex astro-yntsjkba"><nav class="pyking-sidebar" aria-label="Documentation"><p class="pyking-sidebar-title">Documentation</p><ul class="pyking-sidebar-main"><li><a href="/documentation/editors/">Editors</a></li><li><a href="/documentation/playground/">Playground</a></li><li><a href="/documentation/notebook/">Notebook</a></li><li><a href="/documentation/command-line/">Command line</a></li><li><a href="/documentation/repl/">REPL</a></li><li><a href="/documentation/targets/">Compiler targets</a></li><li><a href="/documentation/slides/">Code on slides</a></li><li class="pyking-sidebar-parent pyking-sidebar-open"><a href="/documentation/language/">Language reference</a><ul class="pyking-sidebar-sub"><li><a href="/documentation/language/programs-and-use/">Programs, modes and use</a></li><li><a href="/documentation/language/values/">Values and basic types</a></li><li><a href="/documentation/language/expressions/">Operators and expressions</a></li><li><a href="/documentation/language/names-and-scope/">Names, bindings and scope</a></li><li><a href="/documentation/language/mutable-state/">Mutable state</a></li><li><a href="/documentation/language/functions/">Functions</a></li><li><a href="/documentation/language/control-flow/">Control flow</a></li><li><a href="/documentation/language/collections/">Collections</a></li><li><a href="/documentation/language/datatypes/">Datatypes, structs and pattern matching</a></li><li><a href="/documentation/language/objects/">Objects</a></li><li><a href="/documentation/language/types/" aria-current="page">Types and type inference</a></li><li><a href="/documentation/language/overloading-and-implicits/">Overloading and implicits</a></li><li><a href="/documentation/language/modules/">Modules</a></li><li><a href="/documentation/language/builtins/">Builtins and I/O</a></li><li><a href="/documentation/language/warnings/">Warnings</a></li></ul></li><li><a href="/documentation/vs-other-languages/">Pyking vs. other languages</a></li><li><a href="/documentation/grammar/">Grammar</a></li><li class="pyking-sidebar-parent"><a href="/documentation/tinyweb/">Tinyweb without Pyking</a></li><li><a href="/documentation/tinyweb-styles/">Styling tinyweb</a></li></ul></nav><div class="md:sl-hidden"><div class="mobile-preferences sl-flex astro-p4azlveh"><div class="social-icons astro-p4azlveh"></div><starlight-theme-select><label style="--sl-select-width: 6.25em" class="astro-2z5xp7gb"><span class="sr-only astro-2z5xp7gb">Select theme</span><svg aria-hidden="true" class="icon label-icon astro-2z5xp7gb astro-hkc32dio" width="16" height="16" viewBox="0 0 24 24" fill="currentColor" style="--sl-icon-size: 1em;"><path d="M21 14h-1V7a3 3 0 0 0-3-3H7a3 3 0 0 0-3 3v7H3a1 1 0 0 0-1 1v2a3 3 0 0 0 3 3h14a3 3 0 0 0 3-3v-2a1 1 0 0 0-1-1ZM6 7a1 1 0 0 1 1-1h10a1 1 0 0 1 1 1v7H6V7Zm14 10a1 1 0 0 1-1 1H5a1 1 0 0 1-1-1v-1h16v1Z"/></svg><select autocomplete="off" class="astro-2z5xp7gb"><option value="dark" class="astro-2z5xp7gb">Dark</option><option value="light" class="astro-2z5xp7gb">Light</option><option value="auto" selected class="astro-2z5xp7gb">Auto</option></select><svg aria-hidden="true" class="icon caret astro-2z5xp7gb astro-hkc32dio" width="16" height="16" viewBox="0 0 24 24" fill="currentColor" style="--sl-icon-size: 1em;"><path d="M17 9.17a1 1 0 0 0-1.41 0L12 12.71 8.46 9.17a1 1 0 1 0-1.41 1.42l4.24 4.24a1.002 1.002 0 0 0 1.42 0L17 10.59a1.002 1.002 0 0 0 0-1.42Z"/></svg></label></starlight-theme-select><script>
+	StarlightThemeProvider.updatePickers();
+</script></div></div></div></sl-sidebar-pane></nav><div class="main-frame astro-yntsjkba"><script type="module">var e=document.getElementById(`starlight__sidebar`),t=e?.querySelector(`sl-sidebar-state-persist`),n=`sl-sidebar-state`,r=()=>{let r=[],i=t?.dataset.hash||``;try{let e=sessionStorage.getItem(n),t=JSON.parse(e||`{}`);Array.isArray(t.open)&&t.hash===i&&(r=t.open)}catch{}return{hash:i,open:r,scroll:e?.scrollTop||0}},i=e=>{try{sessionStorage.setItem(n,JSON.stringify(e))}catch{}},a=()=>i(r()),o=(e,t)=>{let n=r();n.open[t]=e,i(n)};t?.addEventListener(`click`,e=>{if(!(e.target instanceof Element))return;let t=e.target.closest(`summary`)?.closest(`details`);if(!t)return;let n=t.querySelector(`sl-sidebar-restore`),r=parseInt(n?.dataset.index||``);isNaN(r)||o(!t.open,r)}),addEventListener(`visibilitychange`,()=>{document.visibilityState===`hidden`&&a()});</script><div class="lg:sl-flex astro-lrzkfocr"><div class="main-pane astro-lrzkfocr"><main data-pagefind-body class="astro-g5ptsecz" lang="en" dir="ltr"><div class="content-panel astro-a7po4psb"><div class="sl-container astro-a7po4psb"><h1 id="_top" class="astro-bebwqqxs">Types and type inference</h1></div></div><div class="content-panel astro-a7po4psb"><div class="sl-container astro-a7po4psb"><div class="sl-markdown-content"><blockquote>
+<p><strong>Available:</strong> in every module · <strong>Compared with Python:</strong> differs —
+every program is type-checked before it runs</p>
+</blockquote>
+<p><strong>Pyking is statically typed.</strong> Every program is checked before anything
+is printed, compiled or run — there is no flag for it and no way round
+it — and a failure stops the compile. Static semantics come in three
+kinds, reported under three labels:</p>
+<ul>
+<li>the shape rules the grammar cannot state: a value-form <code>if</code> must have
+its <code>else</code> and every branch must end in an expression (see the section
+on <code>if</code>/<code>match</code> statements as bound values), a <code>case</code> pattern may
+not bind the same name twice, and no name a program binds starts with
+an uppercase letter. These are reported as <code>Parsing error</code>.</li>
+<li>names and types, both settled by the checker: every name must be bound
+where it is used, and every value must have the type its use requires.
+An unbound name is a <code>Name error</code>; everything else below is a
+<code>Type error</code>.</li>
+<li>mutability, the one rule about a name that a type cannot state: <code>:=</code>
+may only name a <code>var</code>, and a <code>var</code> may not be shadowed (see “Names and
+scoping”). Also a <code>Name error</code>.</li>
+</ul>
+<p>The checker covers a <em>fragment</em> of the language, and refuses everything
+else rather than guessing:</p>
+<div class="expressive-code"><link rel="stylesheet" href="/_astro/ec.w36nc.css"><script type="module" src="/_astro/ec.0vx5m.js"></script><figure class="frame not-content"><figcaption class="header"></figcaption><pre data-language="plaintext"><code><div class="ec-line"><div class="code"><span style="--0:#d6deeb;--1:#403f53">'prog.pyk' 4:8-4:13 Type error: Construct is not supported</span></div></div></code></pre><div class="copy"><div aria-live="polite"></div><button title="Copy to clipboard" data-copied="Copied!" data-code="&#x27;prog.pyk&#x27; 4:8-4:13 Type error: Construct is not supported"><div></div></button></div></figure></div>
+<p>That is deliberate. A checker that quietly accepted what it had not
+reasoned about would be worse than one that says where it stops — so
+the list below is a floor that grows, not a description of what will
+always be refused.</p>
+<h2 id="types">Types</h2>
+<p>The checker works in the types “Type annotations” lists, and no others:
+<code>Int</code>, <code>Float</code>, <code>String</code>, <code>Char</code>, <code>Bool</code>, list types <code>[T]</code>, tuple types
+<code>(T1, T2, ...)</code>
+— with <code>(T,)</code> the one-element one and <code>()</code>, the zero-element tuple, the
+unit type — function types <code>(T1, T2, ...) -> T</code>, datatypes (<code>Shape</code>,
+<code>Tree(Int)</code>; see “Datatypes”), and type <em>variables</em> (see “Type
+variables” below). Two datatypes are one type when they are the same
+declaration applied to the same types: two datatypes of one name in two
+modules are two types.</p>
+<p>There is no “one of these” type. A value is an <code>Int</code> or it is a
+<code>String</code>; nothing says it may be either, and there is no narrowing that
+would make such a thing usable. A function that has to serve several
+types serves them the way <code>map</code> does — with a variable, which says the
+<em>caller</em> chooses and the body does not care. Where the body does care
+— <code>string(value)</code>, say, which asks what it was given — there is nothing to
+write and nothing to infer, and the definition means the one type it
+was first used at. Closing that gap needs something like type classes,
+which Pyking does not have.</p>
+<p>The function type is the one a program rarely writes but the checker
+constantly infers, since it is what a <code>def</code>’s <em>name</em> means. So it is
+what <code>pyk compile -t pyking</code> prints for a name bound to a function,
+whether or not the source said so:</p>
+<div class="pkn-notebook pkn-embedded not-content"><div class="pkn-cell"><pre class="pkn-cell-fallback"><code>def choose(a:Int, keep:Bool) -> Int:
+    if keep:
+        return a
+    else:
+        return 0
+
+
+picker = choose      # picker: (Int, Bool) -> Int</code></pre></div></div>
+<p>Two types are the same type when they have the same structure; where
+they were written, and whether one was written at all, does not enter
+into it. So a parameter annotated <code>(Int) -> Int</code> accepts any function of
+that shape, and rejects <code>(Int) -> Bool</code>.</p>
+<h2 id="numbers-and-what-the-checker-defaults-to">Numbers, and what the checker defaults to</h2>
+<p><code>Int</code> and <code>Float</code> are two types and nothing converts between them on its
+own. <code>+</code>, <code>-</code>, <code>*</code>, <code>/</code> and the five comparisons each take two operands
+of <strong>one</strong> type, so one of each is refused where it is written:</p>
+<div class="pkn-notebook pkn-embedded not-content"><div class="pkn-cell" data-error=""><pre class="pkn-cell-fallback"><code>print(1 + 1.0)
+# Type error: `+` cannot be applied to Int and Float; it accepts
+# Int + Int or Float + Float. Pyking mixes no numbers on its own:
+# `float(n)` makes an Int a Float, and `int(x)` truncates a Float to an
+# Int</code></pre></div></div>
+<p>Two builtins are what a program writes instead. <code>float(n)</code> widens an
+<code>Int</code>; <code>int(x)</code> truncates a <code>Float</code> toward zero, the rounding <code>/</code>
+already does on two Ints.</p>
+<div class="pkn-notebook pkn-embedded not-content"><div class="pkn-cell"><pre class="pkn-cell-fallback"><code>total = 7
+count = 2
+print(total / count)                      # 3
+print(float(total) / float(count))        # 3.5</code></pre></div></div>
+<p>Implicit widening is deliberately absent. It would mean <code>1 / 2</code> changed
+meaning depending on what surrounded it, which is the thing about a
+numeric tower that costs the most and is hardest to see.</p>
+<p><strong>Where nothing has decided, an arithmetic operator means <code>Int</code>.</strong> An
+unannotated <code>def</code> whose parameters no literal and no call pins down is
+an <code>Int</code> function:</p>
+<div class="pkn-notebook pkn-embedded not-content"><div class="pkn-cell"><pre class="pkn-cell-fallback"><code>def add(a, b):
+    return a + b          # add : (Int, Int) -> Int</code></pre></div></div>
+<p>That keeps every program written before Float existed compiling and
+meaning what it did. A Float one says so — with an annotation, or with a
+Float reaching the body:</p>
+<div class="pkn-notebook pkn-embedded not-content"><div class="pkn-cell"><pre class="pkn-cell-fallback"><code>def fadd(a:Float, b:Float) -> Float:
+    return a + b
+
+def twice(x):
+    return x * 2.0        # twice : (Float) -> Float</code></pre></div></div>
+<p><strong>The comparisons behave differently, and that is not an oversight.</strong>
+<code>&#x3C;</code> answers <code>Bool</code> whichever type it compares, so it has nothing to
+decide and leaves its operands open — exactly as <code>==</code> already did:</p>
+<div class="pkn-notebook pkn-embedded not-content"><div class="pkn-cell"><pre class="pkn-cell-fallback"><code>def taller(a, b):
+    return a > b          # settled by the first call, at either type</code></pre></div></div>
+<p>A <code>var</code> may hold a <code>Float</code>, as it may hold an <code>Int</code> or a <code>Bool</code>, which
+is what a running total needs.</p>
+<h2 id="what-is-checked">What is checked</h2>
+<p><strong>Literals and names.</strong> <code>1</code> is <code>Int</code>, <code>'s'</code> is <code>String</code>, <code>true</code> and
+<code>false</code> are <code>Bool</code>. A name has the type of the binding it refers to,
+under Pyking’s ordinary lexical scoping.</p>
+<p><strong>Operators.</strong> Both operands must match the <em>same</em> signature:</p>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<table><thead><tr><th>operator</th><th>accepts</th><th>gives</th></tr></thead><tbody><tr><td><code>+</code></td><td>two <code>Int</code>s, two <code>Float</code>s, two <code>String</code>s, or two lists of one type</td><td>what the operands are</td></tr><tr><td><code>-</code>, <code>*</code>, <code>/</code>, <code>%</code>, <code>^</code></td><td>two <code>Int</code>s or two <code>Float</code>s</td><td>what the operands are</td></tr><tr><td><code>-</code> (unary)</td><td>an <code>Int</code> or a <code>Float</code></td><td>what the operand is</td></tr><tr><td><code>&#x3C;</code>, <code>&#x3C;=</code>, <code>></code>, <code>>=</code></td><td>two <code>Int</code>s or two <code>Float</code>s</td><td><code>Bool</code></td></tr><tr><td><code>==</code>, <code>!=</code></td><td>two <code>Int</code>s, <code>Float</code>s, <code>String</code>s or <code>Bool</code>s</td><td><code>Bool</code></td></tr><tr><td><code>and</code>, <code>or</code>, <code>xor</code></td><td>two <code>Bool</code>s (logic), or two <code>Int</code>s (bitwise)</td><td>what the operands are</td></tr><tr><td><code>not</code></td><td>a <code>Bool</code>, or an <code>Int</code></td><td>what the operand is</td></tr><tr><td><code>&#x26;&#x26;</code>, <code>!</code> and or-or</td><td><code>Bool</code>s</td><td><code>Bool</code></td></tr><tr><td><code>&#x26;</code>, <code>&#x3C;&#x3C;</code>, <code>>></code>, bitwise or</td><td>two <code>Int</code>s</td><td><code>Int</code></td></tr><tr><td><code>~</code></td><td>an <code>Int</code></td><td><code>Int</code></td></tr><tr><td><code>xs[i]</code></td><td>a list <code>[a]</code>, an array, a DynArray, a view or a <code>String</code>, and an <code>Int</code></td><td>the element (a <code>Char</code> for a <code>String</code>)</td></tr></tbody></table>
+<p>(Bitwise or is <code>|</code> and the Bool or is <code>||</code>; a <code>|</code> cannot be written
+inside a Markdown table cell.)</p>
+<p>So <code>1 + 'a'</code> is an error — <code>+</code> converts nothing — and so is
+<code>1 == 'a'</code>: a comparison of two different types is refused rather than
+answered <code>false</code>. Where nothing has decided its operands, <code>and</code>, <code>or</code>
+and <code>not</code> are Bool logic, <code>+</code> waits for a use to decide it and adds
+two Ints if nothing does, and <code>xs[i]</code> leaves the kind of <code>xs</code> to the
+first call and indexes a list if nothing decides it (“Functions without
+annotations”).</p>
+<p><strong>Bindings and expression statements.</strong> An <code>=</code> binding takes the type of
+its right-hand side, and that is what its name means to the statements
+that follow. An expression statement has its expression’s type, which is
+what lets a block yield a value.</p>
+<p>A binding that <em>annotates</em> itself is checked against that annotation —
+an annotation is a claim about the program, and where one is written it
+is verified rather than replaced, which is the whole difference between
+an annotation and a comment. Both forms of binding are checked, the
+ordinary one and the value form:</p>
+<div class="pkn-notebook pkn-embedded not-content"><div class="pkn-cell"><pre class="pkn-cell-fallback"><code>def foo(x:Int, y:Int) -> Int: x + y
+
+
+ok:(Int, Int) -> Int = foo      # fine
+# f:(Int, String) -> Int = foo  # error: foo is (Int, Int) -> Int
+# n:String = 1 + 2              # error: the value is an Int</code></pre></div></div>
+<div class="expressive-code"><figure class="frame not-content"><figcaption class="header"></figcaption><pre data-language="plaintext"><code><div class="ec-line"><div class="code"><span style="--0:#d6deeb;--1:#403f53">'prog.pyk' 3:2-3:22 Type error: this binding is annotated (Int,</span></div></div><div class="ec-line"><div class="code"><span class="indent"><span style="--0:#d6deeb;--1:#403f53">  </span></span><span style="--0:#d6deeb;--1:#403f53">String) -> Int, but its value has type (Int, Int) -> Int</span></div></div></code></pre><div class="copy"><div aria-live="polite"></div><button title="Copy to clipboard" data-copied="Copied!" data-code="&#x27;prog.pyk&#x27; 3:2-3:22 Type error: this binding is annotated (Int,  String) -> Int, but its value has type (Int, Int) -> Int"><div></div></button></div></figure></div>
+<p>A binding with no annotation claims nothing and takes whatever its value
+has; <code>-t pyking</code> then prints the type that was worked out, which is what
+makes that output worth reading.</p>
+<p>A <code>let</code> expression binds by the same rules: its value is checked where
+the <code>let</code> is written, its annotation against that value, and its body
+with the target bound. The <code>let</code> has its body’s type. A name it binds
+has one type, as a name an <code>=</code> binding binds does: binding a lambda
+with <code>let</code> does not make it polymorphic.</p>
+<p><strong>Blocks and <code>if</code>.</strong> A block’s type is its last statement’s, and unit if
+it is empty. Where that value is used, the two branches of an <code>if</code> must
+have the <em>same</em> type — which is what makes <code>x = if ...</code> sound, since only
+one branch runs but the binding has one type either way:</p>
+<div class="pkn-notebook pkn-embedded not-content"><div class="pkn-cell"><pre class="pkn-cell-fallback"><code>flag = 3 &#x3C; 4
+
+best = if flag:      # both branches yield Int
+    1
+else:
+    2
+
+if flag:             # both branches yield unit
+    a = 1
+else:
+    b = "two"</code></pre></div></div>
+<p>The <strong>expression</strong> form is checked the same way, and always yields a
+value: its <code>else</code> is mandatory, so there is no way through it that
+produces nothing, and its two branches must agree on a type just as a
+statement’s do. It is an expression like any other — an argument, an
+operand, the right-hand side of a binding, or the whole body of a
+function:</p>
+<div class="pkn-notebook pkn-embedded not-content"><div class="pkn-cell"><pre class="pkn-cell-fallback"><code>def fact(n): if n &#x3C;= 1 then 1 else fact(n - 1) * n
+
+
+picked = if 3 &#x3C; 4 then 10 else 20
+print(fact(7), picked, "grade " + (if picked > 5 then "a" else "b"))</code></pre></div></div>
+<p>An <code>if</code> with no <code>else</code> supplies unit, whatever its one branch ends in:
+there is a way through such a statement that runs no branch at all, so
+there is no value it can be counted on for. A function that needed that
+value is refused where the value was needed — at the function, not at
+the <code>if</code>. A condition must be <code>Bool</code> — there is no truthiness.</p>
+<p><strong>An <code>if</code> whose value nothing uses</strong> need not have branches of one type.
+Its value is used where it is bound (<code>x = if ...</code>, <code>return if ...</code>) and
+where it is in tail position: the last statement of a function body, or
+of a loop body that carries a value (see “Tail position”). Anywhere else
+— with a statement after it, as the last statement of a loop that
+carries nothing, or of the program — it is only run, and it supplies
+unit. That reaches into its branches: an <code>if</code> ending a branch of such an
+<code>if</code> is not used either. The arms of a <code>match</code> follow the same rule.</p>
+<div class="pkn-notebook pkn-embedded not-content"><div class="pkn-cell"><pre class="pkn-cell-fallback"><code>def twice(n: Int) -> Int:
+    n * 2
+
+
+def first(n: Int) -> Int:
+    if n > 0:
+        twice(n)             # Int
+    else:
+        print("no")          # unit: fine, the `if` is only run
+    n + 1
+
+
+print(first(3))</code></pre></div></div>
+<p>Where the value is used, the branches are still held to one type, and
+the error says why. Here the <code>if</code> is <code>pick</code>’s last statement, so it is
+<code>pick</code>’s value:</p>
+<div class="expressive-code"><figure class="frame not-content"><figcaption class="header"></figcaption><pre data-language="plaintext"><code><div class="ec-line"><div class="code"><span style="--0:#d6deeb;--1:#403f53">def twice(n: Int) -> Int:</span></div></div><div class="ec-line"><div class="code"><span class="indent"><span style="--0:#d6deeb;--1:#403f53">    </span></span><span style="--0:#d6deeb;--1:#403f53">n * 2</span></div></div><div class="ec-line"><div class="code"><span style="--0:#d6deeb;--1:#403f53">def pick(n: Int):</span></div></div><div class="ec-line"><div class="code"><span class="indent"><span style="--0:#d6deeb;--1:#403f53">    </span></span><span style="--0:#d6deeb;--1:#403f53">if n > 0:</span></div></div><div class="ec-line"><div class="code"><span class="indent"><span style="--0:#d6deeb;--1:#403f53">        </span></span><span style="--0:#d6deeb;--1:#403f53">twice(n)</span></div></div><div class="ec-line"><div class="code"><span class="indent"><span style="--0:#d6deeb;--1:#403f53">    </span></span><span style="--0:#d6deeb;--1:#403f53">else:</span></div></div><div class="ec-line"><div class="code"><span class="indent"><span style="--0:#d6deeb;--1:#403f53">        </span></span><span style="--0:#d6deeb;--1:#403f53">print("no")</span></div></div></code></pre><div class="copy"><div aria-live="polite"></div><button title="Copy to clipboard" data-copied="Copied!" data-code="def twice(n: Int) -> Int:    n * 2def pick(n: Int):    if n > 0:        twice(n)    else:        print(&#x22;no&#x22;)"><div></div></button></div></figure></div>
+<div class="expressive-code"><figure class="frame not-content"><figcaption class="header"></figcaption><pre data-language="plaintext"><code><div class="ec-line"><div class="code"><span style="--0:#d6deeb;--1:#403f53">'prog.pyk' 4:4-7:19 Type error: the branches of this 'if' have</span></div></div><div class="ec-line"><div class="code"><span class="indent"><span style="--0:#d6deeb;--1:#403f53">  </span></span><span style="--0:#d6deeb;--1:#403f53">different types: Int and (). Its value is used -- it is bound, or it</span></div></div><div class="ec-line"><div class="code"><span class="indent"><span style="--0:#d6deeb;--1:#403f53">  </span></span><span style="--0:#d6deeb;--1:#403f53">ends a function or a loop body that carries a value -- so its</span></div></div><div class="ec-line"><div class="code"><span class="indent"><span style="--0:#d6deeb;--1:#403f53">  </span></span><span style="--0:#d6deeb;--1:#403f53">branches must give one type. With a statement after it, the 'if'</span></div></div><div class="ec-line"><div class="code"><span class="indent"><span style="--0:#d6deeb;--1:#403f53">  </span></span><span style="--0:#d6deeb;--1:#403f53">would only be run, and its branches could differ</span></div></div></code></pre><div class="copy"><div aria-live="polite"></div><button title="Copy to clipboard" data-copied="Copied!" data-code="&#x27;prog.pyk&#x27; 4:4-7:19 Type error: the branches of this &#x27;if&#x27; have  different types: Int and (). Its value is used -- it is bound, or it  ends a function or a loop body that carries a value -- so its  branches must give one type. With a statement after it, the &#x27;if&#x27;  would only be run, and its branches could differ"><div></div></button></div></figure></div>
+<p>The REPL shows the value of every statement typed at its prompt, so
+there an <code>if</code> on its own is used, and its branches must agree.</p>
+<p><strong>Tuples.</strong> <code>(e1, e2, ...)</code> has the tuple type of its elements, <code>()</code> is
+unit, and a binding may take one apart — <code>a, b = pair</code> binds each name
+to its part, and is refused if the value is not a tuple of that many.</p>
+<p><strong>Loops.</strong> A loop has one type, and it is the accumulator’s: its
+initializer’s, which an annotation on the header is checked against
+exactly as a binding’s is, and which what the body ends in must give.
+The loop itself is worth that type, since a loop is worth the
+accumulator it stopped with:</p>
+<div class="pkn-notebook pkn-embedded not-content"><div class="pkn-cell"><pre class="pkn-cell-fallback"><code>counted = loop x = 1:      # carries Int
+    if x > 3:
+        break              # and is worth Int
+    else:
+        x + 1              # the next turn's accumulator</code></pre></div></div>
+<p>A body that ends in something else is refused, since a turn would hand
+on a value the next one cannot take:</p>
+<div class="expressive-code"><figure class="frame not-content"><figcaption class="header"></figcaption><pre data-language="plaintext"><code><div class="ec-line"><div class="code"><span style="--0:#d6deeb;--1:#403f53">'prog.pyk' 12:4-12:12 Type error: this loop carries Int, but its body</span></div></div><div class="ec-line"><div class="code"><span class="indent"><span style="--0:#d6deeb;--1:#403f53">  </span></span><span style="--0:#d6deeb;--1:#403f53">ends in ()</span></div></div></code></pre><div class="copy"><div aria-live="polite"></div><button title="Copy to clipboard" data-copied="Copied!" data-code="&#x27;prog.pyk&#x27; 12:4-12:12 Type error: this loop carries Int, but its body  ends in ()"><div></div></button></div></figure></div>
+<p><code>break</code>, <code>continue</code> and <code>return</code> supply <em>nothing</em>, which is what lets a
+branch that breaks sit beside one that ends in the next accumulator
+without either being a special case: the branch that supplies a value
+decides, exactly as it does in an <code>if</code> one of whose branches returns. A
+body all of whose paths jump is asked for nothing at all. A <code>return</code>
+written in a loop body leaves the <em>function</em>, so what it gives is one
+of the function’s answers like any other <code>return</code>.</p>
+<p>A <code>break x</code> or <code>continue x</code> still supplies nothing where it stands, but
+its value is held to the accumulator’s type, exactly as what the body
+ends in is — it is the loop’s value, or the next turn’s accumulator:</p>
+<div class="expressive-code"><figure class="frame not-content"><figcaption class="header"></figcaption><pre data-language="plaintext"><code><div class="ec-line"><div class="code"><span style="--0:#d6deeb;--1:#403f53">'prog.pyk' 11:14-11:20 Type error: this loop carries Int, but this</span></div></div><div class="ec-line"><div class="code"><span class="indent"><span style="--0:#d6deeb;--1:#403f53">  </span></span><span style="--0:#d6deeb;--1:#403f53">'break' gives it String</span></div></div></code></pre><div class="copy"><div aria-live="polite"></div><button title="Copy to clipboard" data-copied="Copied!" data-code="&#x27;prog.pyk&#x27; 11:14-11:20 Type error: this loop carries Int, but this  &#x27;break&#x27; gives it String"><div></div></button></div></figure></div>
+<p>A <code>loop:</code> with no accumulator carries unit, is worth unit, and discards
+whatever its body ends in — so its body’s last statement may be of any
+type.</p>
+<p><strong>Functions.</strong> A <code>def</code> that is <em>fully</em> annotated — every parameter and
+the return type — is checked where it is written. One that is not is
+checked where it is <em>called</em>, and by exactly the same rules; see
+“Functions without annotations” below. Either way, its type is the
+function type above, and:</p>
+<ul>
+<li>every <code>return</code> must give the declared return type;</li>
+<li>the body must <em>produce</em> that type, either by returning on every path
+or by ending in a value of it — the two ways “Tail position”
+describes, and a body that does neither does not honour its own
+annotation;</li>
+<li>a call must give as many arguments as there are parameters, each of
+the parameter’s type, and the call has the return type.</li>
+</ul>
+<p><strong>Tail position is checked as the language defines it</strong>: the body’s last
+statement supplies the function’s value, recursively through branches,
+with no <code>return</code> written. So this checks, and <code>scale</code> returns <code>Int</code>
+because both branches of its one statement do:</p>
+<div class="pkn-notebook pkn-embedded not-content"><div class="pkn-cell"><pre class="pkn-cell-fallback"><code>def scale(x:Int, factor:Int) -> Int:
+    if x * factor == 4:
+        8
+    else:
+        9</code></pre></div></div>
+<p>The two ways mix, because the checker asks every statement the same
+question “Tail position” asks — <em>what value do you supply?</em> — and a
+<code>return</code> answers with what it returns, which is exactly what that
+section’s table says of it. So a branch that returns and a
+branch that ends in an expression are comparable, and one may return
+while the other supplies the value:</p>
+<div class="pkn-notebook pkn-embedded not-content"><div class="pkn-cell"><pre class="pkn-cell-fallback"><code>def size(n:Int) -> Int:
+    if n > 0:
+        return n
+    else:
+        0 - n</code></pre></div></div>
+<p>A body that ends in a value of the <em>wrong</em> type is an error, and so is
+one that ends without producing anything at all:</p>
+<div class="expressive-code"><figure class="frame not-content"><figcaption class="header"></figcaption><pre data-language="plaintext"><code><div class="ec-line"><div class="code"><span style="--0:#d6deeb;--1:#403f53">'prog.pyk' 2:4-2:8 Type error: 'f' returns Int, but its body ends in a</span></div></div><div class="ec-line"><div class="code"><span class="indent"><span style="--0:#d6deeb;--1:#403f53">  </span></span><span style="--0:#d6deeb;--1:#403f53">value of type String</span></div></div><div class="ec-line"><div class="code"><span style="--0:#d6deeb;--1:#403f53">'prog.pyk' 1:0-3:16 Type error: 'f' returns Int, so its body must</span></div></div><div class="ec-line"><div class="code"><span class="indent"><span style="--0:#d6deeb;--1:#403f53">  </span></span><span style="--0:#d6deeb;--1:#403f53">return on every path, or end in an expression of that type</span></div></div></code></pre><div class="copy"><div aria-live="polite"></div><button title="Copy to clipboard" data-copied="Copied!" data-code="&#x27;prog.pyk&#x27; 2:4-2:8 Type error: &#x27;f&#x27; returns Int, but its body ends in a  value of type String&#x27;prog.pyk&#x27; 1:0-3:16 Type error: &#x27;f&#x27; returns Int, so its body must  return on every path, or end in an expression of that type"><div></div></button></div></figure></div>
+<p><strong>A body is checked where it is written.</strong> The checker reads a <code>def</code>’s
+body in the environment at that <code>def</code>’s own position, which is what the
+language says the body captures — so what it checks is what runs:</p>
+<div class="pkn-notebook pkn-embedded not-content"><div class="pkn-cell"><pre class="pkn-cell-fallback"><code>x = 1
+
+def show() -> Int:
+    x
+
+x = "two"          # fine: `show` was checked against the Int above</code></pre></div></div>
+<p><strong>Recursion and forward references check like anything else.</strong> Every
+<code>def</code> in a block is declared before any of the block is checked (see
+“Names and scoping”), so a body has a type for its own name, for its
+siblings’, and for functions written below it — and a recursive or
+mutually recursive call is then checked against that type like any other
+call, argument by argument:</p>
+<div class="pkn-notebook pkn-embedded not-content"><div class="pkn-cell"><pre class="pkn-cell-fallback"><code>def spell(n:Int) -> String:
+    if n &#x3C; 1:
+        ""
+    else:
+        "x" + spell(n - 1)          # checked against (Int) -> String
+
+
+def is_even(n:Int) -> Bool:
+    if n == 0:
+        true
+    else:
+        is_odd(n - 1)               # declared below, and known here
+
+
+def is_odd(n:Int) -> Bool:
+    if n == 0:
+        false
+    else:
+        is_even(n - 1)</code></pre></div></div>
+<p>Nothing is taken on faith: the declared type is what the body is checked
+<em>against</em>, and a body that does not honour it is refused. The same
+applies to nested functions, per block.</p>
+<p>Anything of function type may be called, not only a <code>def</code>’s own name, so
+a parameter annotated with a function type is callable inside the body
+and higher-order functions check like anything else:</p>
+<div class="pkn-notebook pkn-embedded not-content"><div class="pkn-cell"><pre class="pkn-cell-fallback"><code>def inc(n:Int) -> Int:
+    return n + 1
+
+
+def twice(f:(Int) -> Int, x:Int) -> Int:
+    return f(f(x))
+
+
+answer = twice(inc, 5)      # answer: Int</code></pre></div></div>
+<p>Both body forms are checked the same way, and a function’s parameters
+are in scope only in its own body:</p>
+<div class="pkn-notebook pkn-embedded not-content"><div class="pkn-cell"><pre class="pkn-cell-fallback"><code>def sign(n:Int) -> String:
+    if n &#x3C; 1:
+        return "small"
+    else if n == 1:
+        return "one"
+    else:
+        return "large"
+
+
+def shout(word:String) -> String: word + "!"
+
+
+kind = sign(4)
+loud = shout("hi")</code></pre></div></div>
+<h2 id="type-variables">Type variables</h2>
+<p>An annotation may name a type it does not fix. A <strong>type variable</strong> is an
+identifier beginning with a lowercase letter, and it stands for a type
+the <em>caller</em> chooses:</p>
+<div class="pkn-notebook pkn-embedded not-content"><div class="pkn-cell"><pre class="pkn-cell-fallback"><code>def id(x:a) -> a:
+    return x
+
+
+print(id(1))          # 1
+print(id("two"))      # two
+print(id(true))       # true</code></pre></div></div>
+<p>Every variable a written type leaves free is <strong>quantified at its
+outermost level</strong>, so <code>(a) -> a</code> and <code>all a. (a) -> a</code> are the same
+type. The quantifier may be written out, and one <code>all</code> may bind several
+variables at once, but it is never needed at the top and is never
+printed there:</p>
+<div class="pkn-notebook pkn-embedded not-content"><div class="pkn-cell"><pre class="pkn-cell-fallback"><code>def pick(x:a, y:b) -> (a, a, b):     # all a b. (a, b) -> (a, a, b)
+    return (x, x, y)</code></pre></div></div>
+<p><strong>A variable written twice is one type.</strong> <code>(a, a) -> a</code> takes two
+arguments of the same type, whichever the caller picks; two different
+ones are refused. And a variable is <strong>rigid inside the body that
+declares it</strong> — the body knows nothing about <code>a</code> beyond its being some
+type, so <code>x + 1</code> on an <code>a</code> is an error where it is written rather than
+at whichever call turned out to be wrong.</p>
+<p><strong>Inside that body, an annotation’s <code>a</code> is the definition’s <code>a</code>.</strong> A
+binding annotated with one of the type variables the enclosing
+definition’s own types hold means that one, not a new one: in <code>def f(xs: [a]) -> [a]</code>, <code>out: DynArray(a) = dynarray()</code> is a DynArray of
+whatever <code>xs</code> holds. This is how <code>-t pyking</code> writes the types it worked
+out back into a generic body.</p>
+<p><strong>A type may be written on a line of its own.</strong> <code>def name : type</code> gives
+the type of the <code>def name(...)</code> in the same block; the two need not be
+adjacent, and the definition then writes no annotations of its own,
+since a <code>def</code> says its type in one place or the other:</p>
+<div class="pkn-notebook pkn-embedded not-content"><div class="pkn-cell"><pre class="pkn-cell-fallback"><code>def compose : ((b) -> c, (a) -> b, a) -> c
+
+def compose(g, f, x):
+    return g(f(x))</code></pre></div></div>
+<p><strong>A <code>def</code> with no body is a signature too</strong>, with its parameters named:
+<code>def scale(n: Int, factor: Int) -> Int</code>, on a line of its own, says what
+<code>def scale : (Int, Int) -> Int</code> says. Every parameter has a type and none
+has a default, and the result type is written, since the line declares a
+function rather than defining one:</p>
+<div class="pkn-notebook pkn-embedded not-content"><div class="pkn-cell"><pre class="pkn-cell-fallback"><code>def scale(n: Int, factor: Int) -> Int
+
+def scale(n, factor):
+    return n * factor
+
+print(scale(6, 7))</code></pre></div></div>
+<p><strong>A single parameter needs no parentheses</strong>: <code>x -> x</code> and <code>(x) -> x</code> are
+one type — the <code>-></code> after the <code>)</code> is what makes the parenthesized list a
+parameter list. With no arrow after it, one type in parentheses is
+<em>grouping</em>, <code>(x)</code> being <code>x</code>, as the notes on the Grammar say; a
+one-element tuple is <code>(x,)</code>, written with the comma the value <code>(1,)</code> is
+written with.</p>
+<p><strong>An <code>all</code> written inside a type stays there</strong>, which is first-class
+polymorphism: a parameter can demand a function that is itself
+polymorphic, rather than one at whatever single type the caller picked.</p>
+<div class="pkn-notebook pkn-embedded not-content"><div class="pkn-cell"><pre class="pkn-cell-fallback"><code>def both_ways : (all x. (x) -> x) -> String
+def both_ways(f):
+    return f("a") + string(f(1))       # f used at two types, in one body</code></pre></div></div>
+<p>Without the inner <code>all</code> the variable would be bound at the top, and <code>f</code>
+would be a function at one type for the whole body.</p>
+<p><strong>A polymorphic value fits wherever one of its instances does.</strong> Every
+instance of <code>all a. (a) -> a</code> exists, so it is a <code>(Int) -> Int</code> where
+one is asked for. The inner <code>all</code> above is the stronger demand, and only
+a value that really is polymorphic meets that one:</p>
+<div class="pkn-notebook pkn-embedded not-content"><div class="pkn-cell"><pre class="pkn-cell-fallback"><code>def apply(f:(Int) -> Int, x:Int) -> Int:
+    return f(x)
+
+
+def id(x:a) -> a:
+    return x
+
+
+print(apply(id, 3))                  # 3</code></pre></div></div>
+<p>Type variables are <strong>written and also inferred</strong>. A <code>def</code> with no
+annotations gets one wherever its body never asks what a parameter is
+(see “Functions without annotations”), so the two halves of this
+section describe one kind of type reached two ways — and the inferred
+half is checked against the body exactly as a written one is.</p>
+<h2 id="lists-and-match-checked">Lists and <code>match</code>, checked</h2>
+<p>A list literal’s elements agree on one type, the way an <code>if</code>’s branches
+do and for the same reason: they are all elements of the same list. The
+empty list is the exception that proves it — with nothing to disagree,
+<code>[]</code> is <code>[a]</code> for a type variable nothing has constrained, and since a
+Pyking list is immutable it fits wherever a list of anything is
+wanted:</p>
+<div class="pkn-notebook pkn-embedded not-content"><div class="pkn-cell"><pre class="pkn-cell-fallback"><code>def count(xs:[Int]) -> Int:
+    return len(xs)
+
+
+print(count([]), count([1, 2]))     # 0 2</code></pre></div></div>
+<p>A <strong>pattern is checked against the type of what it matches</strong>, and what
+it answers is the names it binds: <code>case [x, ..rest]</code> over a <code>[Int]</code>
+gives <code>x : Int</code> and <code>rest : [Int]</code>. A pattern that could never match —
+a String pattern over an Int — is refused where it is written.</p>
+<p>The <strong>arms of a <code>match</code> agree on one type</strong> where its value is used,
+again the <code>if</code> rule — one with a statement after it is only run. Where
+the arms disagree only in how general they are, the more general one
+wins, which is what lets a base case return <code>[]</code>:</p>
+<div class="pkn-notebook pkn-embedded not-content"><div class="pkn-cell"><pre class="pkn-cell-fallback"><code>def reverse(xs:[Int]) -> [Int]:
+    match xs:
+        case []:
+            return []                    # [a], and so [Int] here
+        case [x, ..rest]:
+            return reverse(rest) + [x]</code></pre></div></div>
+<p>A constructor pattern is checked the same way: it demands that the
+subject be its datatype, at parameters it leaves to be settled, and each
+field’s pattern is checked against that field’s type. A guard is
+checked in the environment its pattern binds, and must be a <code>Bool</code>.</p>
+<p>A field written with no type has its default’s type, worked out from
+the default alone, where it is written: the field’s uses agree with it
+or are refused, and a default whose type is still open — <code>[]</code>, or a
+call answering a type variable — is refused with a request to write the
+type. An update <code>C(f = e, ..base)</code> is checked as <code>C(f = e, g = base.g, ...)</code>: <code>base</code> must have every field it fills, which is to say be a value
+of <code>C</code>’s datatype.</p>
+<h2 id="exhaustiveness">Exhaustiveness</h2>
+<p><strong>Every <code>match</code> matches every value of its subject’s type</strong>, whether
+its value is taken or it is a statement. A <code>match</code> some value would
+reach no case of is refused, and the refusal names such a value, as the
+pattern that would match it:</p>
+<div class="pkn-notebook pkn-embedded not-content"><div class="pkn-cell" data-error=""><pre class="pkn-cell-fallback"><code>datatype Shape:
+    Circle(Float)
+    Square(Float)
+    Triangle(Float, Float, Float)
+
+
+def area(s: Shape) -> Float:
+    match s:
+        case Circle(r): 3.0 * r * r
+        case Square(a): a * a</code></pre></div></div>
+<div class="expressive-code"><figure class="frame not-content"><figcaption class="header"></figcaption><pre data-language="plaintext"><code><div class="ec-line"><div class="code"><span style="--0:#d6deeb;--1:#403f53">'prog.pyk' 9:4-11:29 Type error: this 'match' does not match every</span></div></div><div class="ec-line"><div class="code"><span class="indent"><span style="--0:#d6deeb;--1:#403f53">  </span></span><span style="--0:#d6deeb;--1:#403f53">value: no case matches Triangle(_, _, _). Add a case for it, or a</span></div></div><div class="ec-line"><div class="code"><span class="indent"><span style="--0:#d6deeb;--1:#403f53">  </span></span><span style="--0:#d6deeb;--1:#403f53">'case _'</span></div></div></code></pre><div class="copy"><div aria-live="polite"></div><button title="Copy to clipboard" data-copied="Copied!" data-code="&#x27;prog.pyk&#x27; 9:4-11:29 Type error: this &#x27;match&#x27; does not match every  value: no case matches Triangle(_, _, _). Add a case for it, or a  &#x27;case _&#x27;"><div></div></button></div></figure></div>
+<p>A <code>match</code> with nothing to do for most values says so with <code>case _: ()</code>.</p>
+<p>What counts as covered is decided by the patterns and the type, exactly,
+whatever they nest: a datatype’s every constructor, both of a <code>Bool</code>’s
+values, every length of a list (<code>[]</code> and <code>[x, ..rest]</code> between them take
+them all), and a tuple position by position, so <code>(true, true)</code>,
+<code>(true, false)</code> and <code>(false, _)</code> cover a <code>(Bool, Bool)</code>. An <code>Int</code> or a
+<code>String</code> has too many values to name, so only a case that takes any of
+them — <code>_</code>, a name, or a <code>+</code> split with a name for all of the string
+— covers one.</p>
+<p><strong>A case with a guard does not count towards covering</strong>, since its
+guard may be false:</p>
+<div class="pkn-notebook pkn-embedded not-content"><div class="pkn-cell" data-error=""><pre class="pkn-cell-fallback"><code>def sign(n: Int) -> String:
+    match n:
+        case m if m > 0: "positive"
+        case m if m &#x3C;= 0: "not positive"</code></pre></div></div>
+<p><strong>Every case is reachable.</strong> A case whose every value is taken by the
+unguarded cases above it is refused rather than left as code that never
+runs:</p>
+<div class="pkn-notebook pkn-embedded not-content"><div class="pkn-cell" data-error=""><pre class="pkn-cell-fallback"><code>datatype Color:
+    Red
+    Blue
+
+
+def name(c: Color) -> String:
+    match c:
+        case Red: "red"
+        case _: "another"
+        case Blue: "blue"</code></pre></div></div>
+<p>The two rules are one question asked twice — is there a value this
+pattern matches and no case above it does? — which is how the refusal
+can name the value it found.</p>
+<p>A comprehension’s <code>for</code> walks a list and its pattern binds over the
+elements; an element the pattern does not match is left out rather than
+being an error, matching what the construct already means.</p>
+<h2 id="functions-without-annotations">Functions without annotations</h2>
+<p>A <code>def</code> that did not write its type down is not checked where it is
+written. It is worked out the first time something <strong>uses</strong> it —
+calling it, or reading its name as a value — but not <em>from</em> that use. Its parameters start as types nothing has decided,
+and what the <strong>body</strong> does with them is what decides them:</p>
+<div class="pkn-notebook pkn-embedded not-content"><div class="pkn-cell"><pre class="pkn-cell-fallback"><code>def double(n):
+    n * 2                    # nothing is checked here ...
+
+
+doubled = double(21)         # ... here: `*` says n is Int, so double
+                             # is (Int) -> Int</code></pre></div></div>
+<p>What comes out is the <strong>principal type</strong>: the most general type the body
+has, from which every type it can be used at follows. So a definition is
+worth the same whatever calls it and in whatever order:</p>
+<div class="pkn-notebook pkn-embedded not-content"><div class="pkn-cell"><pre class="pkn-cell-fallback"><code>def apply(f, x):
+    f(x)                     # apply : ((a) -> b, a) -> b, always</code></pre></div></div>
+<p>Three rules follow, and they are the whole of what a program has to
+know:</p>
+<p><strong>An annotation that <em>is</em> written is still a claim.</strong> A half-annotated
+<code>def</code> is checked against what it did say, at every call, exactly as a
+fully annotated one is. Only what it left out comes from the call:</p>
+<div class="pkn-notebook pkn-embedded not-content"><div class="pkn-cell"><pre class="pkn-cell-fallback"><code>def scale(n:Int, factor):    # `n` is a claim; `factor` is a question
+    n * factor
+
+
+print(scale(6, 7))
+# print(scale("six", 7))     # error: argument 1 has type String, but
+                             #        Int was expected</code></pre></div></div>
+<p><strong>A body is still checked where it is written.</strong> The call says <em>when</em>
+the body is checked; it does not say what is in scope while it is. A
+body that names something bound <em>after</em> the <code>def</code> is an error, however
+late the call comes:</p>
+<div class="pkn-notebook pkn-embedded not-content"><div class="pkn-cell" data-error=""><pre class="pkn-cell-fallback"><code>def f(n):
+    n + offset               # error: unbound name 'offset'
+
+
+offset = 10
+print(f(1))</code></pre></div></div>
+<p><strong>A definition is worked out once</strong>, at its first use, and every later
+one uses what came out. A parameter the body never asks about becomes a
+<strong>type variable</strong>, which is what lets one definition serve every later
+call, at a different type each time:</p>
+<div class="pkn-notebook pkn-embedded not-content"><div class="pkn-cell"><pre class="pkn-cell-fallback"><code>def echo(x):
+    x
+
+
+number = echo(1)             # number : Int
+word = echo("two")           # word   : String
+same = echo                  # same : (a) -> a</code></pre></div></div>
+<p>A parameter the body asks a question no <em>one</em> type answers is the
+exception. <code>string</code> accepts an Int, a Float, a String, a Bool, a list
+and a tuple, and Pyking has no way to say “any of those” — so such a parameter cannot become a variable
+and is fixed instead to what the first call passed:</p>
+<div class="pkn-notebook pkn-embedded not-content"><div class="pkn-cell"><pre class="pkn-cell-fallback"><code>def announce(value):
+    "got " + string(value)     # `string` asks what it was given
+
+
+print(announce(1))           # announce : (Int) -> String
+# print(announce(true))      # error: argument 1 has type Bool, but Int
+                             #        was expected</code></pre></div></div>
+<p>That is a real limit rather than an oversight, and a written annotation
+would not help either, because there is none to write.</p>
+<p><strong>A parameter that is indexed takes its kind from the first call.</strong>
+<code>xs[i]</code>, <code>xs[i] := v</code>, <code>xs[i:j]</code>, <code>for x in xs</code> and a comprehension over
+<code>xs</code> work on several kinds of store — a list, an array, a DynArray, a
+view and a String — so a body that only does those leaves the <em>kind</em>
+open, and the first call settles it. The <em>element</em> type is not fixed:
+it is generalised as any other type is, so one definition serves lists
+of Ints and lists of Strings once its first call has said “a list”:</p>
+<div class="pkn-notebook pkn-embedded not-content"><div class="pkn-cell"><pre class="pkn-cell-fallback"><code>use mutation
+
+def vec_add(v1, v2):
+    res = array(len(v1), 0)
+    for i in range(len(v1)):
+        res[i] := v1[i] + v2[i]
+    return res
+
+
+def first(xs):
+    xs[0]
+
+
+print(vec_add(array([2, 5]), array([3, 4])))    # array([5, 9])
+print(first([1, 2]), first(["a", "b"]))         # 1 a
+# print(first(array([1])))   # error: argument 1 has type Array(Int), but
+                             #   [a] was expected: first's parameter xs was
+                             #   fixed to a list by its first call, at line 15</code></pre></div></div>
+<p>A body narrows what its first call may pass: one that writes <code>xs[i]</code>
+allows an array, a DynArray or a view, and one that slices <code>xs</code> allows
+anything but a view (whose slice is an array). Until a call decides
+it, such a parameter shows as <code>Indexed(a)</code>; one nothing ever decides —
+a definition never called, or only handed on — is a list, or an array
+where the body writes it.</p>
+<p><strong>A parameter is not generalised.</strong> A parameter used at <em>two</em> types
+inside one body would have to be polymorphic itself, and inference does
+not invent that — a <code>def</code> gets a type variable, a parameter gets a type:</p>
+<div class="pkn-notebook pkn-embedded not-content"><div class="pkn-cell"><pre class="pkn-cell-fallback"><code>def apply(f):
+    print(f(1), f(true))     # error: argument 1 has type Bool, but Int
+                             #        was expected</code></pre></div></div>
+<p>Writing the type down is how that program is expressed, and the checker
+then enforces it (see “Type variables” above for the <code>all</code>):</p>
+<div class="pkn-notebook pkn-embedded not-content"><div class="pkn-cell"><pre class="pkn-cell-fallback"><code>def apply : (all a. (a) -> a) -> ()
+def apply(f):
+    print(f(1), f(true))     # fine: `f` is polymorphic because it says so</code></pre></div></div>
+<p>That line is deliberate. Inferring such a type is undecidable in
+general, and guessing at it made the checker’s answers depend on the
+order a program’s calls were written in. Inference has one guarantee —
+the principal type, always — and first-class polymorphism is written
+rather than guessed.</p>
+<p><strong>Handing over a polymorphic function does not narrow what receives
+it.</strong> What a body asks of a parameter is what that parameter is worth,
+and being passed something more general than it asked for changes
+nothing about the body:</p>
+<div class="pkn-notebook pkn-embedded not-content"><div class="pkn-cell"><pre class="pkn-cell-fallback"><code>def id(x): x
+
+
+def apply(f, x):             # apply : ((a) -> b, a) -> b
+    f(x)
+
+
+def bump(n): n + 1
+
+
+print(apply(id, "hi"))       # hi
+print(apply(bump, 1))        # 2</code></pre></div></div>
+<p>The same definition serves both calls, and it would serve them in either
+order: what <code>apply</code> is worth does not depend on which caller reached it
+first.</p>
+<p>The inferred signature is not taken on trust. The body is checked
+against it a second time with the variables rigid — the same check an
+annotated polymorphic function gets — so what is reported is always
+something the checker enforces.</p>
+<p><strong>Recursion is not a special case.</strong> While a body is checked, its own
+name means a plain type rather than a variable one, so a recursive call
+is an ordinary call and its result is one more thing the body decides:</p>
+<div class="pkn-notebook pkn-embedded not-content"><div class="pkn-cell"><pre class="pkn-cell-fallback"><code>def fact(n):                 # (Int) -> Int
+    if n &#x3C; 1:
+        1
+    else:
+        n * fact(n - 1)
+
+
+def forever(n):              # (Int) -> Int: `+ 1` says what the
+    forever(n + 1) + 1       # recursive call gave back</code></pre></div></div>
+<p>Functions that name <strong>each other</strong> are worked out together and get their
+type variables together, so <code>even</code> and <code>odd</code> below are one question with
+one answer. A function they merely call is worked out first, and is
+polymorphic by the time they use it.</p>
+<div class="pkn-notebook pkn-embedded not-content"><div class="pkn-cell"><pre class="pkn-cell-fallback"><code>def even(n):
+    if n == 0 then true else odd(n - 1)
+
+
+def odd(n):
+    if n == 0 then false else even(n - 1)</code></pre></div></div>
+<p><strong>Two functions of unknown type are indistinguishable</strong>, so an <code>if</code> that
+yields one of them is refused: nothing could say which of the two a
+later call would be checking. Annotating either one settles it.</p>
+<p>Which functions ended up with which types is what
+<code>pyk compile -t pyking</code> prints, and is the best way to see what
+was worked out — the reasoning behind all of this is in
+docs/type_inference.md.</p>
+<h2 id="names-and-what-is-not-checked">Names, and what is not checked</h2>
+<p><strong>Names are the checker’s too.</strong> Its environment <em>is</em> the scope, so it
+applies the rules under “Names and scoping” — a name must be bound where
+it is used, a block’s bindings do not escape it, a name is visible only
+after its own binding <em>unless it is a <code>def</code></em>, an inner binding shadows an
+outer one, a <code>def</code> may not share its name with another binding of its
+block, and the builtins are in scope throughout. An unbound name is
+reported as a name error rather than a type error, since that is what it
+is:</p>
+<div class="expressive-code"><figure class="frame not-content"><figcaption class="header"></figcaption><pre data-language="plaintext"><code><div class="ec-line"><div class="code"><span style="--0:#d6deeb;--1:#403f53">'prog.pyk' 14:16-14:23 Name error: unbound name 'missing'</span></div></div></code></pre><div class="copy"><div aria-live="polite"></div><button title="Copy to clipboard" data-copied="Copied!" data-code="&#x27;prog.pyk&#x27; 14:16-14:23 Name error: unbound name &#x27;missing&#x27;"><div></div></button></div></figure></div>
+<p><strong>Did you mean.</strong> Where a name that is not in scope is close to one
+that is, or to a keyword, the message names it: <code>unbound name 'nmae': did you mean 'name'?</code>, <code>unbound name 'braek': did you mean the keyword 'break'?</code>, and for an uppercase name, which is read as a constructor,
+<code>unknown constructor 'True': ... Did you mean the keyword 'true'?</code>.
+Close means a few single-character edits — one inserted, removed or
+changed, or two neighbours swapped — none in a one-letter name, one in
+a name of up to three letters, and two or more the longer it is.</p>
+<p>Three mistakes that would otherwise be reported as something else are
+named for what they are:</p>
+<ul>
+<li><strong>A misspelled keyword before an expression.</strong> <code>returns x</code> is a name
+followed by a second statement on the same line, so it breaks the
+one-statement-per-line rule; the message says <code>'returns' is not a keyword: did you mean 'return'?</code>. A lone name that is no keyword’s
+misspelling is told how a call is written instead: <code>prnt "hi"</code> gets
+<code>Did you mean 'print'? To call it, write print("hi")</code>.</li>
+<li><strong><code>=</code> in a condition.</strong> <code>if i = 5:</code>, <code>while i = 5:</code> and <code>else if i = 5:</code> get <code>did you mean '=='? A single '=' binds a name; '==' compares two values</code>.</li>
+<li><strong>A loop body that ends in an <code>if</code> with no <code>else</code>.</strong> The body of a
+loop carrying a value must give the next turn that value on every
+path; an <code>if</code> with no <code>else</code> at its end has a path that does not, and
+the message points at that <code>if</code>: <code>this loop carries Float, but its body can reach its end without a 'continue' or a 'break': this 'if' has no 'else', so when its condition is false nothing says what the loop does next</code>.</li>
+</ul>
+<p><strong>Mutability is not a type.</strong> A <code>var</code> may hold any type, and the checker
+says only that each <code>:=</code> gives the type its declaration fixed; <em>which</em> names may be written to is a separate question, and
+one a type cannot answer — the same <code>Int</code> is a <code>var</code> in one scope and an
+<code>=</code> binding in another. So a pass of its own applies the two rules under
+“Mutable variables”: <code>:=</code> may only name a <code>var</code>, and nothing may shadow
+one. Both are <code>Name error</code>s.</p>
+<p>A name may be in scope and still have no type the checker knows — a
+builtin, or a function’s own name inside its own body. Using one is
+refused as <code>Construct is not supported</code> rather than as an unbound name,
+since the name is perfectly well bound; it is the <em>type</em> that is
+missing.</p></div><footer class="sl-flex astro-ddtxxk7k"><div class="meta sl-flex astro-ddtxxk7k"></div><div class="pagination-links print:hidden astro-b5raizh3" dir="ltr"></div></footer></div></div></main></div></div></div></div></body></html>

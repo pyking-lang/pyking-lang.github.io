@@ -1,0 +1,558 @@
+<!DOCTYPE html><html lang="en" dir="ltr" data-theme="dark" data-has-sidebar class="astro-g5ptsecz"><head><meta charset="utf-8"/><meta name="viewport" content="width=device-width, initial-scale=1"/><title>Command line | Pyking</title><link rel="canonical" href="https://pyking.org/documentation/command-line/"/><link rel="sitemap" href="/sitemap-index.xml"/><script src="/v/8e74ca34b133/site/shell.js" data-base data-build="8e74ca34b133" data-sections="[{&quot;key&quot;:&quot;install&quot;,&quot;label&quot;:&quot;Install&quot;,&quot;prefix&quot;:&quot;/install/&quot;},{&quot;key&quot;:&quot;getstarted&quot;,&quot;label&quot;:&quot;Getting started&quot;,&quot;prefix&quot;:&quot;/getstarted/&quot;},{&quot;key&quot;:&quot;documentation&quot;,&quot;label&quot;:&quot;Documentation&quot;,&quot;prefix&quot;:&quot;/documentation/&quot;},{&quot;key&quot;:&quot;libraries&quot;,&quot;label&quot;:&quot;Libraries&quot;,&quot;prefix&quot;:&quot;/libraries/&quot;},{&quot;key&quot;:&quot;playground&quot;,&quot;label&quot;:&quot;Playground&quot;,&quot;prefix&quot;:&quot;/playground/&quot;}]"></script><script type="module" src="/v/8e74ca34b133/site/cells.js"></script><script>try { if (localStorage.getItem('starlight-theme') === null) localStorage.setItem('starlight-theme', 'dark'); } catch (e) {}</script><link rel="shortcut icon" href="/v/8e74ca34b133/site/favicon.svg" type="image/svg+xml"/><meta name="generator" content="Astro v7.3.5"/><meta name="generator" content="Starlight v0.42.5"/><meta property="og:title" content="Command line"/><meta property="og:type" content="article"/><meta property="og:url" content="https://pyking.org/documentation/command-line/"/><meta property="og:locale" content="en"/><meta property="og:description" content="Every pyk command and its flags, where pyk compile writes, the library search path and the exit codes."/><meta property="og:site_name" content="Pyking"/><meta name="twitter:card" content="summary_large_image"/><meta name="description" content="Every pyk command and its flags, where pyk compile writes, the library search path and the exit codes."/><script>
+	window.StarlightThemeProvider = (() => {
+		const storedTheme =
+			typeof localStorage !== 'undefined' && localStorage.getItem('starlight-theme');
+		const theme =
+			storedTheme ||
+			(window.matchMedia('(prefers-color-scheme: light)').matches ? 'light' : 'dark');
+		document.documentElement.dataset.theme = theme === 'light' ? 'light' : 'dark';
+		return {
+			updatePickers(theme = storedTheme || 'auto') {
+				document.querySelectorAll('starlight-theme-select').forEach((picker) => {
+					const select = picker.querySelector('select');
+					if (select) select.value = theme;
+					/** @type {HTMLTemplateElement | null} */
+					const tmpl = document.querySelector(`#theme-icons`);
+					const newIcon = tmpl && tmpl.content.querySelector('.' + theme);
+					if (newIcon) {
+						const oldIcon = picker.querySelector('svg.label-icon');
+						if (oldIcon) {
+							oldIcon.replaceChildren(...newIcon.cloneNode(true).childNodes);
+						}
+					}
+				});
+			},
+		};
+	})();
+</script><template id="theme-icons"><svg aria-hidden="true" class="light astro-hkc32dio" width="16" height="16" viewBox="0 0 24 24" fill="currentColor" style="--sl-icon-size: 1em;"><path d="M5 12a1 1 0 0 0-1-1H3a1 1 0 0 0 0 2h1a1 1 0 0 0 1-1Zm.64 5-.71.71a1 1 0 0 0 0 1.41 1 1 0 0 0 1.41 0l.71-.71A1 1 0 0 0 5.64 17ZM12 5a1 1 0 0 0 1-1V3a1 1 0 0 0-2 0v1a1 1 0 0 0 1 1Zm5.66 2.34a1 1 0 0 0 .7-.29l.71-.71a1 1 0 1 0-1.41-1.41l-.66.71a1 1 0 0 0 0 1.41 1 1 0 0 0 .66.29Zm-12-.29a1 1 0 0 0 1.41 0 1 1 0 0 0 0-1.41l-.71-.71a1.004 1.004 0 1 0-1.43 1.41l.73.71ZM21 11h-1a1 1 0 0 0 0 2h1a1 1 0 0 0 0-2Zm-2.64 6A1 1 0 0 0 17 18.36l.71.71a1 1 0 0 0 1.41 0 1 1 0 0 0 0-1.41l-.76-.66ZM12 6.5a5.5 5.5 0 1 0 5.5 5.5A5.51 5.51 0 0 0 12 6.5Zm0 9a3.5 3.5 0 1 1 0-7 3.5 3.5 0 0 1 0 7Zm0 3.5a1 1 0 0 0-1 1v1a1 1 0 0 0 2 0v-1a1 1 0 0 0-1-1Z"/></svg><svg aria-hidden="true" class="dark astro-hkc32dio" width="16" height="16" viewBox="0 0 24 24" fill="currentColor" style="--sl-icon-size: 1em;"><path d="M21.64 13a1 1 0 0 0-1.05-.14 8.049 8.049 0 0 1-3.37.73 8.15 8.15 0 0 1-8.14-8.1 8.59 8.59 0 0 1 .25-2A1 1 0 0 0 8 2.36a10.14 10.14 0 1 0 14 11.69 1 1 0 0 0-.36-1.05Zm-9.5 6.69A8.14 8.14 0 0 1 7.08 5.22v.27a10.15 10.15 0 0 0 10.14 10.14 9.784 9.784 0 0 0 2.1-.22 8.11 8.11 0 0 1-7.18 4.32v-.04Z"/></svg><svg aria-hidden="true" class="auto astro-hkc32dio" width="16" height="16" viewBox="0 0 24 24" fill="currentColor" style="--sl-icon-size: 1em;"><path d="M21 14h-1V7a3 3 0 0 0-3-3H7a3 3 0 0 0-3 3v7H3a1 1 0 0 0-1 1v2a3 3 0 0 0 3 3h14a3 3 0 0 0 3-3v-2a1 1 0 0 0-1-1ZM6 7a1 1 0 0 1 1-1h10a1 1 0 0 1 1 1v7H6V7Zm14 10a1 1 0 0 1-1 1H5a1 1 0 0 1-1-1v-1h16v1Z"/></svg></template><link rel="stylesheet" href="/_astro/print.ehPL0gv-.css" media="print"><link rel="stylesheet" href="/_astro/middleware.DYJDcmyo.css"><script type="module" src="/_astro/page.Dwipeu-R.js"></script></head><body class="astro-g5ptsecz"><a class="sl-skip-link astro-qb7clj6f" href="#_top">Skip to content</a><div class="page sl-flex astro-yntsjkba"><header class="header astro-yntsjkba"><div class="pyking-header"><div class="pyking-header-left"><a href="/" class="site-title sl-flex astro-6rvad3va"><img class="astro-6rvad3va" alt="Pyking" src="/_astro/logo.C9hvHOpV.svg" width="64" height="64"><span class="astro-6rvad3va" translate="no">Pyking</span></a><nav class="pyking-nav" aria-label="Sections"><a href="/install/">Install</a><a href="/getstarted/pyking-in-20-minutes/">Getting started</a><a href="/documentation/language/" aria-current="page">Documentation</a><a href="/libraries/">Libraries</a><a href="/playground/">Playground</a></nav></div><div class="pyking-header-right print:hidden"><site-search class=" astro-b5kgnn7o" data-translations="{&quot;placeholder&quot;:&quot;Search&quot;}"><button data-open-modal disabled aria-label="Search" aria-keyshortcuts="Control+K" class="astro-b5kgnn7o"><svg aria-hidden="true" class="astro-b5kgnn7o astro-hkc32dio" width="16" height="16" viewBox="0 0 24 24" fill="currentColor" style="--sl-icon-size: 1em;"><path d="M21.71 20.29 18 16.61A9 9 0 1 0 16.61 18l3.68 3.68a.999.999 0 0 0 1.42 0 1 1 0 0 0 0-1.39ZM11 18a7 7 0 1 1 0-14 7 7 0 0 1 0 14Z"/></svg><span class="sl-hidden md:sl-block astro-b5kgnn7o" aria-hidden="true">Search</span><kbd class="sl-hidden md:sl-flex astro-b5kgnn7o" style="display: none;"><kbd class="astro-b5kgnn7o">Ctrl</kbd><kbd class="astro-b5kgnn7o">K</kbd></kbd></button><dialog style="padding:0" aria-label="Search" class="astro-b5kgnn7o"><div class="dialog-frame sl-flex astro-b5kgnn7o"><button data-close-modal class="sl-flex md:sl-hidden astro-b5kgnn7o">Cancel</button><div class="search-container astro-b5kgnn7o"><div id="starlight__search" class="astro-b5kgnn7o"></div></div></div></dialog></site-search><script>
+	(() => {
+		const openBtn = document.querySelector('button[data-open-modal]');
+		const shortcut = openBtn?.querySelector('kbd');
+		if (!openBtn || !(shortcut instanceof HTMLElement)) return;
+		const platformKey = shortcut.querySelector('kbd');
+		if (platformKey && /(Mac|iPhone|iPod|iPad)/i.test(navigator.platform)) {
+			platformKey.textContent = '⌘';
+			openBtn.setAttribute('aria-keyshortcuts', 'Meta+K');
+		}
+		shortcut.style.display = '';
+	})();
+</script><script type="module" src="/_astro/Search.astro_astro_type_script_index_0_lang.Bumivpjo.js"></script><div class="sl-hidden md:sl-flex"><starlight-theme-select><label style="--sl-select-width: 6.25em" class="astro-2z5xp7gb"><span class="sr-only astro-2z5xp7gb">Select theme</span><svg aria-hidden="true" class="icon label-icon astro-2z5xp7gb astro-hkc32dio" width="16" height="16" viewBox="0 0 24 24" fill="currentColor" style="--sl-icon-size: 1em;"><path d="M21 14h-1V7a3 3 0 0 0-3-3H7a3 3 0 0 0-3 3v7H3a1 1 0 0 0-1 1v2a3 3 0 0 0 3 3h14a3 3 0 0 0 3-3v-2a1 1 0 0 0-1-1ZM6 7a1 1 0 0 1 1-1h10a1 1 0 0 1 1 1v7H6V7Zm14 10a1 1 0 0 1-1 1H5a1 1 0 0 1-1-1v-1h16v1Z"/></svg><select autocomplete="off" class="astro-2z5xp7gb"><option value="dark" class="astro-2z5xp7gb">Dark</option><option value="light" class="astro-2z5xp7gb">Light</option><option value="auto" selected class="astro-2z5xp7gb">Auto</option></select><svg aria-hidden="true" class="icon caret astro-2z5xp7gb astro-hkc32dio" width="16" height="16" viewBox="0 0 24 24" fill="currentColor" style="--sl-icon-size: 1em;"><path d="M17 9.17a1 1 0 0 0-1.41 0L12 12.71 8.46 9.17a1 1 0 1 0-1.41 1.42l4.24 4.24a1.002 1.002 0 0 0 1.42 0L17 10.59a1.002 1.002 0 0 0 0-1.42Z"/></svg></label></starlight-theme-select><script>
+	StarlightThemeProvider.updatePickers();
+</script><script type="module">var e=`starlight-theme`,t=e=>e===`auto`||e===`dark`||e===`light`?e:`auto`,n=()=>t(typeof localStorage<`u`&&localStorage.getItem(e));function r(t){typeof localStorage<`u`&&localStorage.setItem(e,t===`light`||t===`dark`?t:``)}var i=()=>matchMedia(`(prefers-color-scheme: light)`).matches?`light`:`dark`;function a(e){StarlightThemeProvider.updatePickers(e),document.documentElement.dataset.theme=e===`auto`?i():e,r(e)}matchMedia(`(prefers-color-scheme: light)`).addEventListener(`change`,()=>{n()===`auto`&&a(`auto`)});var o=class extends HTMLElement{constructor(){super(),a(n()),this.querySelector(`select`)?.addEventListener(`change`,e=>{e.currentTarget instanceof HTMLSelectElement&&a(t(e.currentTarget.value))})}};customElements.define(`starlight-theme-select`,o);</script></div><a class="pyking-github" href="https://github.com/pyking-lang" title="Pyking on GitHub"><span class="sr-only">GitHub</span><svg aria-hidden="true" viewBox="0 0 24 24" width="22" height="22" fill="currentColor"><path d="M12 .3a12 12 0 0 0-3.8 23.4c.6.1.8-.3.8-.6v-2c-3.3.7-4-1.6-4-1.6-.6-1.4-1.4-1.8-1.4-1.8-1-.7.1-.7.1-.7 1.2.1 1.8 1.2 1.8 1.2 1 1.8 2.8 1.3 3.5 1 0-.8.4-1.3.7-1.6-2.7-.3-5.5-1.3-5.5-6 0-1.2.5-2.3 1.3-3.1-.2-.4-.6-1.6 0-3.2 0 0 1-.3 3.4 1.2a11.5 11.5 0 0 1 6 0c2.3-1.5 3.3-1.2 3.3-1.2.6 1.6.2 2.8.1 3.2.8.8 1.3 1.9 1.3 3.1 0 4.6-2.8 5.6-5.5 5.9.5.4.9 1.1.9 2.2v3.3c0 .3.1.7.8.6A12 12 0 0 0 12 .3"></path></svg></a></div></div></header><nav class="sidebar print:hidden astro-yntsjkba" aria-label="Main"><button popovertarget="starlight__sidebar" class="sl-menu-button sl-flex md:sl-hidden print:hidden astro-r2osgdlg"><svg aria-hidden="true" class="open-menu astro-r2osgdlg astro-hkc32dio" width="16" height="16" viewBox="0 0 24 24" fill="currentColor" style="--sl-icon-size: 1em;"><path d="M3 8h18a1 1 0 1 0 0-2H3a1 1 0 0 0 0 2Zm18 8H3a1 1 0 0 0 0 2h18a1 1 0 0 0 0-2Zm0-5H3a1 1 0 0 0 0 2h18a1 1 0 0 0 0-2Z"/></svg><svg aria-hidden="true" class="close-menu astro-r2osgdlg astro-hkc32dio" width="16" height="16" viewBox="0 0 24 24" fill="currentColor" style="--sl-icon-size: 1em;"><path d="m13.41 12 6.3-6.29a1.004 1.004 0 1 0-1.42-1.42L12 10.59l-6.29-6.3a1.004 1.004 0 0 0-1.42 1.42l6.3 6.29-6.3 6.29a1 1 0 0 0 0 1.42.998.998 0 0 0 1.42 0l6.29-6.3 6.29 6.3a.999.999 0 0 0 1.42 0 1 1 0 0 0 0-1.42L13.41 12Z"/></svg><span class="sr-only astro-r2osgdlg">Menu</span></button><script type="module">var e=class extends HTMLElement{constructor(){super();let e=matchMedia(`(min-width: 50em)`),t=()=>{this.popover=e.matches?null:`auto`};t(),e.addEventListener(`change`,()=>t()),this.addEventListener(`toggle`,({newState:e})=>this.trapFocus(e===`open`))}trapFocus(e){document.querySelectorAll(`.main-frame, .sl-skip-link`).forEach(t=>{t.toggleAttribute(`inert`,e)})}};customElements.define(`sl-sidebar-pane`,e);</script><script type="module">var e=class extends HTMLElement{constructor(){super();let e=this.querySelector(`select`);e&&(e.addEventListener(`change`,e=>{e.currentTarget instanceof HTMLSelectElement&&(window.location.pathname=e.currentTarget.value)}),window.addEventListener(`pageshow`,t=>{if(!t.persisted)return;let n=e.querySelector(`option[selected]`)?.index;n!==e.selectedIndex&&(e.selectedIndex=n??0)}))}};customElements.define(`starlight-lang-select`,e);</script><sl-sidebar-pane popover id="starlight__sidebar" class="sidebar-pane astro-yntsjkba"><div class="sidebar-content sl-flex astro-yntsjkba"><nav class="pyking-sidebar" aria-label="Documentation"><p class="pyking-sidebar-title">Documentation</p><ul class="pyking-sidebar-main"><li><a href="/documentation/editors/">Editors</a></li><li><a href="/documentation/playground/">Playground</a></li><li><a href="/documentation/notebook/">Notebook</a></li><li class="pyking-sidebar-open"><a href="/documentation/command-line/" aria-current="page">Command line</a><ul class="pyking-sidebar-sub"><li><a href="#the-commands">The commands</a></li><li><a href="#running-a-program">Running a program</a></li><li><a href="#pyk-compile">pyk compile</a></li><li><a href="#pyk-repl">pyk repl</a></li><li><a href="#pyk-notebook">pyk notebook</a></li><li><a href="#pyk-playground-and-pyk-pykhelp">pyk playground and pyk pykhelp</a></li><li><a href="#pyk-serve">pyk serve</a></li><li><a href="#ports-and-addresses">Ports and addresses</a></li><li><a href="#pyk-example">pyk example</a></li><li><a href="#pyk-highlight">pyk highlight</a></li><li><a href="#pyk-lsp-and-pyk-dap">pyk lsp and pyk dap</a></li><li><a href="#pyk-plugins">pyk plugins</a></li><li><a href="#warnings">Warnings</a></li><li><a href="#the-library-search-path">The library search path</a></li><li><a href="#environment-variables">Environment variables</a></li><li><a href="#errors-and-exit-codes">Errors and exit codes</a></li><li><a href="#looking-inside-the-compiler">Looking inside the compiler</a></li></ul></li><li><a href="/documentation/repl/">REPL</a></li><li><a href="/documentation/targets/">Compiler targets</a></li><li><a href="/documentation/slides/">Code on slides</a></li><li class="pyking-sidebar-parent"><a href="/documentation/language/">Language reference</a></li><li><a href="/documentation/vs-other-languages/">Pyking vs. other languages</a></li><li><a href="/documentation/grammar/">Grammar</a></li><li class="pyking-sidebar-parent"><a href="/documentation/tinyweb/">Tinyweb without Pyking</a></li><li><a href="/documentation/tinyweb-styles/">Styling tinyweb</a></li></ul></nav><div class="md:sl-hidden"><div class="mobile-preferences sl-flex astro-p4azlveh"><div class="social-icons astro-p4azlveh"></div><starlight-theme-select><label style="--sl-select-width: 6.25em" class="astro-2z5xp7gb"><span class="sr-only astro-2z5xp7gb">Select theme</span><svg aria-hidden="true" class="icon label-icon astro-2z5xp7gb astro-hkc32dio" width="16" height="16" viewBox="0 0 24 24" fill="currentColor" style="--sl-icon-size: 1em;"><path d="M21 14h-1V7a3 3 0 0 0-3-3H7a3 3 0 0 0-3 3v7H3a1 1 0 0 0-1 1v2a3 3 0 0 0 3 3h14a3 3 0 0 0 3-3v-2a1 1 0 0 0-1-1ZM6 7a1 1 0 0 1 1-1h10a1 1 0 0 1 1 1v7H6V7Zm14 10a1 1 0 0 1-1 1H5a1 1 0 0 1-1-1v-1h16v1Z"/></svg><select autocomplete="off" class="astro-2z5xp7gb"><option value="dark" class="astro-2z5xp7gb">Dark</option><option value="light" class="astro-2z5xp7gb">Light</option><option value="auto" selected class="astro-2z5xp7gb">Auto</option></select><svg aria-hidden="true" class="icon caret astro-2z5xp7gb astro-hkc32dio" width="16" height="16" viewBox="0 0 24 24" fill="currentColor" style="--sl-icon-size: 1em;"><path d="M17 9.17a1 1 0 0 0-1.41 0L12 12.71 8.46 9.17a1 1 0 1 0-1.41 1.42l4.24 4.24a1.002 1.002 0 0 0 1.42 0L17 10.59a1.002 1.002 0 0 0 0-1.42Z"/></svg></label></starlight-theme-select><script>
+	StarlightThemeProvider.updatePickers();
+</script></div></div></div></sl-sidebar-pane></nav><div class="main-frame astro-yntsjkba"><script type="module">var e=document.getElementById(`starlight__sidebar`),t=e?.querySelector(`sl-sidebar-state-persist`),n=`sl-sidebar-state`,r=()=>{let r=[],i=t?.dataset.hash||``;try{let e=sessionStorage.getItem(n),t=JSON.parse(e||`{}`);Array.isArray(t.open)&&t.hash===i&&(r=t.open)}catch{}return{hash:i,open:r,scroll:e?.scrollTop||0}},i=e=>{try{sessionStorage.setItem(n,JSON.stringify(e))}catch{}},a=()=>i(r()),o=(e,t)=>{let n=r();n.open[t]=e,i(n)};t?.addEventListener(`click`,e=>{if(!(e.target instanceof Element))return;let t=e.target.closest(`summary`)?.closest(`details`);if(!t)return;let n=t.querySelector(`sl-sidebar-restore`),r=parseInt(n?.dataset.index||``);isNaN(r)||o(!t.open,r)}),addEventListener(`visibilitychange`,()=>{document.visibilityState===`hidden`&&a()});</script><div class="lg:sl-flex astro-lrzkfocr"><div class="main-pane astro-lrzkfocr"><main data-pagefind-body class="astro-g5ptsecz" lang="en" dir="ltr"><div class="content-panel astro-a7po4psb"><div class="sl-container astro-a7po4psb"><h1 id="_top" class="astro-bebwqqxs">Command line</h1></div></div><div class="content-panel astro-a7po4psb"><div class="sl-container astro-a7po4psb"><div class="sl-markdown-content"><p>Everything Pyking does is one program, <code>pyk</code>. Given a file, it runs it
+with the interpreter. Given a command word first, it does that instead:
+compile, start the REPL, serve a notebook or the playground, and so on.</p>
+<p><code>pyk</code> on its own prints a short usage and exits with status 1.
+<code>pyk --help</code> prints all of it: every flag, the targets and their
+versions, the warnings, and a paragraph on each command. <code>pyk --version</code>
+prints the version.</p>
+<h2 id="the-commands">The commands</h2>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<table><thead><tr><th>Command</th><th>What it does</th></tr></thead><tbody><tr><td><code>pyk prog.pyk [-- args]</code></td><td>Run the program with the interpreter.</td></tr><tr><td><code>pyk prog.pyk -t T [-- args]</code></td><td>Compile it for target <code>T</code> and run it.</td></tr><tr><td><code>pyk compile prog.pyk</code></td><td>Compile it (default target: <code>python</code>). <code>pyk c</code> is the same.</td></tr><tr><td><code>pyk repl</code></td><td>Start the <a href="/documentation/repl/">REPL</a>.</td></tr><tr><td><code>pyk notebook book.md</code></td><td>Serve a <a href="/documentation/notebook/">notebook</a> and open it in the browser.</td></tr><tr><td><code>pyk playground</code></td><td>Serve the <a href="/documentation/playground/">playground</a> locally.</td></tr><tr><td><code>pyk pykhelp</code></td><td>Serve this documentation locally.</td></tr><tr><td><code>pyk serve [dir or file]</code></td><td>Serve a directory’s files, such as a compiled web page.</td></tr><tr><td><code>pyk example [name]</code></td><td>List the bundled examples, or save one.</td></tr><tr><td><code>pyk highlight file</code></td><td>Colour Pyking code for slides: HTML, RTF or text.</td></tr><tr><td><code>pyk lsp</code></td><td>The language server, started by an <a href="/documentation/editors/">editor</a>.</td></tr><tr><td><code>pyk dap</code></td><td>The debug adapter, started by an editor.</td></tr><tr><td><code>pyk plugins dir</code></td><td>Build the interpreter’s plugins for a directory of libraries.</td></tr></tbody></table>
+<p>Pyking is statically typed: every program is type-checked before it
+runs or compiles, and there is no flag to skip that.</p>
+<h2 id="running-a-program">Running a program</h2>
+<div class="expressive-code"><link rel="stylesheet" href="/_astro/ec.w36nc.css"><script type="module" src="/_astro/ec.0vx5m.js"></script><figure class="frame is-terminal not-content"><figcaption class="header"><span class="title"></span><span class="sr-only">Terminal window</span></figcaption><pre data-language="sh"><code><div class="ec-line"><div class="code"><span style="--0:#82AAFF;--1:#3B61B0">pyk</span><span style="--0:#D6DEEB;--1:#403F53"> </span><span style="--0:#ECC48D;--1:#3B61B0">prog.pyk</span></div></div></code></pre><div class="copy"><div aria-live="polite"></div><button title="Copy to clipboard" data-copied="Copied!" data-code="pyk prog.pyk"><div></div></button></div></figure></div>
+<p>runs the program with the interpreter. Nothing is written to disk. The
+interpreter is the reference for what a program means: it reports a
+runtime error as a Pyking error, with its position in the source and
+the calls in progress.</p>
+<p>Everything after <code>--</code> is given to the program, and <code>sys.args()</code>
+answers with it:</p>
+<div class="expressive-code"><figure class="frame is-terminal not-content"><figcaption class="header"><span class="title"></span><span class="sr-only">Terminal window</span></figcaption><pre data-language="sh"><code><div class="ec-line"><div class="code"><span style="--0:#82AAFF;--1:#3B61B0">pyk</span><span style="--0:#D6DEEB;--1:#403F53"> </span><span style="--0:#ECC48D;--1:#3B61B0">prog.pyk</span><span style="--0:#D6DEEB;--1:#403F53"> </span><span style="--0:#82AAFF;--1:#3B61B0">--</span><span style="--0:#D6DEEB;--1:#403F53"> </span><span style="--0:#ECC48D;--1:#3B61B0">apples</span><span style="--0:#D6DEEB;--1:#403F53"> </span><span style="--0:#ECC48D;--1:#3B61B0">pears</span></div></div></code></pre><div class="copy"><div aria-live="polite"></div><button title="Copy to clipboard" data-copied="Copied!" data-code="pyk prog.pyk -- apples pears"><div></div></button></div></figure></div>
+<div class="pkn-notebook pkn-embedded not-content"><div class="pkn-cell" data-args="apples pears"><pre class="pkn-cell-fallback"><code>import sys
+
+for name in sys.args():
+    print("hello,", name)</code></pre></div></div>
+<p>With <code>-t</code>, the program runs on a compiled target instead of the
+interpreter. It is compiled into <code>build/</code>, built and run from there, and
+nothing is put beside <code>build/</code>:</p>
+<div class="expressive-code"><figure class="frame is-terminal not-content"><figcaption class="header"><span class="title"></span><span class="sr-only">Terminal window</span></figcaption><pre data-language="sh"><code><div class="ec-line"><div class="code"><span style="--0:#82AAFF;--1:#3B61B0">pyk</span><span style="--0:#D6DEEB;--1:#403F53"> </span><span style="--0:#ECC48D;--1:#3B61B0">prog.pyk</span><span style="--0:#D6DEEB;--1:#403F53"> </span><span style="--0:#82AAFF;--1:#3B61B0">-t</span><span style="--0:#D6DEEB;--1:#403F53"> </span><span style="--0:#ECC48D;--1:#3B61B0">node</span></div></div><div class="ec-line"><div class="code"><span style="--0:#82AAFF;--1:#3B61B0">pyk</span><span style="--0:#D6DEEB;--1:#403F53"> </span><span style="--0:#ECC48D;--1:#3B61B0">prog.pyk</span><span style="--0:#D6DEEB;--1:#403F53"> </span><span style="--0:#82AAFF;--1:#3B61B0">-t</span><span style="--0:#D6DEEB;--1:#403F53"> </span><span style="--0:#ECC48D;--1:#3B61B0">c-gc</span><span style="--0:#D6DEEB;--1:#403F53"> </span><span style="--0:#82AAFF;--1:#3B61B0">--</span><span style="--0:#D6DEEB;--1:#403F53"> </span><span style="--0:#ECC48D;--1:#3B61B0">apples</span><span style="--0:#D6DEEB;--1:#403F53"> </span><span style="--0:#ECC48D;--1:#3B61B0">pears</span></div></div></code></pre><div class="copy"><div aria-live="polite"></div><button title="Copy to clipboard" data-copied="Copied!" data-code="pyk prog.pyk -t nodepyk prog.pyk -t c-gc -- apples pears"><div></div></button></div></figure></div>
+<p><code>--tinyweb-log</code> prints what a program sends its tinyweb page, and what
+the page answers, on standard error while it runs. It applies to
+<code>pyk prog.pyk</code> and <code>pyk repl</code>.</p>
+<h2 id="pyk-compile"><code>pyk compile</code></h2>
+<div class="expressive-code"><figure class="frame is-terminal not-content"><figcaption class="header"><span class="title"></span><span class="sr-only">Terminal window</span></figcaption><pre data-language="sh"><code><div class="ec-line"><div class="code"><span style="--0:#82AAFF;--1:#3B61B0">pyk</span><span style="--0:#D6DEEB;--1:#403F53"> </span><span style="--0:#ECC48D;--1:#3B61B0">compile</span><span style="--0:#D6DEEB;--1:#403F53"> [options] prog.pyk</span></div></div><div class="ec-line"><div class="code"><span style="--0:#82AAFF;--1:#3B61B0">pyk</span><span style="--0:#D6DEEB;--1:#403F53"> </span><span style="--0:#ECC48D;--1:#3B61B0">c</span><span style="--0:#D6DEEB;--1:#403F53"> [options] prog.pyk</span></div></div></code></pre><div class="copy"><div aria-live="polite"></div><button title="Copy to clipboard" data-copied="Copied!" data-code="pyk compile [options] prog.pykpyk c [options] prog.pyk"><div></div></button></div></figure></div>
+<p><code>pyk compile</code> translates the program for a target, builds it with that
+target’s own tools, and leaves an executable beside the source. The
+target is <code>python</code> unless <code>-t</code> says otherwise:</p>
+<div class="expressive-code"><figure class="frame is-terminal not-content"><figcaption class="header"><span class="title"></span><span class="sr-only">Terminal window</span></figcaption><pre data-language="sh"><code><div class="ec-line"><div class="code"><span style="--0:#82AAFF;--1:#3B61B0">pyk</span><span style="--0:#D6DEEB;--1:#403F53"> </span><span style="--0:#ECC48D;--1:#3B61B0">compile</span><span style="--0:#D6DEEB;--1:#403F53"> </span><span style="--0:#ECC48D;--1:#3B61B0">hello.pyk</span><span style="--0:#D6DEEB;--1:#403F53">              </span><span style="--0:#919F9F;--1:#5F636F"># build/hello.py, and ./hello runs it</span></div></div><div class="ec-line"><div class="code"><span style="--0:#82AAFF;--1:#3B61B0">pyk</span><span style="--0:#D6DEEB;--1:#403F53"> </span><span style="--0:#ECC48D;--1:#3B61B0">compile</span><span style="--0:#D6DEEB;--1:#403F53"> </span><span style="--0:#82AAFF;--1:#3B61B0">-t</span><span style="--0:#D6DEEB;--1:#403F53"> </span><span style="--0:#ECC48D;--1:#3B61B0">c</span><span style="--0:#D6DEEB;--1:#403F53"> </span><span style="--0:#ECC48D;--1:#3B61B0">hello.pyk</span><span style="--0:#D6DEEB;--1:#403F53">         </span><span style="--0:#919F9F;--1:#5F636F"># build/hello.c, and the binary ./hello</span></div></div><div class="ec-line"><div class="code"><span style="--0:#82AAFF;--1:#3B61B0">pyk</span><span style="--0:#D6DEEB;--1:#403F53"> </span><span style="--0:#ECC48D;--1:#3B61B0">compile</span><span style="--0:#D6DEEB;--1:#403F53"> </span><span style="--0:#82AAFF;--1:#3B61B0">-t</span><span style="--0:#D6DEEB;--1:#403F53"> </span><span style="--0:#ECC48D;--1:#3B61B0">java</span><span style="--0:#D6DEEB;--1:#403F53"> </span><span style="--0:#ECC48D;--1:#3B61B0">hello.pyk</span><span style="--0:#D6DEEB;--1:#403F53">      </span><span style="--0:#919F9F;--1:#5F636F"># build/Hello.java, and ./hello runs it</span></div></div></code></pre><div class="copy"><div aria-live="polite"></div><button title="Copy to clipboard" data-copied="Copied!" data-code="pyk compile hello.pyk              # build/hello.py, and ./hello runs itpyk compile -t c hello.pyk         # build/hello.c, and the binary ./hellopyk compile -t java hello.pyk      # build/Hello.java, and ./hello runs it"><div></div></button></div></figure></div>
+<p><a href="/documentation/targets/">Compiler targets</a> lists every target, what it
+writes and what it needs to run.</p>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<table><thead><tr><th>Flag</th><th>What it does</th></tr></thead><tbody><tr><td><code>-t T</code>, <code>--target T</code></td><td>Compile for target <code>T</code>: a family (<code>python</code>, <code>node</code>, <code>web</code>, <code>iweb</code>, <code>c</code>, <code>c-gc</code>, <code>java</code>, <code>ocaml</code>, <code>pyking</code>) or a version (<code>python14</code>, <code>c89</code>, <code>java8</code>, …).</td></tr><tr><td><code>-o FILE</code>, <code>--output FILE</code></td><td>Name the executable. <code>build/</code> goes beside it: <code>-o out/hi</code> writes <code>out/hi</code> and <code>out/build/</code>.</td></tr><tr><td><code>--run</code></td><td>Build and run what was compiled, printing each command first.</td></tr><tr><td><code>--stdout</code></td><td>Print the generated code for the program’s own module, and write nothing.</td></tr><tr><td><code>--no-build</code></td><td>Write <code>build/</code> and its <code>Makefile</code>, and build nothing.</td></tr><tr><td><code>--release</code></td><td>Remove every call to <code>debug()</code>. <code>print()</code> is kept.</td></tr><tr><td><code>-- args</code></td><td>With <code>--run</code>: arguments for the program.</td></tr></tbody></table>
+<h3 id="what-it-writes">What it writes</h3>
+<p>Everything generated goes into a directory <code>build/</code> beside the
+executable: the program’s file, one per module it imports, the
+target’s runtime files, and a <code>Makefile</code>. Then <code>pyk compile</code> builds it
+and puts the executable in place:</p>
+<ul>
+<li>for C and OCaml, the binary itself;</li>
+<li>for Python, node and Java, a short shell script that runs what is in
+<code>build/</code>;</li>
+<li>for <code>web</code> and <code>iweb</code>, nothing: the page and its files are all in
+<code>build/</code>.</li>
+</ul>
+<div class="expressive-code"><figure class="frame is-terminal not-content"><figcaption class="header"><span class="title"></span><span class="sr-only">Terminal window</span></figcaption><pre data-language="sh"><code><div class="ec-line"><div class="code"><span style="--0:#82AAFF;--1:#3B61B0">$</span><span style="--0:#D6DEEB;--1:#403F53"> </span><span style="--0:#ECC48D;--1:#3B61B0">pyk</span><span style="--0:#D6DEEB;--1:#403F53"> </span><span style="--0:#ECC48D;--1:#3B61B0">compile</span><span style="--0:#D6DEEB;--1:#403F53"> </span><span style="--0:#ECC48D;--1:#3B61B0">hello.pyk</span></div></div><div class="ec-line"><div class="code"><span style="--0:#82AAFF;--1:#3B61B0">$</span><span style="--0:#D6DEEB;--1:#403F53"> </span><span style="--0:#ECC48D;--1:#3B61B0">ls</span></div></div><div class="ec-line"><div class="code"><span style="--0:#82AAFF;--1:#3B61B0">build</span><span style="--0:#D6DEEB;--1:#403F53">  </span><span style="--0:#ECC48D;--1:#3B61B0">hello</span><span style="--0:#D6DEEB;--1:#403F53">  </span><span style="--0:#ECC48D;--1:#3B61B0">hello.pyk</span></div></div><div class="ec-line"><div class="code"><span style="--0:#82AAFF;--1:#3B61B0">$</span><span style="--0:#D6DEEB;--1:#403F53"> </span><span style="--0:#ECC48D;--1:#3B61B0">ls</span><span style="--0:#D6DEEB;--1:#403F53"> </span><span style="--0:#ECC48D;--1:#3B61B0">build</span></div></div><div class="ec-line"><div class="code"><span style="--0:#82AAFF;--1:#3B61B0">Makefile</span><span style="--0:#D6DEEB;--1:#403F53">  </span><span style="--0:#ECC48D;--1:#3B61B0">hello.py</span></div></div><div class="ec-line"><div class="code"><span style="--0:#82AAFF;--1:#3B61B0">$</span><span style="--0:#D6DEEB;--1:#403F53"> </span><span style="--0:#ECC48D;--1:#3B61B0">./hello</span></div></div><div class="ec-line"><div class="code"><span style="--0:#82AAFF;--1:#3B61B0">Hello,</span><span style="--0:#D6DEEB;--1:#403F53"> </span><span style="--0:#ECC48D;--1:#3B61B0">world!</span></div></div></code></pre><div class="copy"><div aria-live="polite"></div><button title="Copy to clipboard" data-copied="Copied!" data-code="$ pyk compile hello.pyk$ lsbuild  hello  hello.pyk$ ls buildMakefile  hello.py$ ./helloHello, world!"><div></div></button></div></figure></div>
+<p><code>build/</code> is made afresh on every compile. A <code>build/</code> that an earlier
+<code>pyk compile</code> made is replaced. Any other <code>build/</code> is left alone and the
+compile is refused, so <code>pyk</code> never removes a directory of yours; move it
+or compile elsewhere with <code>-o</code>.</p>
+<p><code>build/Makefile</code> holds the same commands <code>--run</code> uses: <code>make</code> builds,
+<code>make run</code> runs (<code>make run ARGS='a b'</code> passes arguments), and
+<code>make clean</code> removes what <code>make</code> made. Each tool is a variable, such as
+<code>CC</code>, <code>JAVAC</code> or <code>PYTHON</code>.</p>
+<p>The Java targets name the file and its class in Java’s style:
+<code>foo_bar.pyk</code> becomes <code>build/FooBar.java</code>. The <code>pyking</code> target writes
+its one <code>.pyk</code> file where <code>-o</code> says, and builds nothing.</p>
+<h3 id="--run"><code>--run</code></h3>
+<p><code>--run</code> builds what was compiled and runs it with the target’s own
+commands. Each command is printed on standard error, after <code>$ </code>, so the
+program’s own output on standard output stays clean:</p>
+<div class="expressive-code"><figure class="frame is-terminal not-content"><figcaption class="header"><span class="title"></span><span class="sr-only">Terminal window</span></figcaption><pre data-language="sh"><code><div class="ec-line"><div class="code"><span style="--0:#82AAFF;--1:#3B61B0">$</span><span style="--0:#D6DEEB;--1:#403F53"> </span><span style="--0:#ECC48D;--1:#3B61B0">pyk</span><span style="--0:#D6DEEB;--1:#403F53"> </span><span style="--0:#ECC48D;--1:#3B61B0">compile</span><span style="--0:#D6DEEB;--1:#403F53"> </span><span style="--0:#82AAFF;--1:#3B61B0">-t</span><span style="--0:#D6DEEB;--1:#403F53"> </span><span style="--0:#ECC48D;--1:#3B61B0">c</span><span style="--0:#D6DEEB;--1:#403F53"> </span><span style="--0:#82AAFF;--1:#3B61B0">--run</span><span style="--0:#D6DEEB;--1:#403F53"> </span><span style="--0:#ECC48D;--1:#3B61B0">hello.pyk</span></div></div><div class="ec-line"><div class="code"><span style="--0:#82AAFF;--1:#3B61B0">$</span><span style="--0:#D6DEEB;--1:#403F53"> </span><span style="--0:#ECC48D;--1:#3B61B0">cc</span><span style="--0:#D6DEEB;--1:#403F53"> </span><span style="--0:#82AAFF;--1:#3B61B0">-std=c99</span><span style="--0:#D6DEEB;--1:#403F53"> </span><span style="--0:#82AAFF;--1:#3B61B0">-o</span><span style="--0:#D6DEEB;--1:#403F53"> </span><span style="--0:#ECC48D;--1:#3B61B0">hello</span><span style="--0:#D6DEEB;--1:#403F53"> </span><span style="--0:#ECC48D;--1:#3B61B0">hello.c</span><span style="--0:#D6DEEB;--1:#403F53"> </span><span style="--0:#82AAFF;--1:#3B61B0">-lm</span></div></div><div class="ec-line"><div class="code"><span style="--0:#82AAFF;--1:#3B61B0">$</span><span style="--0:#D6DEEB;--1:#403F53"> </span><span style="--0:#ECC48D;--1:#3B61B0">./build/hello</span></div></div><div class="ec-line"><div class="code"><span style="--0:#82AAFF;--1:#3B61B0">Hello,</span><span style="--0:#D6DEEB;--1:#403F53"> </span><span style="--0:#ECC48D;--1:#3B61B0">world!</span></div></div></code></pre><div class="copy"><div aria-live="polite"></div><button title="Copy to clipboard" data-copied="Copied!" data-code="$ pyk compile -t c --run hello.pyk$ cc -std=c99 -o hello hello.c -lm$ ./build/helloHello, world!"><div></div></button></div></figure></div>
+<p>A <code>web</code> or <code>iweb</code> page is run by serving it: <code>--run</code> starts
+<code>pyk serve</code> and prints a link to the page.</p>
+<p><code>$PYTHON</code>, <code>$NODE</code>, <code>$CC</code>, <code>$JAVAC</code>, <code>$JAVA</code> and <code>$OCAMLOPT</code> choose the
+tool to use where there is a choice.</p>
+<p><code>--run</code> cannot be combined with <code>--stdout</code>, since there is no file to
+run. <code>pyk compile</code> without <code>--run</code> runs nothing, so it refuses
+arguments after <code>--</code>.</p>
+<h3 id="--stdout"><code>--stdout</code></h3>
+<div class="expressive-code"><figure class="frame is-terminal not-content"><figcaption class="header"><span class="title"></span><span class="sr-only">Terminal window</span></figcaption><pre data-language="sh"><code><div class="ec-line"><div class="code"><span style="--0:#82AAFF;--1:#3B61B0">pyk</span><span style="--0:#D6DEEB;--1:#403F53"> </span><span style="--0:#ECC48D;--1:#3B61B0">compile</span><span style="--0:#D6DEEB;--1:#403F53"> </span><span style="--0:#82AAFF;--1:#3B61B0">-t</span><span style="--0:#D6DEEB;--1:#403F53"> </span><span style="--0:#ECC48D;--1:#3B61B0">node</span><span style="--0:#D6DEEB;--1:#403F53"> </span><span style="--0:#82AAFF;--1:#3B61B0">--stdout</span><span style="--0:#D6DEEB;--1:#403F53"> </span><span style="--0:#ECC48D;--1:#3B61B0">hello.pyk</span></div></div></code></pre><div class="copy"><div aria-live="polite"></div><button title="Copy to clipboard" data-copied="Copied!" data-code="pyk compile -t node --stdout hello.pyk"><div></div></button></div></figure></div>
+<p>prints the generated code and writes nothing. It shows the program’s
+own module only; the modules it imports are files of their own. This is
+a quick way to see what Pyking compiles to; the playground’s Compiled
+code tab shows the same.</p>
+<h3 id="--release"><code>--release</code></h3>
+<p><code>--release</code> removes every call to <code>debug()</code> before the program is
+compiled, so a release build writes nothing to standard error through
+<code>debug</code>. It applies to <code>pyk compile</code> only: the interpreter always runs
+a program as written.</p>
+<h2 id="pyk-repl"><code>pyk repl</code></h2>
+<div class="expressive-code"><figure class="frame is-terminal not-content"><figcaption class="header"><span class="title"></span><span class="sr-only">Terminal window</span></figcaption><pre data-language="sh"><code><div class="ec-line"><div class="code"><span style="--0:#82AAFF;--1:#3B61B0">pyk</span><span style="--0:#D6DEEB;--1:#403F53"> </span><span style="--0:#ECC48D;--1:#3B61B0">repl</span><span style="--0:#D6DEEB;--1:#403F53"> [--use </span><span style="--0:#ECC48D;--1:#3B61B0">FEATURE]...</span><span style="--0:#D6DEEB;--1:#403F53"> [-L </span><span style="--0:#ECC48D;--1:#3B61B0">DIR]...</span><span style="--0:#D6DEEB;--1:#403F53"> [-W...] [--tinyweb-log]</span></div></div></code></pre><div class="copy"><div aria-live="polite"></div><button title="Copy to clipboard" data-copied="Copied!" data-code="pyk repl [--use FEATURE]... [-L DIR]... [-W...] [--tinyweb-log]"><div></div></button></div></figure></div>
+<p>Starts the REPL. <code>--use mutation</code> turns a feature on from the start, as
+a <code>use</code> line typed at the prompt would; the features are <code>mutation</code>,
+<code>pointers</code> and <code>objects</code>. <code>pyk repl</code> takes no file. See
+<a href="/documentation/repl/">REPL</a>.</p>
+<h2 id="pyk-notebook"><code>pyk notebook</code></h2>
+<div class="expressive-code"><figure class="frame is-terminal not-content"><figcaption class="header"><span class="title"></span><span class="sr-only">Terminal window</span></figcaption><pre data-language="sh"><code><div class="ec-line"><div class="code"><span style="--0:#82AAFF;--1:#3B61B0">pyk</span><span style="--0:#D6DEEB;--1:#403F53"> </span><span style="--0:#ECC48D;--1:#3B61B0">notebook</span><span style="--0:#D6DEEB;--1:#403F53"> [--port </span><span style="--0:#ECC48D;--1:#3B61B0">N]</span><span style="--0:#D6DEEB;--1:#403F53"> [--mode </span><span style="--0:#ECC48D;--1:#3B61B0">student</span><span style="--0:#7FDBCA;--1:#096E72">|</span><span style="--0:#82AAFF;--1:#3B61B0">teacher</span><span style="--0:#7FDBCA;--1:#096E72">|</span><span style="--0:#C5E478;--1:#3B61B0">test</span><span style="--0:#ECC48D;--1:#3B61B0">]</span><span style="--0:#D6DEEB;--1:#403F53"> </span><span style="--0:#ECC48D;--1:#3B61B0">book.md</span></div></div></code></pre><div class="copy"><div aria-live="polite"></div><button title="Copy to clipboard" data-copied="Copied!" data-code="pyk notebook [--port N] [--mode student|teacher|test] book.md"><div></div></button></div></figure></div>
+<p>Serves a Markdown notebook, whose Pyking code blocks can be edited and
+run in the browser, and prints a link to open it. The page reloads when
+the file changes.</p>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<table><thead><tr><th>Flag</th><th>What it does</th></tr></thead><tbody><tr><td><code>--port N</code></td><td>Serve on port <code>N</code>.</td></tr><tr><td><code>--mode student</code></td><td>The default: a task’s solution and tests stay hidden until the reader asks for them.</td></tr><tr><td><code>--mode teacher</code></td><td>Show every block, and what test mode finds under each.</td></tr><tr><td><code>--mode test</code></td><td>Serve nothing: run every cell, task and solution, check each against the expected output after it, print <code>file:line: message</code> for each problem, and exit with 1 if there is one.</td></tr><tr><td><code>--to-json</code></td><td>Write the notebook’s Markdown as JSON: <code>book.md</code> to <code>book.json</code>.</td></tr><tr><td><code>--to-markdown</code></td><td>Write a notebook’s JSON back as Markdown.</td></tr><tr><td><code>--json-schema</code></td><td>With no file: write the JSON Schema of every notebook’s JSON, <code>notebook.schema.json</code>.</td></tr><tr><td><code>-o FILE</code></td><td>With the three above, name the file written; <code>-o -</code> prints it.</td></tr><tr><td><code>-W...</code></td><td>The warnings the page shows under a block.</td></tr></tbody></table>
+<p>The three conversions never write over an existing file of the default
+name. See <a href="/documentation/notebook/">Notebook</a>.</p>
+<h2 id="pyk-playground-and-pyk-pykhelp"><code>pyk playground</code> and <code>pyk pykhelp</code></h2>
+<div class="expressive-code"><figure class="frame is-terminal not-content"><figcaption class="header"><span class="title"></span><span class="sr-only">Terminal window</span></figcaption><pre data-language="sh"><code><div class="ec-line"><div class="code"><span style="--0:#82AAFF;--1:#3B61B0">pyk</span><span style="--0:#D6DEEB;--1:#403F53"> </span><span style="--0:#ECC48D;--1:#3B61B0">playground</span><span style="--0:#D6DEEB;--1:#403F53"> [--port </span><span style="--0:#ECC48D;--1:#3B61B0">N]</span></div></div><div class="ec-line"><div class="code"><span style="--0:#82AAFF;--1:#3B61B0">pyk</span><span style="--0:#D6DEEB;--1:#403F53"> </span><span style="--0:#ECC48D;--1:#3B61B0">pykhelp</span><span style="--0:#D6DEEB;--1:#403F53"> [--port </span><span style="--0:#ECC48D;--1:#3B61B0">N]</span></div></div></code></pre><div class="copy"><div aria-live="polite"></div><button title="Copy to clipboard" data-copied="Copied!" data-code="pyk playground [--port N]pyk pykhelp [--port N]"><div></div></button></div></figure></div>
+<p><code>pyk playground</code> serves the <a href="/documentation/playground/">playground</a>
+and prints a link to it. <code>pyk pykhelp</code> serves this documentation, with
+its runnable examples, the same pages the playground’s Help tab shows.
+Both run until Ctrl+C.</p>
+<h2 id="pyk-serve"><code>pyk serve</code></h2>
+<div class="expressive-code"><figure class="frame is-terminal not-content"><figcaption class="header"><span class="title"></span><span class="sr-only">Terminal window</span></figcaption><pre data-language="sh"><code><div class="ec-line"><div class="code"><span style="--0:#82AAFF;--1:#3B61B0">pyk</span><span style="--0:#D6DEEB;--1:#403F53"> </span><span style="--0:#ECC48D;--1:#3B61B0">serve</span><span style="--0:#D6DEEB;--1:#403F53"> [--port </span><span style="--0:#ECC48D;--1:#3B61B0">N]</span><span style="--0:#D6DEEB;--1:#403F53"> [DIR </span><span style="--0:#7FDBCA;--1:#096E72">|</span><span style="--0:#D6DEEB;--1:#403F53"> </span><span style="--0:#82AAFF;--1:#3B61B0">FILE]</span></div></div></code></pre><div class="copy"><div aria-live="polite"></div><button title="Copy to clipboard" data-copied="Copied!" data-code="pyk serve [--port N] [DIR | FILE]"><div></div></button></div></figure></div>
+<p>Serves a directory’s files as they are: the current directory by
+default. Given a file, it serves the file’s directory and prints a link
+to the file. This is how to open a page compiled for <code>web</code> or <code>iweb</code>,
+since a browser will not load its modules from a <code>file://</code> address:</p>
+<div class="expressive-code"><figure class="frame is-terminal not-content"><figcaption class="header"><span class="title"></span><span class="sr-only">Terminal window</span></figcaption><pre data-language="sh"><code><div class="ec-line"><div class="code"><span style="--0:#82AAFF;--1:#3B61B0">pyk</span><span style="--0:#D6DEEB;--1:#403F53"> </span><span style="--0:#ECC48D;--1:#3B61B0">compile</span><span style="--0:#D6DEEB;--1:#403F53"> </span><span style="--0:#82AAFF;--1:#3B61B0">-t</span><span style="--0:#D6DEEB;--1:#403F53"> </span><span style="--0:#ECC48D;--1:#3B61B0">web</span><span style="--0:#D6DEEB;--1:#403F53"> </span><span style="--0:#ECC48D;--1:#3B61B0">game.pyk</span></div></div><div class="ec-line"><div class="code"><span style="--0:#82AAFF;--1:#3B61B0">pyk</span><span style="--0:#D6DEEB;--1:#403F53"> </span><span style="--0:#ECC48D;--1:#3B61B0">serve</span><span style="--0:#D6DEEB;--1:#403F53"> </span><span style="--0:#ECC48D;--1:#3B61B0">build/game.html</span></div></div></code></pre><div class="copy"><div aria-live="polite"></div><button title="Copy to clipboard" data-copied="Copied!" data-code="pyk compile -t web game.pykpyk serve build/game.html"><div></div></button></div></figure></div>
+<h2 id="ports-and-addresses">Ports and addresses</h2>
+<p><code>pyk notebook</code>, <code>pyk playground</code>, <code>pyk pykhelp</code> and <code>pyk serve</code> start at
+port 8000 and take the first free port up to 8019, or any free port if
+those are all taken. <code>--port N</code> asks for port <code>N</code>. They listen on
+<code>127.0.0.1</code>, or on the address <code>$PYKING_WEB_HOST</code> names, for example
+<code>0.0.0.0</code> for every interface, as in a container.</p>
+<h2 id="pyk-example"><code>pyk example</code></h2>
+<div class="expressive-code"><figure class="frame is-terminal not-content"><figcaption class="header"><span class="title"></span><span class="sr-only">Terminal window</span></figcaption><pre data-language="sh"><code><div class="ec-line"><div class="code"><span style="--0:#82AAFF;--1:#3B61B0">pyk</span><span style="--0:#D6DEEB;--1:#403F53"> </span><span style="--0:#ECC48D;--1:#3B61B0">example</span><span style="--0:#D6DEEB;--1:#403F53">            </span><span style="--0:#919F9F;--1:#5F636F"># list the examples</span></div></div><div class="ec-line"><div class="code"><span style="--0:#82AAFF;--1:#3B61B0">pyk</span><span style="--0:#D6DEEB;--1:#403F53"> </span><span style="--0:#ECC48D;--1:#3B61B0">example</span><span style="--0:#D6DEEB;--1:#403F53"> </span><span style="--0:#ECC48D;--1:#3B61B0">hello.pyk</span><span style="--0:#D6DEEB;--1:#403F53">  </span><span style="--0:#919F9F;--1:#5F636F"># save one in the current directory</span></div></div></code></pre><div class="copy"><div aria-live="polite"></div><button title="Copy to clipboard" data-copied="Copied!" data-code="pyk example            # list the examplespyk example hello.pyk  # save one in the current directory"><div></div></button></div></figure></div>
+<p><code>pyk example</code> lists the bundled example programs with a line on each.
+<code>pyk example NAME</code> saves the one named in the current directory, and
+refuses if a file of that name is already there. The playground’s
+Examples menu offers the same programs.</p>
+<h2 id="pyk-highlight"><code>pyk highlight</code></h2>
+<div class="expressive-code"><figure class="frame is-terminal not-content"><figcaption class="header"><span class="title"></span><span class="sr-only">Terminal window</span></figcaption><pre data-language="sh"><code><div class="ec-line"><div class="code"><span style="--0:#82AAFF;--1:#3B61B0">pyk</span><span style="--0:#D6DEEB;--1:#403F53"> </span><span style="--0:#ECC48D;--1:#3B61B0">highlight</span><span style="--0:#D6DEEB;--1:#403F53"> </span><span style="--0:#ECC48D;--1:#3B61B0">FILE</span><span style="--0:#D6DEEB;--1:#403F53"> [--html </span><span style="--0:#7FDBCA;--1:#096E72">|</span><span style="--0:#D6DEEB;--1:#403F53"> </span><span style="--0:#82AAFF;--1:#3B61B0">--rtf</span><span style="--0:#D6DEEB;--1:#403F53"> </span><span style="--0:#7FDBCA;--1:#096E72">|</span><span style="--0:#D6DEEB;--1:#403F53"> </span><span style="--0:#82AAFF;--1:#3B61B0">--text]</span><span style="--0:#D6DEEB;--1:#403F53"> [--theme </span><span style="--0:#ECC48D;--1:#3B61B0">light</span><span style="--0:#7FDBCA;--1:#096E72">|</span><span style="--0:#82AAFF;--1:#3B61B0">dark]</span><span style="--0:#D6DEEB;--1:#403F53"> [-o </span><span style="--0:#ECC48D;--1:#3B61B0">OUT]</span><span style="--0:#D6DEEB;--1:#403F53"> </span><span style="--0:#ECC48D;--1:#3B61B0">...</span></div></div></code></pre><div class="copy"><div aria-live="polite"></div><button title="Copy to clipboard" data-copied="Copied!" data-code="pyk highlight FILE [--html | --rtf | --text] [--theme light|dark] [-o OUT] ..."><div></div></button></div></figure></div>
+<p>Writes Pyking code coloured as the playground colours it, for pasting
+into slides: HTML with every style inline, RTF, or plain text. <code>FILE</code>
+is a program or a notebook. <code>pyk highlight --help</code> lists its options;
+<a href="/documentation/slides/">Code on slides</a> explains them.</p>
+<h2 id="pyk-lsp-and-pyk-dap"><code>pyk lsp</code> and <code>pyk dap</code></h2>
+<div class="expressive-code"><figure class="frame is-terminal not-content"><figcaption class="header"><span class="title"></span><span class="sr-only">Terminal window</span></figcaption><pre data-language="sh"><code><div class="ec-line"><div class="code"><span style="--0:#82AAFF;--1:#3B61B0">pyk</span><span style="--0:#D6DEEB;--1:#403F53"> </span><span style="--0:#ECC48D;--1:#3B61B0">lsp</span><span style="--0:#D6DEEB;--1:#403F53"> [--stdio] [-L DIR]... [--log FILE] [-W...]</span></div></div><div class="ec-line"><div class="code"><span style="--0:#82AAFF;--1:#3B61B0">pyk</span><span style="--0:#D6DEEB;--1:#403F53"> </span><span style="--0:#ECC48D;--1:#3B61B0">dap</span><span style="--0:#D6DEEB;--1:#403F53"> [--stdio] [-L DIR]... [--log FILE] [-W...]</span></div></div></code></pre><div class="copy"><div aria-live="polite"></div><button title="Copy to clipboard" data-copied="Copied!" data-code="pyk lsp [--stdio] [-L DIR]... [--log FILE] [-W...]pyk dap [--stdio] [-L DIR]... [--log FILE] [-W...]"><div></div></button></div></figure></div>
+<p>An editor starts these; you do not run them yourself. <code>pyk lsp</code> is the
+language server and <code>pyk dap</code> the debug adapter. Both talk over
+standard input and output; <code>--stdio</code> is accepted and is the only
+transport. <code>--log FILE</code> appends every message to <code>FILE</code>, which helps
+when finding out what an editor sent. See
+<a href="/documentation/editors/">Editors</a> and
+<a href="/getstarted/debugging/">Debugging</a>.</p>
+<h2 id="pyk-plugins"><code>pyk plugins</code></h2>
+<div class="expressive-code"><figure class="frame is-terminal not-content"><figcaption class="header"><span class="title"></span><span class="sr-only">Terminal window</span></figcaption><pre data-language="sh"><code><div class="ec-line"><div class="code"><span style="--0:#82AAFF;--1:#3B61B0">pyk</span><span style="--0:#D6DEEB;--1:#403F53"> </span><span style="--0:#ECC48D;--1:#3B61B0">plugins</span><span style="--0:#D6DEEB;--1:#403F53"> </span><span style="--0:#ECC48D;--1:#3B61B0">DIR</span></div></div></code></pre><div class="copy"><div aria-live="polite"></div><button title="Copy to clipboard" data-copied="Copied!" data-code="pyk plugins DIR"><div></div></button></div></figure></div>
+<p>For library authors. The interpreter runs a module implemented in
+another language through its OCaml implementation,
+<code>NAME_external.ml</code>, loaded as a plugin. Without a prebuilt plugin, <code>pyk</code>
+compiles one on first use into <code>~/.cache/pyking</code>, which needs the same
+<code>ocamlopt</code> that <code>pyk</code> was built with. <code>pyk plugins DIR</code> builds the
+plugin of every library in a directory of libraries ahead of time,
+beside its implementation, and skips any that are up to date. The
+standard library’s plugins ship with <code>pyk</code>. See
+<a href="/documentation/targets/#external-modules">Compiler targets</a>.</p>
+<h2 id="warnings">Warnings</h2>
+<p>A warning is printed on standard error and the program still runs or
+compiles. The <code>-W</code> flags apply to <code>pyk prog.pyk</code>, <code>pyk compile</code>,
+<code>pyk repl</code>, <code>pyk lsp</code>, <code>pyk dap</code> and <code>pyk notebook</code>, in the order
+given.</p>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<table><thead><tr><th>Flag</th><th>What it does</th></tr></thead><tbody><tr><td><code>-Wname</code></td><td>Turn warning <code>name</code> on.</td></tr><tr><td><code>-Wno-name</code></td><td>Turn it off.</td></tr><tr><td><code>-Wall</code></td><td>Turn every warning on.</td></tr><tr><td><code>-w</code></td><td>Turn every warning off.</td></tr><tr><td><code>-Werror</code></td><td>Make every warning that is on an error, which stops the program before it runs.</td></tr><tr><td><code>-Werror=name</code></td><td>Make one warning an error, and turn it on.</td></tr><tr><td><code>-Wno-error</code>, <code>-Wno-error=name</code></td><td>Undo those.</td></tr></tbody></table>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<table><thead><tr><th>Warning</th><th>On by default</th><th>Reports</th></tr></thead><tbody><tr><td><code>unused-binding</code></td><td>yes</td><td>A name bound with <code>=</code> that nothing in its scope uses.</td></tr><tr><td><code>unused-function</code></td><td>yes</td><td>A <code>def</code> that is never called or passed on, or only calls itself.</td></tr><tr><td><code>unused-var</code></td><td>yes</td><td>A <code>var</code> that is never read. Writing it with <code>:=</code> does not count.</td></tr><tr><td><code>shadowed-update</code></td><td>yes</td><td>An <code>=</code> inside a block, never used, that shadows a name from outside: an update written as a new binding.</td></tr><tr><td><code>shared-fill</code></td><td>yes</td><td><code>array(n, v)</code> where <code>v</code> is itself an array, so every element is the same one.</td></tr><tr><td><code>unused-pattern-var</code></td><td>no</td><td>A name a <code>case</code> pattern binds that its arm never uses.</td></tr><tr><td><code>unused-parameter</code></td><td>no</td><td>A parameter its function or lambda never uses.</td></tr><tr><td><code>unused-loop-var</code></td><td>no</td><td>A loop’s accumulator, a <code>for</code> variable, or a name a comprehension binds, that the loop never uses.</td></tr></tbody></table>
+<p>A name starting with <code>_</code>, a public name, and a name in a library’s
+module are never reported.</p>
+<div class="expressive-code"><figure class="frame is-terminal not-content"><figcaption class="header"><span class="title"></span><span class="sr-only">Terminal window</span></figcaption><pre data-language="sh"><code><div class="ec-line"><div class="code"><span style="--0:#82AAFF;--1:#3B61B0">$</span><span style="--0:#D6DEEB;--1:#403F53"> </span><span style="--0:#ECC48D;--1:#3B61B0">pyk</span><span style="--0:#D6DEEB;--1:#403F53"> </span><span style="--0:#82AAFF;--1:#3B61B0">-Werror</span><span style="--0:#D6DEEB;--1:#403F53"> </span><span style="--0:#ECC48D;--1:#3B61B0">prog.pyk</span></div></div><div class="ec-line"><div class="code"><span style="--0:#82AAFF;--1:#3B61B0">'prog.pyk'</span><span style="--0:#D6DEEB;--1:#403F53"> </span><span style="--0:#ECC48D;--1:#3B61B0">2:4-2:5</span><span style="--0:#D6DEEB;--1:#403F53"> </span><span style="--0:#ECC48D;--1:#3B61B0">Error:</span><span style="--0:#D6DEEB;--1:#403F53"> </span><span style="--0:#ECC48D;--1:#3B61B0">Unused</span><span style="--0:#D6DEEB;--1:#403F53"> </span><span style="--0:#ECC48D;--1:#3B61B0">binding</span><span style="--0:#D6DEEB;--1:#403F53"> </span><span style="--0:#D9F5DD;--1:#111111">'</span><span style="--0:#ECC48D;--1:#984E4D">y</span><span style="--0:#D9F5DD;--1:#111111">'</span><span style="--0:#ECC48D;--1:#3B61B0">,</span><span style="--0:#D6DEEB;--1:#403F53"> </span><span style="--0:#ECC48D;--1:#3B61B0">bound</span><span style="--0:#D6DEEB;--1:#403F53"> </span><span style="--0:#ECC48D;--1:#3B61B0">on</span><span style="--0:#D6DEEB;--1:#403F53"> </span><span style="--0:#ECC48D;--1:#3B61B0">line</span><span style="--0:#D6DEEB;--1:#403F53"> </span><span style="--0:#ECC48D;--1:#3B61B0">2:</span><span style="--0:#D6DEEB;--1:#403F53"> </span><span style="--0:#ECC48D;--1:#3B61B0">it</span><span style="--0:#D6DEEB;--1:#403F53"> </span><span style="--0:#ECC48D;--1:#3B61B0">is</span></div></div><div class="ec-line"><div class="code"><span class="indent">  </span><span style="--0:#82AAFF;--1:#3B61B0">never</span><span style="--0:#D6DEEB;--1:#403F53"> </span><span style="--0:#ECC48D;--1:#3B61B0">used</span><span style="--0:#D6DEEB;--1:#403F53"> </span><span style="--0:#ECC48D;--1:#3B61B0">in</span><span style="--0:#D6DEEB;--1:#403F53"> </span><span style="--0:#ECC48D;--1:#3B61B0">its</span><span style="--0:#D6DEEB;--1:#403F53"> </span><span style="--0:#ECC48D;--1:#3B61B0">scope.</span><span style="--0:#D6DEEB;--1:#403F53"> [-Werror=unused-binding]</span></div></div></code></pre><div class="copy"><div aria-live="polite"></div><button title="Copy to clipboard" data-copied="Copied!" data-code="$ pyk -Werror prog.pyk&#x27;prog.pyk&#x27; 2:4-2:5 Error: Unused binding &#x27;y&#x27;, bound on line 2: it is  never used in its scope. [-Werror=unused-binding]"><div></div></button></div></figure></div>
+<h2 id="the-library-search-path">The library search path</h2>
+<p><code>import name</code> looks for the module in these places, in order, and the
+first that has it wins:</p>
+<ol>
+<li>the directory of the file that imports it: <code>name.pyk</code>, or
+<code>name_external.pyk</code> for a module implemented in another language;</li>
+<li>each <code>-L</code> directory, in the order given;</li>
+<li>each directory in <code>$PYKING_LIB_PATH</code>, separated by <code>:</code> (by <code>;</code> on
+Windows);</li>
+<li>the <code>lib/</code> directory beside the <code>pyk</code> executable, which holds the
+standard library.</li>
+</ol>
+<p>A <code>-L</code> directory holds one folder per library: <code>-L libs</code> finds
+<code>libs/shapes/shapes.pyk</code> for <code>import shapes</code>. The flag can be written <code>-L DIR</code>,
+<code>-LDIR</code>, <code>--lib-path DIR</code> or <code>--lib-path=DIR</code>, and repeated. When a
+module is found nowhere, the error lists every path it looked in. See
+<a href="/documentation/language/modules/">Modules</a>.</p>
+<h2 id="environment-variables">Environment variables</h2>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<table><thead><tr><th>Variable</th><th>What it does</th></tr></thead><tbody><tr><td><code>PYKING_LIB_PATH</code></td><td>More library directories to search; see above.</td></tr><tr><td><code>PYKING_WEB_HOST</code></td><td>The address the web commands listen on.</td></tr><tr><td><code>PYTHON</code>, <code>NODE</code>, <code>CC</code>, <code>JAVAC</code>, <code>JAVA</code>, <code>OCAMLOPT</code></td><td>The tools <code>--run</code>, the <code>Makefile</code> and plugin builds use.</td></tr><tr><td><code>PYKING_TINYWEB_LOG=FILE</code></td><td>Run a tinyweb program with no page: each command it sends is appended to <code>FILE</code>.</td></tr><tr><td><code>PYKING_TINYWEB_EVENTS=FILE</code></td><td>With the log: events to deliver once the top level has ended, one per line (<code>click ID</code>, <code>key NAME</code>, …).</td></tr></tbody></table>
+<h2 id="errors-and-exit-codes">Errors and exit codes</h2>
+<p>Every error names the file, the span in it, and the kind of error, and
+is wrapped to 70 columns:</p>
+<div class="expressive-code"><figure class="frame is-terminal not-content"><figcaption class="header"><span class="title"></span><span class="sr-only">Terminal window</span></figcaption><pre data-language="sh"><code><div class="ec-line"><div class="code"><span style="--0:#82AAFF;--1:#3B61B0">$</span><span style="--0:#D6DEEB;--1:#403F53"> </span><span style="--0:#ECC48D;--1:#3B61B0">pyk</span><span style="--0:#D6DEEB;--1:#403F53"> </span><span style="--0:#ECC48D;--1:#3B61B0">prog.pyk</span></div></div><div class="ec-line"><div class="code"><span style="--0:#82AAFF;--1:#3B61B0">'prog.pyk'</span><span style="--0:#D6DEEB;--1:#403F53"> </span><span style="--0:#ECC48D;--1:#3B61B0">2:6-2:11</span><span style="--0:#D6DEEB;--1:#403F53"> </span><span style="--0:#ECC48D;--1:#3B61B0">Runtime</span><span style="--0:#D6DEEB;--1:#403F53"> </span><span style="--0:#ECC48D;--1:#3B61B0">error:</span><span style="--0:#D6DEEB;--1:#403F53"> </span><span style="--0:#ECC48D;--1:#3B61B0">the</span><span style="--0:#D6DEEB;--1:#403F53"> </span><span style="--0:#ECC48D;--1:#3B61B0">index</span><span style="--0:#D6DEEB;--1:#403F53"> </span><span style="--0:#F78C6C;--1:#AA0982">5</span><span style="--0:#D6DEEB;--1:#403F53"> </span><span style="--0:#ECC48D;--1:#3B61B0">is</span><span style="--0:#D6DEEB;--1:#403F53"> </span><span style="--0:#ECC48D;--1:#3B61B0">outside</span><span style="--0:#D6DEEB;--1:#403F53"> </span><span style="--0:#ECC48D;--1:#3B61B0">a</span><span style="--0:#D6DEEB;--1:#403F53"> </span><span style="--0:#ECC48D;--1:#3B61B0">list</span><span style="--0:#D6DEEB;--1:#403F53"> </span><span style="--0:#ECC48D;--1:#3B61B0">of</span><span style="--0:#D6DEEB;--1:#403F53"> </span><span style="--0:#F78C6C;--1:#AA0982">2</span></div></div><div class="ec-line"><div class="code"><span class="indent">  </span><span style="--0:#82AAFF;--1:#3B61B0">elements</span></div></div></code></pre><div class="copy"><div aria-live="polite"></div><button title="Copy to clipboard" data-copied="Copied!" data-code="$ pyk prog.pyk&#x27;prog.pyk&#x27; 2:6-2:11 Runtime error: the index 5 is outside a list of 2  elements"><div></div></button></div></figure></div>
+<p>The kinds are <code>Lexing error</code>, <code>Parsing error</code>, <code>Module error</code>,
+<code>Name error</code>, <code>Type error</code> and <code>Runtime error</code>. A construct a target
+cannot compile is refused before any code is written, naming the
+target:</p>
+<div class="expressive-code"><figure class="frame is-terminal not-content"><figcaption class="header"><span class="title"></span><span class="sr-only">Terminal window</span></figcaption><pre data-language="sh"><code><div class="ec-line"><div class="code"><span style="--0:#82AAFF;--1:#3B61B0">$</span><span style="--0:#D6DEEB;--1:#403F53"> </span><span style="--0:#ECC48D;--1:#3B61B0">pyk</span><span style="--0:#D6DEEB;--1:#403F53"> </span><span style="--0:#ECC48D;--1:#3B61B0">compile</span><span style="--0:#D6DEEB;--1:#403F53"> </span><span style="--0:#82AAFF;--1:#3B61B0">-t</span><span style="--0:#D6DEEB;--1:#403F53"> </span><span style="--0:#ECC48D;--1:#3B61B0">c</span><span style="--0:#D6DEEB;--1:#403F53"> </span><span style="--0:#ECC48D;--1:#3B61B0">squares.pyk</span></div></div><div class="ec-line"><div class="code"><span style="--0:#82AAFF;--1:#3B61B0">'squares.pyk'</span><span style="--0:#D6DEEB;--1:#403F53"> </span><span style="--0:#ECC48D;--1:#3B61B0">1:5-1:14</span><span style="--0:#D6DEEB;--1:#403F53"> </span><span style="--0:#ECC48D;--1:#3B61B0">Unsupported</span><span style="--0:#D6DEEB;--1:#403F53"> </span><span style="--0:#ECC48D;--1:#3B61B0">by</span><span style="--0:#D6DEEB;--1:#403F53"> </span><span style="--0:#ECC48D;--1:#3B61B0">target</span><span style="--0:#D6DEEB;--1:#403F53"> </span><span style="--0:#D9F5DD;--1:#111111">'</span><span style="--0:#ECC48D;--1:#984E4D">c99</span><span style="--0:#D9F5DD;--1:#111111">'</span><span style="--0:#ECC48D;--1:#3B61B0">:</span><span style="--0:#D6DEEB;--1:#403F53"> </span><span style="--0:#ECC48D;--1:#3B61B0">a</span><span style="--0:#D6DEEB;--1:#403F53"> </span><span style="--0:#ECC48D;--1:#3B61B0">list,</span><span style="--0:#D6DEEB;--1:#403F53"> </span><span style="--0:#ECC48D;--1:#3B61B0">which</span></div></div><div class="ec-line"><div class="code"><span class="indent">  </span><span style="--0:#82AAFF;--1:#3B61B0">needs</span><span style="--0:#D6DEEB;--1:#403F53"> </span><span style="--0:#ECC48D;--1:#3B61B0">a</span><span style="--0:#D6DEEB;--1:#403F53"> </span><span style="--0:#ECC48D;--1:#3B61B0">heap</span><span style="--0:#D6DEEB;--1:#403F53"> </span><span style="--0:#ECC48D;--1:#3B61B0">that</span><span style="--0:#D6DEEB;--1:#403F53"> </span><span style="--0:#ECC48D;--1:#3B61B0">is</span><span style="--0:#D6DEEB;--1:#403F53"> </span><span style="--0:#ECC48D;--1:#3B61B0">freed:</span><span style="--0:#D6DEEB;--1:#403F53"> </span><span style="--0:#ECC48D;--1:#3B61B0">plain</span><span style="--0:#D6DEEB;--1:#403F53"> </span><span style="--0:#ECC48D;--1:#3B61B0">C</span><span style="--0:#D6DEEB;--1:#403F53"> </span><span style="--0:#ECC48D;--1:#3B61B0">has</span><span style="--0:#D6DEEB;--1:#403F53"> </span><span style="--0:#ECC48D;--1:#3B61B0">none,</span><span style="--0:#D6DEEB;--1:#403F53"> </span><span style="--0:#ECC48D;--1:#3B61B0">and</span><span style="--0:#D6DEEB;--1:#403F53"> </span><span style="--0:#ECC48D;--1:#3B61B0">c23-gc</span><span style="--0:#D6DEEB;--1:#403F53"> </span><span style="--0:#ECC48D;--1:#3B61B0">compiles</span><span style="--0:#D6DEEB;--1:#403F53"> </span><span style="--0:#ECC48D;--1:#3B61B0">it</span></div></div></code></pre><div class="copy"><div aria-live="polite"></div><button title="Copy to clipboard" data-copied="Copied!" data-code="$ pyk compile -t c squares.pyk&#x27;squares.pyk&#x27; 1:5-1:14 Unsupported by target &#x27;c99&#x27;: a list, which  needs a heap that is freed: plain C has none, and c23-gc compiles it"><div></div></button></div></figure></div>
+<p>A command-line mistake prints <code>Usage error:</code> and the short usage.</p>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<table><thead><tr><th>Status</th><th>When</th></tr></thead><tbody><tr><td>0</td><td>The program ran to its end, or the command did what it was asked.</td></tr><tr><td>1</td><td>An error in the program (lexing, parsing, a module, a name, a type, a runtime error), a warning made an error by <code>-Werror</code>, a usage error, or a failed <code>--mode test</code>.</td></tr><tr><td><code>code</code></td><td>The program called <code>sys.exit(code)</code>.</td></tr><tr><td>the program’s own</td><td>With <code>--run</code> or <code>-t</code>: the status of the compiled program, or of the build step that failed. 127 if a tool was not found.</td></tr><tr><td>2</td><td>A fault in <code>pyk</code> itself. The message says so; please report it.</td></tr></tbody></table>
+<h2 id="looking-inside-the-compiler">Looking inside the compiler</h2>
+<p>These flags are for people curious about, or working on, the compiler.</p>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<table><thead><tr><th>Flag</th><th>What it does</th></tr></thead><tbody><tr><td><code>--tokens</code></td><td>Print the token stream first.</td></tr><tr><td><code>-t pyking</code></td><td>Compile Pyking to Pyking: the program as the front end understood it, with inferred types and the loops the tail-call pass built.</td></tr><tr><td><code>--symbols</code></td><td>With <code>-t pyking</code>, also print each node’s symbol.</td></tr><tr><td><code>--no-tail-call-opt</code></td><td>Leave tail calls as calls, instead of turning them into loops.</td></tr><tr><td><code>--no-typechecking</code></td><td>Only with <code>pyk compile -t pyking</code>: print the program as parsed, with nothing inferred.</td></tr><tr><td><code>--type-experiment</code></td><td>Check the program with an experimental, partial type checker.</td></tr></tbody></table></div><footer class="sl-flex astro-ddtxxk7k"><div class="meta sl-flex astro-ddtxxk7k"></div><div class="pagination-links print:hidden astro-b5raizh3" dir="ltr"></div></footer></div></div></main></div></div></div></div></body></html>

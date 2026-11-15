@@ -1,0 +1,492 @@
+<!DOCTYPE html><html lang="en" dir="ltr" data-theme="dark" data-has-sidebar class="astro-g5ptsecz"><head><meta charset="utf-8"/><meta name="viewport" content="width=device-width, initial-scale=1"/><title>Pyking in 20 minutes | Pyking</title><link rel="canonical" href="https://pyking.org/getstarted/pyking-in-20-minutes/"/><link rel="sitemap" href="/sitemap-index.xml"/><script src="/v/8e74ca34b133/site/shell.js" data-base data-build="8e74ca34b133" data-sections="[{&quot;key&quot;:&quot;install&quot;,&quot;label&quot;:&quot;Install&quot;,&quot;prefix&quot;:&quot;/install/&quot;},{&quot;key&quot;:&quot;getstarted&quot;,&quot;label&quot;:&quot;Getting started&quot;,&quot;prefix&quot;:&quot;/getstarted/&quot;},{&quot;key&quot;:&quot;documentation&quot;,&quot;label&quot;:&quot;Documentation&quot;,&quot;prefix&quot;:&quot;/documentation/&quot;},{&quot;key&quot;:&quot;libraries&quot;,&quot;label&quot;:&quot;Libraries&quot;,&quot;prefix&quot;:&quot;/libraries/&quot;},{&quot;key&quot;:&quot;playground&quot;,&quot;label&quot;:&quot;Playground&quot;,&quot;prefix&quot;:&quot;/playground/&quot;}]"></script><script type="module" src="/v/8e74ca34b133/site/cells.js"></script><script>try { if (localStorage.getItem('starlight-theme') === null) localStorage.setItem('starlight-theme', 'dark'); } catch (e) {}</script><link rel="shortcut icon" href="/v/8e74ca34b133/site/favicon.svg" type="image/svg+xml"/><meta name="generator" content="Astro v7.3.5"/><meta name="generator" content="Starlight v0.42.5"/><meta property="og:title" content="Pyking in 20 minutes"/><meta property="og:type" content="article"/><meta property="og:url" content="https://pyking.org/getstarted/pyking-in-20-minutes/"/><meta property="og:locale" content="en"/><meta property="og:description" content="A fast tour of Pyking for someone who knows some Python, with examples you can run."/><meta property="og:site_name" content="Pyking"/><meta name="twitter:card" content="summary_large_image"/><meta name="description" content="A fast tour of Pyking for someone who knows some Python, with examples you can run."/><script>
+	window.StarlightThemeProvider = (() => {
+		const storedTheme =
+			typeof localStorage !== 'undefined' && localStorage.getItem('starlight-theme');
+		const theme =
+			storedTheme ||
+			(window.matchMedia('(prefers-color-scheme: light)').matches ? 'light' : 'dark');
+		document.documentElement.dataset.theme = theme === 'light' ? 'light' : 'dark';
+		return {
+			updatePickers(theme = storedTheme || 'auto') {
+				document.querySelectorAll('starlight-theme-select').forEach((picker) => {
+					const select = picker.querySelector('select');
+					if (select) select.value = theme;
+					/** @type {HTMLTemplateElement | null} */
+					const tmpl = document.querySelector(`#theme-icons`);
+					const newIcon = tmpl && tmpl.content.querySelector('.' + theme);
+					if (newIcon) {
+						const oldIcon = picker.querySelector('svg.label-icon');
+						if (oldIcon) {
+							oldIcon.replaceChildren(...newIcon.cloneNode(true).childNodes);
+						}
+					}
+				});
+			},
+		};
+	})();
+</script><template id="theme-icons"><svg aria-hidden="true" class="light astro-hkc32dio" width="16" height="16" viewBox="0 0 24 24" fill="currentColor" style="--sl-icon-size: 1em;"><path d="M5 12a1 1 0 0 0-1-1H3a1 1 0 0 0 0 2h1a1 1 0 0 0 1-1Zm.64 5-.71.71a1 1 0 0 0 0 1.41 1 1 0 0 0 1.41 0l.71-.71A1 1 0 0 0 5.64 17ZM12 5a1 1 0 0 0 1-1V3a1 1 0 0 0-2 0v1a1 1 0 0 0 1 1Zm5.66 2.34a1 1 0 0 0 .7-.29l.71-.71a1 1 0 1 0-1.41-1.41l-.66.71a1 1 0 0 0 0 1.41 1 1 0 0 0 .66.29Zm-12-.29a1 1 0 0 0 1.41 0 1 1 0 0 0 0-1.41l-.71-.71a1.004 1.004 0 1 0-1.43 1.41l.73.71ZM21 11h-1a1 1 0 0 0 0 2h1a1 1 0 0 0 0-2Zm-2.64 6A1 1 0 0 0 17 18.36l.71.71a1 1 0 0 0 1.41 0 1 1 0 0 0 0-1.41l-.76-.66ZM12 6.5a5.5 5.5 0 1 0 5.5 5.5A5.51 5.51 0 0 0 12 6.5Zm0 9a3.5 3.5 0 1 1 0-7 3.5 3.5 0 0 1 0 7Zm0 3.5a1 1 0 0 0-1 1v1a1 1 0 0 0 2 0v-1a1 1 0 0 0-1-1Z"/></svg><svg aria-hidden="true" class="dark astro-hkc32dio" width="16" height="16" viewBox="0 0 24 24" fill="currentColor" style="--sl-icon-size: 1em;"><path d="M21.64 13a1 1 0 0 0-1.05-.14 8.049 8.049 0 0 1-3.37.73 8.15 8.15 0 0 1-8.14-8.1 8.59 8.59 0 0 1 .25-2A1 1 0 0 0 8 2.36a10.14 10.14 0 1 0 14 11.69 1 1 0 0 0-.36-1.05Zm-9.5 6.69A8.14 8.14 0 0 1 7.08 5.22v.27a10.15 10.15 0 0 0 10.14 10.14 9.784 9.784 0 0 0 2.1-.22 8.11 8.11 0 0 1-7.18 4.32v-.04Z"/></svg><svg aria-hidden="true" class="auto astro-hkc32dio" width="16" height="16" viewBox="0 0 24 24" fill="currentColor" style="--sl-icon-size: 1em;"><path d="M21 14h-1V7a3 3 0 0 0-3-3H7a3 3 0 0 0-3 3v7H3a1 1 0 0 0-1 1v2a3 3 0 0 0 3 3h14a3 3 0 0 0 3-3v-2a1 1 0 0 0-1-1ZM6 7a1 1 0 0 1 1-1h10a1 1 0 0 1 1 1v7H6V7Zm14 10a1 1 0 0 1-1 1H5a1 1 0 0 1-1-1v-1h16v1Z"/></svg></template><link rel="stylesheet" href="/_astro/print.ehPL0gv-.css" media="print"><link rel="stylesheet" href="/_astro/middleware.DYJDcmyo.css"><script type="module" src="/_astro/page.Dwipeu-R.js"></script></head><body class="astro-g5ptsecz"><a class="sl-skip-link astro-qb7clj6f" href="#_top">Skip to content</a><div class="page sl-flex astro-yntsjkba"><header class="header astro-yntsjkba"><div class="pyking-header"><div class="pyking-header-left"><a href="/" class="site-title sl-flex astro-6rvad3va"><img class="astro-6rvad3va" alt="Pyking" src="/_astro/logo.C9hvHOpV.svg" width="64" height="64"><span class="astro-6rvad3va" translate="no">Pyking</span></a><nav class="pyking-nav" aria-label="Sections"><a href="/install/">Install</a><a href="/getstarted/pyking-in-20-minutes/" aria-current="page">Getting started</a><a href="/documentation/language/">Documentation</a><a href="/libraries/">Libraries</a><a href="/playground/">Playground</a></nav></div><div class="pyking-header-right print:hidden"><site-search class=" astro-b5kgnn7o" data-translations="{&quot;placeholder&quot;:&quot;Search&quot;}"><button data-open-modal disabled aria-label="Search" aria-keyshortcuts="Control+K" class="astro-b5kgnn7o"><svg aria-hidden="true" class="astro-b5kgnn7o astro-hkc32dio" width="16" height="16" viewBox="0 0 24 24" fill="currentColor" style="--sl-icon-size: 1em;"><path d="M21.71 20.29 18 16.61A9 9 0 1 0 16.61 18l3.68 3.68a.999.999 0 0 0 1.42 0 1 1 0 0 0 0-1.39ZM11 18a7 7 0 1 1 0-14 7 7 0 0 1 0 14Z"/></svg><span class="sl-hidden md:sl-block astro-b5kgnn7o" aria-hidden="true">Search</span><kbd class="sl-hidden md:sl-flex astro-b5kgnn7o" style="display: none;"><kbd class="astro-b5kgnn7o">Ctrl</kbd><kbd class="astro-b5kgnn7o">K</kbd></kbd></button><dialog style="padding:0" aria-label="Search" class="astro-b5kgnn7o"><div class="dialog-frame sl-flex astro-b5kgnn7o"><button data-close-modal class="sl-flex md:sl-hidden astro-b5kgnn7o">Cancel</button><div class="search-container astro-b5kgnn7o"><div id="starlight__search" class="astro-b5kgnn7o"></div></div></div></dialog></site-search><script>
+	(() => {
+		const openBtn = document.querySelector('button[data-open-modal]');
+		const shortcut = openBtn?.querySelector('kbd');
+		if (!openBtn || !(shortcut instanceof HTMLElement)) return;
+		const platformKey = shortcut.querySelector('kbd');
+		if (platformKey && /(Mac|iPhone|iPod|iPad)/i.test(navigator.platform)) {
+			platformKey.textContent = '⌘';
+			openBtn.setAttribute('aria-keyshortcuts', 'Meta+K');
+		}
+		shortcut.style.display = '';
+	})();
+</script><script type="module" src="/_astro/Search.astro_astro_type_script_index_0_lang.Bumivpjo.js"></script><div class="sl-hidden md:sl-flex"><starlight-theme-select><label style="--sl-select-width: 6.25em" class="astro-2z5xp7gb"><span class="sr-only astro-2z5xp7gb">Select theme</span><svg aria-hidden="true" class="icon label-icon astro-2z5xp7gb astro-hkc32dio" width="16" height="16" viewBox="0 0 24 24" fill="currentColor" style="--sl-icon-size: 1em;"><path d="M21 14h-1V7a3 3 0 0 0-3-3H7a3 3 0 0 0-3 3v7H3a1 1 0 0 0-1 1v2a3 3 0 0 0 3 3h14a3 3 0 0 0 3-3v-2a1 1 0 0 0-1-1ZM6 7a1 1 0 0 1 1-1h10a1 1 0 0 1 1 1v7H6V7Zm14 10a1 1 0 0 1-1 1H5a1 1 0 0 1-1-1v-1h16v1Z"/></svg><select autocomplete="off" class="astro-2z5xp7gb"><option value="dark" class="astro-2z5xp7gb">Dark</option><option value="light" class="astro-2z5xp7gb">Light</option><option value="auto" selected class="astro-2z5xp7gb">Auto</option></select><svg aria-hidden="true" class="icon caret astro-2z5xp7gb astro-hkc32dio" width="16" height="16" viewBox="0 0 24 24" fill="currentColor" style="--sl-icon-size: 1em;"><path d="M17 9.17a1 1 0 0 0-1.41 0L12 12.71 8.46 9.17a1 1 0 1 0-1.41 1.42l4.24 4.24a1.002 1.002 0 0 0 1.42 0L17 10.59a1.002 1.002 0 0 0 0-1.42Z"/></svg></label></starlight-theme-select><script>
+	StarlightThemeProvider.updatePickers();
+</script><script type="module">var e=`starlight-theme`,t=e=>e===`auto`||e===`dark`||e===`light`?e:`auto`,n=()=>t(typeof localStorage<`u`&&localStorage.getItem(e));function r(t){typeof localStorage<`u`&&localStorage.setItem(e,t===`light`||t===`dark`?t:``)}var i=()=>matchMedia(`(prefers-color-scheme: light)`).matches?`light`:`dark`;function a(e){StarlightThemeProvider.updatePickers(e),document.documentElement.dataset.theme=e===`auto`?i():e,r(e)}matchMedia(`(prefers-color-scheme: light)`).addEventListener(`change`,()=>{n()===`auto`&&a(`auto`)});var o=class extends HTMLElement{constructor(){super(),a(n()),this.querySelector(`select`)?.addEventListener(`change`,e=>{e.currentTarget instanceof HTMLSelectElement&&a(t(e.currentTarget.value))})}};customElements.define(`starlight-theme-select`,o);</script></div><a class="pyking-github" href="https://github.com/pyking-lang" title="Pyking on GitHub"><span class="sr-only">GitHub</span><svg aria-hidden="true" viewBox="0 0 24 24" width="22" height="22" fill="currentColor"><path d="M12 .3a12 12 0 0 0-3.8 23.4c.6.1.8-.3.8-.6v-2c-3.3.7-4-1.6-4-1.6-.6-1.4-1.4-1.8-1.4-1.8-1-.7.1-.7.1-.7 1.2.1 1.8 1.2 1.8 1.2 1 1.8 2.8 1.3 3.5 1 0-.8.4-1.3.7-1.6-2.7-.3-5.5-1.3-5.5-6 0-1.2.5-2.3 1.3-3.1-.2-.4-.6-1.6 0-3.2 0 0 1-.3 3.4 1.2a11.5 11.5 0 0 1 6 0c2.3-1.5 3.3-1.2 3.3-1.2.6 1.6.2 2.8.1 3.2.8.8 1.3 1.9 1.3 3.1 0 4.6-2.8 5.6-5.5 5.9.5.4.9 1.1.9 2.2v3.3c0 .3.1.7.8.6A12 12 0 0 0 12 .3"></path></svg></a></div></div></header><nav class="sidebar print:hidden astro-yntsjkba" aria-label="Main"><button popovertarget="starlight__sidebar" class="sl-menu-button sl-flex md:sl-hidden print:hidden astro-r2osgdlg"><svg aria-hidden="true" class="open-menu astro-r2osgdlg astro-hkc32dio" width="16" height="16" viewBox="0 0 24 24" fill="currentColor" style="--sl-icon-size: 1em;"><path d="M3 8h18a1 1 0 1 0 0-2H3a1 1 0 0 0 0 2Zm18 8H3a1 1 0 0 0 0 2h18a1 1 0 0 0 0-2Zm0-5H3a1 1 0 0 0 0 2h18a1 1 0 0 0 0-2Z"/></svg><svg aria-hidden="true" class="close-menu astro-r2osgdlg astro-hkc32dio" width="16" height="16" viewBox="0 0 24 24" fill="currentColor" style="--sl-icon-size: 1em;"><path d="m13.41 12 6.3-6.29a1.004 1.004 0 1 0-1.42-1.42L12 10.59l-6.29-6.3a1.004 1.004 0 0 0-1.42 1.42l6.3 6.29-6.3 6.29a1 1 0 0 0 0 1.42.998.998 0 0 0 1.42 0l6.29-6.3 6.29 6.3a.999.999 0 0 0 1.42 0 1 1 0 0 0 0-1.42L13.41 12Z"/></svg><span class="sr-only astro-r2osgdlg">Menu</span></button><script type="module">var e=class extends HTMLElement{constructor(){super();let e=matchMedia(`(min-width: 50em)`),t=()=>{this.popover=e.matches?null:`auto`};t(),e.addEventListener(`change`,()=>t()),this.addEventListener(`toggle`,({newState:e})=>this.trapFocus(e===`open`))}trapFocus(e){document.querySelectorAll(`.main-frame, .sl-skip-link`).forEach(t=>{t.toggleAttribute(`inert`,e)})}};customElements.define(`sl-sidebar-pane`,e);</script><script type="module">var e=class extends HTMLElement{constructor(){super();let e=this.querySelector(`select`);e&&(e.addEventListener(`change`,e=>{e.currentTarget instanceof HTMLSelectElement&&(window.location.pathname=e.currentTarget.value)}),window.addEventListener(`pageshow`,t=>{if(!t.persisted)return;let n=e.querySelector(`option[selected]`)?.index;n!==e.selectedIndex&&(e.selectedIndex=n??0)}))}};customElements.define(`starlight-lang-select`,e);</script><sl-sidebar-pane popover id="starlight__sidebar" class="sidebar-pane astro-yntsjkba"><div class="sidebar-content sl-flex astro-yntsjkba"><nav class="pyking-sidebar" aria-label="Getting started"><p class="pyking-sidebar-title">Getting started</p><ul class="pyking-sidebar-main"><li class="pyking-sidebar-open"><a href="/getstarted/pyking-in-20-minutes/" aria-current="page">Pyking in 20 minutes</a><ul class="pyking-sidebar-sub"><li><a href="#what-pyking-is">What Pyking is</a></li><li><a href="#hello-world-and-running-a-program">Hello, world, and running a program</a></li><li><a href="#three-modes-chosen-with-use">Three modes, chosen with use</a></li><li><a href="#language-tour">Language tour</a></li><li><a href="#input-and-output">Input and output</a></li><li><a href="#a-first-tinyweb-program">A first tinyweb program</a></li><li><a href="#where-next">Where next</a></li></ul></li><li><a href="/getstarted/setting-up/">Setting up Pyking</a></li><li><a href="/getstarted/debugging/">Debugging</a></li></ul></nav><div class="md:sl-hidden"><div class="mobile-preferences sl-flex astro-p4azlveh"><div class="social-icons astro-p4azlveh"></div><starlight-theme-select><label style="--sl-select-width: 6.25em" class="astro-2z5xp7gb"><span class="sr-only astro-2z5xp7gb">Select theme</span><svg aria-hidden="true" class="icon label-icon astro-2z5xp7gb astro-hkc32dio" width="16" height="16" viewBox="0 0 24 24" fill="currentColor" style="--sl-icon-size: 1em;"><path d="M21 14h-1V7a3 3 0 0 0-3-3H7a3 3 0 0 0-3 3v7H3a1 1 0 0 0-1 1v2a3 3 0 0 0 3 3h14a3 3 0 0 0 3-3v-2a1 1 0 0 0-1-1ZM6 7a1 1 0 0 1 1-1h10a1 1 0 0 1 1 1v7H6V7Zm14 10a1 1 0 0 1-1 1H5a1 1 0 0 1-1-1v-1h16v1Z"/></svg><select autocomplete="off" class="astro-2z5xp7gb"><option value="dark" class="astro-2z5xp7gb">Dark</option><option value="light" class="astro-2z5xp7gb">Light</option><option value="auto" selected class="astro-2z5xp7gb">Auto</option></select><svg aria-hidden="true" class="icon caret astro-2z5xp7gb astro-hkc32dio" width="16" height="16" viewBox="0 0 24 24" fill="currentColor" style="--sl-icon-size: 1em;"><path d="M17 9.17a1 1 0 0 0-1.41 0L12 12.71 8.46 9.17a1 1 0 1 0-1.41 1.42l4.24 4.24a1.002 1.002 0 0 0 1.42 0L17 10.59a1.002 1.002 0 0 0 0-1.42Z"/></svg></label></starlight-theme-select><script>
+	StarlightThemeProvider.updatePickers();
+</script></div></div></div></sl-sidebar-pane></nav><div class="main-frame astro-yntsjkba"><script type="module">var e=document.getElementById(`starlight__sidebar`),t=e?.querySelector(`sl-sidebar-state-persist`),n=`sl-sidebar-state`,r=()=>{let r=[],i=t?.dataset.hash||``;try{let e=sessionStorage.getItem(n),t=JSON.parse(e||`{}`);Array.isArray(t.open)&&t.hash===i&&(r=t.open)}catch{}return{hash:i,open:r,scroll:e?.scrollTop||0}},i=e=>{try{sessionStorage.setItem(n,JSON.stringify(e))}catch{}},a=()=>i(r()),o=(e,t)=>{let n=r();n.open[t]=e,i(n)};t?.addEventListener(`click`,e=>{if(!(e.target instanceof Element))return;let t=e.target.closest(`summary`)?.closest(`details`);if(!t)return;let n=t.querySelector(`sl-sidebar-restore`),r=parseInt(n?.dataset.index||``);isNaN(r)||o(!t.open,r)}),addEventListener(`visibilitychange`,()=>{document.visibilityState===`hidden`&&a()});</script><div class="lg:sl-flex astro-lrzkfocr"><div class="main-pane astro-lrzkfocr"><main data-pagefind-body class="astro-g5ptsecz" lang="en" dir="ltr"><div class="content-panel astro-a7po4psb"><div class="sl-container astro-a7po4psb"><h1 id="_top" class="astro-bebwqqxs">Pyking in 20 minutes</h1></div></div><div class="content-panel astro-a7po4psb"><div class="sl-container astro-a7po4psb"><div class="sl-markdown-content"><p>This page is a fast tour for someone who knows some Python. Every
+example is a whole program: press <strong>▶</strong> to run it, or edit it first.
+Each one runs on its own, so a name defined in one example is not
+visible in the next.</p>
+<h2 id="what-pyking-is">What Pyking is</h2>
+<ul>
+<li>
+<p><strong>A small, statically typed, Python-like language.</strong> It has Python’s
+syntax, but every block is a scope, and a name bound with <code>=</code> never
+changes.</p>
+</li>
+<li>
+<p><strong>Types are inferred.</strong> Annotations are optional, and every program
+is type-checked before it runs.</p>
+</li>
+<li>
+<p><strong>One program, many targets.</strong> <code>pyk prog.pyk</code> runs a program with the
+interpreter. <code>pyk compile</code> turns it into another language:</p>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<table><thead><tr><th>family</th><th>target</th><th>runs with</th></tr></thead><tbody><tr><td>Python</td><td><code>python</code></td><td><code>python3</code></td></tr><tr><td>JavaScript</td><td><code>node</code>, <code>web</code>, <code>iweb</code></td><td><code>node</code>, or a browser</td></tr><tr><td>C</td><td><code>c</code>, and <code>c-gc</code> with a garbage collector</td><td>a C compiler</td></tr><tr><td>Java</td><td><code>java</code></td><td>a JDK</td></tr><tr><td>OCaml</td><td><code>ocaml</code></td><td><code>ocamlopt</code></td></tr></tbody></table>
+<p>See <a href="/documentation/targets/">Compiler targets</a> for every version and
+what each one supports.</p>
+</li>
+<li>
+<p><strong>Tools.</strong> A REPL, a <a href="/playground/">playground</a> in the browser (the
+compiler runs in the page, nothing runs on a server), notebooks for
+teaching, and a language server and a debugger for the usual editors.</p>
+</li>
+<li>
+<p><strong>Libraries.</strong> The <a href="/libraries/">standard library</a> comes with Pyking,
+including <a href="/libraries/tinyweb/"><code>tinyweb</code></a> for graphics, sound, games
+and web pages.</p>
+</li>
+</ul>
+<p><strong>Where to try it.</strong> Open the <a href="/playground/">playground</a>, or run
+<code>pyk playground</code> after <a href="/install/">installing Pyking</a> to serve it on
+your own machine.</p>
+<h2 id="hello-world-and-running-a-program">Hello, world, and running a program</h2>
+<p><code>print</code> writes its arguments separated by spaces. A string shows a
+value inside it with <code>$name</code> or <code>${expression}</code>. <code>+</code> joins two
+strings, and <code>string(n)</code> turns a number into a string.</p>
+<div class="pkn-notebook pkn-embedded not-content"><div class="pkn-cell"><pre class="pkn-cell-fallback"><code>name = "world"
+n = 3
+print("Hello,", name)
+print("Hello, $name! ${n * 2} times.")
+print("Hello, " + name + "! " + string(n) + " times.")</code></pre></div></div>
+<p><code>printsl</code> prints on the same line, with no newline after it, and
+<code>eprint</code> prints to standard error; <code>eprintsl</code> does both.</p>
+<div class="pkn-notebook pkn-embedded not-content"><div class="pkn-cell"><pre class="pkn-cell-fallback"><code>printsl("one, ")
+print("two")
+eprint("this line goes to standard error")</code></pre></div></div>
+<p>Save a program as <code>hello.pyk</code>, then run it with the interpreter, or
+compile it to Python and run that:</p>
+<div class="expressive-code"><link rel="stylesheet" href="/_astro/ec.w36nc.css"><script type="module" src="/_astro/ec.0vx5m.js"></script><figure class="frame is-terminal not-content"><figcaption class="header"><span class="title"></span><span class="sr-only">Terminal window</span></figcaption><pre data-language="sh"><code><div class="ec-line"><div class="code"><span style="--0:#82AAFF;--1:#3B61B0">pyk</span><span style="--0:#D6DEEB;--1:#403F53"> </span><span style="--0:#ECC48D;--1:#3B61B0">hello.pyk</span></div></div><div class="ec-line"><div class="code"><span style="--0:#82AAFF;--1:#3B61B0">pyk</span><span style="--0:#D6DEEB;--1:#403F53"> </span><span style="--0:#ECC48D;--1:#3B61B0">compile</span><span style="--0:#D6DEEB;--1:#403F53"> </span><span style="--0:#ECC48D;--1:#3B61B0">hello.pyk</span><span style="--0:#D6DEEB;--1:#403F53"> </span><span style="--0:#82AAFF;--1:#3B61B0">--target</span><span style="--0:#D6DEEB;--1:#403F53"> </span><span style="--0:#ECC48D;--1:#3B61B0">python</span><span style="--0:#D6DEEB;--1:#403F53"> </span><span style="--0:#82AAFF;--1:#3B61B0">--run</span></div></div></code></pre><div class="copy"><div aria-live="polite"></div><button title="Copy to clipboard" data-copied="Copied!" data-code="pyk hello.pykpyk compile hello.pyk --target python --run"><div></div></button></div></figure></div>
+<h2 id="three-modes-chosen-with-use">Three modes, chosen with <code>use</code></h2>
+<p>A module is functional and immutable unless its first lines say
+otherwise. <code>use mutation</code> turns on mutable variables and collections,
+and <code>use objects</code> turns on classes and interfaces. A construct from a
+mode that is not turned on is a syntax error that names the <code>use</code> line
+it needs:</p>
+<div class="pkn-notebook pkn-embedded not-content"><div class="pkn-cell" data-error=""><pre class="pkn-cell-fallback"><code>var count = 0
+count := count + 1
+print(count)</code></pre></div></div>
+<p>This is refused with <code>'var' declares a mutable variable, which needs 'use mutation' at the top of this module</code>. A <code>use</code> line holds for its
+own module only: importing a module that uses mutation does not turn
+mutation on in the importer.</p>
+<h3 id="immutable-the-default">Immutable: the default</h3>
+<p>With no <code>use</code> line, <code>=</code> binds a name to a value, functions recurse, and
+<code>match</code> takes values apart.</p>
+<div class="pkn-notebook pkn-embedded not-content"><div class="pkn-cell"><pre class="pkn-cell-fallback"><code>datatype Shape:
+    Circle(radius: Float)
+    Rect(width: Float, height: Float)
+
+def area(s: Shape) -> Float:
+    match s:
+        case Circle(r): 3.14159 * r * r
+        case Rect(w, h): w * h
+
+def total(shapes: [Shape]) -> Float:
+    match shapes:
+        case []: 0.0
+        case [s, ..rest]: area(s) + total(rest)
+
+shapes = [Circle(1.0), Rect(2.0, 3.0), Rect(1.0, 1.0)]
+print([area(s) for s in shapes if area(s) > 2.0])
+print(total(shapes))</code></pre></div></div>
+<p>Writing <code>x = 2</code> after <code>x = 1</code> makes a new binding of <code>x</code>; it does not
+change the old one. A binding made inside a block is gone after the
+block, so the <code>x</code> after the <code>if</code> is the outer one:</p>
+<div class="pkn-notebook pkn-embedded not-content"><div class="pkn-cell"><pre class="pkn-cell-fallback"><code>x = 1
+x = x + 1
+if x > 0:
+    x = 10
+    print("inside the block", x)
+print("after it", x)</code></pre></div></div>
+<h3 id="mutable-use-mutation">Mutable: <code>use mutation</code></h3>
+<p><code>var</code> declares a variable that changes, and <code>:=</code> updates it. <code>+=</code> and
+the other compound assignments work too. Arrays, DynArrays (arrays that
+grow), MutMaps and <code>mutable struct</code>s are written in place.</p>
+<div class="pkn-notebook pkn-embedded not-content"><div class="pkn-cell"><pre class="pkn-cell-fallback"><code>use mutation
+
+var n = 27
+var steps = 0
+while n != 1:
+    n := if n % 2 == 0 then n / 2 else 3 * n + 1
+    steps += 1
+print("27 reaches 1 in", steps, "steps")
+
+squares = array(5, 0)
+for i in range(5):
+    squares[i] := i * i
+print(squares)
+
+evens: DynArray(Int) = dynarray()
+for i in range(10):
+    if i % 2 == 0:
+        push(evens, i)
+print(evens, len(evens))
+
+counts: MutMap(String, Int) = mutmap()
+for word in ["the", "cat", "and", "the", "hat"]:
+    counts[word] := get(counts, word, 0) + 1
+print(counts["the"], keys(counts))
+
+mutable struct Counter(name: String, count: Int = 0)
+
+c = Counter("clicks")
+c.count += 1
+c.count += 1
+print(c)</code></pre></div></div>
+<p>Even with <code>use mutation</code>, a name bound with <code>=</code> never changes. This
+example is meant to be refused:</p>
+<div class="pkn-notebook pkn-embedded not-content"><div class="pkn-cell" data-error=""><pre class="pkn-cell-fallback"><code>use mutation
+
+count = 1
+count := count + 1</code></pre></div></div>
+<p>An array, a DynArray, a MutMap and a <code>mutable struct</code> are shared: <code>b = a</code> gives the same one a second name, so a change through <code>b</code> is seen
+through <code>a</code>. <code>copy(a)</code> makes a new one holding the same elements or
+fields, and <code>deepcopy(a)</code> one that shares nothing writable with <code>a</code>,
+however deep:</p>
+<div class="pkn-notebook pkn-embedded not-content"><div class="pkn-cell"><pre class="pkn-cell-fallback"><code>use mutation
+
+mutable struct Point(x: Int, y: Int)
+
+a = array([Point(1, 1), Point(2, 2)])
+b = a                  # the same array
+c = copy(a)            # a new array, holding the same points
+d = deepcopy(a)        # a new array of new points
+
+b[0] := Point(0, 0)    # seen through a, since b is a
+c[1].x := 20           # seen through a: the point is shared
+d[1].y := 30           # seen nowhere else
+print(a)               # array([Point(0, 0), Point(20, 2)])
+print(c, d)</code></pre></div></div>
+<p><code>use mutation, pointers</code> adds C-style pointers, for teaching how
+memory is addressed. See <a href="/documentation/language/mutable-state/">Mutable state</a>.</p>
+<h3 id="objects-use-objects">Objects: <code>use objects</code></h3>
+<p>Classes and interfaces follow Java’s semantics in Python’s spelling:
+objects are shared, a method is chosen when the program runs, and
+methods take an explicit <code>self</code>. A class’s header lists its fields,
+which are also its constructor’s parameters.</p>
+<div class="pkn-notebook pkn-embedded not-content"><div class="pkn-cell"><pre class="pkn-cell-fallback"><code>use objects
+
+interface Shape:
+    def area(self) -> Float
+    def name(self) -> String
+
+class Circle(radius: Float) implements Shape:
+    override def area(self) -> Float:
+        3.14159 * self.radius * self.radius
+    override def name(self) -> String:
+        "circle"
+
+class Rect(width: Float, height: Float) implements Shape:
+    override def area(self) -> Float:
+        self.width * self.height
+    override def name(self) -> String:
+        "rectangle"
+
+shapes: [Shape] = [Circle(1.0), Rect(2.0, 3.0)]
+for s in shapes:
+    print(s.name(), s.area())</code></pre></div></div>
+<p>A field without <code>var</code> never changes, so an object of a class without
+<code>var</code> fields is immutable, and a method “changing” it answers a new one.
+A header field written <code>private</code> is one only the class’s own methods
+read and give, so everywhere else the class is made without it — here
+<code>Group()</code> — and every group is made by <code>add</code>, which keeps its names
+unique:</p>
+<div class="pkn-notebook pkn-embedded not-content"><div class="pkn-cell"><pre class="pkn-cell-fallback"><code>use objects
+
+class Group(private names: [String] = []):
+    def add(self, name: String) -> Group:
+        if any(lam n. n == name, self.names) then self else Group(self.names + [name])
+    def size(self) -> Int:
+        len(self.names)
+
+print(Group().add("ada").add("bo").add("ada").size())    # 2</code></pre></div></div>
+<p><code>public class</code> and <code>public interface</code> make a class another module may
+use, implement and extend: <code>class Square(side: Float) extends shapes.Rect(side, side):</code> in a module that imports <code>shapes</code>. See
+<a href="/documentation/language/objects/">Objects</a>.</p>
+<h2 id="language-tour">Language tour</h2>
+<h3 id="values-and-types">Values and types</h3>
+<p>The basic types are <code>Int</code>, <code>Float</code>, <code>String</code>, <code>Char</code> and <code>Bool</code>. A
+<code>Char</code> is written in single quotes, a String in double quotes, and the
+Bools are <code>true</code> and <code>false</code>. Nothing is converted implicitly:
+<code>float(n)</code>, <code>int(x)</code> and <code>string(v)</code> convert.</p>
+<div class="pkn-notebook pkn-embedded not-content"><div class="pkn-cell"><pre class="pkn-cell-fallback"><code>n = 7
+half = float(n) / 2.0
+name = "Ada"
+first = name[0]
+ok = n > 5 and first == 'A'
+print(n, half, name, first, ok)
+print("n is " + string(n), int("42") + 1, int(3.9))</code></pre></div></div>
+<p><code>1 + 2.0</code> and <code>"n = " + 5</code> are type errors, with a message that says
+which conversion to write.</p>
+<h3 id="functions">Functions</h3>
+<p><code>def</code> defines a function. Its value is its last expression, or what it
+<code>return</code>s, and a body of one expression can go on the header’s line.
+Parameters may have defaults and be passed by name. Where there are no
+annotations, the checker infers the most general type, so <code>twice</code> works
+for any function whose argument and result have the same type.</p>
+<div class="pkn-notebook pkn-embedded not-content"><div class="pkn-cell"><pre class="pkn-cell-fallback"><code>def greet(name: String, greeting = "Hello") -> String:
+    greeting + ", " + name + "!"
+
+def area(width: Float, height: Float) -> Float: width * height
+
+def twice(f, x): f(f(x))
+
+print(greet("Ada"), greet("Bob", greeting = "Hi"))
+print(area(height = 2.0, width = 3.0))
+print(twice(lam n. n * 10, 3), twice(lam s. s + "!", "hey"))</code></pre></div></div>
+<h3 id="lambdas-if-expressions-and-let">Lambdas, <code>if</code> expressions and <code>let</code></h3>
+<p>A lambda is <code>lam x. x + 1</code>. <code>if c then a else b</code> is an expression, and
+<code>let x = e in body</code> binds a name for one expression.</p>
+<div class="pkn-notebook pkn-embedded not-content"><div class="pkn-cell"><pre class="pkn-cell-fallback"><code>inc = lam x. x + 1
+add = lam (a, b). a + b
+n = 7
+parity = if n % 2 == 0 then "even" else "odd"
+y = let sq = n * n in sq + 1
+print(inc(1), add(2, 3), parity, y)</code></pre></div></div>
+<h3 id="lists-tuples-and-comprehensions">Lists, tuples and comprehensions</h3>
+<p>Lists are written <code>[...]</code> and joined with <code>+</code>. A tuple is taken apart
+with <code>=</code>. <code>fmap</code>, <code>filter</code> and <code>foldl</code> work on lists.</p>
+<div class="pkn-notebook pkn-embedded not-content"><div class="pkn-cell"><pre class="pkn-cell-fallback"><code>xs = [3, 1, 4, 1, 5, 9]
+pair = ("Ada", 36)
+(who, age) = pair
+print(xs[0], len(xs), xs + [2, 6], who, age)
+print([x * x for x in xs if x > 2])
+print(fmap(lam x. x * 10, xs))
+print(filter(lam x. x % 2 == 1, xs))
+print(foldl(lam (acc, x). acc + x, 0, xs))</code></pre></div></div>
+<h3 id="datatypes-structs-and-match">Datatypes, structs and <code>match</code></h3>
+<p>A <code>datatype</code> lists its constructors. A <code>struct</code> is a datatype with one
+constructor, and <code>Point(x = 10, ..p)</code> copies <code>p</code> with one field
+changed. <code>match</code> patterns may be or-patterns (<code>|</code>), have guards
+(<code>if</code>), and bind the whole value with <code>as</code>. A <code>match</code> that misses a
+case is refused.</p>
+<div class="pkn-notebook pkn-embedded not-content"><div class="pkn-cell"><pre class="pkn-cell-fallback"><code>struct Point(x: Int, y: Int = 0)
+
+datatype Token:
+    Number(value: Int)
+    Plus
+    Minus
+    Word(text: String)
+
+def describe(t: Token) -> String:
+    match t:
+        case Plus | Minus: "an operator"
+        case Number(n) if n &#x3C; 0: "a negative number"
+        case Number(n): "the number " + string(n)
+        case Word(_) as w: "a word: " + string(w)
+
+p = Point(3, 4)
+q = Point(x = 10, ..p)
+print(p, q, p.x + q.y, Point(1))
+print([describe(t) for t in [Number(5), Number(-2), Minus, Word("hi")]])</code></pre></div></div>
+<h3 id="option-and-result"><code>Option</code> and <code>Result</code></h3>
+<p>Pyking has no null and no exceptions to catch. A value that may be
+missing is an <code>Option</code>: <code>Some(v)</code> or <code>None</code>. A computation that
+may fail gives a <code>Result</code>: <code>Ok(v)</code> or <code>Error(e)</code>.</p>
+<div class="pkn-notebook pkn-embedded not-content"><div class="pkn-cell"><pre class="pkn-cell-fallback"><code>import option
+
+def find_age(name: String, people: [(String, Int)]) -> Option(Int):
+    match people:
+        case []: None
+        case [(n, age), ..rest]: if n == name then Some(age) else find_age(name, rest)
+
+def safe_div(a: Int, b: Int) -> Result(Int, String):
+    if b == 0 then Error("division by zero") else Ok(a / b)
+
+people = [("Ada", 36), ("Bob", 41)]
+print(find_age("Bob", people), find_age("Cy", people))
+print(option.unwrap_or(find_age("Cy", people), 0))
+match safe_div(10, 0):
+    case Ok(q): print("quotient", q)
+    case Error(e): print("error:", e)</code></pre></div></div>
+<h3 id="the-loop-loop">The <code>loop</code> loop</h3>
+<p><code>loop</code> carries values from one turn to the next, with no mutable
+variable. Each turn ends with the next values, <code>break</code> stops it, and
+the loop’s value is what it carried last.</p>
+<div class="pkn-notebook pkn-embedded not-content"><div class="pkn-cell"><pre class="pkn-cell-fallback"><code>total = loop sum = 0 for x in [1, 2, 3, 4]:
+    sum + x
+
+(a, b) = loop a, b = 0, 1:
+    if a > 50:
+        break
+    (b, a + b)
+
+print(total, a, b)</code></pre></div></div>
+<h3 id="modules">Modules</h3>
+<p>A file is a module. Its names are private unless marked <code>public</code>.
+<code>import m</code> reaches them as <code>m.name</code>, and <code>from m import name</code> brings
+one in unqualified. Two files, <code>shapes.pyk</code> and <code>main.pyk</code>, beside each
+other:</p>
+<div class="expressive-code"><figure class="frame has-title not-content"><figcaption class="header"><span class="title">shapes.pyk</span></figcaption><pre data-language="pyking"><code><div class="ec-line"><div class="code"><span style="--0:#C792EA;--1:#8844AE">def</span><span style="--0:#D6DEEB;--1:#403F53"> </span><span style="--0:#82AAFF;--1:#3B61B0">times</span><span style="--0:#D6DEEB;--1:#403F53">(a: </span><span style="--0:#C792EA;--1:#8844AE">Int</span><span style="--0:#D6DEEB;--1:#403F53">, b: </span><span style="--0:#C792EA;--1:#8844AE">Int</span><span style="--0:#D6DEEB;--1:#403F53">) </span><span style="--0:#7FDBCA;--1:#096E72">-></span><span style="--0:#D6DEEB;--1:#403F53"> </span><span style="--0:#C792EA;--1:#8844AE">Int</span><span style="--0:#D6DEEB;--1:#403F53">: a </span><span style="--0:#7FDBCA;--1:#096E72">*</span><span style="--0:#D6DEEB;--1:#403F53"> b     </span><span style="--0:#919F9F;--1:#5F636F"># private to shapes.pyk</span></div></div><div class="ec-line"><div class="code"><span style="--0:#C792EA;--1:#8844AE">public</span><span style="--0:#D6DEEB;--1:#403F53"> </span><span style="--0:#C792EA;--1:#8844AE">def</span><span style="--0:#D6DEEB;--1:#403F53"> </span><span style="--0:#82AAFF;--1:#3B61B0">square</span><span style="--0:#D6DEEB;--1:#403F53">(x: </span><span style="--0:#C792EA;--1:#8844AE">Int</span><span style="--0:#D6DEEB;--1:#403F53">) </span><span style="--0:#7FDBCA;--1:#096E72">-></span><span style="--0:#D6DEEB;--1:#403F53"> </span><span style="--0:#C792EA;--1:#8844AE">Int</span><span style="--0:#D6DEEB;--1:#403F53">: times(x, x)</span></div></div></code></pre><div class="copy"><div aria-live="polite"></div><button title="Copy to clipboard" data-copied="Copied!" data-code="def times(a: Int, b: Int) -> Int: a * b     # private to shapes.pykpublic def square(x: Int) -> Int: times(x, x)"><div></div></button></div></figure></div>
+<div class="expressive-code"><figure class="frame has-title not-content"><figcaption class="header"><span class="title">main.pyk</span></figcaption><pre data-language="pyking"><code><div class="ec-line"><div class="code"><span style="--0:#C792EA;--1:#8844AE">import</span><span style="--0:#D6DEEB;--1:#403F53"> shapes</span></div></div><div class="ec-line"><div class="code"><span style="--0:#C792EA;--1:#8844AE">from</span><span style="--0:#D6DEEB;--1:#403F53"> shapes </span><span style="--0:#C792EA;--1:#8844AE">import</span><span style="--0:#D6DEEB;--1:#403F53"> square</span></div></div><div class="ec-line"><div class="code">
+</div></div><div class="ec-line"><div class="code"><span style="--0:#C5E478;--1:#3B61B0">print</span><span style="--0:#D6DEEB;--1:#403F53">(shapes.square(</span><span style="--0:#F78C6C;--1:#AA0982">3</span><span style="--0:#D6DEEB;--1:#403F53">), square(</span><span style="--0:#F78C6C;--1:#AA0982">4</span><span style="--0:#D6DEEB;--1:#403F53">))</span></div></div></code></pre><div class="copy"><div aria-live="polite"></div><button title="Copy to clipboard" data-copied="Copied!" data-code="import shapesfrom shapes import squareprint(shapes.square(3), square(4))"><div></div></button></div></figure></div>
+<p>The standard library is imported the same way:</p>
+<div class="pkn-notebook pkn-embedded not-content"><div class="pkn-cell"><pre class="pkn-cell-fallback"><code>import list
+import text
+from text import upper, words
+
+ws = words("the quick brown fox")
+print(list.sort(ws), list.sum([1, 2, 3]))
+print(upper(text.join(ws, "-")))</code></pre></div></div>
+<h3 id="overloading-and-implicits-advanced">Overloading and implicits (advanced)</h3>
+<p>Two functions may share a name if a qualifier tells them apart. A call
+without the qualifier picks the one its arguments fit.</p>
+<div class="pkn-notebook pkn-embedded not-content"><div class="pkn-cell"><pre class="pkn-cell-fallback"><code>def int::describe(x: Int) -> String: "the number " + string(x)
+def string::describe(s: String) -> String: "the text " + s
+
+print(describe(42))
+print(describe("hi"))</code></pre></div></div>
+<p>A parameter marked <code>implicit</code> may be left out of a call. It is filled
+in from an <code>implicit</code> binding of the same name and type in scope.</p>
+<div class="pkn-notebook pkn-embedded not-content"><div class="pkn-cell"><pre class="pkn-cell-fallback"><code>def shout(text: String, implicit mark: String) -> String:
+    text + mark
+
+implicit mark = "!"
+print(shout("hello"), shout("hi", mark = "?"))</code></pre></div></div>
+<h2 id="input-and-output">Input and output</h2>
+<p>The <a href="/libraries/io/"><code>io</code></a> library reads standard input.
+<code>io.read_line()</code> reads one line, and <code>io.is_eof()</code> says whether the
+input has ended. The input below is filled in above the code:</p>
+<div class="pkn-notebook pkn-embedded not-content"><div class="pkn-cell" data-stdin="3
+4
+5
+"><pre class="pkn-cell-fallback"><code>import io
+
+total = loop sum = 0 while not io.is_eof():
+    line = io.read_line()
+    if line == "" then sum else sum + int(line)
+print("The sum is $total")</code></pre></div></div>
+<p><code>sys.args()</code> from the <a href="/libraries/sys/"><code>sys</code></a> library gives the
+program’s command-line arguments, which follow <code>--</code>:</p>
+<div class="pkn-notebook pkn-embedded not-content"><div class="pkn-cell" data-args="one two"><pre class="pkn-cell-fallback"><code>import sys
+
+args = sys.args()
+print("I was given", len(args), "arguments:", args)</code></pre></div></div>
+<div class="expressive-code"><figure class="frame is-terminal not-content"><figcaption class="header"><span class="title"></span><span class="sr-only">Terminal window</span></figcaption><pre data-language="sh"><code><div class="ec-line"><div class="code"><span style="--0:#82AAFF;--1:#3B61B0">pyk</span><span style="--0:#D6DEEB;--1:#403F53"> </span><span style="--0:#ECC48D;--1:#3B61B0">args.pyk</span><span style="--0:#D6DEEB;--1:#403F53"> </span><span style="--0:#82AAFF;--1:#3B61B0">--</span><span style="--0:#D6DEEB;--1:#403F53"> </span><span style="--0:#ECC48D;--1:#3B61B0">one</span><span style="--0:#D6DEEB;--1:#403F53"> </span><span style="--0:#ECC48D;--1:#3B61B0">two</span></div></div></code></pre><div class="copy"><div aria-live="polite"></div><button title="Copy to clipboard" data-copied="Copied!" data-code="pyk args.pyk -- one two"><div></div></button></div></figure></div>
+<h3 id="print-and-debug"><code>print</code> and <code>debug</code></h3>
+<p><code>debug</code> takes the same arguments as <code>print</code>, but writes to standard
+error, so tracing a program does not change its output. Compiling with
+<code>--release</code> removes every <code>debug</code> call.</p>
+<div class="pkn-notebook pkn-embedded not-content"><div class="pkn-cell"><pre class="pkn-cell-fallback"><code>def square(x: Int) -> Int:
+    debug("square of", x)
+    return x * x
+
+print(square(7))</code></pre></div></div>
+<p>See <a href="/getstarted/debugging/">Debugging</a> for more.</p>
+<h2 id="a-first-tinyweb-program">A first tinyweb program</h2>
+<p><a href="/libraries/tinyweb/"><code>tinyweb</code></a> draws on a page and reacts to the
+mouse and the keyboard. This program draws a dot where you click, and
+the keys r, g and b change the colour. In the playground the page shows
+on the <strong>Web output</strong> tab; click it first so that it gets the keys.</p>
+<div class="pkn-notebook pkn-embedded not-content"><div class="pkn-cell"><pre class="pkn-cell-fallback"><code>use mutation
+
+import tinyweb as tw
+import tinyweb.color as color
+
+tw.web_init()
+
+canvas = tw.canvas(400, 200)
+shown = tw.label("Click the canvas. Press r, g or b to change the colour.")
+var paint = color.red
+var dots = 0
+
+def clicked(x: Int, y: Int):
+    tw.circle(canvas, x, y, 12, paint)
+    dots += 1
+    tw.set_text(shown, string(dots) + " dots")
+
+def pressed(key: String):
+    if key == "r":
+        paint := color.red
+    else if key == "g":
+        paint := color.green
+    else if key == "b":
+        paint := color.blue
+
+tw.on_click(canvas, clicked)
+tw.on_key(pressed)</code></pre></div></div>
+<p>In a terminal, <code>pyk prog.pyk</code> serves the page and prints its address.
+<code>pyk compile prog.pyk --target web --run</code> compiles it to a web page and
+serves that.</p>
+<h2 id="where-next">Where next</h2>
+<ul>
+<li><a href="/getstarted/setting-up/">Setting up Pyking</a>: installing it, and your
+editor.</li>
+<li><a href="/getstarted/debugging/">Debugging</a>: <code>debug</code>, and the debugger in the
+playground and in editors.</li>
+<li>The <a href="/documentation/language/">language reference</a>, for every
+construct in full.</li>
+<li>The <a href="/libraries/">libraries</a>.</li>
+<li>The <a href="/playground/">playground</a>, to try your own programs.</li>
+</ul></div><footer class="sl-flex astro-ddtxxk7k"><div class="meta sl-flex astro-ddtxxk7k"></div><div class="pagination-links print:hidden astro-b5raizh3" dir="ltr"><a href="/install/" rel="prev" class="astro-b5raizh3"><svg aria-hidden="true" class="astro-b5raizh3 astro-hkc32dio" width="16" height="16" viewBox="0 0 24 24" fill="currentColor" style="--sl-icon-size: 1.5rem;"><path d="M17 11H9.41l3.3-3.29a1.004 1.004 0 1 0-1.42-1.42l-5 5a1 1 0 0 0-.21.33 1 1 0 0 0 0 .76 1 1 0 0 0 .21.33l5 5a1.002 1.002 0 0 0 1.639-.325 1 1 0 0 0-.219-1.095L9.41 13H17a1 1 0 0 0 0-2Z"/></svg><span class="astro-b5raizh3">Previous<br class="astro-b5raizh3"><span class="link-title astro-b5raizh3">Install</span></span></a><a href="/documentation/language/" rel="next" class="astro-b5raizh3"><svg aria-hidden="true" class="astro-b5raizh3 astro-hkc32dio" width="16" height="16" viewBox="0 0 24 24" fill="currentColor" style="--sl-icon-size: 1.5rem;"><path d="M17.92 11.62a1.001 1.001 0 0 0-.21-.33l-5-5a1.003 1.003 0 1 0-1.42 1.42l3.3 3.29H7a1 1 0 0 0 0 2h7.59l-3.3 3.29a1.002 1.002 0 0 0 .325 1.639 1 1 0 0 0 1.095-.219l5-5a1 1 0 0 0 .21-.33 1 1 0 0 0 0-.76Z"/></svg><span class="astro-b5raizh3">Next<br class="astro-b5raizh3"><span class="link-title astro-b5raizh3">Documentation</span></span></a></div></footer></div></div></main></div></div></div></div></body></html>

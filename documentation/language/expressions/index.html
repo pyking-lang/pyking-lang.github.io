@@ -1,0 +1,397 @@
+<!DOCTYPE html><html lang="en" dir="ltr" data-theme="dark" data-has-sidebar class="astro-g5ptsecz"><head><meta charset="utf-8"/><meta name="viewport" content="width=device-width, initial-scale=1"/><title>Operators and expressions | Pyking</title><link rel="canonical" href="https://pyking.org/documentation/language/expressions/"/><link rel="sitemap" href="/sitemap-index.xml"/><script src="/v/8e74ca34b133/site/shell.js" data-base data-build="8e74ca34b133" data-sections="[{&quot;key&quot;:&quot;install&quot;,&quot;label&quot;:&quot;Install&quot;,&quot;prefix&quot;:&quot;/install/&quot;},{&quot;key&quot;:&quot;getstarted&quot;,&quot;label&quot;:&quot;Getting started&quot;,&quot;prefix&quot;:&quot;/getstarted/&quot;},{&quot;key&quot;:&quot;documentation&quot;,&quot;label&quot;:&quot;Documentation&quot;,&quot;prefix&quot;:&quot;/documentation/&quot;},{&quot;key&quot;:&quot;libraries&quot;,&quot;label&quot;:&quot;Libraries&quot;,&quot;prefix&quot;:&quot;/libraries/&quot;},{&quot;key&quot;:&quot;playground&quot;,&quot;label&quot;:&quot;Playground&quot;,&quot;prefix&quot;:&quot;/playground/&quot;}]"></script><script type="module" src="/v/8e74ca34b133/site/cells.js"></script><script>try { if (localStorage.getItem('starlight-theme') === null) localStorage.setItem('starlight-theme', 'dark'); } catch (e) {}</script><link rel="shortcut icon" href="/v/8e74ca34b133/site/favicon.svg" type="image/svg+xml"/><meta name="generator" content="Astro v7.3.5"/><meta name="generator" content="Starlight v0.42.5"/><meta property="og:title" content="Operators and expressions"/><meta property="og:type" content="article"/><meta property="og:url" content="https://pyking.org/documentation/language/expressions/"/><meta property="og:locale" content="en"/><meta property="og:description" content="Operators, calls, evaluation order, if expressions, lambdas and let."/><meta property="og:site_name" content="Pyking"/><meta name="twitter:card" content="summary_large_image"/><meta name="description" content="Operators, calls, evaluation order, if expressions, lambdas and let."/><script>
+	window.StarlightThemeProvider = (() => {
+		const storedTheme =
+			typeof localStorage !== 'undefined' && localStorage.getItem('starlight-theme');
+		const theme =
+			storedTheme ||
+			(window.matchMedia('(prefers-color-scheme: light)').matches ? 'light' : 'dark');
+		document.documentElement.dataset.theme = theme === 'light' ? 'light' : 'dark';
+		return {
+			updatePickers(theme = storedTheme || 'auto') {
+				document.querySelectorAll('starlight-theme-select').forEach((picker) => {
+					const select = picker.querySelector('select');
+					if (select) select.value = theme;
+					/** @type {HTMLTemplateElement | null} */
+					const tmpl = document.querySelector(`#theme-icons`);
+					const newIcon = tmpl && tmpl.content.querySelector('.' + theme);
+					if (newIcon) {
+						const oldIcon = picker.querySelector('svg.label-icon');
+						if (oldIcon) {
+							oldIcon.replaceChildren(...newIcon.cloneNode(true).childNodes);
+						}
+					}
+				});
+			},
+		};
+	})();
+</script><template id="theme-icons"><svg aria-hidden="true" class="light astro-hkc32dio" width="16" height="16" viewBox="0 0 24 24" fill="currentColor" style="--sl-icon-size: 1em;"><path d="M5 12a1 1 0 0 0-1-1H3a1 1 0 0 0 0 2h1a1 1 0 0 0 1-1Zm.64 5-.71.71a1 1 0 0 0 0 1.41 1 1 0 0 0 1.41 0l.71-.71A1 1 0 0 0 5.64 17ZM12 5a1 1 0 0 0 1-1V3a1 1 0 0 0-2 0v1a1 1 0 0 0 1 1Zm5.66 2.34a1 1 0 0 0 .7-.29l.71-.71a1 1 0 1 0-1.41-1.41l-.66.71a1 1 0 0 0 0 1.41 1 1 0 0 0 .66.29Zm-12-.29a1 1 0 0 0 1.41 0 1 1 0 0 0 0-1.41l-.71-.71a1.004 1.004 0 1 0-1.43 1.41l.73.71ZM21 11h-1a1 1 0 0 0 0 2h1a1 1 0 0 0 0-2Zm-2.64 6A1 1 0 0 0 17 18.36l.71.71a1 1 0 0 0 1.41 0 1 1 0 0 0 0-1.41l-.76-.66ZM12 6.5a5.5 5.5 0 1 0 5.5 5.5A5.51 5.51 0 0 0 12 6.5Zm0 9a3.5 3.5 0 1 1 0-7 3.5 3.5 0 0 1 0 7Zm0 3.5a1 1 0 0 0-1 1v1a1 1 0 0 0 2 0v-1a1 1 0 0 0-1-1Z"/></svg><svg aria-hidden="true" class="dark astro-hkc32dio" width="16" height="16" viewBox="0 0 24 24" fill="currentColor" style="--sl-icon-size: 1em;"><path d="M21.64 13a1 1 0 0 0-1.05-.14 8.049 8.049 0 0 1-3.37.73 8.15 8.15 0 0 1-8.14-8.1 8.59 8.59 0 0 1 .25-2A1 1 0 0 0 8 2.36a10.14 10.14 0 1 0 14 11.69 1 1 0 0 0-.36-1.05Zm-9.5 6.69A8.14 8.14 0 0 1 7.08 5.22v.27a10.15 10.15 0 0 0 10.14 10.14 9.784 9.784 0 0 0 2.1-.22 8.11 8.11 0 0 1-7.18 4.32v-.04Z"/></svg><svg aria-hidden="true" class="auto astro-hkc32dio" width="16" height="16" viewBox="0 0 24 24" fill="currentColor" style="--sl-icon-size: 1em;"><path d="M21 14h-1V7a3 3 0 0 0-3-3H7a3 3 0 0 0-3 3v7H3a1 1 0 0 0-1 1v2a3 3 0 0 0 3 3h14a3 3 0 0 0 3-3v-2a1 1 0 0 0-1-1ZM6 7a1 1 0 0 1 1-1h10a1 1 0 0 1 1 1v7H6V7Zm14 10a1 1 0 0 1-1 1H5a1 1 0 0 1-1-1v-1h16v1Z"/></svg></template><link rel="stylesheet" href="/_astro/print.ehPL0gv-.css" media="print"><link rel="stylesheet" href="/_astro/middleware.DYJDcmyo.css"><script type="module" src="/_astro/page.Dwipeu-R.js"></script></head><body class="astro-g5ptsecz"><a class="sl-skip-link astro-qb7clj6f" href="#_top">Skip to content</a><div class="page sl-flex astro-yntsjkba"><header class="header astro-yntsjkba"><div class="pyking-header"><div class="pyking-header-left"><a href="/" class="site-title sl-flex astro-6rvad3va"><img class="astro-6rvad3va" alt="Pyking" src="/_astro/logo.C9hvHOpV.svg" width="64" height="64"><span class="astro-6rvad3va" translate="no">Pyking</span></a><nav class="pyking-nav" aria-label="Sections"><a href="/install/">Install</a><a href="/getstarted/pyking-in-20-minutes/">Getting started</a><a href="/documentation/language/" aria-current="page">Documentation</a><a href="/libraries/">Libraries</a><a href="/playground/">Playground</a></nav></div><div class="pyking-header-right print:hidden"><site-search class=" astro-b5kgnn7o" data-translations="{&quot;placeholder&quot;:&quot;Search&quot;}"><button data-open-modal disabled aria-label="Search" aria-keyshortcuts="Control+K" class="astro-b5kgnn7o"><svg aria-hidden="true" class="astro-b5kgnn7o astro-hkc32dio" width="16" height="16" viewBox="0 0 24 24" fill="currentColor" style="--sl-icon-size: 1em;"><path d="M21.71 20.29 18 16.61A9 9 0 1 0 16.61 18l3.68 3.68a.999.999 0 0 0 1.42 0 1 1 0 0 0 0-1.39ZM11 18a7 7 0 1 1 0-14 7 7 0 0 1 0 14Z"/></svg><span class="sl-hidden md:sl-block astro-b5kgnn7o" aria-hidden="true">Search</span><kbd class="sl-hidden md:sl-flex astro-b5kgnn7o" style="display: none;"><kbd class="astro-b5kgnn7o">Ctrl</kbd><kbd class="astro-b5kgnn7o">K</kbd></kbd></button><dialog style="padding:0" aria-label="Search" class="astro-b5kgnn7o"><div class="dialog-frame sl-flex astro-b5kgnn7o"><button data-close-modal class="sl-flex md:sl-hidden astro-b5kgnn7o">Cancel</button><div class="search-container astro-b5kgnn7o"><div id="starlight__search" class="astro-b5kgnn7o"></div></div></div></dialog></site-search><script>
+	(() => {
+		const openBtn = document.querySelector('button[data-open-modal]');
+		const shortcut = openBtn?.querySelector('kbd');
+		if (!openBtn || !(shortcut instanceof HTMLElement)) return;
+		const platformKey = shortcut.querySelector('kbd');
+		if (platformKey && /(Mac|iPhone|iPod|iPad)/i.test(navigator.platform)) {
+			platformKey.textContent = '⌘';
+			openBtn.setAttribute('aria-keyshortcuts', 'Meta+K');
+		}
+		shortcut.style.display = '';
+	})();
+</script><script type="module" src="/_astro/Search.astro_astro_type_script_index_0_lang.Bumivpjo.js"></script><div class="sl-hidden md:sl-flex"><starlight-theme-select><label style="--sl-select-width: 6.25em" class="astro-2z5xp7gb"><span class="sr-only astro-2z5xp7gb">Select theme</span><svg aria-hidden="true" class="icon label-icon astro-2z5xp7gb astro-hkc32dio" width="16" height="16" viewBox="0 0 24 24" fill="currentColor" style="--sl-icon-size: 1em;"><path d="M21 14h-1V7a3 3 0 0 0-3-3H7a3 3 0 0 0-3 3v7H3a1 1 0 0 0-1 1v2a3 3 0 0 0 3 3h14a3 3 0 0 0 3-3v-2a1 1 0 0 0-1-1ZM6 7a1 1 0 0 1 1-1h10a1 1 0 0 1 1 1v7H6V7Zm14 10a1 1 0 0 1-1 1H5a1 1 0 0 1-1-1v-1h16v1Z"/></svg><select autocomplete="off" class="astro-2z5xp7gb"><option value="dark" class="astro-2z5xp7gb">Dark</option><option value="light" class="astro-2z5xp7gb">Light</option><option value="auto" selected class="astro-2z5xp7gb">Auto</option></select><svg aria-hidden="true" class="icon caret astro-2z5xp7gb astro-hkc32dio" width="16" height="16" viewBox="0 0 24 24" fill="currentColor" style="--sl-icon-size: 1em;"><path d="M17 9.17a1 1 0 0 0-1.41 0L12 12.71 8.46 9.17a1 1 0 1 0-1.41 1.42l4.24 4.24a1.002 1.002 0 0 0 1.42 0L17 10.59a1.002 1.002 0 0 0 0-1.42Z"/></svg></label></starlight-theme-select><script>
+	StarlightThemeProvider.updatePickers();
+</script><script type="module">var e=`starlight-theme`,t=e=>e===`auto`||e===`dark`||e===`light`?e:`auto`,n=()=>t(typeof localStorage<`u`&&localStorage.getItem(e));function r(t){typeof localStorage<`u`&&localStorage.setItem(e,t===`light`||t===`dark`?t:``)}var i=()=>matchMedia(`(prefers-color-scheme: light)`).matches?`light`:`dark`;function a(e){StarlightThemeProvider.updatePickers(e),document.documentElement.dataset.theme=e===`auto`?i():e,r(e)}matchMedia(`(prefers-color-scheme: light)`).addEventListener(`change`,()=>{n()===`auto`&&a(`auto`)});var o=class extends HTMLElement{constructor(){super(),a(n()),this.querySelector(`select`)?.addEventListener(`change`,e=>{e.currentTarget instanceof HTMLSelectElement&&a(t(e.currentTarget.value))})}};customElements.define(`starlight-theme-select`,o);</script></div><a class="pyking-github" href="https://github.com/pyking-lang" title="Pyking on GitHub"><span class="sr-only">GitHub</span><svg aria-hidden="true" viewBox="0 0 24 24" width="22" height="22" fill="currentColor"><path d="M12 .3a12 12 0 0 0-3.8 23.4c.6.1.8-.3.8-.6v-2c-3.3.7-4-1.6-4-1.6-.6-1.4-1.4-1.8-1.4-1.8-1-.7.1-.7.1-.7 1.2.1 1.8 1.2 1.8 1.2 1 1.8 2.8 1.3 3.5 1 0-.8.4-1.3.7-1.6-2.7-.3-5.5-1.3-5.5-6 0-1.2.5-2.3 1.3-3.1-.2-.4-.6-1.6 0-3.2 0 0 1-.3 3.4 1.2a11.5 11.5 0 0 1 6 0c2.3-1.5 3.3-1.2 3.3-1.2.6 1.6.2 2.8.1 3.2.8.8 1.3 1.9 1.3 3.1 0 4.6-2.8 5.6-5.5 5.9.5.4.9 1.1.9 2.2v3.3c0 .3.1.7.8.6A12 12 0 0 0 12 .3"></path></svg></a></div></div></header><nav class="sidebar print:hidden astro-yntsjkba" aria-label="Main"><button popovertarget="starlight__sidebar" class="sl-menu-button sl-flex md:sl-hidden print:hidden astro-r2osgdlg"><svg aria-hidden="true" class="open-menu astro-r2osgdlg astro-hkc32dio" width="16" height="16" viewBox="0 0 24 24" fill="currentColor" style="--sl-icon-size: 1em;"><path d="M3 8h18a1 1 0 1 0 0-2H3a1 1 0 0 0 0 2Zm18 8H3a1 1 0 0 0 0 2h18a1 1 0 0 0 0-2Zm0-5H3a1 1 0 0 0 0 2h18a1 1 0 0 0 0-2Z"/></svg><svg aria-hidden="true" class="close-menu astro-r2osgdlg astro-hkc32dio" width="16" height="16" viewBox="0 0 24 24" fill="currentColor" style="--sl-icon-size: 1em;"><path d="m13.41 12 6.3-6.29a1.004 1.004 0 1 0-1.42-1.42L12 10.59l-6.29-6.3a1.004 1.004 0 0 0-1.42 1.42l6.3 6.29-6.3 6.29a1 1 0 0 0 0 1.42.998.998 0 0 0 1.42 0l6.29-6.3 6.29 6.3a.999.999 0 0 0 1.42 0 1 1 0 0 0 0-1.42L13.41 12Z"/></svg><span class="sr-only astro-r2osgdlg">Menu</span></button><script type="module">var e=class extends HTMLElement{constructor(){super();let e=matchMedia(`(min-width: 50em)`),t=()=>{this.popover=e.matches?null:`auto`};t(),e.addEventListener(`change`,()=>t()),this.addEventListener(`toggle`,({newState:e})=>this.trapFocus(e===`open`))}trapFocus(e){document.querySelectorAll(`.main-frame, .sl-skip-link`).forEach(t=>{t.toggleAttribute(`inert`,e)})}};customElements.define(`sl-sidebar-pane`,e);</script><script type="module">var e=class extends HTMLElement{constructor(){super();let e=this.querySelector(`select`);e&&(e.addEventListener(`change`,e=>{e.currentTarget instanceof HTMLSelectElement&&(window.location.pathname=e.currentTarget.value)}),window.addEventListener(`pageshow`,t=>{if(!t.persisted)return;let n=e.querySelector(`option[selected]`)?.index;n!==e.selectedIndex&&(e.selectedIndex=n??0)}))}};customElements.define(`starlight-lang-select`,e);</script><sl-sidebar-pane popover id="starlight__sidebar" class="sidebar-pane astro-yntsjkba"><div class="sidebar-content sl-flex astro-yntsjkba"><nav class="pyking-sidebar" aria-label="Documentation"><p class="pyking-sidebar-title">Documentation</p><ul class="pyking-sidebar-main"><li><a href="/documentation/editors/">Editors</a></li><li><a href="/documentation/playground/">Playground</a></li><li><a href="/documentation/notebook/">Notebook</a></li><li><a href="/documentation/command-line/">Command line</a></li><li><a href="/documentation/repl/">REPL</a></li><li><a href="/documentation/targets/">Compiler targets</a></li><li><a href="/documentation/slides/">Code on slides</a></li><li class="pyking-sidebar-parent pyking-sidebar-open"><a href="/documentation/language/">Language reference</a><ul class="pyking-sidebar-sub"><li><a href="/documentation/language/programs-and-use/">Programs, modes and use</a></li><li><a href="/documentation/language/values/">Values and basic types</a></li><li><a href="/documentation/language/expressions/" aria-current="page">Operators and expressions</a></li><li><a href="/documentation/language/names-and-scope/">Names, bindings and scope</a></li><li><a href="/documentation/language/mutable-state/">Mutable state</a></li><li><a href="/documentation/language/functions/">Functions</a></li><li><a href="/documentation/language/control-flow/">Control flow</a></li><li><a href="/documentation/language/collections/">Collections</a></li><li><a href="/documentation/language/datatypes/">Datatypes, structs and pattern matching</a></li><li><a href="/documentation/language/objects/">Objects</a></li><li><a href="/documentation/language/types/">Types and type inference</a></li><li><a href="/documentation/language/overloading-and-implicits/">Overloading and implicits</a></li><li><a href="/documentation/language/modules/">Modules</a></li><li><a href="/documentation/language/builtins/">Builtins and I/O</a></li><li><a href="/documentation/language/warnings/">Warnings</a></li></ul></li><li><a href="/documentation/vs-other-languages/">Pyking vs. other languages</a></li><li><a href="/documentation/grammar/">Grammar</a></li><li class="pyking-sidebar-parent"><a href="/documentation/tinyweb/">Tinyweb without Pyking</a></li><li><a href="/documentation/tinyweb-styles/">Styling tinyweb</a></li></ul></nav><div class="md:sl-hidden"><div class="mobile-preferences sl-flex astro-p4azlveh"><div class="social-icons astro-p4azlveh"></div><starlight-theme-select><label style="--sl-select-width: 6.25em" class="astro-2z5xp7gb"><span class="sr-only astro-2z5xp7gb">Select theme</span><svg aria-hidden="true" class="icon label-icon astro-2z5xp7gb astro-hkc32dio" width="16" height="16" viewBox="0 0 24 24" fill="currentColor" style="--sl-icon-size: 1em;"><path d="M21 14h-1V7a3 3 0 0 0-3-3H7a3 3 0 0 0-3 3v7H3a1 1 0 0 0-1 1v2a3 3 0 0 0 3 3h14a3 3 0 0 0 3-3v-2a1 1 0 0 0-1-1ZM6 7a1 1 0 0 1 1-1h10a1 1 0 0 1 1 1v7H6V7Zm14 10a1 1 0 0 1-1 1H5a1 1 0 0 1-1-1v-1h16v1Z"/></svg><select autocomplete="off" class="astro-2z5xp7gb"><option value="dark" class="astro-2z5xp7gb">Dark</option><option value="light" class="astro-2z5xp7gb">Light</option><option value="auto" selected class="astro-2z5xp7gb">Auto</option></select><svg aria-hidden="true" class="icon caret astro-2z5xp7gb astro-hkc32dio" width="16" height="16" viewBox="0 0 24 24" fill="currentColor" style="--sl-icon-size: 1em;"><path d="M17 9.17a1 1 0 0 0-1.41 0L12 12.71 8.46 9.17a1 1 0 1 0-1.41 1.42l4.24 4.24a1.002 1.002 0 0 0 1.42 0L17 10.59a1.002 1.002 0 0 0 0-1.42Z"/></svg></label></starlight-theme-select><script>
+	StarlightThemeProvider.updatePickers();
+</script></div></div></div></sl-sidebar-pane></nav><div class="main-frame astro-yntsjkba"><script type="module">var e=document.getElementById(`starlight__sidebar`),t=e?.querySelector(`sl-sidebar-state-persist`),n=`sl-sidebar-state`,r=()=>{let r=[],i=t?.dataset.hash||``;try{let e=sessionStorage.getItem(n),t=JSON.parse(e||`{}`);Array.isArray(t.open)&&t.hash===i&&(r=t.open)}catch{}return{hash:i,open:r,scroll:e?.scrollTop||0}},i=e=>{try{sessionStorage.setItem(n,JSON.stringify(e))}catch{}},a=()=>i(r()),o=(e,t)=>{let n=r();n.open[t]=e,i(n)};t?.addEventListener(`click`,e=>{if(!(e.target instanceof Element))return;let t=e.target.closest(`summary`)?.closest(`details`);if(!t)return;let n=t.querySelector(`sl-sidebar-restore`),r=parseInt(n?.dataset.index||``);isNaN(r)||o(!t.open,r)}),addEventListener(`visibilitychange`,()=>{document.visibilityState===`hidden`&&a()});</script><div class="lg:sl-flex astro-lrzkfocr"><div class="main-pane astro-lrzkfocr"><main data-pagefind-body class="astro-g5ptsecz" lang="en" dir="ltr"><div class="content-panel astro-a7po4psb"><div class="sl-container astro-a7po4psb"><h1 id="_top" class="astro-bebwqqxs">Operators and expressions</h1></div></div><div class="content-panel astro-a7po4psb"><div class="sl-container astro-a7po4psb"><div class="sl-markdown-content"><blockquote>
+<p><strong>Available:</strong> in every module · <strong>Compared with Python:</strong> mostly the
+same; differs for <code>^</code> (power), non-chaining comparisons, <code>if … then … else</code> expressions and lambdas (<code>lam</code>)</p>
+</blockquote>
+<p>An expression computes a value. Operands are evaluated left to right,
+operators are overloaded over <code>Int</code> and <code>Float</code> but never mix them, and
+three expression forms are Pyking’s own: the <code>if … then … else</code>
+expression, <code>lam</code> lambdas and <code>let … in</code>.</p>
+<h2 id="variables-identifier-references">Variables (identifier references)</h2>
+<p>An identifier is a name starting with a letter or underscore, followed by
+any number of letters, digits, or underscores. Using a name in an
+expression looks it up as a variable reference. A name a program binds
+starts with a lowercase letter or an underscore: one starting with an
+uppercase letter is a type or a constructor (see “Datatypes”).</p>
+<div class="expressive-code"><link rel="stylesheet" href="/_astro/ec.w36nc.css"><script type="module" src="/_astro/ec.0vx5m.js"></script><figure class="frame not-content"><figcaption class="header"></figcaption><pre data-language="python"><code><div class="ec-line"><div class="code"><span style="--0:#D6DEEB;--1:#403F53">x </span><span style="--0:#C792EA;--1:#8844AE">=</span><span style="--0:#D6DEEB;--1:#403F53"> </span><span style="--0:#F78C6C;--1:#AA0982">10</span></div></div><div class="ec-line"><div class="code"><span style="--0:#D6DEEB;--1:#403F53">y </span><span style="--0:#C792EA;--1:#8844AE">=</span><span style="--0:#D6DEEB;--1:#403F53"> x</span></div></div><div class="ec-line"><div class="code"><span style="--0:#C5E478;--1:#3B61B0">print</span><span style="--0:#D6DEEB;--1:#403F53">(</span><span style="--0:#82AAFF;--1:#3B61B0">x</span><span style="--0:#D9F5DD;--1:#111111">,</span><span style="--0:#82AAFF;--1:#3B61B0"> y</span><span style="--0:#D6DEEB;--1:#403F53">)</span></div></div></code></pre><div class="copy"><div aria-live="polite"></div><button title="Copy to clipboard" data-copied="Copied!" data-code="x = 10y = xprint(x, y)"><div></div></button></div></figure></div>
+<h2 id="arithmetic-operators-and-parenthesized-expressions">Arithmetic operators and parenthesized expressions</h2>
+<p><code>+</code>, <code>-</code>, <code>*</code>, and <code>/</code> are left-associative binary operators with the usual
+precedence (<code>*</code>/<code>/</code> bind tighter than <code>+</code>/<code>-</code>). Parentheses override the
+default precedence.</p>
+<p><strong>All four are overloaded over <code>Int</code> and <code>Float</code></strong>: each takes two
+operands of one type and answers that same type. There is no third
+possibility — an <code>Int</code> beside a <code>Float</code> is refused, not widened, and
+<code>float(n)</code> and <code>int(x)</code> are what a program writes instead. See “Numbers,
+and what the checker defaults to” under “Types and type inference”.</p>
+<p>On two Ints, <code>/</code> is <strong>integer division, truncating toward zero</strong>.
+Truncation is toward zero rather than downward, so <code>-7 / 2</code> is <code>-3</code> and
+not <code>-4</code>:</p>
+<div class="pkn-notebook pkn-embedded not-content"><div class="pkn-cell"><pre class="pkn-cell-fallback"><code>print(7 / 2, (0 - 7) / 2)     # 3 -3
+print(7 / (0 - 2))            # -3
+print((0 - 7) / (0 - 2))      # 3</code></pre></div></div>
+<p>Dividing an Int by zero is left to whatever the target does with it, and
+the targets differ — see <code>docs/targets.md</code>.</p>
+<p>On two Floats, <code>/</code> is <strong>IEEE division</strong>: not truncated, and never a
+failure. Dividing by zero answers an infinity or a NaN, the same way on
+every target (see “Float literals” above).</p>
+<div class="pkn-notebook pkn-embedded not-content"><div class="pkn-cell"><pre class="pkn-cell-fallback"><code>print(7.0 / 2.0)              # 3.5
+print(-7.0 / 2.0)             # -3.5
+print(1.0 / 0.0)              # inf</code></pre></div></div>
+<div class="expressive-code"><figure class="frame not-content"><figcaption class="header"></figcaption><pre data-language="python"><code><div class="ec-line"><div class="code"><span style="--0:#D6DEEB;--1:#403F53">a </span><span style="--0:#C792EA;--1:#8844AE">=</span><span style="--0:#D6DEEB;--1:#403F53"> </span><span style="--0:#F78C6C;--1:#AA0982">2</span><span style="--0:#D6DEEB;--1:#403F53"> </span><span style="--0:#C792EA;--1:#8844AE">+</span><span style="--0:#D6DEEB;--1:#403F53"> </span><span style="--0:#F78C6C;--1:#AA0982">3</span><span style="--0:#D6DEEB;--1:#403F53"> </span><span style="--0:#C792EA;--1:#8844AE">*</span><span style="--0:#D6DEEB;--1:#403F53"> </span><span style="--0:#F78C6C;--1:#AA0982">4</span></div></div><div class="ec-line"><div class="code"><span style="--0:#D6DEEB;--1:#403F53">b </span><span style="--0:#C792EA;--1:#8844AE">=</span><span style="--0:#D6DEEB;--1:#403F53"> (</span><span style="--0:#F78C6C;--1:#AA0982">2</span><span style="--0:#D6DEEB;--1:#403F53"> </span><span style="--0:#C792EA;--1:#8844AE">+</span><span style="--0:#D6DEEB;--1:#403F53"> </span><span style="--0:#F78C6C;--1:#AA0982">3</span><span style="--0:#D6DEEB;--1:#403F53">) </span><span style="--0:#C792EA;--1:#8844AE">*</span><span style="--0:#D6DEEB;--1:#403F53"> </span><span style="--0:#F78C6C;--1:#AA0982">4</span></div></div><div class="ec-line"><div class="code"><span style="--0:#D6DEEB;--1:#403F53">c </span><span style="--0:#C792EA;--1:#8844AE">=</span><span style="--0:#D6DEEB;--1:#403F53"> </span><span style="--0:#F78C6C;--1:#AA0982">10</span><span style="--0:#D6DEEB;--1:#403F53"> </span><span style="--0:#C792EA;--1:#8844AE">-</span><span style="--0:#D6DEEB;--1:#403F53"> </span><span style="--0:#F78C6C;--1:#AA0982">4</span><span style="--0:#D6DEEB;--1:#403F53"> </span><span style="--0:#C792EA;--1:#8844AE">/</span><span style="--0:#D6DEEB;--1:#403F53"> </span><span style="--0:#F78C6C;--1:#AA0982">2</span></div></div><div class="ec-line"><div class="code"><span style="--0:#C5E478;--1:#3B61B0">print</span><span style="--0:#D6DEEB;--1:#403F53">(</span><span style="--0:#82AAFF;--1:#3B61B0">a</span><span style="--0:#D9F5DD;--1:#111111">,</span><span style="--0:#82AAFF;--1:#3B61B0"> b</span><span style="--0:#D9F5DD;--1:#111111">,</span><span style="--0:#82AAFF;--1:#3B61B0"> c</span><span style="--0:#D6DEEB;--1:#403F53">)</span></div></div></code></pre><div class="copy"><div aria-live="polite"></div><button title="Copy to clipboard" data-copied="Copied!" data-code="a = 2 + 3 * 4b = (2 + 3) * 4c = 10 - 4 / 2print(a, b, c)"><div></div></button></div></figure></div>
+<p>A <code>-</code> written where an expression is expected is instead unary minus,
+which negates what follows it, an <code>Int</code> or a <code>Float</code> alike. That covers
+negative literals (<code>-5</code>, <code>-2.5</code>) and negation of anything else — a
+variable, a call’s result, a parenthesized expression — and it may be
+repeated (<code>- -x</code>).</p>
+<div class="expressive-code"><figure class="frame not-content"><figcaption class="header"></figcaption><pre data-language="python"><code><div class="ec-line"><div class="code"><span style="--0:#D6DEEB;--1:#403F53">x </span><span style="--0:#C792EA;--1:#8844AE">=</span><span style="--0:#D6DEEB;--1:#403F53"> </span><span style="--0:#F78C6C;--1:#AA0982">5</span></div></div><div class="ec-line"><div class="code"><span style="--0:#D6DEEB;--1:#403F53">low </span><span style="--0:#C792EA;--1:#8844AE">=</span><span style="--0:#D6DEEB;--1:#403F53"> </span><span style="--0:#C792EA;--1:#8844AE">-</span><span style="--0:#F78C6C;--1:#AA0982">12</span></div></div><div class="ec-line"><div class="code">
+</div></div><div class="ec-line"><div class="code"><span style="--0:#C5E478;--1:#3B61B0">print</span><span style="--0:#D6DEEB;--1:#403F53">(</span><span style="--0:#C792EA;--1:#8844AE">-</span><span style="--0:#82AAFF;--1:#3B61B0">x</span><span style="--0:#D9F5DD;--1:#111111">,</span><span style="--0:#82AAFF;--1:#3B61B0"> </span><span style="--0:#C792EA;--1:#8844AE">-</span><span style="--0:#82AAFF;--1:#3B61B0">low</span><span style="--0:#D9F5DD;--1:#111111">,</span><span style="--0:#82AAFF;--1:#3B61B0"> </span><span style="--0:#C792EA;--1:#8844AE">-</span><span style="--0:#82AAFF;--1:#3B61B0"> </span><span style="--0:#C792EA;--1:#8844AE">-</span><span style="--0:#F78C6C;--1:#AA0982">5</span><span style="--0:#D6DEEB;--1:#403F53">)</span></div></div><div class="ec-line"><div class="code"><span style="--0:#C5E478;--1:#3B61B0">print</span><span style="--0:#D6DEEB;--1:#403F53">(</span><span style="--0:#C792EA;--1:#8844AE">-</span><span style="--0:#82AAFF;--1:#3B61B0">(x </span><span style="--0:#C792EA;--1:#8844AE">+</span><span style="--0:#82AAFF;--1:#3B61B0"> </span><span style="--0:#F78C6C;--1:#AA0982">1</span><span style="--0:#82AAFF;--1:#3B61B0">)</span><span style="--0:#D9F5DD;--1:#111111">,</span><span style="--0:#82AAFF;--1:#3B61B0"> </span><span style="--0:#C792EA;--1:#8844AE">-</span><span style="--0:#82AAFF;--1:#3B61B0">x </span><span style="--0:#C792EA;--1:#8844AE">+</span><span style="--0:#82AAFF;--1:#3B61B0"> </span><span style="--0:#F78C6C;--1:#AA0982">1</span><span style="--0:#D6DEEB;--1:#403F53">)</span></div></div><div class="ec-line"><div class="code"><span style="--0:#C5E478;--1:#3B61B0">print</span><span style="--0:#D6DEEB;--1:#403F53">(</span><span style="--0:#F78C6C;--1:#AA0982">10</span><span style="--0:#82AAFF;--1:#3B61B0"> </span><span style="--0:#C792EA;--1:#8844AE">-</span><span style="--0:#82AAFF;--1:#3B61B0"> </span><span style="--0:#C792EA;--1:#8844AE">-</span><span style="--0:#F78C6C;--1:#AA0982">3</span><span style="--0:#D9F5DD;--1:#111111">,</span><span style="--0:#82AAFF;--1:#3B61B0"> </span><span style="--0:#C792EA;--1:#8844AE">-</span><span style="--0:#82AAFF;--1:#3B61B0">x </span><span style="--0:#C792EA;--1:#8844AE">*</span><span style="--0:#82AAFF;--1:#3B61B0"> </span><span style="--0:#F78C6C;--1:#AA0982">2</span><span style="--0:#D6DEEB;--1:#403F53">)</span></div></div></code></pre><div class="copy"><div aria-live="polite"></div><button title="Copy to clipboard" data-copied="Copied!" data-code="x = 5low = -12print(-x, -low, - -5)print(-(x + 1), -x + 1)print(10 - -3, -x * 2)"><div></div></button></div></figure></div>
+<p>It binds tighter than <code>*</code> and <code>/</code> and looser than a call, so <code>-x * y</code>
+means <code>(-x) * y</code> and <code>-f(x)</code> negates the result of <code>f(x)</code> rather than
+<code>f</code>. It reaches only over the operand it precedes, which is why <code>-x + 1</code>
+is <code>(-x) + 1</code> and the parentheses in <code>-(x + 1)</code> are doing real work.
+Since a binary <code>-</code> can only follow a completed expression and a unary
+one can only start a new one, spacing never changes the reading: <code>10 - -3</code>
+and <code>10 - - 3</code> are the same.</p>
+<p>A <code>case</code> pattern may use a negative integer literal too — <code>case -1:</code> —
+matching Python. That is a literal only: patterns are matched, not
+evaluated, so <code>case -x:</code> is not a negation of anything.</p>
+<p><strong>A Float is not a pattern.</strong> <code>case 1.5:</code> is refused, because matching
+on one means comparing a double for equality, and IEEE equality is not
+the relation a reader of a <code>match</code> expects — a NaN matches no case, its
+own spelling included. A program that wants that comparison writes <code>==</code>
+and says so.</p>
+<h2 id="concatenation-">Concatenation (<code>+</code>)</h2>
+<p><code>+</code> joins two strings, or two lists, into one, as it adds two numbers.
+It is left-associative and sits at the same precedence as <code>-</code>, so a
+chain of them needs no parentheses and <code>*</code>/<code>/</code> still bind tighter.</p>
+<div class="expressive-code"><figure class="frame not-content"><figcaption class="header"></figcaption><pre data-language="python"><code><div class="ec-line"><div class="code"><span style="--0:#C5E478;--1:#3B61B0">print</span><span style="--0:#D6DEEB;--1:#403F53">(</span><span style="--0:#D9F5DD;--1:#111111">"</span><span style="--0:#ECC48D;--1:#984E4D">con</span><span style="--0:#D9F5DD;--1:#111111">"</span><span style="--0:#82AAFF;--1:#3B61B0"> </span><span style="--0:#C792EA;--1:#8844AE">+</span><span style="--0:#82AAFF;--1:#3B61B0"> </span><span style="--0:#D9F5DD;--1:#111111">"</span><span style="--0:#ECC48D;--1:#984E4D">cat</span><span style="--0:#D9F5DD;--1:#111111">"</span><span style="--0:#D6DEEB;--1:#403F53">)</span></div></div><div class="ec-line"><div class="code"><span style="--0:#C5E478;--1:#3B61B0">print</span><span style="--0:#D6DEEB;--1:#403F53">(</span><span style="--0:#D9F5DD;--1:#111111">"</span><span style="--0:#ECC48D;--1:#984E4D">a</span><span style="--0:#D9F5DD;--1:#111111">"</span><span style="--0:#82AAFF;--1:#3B61B0"> </span><span style="--0:#C792EA;--1:#8844AE">+</span><span style="--0:#82AAFF;--1:#3B61B0"> </span><span style="--0:#D9F5DD;--1:#111111">"</span><span style="--0:#ECC48D;--1:#984E4D">b</span><span style="--0:#D9F5DD;--1:#111111">"</span><span style="--0:#82AAFF;--1:#3B61B0"> </span><span style="--0:#C792EA;--1:#8844AE">+</span><span style="--0:#82AAFF;--1:#3B61B0"> </span><span style="--0:#D9F5DD;--1:#111111">"</span><span style="--0:#ECC48D;--1:#984E4D">c</span><span style="--0:#D9F5DD;--1:#111111">"</span><span style="--0:#82AAFF;--1:#3B61B0"> </span><span style="--0:#C792EA;--1:#8844AE">+</span><span style="--0:#82AAFF;--1:#3B61B0"> </span><span style="--0:#D9F5DD;--1:#111111">"</span><span style="--0:#ECC48D;--1:#984E4D">d</span><span style="--0:#D9F5DD;--1:#111111">"</span><span style="--0:#D6DEEB;--1:#403F53">)</span></div></div><div class="ec-line"><div class="code"><span style="--0:#C5E478;--1:#3B61B0">print</span><span style="--0:#D6DEEB;--1:#403F53">(</span><span style="--0:#D9F5DD;--1:#111111">[</span><span style="--0:#F78C6C;--1:#AA0982">1</span><span style="--0:#82AAFF;--1:#3B61B0">, </span><span style="--0:#F78C6C;--1:#AA0982">2</span><span style="--0:#D9F5DD;--1:#111111">]</span><span style="--0:#82AAFF;--1:#3B61B0"> </span><span style="--0:#C792EA;--1:#8844AE">+</span><span style="--0:#82AAFF;--1:#3B61B0"> </span><span style="--0:#D9F5DD;--1:#111111">[</span><span style="--0:#F78C6C;--1:#AA0982">3</span><span style="--0:#82AAFF;--1:#3B61B0">, </span><span style="--0:#F78C6C;--1:#AA0982">4</span><span style="--0:#D9F5DD;--1:#111111">]</span><span style="--0:#D6DEEB;--1:#403F53">)</span></div></div></code></pre><div class="copy"><div aria-live="polite"></div><button title="Copy to clipboard" data-copied="Copied!" data-code="print(&#x22;con&#x22; + &#x22;cat&#x22;)print(&#x22;a&#x22; + &#x22;b&#x22; + &#x22;c&#x22; + &#x22;d&#x22;)print([1, 2] + [3, 4])"><div></div></button></div></figure></div>
+<p><strong>Every operand of a <code>+</code> is of one type</strong>: all numbers of one type, all
+strings, or all lists of one element type. Which of the three a <code>+</code> is
+the type checker decides from its operands, and nothing is converted on
+the way — unlike JavaScript, where <code>"n = " + 5</code> is <code>"n = 5"</code>, and like
+Python, which raises:</p>
+<div class="pkn-notebook pkn-embedded not-content"><div class="pkn-cell" data-error=""><pre class="pkn-cell-fallback"><code>print("n = " + 5)
+# Type error: `+` cannot be applied to String and Int; it accepts Int +
+#   Int or Float + Float or String + String or two lists of one type.
+#   `+` joins two Strings and converts nothing: write string(n)</code></pre></div></div>
+<p>So <code>"2" + "3"</code> is <code>"23"</code> and <code>2 + 3</code> is <code>5</code>, and the two never meet in
+one <code>+</code>. A chain is the same rule applied at each step, so <code>a + b + c</code>
+is all strings or all lists or all numbers, never a mixture.</p>
+<div class="expressive-code"><figure class="frame not-content"><figcaption class="header"></figcaption><pre data-language="python"><code><div class="ec-line"><div class="code"><span style="--0:#C5E478;--1:#3B61B0">print</span><span style="--0:#D6DEEB;--1:#403F53">(</span><span style="--0:#F78C6C;--1:#AA0982">2</span><span style="--0:#82AAFF;--1:#3B61B0"> </span><span style="--0:#C792EA;--1:#8844AE">+</span><span style="--0:#82AAFF;--1:#3B61B0"> </span><span style="--0:#F78C6C;--1:#AA0982">3</span><span style="--0:#D6DEEB;--1:#403F53">)        </span><span style="--0:#919F9F;--1:#5F636F"># 5</span></div></div><div class="ec-line"><div class="code"><span style="--0:#C5E478;--1:#3B61B0">print</span><span style="--0:#D6DEEB;--1:#403F53">(</span><span style="--0:#D9F5DD;--1:#111111">"</span><span style="--0:#ECC48D;--1:#984E4D">2</span><span style="--0:#D9F5DD;--1:#111111">"</span><span style="--0:#82AAFF;--1:#3B61B0"> </span><span style="--0:#C792EA;--1:#8844AE">+</span><span style="--0:#82AAFF;--1:#3B61B0"> </span><span style="--0:#D9F5DD;--1:#111111">"</span><span style="--0:#ECC48D;--1:#984E4D">3</span><span style="--0:#D9F5DD;--1:#111111">"</span><span style="--0:#D6DEEB;--1:#403F53">)    </span><span style="--0:#919F9F;--1:#5F636F"># 23</span></div></div><div class="ec-line"><div class="code"><span style="--0:#C5E478;--1:#3B61B0">print</span><span style="--0:#D6DEEB;--1:#403F53">(</span><span style="--0:#D9F5DD;--1:#111111">[</span><span style="--0:#F78C6C;--1:#AA0982">1</span><span style="--0:#D9F5DD;--1:#111111">]</span><span style="--0:#82AAFF;--1:#3B61B0"> </span><span style="--0:#C792EA;--1:#8844AE">+</span><span style="--0:#82AAFF;--1:#3B61B0"> </span><span style="--0:#D9F5DD;--1:#111111">[]</span><span style="--0:#82AAFF;--1:#3B61B0"> </span><span style="--0:#C792EA;--1:#8844AE">+</span><span style="--0:#82AAFF;--1:#3B61B0"> </span><span style="--0:#D9F5DD;--1:#111111">[</span><span style="--0:#F78C6C;--1:#AA0982">2</span><span style="--0:#82AAFF;--1:#3B61B0">, </span><span style="--0:#F78C6C;--1:#AA0982">3</span><span style="--0:#D9F5DD;--1:#111111">]</span><span style="--0:#D6DEEB;--1:#403F53">)</span></div></div></code></pre><div class="copy"><div aria-live="polite"></div><button title="Copy to clipboard" data-copied="Copied!" data-code="print(2 + 3)        # 5print(&#x22;2&#x22; + &#x22;3&#x22;)    # 23print([1] + [] + [2, 3])"><div></div></button></div></figure></div>
+<p>Where nothing has decided the operands’ type yet — two parameters with
+no annotation, say — a <code>+</code> waits for the use that decides it, as the
+<code>++</code> Pyking used to have did: <code>def join(a, b): a + b</code> called with two
+Strings joins them. One that nothing decides by the end of the module
+adds two Ints, which is the arithmetic operators’ default (see “Numbers,
+and what the checker defaults to”).</p>
+<p><code>++</code>, Pyking’s old spelling of a join, is refused where it stands:</p>
+<div class="expressive-code"><figure class="frame not-content"><figcaption class="header"></figcaption><pre data-language="plaintext"><code><div class="ec-line"><div class="code"><span style="--0:#d6deeb;--1:#403f53">'prog.pyk' 1:10-1:12 Parsing error: '++' is now written '+': 'a + b'</span></div></div><div class="ec-line"><div class="code"><span class="indent"><span style="--0:#d6deeb;--1:#403f53">  </span></span><span style="--0:#d6deeb;--1:#403f53">joins two strings or two lists</span></div></div></code></pre><div class="copy"><div aria-live="polite"></div><button title="Copy to clipboard" data-copied="Copied!" data-code="&#x27;prog.pyk&#x27; 1:10-1:12 Parsing error: &#x27;++&#x27; is now written &#x27;+&#x27;: &#x27;a + b&#x27;  joins two strings or two lists"><div></div></button></div></figure></div>
+<h2 id="comparison-operators">Comparison operators</h2>
+<p><code>&#x3C;</code>, <code>&#x3C;=</code>, <code>></code>, <code>>=</code>, <code>==</code> and <code>!=</code> compare two expressions and produce
+a single comparison expression. Comparisons do not chain: <code>1 &#x3C; 2 &#x3C; 3</code>
+is refused, and the message says to write <code>1 &#x3C; 2 and 2 &#x3C; 3</code>.</p>
+<div class="expressive-code"><figure class="frame not-content"><figcaption class="header"></figcaption><pre data-language="python"><code><div class="ec-line"><div class="code"><span style="--0:#C5E478;--1:#3B61B0">print</span><span style="--0:#D6DEEB;--1:#403F53">(</span><span style="--0:#F78C6C;--1:#AA0982">1</span><span style="--0:#82AAFF;--1:#3B61B0"> </span><span style="--0:#C792EA;--1:#8844AE">&#x3C;</span><span style="--0:#82AAFF;--1:#3B61B0"> </span><span style="--0:#F78C6C;--1:#AA0982">2</span><span style="--0:#D9F5DD;--1:#111111">,</span><span style="--0:#82AAFF;--1:#3B61B0"> </span><span style="--0:#F78C6C;--1:#AA0982">2</span><span style="--0:#82AAFF;--1:#3B61B0"> </span><span style="--0:#C792EA;--1:#8844AE">&#x3C;=</span><span style="--0:#82AAFF;--1:#3B61B0"> </span><span style="--0:#F78C6C;--1:#AA0982">2</span><span style="--0:#D9F5DD;--1:#111111">,</span><span style="--0:#82AAFF;--1:#3B61B0"> </span><span style="--0:#F78C6C;--1:#AA0982">3</span><span style="--0:#82AAFF;--1:#3B61B0"> </span><span style="--0:#C792EA;--1:#8844AE">></span><span style="--0:#82AAFF;--1:#3B61B0"> </span><span style="--0:#F78C6C;--1:#AA0982">4</span><span style="--0:#D9F5DD;--1:#111111">,</span><span style="--0:#82AAFF;--1:#3B61B0"> </span><span style="--0:#F78C6C;--1:#AA0982">3</span><span style="--0:#82AAFF;--1:#3B61B0"> </span><span style="--0:#C792EA;--1:#8844AE">>=</span><span style="--0:#82AAFF;--1:#3B61B0"> </span><span style="--0:#F78C6C;--1:#AA0982">3</span><span style="--0:#D9F5DD;--1:#111111">,</span><span style="--0:#82AAFF;--1:#3B61B0"> </span><span style="--0:#F78C6C;--1:#AA0982">2</span><span style="--0:#82AAFF;--1:#3B61B0"> </span><span style="--0:#C792EA;--1:#8844AE">==</span><span style="--0:#82AAFF;--1:#3B61B0"> </span><span style="--0:#F78C6C;--1:#AA0982">2</span><span style="--0:#D9F5DD;--1:#111111">,</span><span style="--0:#82AAFF;--1:#3B61B0"> </span><span style="--0:#F78C6C;--1:#AA0982">2</span><span style="--0:#82AAFF;--1:#3B61B0"> </span><span style="--0:#C792EA;--1:#8844AE">!=</span><span style="--0:#82AAFF;--1:#3B61B0"> </span><span style="--0:#F78C6C;--1:#AA0982">3</span><span style="--0:#D6DEEB;--1:#403F53">)</span></div></div></code></pre><div class="copy"><div aria-live="polite"></div><button title="Copy to clipboard" data-copied="Copied!" data-code="print(1 < 2, 2 <= 2, 3 > 4, 3 >= 3, 2 == 2, 2 != 3)"><div></div></button></div></figure></div>
+<p>All six take two operands of one type, as the arithmetic operators do:
+two <code>Int</code>s or two <code>Float</code>s, and <code>==</code> and <code>!=</code> additionally two
+<code>String</code>s or two <code>Bool</code>s. On Floats the comparison is IEEE’s, which is
+where NaN’s behaviour comes from (see “Float literals” above): <code>nan == nan</code> is false and <code>nan != nan</code> true.</p>
+<div class="pkn-notebook pkn-embedded not-content"><div class="pkn-cell"><pre class="pkn-cell-fallback"><code>print(1.5 &#x3C; 2.5, 1.5 == 1.5, "a" != "b")</code></pre></div></div>
+<p><strong><code>==</code> and <code>!=</code> on compound values</strong> compare them part by part: two
+lists of the same elements in the same order, two tuples of equal
+parts, two values of a struct or a datatype built by the same
+constructor from equal fields. A Float inside compares by IEEE’s rule
+still, so <code>[nan] == [nan]</code> is false.</p>
+<div class="pkn-notebook pkn-embedded not-content"><div class="pkn-cell"><pre class="pkn-cell-fallback"><code>struct Point(x: Int, y: Int)
+
+datatype Shape:
+    Circle(r: Float)
+    Rect(w: Float, h: Float)
+
+print([1, 2] == [1, 2], (1, "a") != (1, "b"), Point(1, 2) == Point(1, 2), Circle(1.0) == Rect(1.0, 1.0))
+# true true true false</code></pre></div></div>
+<p>A value compared this way holds only what <code>==</code> compares: a function
+has no equality, and an array, a DynArray, a MutMap and a <code>mutable struct</code> have
+an identity instead, which <code>same(a, b)</code> asks about — so <code>==</code> on a list
+of functions or a tuple holding an array is refused, naming what it
+holds. So is <code>==</code> on a type variable, <code>def f(x: a, y: a)</code>, which could
+stand for a function. <code>&#x3C;</code>, <code>&#x3C;=</code>, <code>></code> and <code>>=</code> stay the scalars’.</p>
+<h2 id="remainder-and-power">Remainder and power</h2>
+<p><code>%</code> is the remainder and <code>^</code> the power, both over <code>Int</code> and <code>Float</code>
+with two operands of one type, as the other arithmetic operators are.</p>
+<div class="pkn-notebook pkn-embedded not-content"><div class="pkn-cell"><pre class="pkn-cell-fallback"><code>print(7 % 3, -7 % 2, 7.5 % 2.0)     # 1 -1 1.5
+print(2 ^ 10, 2 ^ 3 ^ 2, -2 ^ 2)    # 1024 512 -4
+print(2.0 ^ 0.5)                     # 1.4142135623730951</code></pre></div></div>
+<ul>
+<li><strong><code>%</code> truncates toward zero</strong>, as <code>/</code> does, so <code>a == (a / b) * b + a % b</code>
+for any two Ints and the remainder takes the sign of <code>a</code>: <code>-7 % 2</code> is
+<code>-1</code>, where Python’s is <code>1</code>. <code>math.int::mod</code> is the remainder that is
+never negative. On two Floats <code>%</code> is IEEE’s <code>fmod</code>. An Int <code>%</code> by zero
+is what <code>/</code> by zero is (see <code>docs/targets.md</code>).</li>
+<li><strong><code>^</code> is the power</strong>, as in mathematics — Python’s <code>**</code> is refused
+with a message saying so. It associates to the right, so <code>2 ^ 3 ^ 2</code>
+is <code>2 ^ 9</code>, and binds tighter than unary minus, so <code>-2 ^ 2</code> is
+<code>-(2 ^ 2)</code>, as <code>-2²</code> is. Its right operand may be negated:
+<code>2.0 ^ -1.0</code> is <code>0.5</code>. An Int raised to an Int is an Int, so the
+exponent is at least 0; a negative one is a runtime error in the
+interpreter and undefined elsewhere. A Float power is IEEE’s <code>pow</code>.</li>
+<li><code>%</code> binds as <code>*</code> and <code>/</code> do; <code>^</code> binds tighter than every other
+operator, and looser than a call.</li>
+</ul>
+<h2 id="boolean-operators">Boolean operators</h2>
+<p><code>and</code>, <code>or</code> and <code>not</code> combine Bools, as in Python, and may also be
+written <code>&#x26;&#x26;</code>, <code>||</code> and <code>!</code>, as in C, Java and JavaScript. The two
+spellings are one operator: the same types, the same short-circuit.</p>
+<div class="pkn-notebook pkn-embedded not-content"><div class="pkn-cell"><pre class="pkn-cell-fallback"><code>x = 5
+done = false
+if x > 0 and not done: print("words")
+if x > 0 &#x26;&#x26; !done: print("symbols")
+print(true or false, false || true, not true, !false)</code></pre></div></div>
+<ul>
+<li><strong>Short-circuit</strong>: <code>a and b</code> evaluates <code>b</code> only when <code>a</code> is true, and
+<code>a or b</code> only when <code>a</code> is false, on every target.</li>
+<li><strong>No truthiness</strong>: both operands are Bools. <code>if xs:</code> and <code>1 and 2</code> as
+a condition are refused rather than read as “not empty” or “not zero”
+— there is no conversion to Bool but <code>bool(x)</code>.</li>
+<li><strong>Precedence</strong>: both spellings of <code>or</code> bind looser than both of
+<code>and</code>, which bind looser than <code>not</code>, which binds looser than a
+comparison — Python’s order, so <code>x > 0 and not done</code> needs no
+parentheses. <code>!</code> is the exception: it binds as tightly as unary minus,
+as in C, so <code>!a == b</code> is <code>(!a) == b</code> while <code>not a == b</code> is
+<code>not (a == b)</code>.</li>
+<li>The spelling written is kept: <code>pyk compile -t pyking</code> prints a program
+back with <code>&#x26;&#x26;</code> where <code>&#x26;&#x26;</code> was written.</li>
+</ul>
+<p>On two Ints the words <code>and</code>, <code>or</code> and <code>not</code> are the bitwise operators
+instead (see “Bitwise operators”); the symbols <code>&#x26;&#x26;</code>, <code>||</code> and <code>!</code> are
+Bool’s alone, because in C and JavaScript <code>5 &#x26;&#x26; 2</code> is <code>1</code> and <code>!5</code> is
+<code>0</code>, and a different answer with no error would be a trap:</p>
+<div class="expressive-code"><figure class="frame not-content"><figcaption class="header"></figcaption><pre data-language="plaintext"><code><div class="ec-line"><div class="code"><span style="--0:#d6deeb;--1:#403f53">'prog.pyk' 1:6-1:12 Type error: `&#x26;&#x26;` cannot be applied to Int and Int;</span></div></div><div class="ec-line"><div class="code"><span class="indent"><span style="--0:#d6deeb;--1:#403f53">  </span></span><span style="--0:#d6deeb;--1:#403f53">it accepts Bool &#x26;&#x26; Bool. On Ints, write 'and' or '&#x26;'</span></div></div></code></pre><div class="copy"><div aria-live="polite"></div><button title="Copy to clipboard" data-copied="Copied!" data-code="&#x27;prog.pyk&#x27; 1:6-1:12 Type error: &#x60;&#x26;&#x26;&#x60; cannot be applied to Int and Int;  it accepts Bool &#x26;&#x26; Bool. On Ints, write &#x27;and&#x27; or &#x27;&#x26;&#x27;"><div></div></button></div></figure></div>
+<h2 id="bitwise-operators">Bitwise operators</h2>
+<p>On two Ints, <code>&#x26;</code> is bitwise and, <code>|</code> bitwise or, <code>xor</code> exclusive or,
+<code>~</code> bitwise not, and <code>&#x3C;&#x3C;</code> and <code>>></code> shift left and right. The words
+<code>and</code>, <code>or</code> and <code>not</code> are bitwise on Ints too, as they are logic on
+Bools, and so is <code>xor</code>: on two Bools it is true where exactly one of
+them is, as <code>!=</code> is.</p>
+<div class="pkn-notebook pkn-embedded not-content"><div class="pkn-cell"><pre class="pkn-cell-fallback"><code>flags = 0b0101
+print(flags &#x26; 0b0100, flags | 0b0010, flags xor 0b1111, ~flags)   # 4 7 10 -6
+print(12 and 10, 12 or 10, not 0)                                  # 8 14 -1
+print(1 &#x3C;&#x3C; 4, 256 >> 2, -8 >> 1)                                   # 16 64 -4
+print(true xor false, true xor true)                               # true false</code></pre></div></div>
+<ul>
+<li><strong>Ints only, but for <code>xor</code></strong>: <code>&#x26;</code> and <code>|</code> on two Bools are refused
+with “On Bools, write ‘and’ (or ’&#x26;&#x26;’)”. <code>xor</code> takes two Bools or two
+Ints. The words on Ints have no short-circuit: <code>0 and f()</code> still calls
+<code>f()</code>, and neither does <code>xor</code>, which needs both sides.</li>
+<li><strong>Precedence is Python’s</strong>: tighter than a comparison, so
+<code>flags &#x26; 4 == 4</code> is <code>(flags &#x26; 4) == 4</code>; among themselves <code>|</code> is
+loosest, then <code>xor</code>, then <code>&#x26;</code>, then the shifts, all looser than <code>+</code>.
+The words <code>and</code> and <code>or</code> keep their own, looser, level on Ints as
+well, so a mask test with them is parenthesized:
+<code>(flags and 4) == 4</code>.</li>
+<li><strong><code>>></code> keeps the sign</strong> on every target: <code>-8 >> 1</code> is <code>-4</code>. <code>~n</code> is
+<code>-n - 1</code>.</li>
+<li>A shift by a negative count, or by 32 or more, is undefined, as Int
+overflow is (see “Integer and string literals”); every target agrees
+inside the signed 32-bit range.</li>
+<li><code>^</code> is the power, not exclusive or as in Python and C: exclusive or is
+the word <code>xor</code>.</li>
+</ul>
+<h2 id="indexing">Indexing</h2>
+<p><code>xs[i]</code> is element <code>i</code> of the list <code>xs</code>, counting from 0. The index is
+an <code>Int</code>, and an expression of any list type may be indexed — a name,
+a call’s result, another index:</p>
+<div class="pkn-notebook pkn-embedded not-content"><div class="pkn-cell"><pre class="pkn-cell-fallback"><code>xs = [10, 20, 30]
+rows = [[1, 2], [3, 4]]
+print(xs[0], xs[2], xs[len(xs) - 1], rows[1][0])   # 10 30 30 3</code></pre></div></div>
+<ul>
+<li>An index binds as tightly as a call and a field, and the <code>[</code> is on
+the row the list ends on: a <code>[</code> starting the next line starts a list
+literal there, as a <code>(</code> there starts a new statement.</li>
+<li>A list is never changed: there is no <code>xs[i] := v</code>. An array’s
+element is written that way (see “Arrays”).</li>
+<li>An array is indexed the same way, and an index outside it is a
+runtime error on every target.</li>
+<li>An index outside the list — negative included — is a runtime error
+in the interpreter (<code>the index 5 is outside a list of 2 elements</code>) and
+whatever the host does with it in compiled code.</li>
+<li>A String is indexed too: <code>s[i]</code> is its character at position <code>i</code>,
+counting code points, and is a <code>Char</code> (see “Char literals”). An index
+outside the String is a runtime error in the interpreter (<code>the index 9 is outside a String of 3 characters</code>).</li>
+<li>Only a list, an array and a String are indexed. A tuple is taken apart by a
+pattern or a <code>let</code>; the checker says so.</li>
+</ul>
+<h2 id="function-calls">Function calls</h2>
+<p>A call is a callee expression followed by <code>(</code>, a comma-separated list of
+argument expressions, and <code>)</code>. Calls may be nested and may appear anywhere
+an expression is expected.</p>
+<div class="expressive-code"><figure class="frame not-content"><figcaption class="header"></figcaption><pre data-language="python"><code><div class="ec-line"><div class="code"><span style="--0:#C792EA;--1:#8844AE">def</span><span style="--0:#D6DEEB;--1:#403F53"> </span><span style="--0:#82AAFF;--1:#3B61B0">add</span><span style="--0:#D9F5DD;--1:#111111">(</span><span style="--0:#7FDBCA;--1:#096E72">a</span><span style="--0:#D6DEEB;--1:#403F53">, </span><span style="--0:#7FDBCA;--1:#096E72">b</span><span style="--0:#D9F5DD;--1:#111111">)</span><span style="--0:#D6DEEB;--1:#403F53">:</span></div></div><div class="ec-line"><div class="code"><span class="indent">    </span><span style="--0:#C792EA;--1:#8844AE">return</span><span style="--0:#D6DEEB;--1:#403F53"> a </span><span style="--0:#C792EA;--1:#8844AE">+</span><span style="--0:#D6DEEB;--1:#403F53"> b</span></div></div><div class="ec-line"><div class="code">
+</div></div><div class="ec-line"><div class="code">
+</div></div><div class="ec-line"><div class="code"><span style="--0:#C5E478;--1:#3B61B0">print</span><span style="--0:#D6DEEB;--1:#403F53">(</span><span style="--0:#B2CCD6;--1:#096E72">add</span><span style="--0:#D6DEEB;--1:#403F53">(</span><span style="--0:#F78C6C;--1:#AA0982">2</span><span style="--0:#D9F5DD;--1:#111111">,</span><span style="--0:#82AAFF;--1:#3B61B0"> </span><span style="--0:#F78C6C;--1:#AA0982">3</span><span style="--0:#D6DEEB;--1:#403F53">)</span><span style="--0:#D9F5DD;--1:#111111">,</span><span style="--0:#82AAFF;--1:#3B61B0"> </span><span style="--0:#B2CCD6;--1:#096E72">add</span><span style="--0:#D6DEEB;--1:#403F53">(</span><span style="--0:#B2CCD6;--1:#096E72">add</span><span style="--0:#D6DEEB;--1:#403F53">(</span><span style="--0:#F78C6C;--1:#AA0982">1</span><span style="--0:#D9F5DD;--1:#111111">,</span><span style="--0:#82AAFF;--1:#3B61B0"> </span><span style="--0:#F78C6C;--1:#AA0982">1</span><span style="--0:#D6DEEB;--1:#403F53">)</span><span style="--0:#D9F5DD;--1:#111111">,</span><span style="--0:#82AAFF;--1:#3B61B0"> </span><span style="--0:#F78C6C;--1:#AA0982">5</span><span style="--0:#D6DEEB;--1:#403F53">))</span></div></div></code></pre><div class="copy"><div aria-live="polite"></div><button title="Copy to clipboard" data-copied="Copied!" data-code="def add(a, b):    return a + bprint(add(2, 3), add(add(1, 1), 5))"><div></div></button></div></figure></div>
+<h2 id="evaluation-order">Evaluation order</h2>
+<p>The pieces of an expression are evaluated <strong>left to right</strong>: an
+operator’s left operand before its right, a call’s arguments in the
+order they are written, and all of a call’s arguments before the call
+itself. The whole of the left operand runs before any of the right one
+begins, so nesting does not change the rule.</p>
+<p>This only matters when more than one piece has an effect — today, when
+more than one of them <em>prints</em>.</p>
+<div class="expressive-code"><figure class="frame not-content"><figcaption class="header"></figcaption><pre data-language="python"><code><div class="ec-line"><div class="code"><span style="--0:#C792EA;--1:#8844AE">def</span><span style="--0:#D6DEEB;--1:#403F53"> </span><span style="--0:#82AAFF;--1:#3B61B0">step</span><span style="--0:#D9F5DD;--1:#111111">(</span><span style="--0:#7FDBCA;--1:#096E72">label</span><span style="--0:#D6DEEB;--1:#403F53">: String, </span><span style="--0:#7FDBCA;--1:#096E72">value</span><span style="--0:#D6DEEB;--1:#403F53">: Int</span><span style="--0:#D9F5DD;--1:#111111">)</span><span style="--0:#D6DEEB;--1:#403F53"> -> Int:</span></div></div><div class="ec-line"><div class="code"><span class="indent">    </span><span style="--0:#C5E478;--1:#3B61B0">print</span><span style="--0:#D6DEEB;--1:#403F53">(</span><span style="--0:#D9F5DD;--1:#111111">"</span><span style="--0:#ECC48D;--1:#984E4D">step</span><span style="--0:#D9F5DD;--1:#111111">"</span><span style="--0:#D9F5DD;--1:#111111">,</span><span style="--0:#82AAFF;--1:#3B61B0"> label</span><span style="--0:#D6DEEB;--1:#403F53">)</span></div></div><div class="ec-line"><div class="code"><span class="indent"><span style="--0:#D6DEEB;--1:#403F53">    </span></span><span style="--0:#D6DEEB;--1:#403F53">value</span></div></div><div class="ec-line"><div class="code">
+</div></div><div class="ec-line"><div class="code">
+</div></div><div class="ec-line"><div class="code"><span style="--0:#C5E478;--1:#3B61B0">sum</span><span style="--0:#D6DEEB;--1:#403F53"> </span><span style="--0:#C792EA;--1:#8844AE">=</span><span style="--0:#D6DEEB;--1:#403F53"> </span><span style="--0:#B2CCD6;--1:#096E72">step</span><span style="--0:#D6DEEB;--1:#403F53">(</span><span style="--0:#D9F5DD;--1:#111111">"</span><span style="--0:#ECC48D;--1:#984E4D">a</span><span style="--0:#D9F5DD;--1:#111111">"</span><span style="--0:#D9F5DD;--1:#111111">,</span><span style="--0:#82AAFF;--1:#3B61B0"> </span><span style="--0:#F78C6C;--1:#AA0982">1</span><span style="--0:#D6DEEB;--1:#403F53">) </span><span style="--0:#C792EA;--1:#8844AE">+</span><span style="--0:#D6DEEB;--1:#403F53"> </span><span style="--0:#B2CCD6;--1:#096E72">step</span><span style="--0:#D6DEEB;--1:#403F53">(</span><span style="--0:#D9F5DD;--1:#111111">"</span><span style="--0:#ECC48D;--1:#984E4D">b</span><span style="--0:#D9F5DD;--1:#111111">"</span><span style="--0:#D9F5DD;--1:#111111">,</span><span style="--0:#82AAFF;--1:#3B61B0"> </span><span style="--0:#F78C6C;--1:#AA0982">2</span><span style="--0:#D6DEEB;--1:#403F53">)</span></div></div><div class="ec-line"><div class="code"><span style="--0:#C5E478;--1:#3B61B0">print</span><span style="--0:#D6DEEB;--1:#403F53">(</span><span style="--0:#D9F5DD;--1:#111111">"</span><span style="--0:#ECC48D;--1:#984E4D">sum</span><span style="--0:#D9F5DD;--1:#111111">"</span><span style="--0:#D9F5DD;--1:#111111">,</span><span style="--1:#3B61B0"><span style="--0:#82AAFF"> </span><span style="--0:#C5E478">sum</span></span><span style="--0:#D6DEEB;--1:#403F53">)</span></div></div></code></pre><div class="copy"><div aria-live="polite"></div><button title="Copy to clipboard" data-copied="Copied!" data-code="def step(label: String, value: Int) -> Int:    print(&#x22;step&#x22;, label)    valuesum = step(&#x22;a&#x22;, 1) + step(&#x22;b&#x22;, 2)print(&#x22;sum&#x22;, sum)"><div></div></button></div></figure></div>
+<div class="expressive-code"><figure class="frame not-content"><figcaption class="header"></figcaption><pre data-language="plaintext"><code><div class="ec-line"><div class="code"><span style="--0:#d6deeb;--1:#403f53">step a</span></div></div><div class="ec-line"><div class="code"><span style="--0:#d6deeb;--1:#403f53">step b</span></div></div><div class="ec-line"><div class="code"><span style="--0:#d6deeb;--1:#403f53">sum 3</span></div></div></code></pre><div class="copy"><div aria-live="polite"></div><button title="Copy to clipboard" data-copied="Copied!" data-code="step astep bsum 3"><div></div></button></div></figure></div>
+<p>A condition is an expression like any other, so a <code>while</code> orders its
+condition’s pieces the same way on every turn. The branches of an
+<code>if</code>/<code>then</code>/<code>else</code> expression are the exception that follows from what
+<code>if</code> means rather than a special case: only the chosen branch runs at
+all, and its own pieces then run left to right.</p>
+<h2 id="ifthenelse-expressions"><code>if</code>/<code>then</code>/<code>else</code> expressions</h2>
+<p><code>if cond then e1 else e2</code> is an <em>expression</em>: it evaluates <code>cond</code>, then
+yields <code>e1</code> or <code>e2</code>, whichever the condition selects — only the chosen
+branch is evaluated. Python writes the same thing with the condition in
+the middle, so (unlike most examples in this document) the following is
+Pyking source, not valid Python; it compiles to Python’s conditional
+expression <code>e1 if cond else e2</code>.</p>
+<p>Unlike the <code>if</code> <em>statement</em>, the <code>else</code> is mandatory — an expression must
+always produce a value. The branches reach as far right as they can, so
+parenthesize when mixing with operators, and an <code>else</code> branch that is
+itself an if expression chains flat, reading like an <code>elif</code> ladder.</p>
+<div class="pkn-notebook pkn-embedded not-content"><div class="pkn-cell"><pre class="pkn-cell-fallback"><code>def sign(x): if x &#x3C; 0 then "negative" else if x == 0 then "zero" else "positive"
+
+
+def clamp(x, lo, hi):
+    y = if x &#x3C; lo then lo else x
+    return if y > hi then hi else y
+
+
+print(sign(-5), sign(0), sign(7))
+print(clamp(42, 1, 10))
+
+# The `+ 1` belongs to the else branch; parenthesize to apply it to the
+# whole expression instead.
+print(if 1 &#x3C; 2 then 100 else 200 + 1)
+print((if 1 &#x3C; 2 then 100 else 200) + 1)
+
+# Parentheses are required around an if expression used as a
+# comprehension filter (see the notes on the Grammar).
+print([x for x in [1, 2, 3, 4] if (if x &#x3C; 3 then true else false)])</code></pre></div></div>
+<h2 id="lambdas--pyking-extension">Lambdas — Pyking extension</h2>
+<p><code>lam x. x + 1</code> is an expression that is a function, written as in the
+lambda calculus (<code>λx. x + 1</code>): the keyword <code>lam</code>, the parameters, a <code>.</code>
+and the body. One parameter with no type needs no parentheses, so
+<code>lam x. x + 1</code> and <code>lam (x). x + 1</code> are the same thing; several need
+them, and so does a parameter with a type — <code>lam (n: Int). n - 1</code> —
+since a type may hold a <code>.</code> of its own (<code>geo.Point</code>, <code>all a. a</code>), and in
+parentheses it ends at the <code>)</code>. No parameters is <code>lam (). e</code>. The body
+is <strong>one expression</strong> — there is no block form.</p>
+<p>The body takes everything to its right that one expression can hold, so
+a lambda binds looser than every operator and associates to the right:
+<code>lam x. lam y. x + y</code> is curried. A comma ends it, since <code>lam x. a, b</code>
+is a pair whose first element is the lambda.</p>
+<p><code>x => x + 1</code>, the spelling Pyking had before <code>lam</code>, is refused with
+<code>a lambda is now written 'lam x. x + 1'</code>; <code>lam x, y. e</code> and
+<code>lam x: Int. e</code> are refused too, each with the parenthesized form to
+write.</p>
+<div class="pkn-notebook pkn-embedded not-content"><div class="pkn-cell"><pre class="pkn-cell-fallback"><code>double = lam x. x * 2
+add = lam (x, y). x + y
+typed = lam (n: Int). n - 1
+nothing = lam (). 7
+
+print(double(21), add(3, 4), typed(10), nothing())
+
+# A lambda answering with a lambda; a lambda associates to the right, so
+# no parentheses are needed.
+adder = lam x. lam y. x + y
+print(adder(6)(7))
+
+# An `if` expression is one expression, so it is a body like any other.
+sign = lam n. if n &#x3C; 0 then 0 - 1 else 1
+print(sign(-5), sign(5))</code></pre></div></div>
+<p>A lambda captures what is bound where it is written, exactly as a <code>def</code>
+body does, and a later binding of a name is a new binding rather than a
+write to the old one — so what a lambda captured does not change under
+it (see “Names and scoping”).</p>
+<div class="pkn-notebook pkn-embedded not-content"><div class="pkn-cell"><pre class="pkn-cell-fallback"><code>base = 100
+shift = lam n. n + base
+base = 200
+print(shift(1))     # 101: the binding `shift` captured</code></pre></div></div>
+<p><strong>A lambda is monomorphic.</strong> Its parameters are one type, settled
+between its body and its uses, and never generalised; a <code>def</code> with the
+same body is polymorphic and serves every type at once. That is
+Hindley-Milner’s own distinction between a <code>let</code>-bound definition and a
+lambda-bound one, and it is the whole of the difference here:</p>
+<div class="pkn-notebook pkn-embedded not-content"><div class="pkn-cell"><pre class="pkn-cell-fallback"><code>def named(x): x
+print(named(1), named("a"))     # fine: `named` is polymorphic
+
+id = lam x. x
+print(id(1))
+# print(id("a"))                -- error: `id` is Int -> Int by now</code></pre></div></div>
+<p>Two more rules follow from a lambda being an expression rather than a
+definition. A lambda parameter may not have a default value, since a
+default belongs to the scope a definition is written in. And a lambda
+parameter is a binding like any other, so it may not shadow a <code>var</code>.</p>
+<p><strong>A lambda argument is checked last.</strong> In a call, every other argument
+is checked first, and a lambda’s parameters with no type written take
+the ones its parameter has by then: in <code>apply(lam p. p.x, points)</code> the
+list says <code>p</code> is a Point, although the lambda is written first. Only the
+checking waits; the arguments still run in the order written (see
+“Evaluation order”).</p>
+<h2 id="let-expressions--pyking-extension">Let expressions — Pyking extension</h2>
+<p><code>let target = value in body</code> is an expression: <code>value</code> is evaluated
+once, bound to <code>target</code>, and the whole is worth <code>body</code>. The target is
+what an <code>=</code> binding takes — a name, or a tuple taken apart — with an
+optional annotation, checked as a binding’s is. What it binds is seen by
+the body and nowhere else, not even by <code>value</code>.</p>
+<div class="pkn-notebook pkn-embedded not-content"><div class="pkn-cell"><pre class="pkn-cell-fallback"><code>foo = let x = 78 in x + 1
+print(foo)                                  # 79
+
+# One binding per `let`; a later one sees the earlier.
+print(let a = 2 in let b = a * 3 in a + b)  # 8
+
+pair = (1, (2, 3))
+print(let (x, (y, z)) = pair in x + y * z)  # 7
+print(let t: (Int, String) = (4, "four") in t)</code></pre></div></div>
+<p>Like a lambda, the body takes everything to its right that one
+expression can hold, so parentheses end it: <code>1 + (let x = 10 in x) * 2</code>
+is 21. A name a <code>let</code> binds starts with a lowercase letter, may not
+shadow a <code>var</code>, and may not be bound twice in one target.</p></div><footer class="sl-flex astro-ddtxxk7k"><div class="meta sl-flex astro-ddtxxk7k"></div><div class="pagination-links print:hidden astro-b5raizh3" dir="ltr"></div></footer></div></div></main></div></div></div></div></body></html>

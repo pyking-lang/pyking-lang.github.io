@@ -1,0 +1,708 @@
+<!DOCTYPE html><html lang="en" dir="ltr" data-theme="dark" data-has-sidebar class="astro-g5ptsecz"><head><meta charset="utf-8"/><meta name="viewport" content="width=device-width, initial-scale=1"/><title>Notebook | Pyking</title><link rel="canonical" href="https://pyking.org/documentation/notebook/"/><link rel="sitemap" href="/sitemap-index.xml"/><script src="/v/8e74ca34b133/site/shell.js" data-base data-build="8e74ca34b133" data-sections="[{&quot;key&quot;:&quot;install&quot;,&quot;label&quot;:&quot;Install&quot;,&quot;prefix&quot;:&quot;/install/&quot;},{&quot;key&quot;:&quot;getstarted&quot;,&quot;label&quot;:&quot;Getting started&quot;,&quot;prefix&quot;:&quot;/getstarted/&quot;},{&quot;key&quot;:&quot;documentation&quot;,&quot;label&quot;:&quot;Documentation&quot;,&quot;prefix&quot;:&quot;/documentation/&quot;},{&quot;key&quot;:&quot;libraries&quot;,&quot;label&quot;:&quot;Libraries&quot;,&quot;prefix&quot;:&quot;/libraries/&quot;},{&quot;key&quot;:&quot;playground&quot;,&quot;label&quot;:&quot;Playground&quot;,&quot;prefix&quot;:&quot;/playground/&quot;}]"></script><script type="module" src="/v/8e74ca34b133/site/cells.js"></script><script>try { if (localStorage.getItem('starlight-theme') === null) localStorage.setItem('starlight-theme', 'dark'); } catch (e) {}</script><link rel="shortcut icon" href="/v/8e74ca34b133/site/favicon.svg" type="image/svg+xml"/><meta name="generator" content="Astro v7.3.5"/><meta name="generator" content="Starlight v0.42.5"/><meta property="og:title" content="Notebook"/><meta property="og:type" content="article"/><meta property="og:url" content="https://pyking.org/documentation/notebook/"/><meta property="og:locale" content="en"/><meta property="og:description" content="Write Pyking notebooks in Markdown, with runnable cells, tasks, quizzes and points, and check them from the command line."/><meta property="og:site_name" content="Pyking"/><meta name="twitter:card" content="summary_large_image"/><meta name="description" content="Write Pyking notebooks in Markdown, with runnable cells, tasks, quizzes and points, and check them from the command line."/><script>
+	window.StarlightThemeProvider = (() => {
+		const storedTheme =
+			typeof localStorage !== 'undefined' && localStorage.getItem('starlight-theme');
+		const theme =
+			storedTheme ||
+			(window.matchMedia('(prefers-color-scheme: light)').matches ? 'light' : 'dark');
+		document.documentElement.dataset.theme = theme === 'light' ? 'light' : 'dark';
+		return {
+			updatePickers(theme = storedTheme || 'auto') {
+				document.querySelectorAll('starlight-theme-select').forEach((picker) => {
+					const select = picker.querySelector('select');
+					if (select) select.value = theme;
+					/** @type {HTMLTemplateElement | null} */
+					const tmpl = document.querySelector(`#theme-icons`);
+					const newIcon = tmpl && tmpl.content.querySelector('.' + theme);
+					if (newIcon) {
+						const oldIcon = picker.querySelector('svg.label-icon');
+						if (oldIcon) {
+							oldIcon.replaceChildren(...newIcon.cloneNode(true).childNodes);
+						}
+					}
+				});
+			},
+		};
+	})();
+</script><template id="theme-icons"><svg aria-hidden="true" class="light astro-hkc32dio" width="16" height="16" viewBox="0 0 24 24" fill="currentColor" style="--sl-icon-size: 1em;"><path d="M5 12a1 1 0 0 0-1-1H3a1 1 0 0 0 0 2h1a1 1 0 0 0 1-1Zm.64 5-.71.71a1 1 0 0 0 0 1.41 1 1 0 0 0 1.41 0l.71-.71A1 1 0 0 0 5.64 17ZM12 5a1 1 0 0 0 1-1V3a1 1 0 0 0-2 0v1a1 1 0 0 0 1 1Zm5.66 2.34a1 1 0 0 0 .7-.29l.71-.71a1 1 0 1 0-1.41-1.41l-.66.71a1 1 0 0 0 0 1.41 1 1 0 0 0 .66.29Zm-12-.29a1 1 0 0 0 1.41 0 1 1 0 0 0 0-1.41l-.71-.71a1.004 1.004 0 1 0-1.43 1.41l.73.71ZM21 11h-1a1 1 0 0 0 0 2h1a1 1 0 0 0 0-2Zm-2.64 6A1 1 0 0 0 17 18.36l.71.71a1 1 0 0 0 1.41 0 1 1 0 0 0 0-1.41l-.76-.66ZM12 6.5a5.5 5.5 0 1 0 5.5 5.5A5.51 5.51 0 0 0 12 6.5Zm0 9a3.5 3.5 0 1 1 0-7 3.5 3.5 0 0 1 0 7Zm0 3.5a1 1 0 0 0-1 1v1a1 1 0 0 0 2 0v-1a1 1 0 0 0-1-1Z"/></svg><svg aria-hidden="true" class="dark astro-hkc32dio" width="16" height="16" viewBox="0 0 24 24" fill="currentColor" style="--sl-icon-size: 1em;"><path d="M21.64 13a1 1 0 0 0-1.05-.14 8.049 8.049 0 0 1-3.37.73 8.15 8.15 0 0 1-8.14-8.1 8.59 8.59 0 0 1 .25-2A1 1 0 0 0 8 2.36a10.14 10.14 0 1 0 14 11.69 1 1 0 0 0-.36-1.05Zm-9.5 6.69A8.14 8.14 0 0 1 7.08 5.22v.27a10.15 10.15 0 0 0 10.14 10.14 9.784 9.784 0 0 0 2.1-.22 8.11 8.11 0 0 1-7.18 4.32v-.04Z"/></svg><svg aria-hidden="true" class="auto astro-hkc32dio" width="16" height="16" viewBox="0 0 24 24" fill="currentColor" style="--sl-icon-size: 1em;"><path d="M21 14h-1V7a3 3 0 0 0-3-3H7a3 3 0 0 0-3 3v7H3a1 1 0 0 0-1 1v2a3 3 0 0 0 3 3h14a3 3 0 0 0 3-3v-2a1 1 0 0 0-1-1ZM6 7a1 1 0 0 1 1-1h10a1 1 0 0 1 1 1v7H6V7Zm14 10a1 1 0 0 1-1 1H5a1 1 0 0 1-1-1v-1h16v1Z"/></svg></template><link rel="stylesheet" href="/_astro/print.ehPL0gv-.css" media="print"><link rel="stylesheet" href="/_astro/middleware.DYJDcmyo.css"><script type="module" src="/_astro/page.Dwipeu-R.js"></script></head><body class="astro-g5ptsecz"><a class="sl-skip-link astro-qb7clj6f" href="#_top">Skip to content</a><div class="page sl-flex astro-yntsjkba"><header class="header astro-yntsjkba"><div class="pyking-header"><div class="pyking-header-left"><a href="/" class="site-title sl-flex astro-6rvad3va"><img class="astro-6rvad3va" alt="Pyking" src="/_astro/logo.C9hvHOpV.svg" width="64" height="64"><span class="astro-6rvad3va" translate="no">Pyking</span></a><nav class="pyking-nav" aria-label="Sections"><a href="/install/">Install</a><a href="/getstarted/pyking-in-20-minutes/">Getting started</a><a href="/documentation/language/" aria-current="page">Documentation</a><a href="/libraries/">Libraries</a><a href="/playground/">Playground</a></nav></div><div class="pyking-header-right print:hidden"><site-search class=" astro-b5kgnn7o" data-translations="{&quot;placeholder&quot;:&quot;Search&quot;}"><button data-open-modal disabled aria-label="Search" aria-keyshortcuts="Control+K" class="astro-b5kgnn7o"><svg aria-hidden="true" class="astro-b5kgnn7o astro-hkc32dio" width="16" height="16" viewBox="0 0 24 24" fill="currentColor" style="--sl-icon-size: 1em;"><path d="M21.71 20.29 18 16.61A9 9 0 1 0 16.61 18l3.68 3.68a.999.999 0 0 0 1.42 0 1 1 0 0 0 0-1.39ZM11 18a7 7 0 1 1 0-14 7 7 0 0 1 0 14Z"/></svg><span class="sl-hidden md:sl-block astro-b5kgnn7o" aria-hidden="true">Search</span><kbd class="sl-hidden md:sl-flex astro-b5kgnn7o" style="display: none;"><kbd class="astro-b5kgnn7o">Ctrl</kbd><kbd class="astro-b5kgnn7o">K</kbd></kbd></button><dialog style="padding:0" aria-label="Search" class="astro-b5kgnn7o"><div class="dialog-frame sl-flex astro-b5kgnn7o"><button data-close-modal class="sl-flex md:sl-hidden astro-b5kgnn7o">Cancel</button><div class="search-container astro-b5kgnn7o"><div id="starlight__search" class="astro-b5kgnn7o"></div></div></div></dialog></site-search><script>
+	(() => {
+		const openBtn = document.querySelector('button[data-open-modal]');
+		const shortcut = openBtn?.querySelector('kbd');
+		if (!openBtn || !(shortcut instanceof HTMLElement)) return;
+		const platformKey = shortcut.querySelector('kbd');
+		if (platformKey && /(Mac|iPhone|iPod|iPad)/i.test(navigator.platform)) {
+			platformKey.textContent = '⌘';
+			openBtn.setAttribute('aria-keyshortcuts', 'Meta+K');
+		}
+		shortcut.style.display = '';
+	})();
+</script><script type="module" src="/_astro/Search.astro_astro_type_script_index_0_lang.Bumivpjo.js"></script><div class="sl-hidden md:sl-flex"><starlight-theme-select><label style="--sl-select-width: 6.25em" class="astro-2z5xp7gb"><span class="sr-only astro-2z5xp7gb">Select theme</span><svg aria-hidden="true" class="icon label-icon astro-2z5xp7gb astro-hkc32dio" width="16" height="16" viewBox="0 0 24 24" fill="currentColor" style="--sl-icon-size: 1em;"><path d="M21 14h-1V7a3 3 0 0 0-3-3H7a3 3 0 0 0-3 3v7H3a1 1 0 0 0-1 1v2a3 3 0 0 0 3 3h14a3 3 0 0 0 3-3v-2a1 1 0 0 0-1-1ZM6 7a1 1 0 0 1 1-1h10a1 1 0 0 1 1 1v7H6V7Zm14 10a1 1 0 0 1-1 1H5a1 1 0 0 1-1-1v-1h16v1Z"/></svg><select autocomplete="off" class="astro-2z5xp7gb"><option value="dark" class="astro-2z5xp7gb">Dark</option><option value="light" class="astro-2z5xp7gb">Light</option><option value="auto" selected class="astro-2z5xp7gb">Auto</option></select><svg aria-hidden="true" class="icon caret astro-2z5xp7gb astro-hkc32dio" width="16" height="16" viewBox="0 0 24 24" fill="currentColor" style="--sl-icon-size: 1em;"><path d="M17 9.17a1 1 0 0 0-1.41 0L12 12.71 8.46 9.17a1 1 0 1 0-1.41 1.42l4.24 4.24a1.002 1.002 0 0 0 1.42 0L17 10.59a1.002 1.002 0 0 0 0-1.42Z"/></svg></label></starlight-theme-select><script>
+	StarlightThemeProvider.updatePickers();
+</script><script type="module">var e=`starlight-theme`,t=e=>e===`auto`||e===`dark`||e===`light`?e:`auto`,n=()=>t(typeof localStorage<`u`&&localStorage.getItem(e));function r(t){typeof localStorage<`u`&&localStorage.setItem(e,t===`light`||t===`dark`?t:``)}var i=()=>matchMedia(`(prefers-color-scheme: light)`).matches?`light`:`dark`;function a(e){StarlightThemeProvider.updatePickers(e),document.documentElement.dataset.theme=e===`auto`?i():e,r(e)}matchMedia(`(prefers-color-scheme: light)`).addEventListener(`change`,()=>{n()===`auto`&&a(`auto`)});var o=class extends HTMLElement{constructor(){super(),a(n()),this.querySelector(`select`)?.addEventListener(`change`,e=>{e.currentTarget instanceof HTMLSelectElement&&a(t(e.currentTarget.value))})}};customElements.define(`starlight-theme-select`,o);</script></div><a class="pyking-github" href="https://github.com/pyking-lang" title="Pyking on GitHub"><span class="sr-only">GitHub</span><svg aria-hidden="true" viewBox="0 0 24 24" width="22" height="22" fill="currentColor"><path d="M12 .3a12 12 0 0 0-3.8 23.4c.6.1.8-.3.8-.6v-2c-3.3.7-4-1.6-4-1.6-.6-1.4-1.4-1.8-1.4-1.8-1-.7.1-.7.1-.7 1.2.1 1.8 1.2 1.8 1.2 1 1.8 2.8 1.3 3.5 1 0-.8.4-1.3.7-1.6-2.7-.3-5.5-1.3-5.5-6 0-1.2.5-2.3 1.3-3.1-.2-.4-.6-1.6 0-3.2 0 0 1-.3 3.4 1.2a11.5 11.5 0 0 1 6 0c2.3-1.5 3.3-1.2 3.3-1.2.6 1.6.2 2.8.1 3.2.8.8 1.3 1.9 1.3 3.1 0 4.6-2.8 5.6-5.5 5.9.5.4.9 1.1.9 2.2v3.3c0 .3.1.7.8.6A12 12 0 0 0 12 .3"></path></svg></a></div></div></header><nav class="sidebar print:hidden astro-yntsjkba" aria-label="Main"><button popovertarget="starlight__sidebar" class="sl-menu-button sl-flex md:sl-hidden print:hidden astro-r2osgdlg"><svg aria-hidden="true" class="open-menu astro-r2osgdlg astro-hkc32dio" width="16" height="16" viewBox="0 0 24 24" fill="currentColor" style="--sl-icon-size: 1em;"><path d="M3 8h18a1 1 0 1 0 0-2H3a1 1 0 0 0 0 2Zm18 8H3a1 1 0 0 0 0 2h18a1 1 0 0 0 0-2Zm0-5H3a1 1 0 0 0 0 2h18a1 1 0 0 0 0-2Z"/></svg><svg aria-hidden="true" class="close-menu astro-r2osgdlg astro-hkc32dio" width="16" height="16" viewBox="0 0 24 24" fill="currentColor" style="--sl-icon-size: 1em;"><path d="m13.41 12 6.3-6.29a1.004 1.004 0 1 0-1.42-1.42L12 10.59l-6.29-6.3a1.004 1.004 0 0 0-1.42 1.42l6.3 6.29-6.3 6.29a1 1 0 0 0 0 1.42.998.998 0 0 0 1.42 0l6.29-6.3 6.29 6.3a.999.999 0 0 0 1.42 0 1 1 0 0 0 0-1.42L13.41 12Z"/></svg><span class="sr-only astro-r2osgdlg">Menu</span></button><script type="module">var e=class extends HTMLElement{constructor(){super();let e=matchMedia(`(min-width: 50em)`),t=()=>{this.popover=e.matches?null:`auto`};t(),e.addEventListener(`change`,()=>t()),this.addEventListener(`toggle`,({newState:e})=>this.trapFocus(e===`open`))}trapFocus(e){document.querySelectorAll(`.main-frame, .sl-skip-link`).forEach(t=>{t.toggleAttribute(`inert`,e)})}};customElements.define(`sl-sidebar-pane`,e);</script><script type="module">var e=class extends HTMLElement{constructor(){super();let e=this.querySelector(`select`);e&&(e.addEventListener(`change`,e=>{e.currentTarget instanceof HTMLSelectElement&&(window.location.pathname=e.currentTarget.value)}),window.addEventListener(`pageshow`,t=>{if(!t.persisted)return;let n=e.querySelector(`option[selected]`)?.index;n!==e.selectedIndex&&(e.selectedIndex=n??0)}))}};customElements.define(`starlight-lang-select`,e);</script><sl-sidebar-pane popover id="starlight__sidebar" class="sidebar-pane astro-yntsjkba"><div class="sidebar-content sl-flex astro-yntsjkba"><nav class="pyking-sidebar" aria-label="Documentation"><p class="pyking-sidebar-title">Documentation</p><ul class="pyking-sidebar-main"><li><a href="/documentation/editors/">Editors</a></li><li><a href="/documentation/playground/">Playground</a></li><li class="pyking-sidebar-open"><a href="/documentation/notebook/" aria-current="page">Notebook</a><ul class="pyking-sidebar-sub"><li><a href="#running-a-notebook">Running a notebook</a></li><li><a href="#using-a-notebook">Using a notebook</a></li><li><a href="#prose">Prose</a></li><li><a href="#cells">Cells</a></li><li><a href="#assignments">Assignments</a></li></ul></li><li><a href="/documentation/command-line/">Command line</a></li><li><a href="/documentation/repl/">REPL</a></li><li><a href="/documentation/targets/">Compiler targets</a></li><li><a href="/documentation/slides/">Code on slides</a></li><li class="pyking-sidebar-parent"><a href="/documentation/language/">Language reference</a></li><li><a href="/documentation/vs-other-languages/">Pyking vs. other languages</a></li><li><a href="/documentation/grammar/">Grammar</a></li><li class="pyking-sidebar-parent"><a href="/documentation/tinyweb/">Tinyweb without Pyking</a></li><li><a href="/documentation/tinyweb-styles/">Styling tinyweb</a></li></ul></nav><div class="md:sl-hidden"><div class="mobile-preferences sl-flex astro-p4azlveh"><div class="social-icons astro-p4azlveh"></div><starlight-theme-select><label style="--sl-select-width: 6.25em" class="astro-2z5xp7gb"><span class="sr-only astro-2z5xp7gb">Select theme</span><svg aria-hidden="true" class="icon label-icon astro-2z5xp7gb astro-hkc32dio" width="16" height="16" viewBox="0 0 24 24" fill="currentColor" style="--sl-icon-size: 1em;"><path d="M21 14h-1V7a3 3 0 0 0-3-3H7a3 3 0 0 0-3 3v7H3a1 1 0 0 0-1 1v2a3 3 0 0 0 3 3h14a3 3 0 0 0 3-3v-2a1 1 0 0 0-1-1ZM6 7a1 1 0 0 1 1-1h10a1 1 0 0 1 1 1v7H6V7Zm14 10a1 1 0 0 1-1 1H5a1 1 0 0 1-1-1v-1h16v1Z"/></svg><select autocomplete="off" class="astro-2z5xp7gb"><option value="dark" class="astro-2z5xp7gb">Dark</option><option value="light" class="astro-2z5xp7gb">Light</option><option value="auto" selected class="astro-2z5xp7gb">Auto</option></select><svg aria-hidden="true" class="icon caret astro-2z5xp7gb astro-hkc32dio" width="16" height="16" viewBox="0 0 24 24" fill="currentColor" style="--sl-icon-size: 1em;"><path d="M17 9.17a1 1 0 0 0-1.41 0L12 12.71 8.46 9.17a1 1 0 1 0-1.41 1.42l4.24 4.24a1.002 1.002 0 0 0 1.42 0L17 10.59a1.002 1.002 0 0 0 0-1.42Z"/></svg></label></starlight-theme-select><script>
+	StarlightThemeProvider.updatePickers();
+</script></div></div></div></sl-sidebar-pane></nav><div class="main-frame astro-yntsjkba"><script type="module">var e=document.getElementById(`starlight__sidebar`),t=e?.querySelector(`sl-sidebar-state-persist`),n=`sl-sidebar-state`,r=()=>{let r=[],i=t?.dataset.hash||``;try{let e=sessionStorage.getItem(n),t=JSON.parse(e||`{}`);Array.isArray(t.open)&&t.hash===i&&(r=t.open)}catch{}return{hash:i,open:r,scroll:e?.scrollTop||0}},i=e=>{try{sessionStorage.setItem(n,JSON.stringify(e))}catch{}},a=()=>i(r()),o=(e,t)=>{let n=r();n.open[t]=e,i(n)};t?.addEventListener(`click`,e=>{if(!(e.target instanceof Element))return;let t=e.target.closest(`summary`)?.closest(`details`);if(!t)return;let n=t.querySelector(`sl-sidebar-restore`),r=parseInt(n?.dataset.index||``);isNaN(r)||o(!t.open,r)}),addEventListener(`visibilitychange`,()=>{document.visibilityState===`hidden`&&a()});</script><div class="lg:sl-flex astro-lrzkfocr"><div class="main-pane astro-lrzkfocr"><main data-pagefind-body class="astro-g5ptsecz" lang="en" dir="ltr"><div class="content-panel astro-a7po4psb"><div class="sl-container astro-a7po4psb"><h1 id="_top" class="astro-bebwqqxs">Notebook</h1></div></div><div class="content-panel astro-a7po4psb"><div class="sl-container astro-a7po4psb"><div class="sl-markdown-content"><p>A Pyking notebook is a Markdown file. Its text is shown as a page, and
+each <code>```pyking</code> block in it is a <strong>cell</strong>: a program the
+reader can edit and run in the browser. Other blocks turn the notebook
+into an assignment, with tasks a student solves in the page, quizzes,
+and points.</p>
+<p>Notebooks are meant for teaching and for exploring. The file is the
+notebook: you write it in any editor, keep it in git, and it still reads
+well in any Markdown viewer.</p>
+<p>As in the <a href="/documentation/playground/">playground</a>, the cells run in
+the browser with the Pyking interpreter. <strong>Nothing runs on a server</strong>;
+<code>pyk</code> only hands the browser the files.</p>
+<h2 id="running-a-notebook">Running a notebook</h2>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<table><thead><tr><th>Command</th><th>What it does</th></tr></thead><tbody><tr><td><code>pyk notebook book.md</code></td><td>serves the notebook and prints a link to open</td></tr><tr><td><code>pyk notebook book.md --mode teacher</code></td><td>shows every solution, test and answer, and the problems test mode finds</td></tr><tr><td><code>pyk notebook book.md --mode test</code></td><td>serves nothing: checks the notebook and prints each problem</td></tr><tr><td><code>pyk notebook book.md --port 8100</code></td><td>serves it on port 8100</td></tr><tr><td><code>pyk notebook book.json</code></td><td>the same, for a notebook in its JSON form</td></tr></tbody></table>
+<p><code>--mode student</code> is the default.</p>
+<p><code>pyk notebook</code> watches the file. Save a change in your editor and the
+page reloads, scrolled where it was. A student’s progress is kept over
+the reload, except for a task or quiz whose block you changed.</p>
+<p>Links to other <code>.md</code> files beside the notebook open as notebooks too,
+and images load from the notebook’s own directory.</p>
+<h2 id="using-a-notebook">Using a notebook</h2>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<table><thead><tr><th></th><th></th></tr></thead><tbody><tr><td><strong>▶</strong> beside a cell</td><td>runs it</td></tr><tr><td>Shift+Enter in a cell, or in its stdin or args field</td><td>runs it and moves to the next cell</td></tr><tr><td>Ctrl+Enter (Cmd+Enter on a Mac)</td><td>runs it and stays</td></tr><tr><td>Escape</td><td>leaves the cell</td></tr><tr><td><strong>■</strong> while it runs</td><td>stops it</td></tr><tr><td><strong>reset</strong>, shown once a cell is edited</td><td>puts back the code the notebook has</td></tr></tbody></table>
+<p>Cells run one at a time. <code>[n]</code> beside a cell counts runs across the
+page, as in Jupyter, and <code>[*]</code> marks a cell that is waiting or running.
+What a cell prints appears under it as it is printed. An error is shown
+under the cell, in the words <code>pyk</code> uses, and underlined in the code.</p>
+<p>Edits to a cell last until the page is reloaded; the file is never
+changed. Every cell, and every input and output box, has a <strong>copy</strong>
+button in its top right corner, shown while the pointer is over it.</p>
+<h2 id="prose">Prose</h2>
+<p>Everything outside the notebook’s blocks is Markdown, as on GitHub:
+headings, emphasis, inline code, links, images, lists and task lists,
+tables, quotes, footnotes, rules and HTML. A fenced block in another
+language is shown highlighted. A front matter <code>title:</code> names the page;
+without it, the first <code>#</code> heading does. The headings, down to <code>###</code>,
+are listed in a contents sidebar.</p>
+<p>Callouts and math are written like this:</p>
+<div class="expressive-code"><link rel="stylesheet" href="/_astro/ec.w36nc.css"><script type="module" src="/_astro/ec.0vx5m.js"></script><figure class="frame not-content"><figcaption class="header"></figcaption><pre data-language="markdown"><code><div class="ec-line"><div class="code"><span style="--0:#D6DEEB;--1:#403F53">---</span></div></div><div class="ec-line"><div class="code"><span style="--0:#7FDBCA;--1:#111111">title</span><span style="--0:#D6DEEB;--1:#403F53">: </span><span style="--0:#ECC48D;--1:#3B61B0">Week 1</span></div></div><div class="ec-line"><div class="code"><span style="--0:#D6DEEB;--1:#403F53">---</span></div></div><div class="ec-line"><div class="code">
+</div></div><div class="ec-line"><div class="code"><span style="--0:#82B1FF;--1:#3B61B0"># Squares</span></div></div><div class="ec-line"><div class="code">
+</div></div><div class="ec-line"><div class="code"><span style="--0:#969BB7;--1:#5C6285">> [</span><span style="--0:#D6DEEB;--0td:underline;--1:#403F53;--1td:underline">!NOTE</span><span style="--0:#969BB7;--1:#5C6285">]</span></div></div><div class="ec-line"><div class="code"><span style="--0:#969BB7;--1:#5C6285">> Each cell is a program of its own.</span></div></div><div class="ec-line"><div class="code">
+</div></div><div class="ec-line"><div class="code"><span style="--0:#D6DEEB;--1:#403F53">The square of $n$ is $n^2$, and</span></div></div><div class="ec-line"><div class="code">
+</div></div><div class="ec-line"><div class="code"><span style="--0:#D6DEEB;--1:#403F53">$$\sum_{k=1}^{n} k = \frac{n(n+1)}{2}$$</span></div></div><div class="ec-line"><div class="code">
+</div></div><div class="ec-line"><div class="code"><span style="--0:#D6DEEB;--1:#403F53">```math</span></div></div><div class="ec-line"><div class="code"><span style="--0:#D6DEEB;--1:#403F53">(a + b)^2 = a^2 + 2ab + b^2</span></div></div><div class="ec-line"><div class="code"><span style="--0:#D6DEEB;--1:#403F53">```</span></div></div></code></pre><div class="copy"><div aria-live="polite"></div><button title="Copy to clipboard" data-copied="Copied!" data-code="---title: Week 1---# Squares> [!NOTE]> Each cell is a program of its own.The square of $n$ is $n^2$, and$$\sum_{k=1}^{n} k = \frac{n(n+1)}{2}$$&#x60;&#x60;&#x60;math(a + b)^2 = a^2 + 2ab + b^2&#x60;&#x60;&#x60;"><div></div></button></div></figure></div>
+<p>The callouts are <code>[!NOTE]</code>, <code>[!TIP]</code>, <code>[!IMPORTANT]</code>, <code>[!WARNING]</code> and
+<code>[!CAUTION]</code>. Math is typeset with KaTeX: <code>$…$</code> inline, and <code>$$…$$</code> or
+a <code>```math</code> block for display. <code>$5 and $6</code> stays text.</p>
+<h2 id="cells">Cells</h2>
+<p>A <code>```pyking</code> block (or <code>```pyk</code>) is a cell. A word after
+<code>pyking</code> changes it:</p>
+<div class="expressive-code"><figure class="frame not-content"><figcaption class="header"></figcaption><pre data-language="markdown"><code><div class="ec-line"><div class="code"><span style="--0:#D6DEEB;--1:#403F53">```pyking</span></div></div><div class="ec-line"><div class="code"><span style="--0:#D6DEEB;--1:#403F53">print("Hello", "world", 2026)</span></div></div><div class="ec-line"><div class="code"><span style="--0:#D6DEEB;--1:#403F53">```</span></div></div><div class="ec-line"><div class="code">
+</div></div><div class="ec-line"><div class="code"><span style="--0:#D6DEEB;--1:#403F53">```pyking readonly</span></div></div><div class="ec-line"><div class="code"><span style="--0:#D6DEEB;--1:#403F53">print(1 + 2)</span></div></div><div class="ec-line"><div class="code"><span style="--0:#D6DEEB;--1:#403F53">```</span></div></div><div class="ec-line"><div class="code">
+</div></div><div class="ec-line"><div class="code"><span style="--0:#D6DEEB;--1:#403F53">```pyking error</span></div></div><div class="ec-line"><div class="code"><span style="--0:#D6DEEB;--1:#403F53">x = 1</span></div></div><div class="ec-line"><div class="code"><span style="--0:#D6DEEB;--1:#403F53">x := 2</span></div></div><div class="ec-line"><div class="code"><span style="--0:#D6DEEB;--1:#403F53">```</span></div></div><div class="ec-line"><div class="code">
+</div></div><div class="ec-line"><div class="code"><span style="--0:#D6DEEB;--1:#403F53">```pyking norun</span></div></div><div class="ec-line"><div class="code"><span style="--0:#D6DEEB;--1:#403F53">def f(x): ...</span></div></div><div class="ec-line"><div class="code"><span style="--0:#D6DEEB;--1:#403F53">```</span></div></div></code></pre><div class="copy"><div aria-live="polite"></div><button title="Copy to clipboard" data-copied="Copied!" data-code="&#x60;&#x60;&#x60;pykingprint(&#x22;Hello&#x22;, &#x22;world&#x22;, 2026)&#x60;&#x60;&#x60;&#x60;&#x60;&#x60;pyking readonlyprint(1 + 2)&#x60;&#x60;&#x60;&#x60;&#x60;&#x60;pyking errorx = 1x := 2&#x60;&#x60;&#x60;&#x60;&#x60;&#x60;pyking norundef f(x): ...&#x60;&#x60;&#x60;"><div></div></button></div></figure></div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<table><thead><tr><th>Word after <code>pyking</code></th><th>The cell is</th></tr></thead><tbody><tr><td>(none)</td><td>editable and runnable</td></tr><tr><td><code>readonly</code></td><td>runnable, but not editable</td></tr><tr><td><code>error</code></td><td>meant to be refused: the error is shown as the expected result</td></tr><tr><td><code>norun</code></td><td>highlighted code only, not run, for a fragment</td></tr><tr><td><code>playground</code></td><td>on this website, given a Try in playground button; a notebook ignores it</td></tr></tbody></table>
+<p>Each cell is <strong>a whole program</strong>, run on its own. A name defined in one
+cell is not seen in the next, and a cell that uses <code>var</code> or <code>:=</code> needs
+its own <code>use mutation</code> line:</p>
+<div class="expressive-code"><figure class="frame not-content"><figcaption class="header"></figcaption><pre data-language="markdown"><code><div class="ec-line"><div class="code"><span style="--0:#D6DEEB;--1:#403F53">```pyking</span></div></div><div class="ec-line"><div class="code"><span style="--0:#D6DEEB;--1:#403F53">use mutation</span></div></div><div class="ec-line"><div class="code">
+</div></div><div class="ec-line"><div class="code"><span style="--0:#D6DEEB;--1:#403F53">var total = 0</span></div></div><div class="ec-line"><div class="code"><span style="--0:#D6DEEB;--1:#403F53">for n in range(1, 11):</span></div></div><div class="ec-line"><div class="code"><span class="indent"><span style="--0:#D6DEEB;--1:#403F53">    </span></span><span style="--0:#D6DEEB;--1:#403F53">total += n</span></div></div><div class="ec-line"><div class="code"><span style="--0:#D6DEEB;--1:#403F53">print(total)</span></div></div><div class="ec-line"><div class="code"><span style="--0:#D6DEEB;--1:#403F53">```</span></div></div></code></pre><div class="copy"><div aria-live="polite"></div><button title="Copy to clipboard" data-copied="Copied!" data-code="&#x60;&#x60;&#x60;pykinguse mutationvar total = 0for n in range(1, 11):    total += nprint(total)&#x60;&#x60;&#x60;"><div></div></button></div></figure></div>
+<p>A cell may import the standard library.</p>
+<h3 id="a-cells-input">A cell’s input</h3>
+<p>A cell whose program reads standard input (<code>io.read_line</code>, <code>io.read</code>,
+<code>io.is_eof</code>) shows a <strong>stdin</strong> field above its code, and one that reads
+<code>sys.args()</code> shows an <strong>args</strong> field. The reader types into them. The
+notebook can fill them in, on the cell’s header:</p>
+<div class="expressive-code"><figure class="frame not-content"><figcaption class="header"></figcaption><pre data-language="markdown"><code><div class="ec-line"><div class="code"><span style="--0:#D6DEEB;--1:#403F53">```pyking stdin = "Ada" args = "first 'second argument'"</span></div></div><div class="ec-line"><div class="code"><span style="--0:#D6DEEB;--1:#403F53">import io</span></div></div><div class="ec-line"><div class="code"><span style="--0:#D6DEEB;--1:#403F53">import sys</span></div></div><div class="ec-line"><div class="code"><span style="--0:#D6DEEB;--1:#403F53">print("hello", io.read_line(), sys.args())</span></div></div><div class="ec-line"><div class="code"><span style="--0:#D6DEEB;--1:#403F53">```</span></div></div></code></pre><div class="copy"><div aria-live="polite"></div><button title="Copy to clipboard" data-copied="Copied!" data-code="&#x60;&#x60;&#x60;pyking stdin = &#x22;Ada&#x22; args = &#x22;first &#x27;second argument&#x27;&#x22;import ioimport sysprint(&#x22;hello&#x22;, io.read_line(), sys.args())&#x60;&#x60;&#x60;"><div></div></button></div></figure></div>
+<p>or in a <code>```stdin</code> or <code>```args</code> block right before the
+cell, which is not shown on its own:</p>
+<div class="expressive-code"><figure class="frame not-content"><figcaption class="header"></figcaption><pre data-language="markdown"><code><div class="ec-line"><div class="code"><span style="--0:#D6DEEB;--1:#403F53">```stdin</span></div></div><div class="ec-line"><div class="code"><span style="--0:#D6DEEB;--1:#403F53">Ada</span></div></div><div class="ec-line"><div class="code"><span style="--0:#D6DEEB;--1:#403F53">Grace</span></div></div><div class="ec-line"><div class="code"><span style="--0:#D6DEEB;--1:#403F53">```</span></div></div><div class="ec-line"><div class="code">
+</div></div><div class="ec-line"><div class="code"><span style="--0:#D6DEEB;--1:#403F53">```pyking</span></div></div><div class="ec-line"><div class="code"><span style="--0:#D6DEEB;--1:#403F53">import io</span></div></div><div class="ec-line"><div class="code"><span style="--0:#D6DEEB;--1:#403F53">print("hello", io.read_line())</span></div></div><div class="ec-line"><div class="code"><span style="--0:#D6DEEB;--1:#403F53">print("hello", io.read_line())</span></div></div><div class="ec-line"><div class="code"><span style="--0:#D6DEEB;--1:#403F53">```</span></div></div></code></pre><div class="copy"><div aria-live="polite"></div><button title="Copy to clipboard" data-copied="Copied!" data-code="&#x60;&#x60;&#x60;stdinAdaGrace&#x60;&#x60;&#x60;&#x60;&#x60;&#x60;pykingimport ioprint(&#x22;hello&#x22;, io.read_line())print(&#x22;hello&#x22;, io.read_line())&#x60;&#x60;&#x60;"><div></div></button></div></figure></div>
+<p>A value on a header is a word or a quoted string, in which <code>\n</code> is a new
+line. Arguments are split at spaces, with quotes keeping a space inside
+one. What the notebook gives is only where the fields start: the reader
+can change it.</p>
+<h3 id="what-a-cell-prints">What a cell prints</h3>
+<p>A <code>```stdout</code> block after a cell says what the cell prints, and
+a <code>```stderr</code> block what it writes with <code>debug</code>. Test mode
+checks that the cell does print that. They are hidden unless they say
+<code>visible = true</code>; a visible one reads as if the cell had already run,
+until the reader runs it. A <code>```stdin</code> block between the cell
+and its output is the input the output was made from.</p>
+<div class="expressive-code"><figure class="frame not-content"><figcaption class="header"></figcaption><pre data-language="markdown"><code><div class="ec-line"><div class="code"><span style="--0:#D6DEEB;--1:#403F53">```pyking</span></div></div><div class="ec-line"><div class="code"><span style="--0:#D6DEEB;--1:#403F53">import io</span></div></div><div class="ec-line"><div class="code"><span style="--0:#D6DEEB;--1:#403F53">debug("to stderr")</span></div></div><div class="ec-line"><div class="code"><span style="--0:#D6DEEB;--1:#403F53">print(io.read_line())</span></div></div><div class="ec-line"><div class="code"><span style="--0:#D6DEEB;--1:#403F53">```</span></div></div><div class="ec-line"><div class="code">
+</div></div><div class="ec-line"><div class="code"><span style="--0:#D6DEEB;--1:#403F53">```stdin</span></div></div><div class="ec-line"><div class="code"><span style="--0:#D6DEEB;--1:#403F53">echo me</span></div></div><div class="ec-line"><div class="code"><span style="--0:#D6DEEB;--1:#403F53">```</span></div></div><div class="ec-line"><div class="code">
+</div></div><div class="ec-line"><div class="code"><span style="--0:#D6DEEB;--1:#403F53">```stdout visible = true</span></div></div><div class="ec-line"><div class="code"><span style="--0:#D6DEEB;--1:#403F53">echo me</span></div></div><div class="ec-line"><div class="code"><span style="--0:#D6DEEB;--1:#403F53">```</span></div></div><div class="ec-line"><div class="code">
+</div></div><div class="ec-line"><div class="code"><span style="--0:#D6DEEB;--1:#403F53">```stderr</span></div></div><div class="ec-line"><div class="code"><span style="--0:#D6DEEB;--1:#403F53">to stderr</span></div></div><div class="ec-line"><div class="code"><span style="--0:#D6DEEB;--1:#403F53">```</span></div></div></code></pre><div class="copy"><div aria-live="polite"></div><button title="Copy to clipboard" data-copied="Copied!" data-code="&#x60;&#x60;&#x60;pykingimport iodebug(&#x22;to stderr&#x22;)print(io.read_line())&#x60;&#x60;&#x60;&#x60;&#x60;&#x60;stdinecho me&#x60;&#x60;&#x60;&#x60;&#x60;&#x60;stdout visible = trueecho me&#x60;&#x60;&#x60;&#x60;&#x60;&#x60;stderrto stderr&#x60;&#x60;&#x60;"><div></div></button></div></figure></div>
+<p>A cell that checks but may be wrong shows its warnings, such as a name
+never used, above what it prints. <code>pyk notebook -Wall book.md</code>, or any
+other of <code>pyk</code>’s <code>-W</code> flags, says which warnings are shown.</p>
+<h3 id="tinyweb-in-a-cell">tinyweb in a cell</h3>
+<p>A cell that uses <code>tinyweb</code> shows its page under the cell: canvases,
+buttons, sliders and sound. The program goes on running after its last
+line, so a click calls back the function it was given, until the cell
+runs again, another cell runs, or <strong>■</strong> is pressed.</p>
+<div class="expressive-code"><figure class="frame not-content"><figcaption class="header"></figcaption><pre data-language="markdown"><code><div class="ec-line"><div class="code"><span style="--0:#D6DEEB;--1:#403F53">```pyking</span></div></div><div class="ec-line"><div class="code"><span style="--0:#D6DEEB;--1:#403F53">import tinyweb as tw</span></div></div><div class="ec-line"><div class="code">
+</div></div><div class="ec-line"><div class="code"><span style="--0:#D6DEEB;--1:#403F53">tw.web_init(0)</span></div></div><div class="ec-line"><div class="code"><span style="--0:#D6DEEB;--1:#403F53">tw.label("Hello from a page")</span></div></div><div class="ec-line"><div class="code"><span style="--0:#D6DEEB;--1:#403F53">```</span></div></div></code></pre><div class="copy"><div aria-live="polite"></div><button title="Copy to clipboard" data-copied="Copied!" data-code="&#x60;&#x60;&#x60;pykingimport tinyweb as twtw.web_init(0)tw.label(&#x22;Hello from a page&#x22;)&#x60;&#x60;&#x60;"><div></div></button></div></figure></div>
+<p>An <code>```events</code> block after such a cell is what its page is sent
+when test mode runs it: one event a line, as under
+<a href="#tests">Tests</a> below.</p>
+<h2 id="assignments">Assignments</h2>
+<p>A notebook becomes an assignment with tasks the student solves in the
+page, quizzes they answer, and points that add up to a pass. A bar at
+the top and the end of the page says how many are solved, the points,
+and whether they pass. Its <strong>start over</strong> forgets every answer.</p>
+<p>A student’s progress, their code, their choices, the attempts used and
+the points, is kept in their browser, per notebook.</p>
+<h3 id="the-rules">The rules</h3>
+<div class="expressive-code"><figure class="frame not-content"><figcaption class="header"></figcaption><pre data-language="markdown"><code><div class="ec-line"><div class="code"><span style="--0:#D6DEEB;--1:#403F53">```rules max = 10 pass = 8</span></div></div><div class="ec-line"><div class="code"><span style="--0:#D6DEEB;--1:#403F53">Solve all the tasks and quizzes. Each failed Submit costs a point.</span></div></div><div class="ec-line"><div class="code"><span style="--0:#D6DEEB;--1:#403F53">```</span></div></div></code></pre><div class="copy"><div aria-live="polite"></div><button title="Copy to clipboard" data-copied="Copied!" data-code="&#x60;&#x60;&#x60;rules max = 10 pass = 8Solve all the tasks and quizzes. Each failed Submit costs a point.&#x60;&#x60;&#x60;"><div></div></button></div></figure></div>
+<p>The rules are shown in a box at the top, with <code>max</code> and <code>pass</code>. A
+notebook has at most one rules block. <code>max</code> must be the sum of the
+<code>points</code> of every task and quiz, and a student passes with <code>pass</code>
+points or more.</p>
+<h3 id="tasks-and-practices">Tasks and practices</h3>
+<p>The prose before a <code>```pyking task</code> block states the task. The
+block holds the code the student starts from, which must run. After it
+come an optional solution and the tests:</p>
+<div class="expressive-code"><figure class="frame not-content"><figcaption class="header"></figcaption><pre data-language="markdown"><code><div class="ec-line"><div class="code"><span style="--0:#D6DEEB;--1:#403F53">Print the square of the number on standard input.</span></div></div><div class="ec-line"><div class="code">
+</div></div><div class="ec-line"><div class="code"><span style="--0:#D6DEEB;--1:#403F53">```pyking task name = "square" points = 2 attempts = 3 penalty = 1</span></div></div><div class="ec-line"><div class="code"><span style="--0:#D6DEEB;--1:#403F53">print("Add your code here")</span></div></div><div class="ec-line"><div class="code"><span style="--0:#D6DEEB;--1:#403F53">```</span></div></div><div class="ec-line"><div class="code">
+</div></div><div class="ec-line"><div class="code"><span style="--0:#D6DEEB;--1:#403F53">```pyking solution available = true</span></div></div><div class="ec-line"><div class="code"><span style="--0:#D6DEEB;--1:#403F53">import io</span></div></div><div class="ec-line"><div class="code"><span style="--0:#D6DEEB;--1:#403F53">n = int(io.read_line())</span></div></div><div class="ec-line"><div class="code"><span style="--0:#D6DEEB;--1:#403F53">print(n * n)</span></div></div><div class="ec-line"><div class="code"><span style="--0:#D6DEEB;--1:#403F53">```</span></div></div><div class="ec-line"><div class="code">
+</div></div><div class="ec-line"><div class="code"><span style="--0:#D6DEEB;--1:#403F53">```stdin visible = true</span></div></div><div class="ec-line"><div class="code"><span style="--0:#D6DEEB;--1:#403F53">4</span></div></div><div class="ec-line"><div class="code"><span style="--0:#D6DEEB;--1:#403F53">```</span></div></div><div class="ec-line"><div class="code">
+</div></div><div class="ec-line"><div class="code"><span style="--0:#D6DEEB;--1:#403F53">```stdout visible = true</span></div></div><div class="ec-line"><div class="code"><span style="--0:#D6DEEB;--1:#403F53">16</span></div></div><div class="ec-line"><div class="code"><span style="--0:#D6DEEB;--1:#403F53">```</span></div></div><div class="ec-line"><div class="code">
+</div></div><div class="ec-line"><div class="code"><span style="--0:#D6DEEB;--1:#403F53">```stdin</span></div></div><div class="ec-line"><div class="code"><span style="--0:#D6DEEB;--1:#403F53">-3</span></div></div><div class="ec-line"><div class="code"><span style="--0:#D6DEEB;--1:#403F53">```</span></div></div></code></pre><div class="copy"><div aria-live="polite"></div><button title="Copy to clipboard" data-copied="Copied!" data-code="Print the square of the number on standard input.&#x60;&#x60;&#x60;pyking task name = &#x22;square&#x22; points = 2 attempts = 3 penalty = 1print(&#x22;Add your code here&#x22;)&#x60;&#x60;&#x60;&#x60;&#x60;&#x60;pyking solution available = trueimport ion = int(io.read_line())print(n * n)&#x60;&#x60;&#x60;&#x60;&#x60;&#x60;stdin visible = true4&#x60;&#x60;&#x60;&#x60;&#x60;&#x60;stdout visible = true16&#x60;&#x60;&#x60;&#x60;&#x60;&#x60;stdin-3&#x60;&#x60;&#x60;"><div></div></button></div></figure></div>
+<p>That task has two tests: <code>4</code>, which the student can see with what it
+should print, and <code>-3</code>, which is hidden.</p>
+<p><strong>Submit</strong>, under the task, runs the student’s code on every test. Where
+there is a solution, it runs too, on the same input, and the two must
+print the same, draw the same with <code>tinyweb</code>, and end with the same exit
+status. Without a solution, the student’s output must match the stdout
+and stderr blocks. Spaces at the end of a line and blank lines at the
+end do not count. Each run may take ten seconds. Running the cell with
+<strong>▶</strong> is free; only a failed Submit uses an attempt.</p>
+<p>When a Submit fails, the red box says why, and <strong>See result diff</strong> shows
+the first test that differed: its input, the two outputs side by side,
+and, for a <code>tinyweb</code> program, what each one drew. A solved task turns
+green.</p>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<table><thead><tr><th>Task header</th><th>Means</th><th>Default</th></tr></thead><tbody><tr><td><code>name = "…"</code></td><td>the task’s name: letters, digits, <code>_</code> and <code>-</code>, unique in the notebook</td><td>none</td></tr><tr><td><code>points = N</code></td><td>what solving it gives</td><td>none: solved or not</td></tr><tr><td><code>attempts = N</code></td><td>how many times Submit may fail before the task is failed</td><td>no limit</td></tr><tr><td><code>penalty = N</code></td><td>points taken off for each failed Submit, never below 0</td><td>0</td></tr><tr><td><code>stdin = "…"</code>, <code>args = "…"</code></td><td>the input the cell starts with, and that a test without its own uses</td><td>empty</td></tr><tr><td><code>readonly</code></td><td>the starting code cannot be edited</td><td>editable</td></tr><tr><td><code>method = inline</code> or <code>git</code></td><td>answered in the page, or elsewhere and pushed with git</td><td><code>inline</code></td></tr><tr><td><code>max_calls = (N,name)</code></td><td>the answer may write <code>name</code> at most N times; several as <code>(2,rect) (1,circle)</code></td><td>no limit</td></tr></tbody></table>
+<p>A <code>```pyking practice</code> block is a task that gives no points. It
+is titled “Practice”, takes no <code>points</code> or <code>penalty</code>, and is otherwise
+a task:</p>
+<div class="expressive-code"><figure class="frame not-content"><figcaption class="header"></figcaption><pre data-language="markdown"><code><div class="ec-line"><div class="code"><span style="--0:#D6DEEB;--1:#403F53">Print </span><span style="--0:#C5E478;--1:#3B61B0">`Hello, world!`</span><span style="--0:#D6DEEB;--1:#403F53">.</span></div></div><div class="ec-line"><div class="code">
+</div></div><div class="ec-line"><div class="code"><span style="--0:#D6DEEB;--1:#403F53">```pyking practice name = "hello"</span></div></div><div class="ec-line"><div class="code"><span style="--0:#D6DEEB;--1:#403F53">print("")</span></div></div><div class="ec-line"><div class="code"><span style="--0:#D6DEEB;--1:#403F53">```</span></div></div><div class="ec-line"><div class="code">
+</div></div><div class="ec-line"><div class="code"><span style="--0:#D6DEEB;--1:#403F53">```stdout visible = true</span></div></div><div class="ec-line"><div class="code"><span style="--0:#D6DEEB;--1:#403F53">Hello, world!</span></div></div><div class="ec-line"><div class="code"><span style="--0:#D6DEEB;--1:#403F53">```</span></div></div></code></pre><div class="copy"><div aria-live="polite"></div><button title="Copy to clipboard" data-copied="Copied!" data-code="Print &#x60;Hello, world!&#x60;.&#x60;&#x60;&#x60;pyking practice name = &#x22;hello&#x22;print(&#x22;&#x22;)&#x60;&#x60;&#x60;&#x60;&#x60;&#x60;stdout visible = trueHello, world!&#x60;&#x60;&#x60;"><div></div></button></div></figure></div>
+<h4 id="the-solution">The solution</h4>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<table><thead><tr><th>Solution header</th><th>Means</th><th>Default</th></tr></thead><tbody><tr><td><code>available = true</code></td><td>a student may press <strong>Show a solution</strong> to see it</td><td><code>false</code>: never shown to a student</td></tr><tr><td><code>run_on_submit = true</code></td><td>Submit first runs the answer in its cell, so the student sees and hears it</td><td><code>false</code>: Submit checks quietly</td></tr><tr><td><code>readonly</code></td><td>cannot be edited where shown</td><td>editable</td></tr><tr><td><code>stdin = "…"</code>, <code>args = "…"</code></td><td>its input when it runs on its own</td><td>the task’s</td></tr><tr><td><code>save_canvas = "c"</code>, <code>file = "x.png"</code></td><td>the <code>tinyweb</code> canvas <code>c</code> it draws is saved as <code>x.png</code> beside the notebook, for the prose to show</td><td>none</td></tr></tbody></table>
+<h4 id="tests">Tests</h4>
+<p>A test is a <code>```stdin</code> block, an <code>```events</code> block, a
+<code>```stdout</code> block or a <code>```stderr</code> block, or several of
+them in that order. A test with no stdin block runs on the task’s own
+input. Each takes <code>visible = true</code> to be shown to the student.</p>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<table><thead><tr><th>Block</th><th>Header</th></tr></thead><tbody><tr><td><code>```stdin</code></td><td><code>args = "…"</code>: the test’s arguments; <code>lines_per_multi_input = N</code>: a test for every N lines, each compared with the solution</td></tr><tr><td><code>```events</code></td><td>events sent to a <code>tinyweb</code> page once the program’s top level has ended</td></tr><tr><td><code>```stdout</code></td><td>what the program prints</td></tr><tr><td><code>```stderr</code></td><td>what the program writes with <code>debug</code>; compared only where a test has one</td></tr></tbody></table>
+<div class="expressive-code"><figure class="frame not-content"><figcaption class="header"></figcaption><pre data-language="markdown"><code><div class="ec-line"><div class="code"><span style="--0:#D6DEEB;--1:#403F53">Add the two numbers on standard input.</span></div></div><div class="ec-line"><div class="code">
+</div></div><div class="ec-line"><div class="code"><span style="--0:#D6DEEB;--1:#403F53">```pyking task name = "add"</span></div></div><div class="ec-line"><div class="code"><span style="--0:#D6DEEB;--1:#403F53">print(0)</span></div></div><div class="ec-line"><div class="code"><span style="--0:#D6DEEB;--1:#403F53">```</span></div></div><div class="ec-line"><div class="code">
+</div></div><div class="ec-line"><div class="code"><span style="--0:#D6DEEB;--1:#403F53">```pyking solution</span></div></div><div class="ec-line"><div class="code"><span style="--0:#D6DEEB;--1:#403F53">import io</span></div></div><div class="ec-line"><div class="code"><span style="--0:#D6DEEB;--1:#403F53">a = int(io.read_line())</span></div></div><div class="ec-line"><div class="code"><span style="--0:#D6DEEB;--1:#403F53">b = int(io.read_line())</span></div></div><div class="ec-line"><div class="code"><span style="--0:#D6DEEB;--1:#403F53">print(a + b)</span></div></div><div class="ec-line"><div class="code"><span style="--0:#D6DEEB;--1:#403F53">```</span></div></div><div class="ec-line"><div class="code">
+</div></div><div class="ec-line"><div class="code"><span style="--0:#D6DEEB;--1:#403F53">```stdin lines_per_multi_input = 2</span></div></div><div class="ec-line"><div class="code"><span style="--0:#D6DEEB;--1:#403F53">1</span></div></div><div class="ec-line"><div class="code"><span style="--0:#D6DEEB;--1:#403F53">2</span></div></div><div class="ec-line"><div class="code"><span style="--0:#D6DEEB;--1:#403F53">10</span></div></div><div class="ec-line"><div class="code"><span style="--0:#D6DEEB;--1:#403F53">20</span></div></div><div class="ec-line"><div class="code"><span style="--0:#D6DEEB;--1:#403F53">```</span></div></div></code></pre><div class="copy"><div aria-live="polite"></div><button title="Copy to clipboard" data-copied="Copied!" data-code="Add the two numbers on standard input.&#x60;&#x60;&#x60;pyking task name = &#x22;add&#x22;print(0)&#x60;&#x60;&#x60;&#x60;&#x60;&#x60;pyking solutionimport ioa = int(io.read_line())b = int(io.read_line())print(a + b)&#x60;&#x60;&#x60;&#x60;&#x60;&#x60;stdin lines_per_multi_input = 2121020&#x60;&#x60;&#x60;"><div></div></button></div></figure></div>
+<p>Here every two lines of the stdin block are a test of their own, each
+compared with what the solution prints.</p>
+<p>An events block tests a <code>tinyweb</code> page:</p>
+<div class="expressive-code"><figure class="frame not-content"><figcaption class="header"></figcaption><pre data-language="markdown"><code><div class="ec-line"><div class="code"><span style="--0:#D6DEEB;--1:#403F53">Make a button "More" that counts its clicks.</span></div></div><div class="ec-line"><div class="code">
+</div></div><div class="ec-line"><div class="code"><span style="--0:#D6DEEB;--1:#403F53">```pyking task name = "counter"</span></div></div><div class="ec-line"><div class="code"><span style="--0:#D6DEEB;--1:#403F53">import tinyweb as tw</span></div></div><div class="ec-line"><div class="code"><span style="--0:#D6DEEB;--1:#403F53">tw.web_init(0)</span></div></div><div class="ec-line"><div class="code"><span style="--0:#D6DEEB;--1:#403F53">```</span></div></div><div class="ec-line"><div class="code">
+</div></div><div class="ec-line"><div class="code"><span style="--0:#D6DEEB;--1:#403F53">```pyking solution</span></div></div><div class="ec-line"><div class="code"><span style="--0:#D6DEEB;--1:#403F53">use mutation</span></div></div><div class="ec-line"><div class="code"><span style="--0:#D6DEEB;--1:#403F53">import tinyweb as tw</span></div></div><div class="ec-line"><div class="code">
+</div></div><div class="ec-line"><div class="code"><span style="--0:#D6DEEB;--1:#403F53">var count = 0</span></div></div><div class="ec-line"><div class="code"><span style="--0:#D6DEEB;--1:#403F53">tw.web_init(0)</span></div></div><div class="ec-line"><div class="code"><span style="--0:#D6DEEB;--1:#403F53">shown = tw.label("0")</span></div></div><div class="ec-line"><div class="code"><span style="--0:#D6DEEB;--1:#403F53">def more():</span></div></div><div class="ec-line"><div class="code"><span class="indent"><span style="--0:#D6DEEB;--1:#403F53">    </span></span><span style="--0:#D6DEEB;--1:#403F53">count := count + 1</span></div></div><div class="ec-line"><div class="code"><span class="indent"><span style="--0:#D6DEEB;--1:#403F53">    </span></span><span style="--0:#D6DEEB;--1:#403F53">tw.set_text(shown, string(count))</span></div></div><div class="ec-line"><div class="code"><span class="indent"><span style="--0:#D6DEEB;--1:#403F53">    </span></span><span style="--0:#D6DEEB;--1:#403F53">print(count)</span></div></div><div class="ec-line"><div class="code"><span style="--0:#D6DEEB;--1:#403F53">tw.button("More", on_click = more)</span></div></div><div class="ec-line"><div class="code"><span style="--0:#D6DEEB;--1:#403F53">```</span></div></div><div class="ec-line"><div class="code">
+</div></div><div class="ec-line"><div class="code"><span style="--0:#D6DEEB;--1:#403F53">```events visible = true</span></div></div><div class="ec-line"><div class="code"><span style="--0:#D6DEEB;--1:#403F53">click "More"</span></div></div><div class="ec-line"><div class="code"><span style="--0:#D6DEEB;--1:#403F53">click "More"</span></div></div><div class="ec-line"><div class="code"><span style="--0:#D6DEEB;--1:#403F53">```</span></div></div><div class="ec-line"><div class="code">
+</div></div><div class="ec-line"><div class="code"><span style="--0:#D6DEEB;--1:#403F53">```stdout</span></div></div><div class="ec-line"><div class="code"><span style="--0:#D6DEEB;--1:#403F53">1</span></div></div><div class="ec-line"><div class="code"><span style="--0:#D6DEEB;--1:#403F53">2</span></div></div><div class="ec-line"><div class="code"><span style="--0:#D6DEEB;--1:#403F53">```</span></div></div></code></pre><div class="copy"><div aria-live="polite"></div><button title="Copy to clipboard" data-copied="Copied!" data-code="Make a button &#x22;More&#x22; that counts its clicks.&#x60;&#x60;&#x60;pyking task name = &#x22;counter&#x22;import tinyweb as twtw.web_init(0)&#x60;&#x60;&#x60;&#x60;&#x60;&#x60;pyking solutionuse mutationimport tinyweb as twvar count = 0tw.web_init(0)shown = tw.label(&#x22;0&#x22;)def more():    count := count + 1    tw.set_text(shown, string(count))    print(count)tw.button(&#x22;More&#x22;, on_click = more)&#x60;&#x60;&#x60;&#x60;&#x60;&#x60;events visible = trueclick &#x22;More&#x22;click &#x22;More&#x22;&#x60;&#x60;&#x60;&#x60;&#x60;&#x60;stdout12&#x60;&#x60;&#x60;"><div></div></button></div></figure></div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<table><thead><tr><th>Event line</th><th>Is</th></tr></thead><tbody><tr><td><code>click "Id"</code></td><td>a button clicked</td></tr><tr><td><code>slide "Id" 12</code></td><td>a slider moved to 12</td></tr><tr><td><code>check "Id" true</code></td><td>a checkbox set</td></tr><tr><td><code>pick "Id"</code></td><td>a radio button picked</td></tr><tr><td><code>choose "Id" 2</code></td><td>a choice made</td></tr><tr><td><code>enter "Id" "Ada"</code></td><td>text entered in a field</td></tr><tr><td><code>frame 0.5</code></td><td>a frame at 0.5 seconds</td></tr><tr><td><code>move "c" 20 30</code>, <code>press "c" 40 50</code>, <code>release "c" 90 62</code></td><td>the mouse over canvas <code>c</code></td></tr><tr><td><code>key ArrowLeft</code>, <code>key_up ArrowLeft</code></td><td>a key pressed, released</td></tr></tbody></table>
+<p>A widget’s id is what the function making it answers: for
+<code>tw.button("More")</code>, its title.</p>
+<h4 id="loosening-the-comparison">Loosening the comparison</h4>
+<p>Four blocks under a task let an answer differ from what is expected in
+ways that do not matter. Each applies to what is printed, what <code>debug</code>
+writes, and the <code>tinyweb</code> log. Their lines are patterns; in the last
+three, <code>*</code> stands for any text.</p>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<table><thead><tr><th>Block</th><th>Lets an answer</th></tr></thead><tbody><tr><td><code>```diff-allowed</code></td><td>have numbers that differ by at most <code>[+/-N]</code></td></tr><tr><td><code>```optional-last</code></td><td>end with lines the other side does not have</td></tr><tr><td><code>```any-order</code></td><td>write some lines in any order between given lines</td></tr><tr><td><code>```ignore-chars chars = "…"</code></td><td>differ in the given characters on lines that match</td></tr></tbody></table>
+<div class="expressive-code"><figure class="frame not-content"><figcaption class="header"></figcaption><pre data-language="markdown"><code><div class="ec-line"><div class="code"><span style="--0:#D6DEEB;--1:#403F53">```diff-allowed</span></div></div><div class="ec-line"><div class="code"><span style="--0:#D6DEEB;--1:#403F53">area = [+/-0.01]</span></div></div><div class="ec-line"><div class="code"><span style="--0:#D6DEEB;--1:#403F53">```</span></div></div><div class="ec-line"><div class="code">
+</div></div><div class="ec-line"><div class="code"><span style="--0:#D6DEEB;--1:#403F53">```optional-last</span></div></div><div class="ec-line"><div class="code"><span style="--0:#D6DEEB;--1:#403F53">sdelay*</span></div></div><div class="ec-line"><div class="code"><span style="--0:#D6DEEB;--1:#403F53">```</span></div></div><div class="ec-line"><div class="code">
+</div></div><div class="ec-line"><div class="code"><span style="--0:#D6DEEB;--1:#403F53">```any-order</span></div></div><div class="ec-line"><div class="code"><span style="--0:#D6DEEB;--1:#403F53">BETWEEN: sdelay*</span></div></div><div class="ec-line"><div class="code"><span style="--0:#D6DEEB;--1:#403F53">ANY: play "kick*</span></div></div><div class="ec-line"><div class="code"><span style="--0:#D6DEEB;--1:#403F53">ANY: play "snare*</span></div></div><div class="ec-line"><div class="code"><span style="--0:#D6DEEB;--1:#403F53">```</span></div></div><div class="ec-line"><div class="code">
+</div></div><div class="ec-line"><div class="code"><span style="--0:#D6DEEB;--1:#403F53">```ignore-chars chars = " ,"</span></div></div><div class="ec-line"><div class="code"><span style="--0:#D6DEEB;--1:#403F53">point*</span></div></div><div class="ec-line"><div class="code"><span style="--0:#D6DEEB;--1:#403F53">```</span></div></div></code></pre><div class="copy"><div aria-live="polite"></div><button title="Copy to clipboard" data-copied="Copied!" data-code="&#x60;&#x60;&#x60;diff-allowedarea = [+/-0.01]&#x60;&#x60;&#x60;&#x60;&#x60;&#x60;optional-lastsdelay*&#x60;&#x60;&#x60;&#x60;&#x60;&#x60;any-orderBETWEEN: sdelay*ANY: play &#x22;kick*ANY: play &#x22;snare*&#x60;&#x60;&#x60;&#x60;&#x60;&#x60;ignore-chars chars = &#x22; ,&#x22;point*&#x60;&#x60;&#x60;"><div></div></button></div></figure></div>
+<p>With these, <code>area = 12.57</code> matches <code>area = 12.56636</code>, a pause at the
+end of a beat may be left out, drums played on the same beat may come
+in any order, and <code>point 1,2</code> matches <code>point 1, 2</code>.</p>
+<h4 id="comparing-only-the-start">Comparing only the start</h4>
+<p>A program that plays a beat forever never ends, so it cannot be
+compared whole. A <code>```compare-until</code> block says how much is
+compared: each run stops after <code>events</code> lines of the <code>tinyweb</code> log that
+match its patterns.</p>
+<div class="expressive-code"><figure class="frame not-content"><figcaption class="header"></figcaption><pre data-language="markdown"><code><div class="ec-line"><div class="code"><span style="--0:#D6DEEB;--1:#403F53">```compare-until events = 60</span></div></div><div class="ec-line"><div class="code"><span style="--0:#D6DEEB;--1:#403F53">sdelay*</span></div></div><div class="ec-line"><div class="code"><span style="--0:#D6DEEB;--1:#403F53">```</span></div></div></code></pre><div class="copy"><div aria-live="polite"></div><button title="Copy to clipboard" data-copied="Copied!" data-code="&#x60;&#x60;&#x60;compare-until events = 60sdelay*&#x60;&#x60;&#x60;"><div></div></button></div></figure></div>
+<h4 id="answering-with-git">Answering with git</h4>
+<p>A task with <code>method = git</code> is answered outside the page. The page still
+shows its code and its visible input, and ▶ runs the code, but in place
+of Submit it says “Please submit via your git account”. The answer is
+graded from the notebook’s tests with <a href="#grading-with-nbverify">nbverify</a>.</p>
+<div class="expressive-code"><figure class="frame not-content"><figcaption class="header"></figcaption><pre data-language="markdown"><code><div class="ec-line"><div class="code"><span style="--0:#D6DEEB;--1:#403F53">```pyking task name = "project" points = 5 method = git</span></div></div><div class="ec-line"><div class="code"><span style="--0:#D6DEEB;--1:#403F53">print("Write your program in your repository")</span></div></div><div class="ec-line"><div class="code"><span style="--0:#D6DEEB;--1:#403F53">```</span></div></div><div class="ec-line"><div class="code">
+</div></div><div class="ec-line"><div class="code"><span style="--0:#D6DEEB;--1:#403F53">```stdout</span></div></div><div class="ec-line"><div class="code"><span style="--0:#D6DEEB;--1:#403F53">done</span></div></div><div class="ec-line"><div class="code"><span style="--0:#D6DEEB;--1:#403F53">```</span></div></div></code></pre><div class="copy"><div aria-live="polite"></div><button title="Copy to clipboard" data-copied="Copied!" data-code="&#x60;&#x60;&#x60;pyking task name = &#x22;project&#x22; points = 5 method = gitprint(&#x22;Write your program in your repository&#x22;)&#x60;&#x60;&#x60;&#x60;&#x60;&#x60;stdoutdone&#x60;&#x60;&#x60;"><div></div></button></div></figure></div>
+<h4 id="limiting-calls">Limiting calls</h4>
+<p><code>max_calls</code> limits how often an answer may write a name: here <code>rect</code>
+at most twice. Every place counts, outside comments and strings:
+<code>rect(...)</code>, <code>tw.rect(...)</code> and <code>def rect</code>. The limit is shown as a
+badge, and an answer that breaks it is refused before it runs.</p>
+<div class="expressive-code"><figure class="frame not-content"><figcaption class="header"></figcaption><pre data-language="markdown"><code><div class="ec-line"><div class="code"><span style="--0:#D6DEEB;--1:#403F53">Draw two boxes.</span></div></div><div class="ec-line"><div class="code">
+</div></div><div class="ec-line"><div class="code"><span style="--0:#D6DEEB;--1:#403F53">```pyking task name = "boxes" max_calls = (2,rect)</span></div></div><div class="ec-line"><div class="code"><span style="--0:#D6DEEB;--1:#403F53">import tinyweb as tw</span></div></div><div class="ec-line"><div class="code"><span style="--0:#D6DEEB;--1:#403F53">tw.web_init(0)</span></div></div><div class="ec-line"><div class="code"><span style="--0:#D6DEEB;--1:#403F53">c = tw.canvas(200, 100)</span></div></div><div class="ec-line"><div class="code"><span style="--0:#D6DEEB;--1:#403F53">```</span></div></div><div class="ec-line"><div class="code">
+</div></div><div class="ec-line"><div class="code"><span style="--0:#D6DEEB;--1:#403F53">```pyking solution</span></div></div><div class="ec-line"><div class="code"><span style="--0:#D6DEEB;--1:#403F53">import tinyweb as tw</span></div></div><div class="ec-line"><div class="code"><span style="--0:#D6DEEB;--1:#403F53">tw.web_init(0)</span></div></div><div class="ec-line"><div class="code"><span style="--0:#D6DEEB;--1:#403F53">c = tw.canvas(200, 100)</span></div></div><div class="ec-line"><div class="code"><span style="--0:#D6DEEB;--1:#403F53">tw.rect(c, 10, 10, 80, 80)</span></div></div><div class="ec-line"><div class="code"><span style="--0:#D6DEEB;--1:#403F53">tw.rect(c, 110, 10, 80, 80)</span></div></div><div class="ec-line"><div class="code"><span style="--0:#D6DEEB;--1:#403F53">```</span></div></div></code></pre><div class="copy"><div aria-live="polite"></div><button title="Copy to clipboard" data-copied="Copied!" data-code="Draw two boxes.&#x60;&#x60;&#x60;pyking task name = &#x22;boxes&#x22; max_calls = (2,rect)import tinyweb as twtw.web_init(0)c = tw.canvas(200, 100)&#x60;&#x60;&#x60;&#x60;&#x60;&#x60;pyking solutionimport tinyweb as twtw.web_init(0)c = tw.canvas(200, 100)tw.rect(c, 10, 10, 80, 80)tw.rect(c, 110, 10, 80, 80)&#x60;&#x60;&#x60;"><div></div></button></div></figure></div>
+<h3 id="examples">Examples</h3>
+<p>An <code>```example</code> block shows what a task’s solution does with an
+input, usually in the prose before the task, so the reader sees what is
+asked before trying. Its text is the input. The page runs the solution
+on it and shows the input and what the solution printed, drew, or both.
+The solution’s code is not shown.</p>
+<div class="expressive-code"><figure class="frame not-content"><figcaption class="header"></figcaption><pre data-language="markdown"><code><div class="ec-line"><div class="code"><span style="--0:#D6DEEB;--1:#403F53">For example, for the task </span><span style="--0:#C5E478;--1:#3B61B0">`square`</span><span style="--0:#D6DEEB;--1:#403F53"> above:</span></div></div><div class="ec-line"><div class="code">
+</div></div><div class="ec-line"><div class="code"><span style="--0:#D6DEEB;--1:#403F53">```example task_name = square output = stdout</span></div></div><div class="ec-line"><div class="code"><span style="--0:#D6DEEB;--1:#403F53">7</span></div></div><div class="ec-line"><div class="code"><span style="--0:#D6DEEB;--1:#403F53">```</span></div></div></code></pre><div class="copy"><div aria-live="polite"></div><button title="Copy to clipboard" data-copied="Copied!" data-code="For example, for the task &#x60;square&#x60; above:&#x60;&#x60;&#x60;example task_name = square output = stdout7&#x60;&#x60;&#x60;"><div></div></button></div></figure></div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<table><thead><tr><th>Example header</th><th>Means</th><th>Default</th></tr></thead><tbody><tr><td><code>task_name = name</code></td><td>the task whose solution runs; it needs a <code>name</code> and a solution</td><td>required</td></tr><tr><td><code>args = "…"</code></td><td>the program’s arguments</td><td>none</td></tr><tr><td><code>output = stdout</code>, <code>image</code> or <code>stdout,image</code></td><td>what it shows: what the solution printed, what it drew with <code>tinyweb</code>, or both</td><td><code>stdout</code></td></tr></tbody></table>
+<h3 id="quizzes">Quizzes</h3>
+<p>The question is the prose before a <code>```quiz</code> block, or the text
+inside it before the first alternative. An alternative starts a line
+with <code>*</code> where the student picks one, or with <code>[]</code> where they may check
+any number. An <code>```answer</code> block follows, with one entry per
+alternative, in order: <code>-></code> for right, <code>-</code> for wrong, then the
+explanation, which may be empty.</p>
+<div class="expressive-code"><figure class="frame not-content"><figcaption class="header"></figcaption><pre data-language="markdown"><code><div class="ec-line"><div class="code"><span style="--0:#D6DEEB;--1:#403F53">```quiz name = "binding" attempts = 2 points = 2 penalty = 1 available = true</span></div></div><div class="ec-line"><div class="code"><span style="--0:#D6DEEB;--1:#403F53">Which are true?</span></div></div><div class="ec-line"><div class="code">
+</div></div><div class="ec-line"><div class="code"><span style="--0:#D6DEEB;--1:#403F53">[] `var` binds a name that can change.</span></div></div><div class="ec-line"><div class="code">
+</div></div><div class="ec-line"><div class="code"><span style="--0:#D6DEEB;--1:#403F53">[] `=` binds a name that can change.</span></div></div><div class="ec-line"><div class="code">
+</div></div><div class="ec-line"><div class="code"><span style="--0:#D6DEEB;--1:#403F53">[] `:=` updates a `var`.</span></div></div><div class="ec-line"><div class="code"><span style="--0:#D6DEEB;--1:#403F53">```</span></div></div><div class="ec-line"><div class="code">
+</div></div><div class="ec-line"><div class="code"><span style="--0:#D6DEEB;--1:#403F53">```answer</span></div></div><div class="ec-line"><div class="code"><span style="--0:#D6DEEB;--1:#403F53">-> A var is updated with :=.</span></div></div><div class="ec-line"><div class="code"><span style="--0:#D6DEEB;--1:#403F53">- A name bound with = never changes.</span></div></div><div class="ec-line"><div class="code"><span style="--0:#D6DEEB;--1:#403F53">-></span></div></div><div class="ec-line"><div class="code"><span style="--0:#D6DEEB;--1:#403F53">```</span></div></div></code></pre><div class="copy"><div aria-live="polite"></div><button title="Copy to clipboard" data-copied="Copied!" data-code="&#x60;&#x60;&#x60;quiz name = &#x22;binding&#x22; attempts = 2 points = 2 penalty = 1 available = trueWhich are true?[] &#x60;var&#x60; binds a name that can change.[] &#x60;=&#x60; binds a name that can change.[] &#x60;:=&#x60; updates a &#x60;var&#x60;.&#x60;&#x60;&#x60;&#x60;&#x60;&#x60;answer-> A var is updated with :=.- A name bound with = never changes.->&#x60;&#x60;&#x60;"><div></div></button></div></figure></div>
+<p>A <code>*</code> quiz has exactly one right alternative:</p>
+<div class="expressive-code"><figure class="frame not-content"><figcaption class="header"></figcaption><pre data-language="markdown"><code><div class="ec-line"><div class="code"><span style="--0:#D6DEEB;--1:#403F53">Which is a square?</span></div></div><div class="ec-line"><div class="code">
+</div></div><div class="ec-line"><div class="code"><span style="--0:#D6DEEB;--1:#403F53">```quiz name = "which" points = 1</span></div></div><div class="ec-line"><div class="code"><span style="--0:#D6DEEB;--1:#403F53">* 9</span></div></div><div class="ec-line"><div class="code">
+</div></div><div class="ec-line"><div class="code"><span style="--0:#D6DEEB;--1:#403F53">* 10</span></div></div><div class="ec-line"><div class="code"><span style="--0:#D6DEEB;--1:#403F53">```</span></div></div><div class="ec-line"><div class="code">
+</div></div><div class="ec-line"><div class="code"><span style="--0:#D6DEEB;--1:#403F53">```answer</span></div></div><div class="ec-line"><div class="code"><span style="--0:#D6DEEB;--1:#403F53">-> 3 times 3.</span></div></div><div class="ec-line"><div class="code"><span style="--0:#D6DEEB;--1:#403F53">- No whole number squared is 10.</span></div></div><div class="ec-line"><div class="code"><span style="--0:#D6DEEB;--1:#403F53">```</span></div></div></code></pre><div class="copy"><div aria-live="polite"></div><button title="Copy to clipboard" data-copied="Copied!" data-code="Which is a square?&#x60;&#x60;&#x60;quiz name = &#x22;which&#x22; points = 1* 9* 10&#x60;&#x60;&#x60;&#x60;&#x60;&#x60;answer-> 3 times 3.- No whole number squared is 10.&#x60;&#x60;&#x60;"><div></div></button></div></figure></div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<table><thead><tr><th>Quiz header</th><th>Means</th><th>Default</th></tr></thead><tbody><tr><td><code>name</code>, <code>attempts</code>, <code>points</code>, <code>penalty</code></td><td>as for a task</td><td>none, no limit, none, 0</td></tr><tr><td><code>available = true</code></td><td>once the attempts are used up, the right answers are marked and every explanation shown</td><td><code>false</code>: only “failed”</td></tr><tr><td><code>one_point_correct = true</code></td><td>a <code>[]</code> quiz gives a point for each right alternative checked, and none when more are checked than there are right ones; its <code>points</code> is the number of <code>-></code> entries</td><td><code>false</code></td></tr></tbody></table>
+<p>A wrong Submit shows the explanation of each wrong alternative chosen,
+and for checkboxes says when a right one was left unchecked.</p>
+<h2 id="student-and-teacher">Student and teacher</h2>
+<p><code>--mode student</code>, the default, shows a solution only where it is
+<code>available</code> and the student asks for it, a test only where it says
+<code>visible = true</code>, and no quiz answers.</p>
+<p><code>--mode teacher</code> shows every solution, test and answer. It also runs
+test mode’s checks in the page, and shows under each task, quiz, cell
+and the rules that they have no problems, in green, or what the
+problems are, in red. Use it while you write a notebook.</p>
+<p>The answers are checked in the browser, so in both modes the whole file
+is sent to it. A student who reads the page’s source can find the
+solutions. For graded work, use <a href="#grading-with-nbverify">nbverify</a>.</p>
+<h2 id="test-mode">Test mode</h2>
+<div class="expressive-code"><figure class="frame is-terminal not-content"><figcaption class="header"><span class="title"></span><span class="sr-only">Terminal window</span></figcaption><pre data-language="sh"><code><div class="ec-line"><div class="code"><span style="--0:#82AAFF;--1:#3B61B0">pyk</span><span style="--0:#D6DEEB;--1:#403F53"> </span><span style="--0:#ECC48D;--1:#3B61B0">notebook</span><span style="--0:#D6DEEB;--1:#403F53"> </span><span style="--0:#ECC48D;--1:#3B61B0">book.md</span><span style="--0:#D6DEEB;--1:#403F53"> </span><span style="--0:#82AAFF;--1:#3B61B0">--mode</span><span style="--0:#D6DEEB;--1:#403F53"> </span><span style="--0:#ECC48D;--1:#3B61B0">test</span></div></div></code></pre><div class="copy"><div aria-live="polite"></div><button title="Copy to clipboard" data-copied="Copied!" data-code="pyk notebook book.md --mode test"><div></div></button></div></figure></div>
+<p>Test mode serves nothing. It reads the notebook as the page does, runs
+every program, and prints each problem as <code>file:line: message</code>. It
+exits with status 1 if there is any problem, and 0 otherwise, so a
+continuous integration job can run it on every notebook of a course. It
+needs <code>node</code>.</p>
+<p>It checks that:</p>
+<ul>
+<li>the blocks are where they belong, with valid headers: a solution
+after its task, an answer after its quiz with an entry per
+alternative, one <code>-></code> in a <code>*</code> quiz, numbers where numbers belong,
+names valid and unique;</li>
+<li>there is at most one rules block, and its <code>max</code> is the sum of the
+points and not less than <code>pass</code>;</li>
+<li>every cell runs, every <code>error</code> cell is refused, and every task’s
+starting code runs;</li>
+<li>each cell and each solution prints what the stdout and stderr blocks
+after it say, on each test’s input and events, and each solution
+keeps to its task’s <code>max_calls</code>;</li>
+<li>a task without a solution has an output to compare an answer with;</li>
+<li>each example names a task with a solution, and the solution runs on
+the example’s input.</li>
+</ul>
+<p>A cell that uses <code>var</code> without its own <code>use mutation</code> line, for
+example, is reported here.</p>
+<h2 id="the-json-form">The JSON form</h2>
+<p>A notebook can also be written as JSON. Use it when a program, not a
+person, writes or reads notebooks, for example to generate a notebook
+from a question bank or to import one into another system.</p>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<table><thead><tr><th>Command</th><th>What it does</th></tr></thead><tbody><tr><td><code>pyk notebook book.md --to-json</code></td><td>writes <code>book.json</code> beside it</td></tr><tr><td><code>pyk notebook book.json --to-markdown</code></td><td>writes <code>book.md</code> beside it</td></tr><tr><td><code>pyk notebook --json-schema</code></td><td>writes <code>notebook.schema.json</code>, the JSON Schema every notebook’s JSON follows</td></tr></tbody></table>
+<p><code>-o FILE</code> names the file written, and <code>-o -</code> prints it. A file of the
+default name that is already there is not written over. <code>--to-markdown</code>
+gives back the same Markdown, byte for byte. <code>pyk notebook book.json</code>
+serves and tests the JSON as the Markdown it stands for.</p>
+<p>The JSON is a list of blocks in order: Markdown text, the rules, cells,
+tasks with their solution and tests, practices, examples and quizzes.
+This notebook:</p>
+<div class="expressive-code"><figure class="frame not-content"><figcaption class="header"></figcaption><pre data-language="markdown"><code><div class="ec-line"><div class="code"><span style="--0:#D6DEEB;--1:#403F53">Print the square of the number on standard input.</span></div></div><div class="ec-line"><div class="code">
+</div></div><div class="ec-line"><div class="code"><span style="--0:#D6DEEB;--1:#403F53">```pyking task name = "square" points = 2</span></div></div><div class="ec-line"><div class="code"><span style="--0:#D6DEEB;--1:#403F53">print("Add your code here")</span></div></div><div class="ec-line"><div class="code"><span style="--0:#D6DEEB;--1:#403F53">```</span></div></div><div class="ec-line"><div class="code">
+</div></div><div class="ec-line"><div class="code"><span style="--0:#D6DEEB;--1:#403F53">```stdin visible = true</span></div></div><div class="ec-line"><div class="code"><span style="--0:#D6DEEB;--1:#403F53">4</span></div></div><div class="ec-line"><div class="code"><span style="--0:#D6DEEB;--1:#403F53">```</span></div></div><div class="ec-line"><div class="code">
+</div></div><div class="ec-line"><div class="code"><span style="--0:#D6DEEB;--1:#403F53">```stdout visible = true</span></div></div><div class="ec-line"><div class="code"><span style="--0:#D6DEEB;--1:#403F53">16</span></div></div><div class="ec-line"><div class="code"><span style="--0:#D6DEEB;--1:#403F53">```</span></div></div></code></pre><div class="copy"><div aria-live="polite"></div><button title="Copy to clipboard" data-copied="Copied!" data-code="Print the square of the number on standard input.&#x60;&#x60;&#x60;pyking task name = &#x22;square&#x22; points = 2print(&#x22;Add your code here&#x22;)&#x60;&#x60;&#x60;&#x60;&#x60;&#x60;stdin visible = true4&#x60;&#x60;&#x60;&#x60;&#x60;&#x60;stdout visible = true16&#x60;&#x60;&#x60;"><div></div></button></div></figure></div>
+<p>is this JSON:</p>
+<div class="expressive-code"><figure class="frame not-content"><figcaption class="header"></figcaption><pre data-language="json"><code><div class="ec-line"><div class="code"><span style="--0:#D6DEEB;--1:#403F53">{</span></div></div><div class="ec-line"><div class="code"><span class="indent">  </span><span style="--0:#7FDBCA;--1:#096E72">"format"</span><span style="--0:#D6DEEB;--1:#403F53">: </span><span style="--0:#D9F5DD;--1:#111111">"</span><span style="--0:#C789D6;--1:#7C5686">pyking-notebook</span><span style="--0:#D9F5DD;--1:#111111">"</span><span style="--0:#D6DEEB;--1:#403F53">,</span></div></div><div class="ec-line"><div class="code"><span class="indent">  </span><span style="--0:#7FDBCA;--1:#096E72">"version"</span><span style="--0:#D6DEEB;--1:#403F53">: </span><span style="--0:#F78C6C;--1:#AA0982">1</span><span style="--0:#D6DEEB;--1:#403F53">,</span></div></div><div class="ec-line"><div class="code"><span class="indent">  </span><span style="--0:#7FDBCA;--1:#096E72">"blocks"</span><span style="--0:#D6DEEB;--1:#403F53">: [</span></div></div><div class="ec-line"><div class="code"><span class="indent"><span style="--0:#D6DEEB;--1:#403F53">    </span></span><span style="--0:#D6DEEB;--1:#403F53">{ </span><span style="--0:#7FDBCA;--1:#096E72">"type"</span><span style="--0:#D6DEEB;--1:#403F53">: </span><span style="--0:#D9F5DD;--1:#111111">"</span><span style="--0:#C789D6;--1:#7C5686">markdown</span><span style="--0:#D9F5DD;--1:#111111">"</span><span style="--0:#D6DEEB;--1:#403F53">,</span></div></div><div class="ec-line"><div class="code"><span class="indent">      </span><span style="--0:#7FDBCA;--1:#096E72">"text"</span><span style="--0:#D6DEEB;--1:#403F53">: </span><span style="--0:#D9F5DD;--1:#111111">"</span><span style="--0:#C789D6;--1:#7C5686">Print the square of the number on standard input.</span><span style="--0:#F78C6C;--1:#AA0982">\n\n</span><span style="--0:#D9F5DD;--1:#111111">"</span><span style="--0:#D6DEEB;--1:#403F53"> },</span></div></div><div class="ec-line"><div class="code"><span class="indent"><span style="--0:#D6DEEB;--1:#403F53">    </span></span><span style="--0:#D6DEEB;--1:#403F53">{</span></div></div><div class="ec-line"><div class="code"><span class="indent">      </span><span style="--0:#7FDBCA;--1:#096E72">"type"</span><span style="--0:#D6DEEB;--1:#403F53">: </span><span style="--0:#D9F5DD;--1:#111111">"</span><span style="--0:#C789D6;--1:#7C5686">task</span><span style="--0:#D9F5DD;--1:#111111">"</span><span style="--0:#D6DEEB;--1:#403F53">,</span></div></div><div class="ec-line"><div class="code"><span class="indent">      </span><span style="--0:#7FDBCA;--1:#096E72">"attributes"</span><span style="--0:#D6DEEB;--1:#403F53">: { </span><span style="--0:#7FDBCA;--1:#096E72">"name"</span><span style="--0:#D6DEEB;--1:#403F53">: </span><span style="--0:#D9F5DD;--1:#111111">"</span><span style="--0:#C789D6;--1:#7C5686">square</span><span style="--0:#D9F5DD;--1:#111111">"</span><span style="--0:#D6DEEB;--1:#403F53">, </span><span style="--0:#7FDBCA;--1:#096E72">"points"</span><span style="--0:#D6DEEB;--1:#403F53">: </span><span style="--0:#F78C6C;--1:#AA0982">2</span><span style="--0:#D6DEEB;--1:#403F53"> },</span></div></div><div class="ec-line"><div class="code"><span class="indent">      </span><span style="--0:#7FDBCA;--1:#096E72">"code"</span><span style="--0:#D6DEEB;--1:#403F53">: </span><span style="--0:#D9F5DD;--1:#111111">"</span><span style="--0:#C789D6;--1:#7C5686">print(</span><span style="--0:#F78C6C;--1:#AA0982">\"</span><span style="--0:#C789D6;--1:#7C5686">Add your code here</span><span style="--0:#F78C6C;--1:#AA0982">\"</span><span style="--0:#C789D6;--1:#7C5686">)</span><span style="--0:#F78C6C;--1:#AA0982">\n</span><span style="--0:#D9F5DD;--1:#111111">"</span><span style="--0:#D6DEEB;--1:#403F53">,</span></div></div><div class="ec-line"><div class="code"><span class="indent">      </span><span style="--0:#7FDBCA;--1:#096E72">"tests"</span><span style="--0:#D6DEEB;--1:#403F53">: [</span></div></div><div class="ec-line"><div class="code"><span class="indent"><span style="--0:#D6DEEB;--1:#403F53">        </span></span><span style="--0:#D6DEEB;--1:#403F53">{</span></div></div><div class="ec-line"><div class="code"><span class="indent">          </span><span style="--0:#7FDBCA;--1:#096E72">"stdin"</span><span style="--0:#D6DEEB;--1:#403F53">: { </span><span style="--0:#7FDBCA;--1:#096E72">"attributes"</span><span style="--0:#D6DEEB;--1:#403F53">: { </span><span style="--0:#7FDBCA;--1:#096E72">"visible"</span><span style="--0:#D6DEEB;--1:#403F53">: </span><span style="--0:#FF6A83;--1:#A24848">true</span><span style="--0:#D6DEEB;--1:#403F53"> }, </span><span style="--0:#7FDBCA;--1:#096E72">"text"</span><span style="--0:#D6DEEB;--1:#403F53">: </span><span style="--0:#D9F5DD;--1:#111111">"</span><span style="--0:#C789D6;--1:#7C5686">4</span><span style="--0:#F78C6C;--1:#AA0982">\n</span><span style="--0:#D9F5DD;--1:#111111">"</span><span style="--0:#D6DEEB;--1:#403F53"> },</span></div></div><div class="ec-line"><div class="code"><span class="indent">          </span><span style="--0:#7FDBCA;--1:#096E72">"stdout"</span><span style="--0:#D6DEEB;--1:#403F53">: { </span><span style="--0:#7FDBCA;--1:#096E72">"attributes"</span><span style="--0:#D6DEEB;--1:#403F53">: { </span><span style="--0:#7FDBCA;--1:#096E72">"visible"</span><span style="--0:#D6DEEB;--1:#403F53">: </span><span style="--0:#FF6A83;--1:#A24848">true</span><span style="--0:#D6DEEB;--1:#403F53"> }, </span><span style="--0:#7FDBCA;--1:#096E72">"text"</span><span style="--0:#D6DEEB;--1:#403F53">: </span><span style="--0:#D9F5DD;--1:#111111">"</span><span style="--0:#C789D6;--1:#7C5686">16</span><span style="--0:#F78C6C;--1:#AA0982">\n</span><span style="--0:#D9F5DD;--1:#111111">"</span><span style="--0:#D6DEEB;--1:#403F53"> }</span></div></div><div class="ec-line"><div class="code"><span class="indent"><span style="--0:#D6DEEB;--1:#403F53">        </span></span><span style="--0:#D6DEEB;--1:#403F53">}</span></div></div><div class="ec-line"><div class="code"><span class="indent"><span style="--0:#D6DEEB;--1:#403F53">      </span></span><span style="--0:#D6DEEB;--1:#403F53">]</span></div></div><div class="ec-line"><div class="code"><span class="indent"><span style="--0:#D6DEEB;--1:#403F53">    </span></span><span style="--0:#D6DEEB;--1:#403F53">}</span></div></div><div class="ec-line"><div class="code"><span class="indent"><span style="--0:#D6DEEB;--1:#403F53">  </span></span><span style="--0:#D6DEEB;--1:#403F53">]</span></div></div><div class="ec-line"><div class="code"><span style="--0:#D6DEEB;--1:#403F53">}</span></div></div></code></pre><div class="copy"><div aria-live="polite"></div><button title="Copy to clipboard" data-copied="Copied!" data-code="{  &#x22;format&#x22;: &#x22;pyking-notebook&#x22;,  &#x22;version&#x22;: 1,  &#x22;blocks&#x22;: [    { &#x22;type&#x22;: &#x22;markdown&#x22;,      &#x22;text&#x22;: &#x22;Print the square of the number on standard input.\n\n&#x22; },    {      &#x22;type&#x22;: &#x22;task&#x22;,      &#x22;attributes&#x22;: { &#x22;name&#x22;: &#x22;square&#x22;, &#x22;points&#x22;: 2 },      &#x22;code&#x22;: &#x22;print(\&#x22;Add your code here\&#x22;)\n&#x22;,      &#x22;tests&#x22;: [        {          &#x22;stdin&#x22;: { &#x22;attributes&#x22;: { &#x22;visible&#x22;: true }, &#x22;text&#x22;: &#x22;4\n&#x22; },          &#x22;stdout&#x22;: { &#x22;attributes&#x22;: { &#x22;visible&#x22;: true }, &#x22;text&#x22;: &#x22;16\n&#x22; }        }      ]    }  ]}"><div></div></button></div></figure></div>
+<h2 id="grading-with-nbverify">Grading with nbverify</h2>
+<p>The answers a student submits in the page are checked by their own
+browser. For grades that count, <code>nbverify.py</code> grades a notebook’s tasks
+and quizzes on a server, for the
+<a href="https://johnwikman.github.io/id2202-autograder/index.html">ID2202 autograder</a>.
+It is one Python 3 file, in a Pyking installation under
+<code>tools/nbverify/</code>, and needs <code>pyk</code> to make the tests.</p>
+<p>Make a test file for each test of a task, from the notebook’s JSON.
+<code>nbverify.py</code> runs the solution with <code>pyk</code> to find what an answer must
+print:</p>
+<div class="expressive-code"><figure class="frame is-terminal not-content"><figcaption class="header"><span class="title"></span><span class="sr-only">Terminal window</span></figcaption><pre data-language="sh"><code><div class="ec-line"><div class="code"><span style="--0:#82AAFF;--1:#3B61B0">pyk</span><span style="--0:#D6DEEB;--1:#403F53"> </span><span style="--0:#ECC48D;--1:#3B61B0">notebook</span><span style="--0:#D6DEEB;--1:#403F53"> </span><span style="--0:#ECC48D;--1:#3B61B0">week1.md</span><span style="--0:#D6DEEB;--1:#403F53"> </span><span style="--0:#82AAFF;--1:#3B61B0">--to-json</span></div></div><div class="ec-line"><div class="code"><span style="--0:#82AAFF;--1:#3B61B0">python3</span><span style="--0:#D6DEEB;--1:#403F53"> </span><span style="--0:#ECC48D;--1:#3B61B0">nbverify.py</span><span style="--0:#D6DEEB;--1:#403F53"> </span><span style="--0:#ECC48D;--1:#3B61B0">paramdata</span><span style="--0:#D6DEEB;--1:#403F53"> </span><span style="--0:#ECC48D;--1:#3B61B0">week1.json</span><span style="--0:#D6DEEB;--1:#403F53"> </span><span style="--0:#82AAFF;--1:#3B61B0">--name</span><span style="--0:#D6DEEB;--1:#403F53"> </span><span style="--0:#ECC48D;--1:#3B61B0">square</span><span style="--0:#D6DEEB;--1:#403F53"> </span><span style="--0:#82AAFF;--1:#3B61B0">--output-dir</span><span style="--0:#D6DEEB;--1:#403F53"> </span><span style="--0:#ECC48D;--1:#3B61B0">tests/square</span></div></div></code></pre><div class="copy"><div aria-live="polite"></div><button title="Copy to clipboard" data-copied="Copied!" data-code="pyk notebook week1.md --to-jsonpython3 nbverify.py paramdata week1.json --name square --output-dir tests/square"><div></div></button></div></figure></div>
+<p>The autograder runs a student’s program with <code>nbverify.py run</code> and
+hands the result to <code>nbverify.py</code>, which answers whether it is
+accepted, and if not, why, in the same words Submit uses in the page.
+To try an answer on one test without the autograder:</p>
+<div class="expressive-code"><figure class="frame is-terminal not-content"><figcaption class="header"><span class="title"></span><span class="sr-only">Terminal window</span></figcaption><pre data-language="sh"><code><div class="ec-line"><div class="code"><span style="--0:#82AAFF;--1:#3B61B0">python3</span><span style="--0:#D6DEEB;--1:#403F53"> </span><span style="--0:#ECC48D;--1:#3B61B0">nbverify.py</span><span style="--0:#D6DEEB;--1:#403F53"> </span><span style="--0:#ECC48D;--1:#3B61B0">paramdata</span><span style="--0:#D6DEEB;--1:#403F53"> </span><span style="--0:#ECC48D;--1:#3B61B0">week1.json</span><span style="--0:#D6DEEB;--1:#403F53"> </span><span style="--0:#82AAFF;--1:#3B61B0">--name</span><span style="--0:#D6DEEB;--1:#403F53"> </span><span style="--0:#ECC48D;--1:#3B61B0">square</span><span style="--0:#D6DEEB;--1:#403F53"> </span><span style="--0:#82AAFF;--1:#3B61B0">--case</span><span style="--0:#D6DEEB;--1:#403F53"> </span><span style="--0:#F78C6C;--1:#AA0982">1</span><span style="--0:#D6DEEB;--1:#403F53"> </span><span style="--0:#F78C6C;--1:#AA0982">\</span></div></div><div class="ec-line"><div class="code"><span class="indent">  </span><span style="--0:#7FDBCA;--1:#096E72">|</span><span style="--0:#D6DEEB;--1:#403F53"> </span><span style="--0:#82AAFF;--1:#3B61B0">python3</span><span style="--0:#D6DEEB;--1:#403F53"> </span><span style="--0:#ECC48D;--1:#3B61B0">nbverify.py</span><span style="--0:#D6DEEB;--1:#403F53"> </span><span style="--0:#ECC48D;--1:#3B61B0">try</span><span style="--0:#D6DEEB;--1:#403F53"> </span><span style="--0:#ECC48D;--1:#3B61B0">mycode.pyk</span></div></div></code></pre><div class="copy"><div aria-live="polite"></div><button title="Copy to clipboard" data-copied="Copied!" data-code="python3 nbverify.py paramdata week1.json --name square --case 1 \  | python3 nbverify.py try mycode.pyk"><div></div></button></div></figure></div>
+<p>A quiz is answered by a program that prints the numbers of the
+alternatives chosen, counted from 1: <code>print([1, 3])</code>. Run
+<code>python3 nbverify.py --help</code> for every command.</p>
+<h2 id="notebooks-on-this-website">Notebooks on this website</h2>
+<p>The pages of this website are notebooks too. Every <code>```pyking</code>
+block on them is a cell you can edit and run, and a page may hold tasks
+and quizzes, in student mode, with your progress kept per page. The
+same pages are in the playground’s Help tab.</p>
+<p>This cell reads its input from a stdin block before it:</p>
+<div class="pkn-notebook pkn-embedded not-content"><div class="pkn-cell" data-stdin="Ada
+"><pre class="pkn-cell-fallback"><code>import io
+name = io.read_line()
+print("Hello, " + name + "!")</code></pre></div></div>
+<p>And this is a quiz:</p>
+<div class="pkn-notebook pkn-embedded not-content"><div class="pkn-fragment" data-markdown="&#x60;&#x60;&#x60;quiz name = &#x22;cells&#x22;
+A name defined in one cell can be used in the next cell.
+
+* True
+
+* False
+&#x60;&#x60;&#x60;
+
+&#x60;&#x60;&#x60;answer
+- Each cell is a whole program, run on its own.
+-> Each cell is a whole program, run on its own.
+&#x60;&#x60;&#x60;"></div></div></div><footer class="sl-flex astro-ddtxxk7k"><div class="meta sl-flex astro-ddtxxk7k"></div><div class="pagination-links print:hidden astro-b5raizh3" dir="ltr"></div></footer></div></div></main></div></div></div></div></body></html>

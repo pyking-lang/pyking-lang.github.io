@@ -1,0 +1,875 @@
+<!DOCTYPE html><html lang="en" dir="ltr" data-theme="dark" data-has-sidebar class="astro-g5ptsecz"><head><meta charset="utf-8"/><meta name="viewport" content="width=device-width, initial-scale=1"/><title>Grammar | Pyking</title><link rel="canonical" href="https://pyking.org/documentation/grammar/"/><link rel="sitemap" href="/sitemap-index.xml"/><script src="/v/8e74ca34b133/site/shell.js" data-base data-build="8e74ca34b133" data-sections="[{&quot;key&quot;:&quot;install&quot;,&quot;label&quot;:&quot;Install&quot;,&quot;prefix&quot;:&quot;/install/&quot;},{&quot;key&quot;:&quot;getstarted&quot;,&quot;label&quot;:&quot;Getting started&quot;,&quot;prefix&quot;:&quot;/getstarted/&quot;},{&quot;key&quot;:&quot;documentation&quot;,&quot;label&quot;:&quot;Documentation&quot;,&quot;prefix&quot;:&quot;/documentation/&quot;},{&quot;key&quot;:&quot;libraries&quot;,&quot;label&quot;:&quot;Libraries&quot;,&quot;prefix&quot;:&quot;/libraries/&quot;},{&quot;key&quot;:&quot;playground&quot;,&quot;label&quot;:&quot;Playground&quot;,&quot;prefix&quot;:&quot;/playground/&quot;}]"></script><script type="module" src="/v/8e74ca34b133/site/cells.js"></script><script>try { if (localStorage.getItem('starlight-theme') === null) localStorage.setItem('starlight-theme', 'dark'); } catch (e) {}</script><link rel="shortcut icon" href="/v/8e74ca34b133/site/favicon.svg" type="image/svg+xml"/><meta name="generator" content="Astro v7.3.5"/><meta name="generator" content="Starlight v0.42.5"/><meta property="og:title" content="Grammar"/><meta property="og:type" content="article"/><meta property="og:url" content="https://pyking.org/documentation/grammar/"/><meta property="og:locale" content="en"/><meta property="og:description" content="Pyking's syntax: lexical structure, layout, the grammar in EBNF, and how it compares with Python."/><meta property="og:site_name" content="Pyking"/><meta name="twitter:card" content="summary_large_image"/><meta name="description" content="Pyking's syntax: lexical structure, layout, the grammar in EBNF, and how it compares with Python."/><script>
+	window.StarlightThemeProvider = (() => {
+		const storedTheme =
+			typeof localStorage !== 'undefined' && localStorage.getItem('starlight-theme');
+		const theme =
+			storedTheme ||
+			(window.matchMedia('(prefers-color-scheme: light)').matches ? 'light' : 'dark');
+		document.documentElement.dataset.theme = theme === 'light' ? 'light' : 'dark';
+		return {
+			updatePickers(theme = storedTheme || 'auto') {
+				document.querySelectorAll('starlight-theme-select').forEach((picker) => {
+					const select = picker.querySelector('select');
+					if (select) select.value = theme;
+					/** @type {HTMLTemplateElement | null} */
+					const tmpl = document.querySelector(`#theme-icons`);
+					const newIcon = tmpl && tmpl.content.querySelector('.' + theme);
+					if (newIcon) {
+						const oldIcon = picker.querySelector('svg.label-icon');
+						if (oldIcon) {
+							oldIcon.replaceChildren(...newIcon.cloneNode(true).childNodes);
+						}
+					}
+				});
+			},
+		};
+	})();
+</script><template id="theme-icons"><svg aria-hidden="true" class="light astro-hkc32dio" width="16" height="16" viewBox="0 0 24 24" fill="currentColor" style="--sl-icon-size: 1em;"><path d="M5 12a1 1 0 0 0-1-1H3a1 1 0 0 0 0 2h1a1 1 0 0 0 1-1Zm.64 5-.71.71a1 1 0 0 0 0 1.41 1 1 0 0 0 1.41 0l.71-.71A1 1 0 0 0 5.64 17ZM12 5a1 1 0 0 0 1-1V3a1 1 0 0 0-2 0v1a1 1 0 0 0 1 1Zm5.66 2.34a1 1 0 0 0 .7-.29l.71-.71a1 1 0 1 0-1.41-1.41l-.66.71a1 1 0 0 0 0 1.41 1 1 0 0 0 .66.29Zm-12-.29a1 1 0 0 0 1.41 0 1 1 0 0 0 0-1.41l-.71-.71a1.004 1.004 0 1 0-1.43 1.41l.73.71ZM21 11h-1a1 1 0 0 0 0 2h1a1 1 0 0 0 0-2Zm-2.64 6A1 1 0 0 0 17 18.36l.71.71a1 1 0 0 0 1.41 0 1 1 0 0 0 0-1.41l-.76-.66ZM12 6.5a5.5 5.5 0 1 0 5.5 5.5A5.51 5.51 0 0 0 12 6.5Zm0 9a3.5 3.5 0 1 1 0-7 3.5 3.5 0 0 1 0 7Zm0 3.5a1 1 0 0 0-1 1v1a1 1 0 0 0 2 0v-1a1 1 0 0 0-1-1Z"/></svg><svg aria-hidden="true" class="dark astro-hkc32dio" width="16" height="16" viewBox="0 0 24 24" fill="currentColor" style="--sl-icon-size: 1em;"><path d="M21.64 13a1 1 0 0 0-1.05-.14 8.049 8.049 0 0 1-3.37.73 8.15 8.15 0 0 1-8.14-8.1 8.59 8.59 0 0 1 .25-2A1 1 0 0 0 8 2.36a10.14 10.14 0 1 0 14 11.69 1 1 0 0 0-.36-1.05Zm-9.5 6.69A8.14 8.14 0 0 1 7.08 5.22v.27a10.15 10.15 0 0 0 10.14 10.14 9.784 9.784 0 0 0 2.1-.22 8.11 8.11 0 0 1-7.18 4.32v-.04Z"/></svg><svg aria-hidden="true" class="auto astro-hkc32dio" width="16" height="16" viewBox="0 0 24 24" fill="currentColor" style="--sl-icon-size: 1em;"><path d="M21 14h-1V7a3 3 0 0 0-3-3H7a3 3 0 0 0-3 3v7H3a1 1 0 0 0-1 1v2a3 3 0 0 0 3 3h14a3 3 0 0 0 3-3v-2a1 1 0 0 0-1-1ZM6 7a1 1 0 0 1 1-1h10a1 1 0 0 1 1 1v7H6V7Zm14 10a1 1 0 0 1-1 1H5a1 1 0 0 1-1-1v-1h16v1Z"/></svg></template><link rel="stylesheet" href="/_astro/print.ehPL0gv-.css" media="print"><link rel="stylesheet" href="/_astro/middleware.DYJDcmyo.css"><script type="module" src="/_astro/page.Dwipeu-R.js"></script></head><body class="astro-g5ptsecz"><a class="sl-skip-link astro-qb7clj6f" href="#_top">Skip to content</a><div class="page sl-flex astro-yntsjkba"><header class="header astro-yntsjkba"><div class="pyking-header"><div class="pyking-header-left"><a href="/" class="site-title sl-flex astro-6rvad3va"><img class="astro-6rvad3va" alt="Pyking" src="/_astro/logo.C9hvHOpV.svg" width="64" height="64"><span class="astro-6rvad3va" translate="no">Pyking</span></a><nav class="pyking-nav" aria-label="Sections"><a href="/install/">Install</a><a href="/getstarted/pyking-in-20-minutes/">Getting started</a><a href="/documentation/language/" aria-current="page">Documentation</a><a href="/libraries/">Libraries</a><a href="/playground/">Playground</a></nav></div><div class="pyking-header-right print:hidden"><site-search class=" astro-b5kgnn7o" data-translations="{&quot;placeholder&quot;:&quot;Search&quot;}"><button data-open-modal disabled aria-label="Search" aria-keyshortcuts="Control+K" class="astro-b5kgnn7o"><svg aria-hidden="true" class="astro-b5kgnn7o astro-hkc32dio" width="16" height="16" viewBox="0 0 24 24" fill="currentColor" style="--sl-icon-size: 1em;"><path d="M21.71 20.29 18 16.61A9 9 0 1 0 16.61 18l3.68 3.68a.999.999 0 0 0 1.42 0 1 1 0 0 0 0-1.39ZM11 18a7 7 0 1 1 0-14 7 7 0 0 1 0 14Z"/></svg><span class="sl-hidden md:sl-block astro-b5kgnn7o" aria-hidden="true">Search</span><kbd class="sl-hidden md:sl-flex astro-b5kgnn7o" style="display: none;"><kbd class="astro-b5kgnn7o">Ctrl</kbd><kbd class="astro-b5kgnn7o">K</kbd></kbd></button><dialog style="padding:0" aria-label="Search" class="astro-b5kgnn7o"><div class="dialog-frame sl-flex astro-b5kgnn7o"><button data-close-modal class="sl-flex md:sl-hidden astro-b5kgnn7o">Cancel</button><div class="search-container astro-b5kgnn7o"><div id="starlight__search" class="astro-b5kgnn7o"></div></div></div></dialog></site-search><script>
+	(() => {
+		const openBtn = document.querySelector('button[data-open-modal]');
+		const shortcut = openBtn?.querySelector('kbd');
+		if (!openBtn || !(shortcut instanceof HTMLElement)) return;
+		const platformKey = shortcut.querySelector('kbd');
+		if (platformKey && /(Mac|iPhone|iPod|iPad)/i.test(navigator.platform)) {
+			platformKey.textContent = '⌘';
+			openBtn.setAttribute('aria-keyshortcuts', 'Meta+K');
+		}
+		shortcut.style.display = '';
+	})();
+</script><script type="module" src="/_astro/Search.astro_astro_type_script_index_0_lang.Bumivpjo.js"></script><div class="sl-hidden md:sl-flex"><starlight-theme-select><label style="--sl-select-width: 6.25em" class="astro-2z5xp7gb"><span class="sr-only astro-2z5xp7gb">Select theme</span><svg aria-hidden="true" class="icon label-icon astro-2z5xp7gb astro-hkc32dio" width="16" height="16" viewBox="0 0 24 24" fill="currentColor" style="--sl-icon-size: 1em;"><path d="M21 14h-1V7a3 3 0 0 0-3-3H7a3 3 0 0 0-3 3v7H3a1 1 0 0 0-1 1v2a3 3 0 0 0 3 3h14a3 3 0 0 0 3-3v-2a1 1 0 0 0-1-1ZM6 7a1 1 0 0 1 1-1h10a1 1 0 0 1 1 1v7H6V7Zm14 10a1 1 0 0 1-1 1H5a1 1 0 0 1-1-1v-1h16v1Z"/></svg><select autocomplete="off" class="astro-2z5xp7gb"><option value="dark" class="astro-2z5xp7gb">Dark</option><option value="light" class="astro-2z5xp7gb">Light</option><option value="auto" selected class="astro-2z5xp7gb">Auto</option></select><svg aria-hidden="true" class="icon caret astro-2z5xp7gb astro-hkc32dio" width="16" height="16" viewBox="0 0 24 24" fill="currentColor" style="--sl-icon-size: 1em;"><path d="M17 9.17a1 1 0 0 0-1.41 0L12 12.71 8.46 9.17a1 1 0 1 0-1.41 1.42l4.24 4.24a1.002 1.002 0 0 0 1.42 0L17 10.59a1.002 1.002 0 0 0 0-1.42Z"/></svg></label></starlight-theme-select><script>
+	StarlightThemeProvider.updatePickers();
+</script><script type="module">var e=`starlight-theme`,t=e=>e===`auto`||e===`dark`||e===`light`?e:`auto`,n=()=>t(typeof localStorage<`u`&&localStorage.getItem(e));function r(t){typeof localStorage<`u`&&localStorage.setItem(e,t===`light`||t===`dark`?t:``)}var i=()=>matchMedia(`(prefers-color-scheme: light)`).matches?`light`:`dark`;function a(e){StarlightThemeProvider.updatePickers(e),document.documentElement.dataset.theme=e===`auto`?i():e,r(e)}matchMedia(`(prefers-color-scheme: light)`).addEventListener(`change`,()=>{n()===`auto`&&a(`auto`)});var o=class extends HTMLElement{constructor(){super(),a(n()),this.querySelector(`select`)?.addEventListener(`change`,e=>{e.currentTarget instanceof HTMLSelectElement&&a(t(e.currentTarget.value))})}};customElements.define(`starlight-theme-select`,o);</script></div><a class="pyking-github" href="https://github.com/pyking-lang" title="Pyking on GitHub"><span class="sr-only">GitHub</span><svg aria-hidden="true" viewBox="0 0 24 24" width="22" height="22" fill="currentColor"><path d="M12 .3a12 12 0 0 0-3.8 23.4c.6.1.8-.3.8-.6v-2c-3.3.7-4-1.6-4-1.6-.6-1.4-1.4-1.8-1.4-1.8-1-.7.1-.7.1-.7 1.2.1 1.8 1.2 1.8 1.2 1 1.8 2.8 1.3 3.5 1 0-.8.4-1.3.7-1.6-2.7-.3-5.5-1.3-5.5-6 0-1.2.5-2.3 1.3-3.1-.2-.4-.6-1.6 0-3.2 0 0 1-.3 3.4 1.2a11.5 11.5 0 0 1 6 0c2.3-1.5 3.3-1.2 3.3-1.2.6 1.6.2 2.8.1 3.2.8.8 1.3 1.9 1.3 3.1 0 4.6-2.8 5.6-5.5 5.9.5.4.9 1.1.9 2.2v3.3c0 .3.1.7.8.6A12 12 0 0 0 12 .3"></path></svg></a></div></div></header><nav class="sidebar print:hidden astro-yntsjkba" aria-label="Main"><button popovertarget="starlight__sidebar" class="sl-menu-button sl-flex md:sl-hidden print:hidden astro-r2osgdlg"><svg aria-hidden="true" class="open-menu astro-r2osgdlg astro-hkc32dio" width="16" height="16" viewBox="0 0 24 24" fill="currentColor" style="--sl-icon-size: 1em;"><path d="M3 8h18a1 1 0 1 0 0-2H3a1 1 0 0 0 0 2Zm18 8H3a1 1 0 0 0 0 2h18a1 1 0 0 0 0-2Zm0-5H3a1 1 0 0 0 0 2h18a1 1 0 0 0 0-2Z"/></svg><svg aria-hidden="true" class="close-menu astro-r2osgdlg astro-hkc32dio" width="16" height="16" viewBox="0 0 24 24" fill="currentColor" style="--sl-icon-size: 1em;"><path d="m13.41 12 6.3-6.29a1.004 1.004 0 1 0-1.42-1.42L12 10.59l-6.29-6.3a1.004 1.004 0 0 0-1.42 1.42l6.3 6.29-6.3 6.29a1 1 0 0 0 0 1.42.998.998 0 0 0 1.42 0l6.29-6.3 6.29 6.3a.999.999 0 0 0 1.42 0 1 1 0 0 0 0-1.42L13.41 12Z"/></svg><span class="sr-only astro-r2osgdlg">Menu</span></button><script type="module">var e=class extends HTMLElement{constructor(){super();let e=matchMedia(`(min-width: 50em)`),t=()=>{this.popover=e.matches?null:`auto`};t(),e.addEventListener(`change`,()=>t()),this.addEventListener(`toggle`,({newState:e})=>this.trapFocus(e===`open`))}trapFocus(e){document.querySelectorAll(`.main-frame, .sl-skip-link`).forEach(t=>{t.toggleAttribute(`inert`,e)})}};customElements.define(`sl-sidebar-pane`,e);</script><script type="module">var e=class extends HTMLElement{constructor(){super();let e=this.querySelector(`select`);e&&(e.addEventListener(`change`,e=>{e.currentTarget instanceof HTMLSelectElement&&(window.location.pathname=e.currentTarget.value)}),window.addEventListener(`pageshow`,t=>{if(!t.persisted)return;let n=e.querySelector(`option[selected]`)?.index;n!==e.selectedIndex&&(e.selectedIndex=n??0)}))}};customElements.define(`starlight-lang-select`,e);</script><sl-sidebar-pane popover id="starlight__sidebar" class="sidebar-pane astro-yntsjkba"><div class="sidebar-content sl-flex astro-yntsjkba"><nav class="pyking-sidebar" aria-label="Documentation"><p class="pyking-sidebar-title">Documentation</p><ul class="pyking-sidebar-main"><li><a href="/documentation/editors/">Editors</a></li><li><a href="/documentation/playground/">Playground</a></li><li><a href="/documentation/notebook/">Notebook</a></li><li><a href="/documentation/command-line/">Command line</a></li><li><a href="/documentation/repl/">REPL</a></li><li><a href="/documentation/targets/">Compiler targets</a></li><li><a href="/documentation/slides/">Code on slides</a></li><li class="pyking-sidebar-parent"><a href="/documentation/language/">Language reference</a></li><li><a href="/documentation/vs-other-languages/">Pyking vs. other languages</a></li><li class="pyking-sidebar-open"><a href="/documentation/grammar/" aria-current="page">Grammar</a><ul class="pyking-sidebar-sub"><li><a href="#lexical-structure">Lexical structure</a></li><li><a href="#comments">Comments</a></li><li><a href="#layout">Layout</a></li><li><a href="#the-grammar">The grammar</a></li><li><a href="#notes-on-the-grammar">Notes on the grammar</a></li><li><a href="#syntax-by-mode">Syntax by mode</a></li><li><a href="#compared-with-python">Compared with Python</a></li></ul></li><li class="pyking-sidebar-parent"><a href="/documentation/tinyweb/">Tinyweb without Pyking</a></li><li><a href="/documentation/tinyweb-styles/">Styling tinyweb</a></li></ul></nav><div class="md:sl-hidden"><div class="mobile-preferences sl-flex astro-p4azlveh"><div class="social-icons astro-p4azlveh"></div><starlight-theme-select><label style="--sl-select-width: 6.25em" class="astro-2z5xp7gb"><span class="sr-only astro-2z5xp7gb">Select theme</span><svg aria-hidden="true" class="icon label-icon astro-2z5xp7gb astro-hkc32dio" width="16" height="16" viewBox="0 0 24 24" fill="currentColor" style="--sl-icon-size: 1em;"><path d="M21 14h-1V7a3 3 0 0 0-3-3H7a3 3 0 0 0-3 3v7H3a1 1 0 0 0-1 1v2a3 3 0 0 0 3 3h14a3 3 0 0 0 3-3v-2a1 1 0 0 0-1-1ZM6 7a1 1 0 0 1 1-1h10a1 1 0 0 1 1 1v7H6V7Zm14 10a1 1 0 0 1-1 1H5a1 1 0 0 1-1-1v-1h16v1Z"/></svg><select autocomplete="off" class="astro-2z5xp7gb"><option value="dark" class="astro-2z5xp7gb">Dark</option><option value="light" class="astro-2z5xp7gb">Light</option><option value="auto" selected class="astro-2z5xp7gb">Auto</option></select><svg aria-hidden="true" class="icon caret astro-2z5xp7gb astro-hkc32dio" width="16" height="16" viewBox="0 0 24 24" fill="currentColor" style="--sl-icon-size: 1em;"><path d="M17 9.17a1 1 0 0 0-1.41 0L12 12.71 8.46 9.17a1 1 0 1 0-1.41 1.42l4.24 4.24a1.002 1.002 0 0 0 1.42 0L17 10.59a1.002 1.002 0 0 0 0-1.42Z"/></svg></label></starlight-theme-select><script>
+	StarlightThemeProvider.updatePickers();
+</script></div></div></div></sl-sidebar-pane></nav><div class="main-frame astro-yntsjkba"><script type="module">var e=document.getElementById(`starlight__sidebar`),t=e?.querySelector(`sl-sidebar-state-persist`),n=`sl-sidebar-state`,r=()=>{let r=[],i=t?.dataset.hash||``;try{let e=sessionStorage.getItem(n),t=JSON.parse(e||`{}`);Array.isArray(t.open)&&t.hash===i&&(r=t.open)}catch{}return{hash:i,open:r,scroll:e?.scrollTop||0}},i=e=>{try{sessionStorage.setItem(n,JSON.stringify(e))}catch{}},a=()=>i(r()),o=(e,t)=>{let n=r();n.open[t]=e,i(n)};t?.addEventListener(`click`,e=>{if(!(e.target instanceof Element))return;let t=e.target.closest(`summary`)?.closest(`details`);if(!t)return;let n=t.querySelector(`sl-sidebar-restore`),r=parseInt(n?.dataset.index||``);isNaN(r)||o(!t.open,r)}),addEventListener(`visibilitychange`,()=>{document.visibilityState===`hidden`&&a()});</script><div class="lg:sl-flex astro-lrzkfocr"><div class="main-pane astro-lrzkfocr"><main data-pagefind-body class="astro-g5ptsecz" lang="en" dir="ltr"><div class="content-panel astro-a7po4psb"><div class="sl-container astro-a7po4psb"><h1 id="_top" class="astro-bebwqqxs">Grammar</h1></div></div><div class="content-panel astro-a7po4psb"><div class="sl-container astro-a7po4psb"><div class="sl-markdown-content"><p>This page is Pyking’s syntax and nothing else: what may be written, and
+how it is read. What each construct means is in the Language reference.</p>
+<h2 id="lexical-structure">Lexical structure</h2>
+<p>A source file is UTF-8 text. The lexer reads it into tokens and turns
+its indentation into block structure.</p>
+<ul>
+<li><strong>Identifiers</strong> start with a letter or <code>_</code> and go on with letters,
+digits and <code>_</code>. A name a program binds starts with a lowercase letter
+or <code>_</code>; a name starting with an uppercase letter is a type or a
+constructor.</li>
+<li><strong>Keywords</strong>, which may not be used as names: <code>and</code>, <code>as</code>, <code>break</code>,
+<code>case</code>, <code>continue</code>, <code>datatype</code>, <code>def</code>, <code>else</code>, <code>false</code>, <code>for</code>, <code>from</code>,
+<code>if</code>, <code>implicit</code>, <code>import</code>, <code>in</code>, <code>lam</code>, <code>let</code>, <code>loop</code>, <code>match</code>,
+<code>mutable</code>, <code>not</code>, <code>or</code>, <code>public</code>, <code>return</code>, <code>struct</code>, <code>then</code>, <code>true</code>,
+<code>use</code>, <code>var</code>, <code>while</code>, <code>xor</code>, and the type names <code>Bool</code>, <code>Char</code>,
+<code>Float</code>, <code>Int</code> and <code>String</code>.</li>
+<li><strong>Reserved words</strong> of objects, also never names: <code>abstract</code>, <code>class</code>,
+<code>extends</code>, <code>implements</code>, <code>interface</code>, <code>override</code>, <code>private</code>, <code>self</code>
+and <code>super</code>.</li>
+<li><strong>Literals</strong>: integers (decimal, <code>0x</code> hexadecimal, <code>0b</code> binary),
+floats, <code>'c'</code> Chars, <code>"…"</code> Strings and <code>r"…"</code> raw Strings, written as
+“Values and basic types” in the Language reference says. An
+interpolation in a String — <code>${…}</code> or <code>$name</code> — is lexed as the
+tokens of its expression, and the parser rewrites it into <code>+</code> and
+<code>string(…)</code> before anything is checked.</li>
+<li><strong>Comments</strong> start with <code>#</code>; see below.</li>
+</ul>
+<h2 id="comments">Comments</h2>
+<p>A <code>#</code> starts a line comment that runs to the end of the line. It may appear
+on its own line or trail after other tokens.</p>
+<div class="expressive-code"><link rel="stylesheet" href="/_astro/ec.w36nc.css"><script type="module" src="/_astro/ec.0vx5m.js"></script><figure class="frame not-content"><figcaption class="header"></figcaption><pre data-language="python"><code><div class="ec-line"><div class="code"><span style="--0:#919F9F;--1:#5F636F"># This is a line comment.</span></div></div><div class="ec-line"><div class="code"><span style="--0:#D6DEEB;--1:#403F53">x </span><span style="--0:#C792EA;--1:#8844AE">=</span><span style="--0:#D6DEEB;--1:#403F53"> </span><span style="--0:#F78C6C;--1:#AA0982">1</span><span style="--0:#D6DEEB;--1:#403F53">  </span><span style="--0:#919F9F;--1:#5F636F"># comments may also trail after other tokens</span></div></div><div class="ec-line"><div class="code"><span style="--0:#C5E478;--1:#3B61B0">print</span><span style="--0:#D6DEEB;--1:#403F53">(</span><span style="--0:#82AAFF;--1:#3B61B0">x</span><span style="--0:#D6DEEB;--1:#403F53">)</span></div></div></code></pre><div class="copy"><div aria-live="polite"></div><button title="Copy to clipboard" data-copied="Copied!" data-code="# This is a line comment.x = 1  # comments may also trail after other tokensprint(x)"><div></div></button></div></figure></div>
+<h2 id="layout">Layout</h2>
+<p>Blocks are written by indentation, four spaces a level, as in Python. A
+line goes on while a bracket is open, and a block may be written on its
+header’s own line.</p>
+<h3 id="indentation-based-blocks">Indentation-based blocks</h3>
+<p>Blocks are delimited purely by indentation, in 4-space increments — there
+are no <code>{ }</code> or <code>begin</code>/<code>end</code> keywords. Increasing the indentation opens a
+nested block (after a line ending in <code>:</code>); returning to a shallower
+indentation closes it, and a single line may close several nested blocks
+at once.</p>
+<div class="expressive-code"><figure class="frame not-content"><figcaption class="header"></figcaption><pre data-language="python"><code><div class="ec-line"><div class="code"><span style="--0:#C792EA;--1:#8844AE">def</span><span style="--0:#D6DEEB;--1:#403F53"> </span><span style="--0:#82AAFF;--1:#3B61B0">bucket</span><span style="--0:#D9F5DD;--1:#111111">(</span><span style="--0:#7FDBCA;--1:#096E72">x</span><span style="--0:#D9F5DD;--1:#111111">)</span><span style="--0:#D6DEEB;--1:#403F53">:</span></div></div><div class="ec-line"><div class="code"><span class="indent">    </span><span style="--0:#C792EA;--1:#8844AE">for</span><span style="--0:#D6DEEB;--1:#403F53"> limit </span><span style="--0:#C792EA;--1:#8844AE">in</span><span style="--0:#D6DEEB;--1:#403F53"> </span><span style="--0:#C5E478;--1:#3B61B0">range</span><span style="--0:#D6DEEB;--1:#403F53">(</span><span style="--0:#F78C6C;--1:#AA0982">3</span><span style="--0:#D6DEEB;--1:#403F53">):</span></div></div><div class="ec-line"><div class="code"><span class="indent">        </span><span style="--0:#C792EA;--1:#8844AE">if</span><span style="--0:#D6DEEB;--1:#403F53"> x </span><span style="--0:#C792EA;--1:#8844AE">&#x3C;</span><span style="--0:#D6DEEB;--1:#403F53"> limit:</span></div></div><div class="ec-line"><div class="code"><span class="indent">            </span><span style="--0:#C792EA;--1:#8844AE">return</span><span style="--0:#D6DEEB;--1:#403F53"> limit</span></div></div><div class="ec-line"><div class="code"><span class="indent">    </span><span style="--0:#C792EA;--1:#8844AE">return</span><span style="--0:#D6DEEB;--1:#403F53"> </span><span style="--0:#F78C6C;--1:#AA0982">3</span></div></div><div class="ec-line"><div class="code">
+</div></div><div class="ec-line"><div class="code">
+</div></div><div class="ec-line"><div class="code"><span style="--0:#C5E478;--1:#3B61B0">print</span><span style="--0:#D6DEEB;--1:#403F53">(</span><span style="--0:#B2CCD6;--1:#096E72">bucket</span><span style="--0:#D6DEEB;--1:#403F53">(</span><span style="--0:#F78C6C;--1:#AA0982">0</span><span style="--0:#D6DEEB;--1:#403F53">)</span><span style="--0:#D9F5DD;--1:#111111">,</span><span style="--0:#82AAFF;--1:#3B61B0"> </span><span style="--0:#B2CCD6;--1:#096E72">bucket</span><span style="--0:#D6DEEB;--1:#403F53">(</span><span style="--0:#F78C6C;--1:#AA0982">5</span><span style="--0:#D6DEEB;--1:#403F53">))</span></div></div></code></pre><div class="copy"><div aria-live="polite"></div><button title="Copy to clipboard" data-copied="Copied!" data-code="def bucket(x):    for limit in range(3):        if x < limit:            return limit    return 3print(bucket(0), bucket(5))"><div></div></button></div></figure></div>
+<p>A non-breaking space (U+00A0) is a space wherever a space may stand:
+in indentation, where it counts as one space, and between the words
+of a line. Code copied out of a PDF, a slide or a web page often has
+them in place of ordinary spaces, and it runs as it looks. Inside a
+string or a comment one is kept as written. A tab is not a space. <code>pyk highlight</code>, and the
+playground’s Copy for slides, write indentation with them for this
+reason (see the documentation’s “Code on slides” page,
+<code>sitesrc/documentation/slides.md</code>).</p>
+<h3 id="lines-and-continuation">Lines and continuation</h3>
+<p>A statement ends where the tokens stop being able to continue it, and
+each line’s leading whitespace is what opens and closes blocks — but
+<strong>not while a bracket is open</strong>. Inside an unclosed <code>(</code> or <code>[</code> the
+indentation rules are suspended entirely, so a parameter list, a call’s
+arguments, a list literal, a comprehension and a tuple may each span
+several lines:</p>
+<div class="pkn-notebook pkn-embedded not-content"><div class="pkn-cell"><pre class="pkn-cell-fallback"><code>def window(
+        start: Int,
+        size: Int,
+        step: Int) -> Int:
+    return start + (size * step)
+
+
+numbers = [
+    1,
+    2,
+    3,
+    4]
+
+print(window(
+    1,
+    2,
+    3))</code></pre></div></div>
+<p>The continuation lines are part of the same statement, and their own
+indentation means nothing at all — it is there for the reader. Nesting
+one bracket inside another keeps the line open until the outermost one
+closes. Outside brackets, indentation means exactly what it did.</p>
+<p>There is no backslash continuation: a line is continued by an open
+bracket or not at all.</p>
+<h3 id="a-block-on-its-headers-own-line">A block on its header’s own line</h3>
+<p>Any header ending in <code>:</code> may carry its block on that same line instead
+of indenting it, provided what it carries is <strong>one expression</strong>. Python
+allows something similar but wider — any <em>simple</em> statement, and <code>;</code> to
+write several; Pyking’s line holds a value and nothing else.</p>
+<div class="pkn-notebook pkn-embedded not-content"><div class="pkn-cell"><pre class="pkn-cell-fallback"><code>def square(x): x * x
+def twice(x): x + x
+
+if square(3) > 5: print("big")
+else: print("small")
+
+for i in range(3): print(i)</code></pre></div></div>
+<p><strong>It is the same program either way.</strong> <code>def square(x): x * x</code> parses to
+exactly what</p>
+<div class="pkn-notebook pkn-embedded not-content"><div class="pkn-cell"><pre class="pkn-cell-fallback"><code>def square(x):
+    x * x</code></pre></div></div>
+<p>parses to — one block, one statement — so nothing after the parser can
+tell which was written, and the pretty-printer prints both indented. The
+form is a layout, not a second kind of definition: what the body means,
+where its names come from, whether its last expression is in tail
+position (it is) are all unchanged.</p>
+<p>It works for every header, because the rule belongs to the <em>block</em>:
+<code>def</code>, <code>if</code> and its <code>else</code>, <code>for</code>, <code>while</code>, <code>loop</code>, and a <code>case</code> clause.</p>
+<div class="pkn-notebook pkn-embedded not-content"><div class="pkn-cell"><pre class="pkn-cell-fallback"><code>def name_of(n):
+    match n:
+        case 0: "zero"
+        case 1: "one"
+        case _: "many"
+
+
+print(name_of(0), name_of(7))</code></pre></div></div>
+<p>A <code>match</code>’s clause list is the one thing that looks like a block and is
+not one: <code>match e:</code> opens a list of <code>case</code> clauses rather than a list of
+statements, and a clause is not an expression, so there is nothing its
+line could carry. The clauses are always indented under it.</p>
+<h5 id="what-may-be-written-there">What may be written there</h5>
+<p>An <strong>expression</strong>, and only an expression. A <code>return</code>, an <code>=</code> binding, a
+<code>:=</code> mutation, or a nested header is not one, and is refused where it
+stands:</p>
+<div class="expressive-code"><figure class="frame not-content"><figcaption class="header"></figcaption><pre data-language="plaintext"><code><div class="ec-line"><div class="code"><span style="--0:#d6deeb;--1:#403f53">'prog.pyk' 4:14-4:22 Parsing error: a block written on its header's</span></div></div><div class="ec-line"><div class="code"><span class="indent"><span style="--0:#d6deeb;--1:#403f53">  </span></span><span style="--0:#d6deeb;--1:#403f53">own line must be one expression, and 'return a' is not; write it in</span></div></div><div class="ec-line"><div class="code"><span class="indent"><span style="--0:#d6deeb;--1:#403f53">  </span></span><span style="--0:#d6deeb;--1:#403f53">an indented block instead</span></div></div></code></pre><div class="copy"><div aria-live="polite"></div><button title="Copy to clipboard" data-copied="Copied!" data-code="&#x27;prog.pyk&#x27; 4:14-4:22 Parsing error: a block written on its header&#x27;s  own line must be one expression, and &#x27;return a&#x27; is not; write it in  an indented block instead"><div></div></button></div></figure></div>
+<p>That is the whole point of the restriction. A line ending in <code>:</code> is a
+promise that a value follows; letting a statement follow instead would
+mean control flow and new names could hide behind a <code>:</code> at the end of a
+line, and every such line would have to be read to the end to find out
+what it did. So the value-producing forms stay on one line and
+everything else goes under its header:</p>
+<div class="pkn-notebook pkn-embedded not-content"><div class="pkn-cell"><pre class="pkn-cell-fallback"><code>def first_positive(a, b):
+    if a > 0:
+        return a
+    b</code></pre></div></div>
+<p>Note that a function ending in a value needs no <code>return</code> at all (see
+“Tail position”), so the shorthand is rarely what a one-line body wanted
+in the first place. And <code>if</code> written inline is the <code>if</code>/<code>then</code>/<code>else</code>
+<em>expression</em>, which is an expression like any other:</p>
+<div class="pkn-notebook pkn-embedded not-content"><div class="pkn-cell"><pre class="pkn-cell-fallback"><code>def describe(n): if n &#x3C; 0 then "negative" else "positive"</code></pre></div></div>
+<h5 id="the-line-ends-there">The line ends there</h5>
+<p>An inline block is the end of its line, and two rules follow. Each is
+reported where it is written:</p>
+<ul>
+<li><strong>Nothing may be indented under it.</strong> The header’s line already held
+the block, so an indented line after it belongs to nothing — <code>if c: print(1)</code> with a second <code>print</code> indented below is refused rather than
+read as a two-statement body.</li>
+<li><strong>Nothing may continue the construct on that line.</strong> An <code>else</code>
+belonging to the <code>if</code> starts the <em>next</em> line (see below).</li>
+</ul>
+<p>So an <code>if</code> and its <code>else</code> each carry their own line:</p>
+<div class="pkn-notebook pkn-embedded not-content"><div class="pkn-cell"><pre class="pkn-cell-fallback"><code>x = 2
+
+if x > 1: print(7)
+else: print(8)</code></pre></div></div>
+<p>Written <code>if x > 1: print(7) else: print(8)</code>, one line would hold an
+<code>if</code>, its whole then-block, and the start of another block; that is the
+run-on the one-statement-per-line rule exists to prevent, and it is
+refused (<code>'else' must start on a new line: the block written on the header's own line ends that line</code>). The same holds for an <code>else if</code>
+rung.</p>
+<p>A second <em>statement</em> sharing the line is caught by that
+one-statement-per-line rule itself (see “Indentation-based blocks”
+above): <code>if c: print(1) print(2)</code> puts the second <code>print</code> beside the
+<code>if</code>, not inside it.</p>
+<p>A block that begins on the <em>next</em> line without being indented is neither
+form, and is the error it always was — <code>expected an indented block</code>.</p>
+<h2 id="the-grammar">The grammar</h2>
+<p>EBNF for the subset currently accepted by <code>parse()</code> in <code>src/parser.ml</code>.
+<code>INDENT</code>/<code>DEDENT</code> are not literal characters — they are synthesized by the
+lexer from 4-space indentation changes (see “Indentation-based blocks”
+below). Comments are stripped by the lexer and don’t appear here.</p>
+<div class="expressive-code"><figure class="frame not-content"><figcaption class="header"></figcaption><pre data-language="ebnf"><code><div class="ec-line"><div class="code"><span style="--0:#d6deeb;--1:#403f53">(* An import and a `public` belong to a module's top level, so they are</span></div></div><div class="ec-line"><div class="code"><span class="indent"><span style="--0:#d6deeb;--1:#403f53">   </span></span><span style="--0:#d6deeb;--1:#403f53">here rather than in `statement`, which is what a block holds. The</span></div></div><div class="ec-line"><div class="code"><span class="indent"><span style="--0:#d6deeb;--1:#403f53">   </span></span><span style="--0:#d6deeb;--1:#403f53">`use` lines come before everything else. *)</span></div></div><div class="ec-line"><div class="code"><span style="--0:#d6deeb;--1:#403f53">program     = { use_stmt } , { top_statement } ;</span></div></div><div class="ec-line"><div class="code"><span style="--0:#d6deeb;--1:#403f53">use_stmt    = "use" , feature , { "," , feature } ;</span></div></div><div class="ec-line"><div class="code"><span style="--0:#d6deeb;--1:#403f53">feature     = "mutation" | "pointers" | "objects" ;</span></div></div><div class="ec-line"><div class="code"><span style="--0:#d6deeb;--1:#403f53">top_statement = import_stmt</span></div></div><div class="ec-line"><div class="code"><span class="indent"><span style="--0:#d6deeb;--1:#403f53">            </span></span><span style="--0:#d6deeb;--1:#403f53">| from_stmt</span></div></div><div class="ec-line"><div class="code"><span class="indent"><span style="--0:#d6deeb;--1:#403f53">            </span></span><span style="--0:#d6deeb;--1:#403f53">| public_stmt</span></div></div><div class="ec-line"><div class="code"><span class="indent"><span style="--0:#d6deeb;--1:#403f53">            </span></span><span style="--0:#d6deeb;--1:#403f53">| datatype_stmt</span></div></div><div class="ec-line"><div class="code"><span class="indent"><span style="--0:#d6deeb;--1:#403f53">            </span></span><span style="--0:#d6deeb;--1:#403f53">| struct_stmt</span></div></div><div class="ec-line"><div class="code"><span class="indent"><span style="--0:#d6deeb;--1:#403f53">            </span></span><span style="--0:#d6deeb;--1:#403f53">| class_stmt</span></div></div><div class="ec-line"><div class="code"><span class="indent"><span style="--0:#d6deeb;--1:#403f53">            </span></span><span style="--0:#d6deeb;--1:#403f53">| statement ;</span></div></div><div class="ec-line"><div class="code">
+</div></div><div class="ec-line"><div class="code"><span style="--0:#d6deeb;--1:#403f53">import_stmt = "import" , module_item , { "," , module_item } ;</span></div></div><div class="ec-line"><div class="code"><span style="--0:#d6deeb;--1:#403f53">module_item = module_path , [ "as" , ident ] ;</span></div></div><div class="ec-line"><div class="code"><span style="--0:#d6deeb;--1:#403f53">from_stmt   = "from" , module_path , "import" , field_item , { "," , field_item } ;</span></div></div><div class="ec-line"><div class="code"><span style="--0:#d6deeb;--1:#403f53">(* A module, or a submodule of one: `hello`, `hello.mymod`. *)</span></div></div><div class="ec-line"><div class="code"><span style="--0:#d6deeb;--1:#403f53">module_path = ident , { "." , ident } ;</span></div></div><div class="ec-line"><div class="code"><span style="--0:#d6deeb;--1:#403f53">field_item  = ident , [ "as" , ident ] ;</span></div></div><div class="ec-line"><div class="code"><span style="--0:#d6deeb;--1:#403f53">public_stmt = "public" , ( function_def | function_sig | datatype_stmt</span></div></div><div class="ec-line"><div class="code"><span class="indent"><span style="--0:#d6deeb;--1:#403f53">                          </span></span><span style="--0:#d6deeb;--1:#403f53">| struct_stmt | class_stmt | assignment ) ;</span></div></div><div class="ec-line"><div class="code">
+</div></div><div class="ec-line"><div class="code"><span style="--0:#d6deeb;--1:#403f53">(* A datatype belongs to a module's top level. Its name and every</span></div></div><div class="ec-line"><div class="code"><span class="indent"><span style="--0:#d6deeb;--1:#403f53">   </span></span><span style="--0:#d6deeb;--1:#403f53">constructor's start with an uppercase letter; its parameters are type</span></div></div><div class="ec-line"><div class="code"><span class="indent"><span style="--0:#d6deeb;--1:#403f53">   </span></span><span style="--0:#d6deeb;--1:#403f53">variables. Its constructors follow the ':' on its own line, or on</span></div></div><div class="ec-line"><div class="code"><span class="indent"><span style="--0:#d6deeb;--1:#403f53">   </span></span><span style="--0:#d6deeb;--1:#403f53">indented lines under it, or both; a line holds one or more,</span></div></div><div class="ec-line"><div class="code"><span class="indent"><span style="--0:#d6deeb;--1:#403f53">   </span></span><span style="--0:#d6deeb;--1:#403f53">separated by commas. *)</span></div></div><div class="ec-line"><div class="code"><span style="--0:#d6deeb;--1:#403f53">datatype_stmt = "datatype" , [ sub_path , "." ] , upper_ident , [ "(" , type_var , { "," , type_var } , ")" ] ,</span></div></div><div class="ec-line"><div class="code"><span class="indent"><span style="--0:#d6deeb;--1:#403f53">                </span></span><span style="--0:#d6deeb;--1:#403f53">":" , ( constructor_line , [ INDENT , { constructor_line } , DEDENT ]</span></div></div><div class="ec-line"><div class="code"><span class="indent"><span style="--0:#d6deeb;--1:#403f53">                      </span></span><span style="--0:#d6deeb;--1:#403f53">| INDENT , constructor_line , { constructor_line } , DEDENT ) ;</span></div></div><div class="ec-line"><div class="code"><span style="--0:#d6deeb;--1:#403f53">constructor_line = constructor , { "," , constructor } ;</span></div></div><div class="ec-line"><div class="code"><span style="--0:#d6deeb;--1:#403f53">constructor = upper_ident , [ "(" , [ field , { "," , field } ] , ")" ] ;</span></div></div><div class="ec-line"><div class="code"><span style="--0:#d6deeb;--1:#403f53">(* A field is a type alone (positional only), or named; a named field's</span></div></div><div class="ec-line"><div class="code"><span class="indent"><span style="--0:#d6deeb;--1:#403f53">   </span></span><span style="--0:#d6deeb;--1:#403f53">type may be left to its default. Unnamed fields come first, and every</span></div></div><div class="ec-line"><div class="code"><span class="indent"><span style="--0:#d6deeb;--1:#403f53">   </span></span><span style="--0:#d6deeb;--1:#403f53">field after one with a default has one too. *)</span></div></div><div class="ec-line"><div class="code"><span style="--0:#d6deeb;--1:#403f53">field       = type</span></div></div><div class="ec-line"><div class="code"><span class="indent"><span style="--0:#d6deeb;--1:#403f53">            </span></span><span style="--0:#d6deeb;--1:#403f53">| ident , ":" , type , [ "=" , expr ]</span></div></div><div class="ec-line"><div class="code"><span class="indent"><span style="--0:#d6deeb;--1:#403f53">            </span></span><span style="--0:#d6deeb;--1:#403f53">| ident , "=" , expr ;</span></div></div><div class="ec-line"><div class="code"><span style="--0:#d6deeb;--1:#403f53">upper_ident = ? an ident beginning with an uppercase letter ? ;</span></div></div><div class="ec-line"><div class="code">
+</div></div><div class="ec-line"><div class="code"><span style="--0:#d6deeb;--1:#403f53">(* A struct is a datatype of one constructor, named as the type is. Its</span></div></div><div class="ec-line"><div class="code"><span class="indent"><span style="--0:#d6deeb;--1:#403f53">   </span></span><span style="--0:#d6deeb;--1:#403f53">fields are in parentheses on its own line -- every type variable they</span></div></div><div class="ec-line"><div class="code"><span class="indent"><span style="--0:#d6deeb;--1:#403f53">   </span></span><span style="--0:#d6deeb;--1:#403f53">name is then a parameter -- or on indented lines under its ':', a</span></div></div><div class="ec-line"><div class="code"><span class="indent"><span style="--0:#d6deeb;--1:#403f53">   </span></span><span style="--0:#d6deeb;--1:#403f53">line holding one or more separated by commas, after the parameters</span></div></div><div class="ec-line"><div class="code"><span class="indent"><span style="--0:#d6deeb;--1:#403f53">   </span></span><span style="--0:#d6deeb;--1:#403f53">written in parentheses. With neither it has no fields. "mutable"</span></div></div><div class="ec-line"><div class="code"><span class="indent"><span style="--0:#d6deeb;--1:#403f53">   </span></span><span style="--0:#d6deeb;--1:#403f53">makes it a mutable struct, whose fields are written in place: it has</span></div></div><div class="ec-line"><div class="code"><span class="indent"><span style="--0:#d6deeb;--1:#403f53">   </span></span><span style="--0:#d6deeb;--1:#403f53">at least one field, and needs `use mutation`. *)</span></div></div><div class="ec-line"><div class="code"><span style="--0:#d6deeb;--1:#403f53">struct_stmt = [ "mutable" ] , "struct" , [ sub_path , "." ] , upper_ident ,</span></div></div><div class="ec-line"><div class="code"><span class="indent"><span style="--0:#d6deeb;--1:#403f53">              </span></span><span style="--0:#d6deeb;--1:#403f53">[ "(" , [ field , { "," , field } ] , ")"</span></div></div><div class="ec-line"><div class="code"><span class="indent"><span style="--0:#d6deeb;--1:#403f53">              </span></span><span style="--0:#d6deeb;--1:#403f53">| [ "(" , type_var , { "," , type_var } , ")" ] , ":" ,</span></div></div><div class="ec-line"><div class="code"><span class="indent"><span style="--0:#d6deeb;--1:#403f53">                </span></span><span style="--0:#d6deeb;--1:#403f53">INDENT , field_line , { field_line } , DEDENT ] ;</span></div></div><div class="ec-line"><div class="code"><span style="--0:#d6deeb;--1:#403f53">field_line  = field , { "," , field } ;</span></div></div><div class="ec-line"><div class="code">
+</div></div><div class="ec-line"><div class="code"><span style="--0:#d6deeb;--1:#403f53">(* A class, an abstract class or an interface belongs to a module's top</span></div></div><div class="ec-line"><div class="code"><span class="indent"><span style="--0:#d6deeb;--1:#403f53">   </span></span><span style="--0:#d6deeb;--1:#403f53">level and needs `use objects` (see "Classes and interfaces"). A</span></div></div><div class="ec-line"><div class="code"><span class="indent"><span style="--0:#d6deeb;--1:#403f53">   </span></span><span style="--0:#d6deeb;--1:#403f53">class's header holds its type parameters (bare lowercase names) and</span></div></div><div class="ec-line"><div class="code"><span class="indent"><span style="--0:#d6deeb;--1:#403f53">   </span></span><span style="--0:#d6deeb;--1:#403f53">its fields, which are its constructor's parameters; a parent class is</span></div></div><div class="ec-line"><div class="code"><span class="indent"><span style="--0:#d6deeb;--1:#403f53">   </span></span><span style="--0:#d6deeb;--1:#403f53">written with its constructor's arguments, an interface with its type</span></div></div><div class="ec-line"><div class="code"><span class="indent"><span style="--0:#d6deeb;--1:#403f53">   </span></span><span style="--0:#d6deeb;--1:#403f53">arguments. Its members are on indented lines under its ':'. *)</span></div></div><div class="ec-line"><div class="code"><span style="--0:#d6deeb;--1:#403f53">class_stmt  = ( [ "abstract" ] , "class" , upper_ident ,</span></div></div><div class="ec-line"><div class="code"><span class="indent"><span style="--0:#d6deeb;--1:#403f53">                </span></span><span style="--0:#d6deeb;--1:#403f53">"(" , [ header_item , { "," , header_item } ] , ")" ,</span></div></div><div class="ec-line"><div class="code"><span class="indent"><span style="--0:#d6deeb;--1:#403f53">                </span></span><span style="--0:#d6deeb;--1:#403f53">[ "extends" , class_name , "(" , [ args ] , ")" ] ,</span></div></div><div class="ec-line"><div class="code"><span class="indent"><span style="--0:#d6deeb;--1:#403f53">                </span></span><span style="--0:#d6deeb;--1:#403f53">[ "implements" , iface , { "," , iface } ]</span></div></div><div class="ec-line"><div class="code"><span class="indent"><span style="--0:#d6deeb;--1:#403f53">              </span></span><span style="--0:#d6deeb;--1:#403f53">| "interface" , upper_ident , [ "(" , type_var , { "," , type_var } , ")" ] ,</span></div></div><div class="ec-line"><div class="code"><span class="indent"><span style="--0:#d6deeb;--1:#403f53">                </span></span><span style="--0:#d6deeb;--1:#403f53">[ "extends" , iface , { "," , iface } ] ) ,</span></div></div><div class="ec-line"><div class="code"><span class="indent"><span style="--0:#d6deeb;--1:#403f53">              </span></span><span style="--0:#d6deeb;--1:#403f53">[ ":" , INDENT , member , { member } , DEDENT ] ;</span></div></div><div class="ec-line"><div class="code"><span style="--0:#d6deeb;--1:#403f53">header_item = type_var | member_field ;</span></div></div><div class="ec-line"><div class="code"><span style="--0:#d6deeb;--1:#403f53">class_name  = [ sub_path , "." ] , upper_ident ;</span></div></div><div class="ec-line"><div class="code"><span style="--0:#d6deeb;--1:#403f53">iface       = class_name , [ "(" , type , { "," , type } , ")" ] ;</span></div></div><div class="ec-line"><div class="code"><span style="--0:#d6deeb;--1:#403f53">member      = member_field | method ;</span></div></div><div class="ec-line"><div class="code"><span style="--0:#d6deeb;--1:#403f53">(* A header field has a default only where every one after it has; a</span></div></div><div class="ec-line"><div class="code"><span class="indent"><span style="--0:#d6deeb;--1:#403f53">   </span></span><span style="--0:#d6deeb;--1:#403f53">body field always has its first value. *)</span></div></div><div class="ec-line"><div class="code"><span style="--0:#d6deeb;--1:#403f53">member_field = [ "private" ] , [ "var" ] , ident , ( ":" , type , [ "=" , expr ] | "=" , literal ) ;</span></div></div><div class="ec-line"><div class="code"><span style="--0:#d6deeb;--1:#403f53">(* A method's parameters after `self` all say their types; one with no</span></div></div><div class="ec-line"><div class="code"><span class="indent"><span style="--0:#d6deeb;--1:#403f53">   </span></span><span style="--0:#d6deeb;--1:#403f53">body is abstract (in an abstract class) or an interface's. *)</span></div></div><div class="ec-line"><div class="code"><span style="--0:#d6deeb;--1:#403f53">method      = [ "private" ] , [ "override" ] , [ "abstract" ] ,</span></div></div><div class="ec-line"><div class="code"><span class="indent"><span style="--0:#d6deeb;--1:#403f53">              </span></span><span style="--0:#d6deeb;--1:#403f53">"def" , ident , "(" , "self" , { "," , param } , ")" , [ "->" , type ] ,</span></div></div><div class="ec-line"><div class="code"><span class="indent"><span style="--0:#d6deeb;--1:#403f53">              </span></span><span style="--0:#d6deeb;--1:#403f53">[ ":" , block ] ;</span></div></div><div class="ec-line"><div class="code">
+</div></div><div class="ec-line"><div class="code"><span style="--0:#d6deeb;--1:#403f53">(* A block is indented under its header, or is the single expression</span></div></div><div class="ec-line"><div class="code"><span class="indent"><span style="--0:#d6deeb;--1:#403f53">   </span></span><span style="--0:#d6deeb;--1:#403f53">written on the header's own line -- which the EBNF cannot say, since</span></div></div><div class="ec-line"><div class="code"><span class="indent"><span style="--0:#d6deeb;--1:#403f53">   </span></span><span style="--0:#d6deeb;--1:#403f53">it cannot see where a line ends; see the notes below. *)</span></div></div><div class="ec-line"><div class="code"><span style="--0:#d6deeb;--1:#403f53">block       = INDENT , { statement } , DEDENT</span></div></div><div class="ec-line"><div class="code"><span class="indent"><span style="--0:#d6deeb;--1:#403f53">            </span></span><span style="--0:#d6deeb;--1:#403f53">| expr_stmt ;</span></div></div><div class="ec-line"><div class="code">
+</div></div><div class="ec-line"><div class="code"><span style="--0:#d6deeb;--1:#403f53">statement   = function_def</span></div></div><div class="ec-line"><div class="code"><span class="indent"><span style="--0:#d6deeb;--1:#403f53">            </span></span><span style="--0:#d6deeb;--1:#403f53">| function_sig</span></div></div><div class="ec-line"><div class="code"><span class="indent"><span style="--0:#d6deeb;--1:#403f53">            </span></span><span style="--0:#d6deeb;--1:#403f53">| return_stmt</span></div></div><div class="ec-line"><div class="code"><span class="indent"><span style="--0:#d6deeb;--1:#403f53">            </span></span><span style="--0:#d6deeb;--1:#403f53">| loop_stmt</span></div></div><div class="ec-line"><div class="code"><span class="indent"><span style="--0:#d6deeb;--1:#403f53">            </span></span><span style="--0:#d6deeb;--1:#403f53">| break_stmt</span></div></div><div class="ec-line"><div class="code"><span class="indent"><span style="--0:#d6deeb;--1:#403f53">            </span></span><span style="--0:#d6deeb;--1:#403f53">| continue_stmt</span></div></div><div class="ec-line"><div class="code"><span class="indent"><span style="--0:#d6deeb;--1:#403f53">            </span></span><span style="--0:#d6deeb;--1:#403f53">| if_stmt</span></div></div><div class="ec-line"><div class="code"><span class="indent"><span style="--0:#d6deeb;--1:#403f53">            </span></span><span style="--0:#d6deeb;--1:#403f53">| match_stmt</span></div></div><div class="ec-line"><div class="code"><span class="indent"><span style="--0:#d6deeb;--1:#403f53">            </span></span><span style="--0:#d6deeb;--1:#403f53">| var_decl</span></div></div><div class="ec-line"><div class="code"><span class="indent"><span style="--0:#d6deeb;--1:#403f53">            </span></span><span style="--0:#d6deeb;--1:#403f53">| assignment</span></div></div><div class="ec-line"><div class="code"><span class="indent"><span style="--0:#d6deeb;--1:#403f53">            </span></span><span style="--0:#d6deeb;--1:#403f53">| mutation</span></div></div><div class="ec-line"><div class="code"><span class="indent"><span style="--0:#d6deeb;--1:#403f53">            </span></span><span style="--0:#d6deeb;--1:#403f53">| expr_stmt ;</span></div></div><div class="ec-line"><div class="code">
+</div></div><div class="ec-line"><div class="code"><span style="--0:#d6deeb;--1:#403f53">(* `implicit` marks a definition an implicit argument may be resolved</span></div></div><div class="ec-line"><div class="code"><span class="indent"><span style="--0:#d6deeb;--1:#403f53">   </span></span><span style="--0:#d6deeb;--1:#403f53">to; a definition's own name may carry a `::` qualifier, which is what</span></div></div><div class="ec-line"><div class="code"><span class="indent"><span style="--0:#d6deeb;--1:#403f53">   </span></span><span style="--0:#d6deeb;--1:#403f53">makes two definitions of one base name distinct. *)</span></div></div><div class="ec-line"><div class="code"><span style="--0:#d6deeb;--1:#403f53">function_def = [ "implicit" ] , "def" , def_name ,</span></div></div><div class="ec-line"><div class="code"><span class="indent"><span style="--0:#d6deeb;--1:#403f53">               </span></span><span style="--0:#d6deeb;--1:#403f53">"(" , [ params ] , ")" , [ "->" , type ] , ":" , block ;</span></div></div><div class="ec-line"><div class="code"><span style="--0:#d6deeb;--1:#403f53">(* The second form names its parameters; it ends its line, every</span></div></div><div class="ec-line"><div class="code"><span class="indent"><span style="--0:#d6deeb;--1:#403f53">   </span></span><span style="--0:#d6deeb;--1:#403f53">parameter has a type and none a default, and it means the first form</span></div></div><div class="ec-line"><div class="code"><span class="indent"><span style="--0:#d6deeb;--1:#403f53">   </span></span><span style="--0:#d6deeb;--1:#403f53">with the parameter types in order. *)</span></div></div><div class="ec-line"><div class="code"><span style="--0:#d6deeb;--1:#403f53">function_sig = "def" , def_name , ":" , type</span></div></div><div class="ec-line"><div class="code"><span class="indent"><span style="--0:#d6deeb;--1:#403f53">             </span></span><span style="--0:#d6deeb;--1:#403f53">| "def" , def_name , "(" , [ named_type , { "," , named_type } ] ,</span></div></div><div class="ec-line"><div class="code"><span class="indent"><span style="--0:#d6deeb;--1:#403f53">               </span></span><span style="--0:#d6deeb;--1:#403f53">")" , "->" , type ;</span></div></div><div class="ec-line"><div class="code"><span style="--0:#d6deeb;--1:#403f53">named_type   = ident , ":" , type ;</span></div></div><div class="ec-line"><div class="code"><span style="--0:#d6deeb;--1:#403f53">(* A dotted name defines in a submodule: `mymod.foo`, `mymod.deep.foo`. *)</span></div></div><div class="ec-line"><div class="code"><span style="--0:#d6deeb;--1:#403f53">def_name     = [ sub_path , "." ] , ( ident | qualified_name ) ;</span></div></div><div class="ec-line"><div class="code"><span style="--0:#d6deeb;--1:#403f53">sub_path     = ident , { "." , ident } ;</span></div></div><div class="ec-line"><div class="code"><span style="--0:#d6deeb;--1:#403f53">(* No whitespace is permitted on either side of the "::", and neither</span></div></div><div class="ec-line"><div class="code"><span class="indent"><span style="--0:#d6deeb;--1:#403f53">   </span></span><span style="--0:#d6deeb;--1:#403f53">half may be a keyword. *)</span></div></div><div class="ec-line"><div class="code"><span style="--0:#d6deeb;--1:#403f53">qualified_name = ident , "::" , ident ;</span></div></div><div class="ec-line"><div class="code"><span style="--0:#d6deeb;--1:#403f53">(* Every parameter after the first one with a default has one too, and</span></div></div><div class="ec-line"><div class="code"><span class="indent"><span style="--0:#d6deeb;--1:#403f53">   </span></span><span style="--0:#d6deeb;--1:#403f53">every implicit parameter comes after every ordinary one. *)</span></div></div><div class="ec-line"><div class="code"><span style="--0:#d6deeb;--1:#403f53">params       = param , { "," , param } , { "," , implicit_param }</span></div></div><div class="ec-line"><div class="code"><span class="indent"><span style="--0:#d6deeb;--1:#403f53">             </span></span><span style="--0:#d6deeb;--1:#403f53">| implicit_param , { "," , implicit_param } ;</span></div></div><div class="ec-line"><div class="code"><span style="--0:#d6deeb;--1:#403f53">param        = ident , [ ":" , type ] , [ "=" , expr ] ;</span></div></div><div class="ec-line"><div class="code"><span style="--0:#d6deeb;--1:#403f53">implicit_param = "implicit" , ident , ":" , type ;</span></div></div><div class="ec-line"><div class="code">
+</div></div><div class="ec-line"><div class="code"><span style="--0:#d6deeb;--1:#403f53">type         = type_atom , [ "->" , type ] ;</span></div></div><div class="ec-line"><div class="code"><span style="--0:#d6deeb;--1:#403f53">type_atom    = "Int" | "Float" | "String" | "Char" | "Bool"</span></div></div><div class="ec-line"><div class="code"><span class="indent"><span style="--0:#d6deeb;--1:#403f53">             </span></span><span style="--0:#d6deeb;--1:#403f53">| type_var</span></div></div><div class="ec-line"><div class="code"><span class="indent"><span style="--0:#d6deeb;--1:#403f53">             </span></span><span style="--0:#d6deeb;--1:#403f53">| [ sub_path , "." ] , upper_ident , [ "(" , type , { "," , type } , ")" ]</span></div></div><div class="ec-line"><div class="code"><span class="indent"><span style="--0:#d6deeb;--1:#403f53">             </span></span><span style="--0:#d6deeb;--1:#403f53">| "all" , type_var , { type_var } , "." , type</span></div></div><div class="ec-line"><div class="code"><span class="indent"><span style="--0:#d6deeb;--1:#403f53">             </span></span><span style="--0:#d6deeb;--1:#403f53">| "[" , type , "]"</span></div></div><div class="ec-line"><div class="code"><span class="indent"><span style="--0:#d6deeb;--1:#403f53">             </span></span><span style="--0:#d6deeb;--1:#403f53">| type_paren ;</span></div></div><div class="ec-line"><div class="code"><span style="--0:#d6deeb;--1:#403f53">(* One parenthesized list, three readings, decided by the token after</span></div></div><div class="ec-line"><div class="code"><span class="indent"><span style="--0:#d6deeb;--1:#403f53">   </span></span><span style="--0:#d6deeb;--1:#403f53">")" and by whether a comma is written -- exactly as `tuple_lit` and a</span></div></div><div class="ec-line"><div class="code"><span class="indent"><span style="--0:#d6deeb;--1:#403f53">   </span></span><span style="--0:#d6deeb;--1:#403f53">parenthesized expression are told apart among values. *)</span></div></div><div class="ec-line"><div class="code"><span style="--0:#d6deeb;--1:#403f53">type_paren   = "(" , [ type , { "," , type } ,</span></div></div><div class="ec-line"><div class="code"><span class="indent"><span style="--0:#d6deeb;--1:#403f53">                       </span></span><span style="--0:#d6deeb;--1:#403f53">{ "," , implicit_param } , [ "," ] ] , ")" ,</span></div></div><div class="ec-line"><div class="code"><span class="indent"><span style="--0:#d6deeb;--1:#403f53">               </span></span><span style="--0:#d6deeb;--1:#403f53">"->" , type</span></div></div><div class="ec-line"><div class="code"><span class="indent"><span style="--0:#d6deeb;--1:#403f53">             </span></span><span style="--0:#d6deeb;--1:#403f53">| "(" , implicit_param , { "," , implicit_param } , ")" ,</span></div></div><div class="ec-line"><div class="code"><span class="indent"><span style="--0:#d6deeb;--1:#403f53">               </span></span><span style="--0:#d6deeb;--1:#403f53">"->" , type</span></div></div><div class="ec-line"><div class="code"><span class="indent"><span style="--0:#d6deeb;--1:#403f53">             </span></span><span style="--0:#d6deeb;--1:#403f53">| "(" , type , ")"</span></div></div><div class="ec-line"><div class="code"><span class="indent"><span style="--0:#d6deeb;--1:#403f53">             </span></span><span style="--0:#d6deeb;--1:#403f53">| "(" , ")"</span></div></div><div class="ec-line"><div class="code"><span class="indent"><span style="--0:#d6deeb;--1:#403f53">             </span></span><span style="--0:#d6deeb;--1:#403f53">| "(" , type , "," , ")"</span></div></div><div class="ec-line"><div class="code"><span class="indent"><span style="--0:#d6deeb;--1:#403f53">             </span></span><span style="--0:#d6deeb;--1:#403f53">| "(" , type , ( "," , type )+ , [ "," ] , ")" ;</span></div></div><div class="ec-line"><div class="code"><span style="--0:#d6deeb;--1:#403f53">type_var     = ? an ident beginning with a lowercase letter ? ;</span></div></div><div class="ec-line"><div class="code">
+</div></div><div class="ec-line"><div class="code"><span style="--0:#d6deeb;--1:#403f53">return_stmt = "return" , bound_value ;</span></div></div><div class="ec-line"><div class="code">
+</div></div><div class="ec-line"><div class="code"><span style="--0:#d6deeb;--1:#403f53">(* `for`, `while` and the accumulator loop are one construct with</span></div></div><div class="ec-line"><div class="code"><span class="indent"><span style="--0:#d6deeb;--1:#403f53">   </span></span><span style="--0:#d6deeb;--1:#403f53">different halves written; every combination of them is a loop_stmt. *)</span></div></div><div class="ec-line"><div class="code"><span style="--0:#d6deeb;--1:#403f53">loop_stmt   = ( "loop" , accumulator , [ iteration ]</span></div></div><div class="ec-line"><div class="code"><span class="indent"><span style="--0:#d6deeb;--1:#403f53">              </span></span><span style="--0:#d6deeb;--1:#403f53">| iteration ) , ":" , block ;</span></div></div><div class="ec-line"><div class="code"><span style="--0:#d6deeb;--1:#403f53">accumulator = target , [ ":" , type ] , "=" , tuple_or_expr ;</span></div></div><div class="ec-line"><div class="code"><span style="--0:#d6deeb;--1:#403f53">iteration   = "for" , ident , "in" , expr | "while" , expr ;</span></div></div><div class="ec-line"><div class="code">
+</div></div><div class="ec-line"><div class="code"><span style="--0:#d6deeb;--1:#403f53">(* The value, written on the `break`/`continue` line itself, is the</span></div></div><div class="ec-line"><div class="code"><span class="indent"><span style="--0:#d6deeb;--1:#403f53">   </span></span><span style="--0:#d6deeb;--1:#403f53">accumulator the jump leaves with. *)</span></div></div><div class="ec-line"><div class="code"><span style="--0:#d6deeb;--1:#403f53">break_stmt    = "break" , [ tuple_or_expr ] ;</span></div></div><div class="ec-line"><div class="code"><span style="--0:#d6deeb;--1:#403f53">continue_stmt = "continue" , [ tuple_or_expr ] ;</span></div></div><div class="ec-line"><div class="code">
+</div></div><div class="ec-line"><div class="code"><span style="--0:#d6deeb;--1:#403f53">if_stmt     = "if" , expr , ":" , block ,</span></div></div><div class="ec-line"><div class="code"><span class="indent"><span style="--0:#d6deeb;--1:#403f53">              </span></span><span style="--0:#d6deeb;--1:#403f53">{ "else" , "if" , expr , ":" , block } ,</span></div></div><div class="ec-line"><div class="code"><span class="indent"><span style="--0:#d6deeb;--1:#403f53">              </span></span><span style="--0:#d6deeb;--1:#403f53">[ "else" , ":" , block ] ;</span></div></div><div class="ec-line"><div class="code">
+</div></div><div class="ec-line"><div class="code"><span style="--0:#d6deeb;--1:#403f53">(* Always indented: a `match` opens a list of clauses rather than a</span></div></div><div class="ec-line"><div class="code"><span class="indent"><span style="--0:#d6deeb;--1:#403f53">   </span></span><span style="--0:#d6deeb;--1:#403f53">block of statements, and a `case` clause is not an expression, so</span></div></div><div class="ec-line"><div class="code"><span class="indent"><span style="--0:#d6deeb;--1:#403f53">   </span></span><span style="--0:#d6deeb;--1:#403f53">there is nothing its header's line could carry. *)</span></div></div><div class="ec-line"><div class="code"><span style="--0:#d6deeb;--1:#403f53">match_stmt  = "match" , expr , ":" , INDENT , case_clause , { case_clause } , DEDENT ;</span></div></div><div class="ec-line"><div class="code"><span style="--0:#d6deeb;--1:#403f53">case_clause = "case" , pattern , [ "if" , expr ] , ":" , block ;</span></div></div><div class="ec-line"><div class="code"><span style="--0:#d6deeb;--1:#403f53">pattern     = pattern_as , { "," , pattern_as } ;</span></div></div><div class="ec-line"><div class="code"><span style="--0:#d6deeb;--1:#403f53">pattern_as  = pattern_or , [ "as" , ident ] ;</span></div></div><div class="ec-line"><div class="code"><span style="--0:#d6deeb;--1:#403f53">pattern_or  = pattern_join , { "|" , pattern_join } ;</span></div></div><div class="ec-line"><div class="code"><span style="--0:#d6deeb;--1:#403f53">pattern_join = pattern_atom , { "+" , pattern_atom } ;</span></div></div><div class="ec-line"><div class="code"><span style="--0:#d6deeb;--1:#403f53">pattern_atom = int | "-" , int | string | char | bool | "_" | ident</span></div></div><div class="ec-line"><div class="code"><span class="indent"><span style="--0:#d6deeb;--1:#403f53">             </span></span><span style="--0:#d6deeb;--1:#403f53">| constructor_pattern</span></div></div><div class="ec-line"><div class="code"><span class="indent"><span style="--0:#d6deeb;--1:#403f53">             </span></span><span style="--0:#d6deeb;--1:#403f53">| "(" , ")"</span></div></div><div class="ec-line"><div class="code"><span class="indent"><span style="--0:#d6deeb;--1:#403f53">             </span></span><span style="--0:#d6deeb;--1:#403f53">| "(" , pattern_as , ")"</span></div></div><div class="ec-line"><div class="code"><span class="indent"><span style="--0:#d6deeb;--1:#403f53">             </span></span><span style="--0:#d6deeb;--1:#403f53">| "(" , pattern_as , "," , ")"</span></div></div><div class="ec-line"><div class="code"><span class="indent"><span style="--0:#d6deeb;--1:#403f53">             </span></span><span style="--0:#d6deeb;--1:#403f53">| "(" , pattern_as , ( "," , pattern_as )+ , [ "," ] , ")"</span></div></div><div class="ec-line"><div class="code"><span class="indent"><span style="--0:#d6deeb;--1:#403f53">             </span></span><span style="--0:#d6deeb;--1:#403f53">| list_pattern ;</span></div></div><div class="ec-line"><div class="code"><span style="--0:#d6deeb;--1:#403f53">(* Positional sub-patterns first, then named ones in any order; a field</span></div></div><div class="ec-line"><div class="code"><span class="indent"><span style="--0:#d6deeb;--1:#403f53">   </span></span><span style="--0:#d6deeb;--1:#403f53">not mentioned matches anything. *)</span></div></div><div class="ec-line"><div class="code"><span style="--0:#d6deeb;--1:#403f53">constructor_pattern = [ sub_path , "." ] , upper_ident ,</span></div></div><div class="ec-line"><div class="code"><span class="indent"><span style="--0:#d6deeb;--1:#403f53">                      </span></span><span style="--0:#d6deeb;--1:#403f53">[ "(" , [ field_pattern , { "," , field_pattern } ] , ")" ] ;</span></div></div><div class="ec-line"><div class="code"><span style="--0:#d6deeb;--1:#403f53">field_pattern = pattern_as | ident , "=" , pattern_as ;</span></div></div><div class="ec-line"><div class="code">
+</div></div><div class="ec-line"><div class="code"><span style="--0:#d6deeb;--1:#403f53">list_pattern = "[" , [ list_pattern_items ] , "]" ;</span></div></div><div class="ec-line"><div class="code"><span style="--0:#d6deeb;--1:#403f53">list_pattern_items = list_pattern_item , { "," , list_pattern_item } ;</span></div></div><div class="ec-line"><div class="code"><span style="--0:#d6deeb;--1:#403f53">list_pattern_item  = pattern_as | rest_marker ;</span></div></div><div class="ec-line"><div class="code"><span style="--0:#d6deeb;--1:#403f53">rest_marker        = ".." , [ ident ] ;</span></div></div><div class="ec-line"><div class="code">
+</div></div><div class="ec-line"><div class="code"><span style="--0:#d6deeb;--1:#403f53">var_decl    = "var" , ident , ( "=" | ":=" ) , bound_expr ;   (* ":=" is accepted as "=" *)</span></div></div><div class="ec-line"><div class="code"><span style="--0:#d6deeb;--1:#403f53">assignment  = [ "implicit" ] , target , [ ":" , type ] , "=" , bound_value ;</span></div></div><div class="ec-line"><div class="code"><span style="--0:#d6deeb;--1:#403f53">mutation    = ident , ":=" , bound_expr</span></div></div><div class="ec-line"><div class="code"><span class="indent"><span style="--0:#d6deeb;--1:#403f53">            </span></span><span style="--0:#d6deeb;--1:#403f53">| target , ":=" , bound_expr            (* a tuple of names *)</span></div></div><div class="ec-line"><div class="code"><span class="indent"><span style="--0:#d6deeb;--1:#403f53">            </span></span><span style="--0:#d6deeb;--1:#403f53">| ident , compound_op , bound_expr</span></div></div><div class="ec-line"><div class="code"><span class="indent"><span style="--0:#d6deeb;--1:#403f53">            </span></span><span style="--0:#d6deeb;--1:#403f53">| atom , ( ":=" | compound_op ) , bound_expr</span></div></div><div class="ec-line"><div class="code"><span class="indent"><span style="--0:#d6deeb;--1:#403f53">                       </span></span><span style="--0:#d6deeb;--1:#403f53">(* an array's element, an atom ending in an</span></div></div><div class="ec-line"><div class="code"><span class="indent"><span style="--0:#d6deeb;--1:#403f53">                          </span></span><span style="--0:#d6deeb;--1:#403f53">index_tail, or a mutable struct's field, an atom</span></div></div><div class="ec-line"><div class="code"><span class="indent"><span style="--0:#d6deeb;--1:#403f53">                          </span></span><span style="--0:#d6deeb;--1:#403f53">ending in "." ident *)</span></div></div><div class="ec-line"><div class="code"><span class="indent"><span style="--0:#d6deeb;--1:#403f53">            </span></span><span style="--0:#d6deeb;--1:#403f53">| "*" , unary , ( ":=" | compound_op ) , bound_expr ;</span></div></div><div class="ec-line"><div class="code"><span class="indent"><span style="--0:#d6deeb;--1:#403f53">                       </span></span><span style="--0:#d6deeb;--1:#403f53">(* what a pointer points at *)</span></div></div><div class="ec-line"><div class="code"><span style="--0:#d6deeb;--1:#403f53">compound_op = "+=" | "-=" | "*=" | "/=" | "%=" | "^="</span></div></div><div class="ec-line"><div class="code"><span class="indent"><span style="--0:#d6deeb;--1:#403f53">            </span></span><span style="--0:#d6deeb;--1:#403f53">| "&#x26;=" | "|=" | "&#x3C;&#x3C;=" | ">>=" | "xor" "=" ;   (* no space in "xor=" *)</span></div></div><div class="ec-line"><div class="code">
+</div></div><div class="ec-line"><div class="code"><span style="--0:#d6deeb;--1:#403f53">(* A bound value may start on the line after its "=", indented -- the</span></div></div><div class="ec-line"><div class="code"><span class="indent"><span style="--0:#d6deeb;--1:#403f53">   </span></span><span style="--0:#d6deeb;--1:#403f53">lexer wraps it in the same INDENT/DEDENT any other block gets. *)</span></div></div><div class="ec-line"><div class="code"><span style="--0:#d6deeb;--1:#403f53">bound_value = tuple_or_expr | value_stmt | INDENT , bound_value , DEDENT ;</span></div></div><div class="ec-line"><div class="code"><span style="--0:#d6deeb;--1:#403f53">bound_expr  = tuple_or_expr | INDENT , bound_expr , DEDENT ;</span></div></div><div class="ec-line"><div class="code">
+</div></div><div class="ec-line"><div class="code"><span style="--0:#d6deeb;--1:#403f53">value_stmt  = value_if | match_stmt | loop_stmt ;</span></div></div><div class="ec-line"><div class="code"><span style="--0:#d6deeb;--1:#403f53">value_if    = "if" , expr , ":" , block ,</span></div></div><div class="ec-line"><div class="code"><span class="indent"><span style="--0:#d6deeb;--1:#403f53">              </span></span><span style="--0:#d6deeb;--1:#403f53">{ "else" , "if" , expr , ":" , block } ,</span></div></div><div class="ec-line"><div class="code"><span class="indent"><span style="--0:#d6deeb;--1:#403f53">              </span></span><span style="--0:#d6deeb;--1:#403f53">"else" , ":" , block ;</span></div></div><div class="ec-line"><div class="code">
+</div></div><div class="ec-line"><div class="code"><span style="--0:#d6deeb;--1:#403f53">target      = target_atom , { "," , target_atom } ;</span></div></div><div class="ec-line"><div class="code"><span style="--0:#d6deeb;--1:#403f53">target_atom = ident</span></div></div><div class="ec-line"><div class="code"><span class="indent"><span style="--0:#d6deeb;--1:#403f53">            </span></span><span style="--0:#d6deeb;--1:#403f53">| sub_path , "." , ident</span></div></div><div class="ec-line"><div class="code"><span class="indent"><span style="--0:#d6deeb;--1:#403f53">            </span></span><span style="--0:#d6deeb;--1:#403f53">| "(" , ")"</span></div></div><div class="ec-line"><div class="code"><span class="indent"><span style="--0:#d6deeb;--1:#403f53">            </span></span><span style="--0:#d6deeb;--1:#403f53">| "(" , target_atom , "," , ")"</span></div></div><div class="ec-line"><div class="code"><span class="indent"><span style="--0:#d6deeb;--1:#403f53">            </span></span><span style="--0:#d6deeb;--1:#403f53">| "(" , target_atom , ( "," , target_atom )+ , [ "," ] , ")" ;</span></div></div><div class="ec-line"><div class="code">
+</div></div><div class="ec-line"><div class="code"><span style="--0:#d6deeb;--1:#403f53">expr_stmt   = tuple_or_expr ;</span></div></div><div class="ec-line"><div class="code">
+</div></div><div class="ec-line"><div class="code"><span style="--0:#d6deeb;--1:#403f53">tuple_or_expr = expr , { "," , expr } ;</span></div></div><div class="ec-line"><div class="code">
+</div></div><div class="ec-line"><div class="code"><span style="--0:#d6deeb;--1:#403f53">expr        = lambda | if_expr | let_expr | disjunction ;</span></div></div><div class="ec-line"><div class="code">
+</div></div><div class="ec-line"><div class="code"><span style="--0:#d6deeb;--1:#403f53">(* A lambda takes everything to its right that one expression can hold,</span></div></div><div class="ec-line"><div class="code"><span class="indent"><span style="--0:#d6deeb;--1:#403f53">   </span></span><span style="--0:#d6deeb;--1:#403f53">so it associates to the right and binds looser than every operator;</span></div></div><div class="ec-line"><div class="code"><span class="indent"><span style="--0:#d6deeb;--1:#403f53">   </span></span><span style="--0:#d6deeb;--1:#403f53">a comma ends it, since `lam x. a, b` is a pair. A parameter with a</span></div></div><div class="ec-line"><div class="code"><span class="indent"><span style="--0:#d6deeb;--1:#403f53">   </span></span><span style="--0:#d6deeb;--1:#403f53">type, and more than one, are written in parentheses. *)</span></div></div><div class="ec-line"><div class="code"><span style="--0:#d6deeb;--1:#403f53">lambda      = "lam" , lambda_params , "." , expr ;</span></div></div><div class="ec-line"><div class="code"><span style="--0:#d6deeb;--1:#403f53">lambda_params = ident</span></div></div><div class="ec-line"><div class="code"><span class="indent"><span style="--0:#d6deeb;--1:#403f53">            </span></span><span style="--0:#d6deeb;--1:#403f53">| "(" , [ param , { "," , param } ] , ")" ;</span></div></div><div class="ec-line"><div class="code">
+</div></div><div class="ec-line"><div class="code"><span style="--0:#d6deeb;--1:#403f53">if_expr     = "if" , expr , "then" , expr , "else" , expr ;</span></div></div><div class="ec-line"><div class="code">
+</div></div><div class="ec-line"><div class="code"><span style="--0:#d6deeb;--1:#403f53">(* Like a lambda, the body takes everything to its right that one</span></div></div><div class="ec-line"><div class="code"><span class="indent"><span style="--0:#d6deeb;--1:#403f53">   </span></span><span style="--0:#d6deeb;--1:#403f53">expression can hold. *)</span></div></div><div class="ec-line"><div class="code"><span style="--0:#d6deeb;--1:#403f53">let_expr    = "let" , target , [ ":" , type ] , "=" , expr , "in" , expr ;</span></div></div><div class="ec-line"><div class="code">
+</div></div><div class="ec-line"><div class="code"><span style="--0:#d6deeb;--1:#403f53">(* `and`/`or`/`not` and their symbol spellings bind looser than a</span></div></div><div class="ec-line"><div class="code"><span class="indent"><span style="--0:#d6deeb;--1:#403f53">   </span></span><span style="--0:#d6deeb;--1:#403f53">comparison; the bitwise operators bind tighter, as Python's do. *)</span></div></div><div class="ec-line"><div class="code"><span style="--0:#d6deeb;--1:#403f53">disjunction = conjunction , { ( "or" | "||" ) , conjunction } ;</span></div></div><div class="ec-line"><div class="code"><span style="--0:#d6deeb;--1:#403f53">conjunction = negation , { ( "and" | "&#x26;&#x26;" ) , negation } ;</span></div></div><div class="ec-line"><div class="code"><span style="--0:#d6deeb;--1:#403f53">negation    = "not" , negation | comparison ;</span></div></div><div class="ec-line"><div class="code">
+</div></div><div class="ec-line"><div class="code"><span style="--0:#d6deeb;--1:#403f53">comparison  = bit_or , [ comp_op , bit_or ] ;</span></div></div><div class="ec-line"><div class="code"><span style="--0:#d6deeb;--1:#403f53">comp_op     = "&#x3C;" | "&#x3C;=" | ">" | ">=" | "==" | "!=" ;</span></div></div><div class="ec-line"><div class="code">
+</div></div><div class="ec-line"><div class="code"><span style="--0:#d6deeb;--1:#403f53">bit_or      = bit_xor , { "|" , bit_xor } ;</span></div></div><div class="ec-line"><div class="code"><span style="--0:#d6deeb;--1:#403f53">bit_xor     = bit_and , { "xor" , bit_and } ;</span></div></div><div class="ec-line"><div class="code"><span style="--0:#d6deeb;--1:#403f53">bit_and     = shift , { "&#x26;" , shift } ;</span></div></div><div class="ec-line"><div class="code"><span style="--0:#d6deeb;--1:#403f53">shift       = additive , { ( "&#x3C;&#x3C;" | ">>" ) , additive } ;</span></div></div><div class="ec-line"><div class="code"><span style="--0:#d6deeb;--1:#403f53">additive    = multiplicative , { ( "+" | "-" ) , multiplicative } ;</span></div></div><div class="ec-line"><div class="code"><span style="--0:#d6deeb;--1:#403f53">multiplicative = unary , { ( "*" | "/" | "%" ) , unary } ;</span></div></div><div class="ec-line"><div class="code"><span style="--0:#d6deeb;--1:#403f53">unary       = ( "-" | "!" | "~" | "&#x26;" | "*" ) , unary | power ;</span></div></div><div class="ec-line"><div class="code"><span class="indent"><span style="--0:#d6deeb;--1:#403f53">                       </span></span><span style="--0:#d6deeb;--1:#403f53">(* "&#x26;" and "*" are a pointer's, under</span></div></div><div class="ec-line"><div class="code"><span class="indent"><span style="--0:#d6deeb;--1:#403f53">                          </span></span><span style="--0:#d6deeb;--1:#403f53">`use pointers`: an address and what a pointer</span></div></div><div class="ec-line"><div class="code"><span class="indent"><span style="--0:#d6deeb;--1:#403f53">                          </span></span><span style="--0:#d6deeb;--1:#403f53">points at *)</span></div></div><div class="ec-line"><div class="code"><span style="--0:#d6deeb;--1:#403f53">(* `^` associates to the right, and its right operand may be negated:</span></div></div><div class="ec-line"><div class="code"><span class="indent"><span style="--0:#d6deeb;--1:#403f53">   </span></span><span style="--0:#d6deeb;--1:#403f53">`2 ^ -1`. It binds tighter than unary minus: `-2 ^ 2` is `-(2 ^ 2)`. *)</span></div></div><div class="ec-line"><div class="code"><span style="--0:#d6deeb;--1:#403f53">power       = atom , [ "^" , unary ] ;</span></div></div><div class="ec-line"><div class="code">
+</div></div><div class="ec-line"><div class="code"><span style="--0:#d6deeb;--1:#403f53">atom        = ( float | int | string | char | bool | ident | list_lit | list_comp</span></div></div><div class="ec-line"><div class="code"><span class="indent"><span style="--0:#d6deeb;--1:#403f53">              </span></span><span style="--0:#d6deeb;--1:#403f53">| tuple_lit | construct</span></div></div><div class="ec-line"><div class="code"><span class="indent"><span style="--0:#d6deeb;--1:#403f53">              </span></span><span style="--0:#d6deeb;--1:#403f53">| "(" , expr , ")" ) ,</span></div></div><div class="ec-line"><div class="code"><span class="indent"><span style="--0:#d6deeb;--1:#403f53">              </span></span><span style="--0:#d6deeb;--1:#403f53">{ call_tail | field_tail | index_tail } ;</span></div></div><div class="ec-line"><div class="code"><span style="--0:#d6deeb;--1:#403f53">(* `xs[i]`: the `[` on the row the indexed expression ends on. *)</span></div></div><div class="ec-line"><div class="code"><span style="--0:#d6deeb;--1:#403f53">index_tail  = "[" , expr , "]"</span></div></div><div class="ec-line"><div class="code"><span class="indent"><span style="--0:#d6deeb;--1:#403f53">            </span></span><span style="--0:#d6deeb;--1:#403f53">| "[" , [ expr ] , ":" , [ expr ] , "]" ;   (* a slice: a copy *)</span></div></div><div class="ec-line"><div class="code"><span style="--0:#d6deeb;--1:#403f53">(* A constructor applied to its fields, with a call's arguments; one with</span></div></div><div class="ec-line"><div class="code"><span class="indent"><span style="--0:#d6deeb;--1:#403f53">   </span></span><span style="--0:#d6deeb;--1:#403f53">no fields is written bare. *)</span></div></div><div class="ec-line"><div class="code"><span style="--0:#d6deeb;--1:#403f53">construct   = [ sub_path , "." ] , upper_ident , [ call_tail ] ;</span></div></div><div class="ec-line"><div class="code"><span style="--0:#d6deeb;--1:#403f53">field_tail  = "." , ident ;</span></div></div><div class="ec-line"><div class="code"><span style="--0:#d6deeb;--1:#403f53">(* Every named argument comes after every positional one; the named</span></div></div><div class="ec-line"><div class="code"><span class="indent"><span style="--0:#d6deeb;--1:#403f53">   </span></span><span style="--0:#d6deeb;--1:#403f53">ones may be written in any order. A constructor's arguments may end</span></div></div><div class="ec-line"><div class="code"><span class="indent"><span style="--0:#d6deeb;--1:#403f53">   </span></span><span style="--0:#d6deeb;--1:#403f53">in `..expr`, which gives every field not written before it. *)</span></div></div><div class="ec-line"><div class="code"><span style="--0:#d6deeb;--1:#403f53">call_tail   = "(" , [ call_args ] , ")" ;</span></div></div><div class="ec-line"><div class="code"><span style="--0:#d6deeb;--1:#403f53">call_args   = expr , { "," , expr } , { "," , named_arg } , [ "," , update ]</span></div></div><div class="ec-line"><div class="code"><span class="indent"><span style="--0:#d6deeb;--1:#403f53">            </span></span><span style="--0:#d6deeb;--1:#403f53">| named_arg , { "," , named_arg } , [ "," , update ]</span></div></div><div class="ec-line"><div class="code"><span class="indent"><span style="--0:#d6deeb;--1:#403f53">            </span></span><span style="--0:#d6deeb;--1:#403f53">| update ;</span></div></div><div class="ec-line"><div class="code"><span style="--0:#d6deeb;--1:#403f53">named_arg   = ident , "=" , expr ;</span></div></div><div class="ec-line"><div class="code"><span style="--0:#d6deeb;--1:#403f53">update      = ".." , expr ;</span></div></div><div class="ec-line"><div class="code"><span style="--0:#d6deeb;--1:#403f53">args        = expr , { "," , expr } ;</span></div></div><div class="ec-line"><div class="code">
+</div></div><div class="ec-line"><div class="code"><span style="--0:#d6deeb;--1:#403f53">list_lit    = "[" , [ args ] , "]" ;</span></div></div><div class="ec-line"><div class="code">
+</div></div><div class="ec-line"><div class="code"><span style="--0:#d6deeb;--1:#403f53">list_comp   = "[" , expr , comp_for , { comp_for | comp_if } , "]" ;</span></div></div><div class="ec-line"><div class="code"><span style="--0:#d6deeb;--1:#403f53">comp_for    = "for" , pattern , "in" , expr ;</span></div></div><div class="ec-line"><div class="code"><span style="--0:#d6deeb;--1:#403f53">comp_if     = "if" , expr ;</span></div></div><div class="ec-line"><div class="code">
+</div></div><div class="ec-line"><div class="code"><span style="--0:#d6deeb;--1:#403f53">tuple_lit   = "(" , ")"</span></div></div><div class="ec-line"><div class="code"><span class="indent"><span style="--0:#d6deeb;--1:#403f53">            </span></span><span style="--0:#d6deeb;--1:#403f53">| "(" , expr , "," , ")"</span></div></div><div class="ec-line"><div class="code"><span class="indent"><span style="--0:#d6deeb;--1:#403f53">            </span></span><span style="--0:#d6deeb;--1:#403f53">| "(" , expr , ( "," , expr )+ , [ "," ] , ")" ;</span></div></div><div class="ec-line"><div class="code">
+</div></div><div class="ec-line"><div class="code"><span style="--0:#d6deeb;--1:#403f53">ident       = letter , { letter | digit } ;</span></div></div><div class="ec-line"><div class="code"><span style="--0:#d6deeb;--1:#403f53">int         = digit , { digit }</span></div></div><div class="ec-line"><div class="code"><span class="indent"><span style="--0:#d6deeb;--1:#403f53">            </span></span><span style="--0:#d6deeb;--1:#403f53">| "0" , ( "x" | "X" ) , hex_digit , { [ "_" ] , hex_digit }</span></div></div><div class="ec-line"><div class="code"><span class="indent"><span style="--0:#d6deeb;--1:#403f53">            </span></span><span style="--0:#d6deeb;--1:#403f53">| "0" , ( "b" | "B" ) , bin_digit , { [ "_" ] , bin_digit } ;</span></div></div><div class="ec-line"><div class="code"><span style="--0:#d6deeb;--1:#403f53">hex_digit   = digit | "a" | "b" | "c" | "d" | "e" | "f"</span></div></div><div class="ec-line"><div class="code"><span class="indent"><span style="--0:#d6deeb;--1:#403f53">            </span></span><span style="--0:#d6deeb;--1:#403f53">| "A" | "B" | "C" | "D" | "E" | "F" ;</span></div></div><div class="ec-line"><div class="code"><span style="--0:#d6deeb;--1:#403f53">bin_digit   = "0" | "1" ;</span></div></div><div class="ec-line"><div class="code"><span style="--0:#d6deeb;--1:#403f53">(* A point needs a digit on each side, so `1.` and `.5` are not floats.</span></div></div><div class="ec-line"><div class="code"><span class="indent"><span style="--0:#d6deeb;--1:#403f53">   </span></span><span style="--0:#d6deeb;--1:#403f53">An exponent alone makes one: `1e9` is a Float. *)</span></div></div><div class="ec-line"><div class="code"><span style="--0:#d6deeb;--1:#403f53">float       = digits , "." , digits , [ exponent ]</span></div></div><div class="ec-line"><div class="code"><span class="indent"><span style="--0:#d6deeb;--1:#403f53">            </span></span><span style="--0:#d6deeb;--1:#403f53">| digits , exponent ;</span></div></div><div class="ec-line"><div class="code"><span style="--0:#d6deeb;--1:#403f53">digits      = digit , { digit } ;</span></div></div><div class="ec-line"><div class="code"><span style="--0:#d6deeb;--1:#403f53">exponent    = ( "e" | "E" ) , [ "+" | "-" ] , digits ;</span></div></div><div class="ec-line"><div class="code"><span style="--0:#d6deeb;--1:#403f53">bool        = "true" | "false" ;</span></div></div><div class="ec-line"><div class="code"><span style="--0:#d6deeb;--1:#403f53">(* A String is in double quotes; a Char is exactly one character -- one</span></div></div><div class="ec-line"><div class="code"><span class="indent"><span style="--0:#d6deeb;--1:#403f53">   </span></span><span style="--0:#d6deeb;--1:#403f53">Unicode code point, or one escape -- in single quotes. A String may</span></div></div><div class="ec-line"><div class="code"><span class="indent"><span style="--0:#d6deeb;--1:#403f53">   </span></span><span style="--0:#d6deeb;--1:#403f53">interpolate: `${` an expression `}`, or `$` and a name. A `$` before</span></div></div><div class="ec-line"><div class="code"><span class="indent"><span style="--0:#d6deeb;--1:#403f53">   </span></span><span style="--0:#d6deeb;--1:#403f53">anything else is a dollar sign. A raw String, `r"..."`, is its</span></div></div><div class="ec-line"><div class="code"><span class="indent"><span style="--0:#d6deeb;--1:#403f53">   </span></span><span style="--0:#d6deeb;--1:#403f53">characters as written, with no escapes and no interpolation. *)</span></div></div><div class="ec-line"><div class="code"><span style="--0:#d6deeb;--1:#403f53">string      = '"' , { string_char | interpolation } , '"'</span></div></div><div class="ec-line"><div class="code"><span class="indent"><span style="--0:#d6deeb;--1:#403f53">            </span></span><span style="--0:#d6deeb;--1:#403f53">| 'r"' , { any_char_except_double_quote } , '"' ;</span></div></div><div class="ec-line"><div class="code"><span style="--0:#d6deeb;--1:#403f53">interpolation = "${" , expr , { "," , expr } , "}"</span></div></div><div class="ec-line"><div class="code"><span class="indent"><span style="--0:#d6deeb;--1:#403f53">            </span></span><span style="--0:#d6deeb;--1:#403f53">| "$" , ident ;</span></div></div><div class="ec-line"><div class="code"><span style="--0:#d6deeb;--1:#403f53">char        = "'" , char_char , "'" ;</span></div></div><div class="ec-line"><div class="code"><span style="--0:#d6deeb;--1:#403f53">string_char = any_char_except_double_quote_or_backslash</span></div></div><div class="ec-line"><div class="code"><span class="indent"><span style="--0:#d6deeb;--1:#403f53">            </span></span><span style="--0:#d6deeb;--1:#403f53">| "\" , escape ;</span></div></div><div class="ec-line"><div class="code"><span style="--0:#d6deeb;--1:#403f53">char_char   = any_char_except_single_quote_or_backslash</span></div></div><div class="ec-line"><div class="code"><span class="indent"><span style="--0:#d6deeb;--1:#403f53">            </span></span><span style="--0:#d6deeb;--1:#403f53">| "\" , escape ;</span></div></div><div class="ec-line"><div class="code"><span style="--0:#d6deeb;--1:#403f53">escape      = "n" | "t" | "r" | "0" | "\" | "'" | '"' | "$" ;</span></div></div></code></pre><div class="copy"><div aria-live="polite"></div><button title="Copy to clipboard" data-copied="Copied!" data-code="(* An import and a &#x60;public&#x60; belong to a module&#x27;s top level, so they are   here rather than in &#x60;statement&#x60;, which is what a block holds. The   &#x60;use&#x60; lines come before everything else. *)program     = { use_stmt } , { top_statement } ;use_stmt    = &#x22;use&#x22; , feature , { &#x22;,&#x22; , feature } ;feature     = &#x22;mutation&#x22; | &#x22;pointers&#x22; | &#x22;objects&#x22; ;top_statement = import_stmt            | from_stmt            | public_stmt            | datatype_stmt            | struct_stmt            | class_stmt            | statement ;import_stmt = &#x22;import&#x22; , module_item , { &#x22;,&#x22; , module_item } ;module_item = module_path , [ &#x22;as&#x22; , ident ] ;from_stmt   = &#x22;from&#x22; , module_path , &#x22;import&#x22; , field_item , { &#x22;,&#x22; , field_item } ;(* A module, or a submodule of one: &#x60;hello&#x60;, &#x60;hello.mymod&#x60;. *)module_path = ident , { &#x22;.&#x22; , ident } ;field_item  = ident , [ &#x22;as&#x22; , ident ] ;public_stmt = &#x22;public&#x22; , ( function_def | function_sig | datatype_stmt                          | struct_stmt | class_stmt | assignment ) ;(* A datatype belongs to a module&#x27;s top level. Its name and every   constructor&#x27;s start with an uppercase letter; its parameters are type   variables. Its constructors follow the &#x27;:&#x27; on its own line, or on   indented lines under it, or both; a line holds one or more,   separated by commas. *)datatype_stmt = &#x22;datatype&#x22; , [ sub_path , &#x22;.&#x22; ] , upper_ident , [ &#x22;(&#x22; , type_var , { &#x22;,&#x22; , type_var } , &#x22;)&#x22; ] ,                &#x22;:&#x22; , ( constructor_line , [ INDENT , { constructor_line } , DEDENT ]                      | INDENT , constructor_line , { constructor_line } , DEDENT ) ;constructor_line = constructor , { &#x22;,&#x22; , constructor } ;constructor = upper_ident , [ &#x22;(&#x22; , [ field , { &#x22;,&#x22; , field } ] , &#x22;)&#x22; ] ;(* A field is a type alone (positional only), or named; a named field&#x27;s   type may be left to its default. Unnamed fields come first, and every   field after one with a default has one too. *)field       = type            | ident , &#x22;:&#x22; , type , [ &#x22;=&#x22; , expr ]            | ident , &#x22;=&#x22; , expr ;upper_ident = ? an ident beginning with an uppercase letter ? ;(* A struct is a datatype of one constructor, named as the type is. Its   fields are in parentheses on its own line -- every type variable they   name is then a parameter -- or on indented lines under its &#x27;:&#x27;, a   line holding one or more separated by commas, after the parameters   written in parentheses. With neither it has no fields. &#x22;mutable&#x22;   makes it a mutable struct, whose fields are written in place: it has   at least one field, and needs &#x60;use mutation&#x60;. *)struct_stmt = [ &#x22;mutable&#x22; ] , &#x22;struct&#x22; , [ sub_path , &#x22;.&#x22; ] , upper_ident ,              [ &#x22;(&#x22; , [ field , { &#x22;,&#x22; , field } ] , &#x22;)&#x22;              | [ &#x22;(&#x22; , type_var , { &#x22;,&#x22; , type_var } , &#x22;)&#x22; ] , &#x22;:&#x22; ,                INDENT , field_line , { field_line } , DEDENT ] ;field_line  = field , { &#x22;,&#x22; , field } ;(* A class, an abstract class or an interface belongs to a module&#x27;s top   level and needs &#x60;use objects&#x60; (see &#x22;Classes and interfaces&#x22;). A   class&#x27;s header holds its type parameters (bare lowercase names) and   its fields, which are its constructor&#x27;s parameters; a parent class is   written with its constructor&#x27;s arguments, an interface with its type   arguments. Its members are on indented lines under its &#x27;:&#x27;. *)class_stmt  = ( [ &#x22;abstract&#x22; ] , &#x22;class&#x22; , upper_ident ,                &#x22;(&#x22; , [ header_item , { &#x22;,&#x22; , header_item } ] , &#x22;)&#x22; ,                [ &#x22;extends&#x22; , class_name , &#x22;(&#x22; , [ args ] , &#x22;)&#x22; ] ,                [ &#x22;implements&#x22; , iface , { &#x22;,&#x22; , iface } ]              | &#x22;interface&#x22; , upper_ident , [ &#x22;(&#x22; , type_var , { &#x22;,&#x22; , type_var } , &#x22;)&#x22; ] ,                [ &#x22;extends&#x22; , iface , { &#x22;,&#x22; , iface } ] ) ,              [ &#x22;:&#x22; , INDENT , member , { member } , DEDENT ] ;header_item = type_var | member_field ;class_name  = [ sub_path , &#x22;.&#x22; ] , upper_ident ;iface       = class_name , [ &#x22;(&#x22; , type , { &#x22;,&#x22; , type } , &#x22;)&#x22; ] ;member      = member_field | method ;(* A header field has a default only where every one after it has; a   body field always has its first value. *)member_field = [ &#x22;private&#x22; ] , [ &#x22;var&#x22; ] , ident , ( &#x22;:&#x22; , type , [ &#x22;=&#x22; , expr ] | &#x22;=&#x22; , literal ) ;(* A method&#x27;s parameters after &#x60;self&#x60; all say their types; one with no   body is abstract (in an abstract class) or an interface&#x27;s. *)method      = [ &#x22;private&#x22; ] , [ &#x22;override&#x22; ] , [ &#x22;abstract&#x22; ] ,              &#x22;def&#x22; , ident , &#x22;(&#x22; , &#x22;self&#x22; , { &#x22;,&#x22; , param } , &#x22;)&#x22; , [ &#x22;->&#x22; , type ] ,              [ &#x22;:&#x22; , block ] ;(* A block is indented under its header, or is the single expression   written on the header&#x27;s own line -- which the EBNF cannot say, since   it cannot see where a line ends; see the notes below. *)block       = INDENT , { statement } , DEDENT            | expr_stmt ;statement   = function_def            | function_sig            | return_stmt            | loop_stmt            | break_stmt            | continue_stmt            | if_stmt            | match_stmt            | var_decl            | assignment            | mutation            | expr_stmt ;(* &#x60;implicit&#x60; marks a definition an implicit argument may be resolved   to; a definition&#x27;s own name may carry a &#x60;::&#x60; qualifier, which is what   makes two definitions of one base name distinct. *)function_def = [ &#x22;implicit&#x22; ] , &#x22;def&#x22; , def_name ,               &#x22;(&#x22; , [ params ] , &#x22;)&#x22; , [ &#x22;->&#x22; , type ] , &#x22;:&#x22; , block ;(* The second form names its parameters; it ends its line, every   parameter has a type and none a default, and it means the first form   with the parameter types in order. *)function_sig = &#x22;def&#x22; , def_name , &#x22;:&#x22; , type             | &#x22;def&#x22; , def_name , &#x22;(&#x22; , [ named_type , { &#x22;,&#x22; , named_type } ] ,               &#x22;)&#x22; , &#x22;->&#x22; , type ;named_type   = ident , &#x22;:&#x22; , type ;(* A dotted name defines in a submodule: &#x60;mymod.foo&#x60;, &#x60;mymod.deep.foo&#x60;. *)def_name     = [ sub_path , &#x22;.&#x22; ] , ( ident | qualified_name ) ;sub_path     = ident , { &#x22;.&#x22; , ident } ;(* No whitespace is permitted on either side of the &#x22;::&#x22;, and neither   half may be a keyword. *)qualified_name = ident , &#x22;::&#x22; , ident ;(* Every parameter after the first one with a default has one too, and   every implicit parameter comes after every ordinary one. *)params       = param , { &#x22;,&#x22; , param } , { &#x22;,&#x22; , implicit_param }             | implicit_param , { &#x22;,&#x22; , implicit_param } ;param        = ident , [ &#x22;:&#x22; , type ] , [ &#x22;=&#x22; , expr ] ;implicit_param = &#x22;implicit&#x22; , ident , &#x22;:&#x22; , type ;type         = type_atom , [ &#x22;->&#x22; , type ] ;type_atom    = &#x22;Int&#x22; | &#x22;Float&#x22; | &#x22;String&#x22; | &#x22;Char&#x22; | &#x22;Bool&#x22;             | type_var             | [ sub_path , &#x22;.&#x22; ] , upper_ident , [ &#x22;(&#x22; , type , { &#x22;,&#x22; , type } , &#x22;)&#x22; ]             | &#x22;all&#x22; , type_var , { type_var } , &#x22;.&#x22; , type             | &#x22;[&#x22; , type , &#x22;]&#x22;             | type_paren ;(* One parenthesized list, three readings, decided by the token after   &#x22;)&#x22; and by whether a comma is written -- exactly as &#x60;tuple_lit&#x60; and a   parenthesized expression are told apart among values. *)type_paren   = &#x22;(&#x22; , [ type , { &#x22;,&#x22; , type } ,                       { &#x22;,&#x22; , implicit_param } , [ &#x22;,&#x22; ] ] , &#x22;)&#x22; ,               &#x22;->&#x22; , type             | &#x22;(&#x22; , implicit_param , { &#x22;,&#x22; , implicit_param } , &#x22;)&#x22; ,               &#x22;->&#x22; , type             | &#x22;(&#x22; , type , &#x22;)&#x22;             | &#x22;(&#x22; , &#x22;)&#x22;             | &#x22;(&#x22; , type , &#x22;,&#x22; , &#x22;)&#x22;             | &#x22;(&#x22; , type , ( &#x22;,&#x22; , type )+ , [ &#x22;,&#x22; ] , &#x22;)&#x22; ;type_var     = ? an ident beginning with a lowercase letter ? ;return_stmt = &#x22;return&#x22; , bound_value ;(* &#x60;for&#x60;, &#x60;while&#x60; and the accumulator loop are one construct with   different halves written; every combination of them is a loop_stmt. *)loop_stmt   = ( &#x22;loop&#x22; , accumulator , [ iteration ]              | iteration ) , &#x22;:&#x22; , block ;accumulator = target , [ &#x22;:&#x22; , type ] , &#x22;=&#x22; , tuple_or_expr ;iteration   = &#x22;for&#x22; , ident , &#x22;in&#x22; , expr | &#x22;while&#x22; , expr ;(* The value, written on the &#x60;break&#x60;/&#x60;continue&#x60; line itself, is the   accumulator the jump leaves with. *)break_stmt    = &#x22;break&#x22; , [ tuple_or_expr ] ;continue_stmt = &#x22;continue&#x22; , [ tuple_or_expr ] ;if_stmt     = &#x22;if&#x22; , expr , &#x22;:&#x22; , block ,              { &#x22;else&#x22; , &#x22;if&#x22; , expr , &#x22;:&#x22; , block } ,              [ &#x22;else&#x22; , &#x22;:&#x22; , block ] ;(* Always indented: a &#x60;match&#x60; opens a list of clauses rather than a   block of statements, and a &#x60;case&#x60; clause is not an expression, so   there is nothing its header&#x27;s line could carry. *)match_stmt  = &#x22;match&#x22; , expr , &#x22;:&#x22; , INDENT , case_clause , { case_clause } , DEDENT ;case_clause = &#x22;case&#x22; , pattern , [ &#x22;if&#x22; , expr ] , &#x22;:&#x22; , block ;pattern     = pattern_as , { &#x22;,&#x22; , pattern_as } ;pattern_as  = pattern_or , [ &#x22;as&#x22; , ident ] ;pattern_or  = pattern_join , { &#x22;|&#x22; , pattern_join } ;pattern_join = pattern_atom , { &#x22;+&#x22; , pattern_atom } ;pattern_atom = int | &#x22;-&#x22; , int | string | char | bool | &#x22;_&#x22; | ident             | constructor_pattern             | &#x22;(&#x22; , &#x22;)&#x22;             | &#x22;(&#x22; , pattern_as , &#x22;)&#x22;             | &#x22;(&#x22; , pattern_as , &#x22;,&#x22; , &#x22;)&#x22;             | &#x22;(&#x22; , pattern_as , ( &#x22;,&#x22; , pattern_as )+ , [ &#x22;,&#x22; ] , &#x22;)&#x22;             | list_pattern ;(* Positional sub-patterns first, then named ones in any order; a field   not mentioned matches anything. *)constructor_pattern = [ sub_path , &#x22;.&#x22; ] , upper_ident ,                      [ &#x22;(&#x22; , [ field_pattern , { &#x22;,&#x22; , field_pattern } ] , &#x22;)&#x22; ] ;field_pattern = pattern_as | ident , &#x22;=&#x22; , pattern_as ;list_pattern = &#x22;[&#x22; , [ list_pattern_items ] , &#x22;]&#x22; ;list_pattern_items = list_pattern_item , { &#x22;,&#x22; , list_pattern_item } ;list_pattern_item  = pattern_as | rest_marker ;rest_marker        = &#x22;..&#x22; , [ ident ] ;var_decl    = &#x22;var&#x22; , ident , ( &#x22;=&#x22; | &#x22;:=&#x22; ) , bound_expr ;   (* &#x22;:=&#x22; is accepted as &#x22;=&#x22; *)assignment  = [ &#x22;implicit&#x22; ] , target , [ &#x22;:&#x22; , type ] , &#x22;=&#x22; , bound_value ;mutation    = ident , &#x22;:=&#x22; , bound_expr            | target , &#x22;:=&#x22; , bound_expr            (* a tuple of names *)            | ident , compound_op , bound_expr            | atom , ( &#x22;:=&#x22; | compound_op ) , bound_expr                       (* an array&#x27;s element, an atom ending in an                          index_tail, or a mutable struct&#x27;s field, an atom                          ending in &#x22;.&#x22; ident *)            | &#x22;*&#x22; , unary , ( &#x22;:=&#x22; | compound_op ) , bound_expr ;                       (* what a pointer points at *)compound_op = &#x22;+=&#x22; | &#x22;-=&#x22; | &#x22;*=&#x22; | &#x22;/=&#x22; | &#x22;%=&#x22; | &#x22;^=&#x22;            | &#x22;&#x26;=&#x22; | &#x22;|=&#x22; | &#x22;<<=&#x22; | &#x22;>>=&#x22; | &#x22;xor&#x22; &#x22;=&#x22; ;   (* no space in &#x22;xor=&#x22; *)(* A bound value may start on the line after its &#x22;=&#x22;, indented -- the   lexer wraps it in the same INDENT/DEDENT any other block gets. *)bound_value = tuple_or_expr | value_stmt | INDENT , bound_value , DEDENT ;bound_expr  = tuple_or_expr | INDENT , bound_expr , DEDENT ;value_stmt  = value_if | match_stmt | loop_stmt ;value_if    = &#x22;if&#x22; , expr , &#x22;:&#x22; , block ,              { &#x22;else&#x22; , &#x22;if&#x22; , expr , &#x22;:&#x22; , block } ,              &#x22;else&#x22; , &#x22;:&#x22; , block ;target      = target_atom , { &#x22;,&#x22; , target_atom } ;target_atom = ident            | sub_path , &#x22;.&#x22; , ident            | &#x22;(&#x22; , &#x22;)&#x22;            | &#x22;(&#x22; , target_atom , &#x22;,&#x22; , &#x22;)&#x22;            | &#x22;(&#x22; , target_atom , ( &#x22;,&#x22; , target_atom )+ , [ &#x22;,&#x22; ] , &#x22;)&#x22; ;expr_stmt   = tuple_or_expr ;tuple_or_expr = expr , { &#x22;,&#x22; , expr } ;expr        = lambda | if_expr | let_expr | disjunction ;(* A lambda takes everything to its right that one expression can hold,   so it associates to the right and binds looser than every operator;   a comma ends it, since &#x60;lam x. a, b&#x60; is a pair. A parameter with a   type, and more than one, are written in parentheses. *)lambda      = &#x22;lam&#x22; , lambda_params , &#x22;.&#x22; , expr ;lambda_params = ident            | &#x22;(&#x22; , [ param , { &#x22;,&#x22; , param } ] , &#x22;)&#x22; ;if_expr     = &#x22;if&#x22; , expr , &#x22;then&#x22; , expr , &#x22;else&#x22; , expr ;(* Like a lambda, the body takes everything to its right that one   expression can hold. *)let_expr    = &#x22;let&#x22; , target , [ &#x22;:&#x22; , type ] , &#x22;=&#x22; , expr , &#x22;in&#x22; , expr ;(* &#x60;and&#x60;/&#x60;or&#x60;/&#x60;not&#x60; and their symbol spellings bind looser than a   comparison; the bitwise operators bind tighter, as Python&#x27;s do. *)disjunction = conjunction , { ( &#x22;or&#x22; | &#x22;||&#x22; ) , conjunction } ;conjunction = negation , { ( &#x22;and&#x22; | &#x22;&#x26;&#x26;&#x22; ) , negation } ;negation    = &#x22;not&#x22; , negation | comparison ;comparison  = bit_or , [ comp_op , bit_or ] ;comp_op     = &#x22;<&#x22; | &#x22;<=&#x22; | &#x22;>&#x22; | &#x22;>=&#x22; | &#x22;==&#x22; | &#x22;!=&#x22; ;bit_or      = bit_xor , { &#x22;|&#x22; , bit_xor } ;bit_xor     = bit_and , { &#x22;xor&#x22; , bit_and } ;bit_and     = shift , { &#x22;&#x26;&#x22; , shift } ;shift       = additive , { ( &#x22;<<&#x22; | &#x22;>>&#x22; ) , additive } ;additive    = multiplicative , { ( &#x22;+&#x22; | &#x22;-&#x22; ) , multiplicative } ;multiplicative = unary , { ( &#x22;*&#x22; | &#x22;/&#x22; | &#x22;%&#x22; ) , unary } ;unary       = ( &#x22;-&#x22; | &#x22;!&#x22; | &#x22;~&#x22; | &#x22;&#x26;&#x22; | &#x22;*&#x22; ) , unary | power ;                       (* &#x22;&#x26;&#x22; and &#x22;*&#x22; are a pointer&#x27;s, under                          &#x60;use pointers&#x60;: an address and what a pointer                          points at *)(* &#x60;^&#x60; associates to the right, and its right operand may be negated:   &#x60;2 ^ -1&#x60;. It binds tighter than unary minus: &#x60;-2 ^ 2&#x60; is &#x60;-(2 ^ 2)&#x60;. *)power       = atom , [ &#x22;^&#x22; , unary ] ;atom        = ( float | int | string | char | bool | ident | list_lit | list_comp              | tuple_lit | construct              | &#x22;(&#x22; , expr , &#x22;)&#x22; ) ,              { call_tail | field_tail | index_tail } ;(* &#x60;xs[i]&#x60;: the &#x60;[&#x60; on the row the indexed expression ends on. *)index_tail  = &#x22;[&#x22; , expr , &#x22;]&#x22;            | &#x22;[&#x22; , [ expr ] , &#x22;:&#x22; , [ expr ] , &#x22;]&#x22; ;   (* a slice: a copy *)(* A constructor applied to its fields, with a call&#x27;s arguments; one with   no fields is written bare. *)construct   = [ sub_path , &#x22;.&#x22; ] , upper_ident , [ call_tail ] ;field_tail  = &#x22;.&#x22; , ident ;(* Every named argument comes after every positional one; the named   ones may be written in any order. A constructor&#x27;s arguments may end   in &#x60;..expr&#x60;, which gives every field not written before it. *)call_tail   = &#x22;(&#x22; , [ call_args ] , &#x22;)&#x22; ;call_args   = expr , { &#x22;,&#x22; , expr } , { &#x22;,&#x22; , named_arg } , [ &#x22;,&#x22; , update ]            | named_arg , { &#x22;,&#x22; , named_arg } , [ &#x22;,&#x22; , update ]            | update ;named_arg   = ident , &#x22;=&#x22; , expr ;update      = &#x22;..&#x22; , expr ;args        = expr , { &#x22;,&#x22; , expr } ;list_lit    = &#x22;[&#x22; , [ args ] , &#x22;]&#x22; ;list_comp   = &#x22;[&#x22; , expr , comp_for , { comp_for | comp_if } , &#x22;]&#x22; ;comp_for    = &#x22;for&#x22; , pattern , &#x22;in&#x22; , expr ;comp_if     = &#x22;if&#x22; , expr ;tuple_lit   = &#x22;(&#x22; , &#x22;)&#x22;            | &#x22;(&#x22; , expr , &#x22;,&#x22; , &#x22;)&#x22;            | &#x22;(&#x22; , expr , ( &#x22;,&#x22; , expr )+ , [ &#x22;,&#x22; ] , &#x22;)&#x22; ;ident       = letter , { letter | digit } ;int         = digit , { digit }            | &#x22;0&#x22; , ( &#x22;x&#x22; | &#x22;X&#x22; ) , hex_digit , { [ &#x22;_&#x22; ] , hex_digit }            | &#x22;0&#x22; , ( &#x22;b&#x22; | &#x22;B&#x22; ) , bin_digit , { [ &#x22;_&#x22; ] , bin_digit } ;hex_digit   = digit | &#x22;a&#x22; | &#x22;b&#x22; | &#x22;c&#x22; | &#x22;d&#x22; | &#x22;e&#x22; | &#x22;f&#x22;            | &#x22;A&#x22; | &#x22;B&#x22; | &#x22;C&#x22; | &#x22;D&#x22; | &#x22;E&#x22; | &#x22;F&#x22; ;bin_digit   = &#x22;0&#x22; | &#x22;1&#x22; ;(* A point needs a digit on each side, so &#x60;1.&#x60; and &#x60;.5&#x60; are not floats.   An exponent alone makes one: &#x60;1e9&#x60; is a Float. *)float       = digits , &#x22;.&#x22; , digits , [ exponent ]            | digits , exponent ;digits      = digit , { digit } ;exponent    = ( &#x22;e&#x22; | &#x22;E&#x22; ) , [ &#x22;+&#x22; | &#x22;-&#x22; ] , digits ;bool        = &#x22;true&#x22; | &#x22;false&#x22; ;(* A String is in double quotes; a Char is exactly one character -- one   Unicode code point, or one escape -- in single quotes. A String may   interpolate: &#x60;${&#x60; an expression &#x60;}&#x60;, or &#x60;$&#x60; and a name. A &#x60;$&#x60; before   anything else is a dollar sign. A raw String, &#x60;r&#x22;...&#x22;&#x60;, is its   characters as written, with no escapes and no interpolation. *)string      = &#x27;&#x22;&#x27; , { string_char | interpolation } , &#x27;&#x22;&#x27;            | &#x27;r&#x22;&#x27; , { any_char_except_double_quote } , &#x27;&#x22;&#x27; ;interpolation = &#x22;${&#x22; , expr , { &#x22;,&#x22; , expr } , &#x22;}&#x22;            | &#x22;$&#x22; , ident ;char        = &#x22;&#x27;&#x22; , char_char , &#x22;&#x27;&#x22; ;string_char = any_char_except_double_quote_or_backslash            | &#x22;\&#x22; , escape ;char_char   = any_char_except_single_quote_or_backslash            | &#x22;\&#x22; , escape ;escape      = &#x22;n&#x22; | &#x22;t&#x22; | &#x22;r&#x22; | &#x22;0&#x22; | &#x22;\&#x22; | &#x22;&#x27;&#x22; | &#x27;&#x22;&#x27; | &#x22;$&#x22; ;"><div></div></button></div></figure></div>
+<h2 id="notes-on-the-grammar">Notes on the grammar</h2>
+<p>Notes that don’t fall out of the grammar alone:</p>
+<ul>
+<li>
+<p><strong>A statement starts a line of its own</strong>, and so does a <code>case</code> clause.
+There is no statement separator in Pyking: a statement ends where the
+tokens stop being able to continue it, which by itself would make</p>
+<div class="expressive-code"><figure class="frame not-content"><figcaption class="header"></figcaption><pre data-language="plaintext"><code><div class="ec-line"><div class="code"><span style="--0:#d6deeb;--1:#403f53">print h</span></div></div></code></pre><div class="copy"><div aria-live="polite"></div><button title="Copy to clipboard" data-copied="Copied!" data-code="print h"><div></div></button></div></figure></div>
+<p><em>two</em> statements — a bare <code>print</code>, then a bare <code>h</code> — and so a program
+that reads as though it prints and does not. The rule cannot be stated
+in the EBNF, because the grammar cannot see line boundaries: the lexer
+turns indentation into block structure and emits nothing at all for the
+end of a line. It is checked against the source positions the tokens
+carry, and reported as an ordinary <code>Parsing error</code>:</p>
+<div class="expressive-code"><figure class="frame not-content"><figcaption class="header"></figcaption><pre data-language="plaintext"><code><div class="ec-line"><div class="code"><span style="--0:#d6deeb;--1:#403f53">'prog.pyk' 2:6-2:7 Parsing error: each statement must start on a new</span></div></div><div class="ec-line"><div class="code"><span class="indent"><span style="--0:#d6deeb;--1:#403f53">  </span></span><span style="--0:#d6deeb;--1:#403f53">line. In this case, 'print' and 'h' are seen as two different</span></div></div><div class="ec-line"><div class="code"><span class="indent"><span style="--0:#d6deeb;--1:#403f53">  </span></span><span style="--0:#d6deeb;--1:#403f53">statements</span></div></div></code></pre><div class="copy"><div aria-live="polite"></div><button title="Copy to clipboard" data-copied="Copied!" data-code="&#x27;prog.pyk&#x27; 2:6-2:7 Parsing error: each statement must start on a new  line. In this case, &#x27;print&#x27; and &#x27;h&#x27; are seen as two different  statements"><div></div></button></div></figure></div>
+<p>Both are quoted back, because the mistake is not that something is in
+the wrong place but that <em>two</em> things were read where one was meant.</p>
+<p>One line may still hold a whole statement whose header opens a block
+(<code>x = if c:</code>), and a statement may still span as many lines as its
+blocks need. What one line may not hold is <em>two</em> statements.</p>
+</li>
+<li>
+<p>Two rules about <code>break</code>/<code>continue</code> cannot be stated in the grammar and
+are checked in <code>src/parser.ml</code> beside the others, so they hold in
+every mode and are reported as a <code>Parsing error</code>. First, each may only
+appear in the body of a <code>loop</code>, and may not reach out of a <code>for</code>, a
+<code>while</code> or a <code>def</code> to find one:</p>
+<div class="expressive-code"><figure class="frame not-content"><figcaption class="header"></figcaption><pre data-language="plaintext"><code><div class="ec-line"><div class="code"><span style="--0:#d6deeb;--1:#403f53">'prog.pyk' 3:8-3:13 Parsing error: 'break' may only appear in the</span></div></div><div class="ec-line"><div class="code"><span class="indent"><span style="--0:#d6deeb;--1:#403f53">  </span></span><span style="--0:#d6deeb;--1:#403f53">body of a 'loop', and this one is inside a 'for', which it may not</span></div></div><div class="ec-line"><div class="code"><span class="indent"><span style="--0:#d6deeb;--1:#403f53">  </span></span><span style="--0:#d6deeb;--1:#403f53">reach out of</span></div></div></code></pre><div class="copy"><div aria-live="polite"></div><button title="Copy to clipboard" data-copied="Copied!" data-code="&#x27;prog.pyk&#x27; 3:8-3:13 Parsing error: &#x27;break&#x27; may only appear in the  body of a &#x27;loop&#x27;, and this one is inside a &#x27;for&#x27;, which it may not  reach out of"><div></div></button></div></figure></div>
+<p>Second, nothing may be written after one in the same block, since
+nothing there can run:</p>
+<div class="expressive-code"><figure class="frame not-content"><figcaption class="header"></figcaption><pre data-language="plaintext"><code><div class="ec-line"><div class="code"><span style="--0:#d6deeb;--1:#403f53">'prog.pyk' 3:4-3:17 Parsing error: this statement cannot be reached:</span></div></div><div class="ec-line"><div class="code"><span class="indent"><span style="--0:#d6deeb;--1:#403f53">  </span></span><span style="--0:#d6deeb;--1:#403f53">'continue' has already left the loop, so nothing written after it</span></div></div><div class="ec-line"><div class="code"><span class="indent"><span style="--0:#d6deeb;--1:#403f53">  </span></span><span style="--0:#d6deeb;--1:#403f53">in the same block runs</span></div></div></code></pre><div class="copy"><div aria-live="polite"></div><button title="Copy to clipboard" data-copied="Copied!" data-code="&#x27;prog.pyk&#x27; 3:4-3:17 Parsing error: this statement cannot be reached:  &#x27;continue&#x27; has already left the loop, so nothing written after it  in the same block runs"><div></div></button></div></figure></div>
+<p>A <code>return</code> is deliberately not part of that second rule: statements
+after one are legal Pyking, and a branch that returns is an ordinary
+way to leave a body early.</p>
+<p>Third, a <code>break x</code>/<code>continue x</code> gives the loop it belongs to an
+accumulator, so the loop must have one to give: a value is refused in
+a <code>loop:</code> with none written, and in a plain <code>for</code>/<code>while</code>:</p>
+<div class="expressive-code"><figure class="frame not-content"><figcaption class="header"></figcaption><pre data-language="plaintext"><code><div class="ec-line"><div class="code"><span style="--0:#d6deeb;--1:#403f53">'prog.pyk' 2:10-2:12 Parsing error: this loop carries nothing, so</span></div></div><div class="ec-line"><div class="code"><span class="indent"><span style="--0:#d6deeb;--1:#403f53">  </span></span><span style="--0:#d6deeb;--1:#403f53">'break' takes no value: give the loop an accumulator ('loop acc =</span></div></div><div class="ec-line"><div class="code"><span class="indent"><span style="--0:#d6deeb;--1:#403f53">  </span></span><span style="--0:#d6deeb;--1:#403f53">...') for 'break' to give one</span></div></div></code></pre><div class="copy"><div aria-live="polite"></div><button title="Copy to clipboard" data-copied="Copied!" data-code="&#x27;prog.pyk&#x27; 2:10-2:12 Parsing error: this loop carries nothing, so  &#x27;break&#x27; takes no value: give the loop an accumulator (&#x27;loop acc =  ...&#x27;) for &#x27;break&#x27; to give one"><div></div></button></div></figure></div>
+<p>The value is whatever follows the keyword on its own line, a bare
+tuple included (<code>break n, acc</code>), exactly as a loop header’s
+initializer is written. A second thing after it on the line is two
+statements on one line, refused as such.</p>
+</li>
+<li>
+<p>A <code>loop_stmt</code> is a <code>value_stmt</code>, so a loop may be bound with <code>=</code> or
+returned with <code>return</code>, exactly as a value-form <code>if</code>/<code>match</code> may. It
+needs none of the rules those two obey — every loop has an
+accumulator (unit where none was written), so there is no way through
+one that produces nothing.</p>
+</li>
+<li>
+<p><code>comp_op</code> does not repeat — <code>1 &#x3C; 2 &#x3C; 3</code> is not a valid <code>expr</code>
+(comparisons don’t chain), and the parser says what to write instead:
+<code>'prog.pyk' 1:12-1:13 Parsing error: comparisons do not chain: write 'a &#x3C; b and b &#x3C; c' rather than 'a &#x3C; b &#x3C; c'</code>.</p>
+</li>
+<li>
+<p>Three spellings Pyking no longer has are refused where they stand,
+each with the one it has instead: <code>++</code> (<code>'++' is now written '+'</code>),
+<code>=></code> (<code>a lambda is now written 'lam x. x + 1'</code>) and <code>**</code> (<code>a power is written with '^'</code>).</p>
+</li>
+<li>
+<p>A <code>use</code> line is written before anything else in a module, comments
+aside; one written later is refused (<code>'use' turns on a feature for the whole module, so it is written before anything else</code>), and so is
+a feature <code>use</code> does not know, or one named twice. What a feature
+turns on is parsed in every module and refused, as a <code>Parsing error</code>,
+in one that has not turned it on: see “Features turned on with
+<code>use</code>”.</p>
+</li>
+<li>
+<p><code>while_stmt</code> has no <code>else</code> clause (unlike Python’s <code>while</code>/<code>else</code>).</p>
+</li>
+<li>
+<p>An <code>if_stmt</code>’s chain is written <code>else if</code>, two ordinary keywords —
+there is no <code>elif</code> keyword to reserve. The chained header must be the
+<em>statement</em> form, i.e. end in <code>:</code>; <code>else if c then a else b</code> is an
+error, since an <code>if_expr</code> may not start an <code>else</code> tail. This makes
+<code>else if</code> exactly equivalent to an <code>else</code> block holding one nested
+<code>if_stmt</code>, and that is how it is parsed: <code>src/parser.ml</code> builds no
+ladder node, just an <code>SIf</code> whose <code>else_body</code> is a one-element list
+holding the next <code>SIf</code>. Both pretty-printers undo the nesting when
+printing (as <code>else if</code> in Pyking’s own syntax), so
+a ladder round-trips flat instead of stepping one level right per
+branch — and an <code>else:</code> block a program <em>did</em> write with a single
+nested <code>if_stmt</code> inside prints as an <code>else if</code> chain, the two being
+the same AST.</p>
+</li>
+<li>
+<p>A trailing <code>else</code> is optional at every point in the chain, so a ladder
+may end after its last <code>else if</code> block and run no branch at all.</p>
+</li>
+<li>
+<p><code>if_expr</code> sits at the very bottom of the precedence ladder, below
+<code>comparison</code>, and its three sub-expressions are each a full <code>expr</code>. Two
+consequences: the branches extend as far right as they can (<code>if c then 1 else 2 + 1</code> has <code>2 + 1</code> as its else branch, not <code>(if ...) + 1</code>), and
+an <code>if_expr</code> cannot be an operand without parentheses (<code>1 + if c then a else b</code> is a syntax error; write <code>1 + (if c then a else b)</code>).</p>
+</li>
+<li>
+<p>The branches are <code>expr</code>, not <code>tuple_or_expr</code>, so a comma ends the
+<code>if_expr</code> instead of being absorbed into it: <code>if c then a else b, d</code> is
+a two-element tuple whose first element is the <code>if_expr</code>. This matches
+how Python reads <code>a if c else b, d</code>.</p>
+</li>
+<li>
+<p><code>if_expr</code> is right-associative, so an <code>else</code> branch that is itself an
+<code>if_expr</code> chains flat, with the very same <code>else if</code> keyword pair the
+<code>if_stmt</code> ladder uses, only inline:
+<code>if a then 1 else if b then 2 else 3</code>.</p>
+</li>
+<li>
+<p>Unlike <code>if_stmt</code>, <code>if_expr</code>’s <code>else</code> is <strong>mandatory</strong>, and that is what
+makes the two <code>if</code>s coexist without ambiguity. Because every <code>else</code>
+therefore has exactly one possible owner, even
+<code>if a then if b then c else d else e</code> has a single valid parse (the
+inner <code>if</code> must claim the first <code>else</code>, so the outer claims the
+second). The classic dangling-else ambiguity comes from <code>else</code> being
+<em>optional</em> — true of Pyking’s <code>if_stmt</code>, deliberately not of its
+<code>if_expr</code>. The two also never compete for the same token in practice:
+an <code>if_stmt</code>’s <code>else</code> always starts a line after a DEDENT, an
+<code>if_expr</code>’s is always inline. This holds for the <code>else if</code> pair too,
+and what follows it separates the two cases the same way a leading
+<code>if</code> is separated at <code>statement</code> (see the next note): a <code>:</code> ends an
+<code>if_stmt</code> chain’s condition, a <code>then</code> an <code>if_expr</code> chain’s.</p>
+</li>
+<li>
+<p>A <code>statement</code> beginning with <code>if</code> is where the real parsing difficulty
+lies: it may be an <code>if_stmt</code> or an <code>expr_stmt</code> holding an <code>if_expr</code>,
+and the two share the entire <code>"if" , expr</code> prefix. Since that <code>expr</code>
+can be arbitrarily long, no bounded lookahead separates them — the
+grammar is not LL(1) at <code>statement</code>. <code>src/parser.ml</code> handles this
+without backtracking by parsing the shared prefix once and then
+dispatching on the single token that follows it: <code>:</code> means <code>if_stmt</code>,
+<code>then</code> means <code>if_expr</code>. (An <code>if_stmt</code> whose <em>condition</em> is an <code>if_expr</code>
+needs no special handling — <code>expr</code> already covers it, so
+<code>if if a then b else c:</code> parses.)</p>
+</li>
+<li>
+<p>The right-hand side of an <code>assignment</code> faces that same standoff and
+resolves it the same way: <code>x = if c:</code> is a <code>value_stmt</code>, <code>x = if c then a else b</code> an ordinary <code>expr</code>, and only the token after the shared
+<code>"if" , expr</code> prefix (<code>:</code> or <code>then</code>) tells them apart. A <code>match</code> on
+the right of <code>=</code> needs no such care — <code>match</code> is a reserved keyword,
+so it can never begin an <code>expr</code>.</p>
+</li>
+<li>
+<p>Two restrictions on a <code>value_stmt</code> are not expressible in the grammar
+and are checked by the parser instead, since every backend depends on
+both: every branch’s <code>block</code> must <strong>end in an expression</strong>
+(an <code>expr_stmt</code>, or a nested <code>value_stmt</code> that recursively ends in
+one), and a <code>value_if</code>’s final <code>else</code> is <strong>mandatory</strong> — a binding
+cannot be left without a value when no condition holds. A <code>match_stmt</code>
+needs no such existence rule: it already requires at least one
+<code>case_clause</code>, and a subject matching none of them is a runtime error,
+not a silently skipped branch. The nested-<code>value_stmt</code> case is also
+what makes an <code>else if</code> ladder work in value form, a ladder being
+exactly a nested <code>if_stmt</code> as its <code>else</code> branch’s only statement.</p>
+</li>
+<li>
+<p><code>assignment</code> and <code>return_stmt</code> accept a <code>value_stmt</code>; <code>var_decl</code> and
+<code>mutation</code> keep taking a plain <code>tuple_or_expr</code>, and the parser says so
+explicitly if you try. The value form works by pushing something into
+each branch’s tail — an assignment to the target for <code>assignment</code>, a
+<code>return</code> for <code>return_stmt</code> — and both of those are single, unambiguous
+things to push. <code>var</code>/<code>:=</code> distinguish <em>declaring</em> from <em>updating</em>,
+and a form that expands to one of them per branch has no way to say
+which of the two each of those is.</p>
+</li>
+<li>
+<p>The indented <code>bound_value</code>/<code>bound_expr</code> form holds exactly <strong>one</strong>
+value: anything left in the block before its DEDENT is an error
+(<code>expected a single value in the indented block after '='</code>). It exists
+mainly for a <code>value_stmt</code> whose header would otherwise share the <code>=</code>
+line, but nothing restricts it to those — <code>x =</code> followed by an
+indented <code>1 + 2</code> is the same rule, as is <code>var</code>/<code>:=</code> (both take a
+<code>bound_expr</code>: the next-line layout, but no <code>value_stmt</code>). Both
+pretty-printers
+normalize it away, printing the value back on the <code>=</code> line; the two
+spellings are the same AST.</p>
+</li>
+<li>
+<p>A <code>value_stmt</code> is rejected in each <code>bound_expr</code> position with an error
+naming it (<code>a 'var' declaration takes an expression; a value-form 'if'/'match' can only be bound with '='</code>). A value form binds its
+target in every branch tail, which is what <code>var</code> declares and <code>:=</code>
+updates — neither of which the branches can decide between.</p>
+</li>
+<li>
+<p>Statements before a branch’s last one are ordinary statements, run for
+their effect: a branch may bind local names, print, or update an
+enclosing <code>var</code> before yielding its value. This is a consequence of
+how a <code>value_stmt</code> compiles — it stays one <code>if</code>/<code>match</code> <em>statement</em>,
+with only the branch tails turned into assignments to the target — and
+is why the value form is not the same as an <code>if_expr</code> spread over
+several lines.</p>
+</li>
+<li>
+<p><code>comp_if</code> and <code>comp_for</code>’s sequence are the one place an <code>if_expr</code>
+needs parentheses: <code>[x for x in xs if (if a then b else c)]</code>. Written
+bare, the comprehension’s own <code>if</code>/<code>in</code> would run straight into the
+<code>if_expr</code>’s keywords. Python restricts these exact two positions for
+exactly this reason (its grammar admits only an <code>or_test</code> there,
+excluding the conditional expression), so <code>[x for x in xs if b if a else c]</code> is a syntax error in Python too. Pyking’s parser is in fact
+lenient enough to recover in some of these cases, but both
+pretty-printers always emit the parentheses.</p>
+</li>
+<li>
+<p><code>additive</code>, <code>multiplicative</code>, <code>shift</code>, <code>bit_and</code>, <code>bit_xor</code>, <code>bit_or</code>,
+<code>conjunction</code> and <code>disjunction</code> are left-associative; <code>power</code> is
+right-associative.</p>
+</li>
+<li>
+<p><code>call_tail</code> can repeat after any atom, so <code>f(1)(2)</code> parses (a call
+result can itself be called), even though no example in this document
+uses that. This chaining only applies to a <code>(</code> on the <em>same source row</em>
+as the atom it follows — a <code>(</code> that starts a new row is always treated
+as the start of the next statement instead, never as a continuation of
+the previous one. (There are no statement-separator tokens in this
+grammar at all — see the parser module comment in <code>src/parser.ml</code> —
+so without this row check, a statement immediately followed by one
+starting with <code>(</code>, e.g. a parenthesized tuple destructuring assignment,
+would be misparsed as one giant chained call.)</p>
+</li>
+<li>
+<p><code>unary</code> is where the prefix operators are: <code>-expr</code> negates, <code>!expr</code>
+is <code>not</code> and <code>~expr</code> is a bitwise not, and each nests (<code>- -x</code>). It
+sits between <code>multiplicative</code> and <code>power</code>, so it binds tighter than
+<code>*</code>/<code>/</code> and looser than <code>^</code> and a <code>call_tail</code> — <code>-x * y</code> is
+<code>(-x) * y</code>, <code>-2 ^ 2</code> is <code>-(2 ^ 2)</code>, and <code>-f(x)</code> negates the call’s
+<em>result</em>, not <code>f</code>. <code>not</code>, the word, binds as loosely as Python’s
+instead: <code>not a == b</code> is <code>not (a == b)</code>, where <code>!a == b</code> is
+<code>(!a) == b</code>. It
+applies to the operand it precedes and no further, so parentheses are
+what extend it over a sum: <code>-x + 1</code> is <code>(-x) + 1</code>, not <code>-(x + 1)</code>.</p>
+</li>
+<li>
+<p>The same <code>-</code> token serves both operators and they never compete: a
+binary <code>-</code> can only appear where an expression has just ended, a unary
+one only where an expression is about to begin, so spacing never
+matters (<code>10 - -3</code>, <code>10 - - 3</code> and <code>10 - -3</code> all subtract minus three).
+One consequence of the grammar having no statement separators (see
+<code>call_tail</code> above) does follow: a statement <em>starting</em> with <code>-</code> on the
+line after an expression statement continues that expression instead
+of starting a new one, exactly as a leading <code>(</code> does.</p>
+</li>
+<li>
+<p>A <code>pattern_atom</code> admits a negative integer, matching Python
+(<code>case -1:</code>). Only a literal — a pattern is matched, never evaluated,
+so there is no expression there for the general <code>unary</code> rule to apply
+to.</p>
+</li>
+<li>
+<p><code>match_stmt</code> requires at least one <code>case_clause</code>.</p>
+</li>
+<li>
+<p>Unlike Python, where <code>match</code>/<code>case</code> are context-sensitive (“soft”)
+keywords, they’re always reserved in Pyking — a variable or parameter
+can’t be named <code>match</code> or <code>case</code>. The same is true of <code>Int</code>, <code>String</code>,
+and <code>Bool</code> (the atomic type names): they’re reserved everywhere, not
+just in type position, so no identifier may be named after one of them
+either; of <code>then</code> and <code>let</code>, which have no Python counterpart at all; and of
+<code>true</code>/<code>false</code>, which do have a Python counterpart (<code>True</code>/<code>False</code>) but
+not this spelling of one — a Pyking program cannot use <code>true</code>, <code>false</code>,
+<code>True</code>, or <code>False</code> as an identifier (the first two because they’re
+keywords, the last two because they’re simply unbound: Pyking has no
+binding for Python’s capitalised spelling). <code>use</code>, <code>lam</code>, <code>and</code>, <code>or</code>,
+<code>not</code>, <code>xor</code> and <code>mutable</code> (of <code>mutable struct</code>) are keywords too, and <code>class</code>, <code>interface</code>, <code>extends</code>,
+<code>self</code> and <code>super</code> are reserved for a later part of the language:
+nothing uses them yet, and no program may bind one (<code>'class' is reserved for a later part of the language, so it cannot be used as a name</code>).</p>
+</li>
+<li>
+<p><code>assignment</code>’s <code>[ ":" , type ]</code> annotates the <em>binding</em>, e.g.
+<code>x: Int = 1</code>. Like every other annotation it is optional and nothing
+verifies it (see “Type annotations”), but it is the one the type
+checker writes back into: <code>pyk compile -t pyking</code> prints each binding
+with the type it inferred, in exactly this syntax, so that output can
+be fed back to the compiler. A destructuring target takes one
+annotation for the whole binding, not one per name.</p>
+</li>
+<li>
+<p><code>param</code>’s <code>[ ":" , type ]</code> and <code>function_def</code>’s <code>[ "->" , type ]</code> are
+both optional and independent — a function may annotate none, some, or
+all of its parameters, with or without a return type. Annotations are
+purely syntactic in an ordinary compile: they’re parsed, stored in the
+AST, and pretty-printed back out, and every backend erases them
+completely — no generated code carries type syntax at all. Whether
+anything is <em>verified</em> against them is a separate question, answered by
+“Types and type inference” in the Language reference.</p>
+</li>
+<li>
+<p><strong>A tuple type is written the way the tuple value is.</strong> A tuple <code>type</code>
+with zero elements, <code>()</code>, is the Unit type; one with a single element
+is <code>(Int,)</code>, carrying the same comma the singleton value <code>(1,)</code>
+carries; and <code>(Int, Bool)</code> upwards needs no comma to be a tuple, with
+a trailing one allowed as it is among values. So <code>(1,)</code> has type
+<code>(Int,)</code> and <code>(1, true)</code> has type <code>(Int, Bool)</code>, each spelled like the
+value it describes. Tuple and list types nest arbitrarily, e.g.
+<code>[(Int, Bool)]</code>, <code>(Int, [String], (Bool, Bool))</code> or <code>((Int,),)</code>.</p>
+</li>
+<li>
+<p><strong>Parentheses around one type are grouping</strong>, exactly as they are
+around one expression: <code>(Int)</code> is <code>Int</code>, <code>((Int))</code> is <code>Int</code> again, and
+<code>(1)</code> is likewise just <code>1</code>. The comma is the whole difference between
+grouping and a singleton, in types and in values alike — which is why
+a singleton must be written with it in both.</p>
+</li>
+<li>
+<p>The trailing <code>[ "->" , type ]</code> in <code>type</code> is what makes a <strong>function
+type</strong>, <code>(Int, Bool) -> Int</code>. The parenthesized list before the arrow
+is the <em>parameter list</em>, and the same list without an arrow after it is
+a tuple — which is the whole rule, decided by the one token after <code>)</code>.
+So <code>(Int, Bool)</code> is a pair, <code>(Int, Bool) -> Int</code> takes two parameters,
+and <code>((Int, Bool)) -> Int</code> takes one parameter that is a pair. The
+arrow settles the singleton too: <code>(Int) -> Int</code> and <code>(Int,) -> Int</code>
+both take one <code>Int</code> — the comma is a list’s, and there is no tuple
+there for it to make — while <code>((Int,)) -> Int</code> takes one parameter
+that <em>is</em> a one-tuple. The
+result is a <code>type</code> in its turn, so <code>-></code> groups to the right:
+<code>(Int) -> (Int) -> Int</code> returns a function and needs no parentheses of
+its own. A function type may appear wherever a type may, including
+nested inside list and tuple types — <code>[(Int) -> Bool]</code>,
+<code>((Int) -> Int, Int)</code> — and as another function type’s parameter,
+<code>((Int) -> Int) -> Int</code>.</p>
+</li>
+<li>
+<p>The same is true of <code>tuple_lit</code>, <code>target_atom</code>, and <code>pattern_atom</code> —
+and of <code>type_paren</code> above, which is the point of writing them alike:
+<code>()</code> is the empty tuple, and a <em>parenthesized</em> single element followed
+by a comma, e.g. <code>(1,)</code>, <code>(x,)</code>, <code>case (p,):</code> or <code>(Int,)</code>, is a genuine
+singleton tuple/target/pattern/type, distinct from a plain
+parenthesized <code>(1)</code>/<code>(x)</code>/<code>(p)</code>/<code>(Int)</code> (which is just grouping,
+unwrapped by the parser). Tuples nest arbitrarily in all four
+positions.</p>
+</li>
+<li>
+<p><code>tuple_or_expr</code>, <code>target</code>, and <code>pattern</code> all also accept a <em>bare</em>
+(unparenthesized) form — <code>1, 2</code>, <code>a, b</code>, <code>case a, b:</code> — but deliberately
+require at least two elements and forbid a trailing comma there: a
+singleton must be written with explicit parens, <code>(e,)</code>/<code>(name,)</code>/
+<code>case (p,):</code>. This isn’t just a style rule — since (as noted above)
+there are no statement-separator tokens, a bare trailing comma is
+genuinely ambiguous with the start of the next statement, and the
+parser doesn’t detect or reject it: <code>x = 1,</code> followed by <code>print(x)</code> on
+the next line silently parses as the single statement
+<code>x = (1, print(x))</code> instead of two statements. Always use the
+parenthesized singleton form when there’s any doubt.</p>
+</li>
+<li>
+<p><code>pattern_atom</code> is intentionally minimal beyond tuples and lists: an
+integer, string, or boolean literal matches only that exact value; <code>_</code>
+always matches, discarding the value; a plain <code>ident</code> also always
+matches, but binds the value to that name; a parenthesized group
+destructures a tuple value element-by-element; a <code>list_pattern</code>
+destructures a list value; a <code>constructor_pattern</code> destructures a
+datatype’s value. All of these nest arbitrarily (e.g.
+<code>case (a, [b, ..c]):</code>). An identifier starting with an uppercase
+letter is a constructor wherever a pattern holds it, so <code>case Red:</code>
+matches the constructor <code>Red</code> rather than binding a name.</p>
+</li>
+<li>
+<p><code>|</code> binds looser than <code>+</code> and tighter than <code>as</code>, which binds looser
+than everything but the comma: <code>case 1 | 2, x as y:</code> is
+<code>case (1 | 2), (x as y):</code>. Every alternative of a <code>|</code> binds the same
+names, refused at parse time otherwise:</p>
+<div class="expressive-code"><figure class="frame not-content"><figcaption class="header"></figcaption><pre data-language="plaintext"><code><div class="ec-line"><div class="code"><span style="--0:#d6deeb;--1:#403f53">'prog.pyk' 3:22-3:28 Parsing error: every alternative of '|' binds</span></div></div><div class="ec-line"><div class="code"><span class="indent"><span style="--0:#d6deeb;--1:#403f53">  </span></span><span style="--0:#d6deeb;--1:#403f53">the same names, and 'x' is bound in one of them but not in this one</span></div></div></code></pre><div class="copy"><div aria-live="polite"></div><button title="Copy to clipboard" data-copied="Copied!" data-code="&#x27;prog.pyk&#x27; 3:22-3:28 Parsing error: every alternative of &#x27;|&#x27; binds  the same names, and &#x27;x&#x27; is bound in one of them but not in this one"><div></div></button></div></figure></div>
+</li>
+<li>
+<p>A guard is any expression, read after the pattern and up to the
+<code>:</code>. It is asked only once its pattern has matched, and it sees the
+names the pattern binds.</p>
+</li>
+<li>
+<p>A <code>datatype</code> is written at a module’s top level only; inside a block
+it is a parse error. Two constructors on one line are separated by a
+comma, and a line of them after the header’s starts a line of its
+own. A field written
+<code>name = default</code> with no type takes its default’s type (see
+“Datatypes”). A <code>struct</code> is written at the top level too, and two
+fields on one of its lines are separated by a comma.</p>
+</li>
+<li>
+<p><code>..expr</code> is written only as the last argument of a constructor, and
+at most once; in a call to a <code>def</code> it is a parse error.</p>
+</li>
+<li>
+<p>An uppercase identifier in an expression is a constructor. Every
+name a program binds — with <code>=</code>, <code>var</code> or <code>def</code>, as a parameter, a
+loop variable, in a pattern, or as an import’s alias — starts with a
+lowercase letter or <code>_</code>; one starting with an uppercase letter is
+refused at parse time, since an uppercase name is a type or a
+constructor. A constant is written <code>pi = 3.14</code>, not <code>PI = 3.14</code>. A
+<code>from</code> line renaming a datatype or a constructor gives it a name
+starting with an uppercase letter, as the name it renames does.</p>
+</li>
+<li>
+<p><code>x.name</code> reads a field where <code>x</code> is a value, and reaches a module’s
+public name where <code>x</code> is an imported module; the two are told apart by
+what <code>x</code> is bound to. The <code>.</code> and the field name are on the line the
+value ends on.</p>
+</li>
+<li>
+<p>No pattern (tuple, list, or nested combination of either) may bind the
+same name more than once — e.g. <code>case [a, ..b, a]:</code> is rejected at
+parse time with “duplicate binding ‘a’ in pattern”. This mirrors
+Python’s own restriction on repeated names within one <code>match</code> pattern,
+mirroring Python’s own restriction on repeated names within one
+<code>match</code> pattern.</p>
+</li>
+<li>
+<p><code>list_pattern_items</code> may contain <strong>at most one</strong> <code>rest_marker</code>,
+appearing anywhere among the items — patterns before it are a prefix
+that must match the start of the list, patterns after it are a suffix
+that must match the end, and <code>rest_marker</code> itself consumes everything
+in between (possibly nothing). A bare <code>..</code> matches and discards that
+middle portion; <code>..name</code> matches and binds it (as a list) to <code>name</code>.
+With no rest marker at all, <code>list_pattern</code> matches only a list of
+exactly that length. <code>[]</code> matches only the empty list.</p>
+</li>
+<li>
+<p><code>comp_for</code>’s <code>pattern</code> is <code>pattern</code> (i.e. the <em>full</em> pattern grammar,
+same as a <code>case_clause</code>’s), not just a name or Python’s assignment-like
+targets — this is Pyking’s one deliberate departure from Python’s own
+comprehension grammar. An element the pattern doesn’t match (a literal
+that doesn’t equal it, or a list pattern whose shape doesn’t fit) is
+silently filtered out of the result — it never raises an error. (A
+<code>match</code>, unlike a comprehension, has to match every value; see
+“Exhaustiveness”.) <code>list_comp</code> always starts with a <code>comp_for</code>; <code>comp_for</code>/
+<code>comp_if</code> may then repeat in any order, matching Python’s own
+multi-clause comprehensions (nested <code>for</code>s, interspersed <code>if</code>s).</p>
+</li>
+<li>
+<p>A <code>qualified_name</code> may be a <strong>definition’s</strong> name and nothing else —
+not a binding, a <code>var</code>, a parameter, a loop variable, a pattern
+capture, a module name or an import alias — and the definition must
+take at least one argument, since the arguments of a call are what
+resolve which of them is meant. Both are refused where they are
+written (<code>'int::zero' takes no argument, so nothing could say which definition of 'zero' a call means</code>). A module-qualified name is
+<code>m.int::leq</code>: the module is written with a <code>.</code> and the definition’s
+own qualifier with a <code>::</code>, and the two never mix.</p>
+</li>
+<li>
+<p>A <strong>dotted</strong> <code>def_name</code>, datatype name or <code>=</code> target — <code>mymod.foo</code> —
+defines a name in a submodule (see “Submodules”), and is written only
+at a module’s top level: inside a block it is refused. A
+<code>qualified_name</code> goes last, <code>mymod.int::abs</code>. Every <code>.</code> in a dotted
+name, in a <code>module_path</code> and in a <code>sub_path</code> is on the row the name
+before it ended on.</p>
+</li>
+<li>
+<p><code>implicit</code> in front of a statement marks a <code>def</code> or an <code>=</code> binding of
+one name, and nothing else. It is a statement’s prefix rather than a
+top-level one, so a definition inside a function may be implicit
+there and nowhere else; <code>public implicit def ...</code> is written in that
+order.</p>
+</li>
+<li>
+<p>An <code>implicit_param</code> needs both its name and its type written: the
+pair is what resolves it. It may not carry a default value, and a
+lambda may not have one at all.</p>
+</li>
+<li>
+<p><code>lambda_params</code> shares <code>param</code> with <code>function_def</code>, but a lambda
+parameter may <strong>not</strong> carry a default value: a default is evaluated in
+the scope the definition is written in, and a lambda is an expression
+written wherever it stands. Writing one is refused (<code>the lambda parameter 'x' may not have a default value; only a 'def' parameter may</code>).</p>
+</li>
+<li>
+<p>A lambda starts with <code>lam</code>, so nothing has to be tried to tell one
+from a parenthesized expression: <code>(x)</code> after <code>lam</code> is a parameter
+list, and anywhere else the expression <code>x</code>. The <code>.</code> ending the
+parameters is the first one after them, which is why a parameter with
+a type is parenthesized: <code>lam x: geo.Point. x</code> would end its type at
+the wrong <code>.</code>.</p>
+</li>
+<li>
+<p>In a pattern, <code>+</code> joins pieces (<code>[x] + xs</code>) and <code>|</code> separates
+alternatives; <code>||</code> there is refused as the slip it is (<code>alternatives in a pattern are separated by '|', not '||'</code>). A pattern holds no
+expressions, so its <code>|</code> and an expression’s bitwise <code>|</code> never meet —
+a guard is an expression, and its <code>|</code> is bitwise or.</p>
+</li>
+<li>
+<p><strong>A line may be continued while a bracket is open.</strong> The lexer
+synthesizes <code>INDENT</code>/<code>DEDENT</code> from each physical line’s leading
+whitespace (see “Indentation-based blocks” below), and suspends that
+entirely while an <code>(</code> or <code>[</code> is unclosed — so a parameter list, a
+call’s arguments, a list literal, a comprehension and a tuple may each
+span several lines. The continuation lines are part of the same
+statement and their own indentation means nothing; outside brackets,
+indentation means exactly what it did. See “Lines and continuation”.</p>
+</li>
+<li>
+<p><code>block</code>’s bare-<code>expr_stmt</code> alternative is taken <strong>only</strong> when that
+expression begins on the row the header’s <code>:</code> ends on. The EBNF cannot
+state this, for the same reason it cannot state “a statement starts a
+line of its own”: the lexer emits no token for a line break, so both
+are checked in <code>src/parser.ml</code> against the positions the tokens
+already carry. A block that begins on the <em>next</em> line without being
+indented is therefore not an inline block but the error it always was
+(<code>expected an indented block</code>).</p>
+</li>
+<li>
+<p>It is an <code>expr_stmt</code>, not a <code>statement</code>: only a value may be written
+there. A <code>return</code>, a binding, a <code>:=</code>, or a nested header is refused
+where it stands (<code>a block written on its header's own line must be one expression, and 'return a' is not; write it in an indented block instead</code>), so no line ever hides control flow or a new name behind
+its <code>:</code>. An <code>if</code> written there is the <code>if_expr</code>, which is an
+expression; the statement form is not.</p>
+</li>
+<li>
+<p>An inline block <strong>ends its line</strong>. Nothing may be indented under it
+(<code>a block written on its header's own line is the whole block, so nothing may be indented under it</code>), and nothing may continue the
+construct on the same line — an <code>else</code> has to start the next one
+(<code>'else' must start on a new line: the block written on the header's own line ends that line</code>). A second <em>statement</em> after it on the line
+is caught by the one-statement-per-line rule instead, since it is a
+sibling of the header rather than part of its block.</p>
+</li>
+<li>
+<p>The two layouts are the same program. <code>def add(a, b): a + b</code> parses to
+exactly what <code>def add(a, b):</code> followed by an indented <code>a + b</code> parses
+to, so nothing after the parser can tell them apart — including the
+pretty-printer, which prints every block indented.</p>
+</li>
+<li>
+<p>The rule is the <em>block’s</em>, so it holds wherever a block does:
+<code>function_def</code>, <code>if_stmt</code> and its <code>else</code>, <code>for_stmt</code>, <code>while_stmt</code>,
+<code>loop_stmt</code> and <code>case_clause</code>. A <code>match_stmt</code>’s clause list is not a
+block and has no inline form.</p>
+</li>
+</ul>
+<h2 id="syntax-by-mode">Syntax by mode</h2>
+<p>One parser reads every module. A <code>use</code> line adds no syntax; it allows
+what the parser already reads:</p>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<table><thead><tr><th>Mode</th><th>Allows</th></tr></thead><tbody><tr><td><code>use mutation</code></td><td><code>var_decl</code>, <code>:=</code> and compound assignment, <code>mutable struct</code>, and the calls that make and write Arrays, DynArrays, MutMaps and views</td></tr><tr><td><code>use pointers</code> (with <code>mutation</code>)</td><td><code>&#x26;</code> and <code>*</code> in expressions, and <code>*p := v</code></td></tr><tr><td><code>use objects</code></td><td><code>class</code>, <code>abstract class</code> and <code>interface</code> declarations</td></tr></tbody></table>
+<p>A construct of a mode the module has not turned on is refused as a
+<code>Parsing error</code> that names the <code>use</code> line it needs.</p>
+<h2 id="compared-with-python">Compared with Python</h2>
+<p><strong>The same as Python:</strong> indentation-based blocks, <code>def</code>, <code>if</code>/<code>else</code>,
+<code>for … in</code>, <code>while</code>, <code>return</code>, list comprehensions, <code>match</code>/<code>case</code>,
+indexing and slicing, <code>import</code>, <code>from … import … as</code>, <code>#</code> comments, and
+most operators (<code>+ - * / %</code>, comparisons, <code>and</code>/<code>or</code>/<code>not</code>, bitwise
+operators).</p>
+<p><strong>Different:</strong></p>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<table><thead><tr><th>Python</th><th>Pyking</th></tr></thead><tbody><tr><td><code>True</code>, <code>False</code></td><td><code>true</code>, <code>false</code></td></tr><tr><td><code>elif</code></td><td><code>else if</code></td></tr><tr><td><code>a ** b</code></td><td><code>a ^ b</code></td></tr><tr><td><code>lambda x: x + 1</code></td><td><code>lam x. x + 1</code></td></tr><tr><td><code>a if c else b</code></td><td><code>if c then a else b</code></td></tr><tr><td><code>'text'</code> or <code>"text"</code></td><td><code>"text"</code>; <code>'c'</code> is a Char</td></tr><tr><td><code>f"{a} and {b + 1}"</code></td><td><code>"$a and ${b + 1}"</code>, in every String</td></tr><tr><td><code>print(x, end="")</code>, <code>print(x, file=sys.stderr)</code></td><td><code>printsl(x)</code>, <code>eprint(x)</code></td></tr><tr><td><code>1 &#x3C; 2 &#x3C; 3</code></td><td>refused: <code>1 &#x3C; 2 and 2 &#x3C; 3</code></td></tr><tr><td><code>x = x + 1</code> updating <code>x</code></td><td><code>x := x + 1</code>, on a <code>var x</code></td></tr><tr><td><code>(y := 3)</code>, the walrus</td><td><code>:=</code> is a statement, never an expression</td></tr><tr><td><code>class A:</code> with fields assigned in <code>__init__</code></td><td><code>class A(x: Int):</code>, under <code>use objects</code></td></tr><tr><td><code>copy.copy(x)</code>, <code>copy.deepcopy(x)</code></td><td><code>copy(x)</code>, <code>deepcopy(x)</code>: builtins, no import</td></tr></tbody></table>
+<p><strong>New in Pyking:</strong> <code>use</code>, <code>var</code>, <code>datatype</code>, <code>struct</code>, <code>mutable struct</code>,
+<code>$name</code> interpolation without braces, <code>printsl</code>/<code>eprint</code>/<code>eprintsl</code>,
+<code>let … in</code>, <code>loop</code>, <code>public</code>, <code>implicit</code>, <code>Type::name</code> overloading, type
+annotations that are checked, and pointers (<code>&#x26;</code>, <code>*</code>).</p>
+<p><strong>Not in Pyking:</strong> <code>try</code>/<code>except</code>/<code>raise</code> (use <code>Result</code> and <code>panic</code>),
+<code>with</code>, decorators (<code>@</code> is not a character Pyking reads), <code>*args</code> and
+<code>**kwargs</code>, <code>yield</code>, <code>async</code>, <code>global</code>/<code>nonlocal</code>, <code>assert</code>, <code>del</code>,
+format specifications (<code>{x:.2f}</code>), dict and set literals (<code>{</code> is not read; use <code>map(...)</code>), the
+<code>in</code> and <code>is</code> operators, <code>//</code> (Int <code>/</code> already truncates), and
+<code>while … else</code>. Where the parser can tell what was meant — <code>elif</code>,
+<code>**</code>, a chained comparison, a String in single quotes — the error says
+what to write instead.</p></div><footer class="sl-flex astro-ddtxxk7k"><div class="meta sl-flex astro-ddtxxk7k"></div><div class="pagination-links print:hidden astro-b5raizh3" dir="ltr"></div></footer></div></div></main></div></div></div></div></body></html>

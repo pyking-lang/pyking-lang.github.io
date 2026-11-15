@@ -1,0 +1,484 @@
+<!DOCTYPE html><html lang="en" dir="ltr" data-theme="dark" data-has-sidebar class="astro-g5ptsecz"><head><meta charset="utf-8"/><meta name="viewport" content="width=device-width, initial-scale=1"/><title>Functions | Pyking</title><link rel="canonical" href="https://pyking.org/documentation/language/functions/"/><link rel="sitemap" href="/sitemap-index.xml"/><script src="/v/8e74ca34b133/site/shell.js" data-base data-build="8e74ca34b133" data-sections="[{&quot;key&quot;:&quot;install&quot;,&quot;label&quot;:&quot;Install&quot;,&quot;prefix&quot;:&quot;/install/&quot;},{&quot;key&quot;:&quot;getstarted&quot;,&quot;label&quot;:&quot;Getting started&quot;,&quot;prefix&quot;:&quot;/getstarted/&quot;},{&quot;key&quot;:&quot;documentation&quot;,&quot;label&quot;:&quot;Documentation&quot;,&quot;prefix&quot;:&quot;/documentation/&quot;},{&quot;key&quot;:&quot;libraries&quot;,&quot;label&quot;:&quot;Libraries&quot;,&quot;prefix&quot;:&quot;/libraries/&quot;},{&quot;key&quot;:&quot;playground&quot;,&quot;label&quot;:&quot;Playground&quot;,&quot;prefix&quot;:&quot;/playground/&quot;}]"></script><script type="module" src="/v/8e74ca34b133/site/cells.js"></script><script>try { if (localStorage.getItem('starlight-theme') === null) localStorage.setItem('starlight-theme', 'dark'); } catch (e) {}</script><link rel="shortcut icon" href="/v/8e74ca34b133/site/favicon.svg" type="image/svg+xml"/><meta name="generator" content="Astro v7.3.5"/><meta name="generator" content="Starlight v0.42.5"/><meta property="og:title" content="Functions"/><meta property="og:type" content="article"/><meta property="og:url" content="https://pyking.org/documentation/language/functions/"/><meta property="og:locale" content="en"/><meta property="og:description" content="def, default and named arguments, annotations, return, tail position and tail calls."/><meta property="og:site_name" content="Pyking"/><meta name="twitter:card" content="summary_large_image"/><meta name="description" content="def, default and named arguments, annotations, return, tail position and tail calls."/><script>
+	window.StarlightThemeProvider = (() => {
+		const storedTheme =
+			typeof localStorage !== 'undefined' && localStorage.getItem('starlight-theme');
+		const theme =
+			storedTheme ||
+			(window.matchMedia('(prefers-color-scheme: light)').matches ? 'light' : 'dark');
+		document.documentElement.dataset.theme = theme === 'light' ? 'light' : 'dark';
+		return {
+			updatePickers(theme = storedTheme || 'auto') {
+				document.querySelectorAll('starlight-theme-select').forEach((picker) => {
+					const select = picker.querySelector('select');
+					if (select) select.value = theme;
+					/** @type {HTMLTemplateElement | null} */
+					const tmpl = document.querySelector(`#theme-icons`);
+					const newIcon = tmpl && tmpl.content.querySelector('.' + theme);
+					if (newIcon) {
+						const oldIcon = picker.querySelector('svg.label-icon');
+						if (oldIcon) {
+							oldIcon.replaceChildren(...newIcon.cloneNode(true).childNodes);
+						}
+					}
+				});
+			},
+		};
+	})();
+</script><template id="theme-icons"><svg aria-hidden="true" class="light astro-hkc32dio" width="16" height="16" viewBox="0 0 24 24" fill="currentColor" style="--sl-icon-size: 1em;"><path d="M5 12a1 1 0 0 0-1-1H3a1 1 0 0 0 0 2h1a1 1 0 0 0 1-1Zm.64 5-.71.71a1 1 0 0 0 0 1.41 1 1 0 0 0 1.41 0l.71-.71A1 1 0 0 0 5.64 17ZM12 5a1 1 0 0 0 1-1V3a1 1 0 0 0-2 0v1a1 1 0 0 0 1 1Zm5.66 2.34a1 1 0 0 0 .7-.29l.71-.71a1 1 0 1 0-1.41-1.41l-.66.71a1 1 0 0 0 0 1.41 1 1 0 0 0 .66.29Zm-12-.29a1 1 0 0 0 1.41 0 1 1 0 0 0 0-1.41l-.71-.71a1.004 1.004 0 1 0-1.43 1.41l.73.71ZM21 11h-1a1 1 0 0 0 0 2h1a1 1 0 0 0 0-2Zm-2.64 6A1 1 0 0 0 17 18.36l.71.71a1 1 0 0 0 1.41 0 1 1 0 0 0 0-1.41l-.76-.66ZM12 6.5a5.5 5.5 0 1 0 5.5 5.5A5.51 5.51 0 0 0 12 6.5Zm0 9a3.5 3.5 0 1 1 0-7 3.5 3.5 0 0 1 0 7Zm0 3.5a1 1 0 0 0-1 1v1a1 1 0 0 0 2 0v-1a1 1 0 0 0-1-1Z"/></svg><svg aria-hidden="true" class="dark astro-hkc32dio" width="16" height="16" viewBox="0 0 24 24" fill="currentColor" style="--sl-icon-size: 1em;"><path d="M21.64 13a1 1 0 0 0-1.05-.14 8.049 8.049 0 0 1-3.37.73 8.15 8.15 0 0 1-8.14-8.1 8.59 8.59 0 0 1 .25-2A1 1 0 0 0 8 2.36a10.14 10.14 0 1 0 14 11.69 1 1 0 0 0-.36-1.05Zm-9.5 6.69A8.14 8.14 0 0 1 7.08 5.22v.27a10.15 10.15 0 0 0 10.14 10.14 9.784 9.784 0 0 0 2.1-.22 8.11 8.11 0 0 1-7.18 4.32v-.04Z"/></svg><svg aria-hidden="true" class="auto astro-hkc32dio" width="16" height="16" viewBox="0 0 24 24" fill="currentColor" style="--sl-icon-size: 1em;"><path d="M21 14h-1V7a3 3 0 0 0-3-3H7a3 3 0 0 0-3 3v7H3a1 1 0 0 0-1 1v2a3 3 0 0 0 3 3h14a3 3 0 0 0 3-3v-2a1 1 0 0 0-1-1ZM6 7a1 1 0 0 1 1-1h10a1 1 0 0 1 1 1v7H6V7Zm14 10a1 1 0 0 1-1 1H5a1 1 0 0 1-1-1v-1h16v1Z"/></svg></template><link rel="stylesheet" href="/_astro/print.ehPL0gv-.css" media="print"><link rel="stylesheet" href="/_astro/middleware.DYJDcmyo.css"><script type="module" src="/_astro/page.Dwipeu-R.js"></script></head><body class="astro-g5ptsecz"><a class="sl-skip-link astro-qb7clj6f" href="#_top">Skip to content</a><div class="page sl-flex astro-yntsjkba"><header class="header astro-yntsjkba"><div class="pyking-header"><div class="pyking-header-left"><a href="/" class="site-title sl-flex astro-6rvad3va"><img class="astro-6rvad3va" alt="Pyking" src="/_astro/logo.C9hvHOpV.svg" width="64" height="64"><span class="astro-6rvad3va" translate="no">Pyking</span></a><nav class="pyking-nav" aria-label="Sections"><a href="/install/">Install</a><a href="/getstarted/pyking-in-20-minutes/">Getting started</a><a href="/documentation/language/" aria-current="page">Documentation</a><a href="/libraries/">Libraries</a><a href="/playground/">Playground</a></nav></div><div class="pyking-header-right print:hidden"><site-search class=" astro-b5kgnn7o" data-translations="{&quot;placeholder&quot;:&quot;Search&quot;}"><button data-open-modal disabled aria-label="Search" aria-keyshortcuts="Control+K" class="astro-b5kgnn7o"><svg aria-hidden="true" class="astro-b5kgnn7o astro-hkc32dio" width="16" height="16" viewBox="0 0 24 24" fill="currentColor" style="--sl-icon-size: 1em;"><path d="M21.71 20.29 18 16.61A9 9 0 1 0 16.61 18l3.68 3.68a.999.999 0 0 0 1.42 0 1 1 0 0 0 0-1.39ZM11 18a7 7 0 1 1 0-14 7 7 0 0 1 0 14Z"/></svg><span class="sl-hidden md:sl-block astro-b5kgnn7o" aria-hidden="true">Search</span><kbd class="sl-hidden md:sl-flex astro-b5kgnn7o" style="display: none;"><kbd class="astro-b5kgnn7o">Ctrl</kbd><kbd class="astro-b5kgnn7o">K</kbd></kbd></button><dialog style="padding:0" aria-label="Search" class="astro-b5kgnn7o"><div class="dialog-frame sl-flex astro-b5kgnn7o"><button data-close-modal class="sl-flex md:sl-hidden astro-b5kgnn7o">Cancel</button><div class="search-container astro-b5kgnn7o"><div id="starlight__search" class="astro-b5kgnn7o"></div></div></div></dialog></site-search><script>
+	(() => {
+		const openBtn = document.querySelector('button[data-open-modal]');
+		const shortcut = openBtn?.querySelector('kbd');
+		if (!openBtn || !(shortcut instanceof HTMLElement)) return;
+		const platformKey = shortcut.querySelector('kbd');
+		if (platformKey && /(Mac|iPhone|iPod|iPad)/i.test(navigator.platform)) {
+			platformKey.textContent = '⌘';
+			openBtn.setAttribute('aria-keyshortcuts', 'Meta+K');
+		}
+		shortcut.style.display = '';
+	})();
+</script><script type="module" src="/_astro/Search.astro_astro_type_script_index_0_lang.Bumivpjo.js"></script><div class="sl-hidden md:sl-flex"><starlight-theme-select><label style="--sl-select-width: 6.25em" class="astro-2z5xp7gb"><span class="sr-only astro-2z5xp7gb">Select theme</span><svg aria-hidden="true" class="icon label-icon astro-2z5xp7gb astro-hkc32dio" width="16" height="16" viewBox="0 0 24 24" fill="currentColor" style="--sl-icon-size: 1em;"><path d="M21 14h-1V7a3 3 0 0 0-3-3H7a3 3 0 0 0-3 3v7H3a1 1 0 0 0-1 1v2a3 3 0 0 0 3 3h14a3 3 0 0 0 3-3v-2a1 1 0 0 0-1-1ZM6 7a1 1 0 0 1 1-1h10a1 1 0 0 1 1 1v7H6V7Zm14 10a1 1 0 0 1-1 1H5a1 1 0 0 1-1-1v-1h16v1Z"/></svg><select autocomplete="off" class="astro-2z5xp7gb"><option value="dark" class="astro-2z5xp7gb">Dark</option><option value="light" class="astro-2z5xp7gb">Light</option><option value="auto" selected class="astro-2z5xp7gb">Auto</option></select><svg aria-hidden="true" class="icon caret astro-2z5xp7gb astro-hkc32dio" width="16" height="16" viewBox="0 0 24 24" fill="currentColor" style="--sl-icon-size: 1em;"><path d="M17 9.17a1 1 0 0 0-1.41 0L12 12.71 8.46 9.17a1 1 0 1 0-1.41 1.42l4.24 4.24a1.002 1.002 0 0 0 1.42 0L17 10.59a1.002 1.002 0 0 0 0-1.42Z"/></svg></label></starlight-theme-select><script>
+	StarlightThemeProvider.updatePickers();
+</script><script type="module">var e=`starlight-theme`,t=e=>e===`auto`||e===`dark`||e===`light`?e:`auto`,n=()=>t(typeof localStorage<`u`&&localStorage.getItem(e));function r(t){typeof localStorage<`u`&&localStorage.setItem(e,t===`light`||t===`dark`?t:``)}var i=()=>matchMedia(`(prefers-color-scheme: light)`).matches?`light`:`dark`;function a(e){StarlightThemeProvider.updatePickers(e),document.documentElement.dataset.theme=e===`auto`?i():e,r(e)}matchMedia(`(prefers-color-scheme: light)`).addEventListener(`change`,()=>{n()===`auto`&&a(`auto`)});var o=class extends HTMLElement{constructor(){super(),a(n()),this.querySelector(`select`)?.addEventListener(`change`,e=>{e.currentTarget instanceof HTMLSelectElement&&a(t(e.currentTarget.value))})}};customElements.define(`starlight-theme-select`,o);</script></div><a class="pyking-github" href="https://github.com/pyking-lang" title="Pyking on GitHub"><span class="sr-only">GitHub</span><svg aria-hidden="true" viewBox="0 0 24 24" width="22" height="22" fill="currentColor"><path d="M12 .3a12 12 0 0 0-3.8 23.4c.6.1.8-.3.8-.6v-2c-3.3.7-4-1.6-4-1.6-.6-1.4-1.4-1.8-1.4-1.8-1-.7.1-.7.1-.7 1.2.1 1.8 1.2 1.8 1.2 1 1.8 2.8 1.3 3.5 1 0-.8.4-1.3.7-1.6-2.7-.3-5.5-1.3-5.5-6 0-1.2.5-2.3 1.3-3.1-.2-.4-.6-1.6 0-3.2 0 0 1-.3 3.4 1.2a11.5 11.5 0 0 1 6 0c2.3-1.5 3.3-1.2 3.3-1.2.6 1.6.2 2.8.1 3.2.8.8 1.3 1.9 1.3 3.1 0 4.6-2.8 5.6-5.5 5.9.5.4.9 1.1.9 2.2v3.3c0 .3.1.7.8.6A12 12 0 0 0 12 .3"></path></svg></a></div></div></header><nav class="sidebar print:hidden astro-yntsjkba" aria-label="Main"><button popovertarget="starlight__sidebar" class="sl-menu-button sl-flex md:sl-hidden print:hidden astro-r2osgdlg"><svg aria-hidden="true" class="open-menu astro-r2osgdlg astro-hkc32dio" width="16" height="16" viewBox="0 0 24 24" fill="currentColor" style="--sl-icon-size: 1em;"><path d="M3 8h18a1 1 0 1 0 0-2H3a1 1 0 0 0 0 2Zm18 8H3a1 1 0 0 0 0 2h18a1 1 0 0 0 0-2Zm0-5H3a1 1 0 0 0 0 2h18a1 1 0 0 0 0-2Z"/></svg><svg aria-hidden="true" class="close-menu astro-r2osgdlg astro-hkc32dio" width="16" height="16" viewBox="0 0 24 24" fill="currentColor" style="--sl-icon-size: 1em;"><path d="m13.41 12 6.3-6.29a1.004 1.004 0 1 0-1.42-1.42L12 10.59l-6.29-6.3a1.004 1.004 0 0 0-1.42 1.42l6.3 6.29-6.3 6.29a1 1 0 0 0 0 1.42.998.998 0 0 0 1.42 0l6.29-6.3 6.29 6.3a.999.999 0 0 0 1.42 0 1 1 0 0 0 0-1.42L13.41 12Z"/></svg><span class="sr-only astro-r2osgdlg">Menu</span></button><script type="module">var e=class extends HTMLElement{constructor(){super();let e=matchMedia(`(min-width: 50em)`),t=()=>{this.popover=e.matches?null:`auto`};t(),e.addEventListener(`change`,()=>t()),this.addEventListener(`toggle`,({newState:e})=>this.trapFocus(e===`open`))}trapFocus(e){document.querySelectorAll(`.main-frame, .sl-skip-link`).forEach(t=>{t.toggleAttribute(`inert`,e)})}};customElements.define(`sl-sidebar-pane`,e);</script><script type="module">var e=class extends HTMLElement{constructor(){super();let e=this.querySelector(`select`);e&&(e.addEventListener(`change`,e=>{e.currentTarget instanceof HTMLSelectElement&&(window.location.pathname=e.currentTarget.value)}),window.addEventListener(`pageshow`,t=>{if(!t.persisted)return;let n=e.querySelector(`option[selected]`)?.index;n!==e.selectedIndex&&(e.selectedIndex=n??0)}))}};customElements.define(`starlight-lang-select`,e);</script><sl-sidebar-pane popover id="starlight__sidebar" class="sidebar-pane astro-yntsjkba"><div class="sidebar-content sl-flex astro-yntsjkba"><nav class="pyking-sidebar" aria-label="Documentation"><p class="pyking-sidebar-title">Documentation</p><ul class="pyking-sidebar-main"><li><a href="/documentation/editors/">Editors</a></li><li><a href="/documentation/playground/">Playground</a></li><li><a href="/documentation/notebook/">Notebook</a></li><li><a href="/documentation/command-line/">Command line</a></li><li><a href="/documentation/repl/">REPL</a></li><li><a href="/documentation/targets/">Compiler targets</a></li><li><a href="/documentation/slides/">Code on slides</a></li><li class="pyking-sidebar-parent pyking-sidebar-open"><a href="/documentation/language/">Language reference</a><ul class="pyking-sidebar-sub"><li><a href="/documentation/language/programs-and-use/">Programs, modes and use</a></li><li><a href="/documentation/language/values/">Values and basic types</a></li><li><a href="/documentation/language/expressions/">Operators and expressions</a></li><li><a href="/documentation/language/names-and-scope/">Names, bindings and scope</a></li><li><a href="/documentation/language/mutable-state/">Mutable state</a></li><li><a href="/documentation/language/functions/" aria-current="page">Functions</a></li><li><a href="/documentation/language/control-flow/">Control flow</a></li><li><a href="/documentation/language/collections/">Collections</a></li><li><a href="/documentation/language/datatypes/">Datatypes, structs and pattern matching</a></li><li><a href="/documentation/language/objects/">Objects</a></li><li><a href="/documentation/language/types/">Types and type inference</a></li><li><a href="/documentation/language/overloading-and-implicits/">Overloading and implicits</a></li><li><a href="/documentation/language/modules/">Modules</a></li><li><a href="/documentation/language/builtins/">Builtins and I/O</a></li><li><a href="/documentation/language/warnings/">Warnings</a></li></ul></li><li><a href="/documentation/vs-other-languages/">Pyking vs. other languages</a></li><li><a href="/documentation/grammar/">Grammar</a></li><li class="pyking-sidebar-parent"><a href="/documentation/tinyweb/">Tinyweb without Pyking</a></li><li><a href="/documentation/tinyweb-styles/">Styling tinyweb</a></li></ul></nav><div class="md:sl-hidden"><div class="mobile-preferences sl-flex astro-p4azlveh"><div class="social-icons astro-p4azlveh"></div><starlight-theme-select><label style="--sl-select-width: 6.25em" class="astro-2z5xp7gb"><span class="sr-only astro-2z5xp7gb">Select theme</span><svg aria-hidden="true" class="icon label-icon astro-2z5xp7gb astro-hkc32dio" width="16" height="16" viewBox="0 0 24 24" fill="currentColor" style="--sl-icon-size: 1em;"><path d="M21 14h-1V7a3 3 0 0 0-3-3H7a3 3 0 0 0-3 3v7H3a1 1 0 0 0-1 1v2a3 3 0 0 0 3 3h14a3 3 0 0 0 3-3v-2a1 1 0 0 0-1-1ZM6 7a1 1 0 0 1 1-1h10a1 1 0 0 1 1 1v7H6V7Zm14 10a1 1 0 0 1-1 1H5a1 1 0 0 1-1-1v-1h16v1Z"/></svg><select autocomplete="off" class="astro-2z5xp7gb"><option value="dark" class="astro-2z5xp7gb">Dark</option><option value="light" class="astro-2z5xp7gb">Light</option><option value="auto" selected class="astro-2z5xp7gb">Auto</option></select><svg aria-hidden="true" class="icon caret astro-2z5xp7gb astro-hkc32dio" width="16" height="16" viewBox="0 0 24 24" fill="currentColor" style="--sl-icon-size: 1em;"><path d="M17 9.17a1 1 0 0 0-1.41 0L12 12.71 8.46 9.17a1 1 0 1 0-1.41 1.42l4.24 4.24a1.002 1.002 0 0 0 1.42 0L17 10.59a1.002 1.002 0 0 0 0-1.42Z"/></svg></label></starlight-theme-select><script>
+	StarlightThemeProvider.updatePickers();
+</script></div></div></div></sl-sidebar-pane></nav><div class="main-frame astro-yntsjkba"><script type="module">var e=document.getElementById(`starlight__sidebar`),t=e?.querySelector(`sl-sidebar-state-persist`),n=`sl-sidebar-state`,r=()=>{let r=[],i=t?.dataset.hash||``;try{let e=sessionStorage.getItem(n),t=JSON.parse(e||`{}`);Array.isArray(t.open)&&t.hash===i&&(r=t.open)}catch{}return{hash:i,open:r,scroll:e?.scrollTop||0}},i=e=>{try{sessionStorage.setItem(n,JSON.stringify(e))}catch{}},a=()=>i(r()),o=(e,t)=>{let n=r();n.open[t]=e,i(n)};t?.addEventListener(`click`,e=>{if(!(e.target instanceof Element))return;let t=e.target.closest(`summary`)?.closest(`details`);if(!t)return;let n=t.querySelector(`sl-sidebar-restore`),r=parseInt(n?.dataset.index||``);isNaN(r)||o(!t.open,r)}),addEventListener(`visibilitychange`,()=>{document.visibilityState===`hidden`&&a()});</script><div class="lg:sl-flex astro-lrzkfocr"><div class="main-pane astro-lrzkfocr"><main data-pagefind-body class="astro-g5ptsecz" lang="en" dir="ltr"><div class="content-panel astro-a7po4psb"><div class="sl-container astro-a7po4psb"><h1 id="_top" class="astro-bebwqqxs">Functions</h1></div></div><div class="content-panel astro-a7po4psb"><div class="sl-container astro-a7po4psb"><div class="sl-markdown-content"><blockquote>
+<p><strong>Available:</strong> in every module · <strong>Compared with Python:</strong> mostly the
+same; a body’s last statement is its value, and default and named
+arguments are checked at compile time</p>
+</blockquote>
+<p>A function is defined with <code>def</code>. Annotations are optional: where they
+are left out, the checker infers the most general type. A function body
+answers the value of its last statement, so <code>return</code> is needed only to
+leave early.</p>
+<h2 id="function-definitions-def">Function definitions (<code>def</code>)</h2>
+<p><code>def name(params):</code> introduces a function with a comma-separated parameter
+list, followed by an indented block of statements as its body.</p>
+<div class="expressive-code"><link rel="stylesheet" href="/_astro/ec.w36nc.css"><script type="module" src="/_astro/ec.0vx5m.js"></script><figure class="frame not-content"><figcaption class="header"></figcaption><pre data-language="python"><code><div class="ec-line"><div class="code"><span style="--0:#C792EA;--1:#8844AE">def</span><span style="--0:#D6DEEB;--1:#403F53"> </span><span style="--0:#82AAFF;--1:#3B61B0">average</span><span style="--0:#D9F5DD;--1:#111111">(</span><span style="--0:#7FDBCA;--1:#096E72">a</span><span style="--0:#D6DEEB;--1:#403F53">, </span><span style="--0:#7FDBCA;--1:#096E72">b</span><span style="--0:#D9F5DD;--1:#111111">)</span><span style="--0:#D6DEEB;--1:#403F53">:</span></div></div><div class="ec-line"><div class="code"><span class="indent">    </span><span style="--0:#C792EA;--1:#8844AE">return</span><span style="--0:#D6DEEB;--1:#403F53"> (a </span><span style="--0:#C792EA;--1:#8844AE">+</span><span style="--0:#D6DEEB;--1:#403F53"> b) </span><span style="--0:#C792EA;--1:#8844AE">/</span><span style="--0:#D6DEEB;--1:#403F53"> </span><span style="--0:#F78C6C;--1:#AA0982">2</span></div></div><div class="ec-line"><div class="code">
+</div></div><div class="ec-line"><div class="code">
+</div></div><div class="ec-line"><div class="code"><span style="--0:#C5E478;--1:#3B61B0">print</span><span style="--0:#D6DEEB;--1:#403F53">(</span><span style="--0:#B2CCD6;--1:#096E72">average</span><span style="--0:#D6DEEB;--1:#403F53">(</span><span style="--0:#F78C6C;--1:#AA0982">4</span><span style="--0:#D9F5DD;--1:#111111">,</span><span style="--0:#82AAFF;--1:#3B61B0"> </span><span style="--0:#F78C6C;--1:#AA0982">8</span><span style="--0:#D6DEEB;--1:#403F53">))</span></div></div></code></pre><div class="copy"><div aria-live="polite"></div><button title="Copy to clipboard" data-copied="Copied!" data-code="def average(a, b):    return (a + b) / 2print(average(4, 8))"><div></div></button></div></figure></div>
+<p>A body that is one expression may be written on the header’s own line,
+after the <code>:</code> (see “A block on its header’s own line” in the Grammar). It is the
+same body: one statement, in tail position, so it supplies the
+function’s value exactly as an indented one does. A body that does
+anything else — returns, binds a name, branches as a statement — goes
+under the header, where it is plain.</p>
+<div class="pkn-notebook pkn-embedded not-content"><div class="pkn-cell"><pre class="pkn-cell-fallback"><code>def average(a, b): (a + b) / 2
+def swap(a, b): b, a
+
+print(average(4, 8))
+print(swap(1, 2))</code></pre></div></div>
+<p>Annotations are unaffected — the <code>:</code> that opens the block is the one
+that was always there:</p>
+<div class="pkn-notebook pkn-embedded not-content"><div class="pkn-cell"><pre class="pkn-cell-fallback"><code>def average(a:Int, b:Int) -> Int: (a + b) / 2</code></pre></div></div>
+<p>When the body stops fitting beside the header, indent it under the
+header instead. Nothing else changes:</p>
+<div class="pkn-notebook pkn-embedded not-content"><div class="pkn-cell"><pre class="pkn-cell-fallback"><code>def scaled(a, b):
+    (a + b) * 2
+
+
+def sign(n: Int) -> String:
+    if n &#x3C; 0 then "negative" else "positive"
+
+
+print(scaled(1, 2), sign(-3))</code></pre></div></div>
+<h2 id="default-parameters">Default parameters</h2>
+<p>A parameter may be given a <strong>default</strong>: an expression used when a call
+leaves that argument out.</p>
+<div class="pkn-notebook pkn-embedded not-content"><div class="pkn-cell"><pre class="pkn-cell-fallback"><code>def greet(who: String = "world", times: Int = 1) -> Int:
+    print("hello, " + who)
+    return times
+
+
+print(greet())               # hello, world
+print(greet("pyking"))       # hello, pyking
+print(greet("a", 3))         # hello, a</code></pre></div></div>
+<p>Every parameter after the first one with a default has one too, so a
+positional call is never ambiguous about which parameter it filled:</p>
+<div class="pkn-notebook pkn-embedded not-content"><div class="pkn-cell" data-error=""><pre class="pkn-cell-fallback"><code>def f(a: Int = 1, b: Int) -> Int: a + b     # refused</code></pre></div></div>
+<p>A default is an ordinary expression, and it is evaluated <strong>in the scope
+the <code>def</code> is written in, at each call that omits the argument</strong>. Both
+halves matter. Rebinding a name after the definition does not change
+what the default is worth:</p>
+<div class="pkn-notebook pkn-embedded not-content"><div class="pkn-cell"><pre class="pkn-cell-fallback"><code>size = 10
+
+
+def scaled(x: Int = size) -> Int:
+    return x * 2
+
+
+size = 20
+
+print(scaled())              # 20 -- the first `size`, not the second</code></pre></div></div>
+<p>and a default that has an effect has it once per call that omits it,
+not once when the <code>def</code> is reached:</p>
+<div class="pkn-notebook pkn-embedded not-content"><div class="pkn-cell"><pre class="pkn-cell-fallback"><code>use mutation
+
+var counter = 0
+
+
+def tick(from_: Int = counter) -> Int:
+    return from_ + 1
+
+
+print(tick())                # 1
+counter := 40
+print(tick())                # 41</code></pre></div></div>
+<p>A default may name anything in scope where the definition stands,
+including a function written further down — a <code>def</code> name is visible
+throughout its block, so a default may call one:</p>
+<div class="pkn-notebook pkn-embedded not-content"><div class="pkn-cell"><pre class="pkn-cell-fallback"><code>def padded(amount: Int = width()) -> Int:
+    return amount + 1
+
+
+def width() -> Int:
+    return 7</code></pre></div></div>
+<p><strong>A default is not part of a function’s type.</strong> <code>greet</code> above has type
+<code>(String, Int) -> Int</code>, exactly as it would without the defaults, and
+nothing that holds the function as a value carries them:</p>
+<div class="expressive-code"><figure class="frame not-content"><figcaption class="header"></figcaption><pre data-language="pyking"><code><div class="ec-line"><div class="code"><span style="--0:#D6DEEB;--1:#403F53">g </span><span style="--0:#7FDBCA;--1:#096E72">=</span><span style="--0:#D6DEEB;--1:#403F53"> greet</span></div></div><div class="ec-line"><div class="code"><span style="--0:#C5E478;--1:#3B61B0">print</span><span style="--0:#D6DEEB;--1:#403F53">(g())                   </span><span style="--0:#919F9F;--1:#5F636F"># refused: `g` is a binding, not a definition</span></div></div></code></pre><div class="copy"><div aria-live="polite"></div><button title="Copy to clipboard" data-copied="Copied!" data-code="g = greetprint(g())                   # refused: &#x60;g&#x60; is a binding, not a definition"><div></div></button></div></figure></div>
+<p>The same rule settles where the sugar is available at all: a call may
+leave an argument out only where the callee is a <code>def</code> this module can
+see the parameters of — written directly by name, or reached as
+<code>module.name</code> through an imported Pyking module. A builtin has no
+parameter names, and an external module’s function is written in another
+language, so neither takes one.</p>
+<p>An <strong>exported</strong> function’s defaulted parameter must carry a type
+annotation:</p>
+<div class="pkn-notebook pkn-embedded not-content"><div class="pkn-cell" data-error=""><pre class="pkn-cell-fallback"><code>public def greet(who: String = "world") -> String: "hi " + who
+public def greet(who = "world") -> String: "hi " + who     # refused</code></pre></div></div>
+<p>An exported function carries its complete type in the source, and a
+parameter’s type is part of that whether or not it also has a default
+(see “What a module may export”).</p>
+<p>A default may be written on a parameter of a nested <code>def</code>, in a loop
+body, or anywhere else a definition may stand; what it captures is what
+is bound where the definition is written, as any body is.</p>
+<h2 id="named-arguments">Named arguments</h2>
+<p>An argument may be written <code>name = expr</code>, naming the parameter it fills:</p>
+<div class="pkn-notebook pkn-embedded not-content"><div class="pkn-cell"><pre class="pkn-cell-fallback"><code>def box(width: Int = 1, height: Int = 2, depth: Int = 3) -> Int:
+    return (width * 100) + (height * 10) + depth
+
+
+print(box(height = 9))          # 193 -- width and depth default
+print(box(4, depth = 6))        # 426
+print(box(width = 4, depth = 6))</code></pre></div></div>
+<p>Three rules:</p>
+<ul>
+<li><strong>Every positional argument comes first.</strong> A positional argument after
+a named one has no position left to mean.</li>
+<li><strong>Names may be written in any order.</strong> <code>box(depth = 6, width = 4)</code>
+is <code>box(4, 2, 6)</code>. The arguments still run in the order they are
+written (see “Evaluation order”): the depth’s before the width’s.</li>
+<li><strong>A parameter is filled once.</strong> Naming one that a positional argument
+already filled is refused, as is naming the same one twice.</li>
+</ul>
+<p>A name may be given to a parameter that has no default — it is a way of
+saying at the call site what an argument is for:</p>
+<div class="pkn-notebook pkn-embedded not-content"><div class="pkn-cell"><pre class="pkn-cell-fallback"><code>def join(left: String, right: String) -> String: left + "-" + right
+
+print(join("a", right = "c"))</code></pre></div></div>
+<p>but a name does not make a parameter optional: every parameter without a
+default still has to be given something.</p>
+<p>Named arguments are available exactly where defaults are — the callee
+must be a <code>def</code> this module can see the parameters of, since neither is
+part of a function’s type.</p>
+<p>An omitted argument is worth its default <strong>in its own position</strong>, so a
+default with an effect has that effect between the supplied arguments
+around it rather than before or after all of them — where the names
+are written in the parameters’ order. Where they are not, every
+argument written runs first, in the order written, and then the
+defaults of the parameters left out, in the parameters’ order:</p>
+<div class="pkn-notebook pkn-embedded not-content"><div class="pkn-cell"><pre class="pkn-cell-fallback"><code>def note(label: String, n: Int) -> Int:
+    print(label)
+    n
+
+def box(width: Int, height: Int = note("height", 1), depth: Int = 2) -> Int:
+    width * 100 + height * 10 + depth
+
+print(box(depth = note("depth", 6), width = note("width", 4)))</code></pre></div></div>
+<div class="expressive-code"><figure class="frame not-content"><figcaption class="header"></figcaption><pre data-language="plaintext"><code><div class="ec-line"><div class="code"><span style="--0:#d6deeb;--1:#403f53">depth</span></div></div><div class="ec-line"><div class="code"><span style="--0:#d6deeb;--1:#403f53">width</span></div></div><div class="ec-line"><div class="code"><span style="--0:#d6deeb;--1:#403f53">height</span></div></div><div class="ec-line"><div class="code"><span style="--0:#d6deeb;--1:#403f53">416</span></div></div></code></pre><div class="copy"><div aria-live="polite"></div><button title="Copy to clipboard" data-copied="Copied!" data-code="depthwidthheight416"><div></div></button></div></figure></div>
+<h2 id="type-annotations">Type annotations</h2>
+<p>An immutable binding may be annotated on its name, <code>x: Int = 1</code>:</p>
+<div class="pkn-notebook pkn-embedded not-content"><div class="pkn-cell"><pre class="pkn-cell-fallback"><code>count: Int = 42
+name: String = "pyking"
+total: Int = count + 1</code></pre></div></div>
+<p>Parameters and the return value may optionally be annotated with a type:
+<code>Int</code>, <code>Float</code>, <code>String</code>, <code>Char</code>, <code>Bool</code>, a list type <code>[T]</code>, a tuple type <code>(T1, T2, ...)</code>
+or <code>(T,)</code>, or a function type <code>(T1, T2, ...) -> T</code> (all nesting freely,
+e.g. <code>[(Int, Bool)]</code> or <code>[(Int) -> Bool]</code>). <code>()</code>, the zero-element tuple
+type, is the Unit type, and <code>(T)</code> with no comma is grouping rather than
+a tuple. Annotations are entirely optional and independent per
+parameter/return value — a function can mix annotated and unannotated
+parameters freely.</p>
+<div class="pkn-notebook pkn-embedded not-content"><div class="pkn-cell"><pre class="pkn-cell-fallback"><code>use mutation
+
+def add(a:Int, b:Int) -> Int:
+    return a + b
+
+
+def sum_list(xs:[Int]) -> Int:
+    var total = 0
+    for x in xs:
+        total := total + x
+    return total
+
+
+def scale(x, factor:Int) -> Int:
+    return x * factor
+
+
+print(add(2, 3))
+print(sum_list([1, 2, 3, 4]))
+print(scale(3, 4))</code></pre></div></div>
+<p><strong>Function types.</strong> <code>(T1, T2, ...) -> T</code> is the type of a function, and
+may be written wherever a type may. The parentheses are the parameter
+<em>list</em>’s, not a tuple’s, so the count of parameters is what they show: a
+function of two parameters is <code>(Int, Bool) -> Int</code>, and one of a single
+parameter that happens to be a pair is <code>((Int, Bool)) -> Int</code>. Without an
+arrow after it, the same parenthesized list is an ordinary tuple type.
+The result is a type in its turn, so <code>-></code> groups to the right and a
+function returning a function needs no parentheses of its own.</p>
+<div class="expressive-code"><figure class="frame not-content"><figcaption class="header"></figcaption><pre data-language="python"><code><div class="ec-line"><div class="code"><span style="--0:#C792EA;--1:#8844AE">def</span><span style="--0:#D6DEEB;--1:#403F53"> </span><span style="--0:#82AAFF;--1:#3B61B0">inc</span><span style="--0:#D9F5DD;--1:#111111">(</span><span style="--0:#7FDBCA;--1:#096E72">n</span><span style="--0:#D6DEEB;--1:#403F53">:Int</span><span style="--0:#D9F5DD;--1:#111111">)</span><span style="--0:#D6DEEB;--1:#403F53"> -> Int:</span></div></div><div class="ec-line"><div class="code"><span class="indent">    </span><span style="--0:#C792EA;--1:#8844AE">return</span><span style="--0:#D6DEEB;--1:#403F53"> n </span><span style="--0:#C792EA;--1:#8844AE">+</span><span style="--0:#D6DEEB;--1:#403F53"> </span><span style="--0:#F78C6C;--1:#AA0982">1</span></div></div><div class="ec-line"><div class="code">
+</div></div><div class="ec-line"><div class="code">
+</div></div><div class="ec-line"><div class="code"><span style="--0:#C792EA;--1:#8844AE">def</span><span style="--0:#D6DEEB;--1:#403F53"> </span><span style="--0:#82AAFF;--1:#3B61B0">apply</span><span style="--0:#D9F5DD;--1:#111111">(</span><span style="--0:#7FDBCA;--1:#096E72">f</span><span style="--0:#D6DEEB;--1:#403F53">:(Int) </span><span style="--0:#FFFFFF;--1:#984E4D">-></span><span style="--0:#D6DEEB;--1:#403F53"> Int, </span><span style="--0:#7FDBCA;--1:#096E72">x</span><span style="--0:#D6DEEB;--1:#403F53">:Int</span><span style="--0:#D9F5DD;--1:#111111">)</span><span style="--0:#D6DEEB;--1:#403F53"> -> Int:</span></div></div><div class="ec-line"><div class="code"><span class="indent">    </span><span style="--0:#C792EA;--1:#8844AE">return</span><span style="--0:#D6DEEB;--1:#403F53"> </span><span style="--0:#B2CCD6;--1:#096E72">f</span><span style="--0:#D6DEEB;--1:#403F53">(</span><span style="--0:#82AAFF;--1:#3B61B0">x</span><span style="--0:#D6DEEB;--1:#403F53">)</span></div></div><div class="ec-line"><div class="code">
+</div></div><div class="ec-line"><div class="code">
+</div></div><div class="ec-line"><div class="code"><span style="--0:#919F9F;--1:#5F636F"># Returning a function: the return type is `(Int) -> Int`.</span></div></div><div class="ec-line"><div class="code"><span style="--0:#C792EA;--1:#8844AE">def</span><span style="--0:#D6DEEB;--1:#403F53"> </span><span style="--0:#82AAFF;--1:#3B61B0">stepper</span><span style="--0:#D9F5DD;--1:#111111">(</span><span style="--0:#7FDBCA;--1:#096E72">up</span><span style="--0:#D6DEEB;--1:#403F53">:Bool</span><span style="--0:#D9F5DD;--1:#111111">)</span><span style="--0:#D6DEEB;--1:#403F53"> -> (Int) </span><span style="--0:#FFFFFF;--1:#984E4D">-></span><span style="--0:#D6DEEB;--1:#403F53"> Int:</span></div></div><div class="ec-line"><div class="code"><span class="indent">    </span><span style="--0:#C792EA;--1:#8844AE">return</span><span style="--0:#D6DEEB;--1:#403F53"> inc</span></div></div><div class="ec-line"><div class="code">
+</div></div><div class="ec-line"><div class="code">
+</div></div><div class="ec-line"><div class="code"><span style="--0:#919F9F;--1:#5F636F"># Nested: a list of them, a pair holding one, one taken by another.</span></div></div><div class="ec-line"><div class="code"><span style="--0:#C792EA;--1:#8844AE">def</span><span style="--0:#D6DEEB;--1:#403F53"> </span><span style="--0:#82AAFF;--1:#3B61B0">each</span><span style="--0:#D9F5DD;--1:#111111">(</span><span style="--0:#7FDBCA;--1:#096E72">fs</span><span style="--0:#D6DEEB;--1:#403F53">:</span><span style="--0:#D9F5DD;--1:#111111">[</span><span style="--0:#D6DEEB;--1:#403F53">(Int) </span><span style="--0:#FFFFFF;--1:#984E4D">-></span><span style="--0:#D6DEEB;--1:#403F53"> Int</span><span style="--0:#D9F5DD;--1:#111111">]</span><span style="--0:#D6DEEB;--1:#403F53">, </span><span style="--0:#7FDBCA;--1:#096E72">first</span><span style="--0:#D6DEEB;--1:#403F53">:((Int) </span><span style="--0:#FFFFFF;--1:#984E4D">-></span><span style="--0:#D6DEEB;--1:#403F53"> Int, Int)</span><span style="--0:#D9F5DD;--1:#111111">)</span><span style="--0:#D6DEEB;--1:#403F53"> -> Int:</span></div></div><div class="ec-line"><div class="code"><span class="indent">    </span><span style="--0:#C792EA;--1:#8844AE">return</span><span style="--0:#D6DEEB;--1:#403F53"> </span><span style="--0:#B2CCD6;--1:#096E72">apply</span><span style="--0:#D6DEEB;--1:#403F53">(</span><span style="--0:#82AAFF;--1:#3B61B0">inc</span><span style="--0:#D9F5DD;--1:#111111">,</span><span style="--0:#82AAFF;--1:#3B61B0"> </span><span style="--0:#F78C6C;--1:#AA0982">0</span><span style="--0:#D6DEEB;--1:#403F53">)</span></div></div><div class="ec-line"><div class="code">
+</div></div><div class="ec-line"><div class="code">
+</div></div><div class="ec-line"><div class="code"><span style="--0:#C792EA;--1:#8844AE">def</span><span style="--0:#D6DEEB;--1:#403F53"> </span><span style="--0:#82AAFF;--1:#3B61B0">under</span><span style="--0:#D9F5DD;--1:#111111">(</span><span style="--0:#7FDBCA;--1:#096E72">f</span><span style="--0:#D6DEEB;--1:#403F53">:((Int) </span><span style="--0:#FFFFFF;--1:#984E4D">-></span><span style="--0:#D6DEEB;--1:#403F53"> Int) </span><span style="--0:#FFFFFF;--1:#984E4D">-></span><span style="--0:#D6DEEB;--1:#403F53"> Int</span><span style="--0:#D9F5DD;--1:#111111">)</span><span style="--0:#D6DEEB;--1:#403F53"> -> Int:</span></div></div><div class="ec-line"><div class="code"><span class="indent">    </span><span style="--0:#C792EA;--1:#8844AE">return</span><span style="--0:#D6DEEB;--1:#403F53"> </span><span style="--0:#F78C6C;--1:#AA0982">0</span></div></div><div class="ec-line"><div class="code">
+</div></div><div class="ec-line"><div class="code">
+</div></div><div class="ec-line"><div class="code"><span style="--0:#D6DEEB;--1:#403F53">step:(Int) </span><span style="--0:#FFFFFF;--1:#984E4D">-></span><span style="--0:#D6DEEB;--1:#403F53"> Int </span><span style="--0:#C792EA;--1:#8844AE">=</span><span style="--0:#D6DEEB;--1:#403F53"> inc</span></div></div><div class="ec-line"><div class="code">
+</div></div><div class="ec-line"><div class="code"><span style="--0:#C5E478;--1:#3B61B0">print</span><span style="--0:#D6DEEB;--1:#403F53">(</span><span style="--0:#B2CCD6;--1:#096E72">apply</span><span style="--0:#D6DEEB;--1:#403F53">(</span><span style="--0:#82AAFF;--1:#3B61B0">inc</span><span style="--0:#D9F5DD;--1:#111111">,</span><span style="--0:#82AAFF;--1:#3B61B0"> </span><span style="--0:#F78C6C;--1:#AA0982">1</span><span style="--0:#D6DEEB;--1:#403F53">)</span><span style="--0:#D9F5DD;--1:#111111">,</span><span style="--0:#82AAFF;--1:#3B61B0"> </span><span style="--0:#B2CCD6;--1:#096E72">apply</span><span style="--0:#D6DEEB;--1:#403F53">(</span><span style="--0:#82AAFF;--1:#3B61B0">step</span><span style="--0:#D9F5DD;--1:#111111">,</span><span style="--0:#82AAFF;--1:#3B61B0"> </span><span style="--0:#F78C6C;--1:#AA0982">1</span><span style="--0:#D6DEEB;--1:#403F53">)</span><span style="--0:#D9F5DD;--1:#111111">,</span><span style="--0:#82AAFF;--1:#3B61B0"> </span><span style="--0:#B2CCD6;--1:#096E72">apply</span><span style="--0:#D6DEEB;--1:#403F53">(</span><span style="--0:#B2CCD6;--1:#096E72">stepper</span><span style="--0:#D6DEEB;--1:#403F53">(</span><span style="--0:#82AAFF;--1:#3B61B0">true</span><span style="--0:#D6DEEB;--1:#403F53">)</span><span style="--0:#D9F5DD;--1:#111111">,</span><span style="--0:#82AAFF;--1:#3B61B0"> </span><span style="--0:#F78C6C;--1:#AA0982">1</span><span style="--0:#D6DEEB;--1:#403F53">))</span></div></div></code></pre><div class="copy"><div aria-live="polite"></div><button title="Copy to clipboard" data-copied="Copied!" data-code="def inc(n:Int) -> Int:    return n + 1def apply(f:(Int) -> Int, x:Int) -> Int:    return f(x)# Returning a function: the return type is &#x60;(Int) -> Int&#x60;.def stepper(up:Bool) -> (Int) -> Int:    return inc# Nested: a list of them, a pair holding one, one taken by another.def each(fs:[(Int) -> Int], first:((Int) -> Int, Int)) -> Int:    return apply(inc, 0)def under(f:((Int) -> Int) -> Int) -> Int:    return 0step:(Int) -> Int = incprint(apply(inc, 1), apply(step, 1), apply(stepper(true), 1))"><div></div></button></div></figure></div>
+<p>Annotations are parsed and stored in the AST (see <code>Param</code>,
+<code>SFunctionDef.return_type</code> and <code>SLet.type</code> in <code>src/syntax.ml</code>) and
+pretty-printed back out in Pyking’s own syntax. Compiling erases every
+one of them: no generated code carries type syntax at all.</p>
+<p>Nothing verifies an annotation in an ordinary compile. There <em>is</em> a type
+checker, opt-in and covering only part of the language so far; what it
+accepts, what it refuses, and which annotations it treats as declarations
+rather than as decoration are in “Types and type inference”. How the pass itself is built is a compiler matter, described
+in docs/architecture.md.</p>
+<h2 id="return-statements"><code>return</code> statements</h2>
+<p><code>return expr</code> evaluates <code>expr</code> and returns it as the function’s result.</p>
+<div class="expressive-code"><figure class="frame not-content"><figcaption class="header"></figcaption><pre data-language="python"><code><div class="ec-line"><div class="code"><span style="--0:#C792EA;--1:#8844AE">def</span><span style="--0:#D6DEEB;--1:#403F53"> </span><span style="--0:#82AAFF;--1:#3B61B0">first</span><span style="--0:#D9F5DD;--1:#111111">(</span><span style="--0:#7FDBCA;--1:#096E72">x</span><span style="--0:#D6DEEB;--1:#403F53">, </span><span style="--0:#7FDBCA;--1:#096E72">y</span><span style="--0:#D9F5DD;--1:#111111">)</span><span style="--0:#D6DEEB;--1:#403F53">:</span></div></div><div class="ec-line"><div class="code"><span class="indent">    </span><span style="--0:#C792EA;--1:#8844AE">return</span><span style="--0:#D6DEEB;--1:#403F53"> x</span></div></div><div class="ec-line"><div class="code">
+</div></div><div class="ec-line"><div class="code">
+</div></div><div class="ec-line"><div class="code"><span style="--0:#C5E478;--1:#3B61B0">print</span><span style="--0:#D6DEEB;--1:#403F53">(</span><span style="--0:#B2CCD6;--1:#096E72">first</span><span style="--0:#D6DEEB;--1:#403F53">(</span><span style="--0:#F78C6C;--1:#AA0982">1</span><span style="--0:#D9F5DD;--1:#111111">,</span><span style="--0:#82AAFF;--1:#3B61B0"> </span><span style="--0:#F78C6C;--1:#AA0982">2</span><span style="--0:#D6DEEB;--1:#403F53">))</span></div></div></code></pre><div class="copy"><div aria-live="polite"></div><button title="Copy to clipboard" data-copied="Copied!" data-code="def first(x, y):    return xprint(first(1, 2))"><div></div></button></div></figure></div>
+<h2 id="tail-position">Tail position</h2>
+<p>A function body’s <strong>last statement is in tail position</strong>, and whatever
+value it produces is the function’s result — there is no need to write
+<code>return</code> for it. The rule is recursive, so it reaches through branches
+rather than only the outermost statement:</p>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<table><thead><tr><th>last statement</th><th>the function’s value</th></tr></thead><tbody><tr><td>an expression</td><td>that expression</td></tr><tr><td>an <code>if</code>/<code>else</code></td><td>each branch’s own tail, recursively</td></tr><tr><td>a <code>match</code></td><td>each <code>case</code> arm’s own tail, recursively</td></tr><tr><td>a <code>loop</code></td><td>the accumulator it stopped with</td></tr><tr><td>an explicit <code>return</code></td><td>what it returns</td></tr><tr><td>anything else (<code>for</code>, <code>while</code>, <code>=</code>, <code>var</code>, <code>:=</code>)</td><td>unit, <code>()</code></td></tr></tbody></table>
+<div class="pkn-notebook pkn-embedded not-content"><div class="pkn-cell"><pre class="pkn-cell-fallback"><code>def add(x, y):
+    x + y
+
+
+def pick(x, y, z):
+    if z > 5:
+        x + y
+    else:
+        2 * x
+
+
+def name_of(n):
+    match n:
+        case 0: "zero"
+        case _:
+            "many"
+
+
+print(add(1, 2), pick(2, 3, 9), name_of(0))</code></pre></div></div>
+<p>Because the rule recurses, an <code>if</code> nested inside a <code>match</code> nested inside
+an <code>if</code> needs nothing special: every branch of every level is itself in
+tail position. An <code>else if</code> ladder works for the same reason — a ladder
+<em>is</em> a nested <code>if</code> in the else branch (see “<code>if</code>/<code>else</code> statements”).</p>
+<p>Only the <strong>last</strong> statement is in tail position. An <code>if</code> with something
+after it is an ordinary statement run for its effect — its branches
+need not even agree on a type (see “Types and type inference”) — and the trailing
+expression is the value:</p>
+<div class="pkn-notebook pkn-embedded not-content"><div class="pkn-cell"><pre class="pkn-cell-fallback"><code>use mutation
+
+def not_last(n):
+    var acc = 0
+    if n > 0:
+        acc := 1
+    else:
+        acc := 2
+    acc + 10
+
+
+print(not_last(1))</code></pre></div></div>
+<p>A branch that produces no value simply does not return one, and the
+function yields unit for that path — an <code>if</code> with no <code>else</code>, or a body
+ending in a <code>for</code> or <code>while</code> that carries no accumulator:</p>
+<div class="pkn-notebook pkn-embedded not-content"><div class="pkn-cell"><pre class="pkn-cell-fallback"><code>def only_then(n):
+    if n > 0:
+        "positive"
+
+
+print(only_then(1), only_then(-1))</code></pre></div></div>
+<h2 id="return-with-an-ifmatch"><code>return</code> with an <code>if</code>/<code>match</code></h2>
+<p><code>return</code> also accepts a value-form <code>if</code>/<code>match</code> directly, so each
+branch’s tail expression becomes the returned value. This says
+explicitly what tail position says implicitly — and, unlike the implicit
+rule, it works <em>before</em> the end of a body:</p>
+<div class="pkn-notebook pkn-embedded not-content"><div class="pkn-cell"><pre class="pkn-cell-fallback"><code>def sign(x):
+    return if x &#x3C; 0:
+        "negative"
+    else:
+        "not negative"
+
+
+def classify(n):
+    return match n:
+        case 0: "zero"
+        case _: "many"
+
+
+print(sign(-2), classify(0))</code></pre></div></div>
+<p>The same two rules a value-form binding obeys apply here: a <code>return if</code>
+must have its <code>else</code>, and every branch must end in an expression — there
+would otherwise be a path with nothing to return.</p>
+<h2 id="tail-calls">Tail calls</h2>
+<p>A call in tail position is one nothing is waiting for: its answer is the
+answer. So a function that calls <em>itself</em> in tail position is a loop
+written as a recursion, and Pyking runs it as one — the compiler
+rewrites it into a <code>loop</code> carrying the parameters. A tail-recursive
+function therefore runs in constant space on every target and in the
+interpreter, however deep it goes:</p>
+<div class="pkn-notebook pkn-embedded not-content"><div class="pkn-cell"><pre class="pkn-cell-fallback"><code>def climb(x):
+    if x >= 20000:
+        1000 + x
+    else:
+        climb(x + 1)       # a tail call: nothing waits for it
+
+
+print(climb(0))            # 21000, in one frame</code></pre></div></div>
+<p>Functions that tail-call <em>each other</em> get the same treatment: the group
+becomes one loop they share, as wide as its widest member. Nothing about
+this changes what a program means — only how much room it needs to
+run — and <code>pyk --no-tail-call-opt</code> turns it off, which is worth doing
+only to read a program back as it was written.</p>
+<p>The rewrite applies to programs the <strong>type checker accepts</strong>: what a
+group can share, and what a slot one member has no argument for is
+entered with, are questions about types. A program outside that fragment
+(see “Types and type inference”) is compiled as written and recurses as any other
+language would. What counts as a tail call, what is left alone and why,
+are in docs/optimization.md.</p>
+<p>A call that is <em>not</em> in tail position is an ordinary recursion and stays
+one: in <code>n * factorial(n - 1)</code> the multiplication is still waiting, so
+there is nothing to turn into a loop.</p>
+<h2 id="ifmatch-statements-as-bound-values"><code>if</code>/<code>match</code> statements as bound values</h2>
+<p>An <code>=</code> binding may take a block-form <code>if</code> or <code>match</code> on its right-hand
+side instead of an expression. The construct stays a statement — it is
+written and indented exactly as it would be on its own — but the branch
+that runs supplies the bound value, which is its <strong>last expression</strong>.
+Python has no statement that evaluates to a value, so the examples in
+this section are Pyking source, not valid Python.</p>
+<div class="pkn-notebook pkn-embedded not-content"><div class="pkn-cell"><pre class="pkn-cell-fallback"><code>y = 3
+my = 2
+
+x = if 7 > my:
+    78 + y
+else:
+    tt = 5 + y
+    tt + 8
+
+print(x)</code></pre></div></div>
+<p>Only the <em>last</em> statement of a branch is its value; everything before it
+is an ordinary statement run for its effect, as <code>tt = 5 + y</code> is above. A
+branch may equally print, or update an enclosing <code>var</code> — nothing is
+hidden inside a new scope, because the compiled Python is the very same
+<code>if</code> statement with each branch’s final expression assigned to <code>x</code>:</p>
+<div class="expressive-code"><figure class="frame not-content"><figcaption class="header"></figcaption><pre data-language="python"><code><div class="ec-line"><div class="code"><span style="--0:#C792EA;--1:#8844AE">if</span><span style="--0:#D6DEEB;--1:#403F53"> </span><span style="--0:#F78C6C;--1:#AA0982">7</span><span style="--0:#D6DEEB;--1:#403F53"> </span><span style="--0:#C792EA;--1:#8844AE">></span><span style="--0:#D6DEEB;--1:#403F53"> my:</span></div></div><div class="ec-line"><div class="code"><span class="indent"><span style="--0:#D6DEEB;--1:#403F53">    </span></span><span style="--0:#D6DEEB;--1:#403F53">x </span><span style="--0:#C792EA;--1:#8844AE">=</span><span style="--0:#D6DEEB;--1:#403F53"> </span><span style="--0:#F78C6C;--1:#AA0982">78</span><span style="--0:#D6DEEB;--1:#403F53"> </span><span style="--0:#C792EA;--1:#8844AE">+</span><span style="--0:#D6DEEB;--1:#403F53"> y</span></div></div><div class="ec-line"><div class="code"><span style="--0:#C792EA;--1:#8844AE">else</span><span style="--0:#D6DEEB;--1:#403F53">:</span></div></div><div class="ec-line"><div class="code"><span class="indent"><span style="--0:#D6DEEB;--1:#403F53">    </span></span><span style="--0:#D6DEEB;--1:#403F53">tt </span><span style="--0:#C792EA;--1:#8844AE">=</span><span style="--0:#D6DEEB;--1:#403F53"> </span><span style="--0:#F78C6C;--1:#AA0982">5</span><span style="--0:#D6DEEB;--1:#403F53"> </span><span style="--0:#C792EA;--1:#8844AE">+</span><span style="--0:#D6DEEB;--1:#403F53"> y</span></div></div><div class="ec-line"><div class="code"><span class="indent"><span style="--0:#D6DEEB;--1:#403F53">    </span></span><span style="--0:#D6DEEB;--1:#403F53">x </span><span style="--0:#C792EA;--1:#8844AE">=</span><span style="--0:#D6DEEB;--1:#403F53"> tt </span><span style="--0:#C792EA;--1:#8844AE">+</span><span style="--0:#D6DEEB;--1:#403F53"> </span><span style="--0:#F78C6C;--1:#AA0982">8</span></div></div></code></pre><div class="copy"><div aria-live="polite"></div><button title="Copy to clipboard" data-copied="Copied!" data-code="if 7 > my:    x = 78 + yelse:    tt = 5 + y    x = tt + 8"><div></div></button></div></figure></div>
+<p>A bound <code>if</code> must have an <code>else</code> (there would otherwise be no value to
+bind when no condition holds), including at the end of an <code>else if</code>
+ladder. Every branch must end in an expression; the parser rejects both
+mistakes rather than binding something undefined.</p>
+<p><code>match</code> works the same way, with either style of <code>case</code> arm — <code>-> expr</code>
+gives the value directly, and a block arm gives its last expression:</p>
+<div class="pkn-notebook pkn-embedded not-content"><div class="pkn-cell"><pre class="pkn-cell-fallback"><code>def describe(point):
+    text = match point:
+        case (0, 0): "origin"
+        case (0, y):
+            side = if y > 0 then "up" else "down"
+            "on the y axis, " + side
+        case (x, y): "at " + string(x) + "," + string(y)
+    return text
+
+
+print(describe((0, 0)), describe((0, 5)), describe((3, 4)))</code></pre></div></div>
+<p>The last statement of a branch may itself be a bound-value <code>if</code>/<code>match</code>
+rather than a plain expression, in which case <em>its</em> branches supply the
+value — this is also what lets an <code>else if</code> ladder be bound, a ladder
+being a nested <code>if</code> statement in the <code>else</code> branch:</p>
+<div class="pkn-notebook pkn-embedded not-content"><div class="pkn-cell"><pre class="pkn-cell-fallback"><code>n = 7
+
+k = if n > 5:
+    match n:
+        case 7: "seven"
+        case _: "big"
+else if n > 0:
+    "small"
+else:
+    "none"
+
+print(k)</code></pre></div></div>
+<p>The value form belongs to <code>=</code> alone: <code>var name = ...</code> and <code>name := ...</code>
+still take an ordinary expression (use <code>=</code> for the value form, or an
+<code>if ... then ... else ...</code> expression). A tuple <code>target</code> destructures the
+bound value exactly as it does in a plain binding.</p>
+<p>Finally, the bound value may begin on the line <em>after</em> the <code>=</code>, indented
+one level — which reads better when a <code>match</code> subject or <code>if</code> condition
+would otherwise crowd the binding, and is the only way to keep a long
+header off the <code>=</code> line. The indented block holds exactly one value:</p>
+<div class="pkn-notebook pkn-embedded not-content"><div class="pkn-cell"><pre class="pkn-cell-fallback"><code>y = 2
+
+z =
+    match y:
+        case 2: "hi"
+        case xx: string(xx)
+
+print(z)</code></pre></div></div>
+<p>This is just a layout choice, not a different construct: it applies to
+any bound value (an ordinary expression, and <code>var</code>/<code>:=</code> too), and both
+pretty-printers print it back on the <code>=</code> line, since the two spellings
+produce the identical AST.</p>
+<h2 id="expression-statements">Expression statements</h2>
+<p>Any expression, most commonly a function call, may be used directly as a
+statement. Its value is discarded — <em>unless</em> the statement is in <strong>tail
+position</strong>, where it becomes the enclosing function’s return value (see
+“Tail position”).</p>
+<div class="expressive-code"><figure class="frame not-content"><figcaption class="header"></figcaption><pre data-language="python"><code><div class="ec-line"><div class="code"><span style="--0:#C5E478;--1:#3B61B0">print</span><span style="--0:#D6DEEB;--1:#403F53">(</span><span style="--0:#D9F5DD;--1:#111111">"</span><span style="--0:#ECC48D;--1:#984E4D">hello, pyking</span><span style="--0:#D9F5DD;--1:#111111">"</span><span style="--0:#D6DEEB;--1:#403F53">)</span></div></div></code></pre><div class="copy"><div aria-live="polite"></div><button title="Copy to clipboard" data-copied="Copied!" data-code="print(&#x22;hello, pyking&#x22;)"><div></div></button></div></figure></div></div><footer class="sl-flex astro-ddtxxk7k"><div class="meta sl-flex astro-ddtxxk7k"></div><div class="pagination-links print:hidden astro-b5raizh3" dir="ltr"></div></footer></div></div></main></div></div></div></div></body></html>

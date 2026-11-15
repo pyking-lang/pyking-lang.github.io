@@ -1,0 +1,313 @@
+<!DOCTYPE html><html lang="en" dir="ltr" data-theme="dark" data-has-sidebar class="astro-g5ptsecz"><head><meta charset="utf-8"/><meta name="viewport" content="width=device-width, initial-scale=1"/><title>REPL | Pyking</title><link rel="canonical" href="https://pyking.org/documentation/repl/"/><link rel="sitemap" href="/sitemap-index.xml"/><script src="/v/8e74ca34b133/site/shell.js" data-base data-build="8e74ca34b133" data-sections="[{&quot;key&quot;:&quot;install&quot;,&quot;label&quot;:&quot;Install&quot;,&quot;prefix&quot;:&quot;/install/&quot;},{&quot;key&quot;:&quot;getstarted&quot;,&quot;label&quot;:&quot;Getting started&quot;,&quot;prefix&quot;:&quot;/getstarted/&quot;},{&quot;key&quot;:&quot;documentation&quot;,&quot;label&quot;:&quot;Documentation&quot;,&quot;prefix&quot;:&quot;/documentation/&quot;},{&quot;key&quot;:&quot;libraries&quot;,&quot;label&quot;:&quot;Libraries&quot;,&quot;prefix&quot;:&quot;/libraries/&quot;},{&quot;key&quot;:&quot;playground&quot;,&quot;label&quot;:&quot;Playground&quot;,&quot;prefix&quot;:&quot;/playground/&quot;}]"></script><script type="module" src="/v/8e74ca34b133/site/cells.js"></script><script>try { if (localStorage.getItem('starlight-theme') === null) localStorage.setItem('starlight-theme', 'dark'); } catch (e) {}</script><link rel="shortcut icon" href="/v/8e74ca34b133/site/favicon.svg" type="image/svg+xml"/><meta name="generator" content="Astro v7.3.5"/><meta name="generator" content="Starlight v0.42.5"/><meta property="og:title" content="REPL"/><meta property="og:type" content="article"/><meta property="og:url" content="https://pyking.org/documentation/repl/"/><meta property="og:locale" content="en"/><meta property="og:description" content="The Pyking REPL, pyk repl - entering code, what it shows, use and imports in a session, meta-commands, completion and history."/><meta property="og:site_name" content="Pyking"/><meta name="twitter:card" content="summary_large_image"/><meta name="description" content="The Pyking REPL, pyk repl - entering code, what it shows, use and imports in a session, meta-commands, completion and history."/><script>
+	window.StarlightThemeProvider = (() => {
+		const storedTheme =
+			typeof localStorage !== 'undefined' && localStorage.getItem('starlight-theme');
+		const theme =
+			storedTheme ||
+			(window.matchMedia('(prefers-color-scheme: light)').matches ? 'light' : 'dark');
+		document.documentElement.dataset.theme = theme === 'light' ? 'light' : 'dark';
+		return {
+			updatePickers(theme = storedTheme || 'auto') {
+				document.querySelectorAll('starlight-theme-select').forEach((picker) => {
+					const select = picker.querySelector('select');
+					if (select) select.value = theme;
+					/** @type {HTMLTemplateElement | null} */
+					const tmpl = document.querySelector(`#theme-icons`);
+					const newIcon = tmpl && tmpl.content.querySelector('.' + theme);
+					if (newIcon) {
+						const oldIcon = picker.querySelector('svg.label-icon');
+						if (oldIcon) {
+							oldIcon.replaceChildren(...newIcon.cloneNode(true).childNodes);
+						}
+					}
+				});
+			},
+		};
+	})();
+</script><template id="theme-icons"><svg aria-hidden="true" class="light astro-hkc32dio" width="16" height="16" viewBox="0 0 24 24" fill="currentColor" style="--sl-icon-size: 1em;"><path d="M5 12a1 1 0 0 0-1-1H3a1 1 0 0 0 0 2h1a1 1 0 0 0 1-1Zm.64 5-.71.71a1 1 0 0 0 0 1.41 1 1 0 0 0 1.41 0l.71-.71A1 1 0 0 0 5.64 17ZM12 5a1 1 0 0 0 1-1V3a1 1 0 0 0-2 0v1a1 1 0 0 0 1 1Zm5.66 2.34a1 1 0 0 0 .7-.29l.71-.71a1 1 0 1 0-1.41-1.41l-.66.71a1 1 0 0 0 0 1.41 1 1 0 0 0 .66.29Zm-12-.29a1 1 0 0 0 1.41 0 1 1 0 0 0 0-1.41l-.71-.71a1.004 1.004 0 1 0-1.43 1.41l.73.71ZM21 11h-1a1 1 0 0 0 0 2h1a1 1 0 0 0 0-2Zm-2.64 6A1 1 0 0 0 17 18.36l.71.71a1 1 0 0 0 1.41 0 1 1 0 0 0 0-1.41l-.76-.66ZM12 6.5a5.5 5.5 0 1 0 5.5 5.5A5.51 5.51 0 0 0 12 6.5Zm0 9a3.5 3.5 0 1 1 0-7 3.5 3.5 0 0 1 0 7Zm0 3.5a1 1 0 0 0-1 1v1a1 1 0 0 0 2 0v-1a1 1 0 0 0-1-1Z"/></svg><svg aria-hidden="true" class="dark astro-hkc32dio" width="16" height="16" viewBox="0 0 24 24" fill="currentColor" style="--sl-icon-size: 1em;"><path d="M21.64 13a1 1 0 0 0-1.05-.14 8.049 8.049 0 0 1-3.37.73 8.15 8.15 0 0 1-8.14-8.1 8.59 8.59 0 0 1 .25-2A1 1 0 0 0 8 2.36a10.14 10.14 0 1 0 14 11.69 1 1 0 0 0-.36-1.05Zm-9.5 6.69A8.14 8.14 0 0 1 7.08 5.22v.27a10.15 10.15 0 0 0 10.14 10.14 9.784 9.784 0 0 0 2.1-.22 8.11 8.11 0 0 1-7.18 4.32v-.04Z"/></svg><svg aria-hidden="true" class="auto astro-hkc32dio" width="16" height="16" viewBox="0 0 24 24" fill="currentColor" style="--sl-icon-size: 1em;"><path d="M21 14h-1V7a3 3 0 0 0-3-3H7a3 3 0 0 0-3 3v7H3a1 1 0 0 0-1 1v2a3 3 0 0 0 3 3h14a3 3 0 0 0 3-3v-2a1 1 0 0 0-1-1ZM6 7a1 1 0 0 1 1-1h10a1 1 0 0 1 1 1v7H6V7Zm14 10a1 1 0 0 1-1 1H5a1 1 0 0 1-1-1v-1h16v1Z"/></svg></template><link rel="stylesheet" href="/_astro/print.ehPL0gv-.css" media="print"><link rel="stylesheet" href="/_astro/middleware.DYJDcmyo.css"><script type="module" src="/_astro/page.Dwipeu-R.js"></script></head><body class="astro-g5ptsecz"><a class="sl-skip-link astro-qb7clj6f" href="#_top">Skip to content</a><div class="page sl-flex astro-yntsjkba"><header class="header astro-yntsjkba"><div class="pyking-header"><div class="pyking-header-left"><a href="/" class="site-title sl-flex astro-6rvad3va"><img class="astro-6rvad3va" alt="Pyking" src="/_astro/logo.C9hvHOpV.svg" width="64" height="64"><span class="astro-6rvad3va" translate="no">Pyking</span></a><nav class="pyking-nav" aria-label="Sections"><a href="/install/">Install</a><a href="/getstarted/pyking-in-20-minutes/">Getting started</a><a href="/documentation/language/" aria-current="page">Documentation</a><a href="/libraries/">Libraries</a><a href="/playground/">Playground</a></nav></div><div class="pyking-header-right print:hidden"><site-search class=" astro-b5kgnn7o" data-translations="{&quot;placeholder&quot;:&quot;Search&quot;}"><button data-open-modal disabled aria-label="Search" aria-keyshortcuts="Control+K" class="astro-b5kgnn7o"><svg aria-hidden="true" class="astro-b5kgnn7o astro-hkc32dio" width="16" height="16" viewBox="0 0 24 24" fill="currentColor" style="--sl-icon-size: 1em;"><path d="M21.71 20.29 18 16.61A9 9 0 1 0 16.61 18l3.68 3.68a.999.999 0 0 0 1.42 0 1 1 0 0 0 0-1.39ZM11 18a7 7 0 1 1 0-14 7 7 0 0 1 0 14Z"/></svg><span class="sl-hidden md:sl-block astro-b5kgnn7o" aria-hidden="true">Search</span><kbd class="sl-hidden md:sl-flex astro-b5kgnn7o" style="display: none;"><kbd class="astro-b5kgnn7o">Ctrl</kbd><kbd class="astro-b5kgnn7o">K</kbd></kbd></button><dialog style="padding:0" aria-label="Search" class="astro-b5kgnn7o"><div class="dialog-frame sl-flex astro-b5kgnn7o"><button data-close-modal class="sl-flex md:sl-hidden astro-b5kgnn7o">Cancel</button><div class="search-container astro-b5kgnn7o"><div id="starlight__search" class="astro-b5kgnn7o"></div></div></div></dialog></site-search><script>
+	(() => {
+		const openBtn = document.querySelector('button[data-open-modal]');
+		const shortcut = openBtn?.querySelector('kbd');
+		if (!openBtn || !(shortcut instanceof HTMLElement)) return;
+		const platformKey = shortcut.querySelector('kbd');
+		if (platformKey && /(Mac|iPhone|iPod|iPad)/i.test(navigator.platform)) {
+			platformKey.textContent = '⌘';
+			openBtn.setAttribute('aria-keyshortcuts', 'Meta+K');
+		}
+		shortcut.style.display = '';
+	})();
+</script><script type="module" src="/_astro/Search.astro_astro_type_script_index_0_lang.Bumivpjo.js"></script><div class="sl-hidden md:sl-flex"><starlight-theme-select><label style="--sl-select-width: 6.25em" class="astro-2z5xp7gb"><span class="sr-only astro-2z5xp7gb">Select theme</span><svg aria-hidden="true" class="icon label-icon astro-2z5xp7gb astro-hkc32dio" width="16" height="16" viewBox="0 0 24 24" fill="currentColor" style="--sl-icon-size: 1em;"><path d="M21 14h-1V7a3 3 0 0 0-3-3H7a3 3 0 0 0-3 3v7H3a1 1 0 0 0-1 1v2a3 3 0 0 0 3 3h14a3 3 0 0 0 3-3v-2a1 1 0 0 0-1-1ZM6 7a1 1 0 0 1 1-1h10a1 1 0 0 1 1 1v7H6V7Zm14 10a1 1 0 0 1-1 1H5a1 1 0 0 1-1-1v-1h16v1Z"/></svg><select autocomplete="off" class="astro-2z5xp7gb"><option value="dark" class="astro-2z5xp7gb">Dark</option><option value="light" class="astro-2z5xp7gb">Light</option><option value="auto" selected class="astro-2z5xp7gb">Auto</option></select><svg aria-hidden="true" class="icon caret astro-2z5xp7gb astro-hkc32dio" width="16" height="16" viewBox="0 0 24 24" fill="currentColor" style="--sl-icon-size: 1em;"><path d="M17 9.17a1 1 0 0 0-1.41 0L12 12.71 8.46 9.17a1 1 0 1 0-1.41 1.42l4.24 4.24a1.002 1.002 0 0 0 1.42 0L17 10.59a1.002 1.002 0 0 0 0-1.42Z"/></svg></label></starlight-theme-select><script>
+	StarlightThemeProvider.updatePickers();
+</script><script type="module">var e=`starlight-theme`,t=e=>e===`auto`||e===`dark`||e===`light`?e:`auto`,n=()=>t(typeof localStorage<`u`&&localStorage.getItem(e));function r(t){typeof localStorage<`u`&&localStorage.setItem(e,t===`light`||t===`dark`?t:``)}var i=()=>matchMedia(`(prefers-color-scheme: light)`).matches?`light`:`dark`;function a(e){StarlightThemeProvider.updatePickers(e),document.documentElement.dataset.theme=e===`auto`?i():e,r(e)}matchMedia(`(prefers-color-scheme: light)`).addEventListener(`change`,()=>{n()===`auto`&&a(`auto`)});var o=class extends HTMLElement{constructor(){super(),a(n()),this.querySelector(`select`)?.addEventListener(`change`,e=>{e.currentTarget instanceof HTMLSelectElement&&a(t(e.currentTarget.value))})}};customElements.define(`starlight-theme-select`,o);</script></div><a class="pyking-github" href="https://github.com/pyking-lang" title="Pyking on GitHub"><span class="sr-only">GitHub</span><svg aria-hidden="true" viewBox="0 0 24 24" width="22" height="22" fill="currentColor"><path d="M12 .3a12 12 0 0 0-3.8 23.4c.6.1.8-.3.8-.6v-2c-3.3.7-4-1.6-4-1.6-.6-1.4-1.4-1.8-1.4-1.8-1-.7.1-.7.1-.7 1.2.1 1.8 1.2 1.8 1.2 1 1.8 2.8 1.3 3.5 1 0-.8.4-1.3.7-1.6-2.7-.3-5.5-1.3-5.5-6 0-1.2.5-2.3 1.3-3.1-.2-.4-.6-1.6 0-3.2 0 0 1-.3 3.4 1.2a11.5 11.5 0 0 1 6 0c2.3-1.5 3.3-1.2 3.3-1.2.6 1.6.2 2.8.1 3.2.8.8 1.3 1.9 1.3 3.1 0 4.6-2.8 5.6-5.5 5.9.5.4.9 1.1.9 2.2v3.3c0 .3.1.7.8.6A12 12 0 0 0 12 .3"></path></svg></a></div></div></header><nav class="sidebar print:hidden astro-yntsjkba" aria-label="Main"><button popovertarget="starlight__sidebar" class="sl-menu-button sl-flex md:sl-hidden print:hidden astro-r2osgdlg"><svg aria-hidden="true" class="open-menu astro-r2osgdlg astro-hkc32dio" width="16" height="16" viewBox="0 0 24 24" fill="currentColor" style="--sl-icon-size: 1em;"><path d="M3 8h18a1 1 0 1 0 0-2H3a1 1 0 0 0 0 2Zm18 8H3a1 1 0 0 0 0 2h18a1 1 0 0 0 0-2Zm0-5H3a1 1 0 0 0 0 2h18a1 1 0 0 0 0-2Z"/></svg><svg aria-hidden="true" class="close-menu astro-r2osgdlg astro-hkc32dio" width="16" height="16" viewBox="0 0 24 24" fill="currentColor" style="--sl-icon-size: 1em;"><path d="m13.41 12 6.3-6.29a1.004 1.004 0 1 0-1.42-1.42L12 10.59l-6.29-6.3a1.004 1.004 0 0 0-1.42 1.42l6.3 6.29-6.3 6.29a1 1 0 0 0 0 1.42.998.998 0 0 0 1.42 0l6.29-6.3 6.29 6.3a.999.999 0 0 0 1.42 0 1 1 0 0 0 0-1.42L13.41 12Z"/></svg><span class="sr-only astro-r2osgdlg">Menu</span></button><script type="module">var e=class extends HTMLElement{constructor(){super();let e=matchMedia(`(min-width: 50em)`),t=()=>{this.popover=e.matches?null:`auto`};t(),e.addEventListener(`change`,()=>t()),this.addEventListener(`toggle`,({newState:e})=>this.trapFocus(e===`open`))}trapFocus(e){document.querySelectorAll(`.main-frame, .sl-skip-link`).forEach(t=>{t.toggleAttribute(`inert`,e)})}};customElements.define(`sl-sidebar-pane`,e);</script><script type="module">var e=class extends HTMLElement{constructor(){super();let e=this.querySelector(`select`);e&&(e.addEventListener(`change`,e=>{e.currentTarget instanceof HTMLSelectElement&&(window.location.pathname=e.currentTarget.value)}),window.addEventListener(`pageshow`,t=>{if(!t.persisted)return;let n=e.querySelector(`option[selected]`)?.index;n!==e.selectedIndex&&(e.selectedIndex=n??0)}))}};customElements.define(`starlight-lang-select`,e);</script><sl-sidebar-pane popover id="starlight__sidebar" class="sidebar-pane astro-yntsjkba"><div class="sidebar-content sl-flex astro-yntsjkba"><nav class="pyking-sidebar" aria-label="Documentation"><p class="pyking-sidebar-title">Documentation</p><ul class="pyking-sidebar-main"><li><a href="/documentation/editors/">Editors</a></li><li><a href="/documentation/playground/">Playground</a></li><li><a href="/documentation/notebook/">Notebook</a></li><li><a href="/documentation/command-line/">Command line</a></li><li class="pyking-sidebar-open"><a href="/documentation/repl/" aria-current="page">REPL</a><ul class="pyking-sidebar-sub"><li><a href="#starting-it">Starting it</a></li><li><a href="#entering-code">Entering code</a></li><li><a href="#what-it-shows">What it shows</a></li><li><a href="#each-entry-builds-on-the-ones-before">Each entry builds on the ones before</a></li><li><a href="#use-in-a-session">use in a session</a></li><li><a href="#imports">Imports</a></li><li><a href="#errors">Errors</a></li><li><a href="#meta-commands">Meta-commands</a></li><li><a href="#keys">Keys</a></li><li><a href="#in-the-playground">In the playground</a></li></ul></li><li><a href="/documentation/targets/">Compiler targets</a></li><li><a href="/documentation/slides/">Code on slides</a></li><li class="pyking-sidebar-parent"><a href="/documentation/language/">Language reference</a></li><li><a href="/documentation/vs-other-languages/">Pyking vs. other languages</a></li><li><a href="/documentation/grammar/">Grammar</a></li><li class="pyking-sidebar-parent"><a href="/documentation/tinyweb/">Tinyweb without Pyking</a></li><li><a href="/documentation/tinyweb-styles/">Styling tinyweb</a></li></ul></nav><div class="md:sl-hidden"><div class="mobile-preferences sl-flex astro-p4azlveh"><div class="social-icons astro-p4azlveh"></div><starlight-theme-select><label style="--sl-select-width: 6.25em" class="astro-2z5xp7gb"><span class="sr-only astro-2z5xp7gb">Select theme</span><svg aria-hidden="true" class="icon label-icon astro-2z5xp7gb astro-hkc32dio" width="16" height="16" viewBox="0 0 24 24" fill="currentColor" style="--sl-icon-size: 1em;"><path d="M21 14h-1V7a3 3 0 0 0-3-3H7a3 3 0 0 0-3 3v7H3a1 1 0 0 0-1 1v2a3 3 0 0 0 3 3h14a3 3 0 0 0 3-3v-2a1 1 0 0 0-1-1ZM6 7a1 1 0 0 1 1-1h10a1 1 0 0 1 1 1v7H6V7Zm14 10a1 1 0 0 1-1 1H5a1 1 0 0 1-1-1v-1h16v1Z"/></svg><select autocomplete="off" class="astro-2z5xp7gb"><option value="dark" class="astro-2z5xp7gb">Dark</option><option value="light" class="astro-2z5xp7gb">Light</option><option value="auto" selected class="astro-2z5xp7gb">Auto</option></select><svg aria-hidden="true" class="icon caret astro-2z5xp7gb astro-hkc32dio" width="16" height="16" viewBox="0 0 24 24" fill="currentColor" style="--sl-icon-size: 1em;"><path d="M17 9.17a1 1 0 0 0-1.41 0L12 12.71 8.46 9.17a1 1 0 1 0-1.41 1.42l4.24 4.24a1.002 1.002 0 0 0 1.42 0L17 10.59a1.002 1.002 0 0 0 0-1.42Z"/></svg></label></starlight-theme-select><script>
+	StarlightThemeProvider.updatePickers();
+</script></div></div></div></sl-sidebar-pane></nav><div class="main-frame astro-yntsjkba"><script type="module">var e=document.getElementById(`starlight__sidebar`),t=e?.querySelector(`sl-sidebar-state-persist`),n=`sl-sidebar-state`,r=()=>{let r=[],i=t?.dataset.hash||``;try{let e=sessionStorage.getItem(n),t=JSON.parse(e||`{}`);Array.isArray(t.open)&&t.hash===i&&(r=t.open)}catch{}return{hash:i,open:r,scroll:e?.scrollTop||0}},i=e=>{try{sessionStorage.setItem(n,JSON.stringify(e))}catch{}},a=()=>i(r()),o=(e,t)=>{let n=r();n.open[t]=e,i(n)};t?.addEventListener(`click`,e=>{if(!(e.target instanceof Element))return;let t=e.target.closest(`summary`)?.closest(`details`);if(!t)return;let n=t.querySelector(`sl-sidebar-restore`),r=parseInt(n?.dataset.index||``);isNaN(r)||o(!t.open,r)}),addEventListener(`visibilitychange`,()=>{document.visibilityState===`hidden`&&a()});</script><div class="lg:sl-flex astro-lrzkfocr"><div class="main-pane astro-lrzkfocr"><main data-pagefind-body class="astro-g5ptsecz" lang="en" dir="ltr"><div class="content-panel astro-a7po4psb"><div class="sl-container astro-a7po4psb"><h1 id="_top" class="astro-bebwqqxs">REPL</h1></div></div><div class="content-panel astro-a7po4psb"><div class="sl-container astro-a7po4psb"><div class="sl-markdown-content"><p>The REPL reads a piece of Pyking, checks it, runs it, and shows the
+result. It is the interpreter with a prompt in front of it, so a value
+means the same as it does in a program run with <code>pyk prog.pyk</code>.</p>
+<h2 id="starting-it">Starting it</h2>
+<div class="expressive-code"><link rel="stylesheet" href="/_astro/ec.w36nc.css"><script type="module" src="/_astro/ec.0vx5m.js"></script><figure class="frame is-terminal not-content"><figcaption class="header"><span class="title"></span><span class="sr-only">Terminal window</span></figcaption><pre data-language="sh"><code><div class="ec-line"><div class="code"><span style="--0:#82AAFF;--1:#3B61B0">$</span><span style="--0:#D6DEEB;--1:#403F53"> </span><span style="--0:#ECC48D;--1:#3B61B0">pyk</span><span style="--0:#D6DEEB;--1:#403F53"> </span><span style="--0:#ECC48D;--1:#3B61B0">repl</span></div></div><div class="ec-line"><div class="code"><span style="--0:#82AAFF;--1:#3B61B0">Pyking</span><span style="--0:#D6DEEB;--1:#403F53"> </span><span style="--0:#ECC48D;--1:#3B61B0">REPL.</span><span style="--0:#D6DEEB;--1:#403F53">  </span><span style="--0:#ECC48D;--1:#3B61B0">:help</span><span style="--0:#D6DEEB;--1:#403F53"> </span><span style="--0:#ECC48D;--1:#3B61B0">for</span><span style="--0:#D6DEEB;--1:#403F53"> </span><span style="--0:#ECC48D;--1:#3B61B0">commands,</span><span style="--0:#D6DEEB;--1:#403F53"> </span><span style="--0:#ECC48D;--1:#3B61B0">:quit</span><span style="--0:#D6DEEB;--1:#403F53"> </span><span style="--0:#ECC48D;--1:#3B61B0">to</span><span style="--0:#D6DEEB;--1:#403F53"> </span><span style="--0:#ECC48D;--1:#3B61B0">leave.</span></div></div><div class="ec-line"><div class="code"><span style="--0:#7FDBCA;--1:#096E72">></span></div></div></code></pre><div class="copy"><div aria-live="polite"></div><button title="Copy to clipboard" data-copied="Copied!" data-code="$ pyk replPyking REPL.  :help for commands, :quit to leave.>"><div></div></button></div></figure></div>
+<p><code>:quit</code> (or <code>:q</code>, or Ctrl-D on an empty prompt) leaves.</p>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<table><thead><tr><th>Flag</th><th>What it does</th></tr></thead><tbody><tr><td><code>--use FEATURE</code></td><td>Turn a feature on from the start, as a <code>use</code> line would: <code>mutation</code>, <code>pointers</code> or <code>objects</code>. Repeat it for several.</td></tr><tr><td><code>-L DIR</code></td><td>Another directory of libraries to import from; see <a href="/documentation/command-line/#the-library-search-path">the library search path</a>.</td></tr><tr><td><code>-W...</code></td><td>Which warnings to show; see <a href="/documentation/command-line/#warnings">Warnings</a>.</td></tr><tr><td><code>--tinyweb-log</code></td><td>Print what a tinyweb page is sent, and what it answers, on standard error.</td></tr></tbody></table>
+<p>The <a href="/documentation/playground/">playground</a> has the same REPL in its
+REPL tab; see <a href="#in-the-playground">below</a>.</p>
+<h2 id="entering-code">Entering code</h2>
+<p>Each thing you type at the prompt is an <strong>entry</strong>: one line or several.
+An entry that is a whole statement on one line runs when you press
+Enter:</p>
+<div class="expressive-code"><figure class="frame is-terminal not-content"><figcaption class="header"><span class="title"></span><span class="sr-only">Terminal window</span></figcaption><pre data-language="sh"><code><div class="ec-line"><div class="code"><span style="--0:#7FDBCA;--1:#096E72">></span><span style="--0:#D6DEEB;--1:#403F53"> x = 1 + 2</span></div></div><div class="ec-line"><div class="code"><span style="--0:#7FDBCA;--1:#096E72">></span><span style="--0:#D6DEEB;--1:#403F53"> x </span><span style="--0:#7FDBCA;--1:#096E72">*</span><span style="--0:#D6DEEB;--1:#403F53"> 10</span></div></div><div class="ec-line"><div class="code"><span style="--0:#82AAFF;--1:#3B61B0">30</span><span style="--0:#D6DEEB;--1:#403F53"> </span><span style="--0:#ECC48D;--1:#3B61B0">:</span><span style="--0:#D6DEEB;--1:#403F53"> </span><span style="--0:#ECC48D;--1:#3B61B0">Int</span></div></div><div class="ec-line"><div class="code"><span style="--0:#7FDBCA;--1:#096E72">></span><span style="--0:#D6DEEB;--1:#403F53"> def double(</span><span style="--0:#82AAFF;--1:#3B61B0">n</span><span style="--0:#D6DEEB;--1:#403F53">): n </span><span style="--0:#7FDBCA;--1:#096E72">*</span><span style="--0:#D6DEEB;--1:#403F53"> 2</span></div></div><div class="ec-line"><div class="code"><span style="--0:#7FDBCA;--1:#096E72">></span><span style="--0:#D6DEEB;--1:#403F53"> double(</span><span style="--0:#82AAFF;--1:#3B61B0">x</span><span style="--0:#D6DEEB;--1:#403F53">)</span></div></div><div class="ec-line"><div class="code"><span style="--0:#82AAFF;--1:#3B61B0">6</span><span style="--0:#D6DEEB;--1:#403F53"> </span><span style="--0:#ECC48D;--1:#3B61B0">:</span><span style="--0:#D6DEEB;--1:#403F53"> </span><span style="--0:#ECC48D;--1:#3B61B0">Int</span></div></div></code></pre><div class="copy"><div aria-live="polite"></div><button title="Copy to clipboard" data-copied="Copied!" data-code="> x = 1 + 2> x * 1030 : Int> def double(n): n * 2> double(x)6 : Int"><div></div></button></div></figure></div>
+<p>A line that opens a block, such as a <code>def</code> header ending in <code>:</code>, does
+not run yet. Enter opens the next line, indented one level, and the
+prompt changes to <code>. </code>. A blank line ends the entry and runs it:</p>
+<div class="expressive-code"><figure class="frame is-terminal not-content"><figcaption class="header"><span class="title"></span><span class="sr-only">Terminal window</span></figcaption><pre data-language="sh"><code><div class="ec-line"><div class="code"><span style="--0:#7FDBCA;--1:#096E72">></span><span style="--0:#D6DEEB;--1:#403F53"> def fact(</span><span style="--0:#82AAFF;--1:#3B61B0">n:</span><span style="--0:#D6DEEB;--1:#403F53"> </span><span style="--0:#ECC48D;--1:#3B61B0">Int</span><span style="--0:#D6DEEB;--1:#403F53">) -</span><span style="--0:#7FDBCA;--1:#096E72">></span><span style="--0:#D6DEEB;--1:#403F53"> Int:</span></div></div><div class="ec-line"><div class="code"><span style="--0:#C5E478;--1:#3B61B0">.</span><span style="--0:#D6DEEB;--1:#403F53">     </span><span style="--0:#ECC48D;--1:#3B61B0">if</span><span style="--0:#D6DEEB;--1:#403F53"> </span><span style="--0:#ECC48D;--1:#3B61B0">n</span><span style="--0:#D6DEEB;--1:#403F53"> </span><span style="--0:#ECC48D;--1:#3B61B0">==</span><span style="--0:#D6DEEB;--1:#403F53"> </span><span style="--0:#ECC48D;--1:#3B61B0">0:</span></div></div><div class="ec-line"><div class="code"><span style="--0:#C5E478;--1:#3B61B0">.</span><span style="--0:#D6DEEB;--1:#403F53">         </span><span style="--0:#ECC48D;--1:#3B61B0">return</span><span style="--0:#D6DEEB;--1:#403F53"> </span><span style="--0:#F78C6C;--1:#AA0982">1</span></div></div><div class="ec-line"><div class="code"><span style="--0:#C5E478;--1:#3B61B0">.</span><span style="--0:#D6DEEB;--1:#403F53">     </span><span style="--0:#ECC48D;--1:#3B61B0">return</span><span style="--0:#D6DEEB;--1:#403F53"> </span><span style="--0:#ECC48D;--1:#3B61B0">n</span><span style="--0:#D6DEEB;--1:#403F53"> </span><span style="--0:#7FDBCA;--1:#096E72">*</span><span style="--0:#D6DEEB;--1:#403F53"> </span><span style="--0:#ECC48D;--1:#3B61B0">fact</span><span style="--0:#D6DEEB;--1:#403F53">(</span><span style="--0:#82AAFF;--1:#3B61B0">n</span><span style="--0:#D6DEEB;--1:#403F53"> </span><span style="--0:#ECC48D;--1:#3B61B0">-</span><span style="--0:#D6DEEB;--1:#403F53"> </span><span style="--0:#F78C6C;--1:#AA0982">1</span><span style="--0:#D6DEEB;--1:#403F53">)</span></div></div><div class="ec-line"><div class="code"><span style="--0:#C5E478;--1:#3B61B0">.</span></div></div><div class="ec-line"><div class="code"><span style="--0:#7FDBCA;--1:#096E72">></span><span style="--0:#D6DEEB;--1:#403F53"> fact(</span><span style="--0:#82AAFF;--1:#3B61B0">5</span><span style="--0:#D6DEEB;--1:#403F53">)</span></div></div><div class="ec-line"><div class="code"><span style="--0:#82AAFF;--1:#3B61B0">120</span><span style="--0:#D6DEEB;--1:#403F53"> </span><span style="--0:#ECC48D;--1:#3B61B0">:</span><span style="--0:#D6DEEB;--1:#403F53"> </span><span style="--0:#ECC48D;--1:#3B61B0">Int</span></div></div></code></pre><div class="copy"><div aria-live="polite"></div><button title="Copy to clipboard" data-copied="Copied!" data-code="> def fact(n: Int) -> Int:.     if n == 0:.         return 1.     return n * fact(n - 1).> fact(5)120 : Int"><div></div></button></div></figure></div>
+<p><strong>Shift+Return</strong> ends the entry at once, whatever it looks like,
+without the blank line. Not every terminal reports Shift+Return as a
+key of its own; where it does not, it is an ordinary Return, and the
+blank line ends the entry.</p>
+<p>An <code>if</code> written on one line, such as <code>if c: print(1)</code>, waits for a
+possible <code>else</code> on the next line, so it too ends with a blank line.</p>
+<h2 id="what-it-shows">What it shows</h2>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<table><thead><tr><th>You enter</th><th>It shows</th></tr></thead><tbody><tr><td>An expression</td><td>Its value and its type: <code>30 : Int</code>.</td></tr><tr><td>A binding (<code>x = ...</code>, <code>var</code>, <code>:=</code>)</td><td>Nothing.</td></tr><tr><td>A <code>def</code></td><td>Nothing.</td></tr><tr><td>A call to <code>print</code></td><td>What it prints.</td></tr><tr><td>A function</td><td><code>&#x3C;function></code> and its type.</td></tr></tbody></table>
+<div class="expressive-code"><figure class="frame is-terminal not-content"><figcaption class="header"><span class="title"></span><span class="sr-only">Terminal window</span></figcaption><pre data-language="sh"><code><div class="ec-line"><div class="code"><span style="--0:#7FDBCA;--1:#096E72">></span><span style="--0:#D6DEEB;--1:#403F53"> [1, 2, 3]</span></div></div><div class="ec-line"><div class="code"><span style="--0:#D6DEEB;--1:#403F53">[1, 2, 3] </span><span style="--0:#C5E478;--1:#3B61B0">:</span><span style="--0:#D6DEEB;--1:#403F53"> [Int]</span></div></div><div class="ec-line"><div class="code"><span style="--0:#7FDBCA;--1:#096E72">></span><span style="--0:#D6DEEB;--1:#403F53"> (</span><span style="--0:#82AAFF;--1:#3B61B0">1,</span><span style="--0:#D6DEEB;--1:#403F53"> </span><span style="--0:#D9F5DD;--1:#111111">"</span><span style="--0:#ECC48D;--1:#984E4D">a</span><span style="--0:#D9F5DD;--1:#111111">"</span><span style="--0:#D6DEEB;--1:#403F53">)</span></div></div><div class="ec-line"><div class="code"><span style="--0:#D6DEEB;--1:#403F53">(</span><span style="--0:#82AAFF;--1:#3B61B0">1,</span><span style="--0:#D6DEEB;--1:#403F53"> </span><span style="--0:#D9F5DD;--1:#111111">"</span><span style="--0:#ECC48D;--1:#984E4D">a</span><span style="--0:#D9F5DD;--1:#111111">"</span><span style="--0:#D6DEEB;--1:#403F53">) </span><span style="--0:#C5E478;--1:#3B61B0">:</span><span style="--0:#D6DEEB;--1:#403F53"> (Int, </span><span style="--0:#ECC48D;--1:#3B61B0">String</span><span style="--0:#D6DEEB;--1:#403F53">)</span></div></div><div class="ec-line"><div class="code"><span style="--0:#7FDBCA;--1:#096E72">></span><span style="--0:#D6DEEB;--1:#403F53"> lam x. x + 1</span></div></div><div class="ec-line"><div class="code"><span style="--0:#82AAFF;--1:#3B61B0">&#x3C;function></span><span style="--0:#D6DEEB;--1:#403F53"> </span><span style="--0:#ECC48D;--1:#3B61B0">:</span><span style="--0:#D6DEEB;--1:#403F53"> (Int) -</span><span style="--0:#7FDBCA;--1:#096E72">></span><span style="--0:#D6DEEB;--1:#403F53"> Int</span></div></div><div class="ec-line"><div class="code"><span style="--0:#7FDBCA;--1:#096E72">></span><span style="--0:#D6DEEB;--1:#403F53"> print(</span><span style="--0:#82AAFF;--1:#3B61B0">"hello"</span><span style="--0:#D6DEEB;--1:#403F53">)</span></div></div><div class="ec-line"><div class="code"><span style="--0:#82AAFF;--1:#3B61B0">hello</span></div></div></code></pre><div class="copy"><div aria-live="polite"></div><button title="Copy to clipboard" data-copied="Copied!" data-code="> [1, 2, 3][1, 2, 3] : [Int]> (1, &#x22;a&#x22;)(1, &#x22;a&#x22;) : (Int, String)> lam x. x + 1<function> : (Int) -> Int> print(&#x22;hello&#x22;)hello"><div></div></button></div></figure></div>
+<p><code>:ls</code> lists everything the session has bound, with values and types:</p>
+<div class="expressive-code"><figure class="frame is-terminal not-content"><figcaption class="header"><span class="title"></span><span class="sr-only">Terminal window</span></figcaption><pre data-language="sh"><code><div class="ec-line"><div class="code"><span style="--0:#7FDBCA;--1:#096E72">></span><span style="--0:#D6DEEB;--1:#403F53"> :ls</span></div></div><div class="ec-line"><div class="code"><span style="--0:#82AAFF;--1:#3B61B0">x</span><span style="--0:#D6DEEB;--1:#403F53">      </span><span style="--0:#ECC48D;--1:#3B61B0">=</span><span style="--0:#D6DEEB;--1:#403F53"> </span><span style="--0:#F78C6C;--1:#AA0982">3</span><span style="--0:#D6DEEB;--1:#403F53"> </span><span style="--0:#ECC48D;--1:#3B61B0">:</span><span style="--0:#D6DEEB;--1:#403F53"> </span><span style="--0:#ECC48D;--1:#3B61B0">Int</span></div></div><div class="ec-line"><div class="code"><span style="--0:#82AAFF;--1:#3B61B0">double</span><span style="--0:#D6DEEB;--1:#403F53"> </span><span style="--0:#ECC48D;--1:#3B61B0">=</span><span style="--0:#D6DEEB;--1:#403F53"> </span><span style="--0:#ECC48D;--1:#3B61B0">&#x3C;function></span><span style="--0:#D6DEEB;--1:#403F53"> </span><span style="--0:#ECC48D;--1:#3B61B0">:</span><span style="--0:#D6DEEB;--1:#403F53"> (Int) -</span><span style="--0:#7FDBCA;--1:#096E72">></span><span style="--0:#D6DEEB;--1:#403F53"> Int</span></div></div></code></pre><div class="copy"><div aria-live="polite"></div><button title="Copy to clipboard" data-copied="Copied!" data-code="> :lsx      = 3 : Intdouble = <function> : (Int) -> Int"><div></div></button></div></figure></div>
+<h2 id="each-entry-builds-on-the-ones-before">Each entry builds on the ones before</h2>
+<p>An entry sees what earlier entries bound, the way one top-level block
+of a file sees the blocks above it. Writing a name again in a later
+entry is ordinary shadowing, so you can redefine a function to fix it:</p>
+<div class="expressive-code"><figure class="frame is-terminal not-content"><figcaption class="header"><span class="title"></span><span class="sr-only">Terminal window</span></figcaption><pre data-language="sh"><code><div class="ec-line"><div class="code"><span style="--0:#7FDBCA;--1:#096E72">></span><span style="--0:#D6DEEB;--1:#403F53"> def double(</span><span style="--0:#82AAFF;--1:#3B61B0">n</span><span style="--0:#D6DEEB;--1:#403F53">): n </span><span style="--0:#7FDBCA;--1:#096E72">*</span><span style="--0:#D6DEEB;--1:#403F53"> 2</span></div></div><div class="ec-line"><div class="code"><span style="--0:#7FDBCA;--1:#096E72">></span><span style="--0:#D6DEEB;--1:#403F53"> def double(</span><span style="--0:#82AAFF;--1:#3B61B0">n</span><span style="--0:#D6DEEB;--1:#403F53">): n + n</span></div></div></code></pre><div class="copy"><div aria-live="polite"></div><button title="Copy to clipboard" data-copied="Copied!" data-code="> def double(n): n * 2> def double(n): n + n"><div></div></button></div></figure></div>
+<p>A function keeps what it saw when it was entered. Redefining a name
+later does not change a function that already uses it.</p>
+<p>Inside one entry, every <code>def</code> can see every other, as inside one block
+of a file. So two functions that call each other must be typed in the
+<strong>same</strong> entry:</p>
+<div class="expressive-code"><figure class="frame is-terminal not-content"><figcaption class="header"><span class="title"></span><span class="sr-only">Terminal window</span></figcaption><pre data-language="sh"><code><div class="ec-line"><div class="code"><span style="--0:#7FDBCA;--1:#096E72">></span><span style="--0:#D6DEEB;--1:#403F53"> def ping(</span><span style="--0:#82AAFF;--1:#3B61B0">n:</span><span style="--0:#D6DEEB;--1:#403F53"> </span><span style="--0:#ECC48D;--1:#3B61B0">Int</span><span style="--0:#D6DEEB;--1:#403F53">) -</span><span style="--0:#7FDBCA;--1:#096E72">></span><span style="--0:#D6DEEB;--1:#403F53"> Int:</span></div></div><div class="ec-line"><div class="code"><span style="--0:#C5E478;--1:#3B61B0">.</span><span style="--0:#D6DEEB;--1:#403F53">     </span><span style="--0:#ECC48D;--1:#3B61B0">if</span><span style="--0:#D6DEEB;--1:#403F53"> </span><span style="--0:#ECC48D;--1:#3B61B0">n</span><span style="--0:#D6DEEB;--1:#403F53"> </span><span style="--0:#ECC48D;--1:#3B61B0">==</span><span style="--0:#D6DEEB;--1:#403F53"> </span><span style="--0:#ECC48D;--1:#3B61B0">0:</span></div></div><div class="ec-line"><div class="code"><span style="--0:#C5E478;--1:#3B61B0">.</span><span style="--0:#D6DEEB;--1:#403F53">         </span><span style="--0:#ECC48D;--1:#3B61B0">return</span><span style="--0:#D6DEEB;--1:#403F53"> </span><span style="--0:#F78C6C;--1:#AA0982">0</span></div></div><div class="ec-line"><div class="code"><span style="--0:#C5E478;--1:#3B61B0">.</span><span style="--0:#D6DEEB;--1:#403F53">     </span><span style="--0:#ECC48D;--1:#3B61B0">return</span><span style="--0:#D6DEEB;--1:#403F53"> </span><span style="--0:#F78C6C;--1:#AA0982">1</span><span style="--0:#D6DEEB;--1:#403F53"> </span><span style="--0:#ECC48D;--1:#3B61B0">+</span><span style="--0:#D6DEEB;--1:#403F53"> </span><span style="--0:#ECC48D;--1:#3B61B0">pong</span><span style="--0:#D6DEEB;--1:#403F53">(</span><span style="--0:#82AAFF;--1:#3B61B0">n</span><span style="--0:#D6DEEB;--1:#403F53"> </span><span style="--0:#ECC48D;--1:#3B61B0">-</span><span style="--0:#D6DEEB;--1:#403F53"> </span><span style="--0:#F78C6C;--1:#AA0982">1</span><span style="--0:#D6DEEB;--1:#403F53">)</span></div></div><div class="ec-line"><div class="code"><span style="--0:#C5E478;--1:#3B61B0">.</span><span style="--0:#D6DEEB;--1:#403F53"> </span><span style="--0:#ECC48D;--1:#3B61B0">def</span><span style="--0:#D6DEEB;--1:#403F53"> </span><span style="--0:#ECC48D;--1:#3B61B0">pong</span><span style="--0:#D6DEEB;--1:#403F53">(</span><span style="--0:#82AAFF;--1:#3B61B0">n:</span><span style="--0:#D6DEEB;--1:#403F53"> </span><span style="--0:#ECC48D;--1:#3B61B0">Int</span><span style="--0:#D6DEEB;--1:#403F53">) -</span><span style="--0:#7FDBCA;--1:#096E72">></span><span style="--0:#D6DEEB;--1:#403F53"> </span><span style="--0:#ECC48D;--1:#3B61B0">Int:</span></div></div><div class="ec-line"><div class="code"><span style="--0:#C5E478;--1:#3B61B0">.</span><span style="--0:#D6DEEB;--1:#403F53">     </span><span style="--0:#ECC48D;--1:#3B61B0">if</span><span style="--0:#D6DEEB;--1:#403F53"> </span><span style="--0:#ECC48D;--1:#3B61B0">n</span><span style="--0:#D6DEEB;--1:#403F53"> </span><span style="--0:#ECC48D;--1:#3B61B0">==</span><span style="--0:#D6DEEB;--1:#403F53"> </span><span style="--0:#ECC48D;--1:#3B61B0">0:</span></div></div><div class="ec-line"><div class="code"><span style="--0:#C5E478;--1:#3B61B0">.</span><span style="--0:#D6DEEB;--1:#403F53">         </span><span style="--0:#ECC48D;--1:#3B61B0">return</span><span style="--0:#D6DEEB;--1:#403F53"> </span><span style="--0:#F78C6C;--1:#AA0982">0</span></div></div><div class="ec-line"><div class="code"><span style="--0:#C5E478;--1:#3B61B0">.</span><span style="--0:#D6DEEB;--1:#403F53">     </span><span style="--0:#ECC48D;--1:#3B61B0">return</span><span style="--0:#D6DEEB;--1:#403F53"> </span><span style="--0:#F78C6C;--1:#AA0982">1</span><span style="--0:#D6DEEB;--1:#403F53"> </span><span style="--0:#ECC48D;--1:#3B61B0">+</span><span style="--0:#D6DEEB;--1:#403F53"> </span><span style="--0:#ECC48D;--1:#3B61B0">ping</span><span style="--0:#D6DEEB;--1:#403F53">(</span><span style="--0:#82AAFF;--1:#3B61B0">n</span><span style="--0:#D6DEEB;--1:#403F53"> </span><span style="--0:#ECC48D;--1:#3B61B0">-</span><span style="--0:#D6DEEB;--1:#403F53"> </span><span style="--0:#F78C6C;--1:#AA0982">1</span><span style="--0:#D6DEEB;--1:#403F53">)</span></div></div><div class="ec-line"><div class="code"><span style="--0:#C5E478;--1:#3B61B0">.</span></div></div><div class="ec-line"><div class="code"><span style="--0:#7FDBCA;--1:#096E72">></span><span style="--0:#D6DEEB;--1:#403F53"> ping(</span><span style="--0:#82AAFF;--1:#3B61B0">6</span><span style="--0:#D6DEEB;--1:#403F53">)</span></div></div><div class="ec-line"><div class="code"><span style="--0:#82AAFF;--1:#3B61B0">6</span><span style="--0:#D6DEEB;--1:#403F53"> </span><span style="--0:#ECC48D;--1:#3B61B0">:</span><span style="--0:#D6DEEB;--1:#403F53"> </span><span style="--0:#ECC48D;--1:#3B61B0">Int</span></div></div></code></pre><div class="copy"><div aria-live="polite"></div><button title="Copy to clipboard" data-copied="Copied!" data-code="> def ping(n: Int) -> Int:.     if n == 0:.         return 0.     return 1 + pong(n - 1). def pong(n: Int) -> Int:.     if n == 0:.         return 0.     return 1 + ping(n - 1).> ping(6)6 : Int"><div></div></button></div></figure></div>
+<h2 id="use-in-a-session"><code>use</code> in a session</h2>
+<p>A file needs a <code>use</code> line before it can use <code>var</code> and <code>:=</code>, and so does
+a session. A <code>use</code> line typed at the prompt turns the feature on for the
+rest of the session:</p>
+<div class="expressive-code"><figure class="frame is-terminal not-content"><figcaption class="header"><span class="title"></span><span class="sr-only">Terminal window</span></figcaption><pre data-language="sh"><code><div class="ec-line"><div class="code"><span style="--0:#7FDBCA;--1:#096E72">></span><span style="--0:#D6DEEB;--1:#403F53"> var count = 0</span></div></div><div class="ec-line"><div class="code"><span style="--0:#82AAFF;--1:#3B61B0">'&#x3C;repl>'</span><span style="--0:#D6DEEB;--1:#403F53"> </span><span style="--0:#ECC48D;--1:#3B61B0">1:0-1:3</span><span style="--0:#D6DEEB;--1:#403F53"> </span><span style="--0:#ECC48D;--1:#3B61B0">Parsing</span><span style="--0:#D6DEEB;--1:#403F53"> </span><span style="--0:#ECC48D;--1:#3B61B0">error:</span><span style="--0:#D6DEEB;--1:#403F53"> </span><span style="--0:#D9F5DD;--1:#111111">'</span><span style="--0:#ECC48D;--1:#984E4D">var</span><span style="--0:#D9F5DD;--1:#111111">'</span><span style="--0:#D6DEEB;--1:#403F53"> </span><span style="--0:#ECC48D;--1:#3B61B0">declares</span><span style="--0:#D6DEEB;--1:#403F53"> </span><span style="--0:#ECC48D;--1:#3B61B0">a</span><span style="--0:#D6DEEB;--1:#403F53"> </span><span style="--0:#ECC48D;--1:#3B61B0">mutable</span><span style="--0:#D6DEEB;--1:#403F53"> </span><span style="--0:#ECC48D;--1:#3B61B0">variable,</span></div></div><div class="ec-line"><div class="code"><span class="indent">  </span><span style="--0:#C5E478;--1:#3B61B0">which</span><span style="--0:#D6DEEB;--1:#403F53"> </span><span style="--0:#ECC48D;--1:#3B61B0">needs</span><span style="--0:#D6DEEB;--1:#403F53"> </span><span style="--0:#D9F5DD;--1:#111111">'</span><span style="--0:#ECC48D;--1:#984E4D">use mutation</span><span style="--0:#D9F5DD;--1:#111111">'</span><span style="--0:#D6DEEB;--1:#403F53"> </span><span style="--0:#ECC48D;--1:#3B61B0">at</span><span style="--0:#D6DEEB;--1:#403F53"> </span><span style="--0:#ECC48D;--1:#3B61B0">the</span><span style="--0:#D6DEEB;--1:#403F53"> </span><span style="--0:#ECC48D;--1:#3B61B0">top</span><span style="--0:#D6DEEB;--1:#403F53"> </span><span style="--0:#ECC48D;--1:#3B61B0">of</span><span style="--0:#D6DEEB;--1:#403F53"> </span><span style="--0:#ECC48D;--1:#3B61B0">this</span><span style="--0:#D6DEEB;--1:#403F53"> </span><span style="--0:#ECC48D;--1:#3B61B0">module</span></div></div><div class="ec-line"><div class="code"><span style="--0:#7FDBCA;--1:#096E72">></span><span style="--0:#D6DEEB;--1:#403F53"> use mutation</span></div></div><div class="ec-line"><div class="code"><span style="--0:#7FDBCA;--1:#096E72">></span><span style="--0:#D6DEEB;--1:#403F53"> var count = 0</span></div></div><div class="ec-line"><div class="code"><span style="--0:#7FDBCA;--1:#096E72">></span><span style="--0:#D6DEEB;--1:#403F53"> count := count + 1</span></div></div><div class="ec-line"><div class="code"><span style="--0:#7FDBCA;--1:#096E72">></span><span style="--0:#D6DEEB;--1:#403F53"> count</span></div></div><div class="ec-line"><div class="code"><span style="--0:#82AAFF;--1:#3B61B0">1</span><span style="--0:#D6DEEB;--1:#403F53"> </span><span style="--0:#ECC48D;--1:#3B61B0">:</span><span style="--0:#D6DEEB;--1:#403F53"> </span><span style="--0:#ECC48D;--1:#3B61B0">Int</span></div></div></code></pre><div class="copy"><div aria-live="polite"></div><button title="Copy to clipboard" data-copied="Copied!" data-code="> var count = 0&#x27;<repl>&#x27; 1:0-1:3 Parsing error: &#x27;var&#x27; declares a mutable variable,  which needs &#x27;use mutation&#x27; at the top of this module> use mutation> var count = 0> count := count + 1> count1 : Int"><div></div></button></div></figure></div>
+<p><code>pyk repl --use mutation</code> starts with it on.</p>
+<h2 id="imports">Imports</h2>
+<p>An entry may import a module, as a file does. The module is looked for
+in the current directory, then on the
+<a href="/documentation/command-line/#the-library-search-path">library search path</a>,
+which includes the standard library:</p>
+<div class="expressive-code"><figure class="frame is-terminal not-content"><figcaption class="header"><span class="title"></span><span class="sr-only">Terminal window</span></figcaption><pre data-language="sh"><code><div class="ec-line"><div class="code"><span style="--0:#7FDBCA;--1:#096E72">></span><span style="--0:#D6DEEB;--1:#403F53"> import math</span></div></div><div class="ec-line"><div class="code"><span style="--0:#7FDBCA;--1:#096E72">></span><span style="--0:#D6DEEB;--1:#403F53"> math.sqrt(</span><span style="--0:#82AAFF;--1:#3B61B0">2.0</span><span style="--0:#D6DEEB;--1:#403F53">)</span></div></div><div class="ec-line"><div class="code"><span style="--0:#82AAFF;--1:#3B61B0">1.4142135623730951</span><span style="--0:#D6DEEB;--1:#403F53"> </span><span style="--0:#ECC48D;--1:#3B61B0">:</span><span style="--0:#D6DEEB;--1:#403F53"> </span><span style="--0:#ECC48D;--1:#3B61B0">Float</span></div></div></code></pre><div class="copy"><div aria-live="polite"></div><button title="Copy to clipboard" data-copied="Copied!" data-code="> import math> math.sqrt(2.0)1.4142135623730951 : Float"><div></div></button></div></figure></div>
+<p>A module is loaded once per session, by the first entry that imports
+it. A program’s standard input is the session’s own, and <code>sys.exit</code>
+ends the session with its status.</p>
+<p>A tinyweb program works too: once an entry has called
+<code>tinyweb.web_init()</code>, the REPL serves its page and keeps delivering the
+page’s events while the prompt waits.</p>
+<h2 id="errors">Errors</h2>
+<p>An entry is checked as a whole before any of it runs. If one statement
+has an error, nothing in the entry runs, and the session is as it was
+before the entry:</p>
+<div class="expressive-code"><figure class="frame is-terminal not-content"><figcaption class="header"><span class="title"></span><span class="sr-only">Terminal window</span></figcaption><pre data-language="sh"><code><div class="ec-line"><div class="code"><span style="--0:#7FDBCA;--1:#096E72">></span><span style="--0:#D6DEEB;--1:#403F53"> x + </span><span style="--0:#D9F5DD;--1:#111111">"</span><span style="--0:#ECC48D;--1:#984E4D">a</span><span style="--0:#D9F5DD;--1:#111111">"</span></div></div><div class="ec-line"><div class="code"><span style="--0:#82AAFF;--1:#3B61B0">'&#x3C;repl>'</span><span style="--0:#D6DEEB;--1:#403F53"> </span><span style="--0:#ECC48D;--1:#3B61B0">1:0-1:7</span><span style="--0:#D6DEEB;--1:#403F53"> </span><span style="--0:#ECC48D;--1:#3B61B0">Type</span><span style="--0:#D6DEEB;--1:#403F53"> </span><span style="--0:#ECC48D;--1:#3B61B0">error:</span><span style="--0:#D6DEEB;--1:#403F53"> </span><span style="--1:#3B61B0"><span style="--0:#ECC48D">`</span><span style="--0:#82AAFF">+</span><span style="--0:#ECC48D">`</span></span><span style="--0:#D6DEEB;--1:#403F53"> </span><span style="--0:#82AAFF;--1:#3B61B0">cannot</span><span style="--0:#D6DEEB;--1:#403F53"> </span><span style="--0:#ECC48D;--1:#3B61B0">be</span><span style="--0:#D6DEEB;--1:#403F53"> </span><span style="--0:#ECC48D;--1:#3B61B0">applied</span><span style="--0:#D6DEEB;--1:#403F53"> </span><span style="--0:#ECC48D;--1:#3B61B0">to</span><span style="--0:#D6DEEB;--1:#403F53"> </span><span style="--0:#ECC48D;--1:#3B61B0">Int</span><span style="--0:#D6DEEB;--1:#403F53"> </span><span style="--0:#ECC48D;--1:#3B61B0">and</span><span style="--0:#D6DEEB;--1:#403F53"> </span><span style="--0:#ECC48D;--1:#3B61B0">String</span><span style="--0:#D6DEEB;--1:#403F53">;</span></div></div><div class="ec-line"><div class="code"><span class="indent">  </span><span style="--0:#82AAFF;--1:#3B61B0">it</span><span style="--0:#D6DEEB;--1:#403F53"> </span><span style="--0:#ECC48D;--1:#3B61B0">accepts</span><span style="--0:#D6DEEB;--1:#403F53"> </span><span style="--0:#ECC48D;--1:#3B61B0">Int</span><span style="--0:#D6DEEB;--1:#403F53"> </span><span style="--0:#ECC48D;--1:#3B61B0">+</span><span style="--0:#D6DEEB;--1:#403F53"> </span><span style="--0:#ECC48D;--1:#3B61B0">Int</span><span style="--0:#D6DEEB;--1:#403F53"> </span><span style="--0:#ECC48D;--1:#3B61B0">or</span><span style="--0:#D6DEEB;--1:#403F53"> </span><span style="--0:#ECC48D;--1:#3B61B0">Float</span><span style="--0:#D6DEEB;--1:#403F53"> </span><span style="--0:#ECC48D;--1:#3B61B0">+</span><span style="--0:#D6DEEB;--1:#403F53"> </span><span style="--0:#ECC48D;--1:#3B61B0">Float</span><span style="--0:#D6DEEB;--1:#403F53"> </span><span style="--0:#ECC48D;--1:#3B61B0">or</span><span style="--0:#D6DEEB;--1:#403F53"> </span><span style="--0:#ECC48D;--1:#3B61B0">String</span><span style="--0:#D6DEEB;--1:#403F53"> </span><span style="--0:#ECC48D;--1:#3B61B0">+</span><span style="--0:#D6DEEB;--1:#403F53"> </span><span style="--0:#ECC48D;--1:#3B61B0">String</span><span style="--0:#D6DEEB;--1:#403F53"> </span><span style="--0:#ECC48D;--1:#3B61B0">or</span><span style="--0:#D6DEEB;--1:#403F53"> </span><span style="--0:#ECC48D;--1:#3B61B0">two</span></div></div><div class="ec-line"><div class="code"><span class="indent">  </span><span style="--0:#82AAFF;--1:#3B61B0">lists</span><span style="--0:#D6DEEB;--1:#403F53"> </span><span style="--0:#ECC48D;--1:#3B61B0">of</span><span style="--0:#D6DEEB;--1:#403F53"> </span><span style="--0:#ECC48D;--1:#3B61B0">one</span><span style="--0:#D6DEEB;--1:#403F53"> </span><span style="--0:#ECC48D;--1:#3B61B0">type.</span><span style="--0:#D6DEEB;--1:#403F53"> </span><span style="--1:#3B61B0"><span style="--0:#ECC48D">`</span><span style="--0:#82AAFF">+</span><span style="--0:#ECC48D">`</span></span><span style="--0:#D6DEEB;--1:#403F53"> </span><span style="--0:#82AAFF;--1:#3B61B0">joins</span><span style="--0:#D6DEEB;--1:#403F53"> </span><span style="--0:#ECC48D;--1:#3B61B0">two</span><span style="--0:#D6DEEB;--1:#403F53"> </span><span style="--0:#ECC48D;--1:#3B61B0">Strings</span><span style="--0:#D6DEEB;--1:#403F53"> </span><span style="--0:#ECC48D;--1:#3B61B0">and</span><span style="--0:#D6DEEB;--1:#403F53"> </span><span style="--0:#ECC48D;--1:#3B61B0">converts</span><span style="--0:#D6DEEB;--1:#403F53"> </span><span style="--0:#ECC48D;--1:#3B61B0">nothing:</span><span style="--0:#D6DEEB;--1:#403F53"> </span><span style="--0:#ECC48D;--1:#3B61B0">write</span></div></div><div class="ec-line"><div class="code"><span class="indent">  </span><span style="--0:#82AAFF;--1:#3B61B0">string(n</span><span style="--0:#D6DEEB;--1:#403F53">)</span></div></div></code></pre><div class="copy"><div aria-live="polite"></div><button title="Copy to clipboard" data-copied="Copied!" data-code="> x + &#x22;a&#x22;&#x27;<repl>&#x27; 1:0-1:7 Type error: &#x60;+&#x60; cannot be applied to Int and String;  it accepts Int + Int or Float + Float or String + String or two  lists of one type. &#x60;+&#x60; joins two Strings and converts nothing: write  string(n)"><div></div></button></div></figure></div>
+<p>Errors read exactly as they do for a file, with <code>'&#x3C;repl>'</code> as the file
+name. A runtime error is reported when it happens, and the session goes
+on.</p>
+<p>An entry that defines a function, and is refused only because it uses a
+name not defined yet, is not thrown away. The REPL asks:</p>
+<div class="expressive-code"><figure class="frame is-terminal not-content"><figcaption class="header"><span class="title"></span><span class="sr-only">Terminal window</span></figcaption><pre data-language="sh"><code><div class="ec-line"><div class="code"><span style="--0:#82AAFF;--1:#3B61B0">Identifier</span><span style="--0:#D6DEEB;--1:#403F53"> </span><span style="--0:#D9F5DD;--1:#111111">'</span><span style="--0:#ECC48D;--1:#984E4D">pong</span><span style="--0:#D9F5DD;--1:#111111">'</span><span style="--0:#D6DEEB;--1:#403F53"> </span><span style="--0:#ECC48D;--1:#3B61B0">is</span><span style="--0:#D6DEEB;--1:#403F53"> </span><span style="--0:#ECC48D;--1:#3B61B0">not</span><span style="--0:#D6DEEB;--1:#403F53"> </span><span style="--0:#ECC48D;--1:#3B61B0">yet</span><span style="--0:#D6DEEB;--1:#403F53"> </span><span style="--0:#ECC48D;--1:#3B61B0">defined.</span><span style="--0:#D6DEEB;--1:#403F53"> </span><span style="--0:#ECC48D;--1:#3B61B0">Press</span><span style="--0:#D6DEEB;--1:#403F53"> </span><span style="--0:#ECC48D;--1:#3B61B0">&#x3C;esc></span><span style="--0:#D6DEEB;--1:#403F53"> </span><span style="--0:#ECC48D;--1:#3B61B0">to</span><span style="--0:#D6DEEB;--1:#403F53"> </span><span style="--0:#ECC48D;--1:#3B61B0">cancel</span><span style="--0:#D6DEEB;--1:#403F53"> </span><span style="--0:#ECC48D;--1:#3B61B0">or</span><span style="--0:#D6DEEB;--1:#403F53"> </span><span style="--0:#ECC48D;--1:#3B61B0">&#x3C;space></span><span style="--0:#D6DEEB;--1:#403F53"> </span><span style="--0:#ECC48D;--1:#3B61B0">to</span><span style="--0:#D6DEEB;--1:#403F53"> </span><span style="--0:#ECC48D;--1:#3B61B0">continue</span><span style="--0:#D6DEEB;--1:#403F53"> </span><span style="--0:#ECC48D;--1:#3B61B0">editing.</span></div></div></code></pre><div class="copy"><div aria-live="polite"></div><button title="Copy to clipboard" data-copied="Copied!" data-code="Identifier &#x27;pong&#x27; is not yet defined. Press <esc> to cancel or <space> to continue editing."><div></div></button></div></figure></div>
+<p>Escape drops the entry. Any other key puts it back at the prompt, so you
+can add the missing function to the same entry.</p>
+<p>Warnings are shown as for a file, with one difference: a name bound at
+the top level of an entry is never reported as unused, since a later
+entry may still use it.</p>
+<h2 id="meta-commands">Meta-commands</h2>
+<p>A line starting with <code>:</code> is a command to the REPL, not Pyking.</p>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<table><thead><tr><th>Command</th><th>What it does</th></tr></thead><tbody><tr><td><code>:help</code></td><td>List the commands.</td></tr><tr><td><code>:quit</code>, <code>:q</code></td><td>Leave (Ctrl-D does too).</td></tr><tr><td><code>:ls</code></td><td>List every name the session has bound, with its value and type.</td></tr><tr><td><code>:type EXPR</code></td><td>Show the type of an expression, without running it.</td></tr><tr><td><code>:edit NAME</code></td><td>Put the text that defined <code>NAME</code> back at the prompt, to change and enter again.</td></tr><tr><td><code>:ast STMT</code></td><td>Show the parsed form of a statement.</td></tr><tr><td><code>:tokens LINE</code></td><td>Show the tokens of a line.</td></tr><tr><td><code>:load FILE</code></td><td>Read a file and enter it as one entry.</td></tr><tr><td><code>:reset</code></td><td>Forget everything and start a new session.</td></tr></tbody></table>
+<div class="expressive-code"><figure class="frame is-terminal not-content"><figcaption class="header"><span class="title"></span><span class="sr-only">Terminal window</span></figcaption><pre data-language="sh"><code><div class="ec-line"><div class="code"><span style="--0:#7FDBCA;--1:#096E72">></span><span style="--0:#D6DEEB;--1:#403F53"> :type double</span></div></div><div class="ec-line"><div class="code"><span style="--0:#D6DEEB;--1:#403F53">(</span><span style="--0:#82AAFF;--1:#3B61B0">Int</span><span style="--0:#D6DEEB;--1:#403F53">) </span><span style="--0:#82AAFF;--1:#3B61B0">-</span><span style="--0:#D6DEEB;--1:#403F53">> </span><span style="--0:#ECC48D;--1:#3B61B0">Int</span></div></div><div class="ec-line"><div class="code"><span style="--0:#7FDBCA;--1:#096E72">></span><span style="--0:#D6DEEB;--1:#403F53"> :edit double</span></div></div><div class="ec-line"><div class="code"><span style="--0:#7FDBCA;--1:#096E72">></span><span style="--0:#D6DEEB;--1:#403F53"> def double(</span><span style="--0:#82AAFF;--1:#3B61B0">n</span><span style="--0:#D6DEEB;--1:#403F53">): n </span><span style="--0:#7FDBCA;--1:#096E72">*</span><span style="--0:#D6DEEB;--1:#403F53"> 2</span></div></div></code></pre><div class="copy"><div aria-live="polite"></div><button title="Copy to clipboard" data-copied="Copied!" data-code="> :type double(Int) -> Int> :edit double> def double(n): n * 2"><div></div></button></div></figure></div>
+<p><code>:load</code> and <code>:quit</code> are the terminal’s only; the playground has the
+rest.</p>
+<h2 id="keys">Keys</h2>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<table><thead><tr><th>Key</th><th>What it does</th></tr></thead><tbody><tr><td>Enter</td><td>Run the entry if it is complete; otherwise start a new, indented line. On a blank line, run the entry.</td></tr><tr><td>Shift+Return</td><td>Run the entry now.</td></tr><tr><td>Tab</td><td>At the start of a line, indent. Elsewhere, complete the word before the cursor.</td></tr><tr><td>Backspace</td><td>In the indentation, remove one level.</td></tr><tr><td>Up, Down</td><td>Move between the lines of the entry, then through earlier entries.</td></tr><tr><td>Left, Right, Home, End</td><td>Move the cursor. Ctrl-A and Ctrl-E are Home and End.</td></tr><tr><td>Ctrl-K</td><td>Delete to the end of the line.</td></tr><tr><td>Ctrl-L</td><td>Clear the screen.</td></tr><tr><td>Escape, Ctrl-C</td><td>Drop the entry being typed.</td></tr><tr><td>Ctrl-D</td><td>On an empty prompt, leave.</td></tr></tbody></table>
+<h3 id="completion">Completion</h3>
+<p>Tab completes the word before the cursor. If one name fits, it is
+completed; if several fit, it completes as far as they agree, and then
+lists them with their types. What it offers depends on where you are:</p>
+<ul>
+<li>after <code>m.</code>, what module <code>m</code> exports;</li>
+<li>after <code>import</code> or <code>from</code>, module names: the standard library’s and
+those the session has imported;</li>
+<li>after a <code>:</code> at the start of a line, the meta-commands;</li>
+<li>elsewhere, the names the session has bound, the imported modules, the
+builtins and the keywords.</li>
+</ul>
+<h3 id="history">History</h3>
+<p>Up and Down go through the entries typed earlier in the session. They
+bring back a whole entry, so a function of several lines comes back as
+one piece, ready to edit. In the terminal, history lasts for the
+session.</p>
+<h2 id="in-the-playground">In the playground</h2>
+<p>The playground’s REPL tab runs the same session in the browser: entries
+are checked and run the same way, and errors read the same.</p>
+<ul>
+<li>Enter runs a complete entry or opens a new line, as in the terminal.
+<strong>Shift+Enter</strong> always opens a new line. A blank line ends a block.
+The Keys tab of the settings can change these keys.</li>
+<li>Tab, Backspace, Escape, Up and Down work as above. The REPL’s history
+is kept between visits.</li>
+<li>An entry’s value is shown in green, what it prints in the ordinary
+colour, and an error in red.</li>
+<li>The commands are <code>:help</code>, <code>:ls</code>, <code>:type</code>, <code>:edit</code>, <code>:ast</code>, <code>:tokens</code>
+and <code>:reset</code>.</li>
+<li>The <strong>Environment</strong> table below the prompt shows what <code>:ls</code> would
+list: name, value and type, after every entry.</li>
+<li><strong>Copy from editor</strong> puts the text selected in the editor into the
+prompt. <strong>Stop</strong> ends an entry that runs too long, and starts a new
+session. <strong>Reset</strong> is <code>:reset</code>. <strong>Clear</strong> empties the transcript and
+keeps the session.</li>
+<li>An entry may import the standard library. <code>io.read_line</code> reads the
+end of input and <code>sys.args()</code> is empty. <code>tinyweb</code> is refused there:
+use Run for a program with a page.</li>
+</ul>
+<p>See <a href="/documentation/playground/">Playground</a>.</p></div><footer class="sl-flex astro-ddtxxk7k"><div class="meta sl-flex astro-ddtxxk7k"></div><div class="pagination-links print:hidden astro-b5raizh3" dir="ltr"></div></footer></div></div></main></div></div></div></div></body></html>

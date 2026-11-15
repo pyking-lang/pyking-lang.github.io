@@ -67,8 +67,11 @@ function pykFormatHolder(value, path) {
     const values = value.pykValues;
     if (values.length === 0) return value.pykTag;
     const shapes = value.pykShape === null ? null : pykShapeParts(value.pykShape.slice(1, -1));
+    // An object's private header field is written `_`.
+    const hidden = value.pykPrivate;
     const parts = values.map((element, i) =>
-      shapes === null ? pykFormat(element, true, path) : pykShaped(element, shapes[i], true, path));
+      hidden != null && hidden.includes(i) ? '_'
+      : shapes === null ? pykFormat(element, true, path) : pykShaped(element, shapes[i], true, path));
     return value.pykTag + '(' + parts.join(', ') + ')';
   }
   return String(value);
@@ -228,5 +231,15 @@ function debug(...values) {
   console.error(values.map((value) => pykFormat(value)).join(' '));
 }
 
-export { print, debug, pykFormat, pykFloatStr, pykShaped, pykLater, pykParseInt,
+function printsl(...values) {
+  process.stdout.write(values.map((value) => pykFormat(value)).join(' '));
+}
+function eprint(...values) {
+  console.error(values.map((value) => pykFormat(value)).join(' '));
+}
+function eprintsl(...values) {
+  process.stderr.write(values.map((value) => pykFormat(value)).join(' '));
+}
+
+export { print, printsl, eprint, eprintsl, debug, pykFormat, pykFloatStr, pykShaped, pykLater, pykParseInt,
   pykTrunc, pykParseFloat };
